@@ -1,5 +1,7 @@
 #' @export
 test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
+  test_suite <- "Getting started"
+
   tests <- list(
     has_context = function() {
       expect_true(
@@ -28,5 +30,5 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
       )
     }
   )
-  run_tests(tests, skip)
+  run_tests(tests, skip, test_suite)
 }
