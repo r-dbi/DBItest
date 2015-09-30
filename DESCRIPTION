@@ -1,8 +1,8 @@
 Package: DBItest
-Title: Testing "DBI" drivers
+Title: Testing "DBI" Drivers
 Version: 0.0-0
 Authors@R: as.person("Kirill Müller <krlmlr+r@mailbox.org> [aut, cre]")
-Description: This package is a helper that simplifies writing tests for
+Description: A helper that simplifies writing tests for
     "DBI" drivers.
 Depends: R (>= 3.2.2)
 Imports: devtools, testthat
