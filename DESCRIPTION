@@ -5,6 +5,7 @@ Authors@R: as.person("Kirill Müller <krlmlr+r@mailbox.org> [aut, cre]")
 Description: This package is a helper that simplifies writing tests for
     "DBI" drivers.
 Depends: R (>= 3.2.2)
+Imports: devtools
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
