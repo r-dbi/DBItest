@@ -1,5 +1,9 @@
 #' @export
 make_context <- function(drv, connect_args, set_as_default = TRUE) {
+  if (is.null(drv)) {
+    stop("drv cannot be NULL.")
+  }
+
   ctx <- structure(
     list(
       drv = drv,
