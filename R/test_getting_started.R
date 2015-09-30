@@ -3,11 +3,15 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Getting started"
 
   tests <- list(
+    # make_context() must be called before calling any of the test_ functions
+    # in this package
     has_context = function() {
       expect_is(ctx, "DBItest_context")
       expect_is(ctx$drv, "DBIDriver")
     },
 
+    # can relate driver to an installed (or devtools-loaded) package;
+    # package depends (!) on "DBI" and imports "methods"
     package_dependencies = function() {
       expect_is(pkg_name <- attr(class(ctx$drv), "package"), "character")
 
