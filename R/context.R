@@ -1,3 +1,4 @@
+#' @export
 make_context <- function(drv, connect_args, set_as_default = TRUE) {
   ctx <- structure(
     list(
@@ -14,12 +15,14 @@ make_context <- function(drv, connect_args, set_as_default = TRUE) {
   ctx
 }
 
+#' @export
 set_default_context <- function(ctx) {
   old_ctx <- .ctx_env$default_context
   .ctx_env$default_context <- ctx
   invisible(old_ctx)
 }
 
+#' @export
 get_default_context <- function() {
   .ctx_env$default_context
 }
