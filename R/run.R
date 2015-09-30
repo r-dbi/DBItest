@@ -1,4 +1,8 @@
 run_tests <- function(tests, skip) {
   tests <- tests[!names(tests) %in% skip]
-  lapply(tests, do.call)
+  lapply(names(tests), function(test_name) {
+    test_that(paste0("DBItest: ", test_name), {
+      tests[[test_name]]()
+    })
+  })
 }
