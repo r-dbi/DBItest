@@ -11,7 +11,6 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
     # in this package
     has_context = function() {
       expect_is(ctx, "DBItest_context")
-      expect_is(ctx$drv, "DBIDriver")
     },
 
     # can relate driver to an installed (or devtools-loaded) package;
