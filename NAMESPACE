@@ -3,6 +3,7 @@
 export(get_default_context)
 export(make_context)
 export(set_default_context)
+export(test_all)
 export(test_getting_started)
 importFrom(testthat,CheckReporter)
 importFrom(testthat,ListReporter)

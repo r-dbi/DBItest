@@ -1,11 +1,3 @@
-#' Test runners
-#'
-#' These functions test various aspects of a DBI backend.
-#'
-#' @param skip \code{[character()]}\cr A list of test names to skip
-#' @param ctx \code{[DBItest_context]}\cr A test context as created by
-#'   \code{\link{make_context}}.
-#'
 #' \code{test_getting_started()} tests if \code{make_context} has been called,
 #'   and if the DBI driver package has correct dependencies.
 #'
