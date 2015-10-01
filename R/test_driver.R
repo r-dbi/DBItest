@@ -25,15 +25,30 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #   is deprecated in RSQLite, but available in other backends. How to
     #   resolve?
 
-    # SQL Data types exist for all basic R data types
+    # SQL Data types exist for all basic R data types. dbDataType() does not
+    # throw an error and returns a nonempty atomic character
     data_type = function() {
-      expect_is(dbDataType(ctx$drv, logical(1)), "character")
-      expect_is(dbDataType(ctx$drv, integer(1)), "character")
-      expect_is(dbDataType(ctx$drv, double(1)), "character")
-      expect_is(dbDataType(ctx$drv, character(1)), "character")
-      expect_is(dbDataType(ctx$drv, list(1)), "character")
-      expect_is(dbDataType(ctx$drv, Sys.Date()), "character")
-      expect_is(dbDataType(ctx$drv, Sys.time()), "character")
+      expect_driver_data_type_is_character <- function(value) {
+        eval(bquote({
+          expect_is(dbDataType(ctx$drv, .(value)), "character")
+          expect_equal(length(dbDataType(ctx$drv, .(value))), 1L)
+          expect_match(dbDataType(ctx$drv, .(value)), ".")
+        }))
+      }
+
+      expect_driver_has_data_type <- function(value) {
+        eval(bquote(
+          expect_success(expect_driver_data_type_is_character(.(value)))))
+      }
+
+      # Q: Should the "raw" type be matched to BLOB?
+      expect_driver_has_data_type(logical(1))
+      expect_driver_has_data_type(integer(1))
+      expect_driver_has_data_type(numeric(1))
+      expect_driver_has_data_type(character(1))
+      expect_driver_has_data_type(list(1))
+      expect_driver_has_data_type(Sys.Date())
+      expect_driver_has_data_type(Sys.time())
     },
 
     NULL
