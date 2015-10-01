@@ -68,6 +68,11 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_that(constructor, all_args_have_default_values())
     },
 
+    # show method for driver class is defined
+    show = function() {
+      expect_that(ctx$drv, has_method("show"))
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)

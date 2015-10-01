@@ -24,3 +24,13 @@ all_args_have_default_values <- function() {
       "has only arguments with default values")
   }
 }
+
+has_method <- function(method_name) {
+  function(x) {
+    my_class <- class(x)
+    expectation(
+      length(findMethod(method_name, my_class)) > 0L,
+      paste("class", my_class, "doesn't have a", method_name, "method"),
+      paste("class", my_class, "has a", method_name, "method"))
+  }
+}
