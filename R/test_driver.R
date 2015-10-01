@@ -10,7 +10,9 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     # Driver inherits from "DBIDriver" class
     inherits_from_driver = function() {
       expect_is(ctx$drv, "DBIDriver")
-    }
+    },
+
+    NULL
   )
   run_tests(tests, skip, test_suite)
 }

@@ -26,7 +26,9 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
       expect_true("DBI" %in% pkg_depends)
       pkg_imports <- devtools::parse_deps(pkg$imports)$name
       expect_true("methods" %in% pkg_imports)
-    }
+    },
+
+    NULL
   )
   run_tests(tests, skip, test_suite)
 }
