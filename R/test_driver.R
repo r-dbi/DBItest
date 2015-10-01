@@ -4,7 +4,7 @@
 #' @include test_getting_started.R
 #' @export
 test_driver <- function(skip = NULL, ctx = get_default_context()) {
-  test_suite <- "Getting started"
+  test_suite <- "Driver"
 
   tests <- list(
     # Driver inherits from "DBIDriver" class
