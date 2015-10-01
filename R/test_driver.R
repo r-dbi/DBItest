@@ -51,7 +51,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       eval(bquote(
         expect_true(exists(.(constructor_name), mode = "function", pkg_env))))
       constructor <- get(constructor_name, mode = "function", pkg_env)
-      expect_that(constructor, all_formals_have_default_values())
+      expect_that(constructor, all_args_have_default_values())
     },
 
     NULL
