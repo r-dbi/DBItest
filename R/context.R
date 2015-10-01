@@ -1,3 +1,16 @@
+#' Test contexts
+#'
+#' Create a test context, set and query the default context.
+#'
+#' @param drv \code{[DBIDriver]}\cr A DBI driver.
+#' @param connect_args \code{[named list]}\cr Connection arguments (names and
+#'   values).
+#' @param ctx \code{[DBItest_context]}\cr A test context.
+#' @return \code{[DBItest_context]}\cr A test context, for
+#'   \code{set_default_context} the previous default context (invisibly) or
+#'   \code{NULL}.
+#'
+#' @rdname context
 #' @export
 make_context <- function(drv, connect_args, set_as_default = TRUE) {
   if (is.null(drv)) {
@@ -19,6 +32,7 @@ make_context <- function(drv, connect_args, set_as_default = TRUE) {
   ctx
 }
 
+#' @rdname context
 #' @export
 set_default_context <- function(ctx) {
   old_ctx <- .ctx_env$default_context
@@ -26,6 +40,7 @@ set_default_context <- function(ctx) {
   invisible(old_ctx)
 }
 
+#' @rdname context
 #' @export
 get_default_context <- function() {
   .ctx_env$default_context
