@@ -18,7 +18,16 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #   is deprecated in RSQLite, but available in other backends. How to
     #   resolve?
 
-
+    # SQL Data types exist for all basic R data types
+    data_type = function() {
+      expect_is(dbDataType(ctx$drv, logical(1)), "character")
+      expect_is(dbDataType(ctx$drv, integer(1)), "character")
+      expect_is(dbDataType(ctx$drv, double(1)), "character")
+      expect_is(dbDataType(ctx$drv, character(1)), "character")
+      expect_is(dbDataType(ctx$drv, list(1)), "character")
+      expect_is(dbDataType(ctx$drv, Sys.Date()), "character")
+      expect_is(dbDataType(ctx$drv, Sys.time()), "character")
+    },
 
     NULL
   )
