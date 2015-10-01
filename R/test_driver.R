@@ -1,3 +1,10 @@
+expect_success <- function (object, ..., info = NULL, label = NULL) {
+  if (is.null(label)) {
+    label <- testthat:::find_expr("object")
+  }
+  expect_that(object, not(throws_error(...)), info = info, label = label)
+}
+
 #' \code{test_driver()} tests the "Driver" class.
 #'
 #' @rdname test
