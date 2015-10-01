@@ -1,6 +1,7 @@
 Package: DBItest
 Title: Testing "DBI" Drivers
 Version: 0.0-0
+Date: 2015-10-01
 Authors@R: as.person("Kirill Müller <krlmlr+r@mailbox.org> [aut, cre]")
 Description: A helper that simplifies writing tests for
     "DBI" drivers.
