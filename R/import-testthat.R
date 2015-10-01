@@ -1,11 +1,5 @@
 # The imports below were generated using the following call:
 # import.gen::importFrom("testthat")
-#' @importFrom testthat .__C__CheckReporter .__C__ListReporter
-#' @importFrom testthat .__C__MinimalReporter .__C__MultiReporter
-#' @importFrom testthat .__C__Reporter .__C__RstudioReporter
-#' @importFrom testthat .__C__SilentReporter .__C__StopReporter
-#' @importFrom testthat .__C__SummaryReporter .__C__TapReporter
-#' @importFrom testthat .__C__TeamcityReporter
 #' @importFrom testthat auto_test auto_test_package
 #' @importFrom testthat compare context
 #' @importFrom testthat CheckReporter
