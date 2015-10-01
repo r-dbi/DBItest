@@ -16,6 +16,7 @@ Encoding: UTF-8
 GitHub: https://github.com/krlmlr/DBItest
 Collate:
     'context.R'
+    'expectations.R'
     'import-dbi.R'
     'import-testthat.R'
     'run.R'

@@ -1,10 +1,3 @@
-expect_success <- function (object, ..., info = NULL, label = NULL) {
-  if (is.null(label)) {
-    label <- testthat:::find_expr("object")
-  }
-  expect_that(object, not(throws_error(...)), info = info, label = label)
-}
-
 #' \code{test_driver()} tests the "Driver" class.
 #'
 #' @rdname test
@@ -49,17 +42,6 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     # package exports constructor function, named like the package without the
     #   leading R, where all arguments have default values
     constructor = function() {
-      all_formals_have_default_values <- function() {
-        function(x) {
-          args <- formals(x)
-          args <- args[names(args) != "..."]
-          expectation(
-            all(vapply(args, as.character, character(1L)) != ""),
-            "has arguments without default values",
-            "has only arguments with default values")
-        }
-      }
-
       pkg_name <- package_name(ctx)
 
       expect_match(pkg_name, "^R")
