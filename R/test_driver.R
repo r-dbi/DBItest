@@ -19,12 +19,6 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_is(ctx$drv, "DBIDriver")
     },
 
-    # dbGetInfo contains necessary elements
-    # Q: dbGetInfo for Driver has been removed everywhere except for RSQLite
-    #   (where it returns an empty list). dbGetInfo for other objects
-    #   is deprecated in RSQLite, but available in other backends. How to
-    #   resolve?
-
     # SQL Data types exist for all basic R data types. dbDataType() does not
     # throw an error and returns a nonempty atomic character
     data_type = function() {
