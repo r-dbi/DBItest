@@ -38,13 +38,27 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_driver_has_data_type(Sys.time())
     },
 
-    # package name should start with R;
+    # package name starts with R;
     # package exports constructor function, named like the package without the
-    #   leading R, where all arguments have default values
-    constructor = function() {
+    #   leading R, that has no arguments
+    constructor_strict = function() {
       pkg_name <- package_name(ctx)
 
       expect_match(pkg_name, "^R")
+      constructor_name <- gsub("^R", "", pkg_name)
+
+      pkg_env <- getNamespace(pkg_name)
+      eval(bquote(
+        expect_true(exists(.(constructor_name), mode = "function", pkg_env))))
+      constructor <- get(constructor_name, mode = "function", pkg_env)
+      expect_that(constructor, arglist_is_empty())
+    },
+
+    # package exports constructor function, named like the package without the
+    #   leading R (if it exists), where all arguments have default values
+    constructor = function() {
+      pkg_name <- package_name(ctx)
+
       constructor_name <- gsub("^R", "", pkg_name)
 
       pkg_env <- getNamespace(pkg_name)
