@@ -5,6 +5,8 @@
 #' @param drv \code{[DBIDriver]}\cr A DBI driver.
 #' @param connect_args \code{[named list]}\cr Connection arguments (names and
 #'   values).
+#' @param set_as_default \code{[logical(1)]}\cr Should the created context be
+#'   set as default context?
 #' @param ctx \code{[DBItest_context]}\cr A test context.
 #' @return \code{[DBItest_context]}\cr A test context, for
 #'   \code{set_default_context} the previous default context (invisibly) or

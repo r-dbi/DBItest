@@ -18,6 +18,9 @@ get_default_context()
 \item{connect_args}{\code{[named list]}\cr Connection arguments (names and
 values).}
 
+\item{set_as_default}{\code{[logical(1)]}\cr Should the created context be
+set as default context?}
+
 \item{ctx}{\code{[DBItest_context]}\cr A test context.}
 }
 \value{
