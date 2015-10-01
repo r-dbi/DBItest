@@ -38,3 +38,4 @@
 #' @importFrom testthat test_that throws_error
 #' @importFrom testthat TapReporter TeamcityReporter
 #' @importFrom testthat watch with_mock with_reporter
+NULL
