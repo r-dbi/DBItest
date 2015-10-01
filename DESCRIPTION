@@ -1,12 +1,14 @@
 Package: DBItest
-Title: Testing "DBI" Drivers
+Title: Testing "DBI" Backends
 Version: 0.0-0
+Date: 2015-10-01
 Authors@R: as.person("Kirill Müller <krlmlr+r@mailbox.org> [aut, cre]")
 Description: A helper that simplifies writing tests for
-    "DBI" drivers.
-Depends: R (>= 3.2.2)
+    "DBI" backends.
+Depends: R (>= 3.0.0)
 Imports: devtools, testthat
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
 GitHub: https://github.com/krlmlr/DBItest
+Suggests: testthat
