@@ -2,6 +2,7 @@
 #'   and if the DBI driver package has correct dependencies.
 #'
 #' @rdname test
+#' @include test_all.R
 #' @export
 test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Getting started"

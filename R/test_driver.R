@@ -1,6 +1,7 @@
 #' \code{test_driver()} tests the "Driver" class.
 #'
 #' @rdname test
+#' @include test_getting_started.R
 #' @export
 test_driver <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Getting started"
