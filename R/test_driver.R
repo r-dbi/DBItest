@@ -45,6 +45,33 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_driver_has_data_type(Sys.time())
     },
 
+    # package name should start with R;
+    # package exports constructor function, named like the package without the
+    #   leading R, where all arguments have default values
+    constructor = function() {
+      all_formals_have_default_values <- function() {
+        function(x) {
+          args <- formals(x)
+          args <- args[names(args) != "..."]
+          expectation(
+            all(vapply(args, as.character, character(1L)) != ""),
+            "has arguments without default values",
+            "has only arguments with default values")
+        }
+      }
+
+      pkg_name <- package_name(ctx)
+
+      expect_match(pkg_name, "^R")
+      constructor_name <- gsub("^R", "", pkg_name)
+
+      pkg_env <- getNamespace(pkg_name)
+      eval(bquote(
+        expect_true(exists(.(constructor_name), mode = "function", pkg_env))))
+      constructor <- get(constructor_name, mode = "function", pkg_env)
+      expect_that(constructor, all_formals_have_default_values())
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
