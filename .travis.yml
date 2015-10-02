@@ -5,4 +5,5 @@ warnings_are_errors: true
 sudo: required
 
 r_github_packages:
+  - krlmlr/DBI
   - hadley/testthat

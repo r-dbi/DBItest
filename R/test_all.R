@@ -12,4 +12,5 @@
 #' @export
 test_all <- function(skip = NULL, ctx = get_default_context()) {
   test_getting_started(skip = skip, ctx = ctx)
+  test_driver(skip = skip, ctx = ctx)
 }

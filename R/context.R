@@ -48,5 +48,9 @@ get_default_context <- function() {
   .ctx_env$default_context
 }
 
+package_name <- function(ctx) {
+  attr(class(ctx$drv), "package")
+}
+
 .ctx_env <- new.env(parent = emptyenv())
 set_default_context(NULL)
