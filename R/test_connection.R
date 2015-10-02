@@ -33,6 +33,21 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       }
     },
 
+    # Return value of dbGetInfo has necessary elements
+    get_info = function() {
+      con <- connect(ctx)
+      info <- dbGetInfo(con)
+      expect_is(info, "list")
+      info_names <- names(info)
+
+      expect_true("db.version" %in% info_names)
+      expect_true("dbname" %in% info_names)
+      expect_true("username" %in% info_names)
+      expect_true("host" %in% info_names)
+      expect_true("port" %in% info_names)
+      expect_false("password" %in% info_names)
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
