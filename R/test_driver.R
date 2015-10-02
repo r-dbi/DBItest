@@ -74,6 +74,18 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_that(constructor, all_args_have_default_values())
     },
 
+    # Return value of dbGetInfo has necessary elements
+    get_info = function() {
+      con <- connect(ctx)
+      info <- dbGetInfo(con)
+      expect_is(info, "list")
+      info_names <- names(info)
+
+      expect_true("driver.version" %in% info_names)
+      expect_true("client.version" %in% info_names)
+      expect_true("max.connections" %in% info_names)
+    },
+
     # show method for driver class is defined
     show = function() {
       expect_that(ctx$drv, has_method("show"))
