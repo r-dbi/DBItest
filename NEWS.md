@@ -1,3 +1,11 @@
+Version 0.0-2 (2015-10-02)
+===
+
+- "Driver" tests
+- call skip() for skipped tests
+- new function test_all() that runs all tests
+
+
 Version 0.0-1 (2015-10-01)
 ===
 
