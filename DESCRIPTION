@@ -4,12 +4,23 @@ Version: 0.0-2
 Date: 2015-10-02
 Authors@R: as.person("Kirill Müller <krlmlr+r@mailbox.org> [aut, cre]")
 Description: A helper that simplifies writing tests for "DBI" backends.
-Depends: R (>= 3.0.0)
-Imports: devtools, testthat, DBI
+Depends:
+    R (>= 3.0.0)
+Imports:
+    devtools,
+    testthat,
+    DBI
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
 GitHub: https://github.com/krlmlr/DBItest
-Collate: 'context.R' 'expectations.R' 'import-dbi.R'
-        'import-testthat.R' 'run.R' 'test_all.R'
-        'test_getting_started.R' 'test_driver.R'
+Collate:
+    'context.R'
+    'expectations.R'
+    'import-dbi.R'
+    'import-testthat.R'
+    'run.R'
+    'test_all.R'
+    'test_getting_started.R'
+    'test_driver.R'
+    'test_connection.R'

@@ -30,7 +30,7 @@ has_method <- function(method_name) {
     my_class <- class(x)
     expectation(
       length(findMethod(method_name, my_class)) > 0L,
-      paste("class", my_class, "doesn't have a", method_name, "method"),
-      paste("class", my_class, "has a", method_name, "method"))
+      paste("object of class", my_class, "doesn't have a", method_name, "method"),
+      paste("object of class", my_class, "has a", method_name, "method"))
   }
 }
