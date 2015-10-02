@@ -48,6 +48,9 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       constructor_name <- gsub("^R", "", pkg_name)
 
       pkg_env <- getNamespace(pkg_name)
+      namespace_exports <- getNamespaceExports(pkg_env)
+      eval(bquote(
+        expect_true(.(constructor_name) %in% namespace_exports)))
       eval(bquote(
         expect_true(exists(.(constructor_name), mode = "function", pkg_env))))
       constructor <- get(constructor_name, mode = "function", pkg_env)
@@ -62,6 +65,9 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       constructor_name <- gsub("^R", "", pkg_name)
 
       pkg_env <- getNamespace(pkg_name)
+      namespace_exports <- getNamespaceExports(pkg_env)
+      eval(bquote(
+        expect_true(.(constructor_name) %in% namespace_exports)))
       eval(bquote(
         expect_true(exists(.(constructor_name), mode = "function", pkg_env))))
       constructor <- get(constructor_name, mode = "function", pkg_env)
