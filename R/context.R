@@ -52,5 +52,9 @@ package_name <- function(ctx) {
   attr(class(ctx$drv), "package")
 }
 
+connect <- function(ctx) {
+  do.call(dbConnect, c(list(ctx$drv), ctx$connect_args))
+}
+
 .ctx_env <- new.env(parent = emptyenv())
 set_default_context(NULL)
