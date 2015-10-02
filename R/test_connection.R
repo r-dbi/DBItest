@@ -48,6 +48,12 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       expect_false("password" %in% info_names)
     },
 
+    # show method for connection class is defined
+    show = function() {
+      con <- connect(ctx)
+      expect_that(con, has_method("show"))
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
