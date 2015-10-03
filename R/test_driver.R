@@ -89,6 +89,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     # show method for driver class is defined
     show = function() {
       expect_that(ctx$drv, has_method("show"))
+      expect_output(show(ctx$drv), ".")
     },
 
     NULL
