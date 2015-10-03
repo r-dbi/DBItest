@@ -1,3 +1,9 @@
+Version 0.0-3 (2015-10-02)
+===
+
+- "Connection" tests
+
+
 Version 0.0-2 (2015-10-02)
 ===
 
