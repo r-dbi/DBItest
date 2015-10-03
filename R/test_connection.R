@@ -15,18 +15,18 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       expect_success(dbDisconnect(con))
     },
 
-    # Open 100 simultaneous connections
+    # Open 50 simultaneous connections
     simultaneous_connections = function() {
-      cons <- lapply(seq_len(100L), function(i) connect(ctx))
+      cons <- lapply(seq_len(50L), function(i) connect(ctx))
       inherit_from_connection <-
         vapply(cons, inherits, what = "DBIConnection", logical(1))
       expect_true(all(inherit_from_connection))
       expect_success(lapply(cons, dbDisconnect))
     },
 
-    # Open and close 100 connections
+    # Open and close 50 connections
     stress_connections = function() {
-      for (i in seq_len(100L)) {
+      for (i in seq_len(50L)) {
         con <- connect(ctx)
         expect_is(con, "DBIConnection")
         expect_success(dbDisconnect(con))
