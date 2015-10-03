@@ -15,6 +15,22 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       expect_is(res, "DBIResult")
     },
 
+    command_query = function() {
+      con <- connect(ctx)
+      res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
+      on.exit({
+        dbClearResult(res)
+        res2 <- dbSendQuery(con, "DROP TABLE test")
+        dbClearResult(res)
+      }, add = TRUE)
+    },
+
+    # Issuing an invalid query throws error
+    invalid_query = function() {
+      con <- connect(ctx)
+      expect_error(dbSendQuery(con, "RAISE"))
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
