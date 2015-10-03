@@ -52,6 +52,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     show = function() {
       con <- connect(ctx)
       expect_that(con, has_method("show"))
+      expect_output(show(con), ".")
     },
 
     NULL
