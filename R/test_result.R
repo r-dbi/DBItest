@@ -221,6 +221,16 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # data conversion: NULL
+    data_null = function() {
+      with_connection({
+        query <- "SELECT NULL as a"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_true(is.na(rows$a))
+      })
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
