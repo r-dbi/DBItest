@@ -96,6 +96,22 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # if more rows than available are fetched, the result is returned in full
+    #   but no warning is issued
+    fetch_more_rows = function() {
+      with_connection({
+        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3"
+
+        res <- dbSendQuery(con, query)
+        on.exit(dbClearResult(res), add = TRUE)
+
+        expect_warning(rows <- dbFetch(res, 5L), NA)
+        expect_identical(rows, data.frame(a=1L:3L))
+
+        expect_true(dbHasCompleted(res))
+      })
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
