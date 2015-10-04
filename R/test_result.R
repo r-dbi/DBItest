@@ -9,12 +9,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
   tests <- list(
     # Can issue trivial query, result object inherits from "DBIResult"
     trivial_query = function() {
-      con <- connect(ctx)
-      on.exit(dbDisconnect(con), add = TRUE)
-
-      res <- dbSendQuery(con, "SELECT 1")
-      on.exit(dbClearResult(res), add = TRUE)
-      expect_is(res, "DBIResult")
+      with_connection({
+        res <- dbSendQuery(con, "SELECT 1")
+        on.exit(dbClearResult(res), add = TRUE)
+        expect_is(res, "DBIResult")
+      })
     },
 
     # Can issue a command query that creates a table
@@ -69,18 +68,28 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
     # queries can be fetched
     fetch_single = function() {
-      query <- "SELECT 1 as a"
+      with_connection({
+        query <- "SELECT 1 as a"
 
-      con <- connect(ctx)
-      on.exit(dbDisconnect(con), add = TRUE)
-
-      res <- dbSendQuery(con, query)
-      on.exit(dbClearResult(res), add = TRUE)
-
-      print(dbFetch(res))
+        res <- dbSendQuery(con, query)
+        on.exit(dbClearResult(res), add = TRUE)
+      })
     },
 
     NULL
   )
   run_tests(tests, skip, test_suite)
+}
+
+# Expects a variable "ctx" in the environment env,
+# evaluates the code inside local() after defining a variable "con"
+# that points to a newly opened connection. Disconnects on exit.
+with_connection <- function(code, env = parent.frame()) {
+  code_sub <- substitute(code)
+
+  eval(bquote({
+    con <- connect(ctx)
+    on.exit(dbDisconnect(con), add = TRUE)
+    local(.(code_sub))
+  }), env = env)
 }
