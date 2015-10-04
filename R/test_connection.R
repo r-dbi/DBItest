@@ -36,6 +36,8 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     # Return value of dbGetInfo has necessary elements
     get_info = function() {
       con <- connect(ctx)
+      on.exit(dbDisconnect(con), add = TRUE)
+
       info <- dbGetInfo(con)
       expect_is(info, "list")
       info_names <- names(info)
@@ -51,6 +53,8 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     # show method for connection class is defined
     show = function() {
       con <- connect(ctx)
+      on.exit(dbDisconnect(con), add = TRUE)
+
       expect_that(con, has_method("show"))
       expect_output(show(con), ".")
     },
