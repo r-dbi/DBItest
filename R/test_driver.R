@@ -74,8 +74,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
 
     # Return value of dbGetInfo has necessary elements
     get_info = function() {
-      con <- connect(ctx)
-      info <- dbGetInfo(con)
+      info <- dbGetInfo(ctx$drv)
       expect_is(info, "list")
       info_names <- names(info)
 

@@ -10,6 +10,7 @@ Imports:
     devtools,
     testthat,
     DBI
+Suggests: lintr
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
