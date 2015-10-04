@@ -8,7 +8,8 @@ run_tests <- function(tests, skip, test_suite) {
       if (test_name %in% skip) {
         skip("by request")
       } else {
-        tests[[test_name]]()
+        test_fun <- tests[[test_name]]
+        test_fun()
       }
     })
   })

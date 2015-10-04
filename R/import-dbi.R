@@ -1,5 +1,5 @@
 # The imports below were generated using the following call:
-# import.gen::importFrom("DBI")
+# @import.gen::importFrom("DBI")
 #' @importFrom DBI ANSI
 #' @importFrom DBI columnToRownames
 #' @importFrom DBI dbBegin dbBind dbCallProc dbClearResult dbColumnInfo

@@ -1,5 +1,5 @@
 # The imports below were generated using the following call:
-# import.gen::importFrom("testthat")
+# @import.gen::importFrom("testthat")
 #' @importFrom testthat auto_test auto_test_package
 #' @importFrom testthat compare context
 #' @importFrom testthat CheckReporter
