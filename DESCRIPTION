@@ -6,6 +6,7 @@ Authors@R: as.person("Kirill Müller <krlmlr+r@mailbox.org> [aut, cre]")
 Description: A helper that simplifies writing tests for "DBI" backends.
 Depends: R (>= 3.0.0)
 Imports: devtools, testthat, DBI
+Suggests: lintr
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
