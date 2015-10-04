@@ -67,6 +67,19 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       expect_output(show(res), ".")
     },
 
+    # queries can be fetched
+    fetch_single = function() {
+      query <- "SELECT 1 as a"
+
+      con <- connect(ctx)
+      on.exit(dbDisconnect(con), add = TRUE)
+
+      res <- dbSendQuery(con, query)
+      on.exit(dbClearResult(res), add = TRUE)
+
+      print(dbFetch(res))
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
