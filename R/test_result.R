@@ -191,6 +191,26 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # data conversion: integer
+    data_integer = function() {
+      with_connection({
+        query <- "SELECT 1 as a, -100 as b"
+
+        rows <- dbGetQuery(con, query)
+        expect_identical(rows, data.frame(a=1L, b=-100L))
+      })
+    },
+
+    # data conversion: numeric
+    data_numeric = function() {
+      with_connection({
+        query <- "SELECT 1.0 as a, -100.5 as b"
+
+        rows <- dbGetQuery(con, query)
+        expect_identical(rows, data.frame(a=1, b=-100.5))
+      })
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
