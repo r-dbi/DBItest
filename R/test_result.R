@@ -211,6 +211,16 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # data conversion: logical
+    data_logical = function() {
+      with_connection({
+        query <- "SELECT CAST(1 AS boolean) as a, cast(0 AS boolean) as b"
+
+        rows <- dbGetQuery(con, query)
+        expect_identical(rows, data.frame(a=TRUE, b=FALSE))
+      })
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
