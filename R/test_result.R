@@ -20,9 +20,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     command_query = function() {
       with_connection({
         res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
-        dbClearResult(res)
-        res2 <- dbSendQuery(con, "DROP TABLE test")
-        dbClearResult(res2)
+        expect_error(dbClearResult(res), NA)
+        dbClearResult(dbSendQuery(con, "DROP TABLE test"))
       })
     },
 
