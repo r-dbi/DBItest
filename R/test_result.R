@@ -113,7 +113,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
     # if less rows than available are fetched, the result is returned in full
     #   but no warning is issued
-    premature_close = function() {
+    fetch_premature_close = function() {
       with_connection({
         query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 UNION SELECT 4"
 
