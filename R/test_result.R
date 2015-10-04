@@ -112,19 +112,20 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     # if less rows than available are fetched, the result is returned in full
-    #   but no warning is issued
+    #   but no warning is issued; also tests the corner case of fetching zero
+    #   rows
     fetch_premature_close = function() {
       with_connection({
-        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 UNION SELECT 4"
+        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 ORDER BY a"
 
         res <- dbSendQuery(con, query)
         on.exit(dbClearResult(res), add = TRUE)
 
-        expect_warning(rows <- dbFetch(res, 1L), NA)
-        expect_identical(rows, data.frame(a=1L))
+        expect_warning(rows <- dbFetch(res, 0L), NA)
+        expect_identical(rows, data.frame(a=integer()))
 
         expect_warning(rows <- dbFetch(res, 2L), NA)
-        expect_identical(rows, data.frame(a=2L:3L))
+        expect_identical(rows, data.frame(a=1L:2L))
 
         expect_warning(dbClearResult(res), NA)
         on.exit(NULL, add = FALSE)
