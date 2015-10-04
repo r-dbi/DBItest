@@ -19,11 +19,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     command_query = function() {
       con <- connect(ctx)
       res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
-      on.exit({
+      on.exit(add = TRUE, {
         dbClearResult(res)
         res2 <- dbSendQuery(con, "DROP TABLE test")
-        dbClearResult(res)
-      }, add = TRUE)
+        dbClearResult(res2)
+      })
     },
 
     # Issuing an invalid query throws error
