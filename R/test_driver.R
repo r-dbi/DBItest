@@ -15,7 +15,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     # SQL Data types exist for all basic R data types. dbDataType() does not
     # throw an error and returns a nonempty atomic character
     data_type = function() {
-      expect_driver_data_type_is_character <- function(value) {
+      check_driver_data_type <- function(value) {
         eval(bquote({
           expect_is(dbDataType(ctx$drv, .(value)), "character")
           expect_equal(length(dbDataType(ctx$drv, .(value))), 1L)
@@ -25,7 +25,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
 
       expect_driver_has_data_type <- function(value) {
         eval(bquote(
-          expect_success(expect_driver_data_type_is_character(.(value)))))
+          expect_success(check_driver_data_type(.(value)))))
       }
 
       # Q: Should the "raw" type be matched to BLOB?
@@ -48,9 +48,8 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       constructor_name <- gsub("^R", "", pkg_name)
 
       pkg_env <- getNamespace(pkg_name)
-      namespace_exports <- getNamespaceExports(pkg_env)
       eval(bquote(
-        expect_true(.(constructor_name) %in% namespace_exports)))
+        expect_true(.(constructor_name) %in% getNamespaceExports(pkg_env))))
       eval(bquote(
         expect_true(exists(.(constructor_name), mode = "function", pkg_env))))
       constructor <- get(constructor_name, mode = "function", pkg_env)
@@ -65,9 +64,8 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       constructor_name <- gsub("^R", "", pkg_name)
 
       pkg_env <- getNamespace(pkg_name)
-      namespace_exports <- getNamespaceExports(pkg_env)
       eval(bquote(
-        expect_true(.(constructor_name) %in% namespace_exports)))
+        expect_true(.(constructor_name) %in% getNamespaceExports(pkg_env))))
       eval(bquote(
         expect_true(exists(.(constructor_name), mode = "function", pkg_env))))
       constructor <- get(constructor_name, mode = "function", pkg_env)
