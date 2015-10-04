@@ -131,6 +131,25 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # single-value queries can be fetched
+    fetch_no_return_value = function() {
+      with_connection({
+        query <- "CREATE TABLE test (a integer)"
+
+        res <- dbSendQuery(con, query)
+        on.exit({
+          expect_error(dbClearResult(res), NA)
+          dbClearResult(dbSendQuery(con, "DROP TABLE test"))
+        }
+        , add = TRUE)
+
+        rows <- dbFetch(res)
+        expect_identical(rows, data.frame())
+
+        expect_true(dbHasCompleted(res))
+      })
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
