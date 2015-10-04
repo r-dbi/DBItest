@@ -11,6 +11,3 @@ env:
 r_github_packages:
   - krlmlr/DBI
   - hadley/testthat
-
-r_packages:
-  - lintr
