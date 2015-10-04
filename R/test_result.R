@@ -10,6 +10,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     # Can issue trivial query, result object inherits from "DBIResult"
     trivial_query = function() {
       con <- connect(ctx)
+      on.exit(dbDisconnect(con), add = TRUE)
+
       res <- dbSendQuery(con, "SELECT 1")
       on.exit(dbClearResult(res), add = TRUE)
       expect_is(res, "DBIResult")
@@ -18,6 +20,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     # Can issue a command query that creates a table
     command_query = function() {
       con <- connect(ctx)
+      on.exit(dbDisconnect(con), add = TRUE)
+
       res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
       on.exit(add = TRUE, {
         dbClearResult(res)
@@ -29,12 +33,16 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     # Issuing an invalid query throws error
     invalid_query = function() {
       con <- connect(ctx)
+      on.exit(dbDisconnect(con), add = TRUE)
+
       expect_error(dbSendQuery(con, "RAISE"))
     },
 
     # Return value of dbGetInfo has necessary elements
     get_info = function() {
       con <- connect(ctx)
+      on.exit(dbDisconnect(con), add = TRUE)
+
       res <- dbSendQuery(con, "SELECT 1")
       on.exit(dbClearResult(res), add = TRUE)
 
@@ -52,6 +60,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     # show method for result class is defined
     show = function() {
       con <- connect(ctx)
+      on.exit(dbDisconnect(con), add = TRUE)
+
       res <- dbSendQuery(con, "SELECT 1")
       on.exit(dbClearResult(res), add = TRUE)
 
