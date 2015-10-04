@@ -150,6 +150,46 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # single-value queries can be read with dbGetQuery
+    get_query_single = function() {
+      with_connection({
+        query <- "SELECT 1 as a"
+
+        rows <- dbGetQuery(con, query)
+        expect_identical(rows, data.frame(a=1L))
+      })
+    },
+
+    # multi-row single-column queries can be read with dbGetQuery
+    get_query_multi_row_single_column = function() {
+      with_connection({
+        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3"
+
+        rows <- dbGetQuery(con, query)
+        expect_identical(rows, data.frame(a=1L:3L))
+      })
+    },
+
+    # single-row multi-column queries can be read with dbGetQuery
+    get_query_single_column_multi_row = function() {
+      with_connection({
+        query <- "SELECT 1 as a, 2 as b, 3 as c"
+
+        rows <- dbGetQuery(con, query)
+        expect_identical(rows, data.frame(a=1L, b=2L, c=3L))
+      })
+    },
+
+    # multi-row multi-column queries can be read with dbGetQuery
+    get_query_multi = function() {
+      with_connection({
+        query <- "SELECT 1 as a, 2 as b UNION SELECT 2, 3"
+
+        rows <- dbGetQuery(con, query)
+        expect_identical(rows, data.frame(a=1L:2L, b=2L:3L))
+      })
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
