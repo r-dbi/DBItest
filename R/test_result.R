@@ -66,7 +66,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # queries can be fetched
+    # single-value queries can be fetched
     fetch_single = function() {
       with_connection({
         query <- "SELECT 1 as a"
@@ -76,6 +76,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
         rows <- dbFetch(res)
         expect_identical(rows, data.frame(a=1L))
+
+        expect_true(dbHasCompleted(res))
       })
     },
 
