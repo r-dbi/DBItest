@@ -81,6 +81,21 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # multi-row single-column queries can be fetched
+    fetch_multi_row_single_column = function() {
+      with_connection({
+        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3"
+
+        res <- dbSendQuery(con, query)
+        on.exit(dbClearResult(res), add = TRUE)
+
+        rows <- dbFetch(res)
+        expect_identical(rows, data.frame(a=1L:3L))
+
+        expect_true(dbHasCompleted(res))
+      })
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
