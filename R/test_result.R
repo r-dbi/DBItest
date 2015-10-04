@@ -83,7 +83,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     # multi-row single-column queries can be fetched
     fetch_multi_row_single_column = function() {
       with_connection({
-        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3"
+        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 ORDER BY a"
 
         res <- dbSendQuery(con, query)
         on.exit(dbClearResult(res), add = TRUE)
@@ -99,7 +99,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #   but no warning is issued
     fetch_more_rows = function() {
       with_connection({
-        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3"
+        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 ORDER BY a"
 
         res <- dbSendQuery(con, query)
         on.exit(dbClearResult(res), add = TRUE)
@@ -163,7 +163,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     # multi-row single-column queries can be read with dbGetQuery
     get_query_multi_row_single_column = function() {
       with_connection({
-        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3"
+        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 ORDER BY a"
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L:3L))
@@ -183,7 +183,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     # multi-row multi-column queries can be read with dbGetQuery
     get_query_multi = function() {
       with_connection({
-        query <- "SELECT 1 as a, 2 as b UNION SELECT 2, 3"
+        query <- "SELECT 1 as a, 2 as b UNION SELECT 2, 3 ORDER BY a"
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L:2L, b=2L:3L))
