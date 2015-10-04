@@ -73,6 +73,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
         res <- dbSendQuery(con, query)
         on.exit(dbClearResult(res), add = TRUE)
+
+        rows <- dbFetch(res)
+        expect_identical(rows, data.frame(a=1L))
       })
     },
 
