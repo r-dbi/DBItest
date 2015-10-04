@@ -196,7 +196,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         query <- "SELECT 1 as a, -100 as b"
 
-        rows <- dbGetQuery(con, query)
+        expect_warning(rows <- dbGetQuery(con, query), NA)
         expect_identical(rows, data.frame(a=1L, b=-100L))
       })
     },
@@ -206,7 +206,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         query <- "SELECT 1.0 as a, -100.5 as b"
 
-        rows <- dbGetQuery(con, query)
+        expect_warning(rows <- dbGetQuery(con, query), NA)
         expect_identical(rows, data.frame(a=1, b=-100.5))
       })
     },
@@ -216,7 +216,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         query <- "SELECT CAST(1 AS boolean) as a, cast(0 AS boolean) as b"
 
-        rows <- dbGetQuery(con, query)
+        expect_warning(rows <- dbGetQuery(con, query), NA)
         expect_identical(rows, data.frame(a=TRUE, b=FALSE))
       })
     },
