@@ -18,52 +18,48 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
     # Can issue a command query that creates a table
     command_query = function() {
-      con <- connect(ctx)
-      on.exit(dbDisconnect(con), add = TRUE)
-
-      res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
-      dbClearResult(res)
-      res2 <- dbSendQuery(con, "DROP TABLE test")
-      dbClearResult(res2)
+      with_connection({
+        res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
+        dbClearResult(res)
+        res2 <- dbSendQuery(con, "DROP TABLE test")
+        dbClearResult(res2)
+      })
     },
 
     # Issuing an invalid query throws error
     invalid_query = function() {
-      con <- connect(ctx)
-      on.exit(dbDisconnect(con), add = TRUE)
-
-      expect_error(dbSendQuery(con, "RAISE"))
+      with_connection({
+        expect_error(dbSendQuery(con, "RAISE"))
+      })
     },
 
     # Return value of dbGetInfo has necessary elements
     get_info = function() {
-      con <- connect(ctx)
-      on.exit(dbDisconnect(con), add = TRUE)
+      with_connection({
+        res <- dbSendQuery(con, "SELECT 1")
+        on.exit(dbClearResult(res), add = TRUE)
 
-      res <- dbSendQuery(con, "SELECT 1")
-      on.exit(dbClearResult(res), add = TRUE)
+        info <- dbGetInfo(res)
+        expect_is(info, "list")
+        info_names <- names(info)
 
-      info <- dbGetInfo(res)
-      expect_is(info, "list")
-      info_names <- names(info)
-
-      expect_true("statement" %in% info_names)
-      expect_true("row.count" %in% info_names)
-      expect_true("rows.affected" %in% info_names)
-      expect_true("has.completed" %in% info_names)
-      expect_true("is.select" %in% info_names)
+        expect_true("statement" %in% info_names)
+        expect_true("row.count" %in% info_names)
+        expect_true("rows.affected" %in% info_names)
+        expect_true("has.completed" %in% info_names)
+        expect_true("is.select" %in% info_names)
+      })
     },
 
     # show method for result class is defined
     show = function() {
-      con <- connect(ctx)
-      on.exit(dbDisconnect(con), add = TRUE)
+      with_connection({
+        res <- dbSendQuery(con, "SELECT 1")
+        on.exit(dbClearResult(res), add = TRUE)
 
-      res <- dbSendQuery(con, "SELECT 1")
-      on.exit(dbClearResult(res), add = TRUE)
-
-      expect_that(res, has_method("show"))
-      expect_output(show(res), ".")
+        expect_that(res, has_method("show"))
+        expect_output(show(res), ".")
+      })
     },
 
     # queries can be fetched
