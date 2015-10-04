@@ -231,6 +231,17 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # data conversion: 64-bit integers
+    data_64_bit = function() {
+      with_connection({
+        query <- "SELECT 10000000000 as a, -10000000000 as b"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_equal(as.numeric(rows$a), 10000000000)
+        expect_equal(as.numeric(rows$b), -10000000000)
+      })
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
