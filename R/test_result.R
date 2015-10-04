@@ -257,5 +257,6 @@ with_connection <- function(code, env = parent.frame()) {
     con <- connect(ctx)
     on.exit(dbDisconnect(con), add = TRUE)
     local(.(code_sub))
-  }), env = env)
+  }
+  ), env = env)
 }
