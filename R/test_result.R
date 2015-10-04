@@ -15,6 +15,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       expect_is(res, "DBIResult")
     },
 
+    # Can issue a command query that creates a table
     command_query = function() {
       con <- connect(ctx)
       res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
@@ -29,6 +30,33 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     invalid_query = function() {
       con <- connect(ctx)
       expect_error(dbSendQuery(con, "RAISE"))
+    },
+
+    # Return value of dbGetInfo has necessary elements
+    get_info = function() {
+      con <- connect(ctx)
+      res <- dbSendQuery(con, "SELECT 1")
+      on.exit(dbClearResult(res), add = TRUE)
+
+      info <- dbGetInfo(res)
+      expect_is(info, "list")
+      info_names <- names(info)
+
+      expect_true("statement" %in% info_names)
+      expect_true("row.count" %in% info_names)
+      expect_true("rows.affected" %in% info_names)
+      expect_true("has.completed" %in% info_names)
+      expect_true("is.select" %in% info_names)
+    },
+
+    # show method for result class is defined
+    show = function() {
+      con <- connect(ctx)
+      res <- dbSendQuery(con, "SELECT 1")
+      on.exit(dbClearResult(res), add = TRUE)
+
+      expect_that(res, has_method("show"))
+      expect_output(show(res), ".")
     },
 
     NULL
