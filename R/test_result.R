@@ -26,11 +26,15 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # Issuing an invalid query throws error
+    # Issuing an invalid query throws error (but no warnings, e.g. related to
+    #   pending results, are thrown)
     invalid_query = function() {
-      with_connection({
-        expect_error(dbSendQuery(con, "RAISE"))
-      })
+      expect_warning(
+        with_connection({
+          expect_error(dbSendQuery(con, "RAISE"))
+        }),
+        NA
+      )
     },
 
     # Return value of dbGetInfo has necessary elements
