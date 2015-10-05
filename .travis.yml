@@ -6,7 +6,8 @@ sudo: required
 
 env:
   global:
-    NOT_CRAN=true
+    - NOT_CRAN=true
+    - LINTR_COMMENT_BOT=0
 
 r_github_packages:
   - krlmlr/DBI
