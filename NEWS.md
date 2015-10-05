@@ -1,3 +1,13 @@
+Version 0.0-4 (2015-10-05)
+===
+
+- most of "Results" tests
+- check code formatting with lintr
+- disconnect opened connections; fix dbGetInfo test for driver
+- reduce stress test to 50 connections
+- test that show() creates output
+
+
 Version 0.0-3 (2015-10-02)
 ===
 
