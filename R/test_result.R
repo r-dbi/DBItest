@@ -242,6 +242,26 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # data conversion: character
+    data_character = function() {
+      with_connection({
+        a <- "Кирилл"
+        b <- "Müller"
+        c <- "我是谁"
+        d <- "ASCII"
+        query <- paste0("SELECT '", a, "' as a, '",
+                        b, "' as b, '",
+                        c, "' as c, '",
+                        d, "' as d")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_equal(rows$a, a)
+        expect_equal(rows$b, b)
+        expect_equal(rows$c, c)
+        expect_equal(rows$d, d)
+      })
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
