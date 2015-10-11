@@ -270,7 +270,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_warning(rows <- dbGetQuery(con, query), NA)
         expect_is(rows$a, "Date")
         expect_is(rows$b, "Date")
-        expect_equal(rows$a, as.Date("2015-10-10Z"))
+        expect_equal(rows$a, as.Date("2015-10-10"))
       })
     },
 
