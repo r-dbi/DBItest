@@ -242,10 +242,125 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # data conversion: character
+    data_character = function() {
+      with_connection({
+        a <- iconv(list(as.raw(c(0xd0, 0x9a, 0xd0, 0xb8, 0xd1, 0x80, 0xd0, 0xb8,
+                                 0xd0, 0xbb, 0xd0, 0xbb)))) # "Кирилл"
+        b <- iconv(list(as.raw(c(0x4d, 0xc3, 0xbc, 0x6c, 0x6c, 0x65, 0x72
+                                 )))) # "Müller"
+        c <- iconv(list(as.raw(c(0xe6, 0x88, 0x91, 0xe6, 0x98, 0xaf, 0xe8, 0xb0,
+                                 0x81)))) # "我是谁"
+        d <- "ASCII"
+        query <- paste0("SELECT '", a, "' as a, '",
+                        b, "' as b, '",
+                        c, "' as c, '",
+                        d, "' as d")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_equal(rows$a, a)
+        expect_equal(rows$b, b)
+        expect_equal(rows$c, c)
+        expect_equal(rows$d, d)
+      })
+    },
+
+    # data conversion: date
+    data_date = function() {
+      with_connection({
+        query <- "SELECT date('2015-10-10') as a, current_date as b"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "Date")
+        expect_is(rows$b, "Date")
+        expect_equal(rows$a, as.Date("2015-10-10"))
+      })
+    },
+
+    # data conversion: time
+    data_time = function() {
+      with_connection({
+        query <- "SELECT time '00:00:00' as a,
+                  time '12:34:56' as b, current_time as c"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "character")
+        expect_is(rows$b, "character")
+        expect_is(rows$c, "character")
+        expect_equal(rows$a, "00:00:00")
+        expect_equal(rows$b, "12:34:56")
+      })
+    },
+
+    # data conversion: time (with parentheses)
+    data_time_parens = function() {
+      with_connection({
+        query <- "SELECT time('00:00:00') as a,
+                  time('12:34:56') as b, current_time as c"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "character")
+        expect_is(rows$b, "character")
+        expect_is(rows$c, "character")
+        expect_equal(rows$a, "00:00:00")
+        expect_equal(rows$b, "12:34:56")
+      })
+    },
+
+    # data conversion: timestamp
+    data_timestamp = function() {
+      with_connection({
+        query <- "SELECT timestamp '2015-10-11 00:00:00' as a,
+        timestamp '2015-10-11 12:34:56' as b, current_timestamp as c"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "POSIXct")
+        expect_is(rows$b, "POSIXct")
+        expect_is(rows$c, "POSIXct")
+        expect_less_than(Sys.time() - rows$c, 1)
+      })
+    },
+
+    # data conversion: timestamp with time zone
+    data_timestamp_utc = function() {
+      with_connection({
+        query <- "SELECT
+        timestamp with time zone '2015-10-11 00:00:00+02:00' as a,
+        timestamp with time zone '2015-10-11 12:34:56-05:00' as b,
+        current_timestamp as c"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "POSIXct")
+        expect_is(rows$b, "POSIXct")
+        expect_is(rows$c, "POSIXct")
+        expect_equal(rows$a, as.POSIXct("2015-10-11 00:00:00+02:00"))
+        expect_equal(rows$b, as.POSIXct("2015-10-11 12:34:56-05:00"))
+        expect_less_than(Sys.time() - rows$c, 1)
+      })
+    },
+
+    # data conversion: timestamp (with parentheses)
+    data_timestamp_parens = function() {
+      with_connection({
+        query <- "SELECT datetime('2015-10-11 00:00:00') as a,
+                  datetime('2015-10-11 12:34:56') as b, current_timestamp as c"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "POSIXct")
+        expect_is(rows$b, "POSIXct")
+        expect_is(rows$c, "POSIXct")
+        expect_equal(rows$a, as.POSIXct("2015-10-11 00:00:00Z"))
+        expect_equal(rows$b, as.POSIXct("2015-10-11 12:34:56Z"))
+        expect_less_than(Sys.time() - rows$c, 1)
+      })
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
 }
+
+utils::globalVariables("con")
 
 # Expects a variable "ctx" in the environment env,
 # evaluates the code inside local() after defining a variable "con"
@@ -258,5 +373,5 @@ with_connection <- function(code, env = parent.frame()) {
     on.exit(dbDisconnect(con), add = TRUE)
     local(.(code_sub))
   }
-  ), env = env)
+  ), envir = env)
 }

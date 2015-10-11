@@ -9,6 +9,9 @@ env:
     - NOT_CRAN=true
     - LINTR_COMMENT_BOT=0
 
+r_binary_packages:
+  - igraph
+
 r_github_packages:
   - krlmlr/DBI
   - hadley/testthat
