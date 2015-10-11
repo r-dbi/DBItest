@@ -307,28 +307,32 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     # data conversion: timestamp
     data_timestamp = function() {
       with_connection({
-        query <- "SELECT timestamp '2015-11-10 00:00:00' as a,
-        timestamp '2015-11-10 12:34:56' as b, current_timestamp as c"
+        query <- "SELECT timestamp '2015-10-11 00:00:00' as a,
+        timestamp '2015-10-11 12:34:56' as b, current_timestamp as c"
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
         expect_is(rows$a, "POSIXct")
         expect_is(rows$b, "POSIXct")
         expect_is(rows$c, "POSIXct")
-        #expect_equal(rows$a, as.Date("2015-10-10Z"))
+        expect_equal(rows$a, as.POSIXct("2015-10-11 00:00:00Z"))
+        expect_equal(rows$b, as.POSIXct("2015-10-11 12:34:56Z"))
+        expect_lt(Sys.time() - rows$c, 1)
       })
     },
 
     # data conversion: timestamp (with parentheses)
     data_timestamp_parens = function() {
       with_connection({
-        query <- "SELECT datetime('2015-11-10 00:00:00') as a,
-                  datetime('2015-11-10 12:34:56') as b, current_timestamp as c"
+        query <- "SELECT datetime('2015-10-11 00:00:00') as a,
+                  datetime('2015-10-11 12:34:56') as b, current_timestamp as c"
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
         expect_is(rows$a, "POSIXct")
         expect_is(rows$b, "POSIXct")
         expect_is(rows$c, "POSIXct")
-        #expect_equal(rows$a, as.Date("2015-10-10Z"))
+        expect_equal(rows$a, as.POSIXct("2015-10-11 00:00:00Z"))
+        expect_equal(rows$b, as.POSIXct("2015-10-11 12:34:56Z"))
+        expect_lt(Sys.time() - rows$c, 1)
       })
     },
 
