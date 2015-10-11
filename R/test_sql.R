@@ -29,6 +29,28 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # Can quote identifiers
+    quote_identifier = function() {
+      with_connection({
+        simple <- dbQuoteIdentifier(con, "simple")
+        with_spaces <- dbQuoteIdentifier(con, "with spaces")
+        quoted_simple <- dbQuoteIdentifier(con, as.character(simple))
+        quoted_with_spaces <- dbQuoteIdentifier(con, as.character(with_spaces))
+
+        query <- paste0("SELECT ",
+                        "1 as", simple, ",",
+                        "2 as", with_spaces, ",",
+                        "3 as", quoted_simple, ",",
+                        "4 as", quoted_with_spaces)
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_equal(names(rows), c("simple", "with spaces",
+                                    as.character(simple),
+                                    as.character(with_spaces)))
+        expect_equal(unlist(unname(rows)), 1:4)
+      })
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
