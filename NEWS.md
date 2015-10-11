@@ -1,3 +1,9 @@
+Version 0.0-5 (2015-10-11)
+===
+
+- "Results" tests: character and date/time
+
+
 Version 0.0-4 (2015-10-05)
 ===
 
