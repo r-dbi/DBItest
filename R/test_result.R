@@ -262,6 +262,76 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # data conversion: date
+    data_date = function() {
+      with_connection({
+        query <- "SELECT date('2015-10-10') as a, current_date as b"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "Date")
+        expect_is(rows$b, "Date")
+        expect_equal(rows$a, as.Date("2015-10-10Z"))
+      })
+    },
+
+    # data conversion: time
+    data_time = function() {
+      with_connection({
+        query <- "SELECT time '00:00:00' as a,
+                  time '12:34:56' as b, current_time as c"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "character")
+        expect_is(rows$b, "character")
+        expect_is(rows$c, "character")
+        expect_equal(rows$a, "00:00:00")
+        expect_equal(rows$b, "12:34:56")
+      })
+    },
+
+    # data conversion: time (with parentheses)
+    data_time_parens = function() {
+      with_connection({
+        query <- "SELECT time('00:00:00') as a,
+                  time('12:34:56') as b, current_time as c"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "character")
+        expect_is(rows$b, "character")
+        expect_is(rows$c, "character")
+        expect_equal(rows$a, "00:00:00")
+        expect_equal(rows$b, "12:34:56")
+      })
+    },
+
+    # data conversion: timestamp
+    data_timestamp = function() {
+      with_connection({
+        query <- "SELECT timestamp '2015-11-10 00:00:00' as a,
+        timestamp '2015-11-10 12:34:56' as b, current_timestamp as c"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "POSIXct")
+        expect_is(rows$b, "POSIXct")
+        expect_is(rows$c, "POSIXct")
+        #expect_equal(rows$a, as.Date("2015-10-10Z"))
+      })
+    },
+
+    # data conversion: timestamp (with parentheses)
+    data_timestamp_parens = function() {
+      with_connection({
+        query <- "SELECT datetime('2015-11-10 00:00:00') as a,
+                  datetime('2015-11-10 12:34:56') as b, current_timestamp as c"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "POSIXct")
+        expect_is(rows$b, "POSIXct")
+        expect_is(rows$c, "POSIXct")
+        #expect_equal(rows$a, as.Date("2015-10-10Z"))
+      })
+    },
+
     NULL
   )
   run_tests(tests, skip, test_suite)
