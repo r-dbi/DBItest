@@ -27,4 +27,5 @@ Collate:
     'test_driver.R'
     'test_connection.R'
     'test_result.R'
+    'test_sql.R'
 RoxygenNote: 4.1.1.9000
