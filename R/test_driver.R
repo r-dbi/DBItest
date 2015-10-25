@@ -1,19 +1,27 @@
-#' \code{test_driver()} tests the "Driver" class.
+#' Test the "Driver" class
 #'
-#' @rdname test
+#' @inheritParams test_all
 #' @include test_getting_started.R
+#' @family tests
 #' @export
 test_driver <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Driver"
 
+  #' @details
+  #' This function defines the following tests:
+  #' \describe{
   tests <- list(
-    # Driver inherits from "DBIDriver" class
+    #' \item{\code{inherits_from_driver}}{
+    #' Driver inherits from "DBIDriver" class
+    #' }
     inherits_from_driver = function() {
       expect_is(ctx$drv, "DBIDriver")
     },
 
-    # SQL Data types exist for all basic R data types. dbDataType() does not
-    # throw an error and returns a nonempty atomic character
+    #' \item{\code{data_type}}{
+    #' SQL Data types exist for all basic R data types. dbDataType() does not
+    #' throw an error and returns a nonempty atomic character
+    #' }
     data_type = function() {
       check_driver_data_type <- function(value) {
         eval(bquote({
@@ -38,9 +46,11 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_driver_has_data_type(Sys.time())
     },
 
-    # package name starts with R;
-    # package exports constructor function, named like the package without the
-    #   leading R, that has no arguments
+    #' \item{\code{constructor_strict}}{
+    #' package name starts with R;
+    #' package exports constructor function, named like the package without the
+    #'   leading R, that has no arguments
+    #' }
     constructor_strict = function() {
       pkg_name <- package_name(ctx)
 
@@ -56,8 +66,10 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_that(constructor, arglist_is_empty())
     },
 
-    # package exports constructor function, named like the package without the
-    #   leading R (if it exists), where all arguments have default values
+    #' \item{\code{constructor}}{
+    #' package exports constructor function, named like the package without the
+    #'   leading R (if it exists), where all arguments have default values
+    #' }
     constructor = function() {
       pkg_name <- package_name(ctx)
 
@@ -72,7 +84,9 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_that(constructor, all_args_have_default_values())
     },
 
-    # Return value of dbGetInfo has necessary elements
+    #' \item{\code{get_info}}{
+    #' Return value of dbGetInfo has necessary elements
+    #' }
     get_info = function() {
       info <- dbGetInfo(ctx$drv)
       expect_is(info, "list")
@@ -83,7 +97,9 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_true("max.connections" %in% info_names)
     },
 
-    # show method for driver class is defined
+    #' \item{\code{show}}{
+    #' show method for driver class is defined
+    #' }
     show = function() {
       expect_that(ctx$drv, has_method("show"))
       expect_output(show(ctx$drv), ".")
@@ -91,5 +107,6 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
 
     NULL
   )
+  #'}
   run_tests(tests, skip, test_suite)
 }
