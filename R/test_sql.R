@@ -35,7 +35,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{}}{
+    #' \item{\code{quote_identifier}}{
     #' Can quote identifiers, and create identifiers that contain quotes and
     #' spaces
     #' }

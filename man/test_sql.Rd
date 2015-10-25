@@ -22,7 +22,7 @@ This function defines the following tests:
 \item{\code{quote_string}}{
 Can quote strings, and create strings that contain quotes and spaces
 }
-\item{\code{}}{
+\item{\code{quote_identifier}}{
 Can quote identifiers, and create identifiers that contain quotes and
 spaces
 }
