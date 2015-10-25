@@ -27,6 +27,7 @@ set as default context?}
 \code{[DBItest_context]}\cr A test context, for
   \code{set_default_context} the previous default context (invisibly) or
   \code{NULL}.
+
 }
 \description{
 Create a test context, set and query the default context.
