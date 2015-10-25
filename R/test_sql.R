@@ -1,13 +1,19 @@
-#' \code{test_sql()} tests SQL methods.
+#' Test SQL methods
 #'
-#' @rdname test
+#' @inheritParams test_all
 #' @include test_result.R
+#' @family tests
 #' @export
 test_sql <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "SQL"
 
+  #' @details
+  #' This function defines the following tests:
+  #' \describe{
   tests <- list(
-    # Can quote strings
+    #' \item{\code{quote_string}}{
+    #' Can quote strings, and create strings that contain quotes and spaces
+    #' }
     quote_string = function() {
       with_connection({
         simple <- dbQuoteString(con, "simple")
@@ -29,7 +35,10 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # Can quote identifiers
+    #' \item{\code{}}{
+    #' Can quote identifiers, and create identifiers that contain quotes and
+    #' spaces
+    #' }
     quote_identifier = function() {
       with_connection({
         simple <- dbQuoteIdentifier(con, "simple")
@@ -53,5 +62,6 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
     NULL
   )
+  #' }
   run_tests(tests, skip, test_suite)
 }
