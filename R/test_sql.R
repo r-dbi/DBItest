@@ -93,6 +93,38 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{list_tables}}{
+    #' Can list the tables in the database, adding and removing tables affects
+    #' the list. Can also check existence of a table.
+    #' }
+    list_tables = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+
+        tables <- dbListTables(con)
+        expect_is(tables, "character")
+        expect_false("iris" %in% tables)
+
+        expect_false(dbExistsTable(con, "iris"))
+
+        on.exit(dbGetQuery(con, "DROP TABLE iris"), add = TRUE)
+        dbWriteTable(con, "iris", iris)
+
+        tables <- dbListTables(con)
+        expect_true("iris" %in% tables)
+
+        expect_true(dbExistsTable(con, "iris"))
+
+        dbRemoveTable(con, "iris")
+        on.exit(NULL, add = FALSE)
+
+        tables <- dbListTables(con)
+        expect_false("iris" %in% tables)
+
+        expect_false(dbExistsTable(con, "iris"))
+      })
+    },
+
     NULL
   )
   #' }
