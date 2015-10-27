@@ -60,6 +60,39 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{write_table}}{
+    #' Can write the \code{\link[datasets]{iris}} data as a table to the
+    #' database, but won't overwrite by default.
+    #' }
+    write_table = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        on.exit(dbGetQuery(con, "DROP TABLE iris"), add = TRUE)
+        dbWriteTable(con, "iris", iris)
+        expect_error(dbWriteTable(con, "iris", iris))
+      })
+    },
+
+    #' \item{\code{read_table}}{
+    #' Can read the \code{\link[datasets]{iris}} data from a database table.
+    #' }
+    read_table = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        on.exit(dbGetQuery(con, "DROP TABLE iris"), add = TRUE)
+
+        iris_in <- iris
+        iris_in$Species <- as.character(iris_in$Species)
+        order_in <- do.call(order, iris_in)
+
+        dbWriteTable(con, "iris", iris_in)
+        iris_out <- dbReadTable(con, "iris")
+        order_out <- do.call(order, iris_out)
+
+        expect_equal(iris_in[order_in, ], iris_out[order_out, ])
+      })
+    },
+
     NULL
   )
   #' }
