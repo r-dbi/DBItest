@@ -125,6 +125,22 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{roundtrip_keywords}}{
+    #' Can create tables with keywords.
+    #' }
+    roundtrip_keywords = function() {
+      with_connection({
+        tbl_in <- data.frame(SELECT = 1, FROM = 2L, WHERE = "char",
+                             stringsAsFactors = FALSE)
+
+        dbWriteTable(con, "EXISTS", tbl_in)
+        on.exit(dbRemoveTable(con, "EXISTS"), add = TRUE)
+
+        tbl_out <- dbReadTable(con, "EXISTS")
+        expect_equal(tbl_in, tbl_out)
+      })
+    },
+
     NULL
   )
   #' }
