@@ -126,7 +126,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{roundtrip_keywords}}{
-    #' Can create tables with keywords.
+    #' Can create tables with keywords as table and column names.
     #' }
     roundtrip_keywords = function() {
       with_connection({
@@ -137,6 +137,28 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(dbRemoveTable(con, "EXISTS"), add = TRUE)
 
         tbl_out <- dbReadTable(con, "EXISTS")
+        expect_equal(tbl_in, tbl_out)
+      })
+    },
+
+    #' \item{\code{roundtrip_quotes}}{
+    #' Can create tables with quotes in column names and data.
+    #' }
+    roundtrip_quotes = function() {
+      with_connection({
+        tbl_in <- data.frame(a = as.character(dbQuoteString(con, "")),
+                             b = as.character(dbQuoteIdentifier(con, "")),
+                             c = 0L,
+                             stringsAsFactors = FALSE)
+        names(tbl_in) <- c(
+          as.character(dbQuoteIdentifier(con, "")),
+          as.character(dbQuoteString(con, "")),
+          "with space")
+
+        dbWriteTable(con, "test", tbl_in)
+        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+
+        tbl_out <- dbReadTable(con, "test")
         expect_equal(tbl_in, tbl_out)
       })
     },
