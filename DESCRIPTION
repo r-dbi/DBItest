@@ -15,7 +15,8 @@ Suggests:
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
-GitHub: https://github.com/krlmlr/DBItest
+GitHub: https://github.com/rstats-db/DBItest
+BugReports: https://github.com/rstats-db/DBItest/issues
 Collate:
     'context.R'
     'expectations.R'
