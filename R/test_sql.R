@@ -254,6 +254,21 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{roundtrip_timestamp}}{
+    #' Can create tables with timestamp values.
+    #' }
+    roundtrip_timestamp = function() {
+      with_connection({
+        tbl_in <- data.frame(a = round(Sys.time()) + c(1, 60, 3600, 86400))
+
+        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_equal(tbl_in, tbl_out)
+      })
+    },
+
     NULL
   )
   #' }
