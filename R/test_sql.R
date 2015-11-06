@@ -223,6 +223,22 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{roundtrip_64_bit}}{
+    #' Can create tables with 64-bit values.
+    #' }
+    roundtrip_64_bit = function() {
+      with_connection({
+        tbl_in <- data.frame(a = c(-1e14, 1e15, 0.25, NA))
+        tbl_in_trunc <- data.frame(a = trunc(tbl_in$a))
+
+        dbWriteTable(con, "test", tbl_in, field.types = "bigint")
+        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_identical(tbl_in_trunc, tbl_out)
+      })
+    },
+
     NULL
   )
   #' }
