@@ -137,7 +137,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(dbRemoveTable(con, "EXISTS"), add = TRUE)
 
         tbl_out <- dbReadTable(con, "EXISTS")
-        expect_equal(tbl_in, tbl_out)
+        expect_identical(tbl_in, tbl_out)
       })
     },
 
@@ -159,7 +159,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal(tbl_in, tbl_out)
+        expect_identical(tbl_in, tbl_out)
       })
     },
 
@@ -174,7 +174,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal(tbl_in, tbl_out)
+        expect_identical(tbl_in, tbl_out)
       })
     },
 
@@ -189,7 +189,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal(tbl_in, tbl_out)
+        expect_identical(tbl_in, tbl_out)
       })
     },
 
@@ -204,7 +204,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal(tbl_in, tbl_out)
+        expect_identical(tbl_in, tbl_out)
       })
     },
 
