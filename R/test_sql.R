@@ -133,8 +133,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_in <- data.frame(SELECT = 1, FROM = 2L, WHERE = "char",
                              stringsAsFactors = FALSE)
 
-        dbWriteTable(con, "EXISTS", tbl_in)
         on.exit(dbRemoveTable(con, "EXISTS"), add = TRUE)
+        dbWriteTable(con, "EXISTS", tbl_in)
 
         tbl_out <- dbReadTable(con, "EXISTS")
         expect_identical(tbl_in, tbl_out)
@@ -155,8 +155,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
           as.character(dbQuoteString(con, "")),
           "with space")
 
-        dbWriteTable(con, "test", tbl_in)
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
         expect_identical(tbl_in, tbl_out)
@@ -170,8 +170,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(1:5, NA))
 
-        dbWriteTable(con, "test", tbl_in)
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
         expect_identical(tbl_in, tbl_out)
@@ -185,8 +185,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA))
 
-        dbWriteTable(con, "test", tbl_in)
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
         expect_identical(tbl_in, tbl_out)
@@ -200,8 +200,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
 
-        dbWriteTable(con, "test", tbl_in)
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
         expect_identical(tbl_in, tbl_out)
@@ -215,8 +215,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = NA)
 
-        dbWriteTable(con, "test", tbl_in)
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
         expect_true(is.na(tbl_out$a))
@@ -231,8 +231,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_in <- data.frame(a = c(-1e14, 1e15, 0.25, NA))
         tbl_in_trunc <- data.frame(a = trunc(tbl_in$a))
 
-        dbWriteTable(con, "test", tbl_in, field.types = "bigint")
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        dbWriteTable(con, "test", tbl_in, field.types = "bigint")
 
         tbl_out <- dbReadTable(con, "test")
         expect_identical(tbl_in_trunc, tbl_out)
