@@ -239,6 +239,23 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{roundtrip_character}}{
+    #' Can create tables with character values.
+    #' }
+    roundtrip_character = function() {
+      with_connection({
+        tbl_in <- data.frame(a = c(text_cyrillic, text_latin,
+                                   text_chinese, text_ascii),
+                             stringsAsFactors = FALSE)
+
+        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_identical(tbl_in, tbl_out)
+      })
+    },
+
     #' \item{\code{roundtrip_date}}{
     #' Can create tables with date values.
     #' }
