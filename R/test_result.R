@@ -290,23 +290,16 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_character = function() {
       with_connection({
-        a <- iconv(list(as.raw(c(0xd0, 0x9a, 0xd0, 0xb8, 0xd1, 0x80, 0xd0, 0xb8,
-                                 0xd0, 0xbb, 0xd0, 0xbb)))) #' "Кирилл"
-        b <- iconv(list(as.raw(c(0x4d, 0xc3, 0xbc, 0x6c, 0x6c, 0x65, 0x72
-                                 )))) #' "Müller"
-        c <- iconv(list(as.raw(c(0xe6, 0x88, 0x91, 0xe6, 0x98, 0xaf, 0xe8, 0xb0,
-                                 0x81)))) #' "我是谁"
-        d <- "ASCII"
-        query <- paste0("SELECT '", a, "' as a, '",
-                        b, "' as b, '",
-                        c, "' as c, '",
-                        d, "' as d")
+        query <- paste0("SELECT '", text_cyrillic, "' as a, '",
+                        text_latin, "' as b, '",
+                        text_chinese, "' as c, '",
+                        text_ascii, "' as d")
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_equal(rows$a, a)
-        expect_equal(rows$b, b)
-        expect_equal(rows$c, c)
-        expect_equal(rows$d, d)
+        expect_equal(rows$a, text_cyrillic)
+        expect_equal(rows$b, text_latin)
+        expect_equal(rows$c, text_chinese)
+        expect_equal(rows$d, text_ascii)
       })
     },
 
