@@ -168,7 +168,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_integer = function() {
       with_connection({
-        tbl_in <- data.frame(a = 1:5, stringsAsFactors = FALSE)
+        tbl_in <- data.frame(a = c(1:5, NA))
 
         dbWriteTable(con, "test", tbl_in)
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
@@ -183,7 +183,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_numeric = function() {
       with_connection({
-        tbl_in <- data.frame(a = seq(1, 3, by = 0.5), stringsAsFactors = FALSE)
+        tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA))
 
         dbWriteTable(con, "test", tbl_in)
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
@@ -198,7 +198,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_logical = function() {
       with_connection({
-        tbl_in <- data.frame(a = c(TRUE, FALSE), stringsAsFactors = FALSE)
+        tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
 
         dbWriteTable(con, "test", tbl_in)
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
@@ -213,7 +213,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_null = function() {
       with_connection({
-        tbl_in <- data.frame(a = NA, stringsAsFactors = FALSE)
+        tbl_in <- data.frame(a = NA)
 
         dbWriteTable(con, "test", tbl_in)
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
