@@ -163,6 +163,66 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{roundtrip_integer}}{
+    #' Can create tables with integer columns.
+    #' }
+    roundtrip_integer = function() {
+      with_connection({
+        tbl_in <- data.frame(a = 1:5, stringsAsFactors = FALSE)
+
+        dbWriteTable(con, "test", tbl_in)
+        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_equal(tbl_in, tbl_out)
+      })
+    },
+
+    #' \item{\code{roundtrip_numeric}}{
+    #' Can create tables with numeric columns.
+    #' }
+    roundtrip_numeric = function() {
+      with_connection({
+        tbl_in <- data.frame(a = seq(1, 3, by = 0.5), stringsAsFactors = FALSE)
+
+        dbWriteTable(con, "test", tbl_in)
+        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_equal(tbl_in, tbl_out)
+      })
+    },
+
+    #' \item{\code{roundtrip_logical}}{
+    #' Can create tables with logical columns.
+    #' }
+    roundtrip_logical = function() {
+      with_connection({
+        tbl_in <- data.frame(a = c(TRUE, FALSE), stringsAsFactors = FALSE)
+
+        dbWriteTable(con, "test", tbl_in)
+        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_equal(tbl_in, tbl_out)
+      })
+    },
+
+    #' \item{\code{roundtrip_null}}{
+    #' Can create tables with NULL values.
+    #' }
+    roundtrip_null = function() {
+      with_connection({
+        tbl_in <- data.frame(a = NA, stringsAsFactors = FALSE)
+
+        dbWriteTable(con, "test", tbl_in)
+        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_true(is.na(tbl_out$a))
+      })
+    },
+
     NULL
   )
   #' }
