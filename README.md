@@ -27,3 +27,5 @@ DBItest::test_all()
 (This assumes that `Kazam()` returns an instance of your `DBIDriver` class. Additional arguments to `dbConnect()` are specified as named list instead of the `NULL` argument to `make_context()`.)
 
 The `skip` argument to `test_all()` allows specifying skipped tests.
+
+See the package's documentation and the [feature list](https://github.com/rstats-db/DBItest/wiki/Proposal) for a description of the tests.
