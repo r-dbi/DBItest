@@ -130,7 +130,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_keywords = function() {
       with_connection({
-        tbl_in <- data.frame(SELECT = 1, FROM = 2L, WHERE = "char",
+        tbl_in <- data.frame(SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
                              stringsAsFactors = FALSE)
 
         on.exit(dbRemoveTable(con, "EXISTS"), add = TRUE)
@@ -142,18 +142,21 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{roundtrip_quotes}}{
-    #' Can create tables with quotes in column names and data.
+    #' Can create tables with quotes, commas, and spaces in column names and
+    #' data.
     #' }
     roundtrip_quotes = function() {
       with_connection({
         tbl_in <- data.frame(a = as.character(dbQuoteString(con, "")),
                              b = as.character(dbQuoteIdentifier(con, "")),
-                             c = 0L,
+                             c = "with space",
+                             d = ",",
                              stringsAsFactors = FALSE)
         names(tbl_in) <- c(
           as.character(dbQuoteIdentifier(con, "")),
           as.character(dbQuoteString(con, "")),
-          "with space")
+          "with space",
+          ",")
 
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
