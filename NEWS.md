@@ -1,3 +1,11 @@
+Version 0.1-1 (2015-11-07)
+===
+
+- Implement SQL tests
+- Move repository to rstats-db namespace
+- Document all tests in each test function using the new inline documentation feature of roxygen2
+
+
 Version 0.1 (2015-10-11)
 ===
 
