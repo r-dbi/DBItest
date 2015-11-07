@@ -16,7 +16,6 @@ test_connection(skip = NULL, ctx = get_default_context())
 Test the "Connection" class
 }
 \details{
-
 This function defines the following tests:
 \describe{
 \item{\code{can_connect_and_disconnect}}{

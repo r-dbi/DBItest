@@ -16,7 +16,6 @@ test_result(skip = NULL, ctx = get_default_context())
 Test the "Result" class
 }
 \details{
-
 This function defines the following tests:
 \describe{
 \item{\code{trivial_query}}{

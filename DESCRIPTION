@@ -30,4 +30,4 @@ Collate:
     'test_result.R'
     'test_sql.R'
     'utf8.R'
-RoxygenNote: 4.1.1.9001
+RoxygenNote: 5.0.0.9000

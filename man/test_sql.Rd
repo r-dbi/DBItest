@@ -16,7 +16,6 @@ test_sql(skip = NULL, ctx = get_default_context())
 Test SQL methods
 }
 \details{
-
 This function defines the following tests:
 \describe{
 \item{\code{quote_string}}{
@@ -25,6 +24,47 @@ Can quote strings, and create strings that contain quotes and spaces
 \item{\code{quote_identifier}}{
 Can quote identifiers, and create identifiers that contain quotes and
 spaces
+}
+\item{\code{write_table}}{
+Can write the \code{\link[datasets]{iris}} data as a table to the
+database, but won't overwrite by default.
+}
+\item{\code{read_table}}{
+Can read the \code{\link[datasets]{iris}} data from a database table.
+}
+\item{\code{list_tables}}{
+Can list the tables in the database, adding and removing tables affects
+the list. Can also check existence of a table.
+}
+\item{\code{roundtrip_keywords}}{
+Can create tables with keywords as table and column names.
+}
+\item{\code{roundtrip_quotes}}{
+Can create tables with quotes in column names and data.
+}
+\item{\code{roundtrip_integer}}{
+Can create tables with integer columns.
+}
+\item{\code{roundtrip_numeric}}{
+Can create tables with numeric columns.
+}
+\item{\code{roundtrip_logical}}{
+Can create tables with logical columns.
+}
+\item{\code{roundtrip_null}}{
+Can create tables with NULL values.
+}
+\item{\code{roundtrip_64_bit}}{
+Can create tables with 64-bit values.
+}
+\item{\code{roundtrip_character}}{
+Can create tables with character values.
+}
+\item{\code{roundtrip_date}}{
+Can create tables with date values.
+}
+\item{\code{roundtrip_timestamp}}{
+Can create tables with timestamp values.
 }
 }
 }

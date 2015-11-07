@@ -16,7 +16,6 @@ test_driver(skip = NULL, ctx = get_default_context())
 Test the "Driver" class
 }
 \details{
-
 This function defines the following tests:
 \describe{
 \item{\code{inherits_from_driver}}{

@@ -17,7 +17,6 @@ Tests very basic features of a DBI driver package, to support testing
 and test-first development right from the start.
 }
 \details{
-
 This function defines the following tests:
 \describe{
 \item{\code{has_context}}{
