@@ -102,7 +102,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_multi_row_single_column = function() {
       with_connection({
-        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 ORDER BY a"
+        query <- paste(union("SELECT 1 as a", "SELECT 2", "SELECT 3"),
+                       "ORDER BY a")
 
         res <- dbSendQuery(con, query)
         on.exit(dbClearResult(res), add = TRUE)
@@ -119,8 +120,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_progressive = function() {
       with_connection({
-        query <- paste(paste("SELECT", 1:25, "AS a", collapse = " UNION "),
-                       "ORDER BY a")
+        query <- paste(union(paste("SELECT", 1:25, "AS a")), "ORDER BY a")
 
         res <- dbSendQuery(con, query)
         on.exit(dbClearResult(res), add = TRUE)
@@ -142,7 +142,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_more_rows = function() {
       with_connection({
-        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 ORDER BY a"
+        query <- paste(union("SELECT 1 as a", "SELECT 2", "SELECT 3"),
+                       "ORDER BY a")
 
         res <- dbSendQuery(con, query)
         on.exit(dbClearResult(res), add = TRUE)
@@ -161,7 +162,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_premature_close = function() {
       with_connection({
-        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 ORDER BY a"
+        query <- paste(union("SELECT 1 as a", "SELECT 2", "SELECT 3"),
+                       "ORDER BY a")
 
         res <- dbSendQuery(con, query)
         on.exit(dbClearResult(res), add = TRUE)
@@ -215,7 +217,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_multi_row_single_column = function() {
       with_connection({
-        query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 ORDER BY a"
+        query <- paste(union("SELECT 1 as a", "SELECT 2", "SELECT 3"),
+                       "ORDER BY a")
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L:3L))
@@ -239,7 +242,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_multi = function() {
       with_connection({
-        query <- "SELECT 1 as a, 2 as b UNION SELECT 2, 3 ORDER BY a"
+        query <- paste(union("SELECT 1 as a, 2 as b", "SELECT 2, 3"),
+                       "ORDER BY a")
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L:2L, b=2L:3L))
@@ -449,4 +453,10 @@ with_connection <- function(code, env = parent.frame()) {
     local(.(code_sub))
   }
   ), envir = env)
+}
+
+# Helper function
+union <- function(...) {
+  queries <- c(...)
+  paste(queries, collapse = " UNION ")
 }
