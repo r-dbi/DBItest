@@ -390,7 +390,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$a, "POSIXct")
         expect_is(rows$b, "POSIXct")
         expect_is(rows$c, "POSIXct")
-        expect_less_than(Sys.time() - rows$c, 1)
+        expect_less_than(Sys.time() - rows$c, 2)
       })
     },
 
@@ -429,7 +429,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$c, "POSIXct")
         expect_equal(rows$a, as.POSIXct("2015-10-11 00:00:00Z"))
         expect_equal(rows$b, as.POSIXct("2015-10-11 12:34:56Z"))
-        expect_less_than(Sys.time() - rows$c, 1)
+        expect_less_than(Sys.time() - rows$c, 2)
       })
     },
 
