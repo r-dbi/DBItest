@@ -307,6 +307,22 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{roundtrip_rownames}}{
+    #' Can create tables with row names.
+    #' }
+    roundtrip_rownames = function() {
+      with_connection({
+        tbl_in <- data.frame(a = c(1:5, NA),
+                             row.names = paste0(LETTERS[1:6], 1:6))
+
+        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_identical(rownames(tbl_in), rownames(tbl_out))
+      })
+    },
+
     NULL
   )
   #' }
