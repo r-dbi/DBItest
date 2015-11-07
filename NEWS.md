@@ -1,3 +1,9 @@
+Version 0.1-2 (2015-11-07)
+===
+
+- Add brief instructions to README
+
+
 Version 0.1-1 (2015-11-07)
 ===
 
