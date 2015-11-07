@@ -28,4 +28,6 @@ Collate:
     'test_driver.R'
     'test_connection.R'
     'test_result.R'
-RoxygenNote: 4.1.1.9001
+    'test_sql.R'
+    'utf8.R'
+RoxygenNote: 5.0.0.9000

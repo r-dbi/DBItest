@@ -16,7 +16,6 @@ test_connection(skip = NULL, ctx = get_default_context())
 Test the "Connection" class
 }
 \details{
-
 This function defines the following tests:
 \describe{
 \item{\code{can_connect_and_disconnect}}{
@@ -41,6 +40,6 @@ show method for connection class is defined
 Other tests: \code{\link{test_all}},
   \code{\link{test_driver}},
   \code{\link{test_getting_started}},
-  \code{\link{test_result}}
+  \code{\link{test_result}}, \code{\link{test_sql}}
 }
 

@@ -16,7 +16,6 @@ test_driver(skip = NULL, ctx = get_default_context())
 Test the "Driver" class
 }
 \details{
-
 This function defines the following tests:
 \describe{
 \item{\code{inherits_from_driver}}{
@@ -47,6 +46,6 @@ show method for driver class is defined
 Other tests: \code{\link{test_all}},
   \code{\link{test_connection}},
   \code{\link{test_getting_started}},
-  \code{\link{test_result}}
+  \code{\link{test_result}}, \code{\link{test_sql}}
 }
 

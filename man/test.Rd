@@ -16,7 +16,6 @@ test_result(skip = NULL, ctx = get_default_context())
 Test the "Result" class
 }
 \details{
-
 This function defines the following tests:
 \describe{
 \item{\code{trivial_query}}{
@@ -108,6 +107,7 @@ for specifying timestamp literals)
 \seealso{
 Other tests: \code{\link{test_all}},
   \code{\link{test_connection}}, \code{\link{test_driver}},
-  \code{\link{test_getting_started}}
+  \code{\link{test_getting_started}},
+  \code{\link{test_sql}}
 }
 

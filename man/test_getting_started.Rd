@@ -17,7 +17,6 @@ Tests very basic features of a DBI driver package, to support testing
 and test-first development right from the start.
 }
 \details{
-
 This function defines the following tests:
 \describe{
 \item{\code{has_context}}{
@@ -31,6 +30,6 @@ package depends (!) on "DBI" and imports "methods"}
 \seealso{
 Other tests: \code{\link{test_all}},
   \code{\link{test_connection}}, \code{\link{test_driver}},
-  \code{\link{test_result}}
+  \code{\link{test_result}}, \code{\link{test_sql}}
 }
 
