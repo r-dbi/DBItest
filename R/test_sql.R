@@ -277,6 +277,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     roundtrip_timestamp = function() {
       with_connection({
         tbl_in <- data.frame(a = round(Sys.time()) + c(1, 60, 3600, 86400))
+        tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
+        tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST")
 
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
