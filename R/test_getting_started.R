@@ -25,7 +25,7 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
     #' can relate the driver to an installed (or devtools-loaded) package;
     #' package depends (!) on "DBI" and imports "methods"}
     package_dependencies = function() {
-      expect_success(pkg_name <- package_name(ctx))
+      expect_error(pkg_name <- package_name(ctx), NA)
       expect_is(pkg_name, "character")
 
       pkg_path <- find.package(pkg_name)

@@ -18,7 +18,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     can_connect_and_disconnect = function() {
       con <- connect(ctx)
       expect_is(con, "DBIConnection")
-      expect_success(dbDisconnect(con))
+      expect_error(dbDisconnect(con), NA)
     },
 
     #' \item{\code{simultaneous_connections}}{
@@ -29,7 +29,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       inherit_from_connection <-
         vapply(cons, inherits, what = "DBIConnection", logical(1))
       expect_true(all(inherit_from_connection))
-      expect_success(lapply(cons, dbDisconnect))
+      expect_error(lapply(cons, dbDisconnect), NA)
     },
 
     #' \item{\code{stress_connections}}{
@@ -39,7 +39,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       for (i in seq_len(50L)) {
         con <- connect(ctx)
         expect_is(con, "DBIConnection")
-        expect_success(dbDisconnect(con))
+        expect_error(dbDisconnect(con), NA)
       }
     },
 

@@ -33,7 +33,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
 
       expect_driver_has_data_type <- function(value) {
         eval(bquote(
-          expect_success(check_driver_data_type(.(value)))))
+          expect_error(check_driver_data_type(.(value)), NA)))
       }
 
       # Q: Should the "raw" type be matched to BLOB?
