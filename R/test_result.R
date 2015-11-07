@@ -257,6 +257,20 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{data_integer_null}}{
+    #' data conversion from SQL to R: integer with typed NULL values
+    #' }
+    data_integer_null = function() {
+      with_connection({
+        query <- union("SELECT 1 as a, -100 as b, 0 as c",
+                       "SELECT NULL, NULL, 1",
+                       .order_by = "c")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_identical(rows, data.frame(a=c(1L, NA), b=c(-100L, NA), c=0:1))
+      })
+    },
+
     #' \item{\code{data_numeric}}{
     #' data conversion from SQL to R: numeric
     #' }
@@ -269,6 +283,20 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{data_numeric_null}}{
+    #' data conversion from SQL to R: numeric with typed NULL values
+    #' }
+    data_numeric_null = function() {
+      with_connection({
+        query <- union("SELECT 1.0 as a, -100.5 as b, 0 as c",
+                       "SELECT NULL, NULL, 1",
+                       .order_by = "c")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_identical(rows, data.frame(a=c(1, NA), b=c(-100.5, NA), c=0:1))
+      })
+    },
+
     #' \item{\code{data_logical}}{
     #' data conversion from SQL to R: logical
     #' }
@@ -278,6 +306,49 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
         expect_identical(rows, data.frame(a=TRUE, b=FALSE))
+      })
+    },
+
+    #' \item{\code{data_logical}}{
+    #' data conversion from SQL to R: logical with typed NULL values
+    #' }
+    data_logical = function() {
+      with_connection({
+        query <- union(
+          "SELECT CAST(1 AS boolean) as a, cast(0 AS boolean) as b, 0 as c",
+          "SELECT NULL, NULL, 1",
+          .order_by = "c")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_identical(rows, data.frame(a=c(TRUE, NA), b=c(FALSE, NA), c=0:1))
+      })
+    },
+
+    #' \item{\code{data_logical_int}}{
+    #' data conversion from SQL to R: logical (as integers)
+    #' }
+    data_logical_int = function() {
+      with_connection({
+        query <- "SELECT CAST(1 AS boolean) as a, cast(0 AS boolean) as b"
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_identical(rows, data.frame(a=1L, b=0L))
+      })
+    },
+
+    #' \item{\code{data_logical_int_null}}{
+    #' data conversion from SQL to R: logical (as integers) with typed NULL
+    #' values
+    #' }
+    data_logical_int_null = function() {
+      with_connection({
+        query <- union(
+          "SELECT CAST(1 AS boolean) as a, cast(0 AS boolean) as b, 0 as c",
+          "SELECT NULL, NULL, 1",
+          .order_by = "c")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_identical(rows, data.frame(a=c(1L, NA), b=c(0L, NA), c=0:1))
       })
     },
 
@@ -306,6 +377,21 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{data_64_bit_null}}{
+    #' data conversion from SQL to R: 64-bit integers with typed NULL values
+    #' }
+    data_64_bit_null = function() {
+      with_connection({
+        query <- union("SELECT 10000000000 as a, -10000000000 as b, 0 as c",
+                       "SELECT NULL, NULL, 1",
+                       .order_by = "c")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_equal(as.numeric(rows$a), c(10000000000, NA))
+        expect_equal(as.numeric(rows$b), c(-10000000000, NA))
+      })
+    },
+
     #' \item{\code{data_character}}{
     #' data conversion from SQL to R: character
     #' }
@@ -324,6 +410,27 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{data_character_null}}{
+    #' data conversion from SQL to R: character with typed NULL values
+    #' }
+    data_character_null = function() {
+      with_connection({
+        query <- union(paste0("SELECT '", text_cyrillic, "' as a, '",
+                              text_latin, "' as b, '",
+                              text_chinese, "' as c, '",
+                              text_ascii, "' as d, ",
+                              "0 as e"),
+                       "SELECT NULL, NULL, NULL, NULL, 1",
+                       .order_by = "e")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_equal(rows$a, c(text_cyrillic, NA))
+        expect_equal(rows$b, c(text_latin, NA))
+        expect_equal(rows$c, c(text_chinese, NA))
+        expect_equal(rows$d, c(text_ascii, NA))
+      })
+    },
+
     #' \item{\code{data_date}}{
     #' data conversion from SQL to R: date
     #' }
@@ -335,6 +442,23 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$a, "Date")
         expect_is(rows$b, "Date")
         expect_equal(rows$a, as.Date("2015-10-10"))
+      })
+    },
+
+    #' \item{\code{data_date_null}}{
+    #' data conversion from SQL to R: date with typed NULL values
+    #' }
+    data_date_null = function() {
+      with_connection({
+        query <- union(
+          "SELECT date('2015-10-10') as a, current_date as b, 0 as c",
+          "SELECT NULL, NULL, 1",
+          .order_by = "c")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "Date")
+        expect_is(rows$b, "Date")
+        expect_equal(rows$a, c(as.Date("2015-10-10"), NA))
       })
     },
 
@@ -352,6 +476,25 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$c, "character")
         expect_equal(rows$a, "00:00:00")
         expect_equal(rows$b, "12:34:56")
+      })
+    },
+
+    #' \item{\code{data_time_null}}{
+    #' data conversion from SQL to R: time with typed NULL values
+    #' }
+    data_time_null = function() {
+      with_connection({
+        query <- union("SELECT time '00:00:00' as a,
+                        time '12:34:56' as b, current_time as c, 0 as d",
+                       "SELECT NULL, NULL, NULL, 1",
+                       .order_by = "d")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "character")
+        expect_is(rows$b, "character")
+        expect_is(rows$c, "character")
+        expect_equal(rows$a, c("00:00:00", NA))
+        expect_equal(rows$b, c("12:34:56", NA))
       })
     },
 
@@ -373,6 +516,26 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{data_time_parens_null}}{
+    #' data conversion from SQL to R: time (using alternative syntax with
+    #' parentheses for specifying time literals) with typed NULL values
+    #' }
+    data_time_parens_null = function() {
+      with_connection({
+        query <- union("SELECT time('00:00:00') as a,
+                        time('12:34:56') as b, current_time as c, 0 as d",
+                       "SELECT NULL, NULL, NULL, 1",
+                       .order_by = "d")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "character")
+        expect_is(rows$b, "character")
+        expect_is(rows$c, "character")
+        expect_equal(rows$a, c("00:00:00", NA))
+        expect_equal(rows$b, c("12:34:56", NA))
+      })
+    },
+
     #' \item{\code{data_timestamp}}{
     #' data conversion from SQL to R: timestamp
     #' }
@@ -386,6 +549,28 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$b, "POSIXct")
         expect_is(rows$c, "POSIXct")
         expect_less_than(Sys.time() - rows$c, 2)
+      })
+    },
+
+    #' \item{\code{data_timestamp_null}}{
+    #' data conversion from SQL to R: timestamp with typed NULL values
+    #' }
+    data_timestamp_null = function() {
+      with_connection({
+        query <- union(
+          "SELECT
+           timestamp '2015-10-11 00:00:00' as a,
+           timestamp '2015-10-11 12:34:56' as b,
+           current_timestamp as c, 0 as d",
+          "SELECT NULL, NULL, NULL, 1",
+          .order_by = "d")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "POSIXct")
+        expect_is(rows$b, "POSIXct")
+        expect_is(rows$c, "POSIXct")
+        expect_less_than(Sys.time() - rows$c[[1L]], 2)
+        expect_true(is.na(rows$c[[2L]]))
       })
     },
 
@@ -409,6 +594,31 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{data_timestamp_utc_null}}{
+    #' data conversion from SQL to R: timestamp with time zone with typed NULL
+    #' values
+    #' }
+    data_timestamp_utc_null = function() {
+      with_connection({
+        query <- union(
+          "SELECT
+           timestamp with time zone '2015-10-11 00:00:00+02:00' as a,
+           timestamp with time zone '2015-10-11 12:34:56-05:00' as b,
+           current_timestamp as c, 0 as d",
+          "SELECT NULL, NULL, NULL, 1",
+          .order_by = "d")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "POSIXct")
+        expect_is(rows$b, "POSIXct")
+        expect_is(rows$c, "POSIXct")
+        expect_equal(rows$a, c(as.POSIXct("2015-10-11 00:00:00+02:00"), NA))
+        expect_equal(rows$b, c(as.POSIXct("2015-10-11 12:34:56-05:00"), NA))
+        expect_less_than(Sys.time() - rows$c[[1L]], 1)
+        expect_true(is.na(rows$c[[2L]]))
+      })
+    },
+
     #' \item{\code{data_timestamp_parens}}{
     #' data conversion: timestamp (alternative syntax with parentheses
     #' for specifying timestamp literals)
@@ -425,6 +635,30 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_equal(rows$a, as.POSIXct("2015-10-11 00:00:00Z"))
         expect_equal(rows$b, as.POSIXct("2015-10-11 12:34:56Z"))
         expect_less_than(Sys.time() - rows$c, 2)
+      })
+    },
+
+    #' \item{\code{data_timestamp_parens_null}}{
+    #' data conversion: timestamp (alternative syntax with parentheses
+    #' for specifying timestamp literals) with typed NULL values
+    #' }
+    data_timestamp_parens_null = function() {
+      with_connection({
+        query <- union(
+          "SELECT datetime('2015-10-11 00:00:00') as a,
+           datetime('2015-10-11 12:34:56') as b, current_timestamp as c,
+           0 as d",
+          "SELECT NULL, NULL, NULL, 1",
+          .order_by = "d")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "POSIXct")
+        expect_is(rows$b, "POSIXct")
+        expect_is(rows$c, "POSIXct")
+        expect_equal(rows$a, c(as.POSIXct("2015-10-11 00:00:00Z", NA)))
+        expect_equal(rows$b, c(as.POSIXct("2015-10-11 12:34:56Z", NA)))
+        expect_less_than(Sys.time() - rows$c[[1L]], 2)
+        expect_true(is.na(rows$c[[2L]]))
       })
     },
 
