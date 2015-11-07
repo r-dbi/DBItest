@@ -224,7 +224,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{roundtrip_64_bit}}{
-    #' Can create tables with 64-bit values.
+    #' Can create tables with 64-bit columns.
     #' }
     roundtrip_64_bit = function() {
       with_connection({
@@ -240,7 +240,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{roundtrip_character}}{
-    #' Can create tables with character values.
+    #' Can create tables with character columns.
     #' }
     roundtrip_character = function() {
       with_connection({
@@ -257,7 +257,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{roundtrip_date}}{
-    #' Can create tables with date values.
+    #' Can create tables with date columns.
     #' }
     roundtrip_date = function() {
       with_connection({
@@ -272,7 +272,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{roundtrip_timestamp}}{
-    #' Can create tables with timestamp values.
+    #' Can create tables with timestamp columns.
     #' }
     roundtrip_timestamp = function() {
       with_connection({

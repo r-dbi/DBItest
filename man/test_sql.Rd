@@ -55,16 +55,16 @@ Can create tables with logical columns.
 Can create tables with NULL values.
 }
 \item{\code{roundtrip_64_bit}}{
-Can create tables with 64-bit values.
+Can create tables with 64-bit columns.
 }
 \item{\code{roundtrip_character}}{
-Can create tables with character values.
+Can create tables with character columns.
 }
 \item{\code{roundtrip_date}}{
-Can create tables with date values.
+Can create tables with date columns.
 }
 \item{\code{roundtrip_timestamp}}{
-Can create tables with timestamp values.
+Can create tables with timestamp columns.
 }
 }
 }
