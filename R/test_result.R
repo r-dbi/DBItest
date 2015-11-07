@@ -1,13 +1,20 @@
-#' \code{test_result()} tests the "Result" class.
+#' Test the "Result" class
 #'
+#' @inheritParams test_all
 #' @rdname test
 #' @include test_connection.R
+#' @family tests
 #' @export
 test_result <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Result"
 
+  #' @details
+  #' This function defines the following tests:
+  #' \describe{
   tests <- list(
-    # Can issue trivial query, result object inherits from "DBIResult"
+    #' \item{\code{trivial_query}}{
+    #' Can issue trivial query, result object inherits from "DBIResult"
+    #' }
     trivial_query = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT 1")
@@ -16,7 +23,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # Can issue a command query that creates a table
+    #' \item{\code{command_query}}{
+    #' Can issue a command query that creates a table
+    #' }
     command_query = function() {
       with_connection({
         res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
@@ -25,8 +34,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # Issuing an invalid query throws error (but no warnings, e.g. related to
-    #   pending results, are thrown)
+    #' \item{\code{invalid_query}}{
+    #' Issuing an invalid query throws error (but no warnings, e.g. related to
+    #'   pending results, are thrown)
+    #' }
     invalid_query = function() {
       expect_warning(
         with_connection({
@@ -36,7 +47,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       )
     },
 
-    # Return value of dbGetInfo has necessary elements
+    #' \item{\code{get_info}}{
+    #' Return value of dbGetInfo has necessary elements
+    #' }
     get_info = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT 1")
@@ -54,7 +67,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # show method for result class is defined
+    #' \item{\code{show}}{
+    #' show method for result class is defined
+    #' }
     show = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT 1")
@@ -65,7 +80,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # single-value queries can be fetched
+    #' \item{\code{fetch_single}}{
+    #' single-value queries can be fetched
+    #' }
     fetch_single = function() {
       with_connection({
         query <- "SELECT 1 as a"
@@ -80,7 +97,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # multi-row single-column queries can be fetched
+    #' \item{\code{fetch_multi_row_single_column}}{
+    #' multi-row single-column queries can be fetched
+    #' }
     fetch_multi_row_single_column = function() {
       with_connection({
         query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 ORDER BY a"
@@ -95,8 +114,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # if more rows than available are fetched, the result is returned in full
-    #   but no warning is issued
+    #' \item{\code{fetch_more_rows}}{
+    #' if more rows than available are fetched, the result is returned in full
+    #'   but no warning is issued
+    #' }
     fetch_more_rows = function() {
       with_connection({
         query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 ORDER BY a"
@@ -111,9 +132,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # if less rows than available are fetched, the result is returned in full
-    #   but no warning is issued; also tests the corner case of fetching zero
-    #   rows
+    #' \item{\code{fetch_premature_close}}{
+    #' if less rows than available are fetched, the result is returned in full
+    #'   but no warning is issued; also tests the corner case of fetching zero
+    #'   rows
+    #' }
     fetch_premature_close = function() {
       with_connection({
         query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 ORDER BY a"
@@ -132,7 +155,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # single-value queries can be fetched
+    #' \item{\code{fetch_no_return_value}}{
+    #' side-effect-only queries (without return value) can be fetched
+    #' }
     fetch_no_return_value = function() {
       with_connection({
         query <- "CREATE TABLE test (a integer)"
@@ -151,7 +176,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # single-value queries can be read with dbGetQuery
+    #' \item{\code{get_query_single}}{
+    #' single-value queries can be read with dbGetQuery
+    #' }
     get_query_single = function() {
       with_connection({
         query <- "SELECT 1 as a"
@@ -161,7 +188,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # multi-row single-column queries can be read with dbGetQuery
+    #' \item{\code{get_query_multi_row_single_column}}{
+    #' multi-row single-column queries can be read with dbGetQuery
+    #' }
     get_query_multi_row_single_column = function() {
       with_connection({
         query <- "SELECT 1 as a UNION SELECT 2 UNION SELECT 3 ORDER BY a"
@@ -171,7 +200,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # single-row multi-column queries can be read with dbGetQuery
+    #' \item{\code{get_query_single_column_multi_row}}{
+    #' single-row multi-column queries can be read with dbGetQuery
+    #' }
     get_query_single_column_multi_row = function() {
       with_connection({
         query <- "SELECT 1 as a, 2 as b, 3 as c"
@@ -181,7 +212,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # multi-row multi-column queries can be read with dbGetQuery
+    #' \item{\code{get_query_multi}}{
+    #' multi-row multi-column queries can be read with dbGetQuery
+    #' }
     get_query_multi = function() {
       with_connection({
         query <- "SELECT 1 as a, 2 as b UNION SELECT 2, 3 ORDER BY a"
@@ -191,7 +224,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # data conversion: integer
+    #' \item{\code{data_integer}}{
+    #' data conversion from SQL to R: integer
+    #' }
     data_integer = function() {
       with_connection({
         query <- "SELECT 1 as a, -100 as b"
@@ -201,7 +236,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # data conversion: numeric
+    #' \item{\code{data_numeric}}{
+    #' data conversion from SQL to R: numeric
+    #' }
     data_numeric = function() {
       with_connection({
         query <- "SELECT 1.0 as a, -100.5 as b"
@@ -211,7 +248,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # data conversion: logical
+    #' \item{\code{data_logical}}{
+    #' data conversion from SQL to R: logical
+    #' }
     data_logical = function() {
       with_connection({
         query <- "SELECT CAST(1 AS boolean) as a, cast(0 AS boolean) as b"
@@ -221,7 +260,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # data conversion: NULL
+    #' \item{\code{data_null}}{
+    #' data conversion from SQL to R: A NULL value is returned as NA
+    #' }
     data_null = function() {
       with_connection({
         query <- "SELECT NULL as a"
@@ -231,7 +272,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # data conversion: 64-bit integers
+    #' \item{\code{data_64_bit}}{
+    #' data conversion from SQL to R: 64-bit integers
+    #' }
     data_64_bit = function() {
       with_connection({
         query <- "SELECT 10000000000 as a, -10000000000 as b"
@@ -242,30 +285,27 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # data conversion: character
+    #' \item{\code{data_character}}{
+    #' data conversion from SQL to R: character
+    #' }
     data_character = function() {
       with_connection({
-        a <- iconv(list(as.raw(c(0xd0, 0x9a, 0xd0, 0xb8, 0xd1, 0x80, 0xd0, 0xb8,
-                                 0xd0, 0xbb, 0xd0, 0xbb)))) # "Кирилл"
-        b <- iconv(list(as.raw(c(0x4d, 0xc3, 0xbc, 0x6c, 0x6c, 0x65, 0x72
-                                 )))) # "Müller"
-        c <- iconv(list(as.raw(c(0xe6, 0x88, 0x91, 0xe6, 0x98, 0xaf, 0xe8, 0xb0,
-                                 0x81)))) # "我是谁"
-        d <- "ASCII"
-        query <- paste0("SELECT '", a, "' as a, '",
-                        b, "' as b, '",
-                        c, "' as c, '",
-                        d, "' as d")
+        query <- paste0("SELECT '", text_cyrillic, "' as a, '",
+                        text_latin, "' as b, '",
+                        text_chinese, "' as c, '",
+                        text_ascii, "' as d")
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_equal(rows$a, a)
-        expect_equal(rows$b, b)
-        expect_equal(rows$c, c)
-        expect_equal(rows$d, d)
+        expect_equal(rows$a, text_cyrillic)
+        expect_equal(rows$b, text_latin)
+        expect_equal(rows$c, text_chinese)
+        expect_equal(rows$d, text_ascii)
       })
     },
 
-    # data conversion: date
+    #' \item{\code{data_date}}{
+    #' data conversion from SQL to R: date
+    #' }
     data_date = function() {
       with_connection({
         query <- "SELECT date('2015-10-10') as a, current_date as b"
@@ -277,7 +317,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # data conversion: time
+    #' \item{\code{data_time}}{
+    #' data conversion from SQL to R: time
+    #' }
     data_time = function() {
       with_connection({
         query <- "SELECT time '00:00:00' as a,
@@ -292,7 +334,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # data conversion: time (with parentheses)
+    #' \item{\code{data_time_parens}}{
+    #' data conversion from SQL to R: time (using alternative syntax with
+    #' parentheses for specifying time literals)
+    #' }
     data_time_parens = function() {
       with_connection({
         query <- "SELECT time('00:00:00') as a,
@@ -307,7 +352,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # data conversion: timestamp
+    #' \item{\code{data_timestamp}}{
+    #' data conversion from SQL to R: timestamp
+    #' }
     data_timestamp = function() {
       with_connection({
         query <- "SELECT timestamp '2015-10-11 00:00:00' as a,
@@ -321,7 +368,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # data conversion: timestamp with time zone
+    #' \item{\code{data_timestamp_utc}}{
+    #' data conversion from SQL to R: timestamp with time zone
+    #' }
     data_timestamp_utc = function() {
       with_connection({
         query <- "SELECT
@@ -339,7 +388,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # data conversion: timestamp (with parentheses)
+    #' \item{\code{data_timestamp_parens}}{
+    #' data conversion: timestamp (alternative syntax with parentheses
+    #' for specifying timestamp literals)
+    #' }
     data_timestamp_parens = function() {
       with_connection({
         query <- "SELECT datetime('2015-10-11 00:00:00') as a,
@@ -357,6 +409,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
     NULL
   )
+  #'}
   run_tests(tests, skip, test_suite)
 }
 

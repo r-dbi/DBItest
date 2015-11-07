@@ -1,7 +1,7 @@
 Package: DBItest
 Title: Testing "DBI" Backends
-Version: 0.1
-Date: 2015-10-11
+Version: 0.1-1
+Date: 2015-11-07
 Authors@R: as.person("Kirill Müller <krlmlr+r@mailbox.org> [aut, cre]")
 Description: A helper that simplifies writing tests for "DBI" backends.
 Depends:
@@ -15,7 +15,8 @@ Suggests:
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
-GitHub: https://github.com/krlmlr/DBItest
+GitHub: https://github.com/rstats-db/DBItest
+BugReports: https://github.com/rstats-db/DBItest/issues
 Collate:
     'context.R'
     'expectations.R'
@@ -27,4 +28,6 @@ Collate:
     'test_driver.R'
     'test_connection.R'
     'test_result.R'
-RoxygenNote: 4.1.1.9000
+    'test_sql.R'
+    'utf8.R'
+RoxygenNote: 5.0.0.9000

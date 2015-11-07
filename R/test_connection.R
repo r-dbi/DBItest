@@ -1,39 +1,51 @@
-#' \code{test_connection()} tests the "Connection" class.
+#' Test the "Connection" class
 #'
-#' @rdname test
+#' @inheritParams test_all
 #' @include test_driver.R
+#' @family tests
 #' @export
 test_connection <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Connection"
 
+  #' @details
+  #' This function defines the following tests:
+  #' \describe{
   tests <- list(
-    # Can connect and disconnect, connection object inherits from
-    #   "DBIConnection"
+    #' \item{\code{can_connect_and_disconnect}}{
+    #' Can connect and disconnect, connection object inherits from
+    #'   "DBIConnection"
+    #' }
     can_connect_and_disconnect = function() {
       con <- connect(ctx)
       expect_is(con, "DBIConnection")
-      expect_success(dbDisconnect(con))
+      expect_error(dbDisconnect(con), NA)
     },
 
-    # Open 50 simultaneous connections
+    #' \item{\code{simultaneous_connections}}{
+    #' Open 50 simultaneous connections
+    #' }
     simultaneous_connections = function() {
       cons <- lapply(seq_len(50L), function(i) connect(ctx))
       inherit_from_connection <-
         vapply(cons, inherits, what = "DBIConnection", logical(1))
       expect_true(all(inherit_from_connection))
-      expect_success(lapply(cons, dbDisconnect))
+      expect_error(lapply(cons, dbDisconnect), NA)
     },
 
-    # Open and close 50 connections
+    #' \item{\code{stress_connections}}{
+    #' Open and close 50 connections
+    #' }
     stress_connections = function() {
       for (i in seq_len(50L)) {
         con <- connect(ctx)
         expect_is(con, "DBIConnection")
-        expect_success(dbDisconnect(con))
+        expect_error(dbDisconnect(con), NA)
       }
     },
 
-    # Return value of dbGetInfo has necessary elements
+    #' \item{\code{get_info}}{
+    #' Return value of dbGetInfo has necessary elements
+    #' }
     get_info = function() {
       con <- connect(ctx)
       on.exit(dbDisconnect(con), add = TRUE)
@@ -50,7 +62,9 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       expect_false("password" %in% info_names)
     },
 
-    # show method for connection class is defined
+    #' \item{\code{show}}{
+    #' show method for connection class is defined
+    #' }
     show = function() {
       con <- connect(ctx)
       on.exit(dbDisconnect(con), add = TRUE)
@@ -61,5 +75,6 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
 
     NULL
   )
+  #'}
   run_tests(tests, skip, test_suite)
 }
