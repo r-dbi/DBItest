@@ -193,6 +193,22 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{roundtrip_numeric_special}}{
+    #' Can create tables with numeric columns that contain special values such
+    #' as \code{Inf} and \code{NaN}.
+    #' }
+    roundtrip_numeric_special = function() {
+      with_connection({
+        tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA, -Inf, Inf, NaN))
+
+        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_equal(tbl_in$a, tbl_out$a)
+      })
+    },
+
     #' \item{\code{roundtrip_logical}}{
     #' Can create tables with logical columns.
     #' }
