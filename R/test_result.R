@@ -114,6 +114,28 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{fetch_progressive}}{
+    #' multi-row queries can be fetched progressively
+    #' }
+    fetch_progressive = function() {
+      with_connection({
+        query <- paste(paste("SELECT", 1:25, "AS a", collapse = " UNION "),
+                       "ORDER BY a")
+
+        res <- dbSendQuery(con, query)
+        on.exit(dbClearResult(res), add = TRUE)
+
+        rows <- dbFetch(res, 10)
+        expect_identical(rows, data.frame(a=1L:10L))
+        rows <- dbFetch(res, 10)
+        expect_identical(rows, data.frame(a=11L:20L))
+        rows <- dbFetch(res, 10)
+        expect_identical(rows, data.frame(a=21L:25L))
+
+        expect_true(dbHasCompleted(res))
+      })
+    },
+
     #' \item{\code{fetch_more_rows}}{
     #' if more rows than available are fetched, the result is returned in full
     #'   but no warning is issued
