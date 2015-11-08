@@ -32,6 +32,22 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{column_info}}{
+    #' Column information is correct.
+    #' }
+    column_info = function() {
+      with_connection({
+        query <- "SELECT 1 as a, 1.5 as b, NULL"
+        res <- dbSendQuery(con, query)
+        on.exit(dbClearResult(res), add = TRUE)
+        ci <- dbColumnInfo(res)
+        expect_is(ci, "data.frame")
+        expect_equal(colnames(ci), c("name", "type"))
+        expect_equal(ci$name[1:2], c("a", "b"))
+        expect_is(ci$type, "character")
+      })
+    },
+
     NULL
   )
   #'}
