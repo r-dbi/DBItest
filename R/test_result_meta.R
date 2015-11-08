@@ -77,7 +77,6 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         rc <- dbGetRowCount(res)
         expect_is(rc, "integer")
         expect_identical(rc, 1L)
-        print(rc)
       })
 
       with_connection({
@@ -95,7 +94,6 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         rc <- dbGetRowCount(res)
         expect_is(rc, "integer")
         expect_identical(rc, 3L)
-        print(rc)
       })
 
       with_connection({
