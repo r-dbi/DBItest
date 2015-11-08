@@ -1,13 +1,15 @@
 #' Run all tests
 #'
-#' This function calls all tests defined in this package (see
-#' "Other tests" in the "See also" section below).
+#' This function calls all tests defined in this package (see the section
+#' "Tests" below).
+#'
+#' @section Tests:
+#' This function runs the following tests:
 #'
 #' @param skip \code{[character()]}\cr A list of test names to skip
 #' @param ctx \code{[DBItest_context]}\cr A test context as created by
 #'   \code{\link{make_context}}.
 #'
-#' @family tests
 #' @export
 test_all <- function(skip = NULL, ctx = get_default_context()) {
   test_getting_started(skip = skip, ctx = ctx)

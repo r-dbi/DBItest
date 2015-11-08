@@ -28,8 +28,8 @@ package depends (!) on "DBI" and imports "methods"}
 }
 }
 \seealso{
-Other tests: \code{\link{test_all}},
-  \code{\link{test_connection}}, \code{\link{test_driver}},
-  \code{\link{test_result}}, \code{\link{test_sql}}
+Other tests: \code{\link{test_connection}},
+  \code{\link{test_driver}}, \code{\link{test_result}},
+  \code{\link{test_sql}}
 }
 
