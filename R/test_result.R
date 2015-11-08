@@ -197,6 +197,20 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{fetch_closed}}{
+    #' Fetching from a closed result set raises an error
+    #' }
+    fetch_closed = function() {
+      with_connection({
+        query <- "SELECT 1"
+
+        res <- dbSendQuery(con, query)
+        dbClearResult(res)
+
+        expect_error(dbFetch(res))
+      })
+    },
+
     #' \item{\code{get_query_single}}{
     #' single-value queries can be read with dbGetQuery
     #' }
