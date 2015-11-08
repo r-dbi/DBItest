@@ -17,16 +17,30 @@ test_connection_meta <- function(skip = NULL, ctx = get_default_context()) {
   #' This function defines the following tests:
   #' \describe{
   tests <- list(
-    #' \item{\code{can_connect_and_disconnect}}{
-    #' Can connect and disconnect, connection object inherits from
-    #'   "DBIConnection"
+    #' \item{\code{is_valid}}{
+    #' Only an open connection is valid.
     #' }
-    can_connect_and_disconnect = function() {
+    is_valid = function() {
       con <- connect(ctx)
-      expect_is(con, "DBIConnection")
+      expect_true(dbIsValid(con))
       expect_error(dbDisconnect(con), NA)
-      expect_error(dbDisconnect(con))
-      expect_error(dbGetQuery(con, "select 1"))
+      expect_false(dbIsValid(con))
+    },
+
+    #' \item{\code{get_exception}}{
+    #' Exception is available after triggering an error, and changes when
+    #' triggering a different error.
+    #' }
+    get_exception = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT SELECT"))
+        expect_error(ex1 <- dbGetException(con), NA)
+        expect_is(ex1, "character")
+        expect_error(dbGetQuery(con, "UPDATE UPDATE"))
+        expect_error(ex2 <- dbGetException(con), NA)
+        expect_is(ex2, "character")
+        expect_true(ex1 != ex2)
+      })
     },
 
     NULL
