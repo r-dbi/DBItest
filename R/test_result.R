@@ -1,7 +1,6 @@
 #' Test the "Result" class
 #'
 #' @inheritParams test_all
-#' @rdname test
 #' @include test_connection.R
 #' @family tests
 #' @export
