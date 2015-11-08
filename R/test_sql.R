@@ -93,6 +93,48 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{overwrite_table}}{
+    #' Can write the \code{\link[datasets]{iris}} data as a table to the
+    #' database, will overwrite if asked.
+    #' }
+    overwrite_table = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        on.exit(dbGetQuery(con, "DROP TABLE iris"), add = TRUE)
+        dbWriteTable(con, "iris", iris)
+        expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
+                     NA)
+        iris_out <- dbReadTable(con, "iris")
+        expect_equal(nrow(iris_out), 10L)
+      })
+    },
+
+    #' \item{\code{append_table}}{
+    #' Can write the \code{\link[datasets]{iris}} data as a table to the
+    #' database, will append if asked.
+    #' }
+    append_table = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        on.exit(try(dbGetQuery(con, "DROP TABLE iris")), add = TRUE)
+        dbWriteTable(con, "iris", iris)
+        expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
+        iris_out <- dbReadTable(con, "iris")
+        expect_equal(nrow(iris_out), nrow(iris) + 10L)
+      })
+    },
+
+    #' \item{\code{append_table}}{
+    #' Cannot append to nonexisting table.
+    #' }
+    append_table_error = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        on.exit(try(dbGetQuery(con, "DROP TABLE iris")), add = TRUE)
+        expect_error(dbWriteTable(con, "iris", iris[1:20,], append = TRUE))
+      })
+    },
+
     #' \item{\code{list_tables}}{
     #' Can list the tables in the database, adding and removing tables affects
     #' the list. Can also check existence of a table.
