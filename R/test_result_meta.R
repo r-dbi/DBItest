@@ -48,6 +48,56 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{row_count}}{
+    #' Row count information is correct.
+    #' }
+    row_count = function() {
+      with_connection({
+        query <- "SELECT 1 as a"
+        res <- dbSendQuery(con, query)
+        on.exit(dbClearResult(res), add = TRUE)
+        rc <- dbGetRowCount(res)
+        expect_is(rc, "integer")
+        expect_identical(rc, 0L)
+        dbFetch(res)
+        rc <- dbGetRowCount(res)
+        expect_is(rc, "integer")
+        expect_identical(rc, 1L)
+        print(rc)
+      })
+
+      with_connection({
+        query <- union("SELECT 1 as a", "SELECT 2", "SELECT 3")
+        res <- dbSendQuery(con, query)
+        on.exit(dbClearResult(res), add = TRUE)
+        rc <- dbGetRowCount(res)
+        expect_is(rc, "integer")
+        expect_identical(rc, 0L)
+        dbFetch(res, 2L)
+        rc <- dbGetRowCount(res)
+        expect_is(rc, "integer")
+        expect_identical(rc, 2L)
+        dbFetch(res)
+        rc <- dbGetRowCount(res)
+        expect_is(rc, "integer")
+        expect_identical(rc, 3L)
+        print(rc)
+      })
+
+      with_connection({
+        query <- union("SELECT * FROM (SELECT 1 as a) a WHERE (0 = 1)")
+        res <- dbSendQuery(con, query)
+        on.exit(dbClearResult(res), add = TRUE)
+        rc <- dbGetRowCount(res)
+        expect_is(rc, "integer")
+        expect_identical(rc, 0L)
+        dbFetch(res)
+        rc <- dbGetRowCount(res)
+        expect_is(rc, "integer")
+        expect_identical(rc, 0L)
+      })
+    },
+
     NULL
   )
   #'}
