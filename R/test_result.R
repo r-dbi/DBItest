@@ -24,13 +24,23 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{command_query}}{
-    #' Can issue a command query that creates a table
+    #' Can issue a command query that creates a table, inserts a row, and
+    #' deletes it; the result sets for these query always have "completed"
+    #' status.
     #' }
     command_query = function() {
       with_connection({
         res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
+        expect_true(dbHasCompleted(res))
         expect_error(dbClearResult(res), NA)
-        dbClearResult(dbSendQuery(con, "DROP TABLE test"))
+
+        res <- dbSendQuery(con, "INSERT INTO test SELECT 1")
+        expect_true(dbHasCompleted(res))
+        expect_error(dbClearResult(res), NA)
+
+        res <- dbSendQuery(con, "DROP TABLE test")
+        expect_true(dbHasCompleted(res))
+        expect_error(dbClearResult(res), NA)
       })
     },
 
