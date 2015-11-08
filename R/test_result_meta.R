@@ -17,14 +17,19 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
   #' This function defines the following tests:
   #' \describe{
   tests <- list(
-    #' \item{\code{is_valid}}{
-    #' Only an open connection is valid.
+    #' \item{\code{is_valid_result}}{
+    #' Only an open result set is valid.
     #' }
-    is_valid = function() {
-      con <- connect(ctx)
-      expect_true(dbIsValid(con))
-      expect_error(dbDisconnect(con), NA)
-      expect_false(dbIsValid(con))
+    is_valid_result = function() {
+      with_connection({
+        query <- "SELECT 1 as a"
+        res <- dbSendQuery(con, query)
+        expect_true(dbIsValid(res))
+        dbFetch(res)
+        expect_true(dbIsValid(res))
+        dbClearResult(res)
+        expect_false(dbIsValid(res))
+      })
     },
 
     NULL
