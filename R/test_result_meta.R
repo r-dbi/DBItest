@@ -25,7 +25,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         query <- "SELECT 1 as a"
         res <- dbSendQuery(con, query)
         expect_true(dbIsValid(res))
-        dbFetch(res)
+        expect_error(dbFetch(res), NA)
         expect_true(dbIsValid(res))
         dbClearResult(res)
         expect_false(dbIsValid(res))
