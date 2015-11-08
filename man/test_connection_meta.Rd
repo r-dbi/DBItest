@@ -18,9 +18,12 @@ Test metadata functions for the "Connection" class
 \details{
 This function defines the following tests:
 \describe{
-\item{\code{can_connect_and_disconnect}}{
-Can connect and disconnect, connection object inherits from
-  "DBIConnection"
+\item{\code{is_valid}}{
+Only an open connection is valid.
+}
+\item{\code{get_exception}}{
+Exception is available after triggering an error, and changes when
+triggering a different error.
 }
 }
 }
