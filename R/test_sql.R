@@ -116,7 +116,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     append_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(try(dbGetQuery(con, "DROP TABLE iris")), add = TRUE)
+        on.exit(try(dbGetQuery(con, "DROP TABLE iris"), silent = TRUE),
+                add = TRUE)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
         iris_out <- dbReadTable(con, "iris")
@@ -130,7 +131,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     append_table_error = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(try(dbGetQuery(con, "DROP TABLE iris")), add = TRUE)
+        on.exit(try(dbGetQuery(con, "DROP TABLE iris"), silent = TRUE),
+                add = TRUE)
         expect_error(dbWriteTable(con, "iris", iris[1:20,], append = TRUE))
       })
     },
