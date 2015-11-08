@@ -19,6 +19,8 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       con <- connect(ctx)
       expect_is(con, "DBIConnection")
       expect_error(dbDisconnect(con), NA)
+      expect_error(dbDisconnect(con))
+      expect_error(dbGetQuery(con, "select 1"))
     },
 
     #' \item{\code{simultaneous_connections}}{

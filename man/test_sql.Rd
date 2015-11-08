@@ -32,6 +32,21 @@ database, but won't overwrite by default.
 \item{\code{read_table}}{
 Can read the \code{\link[datasets]{iris}} data from a database table.
 }
+\item{\code{overwrite_table}}{
+Can write the \code{\link[datasets]{iris}} data as a table to the
+database, will overwrite if asked.
+}
+\item{\code{append_table}}{
+Can write the \code{\link[datasets]{iris}} data as a table to the
+database, will append if asked.
+}
+\item{\code{append_table}}{
+Cannot append to nonexisting table.
+}
+\item{\code{temporary_table}}{
+Can write the \code{\link[datasets]{iris}} data as a temporary table to
+the database, the table is gone after reconnecting.
+}
 \item{\code{list_tables}}{
 Can list the tables in the database, adding and removing tables affects
 the list. Can also check existence of a table.
@@ -40,13 +55,18 @@ the list. Can also check existence of a table.
 Can create tables with keywords as table and column names.
 }
 \item{\code{roundtrip_quotes}}{
-Can create tables with quotes in column names and data.
+Can create tables with quotes, commas, and spaces in column names and
+data.
 }
 \item{\code{roundtrip_integer}}{
 Can create tables with integer columns.
 }
 \item{\code{roundtrip_numeric}}{
 Can create tables with numeric columns.
+}
+\item{\code{roundtrip_numeric_special}}{
+Can create tables with numeric columns that contain special values such
+as \code{Inf} and \code{NaN}.
 }
 \item{\code{roundtrip_logical}}{
 Can create tables with logical columns.
@@ -65,6 +85,9 @@ Can create tables with date columns.
 }
 \item{\code{roundtrip_timestamp}}{
 Can create tables with timestamp columns.
+}
+\item{\code{roundtrip_rownames}}{
+Can create tables with row names.
 }
 }
 }

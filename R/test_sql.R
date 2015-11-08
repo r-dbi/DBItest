@@ -93,6 +93,68 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{overwrite_table}}{
+    #' Can write the \code{\link[datasets]{iris}} data as a table to the
+    #' database, will overwrite if asked.
+    #' }
+    overwrite_table = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        on.exit(dbGetQuery(con, "DROP TABLE iris"), add = TRUE)
+        dbWriteTable(con, "iris", iris)
+        expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
+                     NA)
+        iris_out <- dbReadTable(con, "iris")
+        expect_equal(nrow(iris_out), 10L)
+      })
+    },
+
+    #' \item{\code{append_table}}{
+    #' Can write the \code{\link[datasets]{iris}} data as a table to the
+    #' database, will append if asked.
+    #' }
+    append_table = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        on.exit(try(dbGetQuery(con, "DROP TABLE iris"), silent = TRUE),
+                add = TRUE)
+        dbWriteTable(con, "iris", iris)
+        expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
+        iris_out <- dbReadTable(con, "iris")
+        expect_equal(nrow(iris_out), nrow(iris) + 10L)
+      })
+    },
+
+    #' \item{\code{append_table}}{
+    #' Cannot append to nonexisting table.
+    #' }
+    append_table_error = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        on.exit(try(dbGetQuery(con, "DROP TABLE iris"), silent = TRUE),
+                add = TRUE)
+        expect_error(dbWriteTable(con, "iris", iris[1:20,], append = TRUE))
+      })
+    },
+
+    #' \item{\code{temporary_table}}{
+    #' Can write the \code{\link[datasets]{iris}} data as a temporary table to
+    #' the database, the table is gone after reconnecting.
+    #' }
+    temporary_table = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        dbWriteTable(con, "iris", iris[1:30, ], temporary = TRUE)
+        iris_out <- dbReadTable(con, "iris")
+        expect_equal(nrow(iris_out), 30L)
+      })
+
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        try(dbGetQuery(con, "DROP TABLE iris"), silent = TRUE)
+      })
+    },
+
     #' \item{\code{list_tables}}{
     #' Can list the tables in the database, adding and removing tables affects
     #' the list. Can also check existence of a table.
@@ -130,7 +192,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_keywords = function() {
       with_connection({
-        tbl_in <- data.frame(SELECT = 1, FROM = 2L, WHERE = "char",
+        tbl_in <- data.frame(SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
                              stringsAsFactors = FALSE)
 
         on.exit(dbRemoveTable(con, "EXISTS"), add = TRUE)
@@ -142,18 +204,21 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{roundtrip_quotes}}{
-    #' Can create tables with quotes in column names and data.
+    #' Can create tables with quotes, commas, and spaces in column names and
+    #' data.
     #' }
     roundtrip_quotes = function() {
       with_connection({
         tbl_in <- data.frame(a = as.character(dbQuoteString(con, "")),
                              b = as.character(dbQuoteIdentifier(con, "")),
-                             c = 0L,
+                             c = "with space",
+                             d = ",",
                              stringsAsFactors = FALSE)
         names(tbl_in) <- c(
           as.character(dbQuoteIdentifier(con, "")),
           as.character(dbQuoteString(con, "")),
-          "with space")
+          "with space",
+          ",")
 
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
@@ -190,6 +255,22 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
         tbl_out <- dbReadTable(con, "test")
         expect_identical(tbl_in, tbl_out)
+      })
+    },
+
+    #' \item{\code{roundtrip_numeric_special}}{
+    #' Can create tables with numeric columns that contain special values such
+    #' as \code{Inf} and \code{NaN}.
+    #' }
+    roundtrip_numeric_special = function() {
+      with_connection({
+        tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA, -Inf, Inf, NaN))
+
+        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_equal(tbl_in$a, tbl_out$a)
       })
     },
 
@@ -245,7 +326,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     roundtrip_character = function() {
       with_connection({
         tbl_in <- data.frame(a = c(text_cyrillic, text_latin,
-                                   text_chinese, text_ascii),
+                                   text_chinese, text_ascii, NA),
                              stringsAsFactors = FALSE)
 
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
@@ -261,7 +342,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_date = function() {
       with_connection({
-        tbl_in <- data.frame(a = Sys.Date() + 1:5)
+        tbl_in <- data.frame(a = c(Sys.Date() + 1:5, NA))
 
         on.exit(dbRemoveTable(con, "test"), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
@@ -276,7 +357,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_timestamp = function() {
       with_connection({
-        tbl_in <- data.frame(a = round(Sys.time()) + c(1, 60, 3600, 86400))
+        tbl_in <- data.frame(a = round(Sys.time()) + c(1, 60, 3600, 86400, NA))
         tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
         tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST")
 
@@ -285,6 +366,22 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
         tbl_out <- dbReadTable(con, "test")
         expect_equal(tbl_in, tbl_out)
+      })
+    },
+
+    #' \item{\code{roundtrip_rownames}}{
+    #' Can create tables with row names.
+    #' }
+    roundtrip_rownames = function() {
+      with_connection({
+        tbl_in <- data.frame(a = c(1:5, NA),
+                             row.names = paste0(LETTERS[1:6], 1:6))
+
+        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_identical(rownames(tbl_in), rownames(tbl_out))
       })
     },
 

@@ -22,7 +22,9 @@ This function defines the following tests:
 Can issue trivial query, result object inherits from "DBIResult"
 }
 \item{\code{command_query}}{
-Can issue a command query that creates a table
+Can issue a command query that creates a table, inserts a row, and
+deletes it; the result sets for these query always have "completed"
+status.
 }
 \item{\code{invalid_query}}{
 Issuing an invalid query throws error (but no warnings, e.g. related to
@@ -40,6 +42,9 @@ single-value queries can be fetched
 \item{\code{fetch_multi_row_single_column}}{
 multi-row single-column queries can be fetched
 }
+\item{\code{fetch_progressive}}{
+multi-row queries can be fetched progressively
+}
 \item{\code{fetch_more_rows}}{
 if more rows than available are fetched, the result is returned in full
   but no warning is issued
@@ -51,6 +56,9 @@ if less rows than available are fetched, the result is returned in full
 }
 \item{\code{fetch_no_return_value}}{
 side-effect-only queries (without return value) can be fetched
+}
+\item{\code{fetch_closed}}{
+Fetching from a closed result set raises an error
 }
 \item{\code{get_query_single}}{
 single-value queries can be read with dbGetQuery
@@ -67,11 +75,27 @@ multi-row multi-column queries can be read with dbGetQuery
 \item{\code{data_integer}}{
 data conversion from SQL to R: integer
 }
+\item{\code{data_integer_null}}{
+data conversion from SQL to R: integer with typed NULL values
+}
 \item{\code{data_numeric}}{
 data conversion from SQL to R: numeric
 }
+\item{\code{data_numeric_null}}{
+data conversion from SQL to R: numeric with typed NULL values
+}
 \item{\code{data_logical}}{
 data conversion from SQL to R: logical
+}
+\item{\code{data_logical}}{
+data conversion from SQL to R: logical with typed NULL values
+}
+\item{\code{data_logical_int}}{
+data conversion from SQL to R: logical (as integers)
+}
+\item{\code{data_logical_int_null}}{
+data conversion from SQL to R: logical (as integers) with typed NULL
+values
 }
 \item{\code{data_null}}{
 data conversion from SQL to R: A NULL value is returned as NA
@@ -79,28 +103,55 @@ data conversion from SQL to R: A NULL value is returned as NA
 \item{\code{data_64_bit}}{
 data conversion from SQL to R: 64-bit integers
 }
+\item{\code{data_64_bit_null}}{
+data conversion from SQL to R: 64-bit integers with typed NULL values
+}
 \item{\code{data_character}}{
 data conversion from SQL to R: character
+}
+\item{\code{data_character_null}}{
+data conversion from SQL to R: character with typed NULL values
 }
 \item{\code{data_date}}{
 data conversion from SQL to R: date
 }
+\item{\code{data_date_null}}{
+data conversion from SQL to R: date with typed NULL values
+}
 \item{\code{data_time}}{
 data conversion from SQL to R: time
+}
+\item{\code{data_time_null}}{
+data conversion from SQL to R: time with typed NULL values
 }
 \item{\code{data_time_parens}}{
 data conversion from SQL to R: time (using alternative syntax with
 parentheses for specifying time literals)
 }
+\item{\code{data_time_parens_null}}{
+data conversion from SQL to R: time (using alternative syntax with
+parentheses for specifying time literals) with typed NULL values
+}
 \item{\code{data_timestamp}}{
 data conversion from SQL to R: timestamp
+}
+\item{\code{data_timestamp_null}}{
+data conversion from SQL to R: timestamp with typed NULL values
 }
 \item{\code{data_timestamp_utc}}{
 data conversion from SQL to R: timestamp with time zone
 }
+\item{\code{data_timestamp_utc_null}}{
+data conversion from SQL to R: timestamp with time zone with typed NULL
+values
+}
 \item{\code{data_timestamp_parens}}{
 data conversion: timestamp (alternative syntax with parentheses
 for specifying timestamp literals)
+}
+\item{\code{data_timestamp_parens_null}}{
+data conversion: timestamp (alternative syntax with parentheses
+for specifying timestamp literals) with typed NULL values
 }
 }
 }
