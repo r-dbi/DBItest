@@ -18,8 +18,20 @@ Test metadata functions for the "Result" class
 \details{
 This function defines the following tests:
 \describe{
-\item{\code{is_valid}}{
-Only an open connection is valid.
+\item{\code{is_valid_result}}{
+Only an open result set is valid.
+}
+\item{\code{get_statement}}{
+SQL query can be retrieved from the result.
+}
+\item{\code{column_info}}{
+Column information is correct.
+}
+\item{\code{row_count}}{
+Row count information is correct.
+}
+\item{\code{rows_affected}}{
+Information on affected rows is correct.
 }
 }
 }
