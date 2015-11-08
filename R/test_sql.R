@@ -137,6 +137,24 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{temporary_table}}{
+    #' Can write the \code{\link[datasets]{iris}} data as a temporary table to
+    #' the database, the table is gone after reconnecting.
+    #' }
+    temporary_table = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        dbWriteTable(con, "iris", iris[1:30, ], temporary = TRUE)
+        iris_out <- dbReadTable(con, "iris")
+        expect_equal(nrow(iris_out), 30L)
+      })
+
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        try(dbGetQuery(con, "DROP TABLE iris"), silent = TRUE)
+      })
+    },
+
     #' \item{\code{list_tables}}{
     #' Can list the tables in the database, adding and removing tables affects
     #' the list. Can also check existence of a table.
