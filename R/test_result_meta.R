@@ -32,6 +32,20 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{get_statement}}{
+    #' SQL query can be retrieved from the result.
+    #' }
+    get_statement = function() {
+      with_connection({
+        query <- "SELECT 1 as a"
+        res <- dbSendQuery(con, query)
+        on.exit(dbClearResult(res), add = TRUE)
+        s <- dbGetStatement(res)
+        expect_is(s, "character")
+        expect_identical(s, query)
+      })
+    },
+
     #' \item{\code{column_info}}{
     #' Column information is correct.
     #' }
