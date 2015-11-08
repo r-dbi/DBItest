@@ -1,3 +1,9 @@
+Version 0.1-3 (2015-11-08)
+===
+
+- Migrate most of the tests from RMySQL
+
+
 Version 0.1-2 (2015-11-07)
 ===
 
