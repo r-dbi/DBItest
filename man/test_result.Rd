@@ -159,6 +159,6 @@ for specifying timestamp literals) with typed NULL values
 Other tests: \code{\link{test_connection_meta}},
   \code{\link{test_connection}}, \code{\link{test_driver}},
   \code{\link{test_getting_started}},
-  \code{\link{test_sql}}
+  \code{\link{test_result_meta}}, \code{\link{test_sql}}
 }
 
