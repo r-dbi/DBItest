@@ -1,3 +1,9 @@
+#' @name test_all
+#' @section Tests:
+#' \code{\link{test_getting_started}}:
+#' Getting started with testing
+NULL
+
 #' Getting started with testing
 #'
 #' Tests very basic features of a DBI driver package, to support testing

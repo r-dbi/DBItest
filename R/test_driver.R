@@ -1,3 +1,9 @@
+#' @name test_all
+#' @section Tests:
+#' \code{\link{test_driver}}:
+#' Test the "Driver" class
+NULL
+
 #' Test the "Driver" class
 #'
 #' @inheritParams test_all
