@@ -30,5 +30,6 @@ Collate:
     'test_result.R'
     'test_sql.R'
     'test_connection_meta.R'
+    'test_result_meta.R'
     'utf8.R'
 RoxygenNote: 5.0.0.9000
