@@ -18,4 +18,5 @@ test_all <- function(skip = NULL, ctx = get_default_context()) {
   test_result(skip = skip, ctx = ctx)
   test_sql(skip = skip, ctx = ctx)
   test_connection_meta(skip = skip, ctx = ctx)
+  test_result_meta(skip = skip, ctx = ctx)
 }
