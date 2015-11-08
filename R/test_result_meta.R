@@ -110,6 +110,8 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    # dbHasCompleted tested in test_result
+
     NULL
   )
   #'}
