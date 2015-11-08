@@ -110,6 +110,41 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{rows_affected}}{
+    #' Information on affected rows is correct.
+    #' }
+    rows_affected = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+        on.exit(dbGetQuery(con, "DROP TABLE iris"), add = TRUE)
+        dbWriteTable(con, "iris", iris)
+
+        local({
+          query <- paste0(
+            "DELETE FROM iris WHERE (",
+            dbQuoteIdentifier(con, "Species"),
+            " = ", dbQuoteString(con, "versicolor"),
+            ")")
+          res <- dbSendQuery(con, query)
+          on.exit(dbClearResult(res), add = TRUE)
+          ra <- dbGetRowsAffected(res)
+
+          expect_is(ra, "integer")
+          expect_identical(ra, sum(iris$Species == "versicolor"))
+        })
+
+        local({
+          query <- "DELETE FROM iris WHERE (0 = 1)"
+          res <- dbSendQuery(con, query)
+          on.exit(dbClearResult(res), add = TRUE)
+          ra <- dbGetRowsAffected(res)
+
+          expect_is(ra, "integer")
+          expect_identical(ra, 0L)
+        })
+      })
+    },
+
     # dbHasCompleted tested in test_result
 
     NULL
