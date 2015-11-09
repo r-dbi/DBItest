@@ -7,7 +7,8 @@
 test_getting_started(skip = NULL, ctx = get_default_context())
 }
 \arguments{
-\item{skip}{\code{[character()]}\cr A list of test names to skip}
+\item{skip}{\code{[character()]}\cr A vector of regular expressions to match
+against test names; skip test if matching any.}
 
 \item{ctx}{\code{[DBItest_context]}\cr A test context as created by
 \code{\link{make_context}}.}
