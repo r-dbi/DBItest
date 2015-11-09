@@ -1,3 +1,9 @@
+#' @name test_all
+#' @section Tests:
+#' \code{\link{test_sql}}:
+#' Test SQL methods
+NULL
+
 #' Test SQL methods
 #'
 #' @inheritParams test_all

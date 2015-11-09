@@ -1,3 +1,9 @@
+#' @name test_all
+#' @section Tests:
+#' \code{\link{test_connection}}:
+#' Test the "Connection" class
+NULL
+
 #' Test the "Connection" class
 #'
 #' @inheritParams test_all

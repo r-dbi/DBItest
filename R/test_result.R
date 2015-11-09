@@ -1,3 +1,9 @@
+#' @name test_all
+#' @section Tests:
+#' \code{\link{test_result}}:
+#' Test the "Result" class
+NULL
+
 #' Test the "Result" class
 #'
 #' @inheritParams test_all
@@ -99,9 +105,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(dbClearResult(res), add = TRUE)
 
+        expect_false(dbHasCompleted(res))
+
         rows <- dbFetch(res)
         expect_identical(rows, data.frame(a=1L))
-
         expect_true(dbHasCompleted(res))
       })
     },
@@ -116,9 +123,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(dbClearResult(res), add = TRUE)
 
+        expect_false(dbHasCompleted(res))
+
         rows <- dbFetch(res)
         expect_identical(rows, data.frame(a=1L:3L))
-
         expect_true(dbHasCompleted(res))
       })
     },
@@ -133,13 +141,18 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(dbClearResult(res), add = TRUE)
 
+        expect_false(dbHasCompleted(res))
+
         rows <- dbFetch(res, 10)
         expect_identical(rows, data.frame(a=1L:10L))
+        expect_false(dbHasCompleted(res))
+
         rows <- dbFetch(res, 10)
         expect_identical(rows, data.frame(a=11L:20L))
+        expect_false(dbHasCompleted(res))
+
         rows <- dbFetch(res, 10)
         expect_identical(rows, data.frame(a=21L:25L))
-
         expect_true(dbHasCompleted(res))
       })
     },
@@ -155,9 +168,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(dbClearResult(res), add = TRUE)
 
+        expect_false(dbHasCompleted(res))
+
         expect_warning(rows <- dbFetch(res, 5L), NA)
         expect_identical(rows, data.frame(a=1L:3L))
-
         expect_true(dbHasCompleted(res))
       })
     },
@@ -199,6 +213,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         }
         , add = TRUE)
 
+        expect_true(dbHasCompleted(res))
+
         rows <- dbFetch(res)
         expect_identical(rows, data.frame())
 
@@ -215,6 +231,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
         res <- dbSendQuery(con, query)
         dbClearResult(res)
+
+        expect_error(dbHasCompleted(res))
 
         expect_error(dbFetch(res))
       })
