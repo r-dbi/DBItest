@@ -1,3 +1,11 @@
+Version 0.1-4 (2015-11-08)
+===
+
+- Test metadata functions for result sets
+- Test metadata functions for connections
+- Improve documentation for `test_all()`: Tests are listed in new "Tests" section
+
+
 Version 0.1-3 (2015-11-08)
 ===
 
