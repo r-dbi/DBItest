@@ -290,6 +290,152 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{bind_integer_named_colon}}{
+    #' Named binding (colon syntax) of integer values.
+    #' }
+    bind_integer_named_colon = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT :a as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- 1L
+        dbBind(res, list(a = data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
+    #' \item{\code{bind_numeric_named_colon}}{
+    #' Named binding (colon syntax) of numeric values.
+    #' }
+    bind_numeric_named_colon = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT :a as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- 1.5
+        dbBind(res, list(a = data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
+    #' \item{\code{bind_logical_named_colon}}{
+    #' Named binding (colon syntax) of logical values.
+    #' }
+    bind_logical_named_colon = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT :a as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- TRUE
+        dbBind(res, list(a = data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
+    #' \item{\code{bind_logical_int_named_colon}}{
+    #' Named binding (colon syntax) of logical values (coerced to integer).
+    #' }
+    bind_logical_int_named_colon = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT :a as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- TRUE
+        dbBind(res, list(a = data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, as.integer(data_in))
+      })
+    },
+
+    #' \item{\code{bind_null_named_colon}}{
+    #' Named binding (colon syntax) of \code{NULL} values.
+    #' }
+    bind_null_named_colon = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT :a as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        dbBind(res, list(a = NA))
+
+        rows <- dbFetch(res)
+        expect_true(is.na(rows$a))
+      })
+    },
+
+    #' \item{\code{bind_character_named_colon}}{
+    #' Named binding (colon syntax) of character values.
+    #' }
+    bind_character_named_colon = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT :a as a, :b as b, :c as c, :d as d")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        dbBind(res, list(a = text_cyrillic, b = text_latin, c = text_chinese,
+                         d = text_ascii))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, text_cyrillic)
+        expect_identical(rows$b, text_latin)
+        expect_identical(rows$c, text_chinese)
+        expect_identical(rows$d, text_ascii)
+      })
+    },
+
+    #' \item{\code{bind_date_named_colon}}{
+    #' Named binding (colon syntax) of date values.
+    #' }
+    bind_date_named_colon = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT :a as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- Sys.Date()
+        dbBind(res, list(a = data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
+    #' \item{\code{bind_timestamp_named_colon}}{
+    #' Named binding (colon syntax) of timestamp values.
+    #' }
+    bind_timestamp_named_colon = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT :a as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- Sys.time()
+        dbBind(res, list(a = data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
+    #' \item{\code{bind_raw_named_colon}}{
+    #' Named binding (colon syntax) of raw values.
+    #' }
+    bind_raw_named_colon = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT :a as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- list(as.raw(1:10))
+        dbBind(res, list(a = data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
     # dbHasCompleted tested in test_result
 
     # no 64-bit or time input data type yet
