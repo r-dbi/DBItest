@@ -145,7 +145,102 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{bind_integer_positional}}{
+    #' Positional binding of integer values.
+    #' }
+    bind_integer_positional = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT ? as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        dbBind(res, list(1L))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, 1L)
+      })
+    },
+
+    #' \item{\code{bind_numeric_positional}}{
+    #' Positional binding of numeric values.
+    #' }
+    bind_numeric_positional = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT ? as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        dbBind(res, list(1.5))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, 1.5)
+      })
+    },
+
+    #' \item{\code{bind_logical_positional}}{
+    #' Positional binding of logical values.
+    #' }
+    bind_logical_positional = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT ? as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        dbBind(res, list(TRUE))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, TRUE)
+      })
+    },
+
+    #' \item{\code{bind_logical_int_positional}}{
+    #' Positional binding of logical values (coerced to integer).
+    #' }
+    bind_logical_int_positional = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT ? as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        dbBind(res, list(TRUE))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, 1L)
+      })
+    },
+
+    #' \item{\code{bind_null_positional}}{
+    #' Positional binding of \code{NULL} values.
+    #' }
+    bind_null_positional = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT ? as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        dbBind(res, list(NA))
+
+        rows <- dbFetch(res)
+        expect_true(is.na(rows$a))
+      })
+    },
+
+    #' \item{\code{bind_character_positional}}{
+    #' Positional binding of character values.
+    #' }
+    bind_character_positional = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT ? as a, ? as b, ? as c, ? as d")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        dbBind(res, list(text_cyrillic, text_latin, text_chinese, text_ascii))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, text_cyrillic)
+        expect_identical(rows$b, text_latin)
+        expect_identical(rows$c, text_chinese)
+        expect_identical(rows$d, text_ascii)
+      })
+    },
+
     # dbHasCompleted tested in test_result
+
+    # no 64-bit input data type yet
 
     NULL
   )
