@@ -153,10 +153,11 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, "SELECT ? as a")
         on.exit(expect_error(dbClearResult(res), NA))
 
-        dbBind(res, list(1L))
+        data_in <- 1L
+        dbBind(res, list(data_in))
 
         rows <- dbFetch(res)
-        expect_identical(rows$a, 1L)
+        expect_identical(rows$a, data_in)
       })
     },
 
@@ -168,10 +169,11 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, "SELECT ? as a")
         on.exit(expect_error(dbClearResult(res), NA))
 
-        dbBind(res, list(1.5))
+        data_in <- 1.5
+        dbBind(res, list(data_in))
 
         rows <- dbFetch(res)
-        expect_identical(rows$a, 1.5)
+        expect_identical(rows$a, data_in)
       })
     },
 
@@ -183,10 +185,11 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, "SELECT ? as a")
         on.exit(expect_error(dbClearResult(res), NA))
 
-        dbBind(res, list(TRUE))
+        data_in <- TRUE
+        dbBind(res, list(data_in))
 
         rows <- dbFetch(res)
-        expect_identical(rows$a, TRUE)
+        expect_identical(rows$a, data_in)
       })
     },
 
@@ -198,10 +201,11 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, "SELECT ? as a")
         on.exit(expect_error(dbClearResult(res), NA))
 
-        dbBind(res, list(TRUE))
+        data_in <- TRUE
+        dbBind(res, list(data_in))
 
         rows <- dbFetch(res)
-        expect_identical(rows$a, 1L)
+        expect_identical(rows$a, as.integer(data_in))
       })
     },
 
