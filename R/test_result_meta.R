@@ -242,9 +242,57 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{bind_date_positional}}{
+    #' Positional binding of date values.
+    #' }
+    bind_date_positional = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT ? as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- Sys.Date()
+        dbBind(res, list(data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
+    #' \item{\code{bind_timestamp_positional}}{
+    #' Positional binding of timestamp values.
+    #' }
+    bind_timestamp_positional = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT ? as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- Sys.time()
+        dbBind(res, list(data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
+    #' \item{\code{bind_raw_positional}}{
+    #' Positional binding of raw values.
+    #' }
+    bind_raw_positional = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT ? as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- list(as.raw(1:10))
+        dbBind(res, list(data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
     # dbHasCompleted tested in test_result
 
-    # no 64-bit input data type yet
+    # no 64-bit or time input data type yet
 
     NULL
   )
