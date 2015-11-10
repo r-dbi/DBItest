@@ -343,6 +343,23 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{roundtrip_raw}}{
+    #' Can create tables with raw columns.
+    #' }
+    roundtrip_raw = function() {
+      with_connection({
+        tbl_in <- list(a = list(as.raw(1:10), NA))
+        tbl_in <- structure(tbl_in, class = "data.frame",
+                            row.names = c(NA, -2L))
+
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_identical(tbl_in, tbl_out)
+      })
+    },
+
     #' \item{\code{roundtrip_date}}{
     #' Can create tables with date columns.
     #' }
