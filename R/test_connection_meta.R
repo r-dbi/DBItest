@@ -43,7 +43,7 @@ test_connection_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # dbListResult is unsupported in the existing backends
+    # dbListResults is unsupported in the existing backends
 
     NULL
   )
