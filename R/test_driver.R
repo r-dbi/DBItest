@@ -42,12 +42,11 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
           expect_error(check_driver_data_type(.(value)), NA)))
       }
 
-      # Q: Should the "raw" type be matched to BLOB?
       expect_driver_has_data_type(logical(1))
       expect_driver_has_data_type(integer(1))
       expect_driver_has_data_type(numeric(1))
       expect_driver_has_data_type(character(1))
-      expect_driver_has_data_type(list(1))
+      expect_driver_has_data_type(list(raw(1)))
       expect_driver_has_data_type(Sys.Date())
       expect_driver_has_data_type(Sys.time())
     },
