@@ -73,6 +73,10 @@ single-row multi-column queries can be read with dbGetQuery
 \item{\code{get_query_multi}}{
 multi-row multi-column queries can be read with dbGetQuery
 }
+\item{\code{data_type_connection}}{
+SQL Data types exist for all basic R data types, and the engine can
+process them.
+}
 \item{\code{data_integer}}{
 data conversion from SQL to R: integer
 }
@@ -112,6 +116,12 @@ data conversion from SQL to R: character
 }
 \item{\code{data_character_null}}{
 data conversion from SQL to R: character with typed NULL values
+}
+\item{\code{data_raw}}{
+data conversion from SQL to R: raw
+}
+\item{\code{data_raw_null}}{
+data conversion from SQL to R: raw with typed NULL values
 }
 \item{\code{data_date}}{
 data conversion from SQL to R: date
