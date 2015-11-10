@@ -145,10 +145,10 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{bind_integer_positional}}{
-    #' Positional binding of integer values.
+    #' \item{\code{bind_integer_positional_qm}}{
+    #' Positional binding of integer values (question mark syntax).
     #' }
-    bind_integer_positional = function() {
+    bind_integer_positional_qm = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT cast(? as character) as a")
         on.exit(expect_error(dbClearResult(res), NA))
@@ -161,10 +161,10 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{bind_numeric_positional}}{
-    #' Positional binding of numeric values.
+    #' \item{\code{bind_numeric_positional_qm}}{
+    #' Positional binding of numeric values (question mark syntax).
     #' }
-    bind_numeric_positional = function() {
+    bind_numeric_positional_qm = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT cast(? as character) as a")
         on.exit(expect_error(dbClearResult(res), NA))
@@ -177,10 +177,10 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{bind_logical_positional}}{
-    #' Positional binding of logical values.
+    #' \item{\code{bind_logical_positional_qm}}{
+    #' Positional binding of logical values (question mark syntax).
     #' }
-    bind_logical_positional = function() {
+    bind_logical_positional_qm = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT ? as a")
         on.exit(expect_error(dbClearResult(res), NA))
@@ -193,10 +193,11 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{bind_logical_int_positional}}{
-    #' Positional binding of logical values (coerced to integer).
+    #' \item{\code{bind_logical_int_positional_qm}}{
+    #' Positional binding of logical values (coerced to integer, question mark
+    #' syntax).
     #' }
-    bind_logical_int_positional = function() {
+    bind_logical_int_positional_qm = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT cast(? as character) as a")
         on.exit(expect_error(dbClearResult(res), NA))
@@ -209,10 +210,10 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{bind_null_positional}}{
-    #' Positional binding of \code{NULL} values.
+    #' \item{\code{bind_null_positional_qm}}{
+    #' Positional binding of \code{NULL} values (question mark syntax)..
     #' }
-    bind_null_positional = function() {
+    bind_null_positional_qm = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT cast(? as character) as a")
         on.exit(expect_error(dbClearResult(res), NA))
@@ -224,10 +225,10 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{bind_character_positional}}{
-    #' Positional binding of character values.
+    #' \item{\code{bind_character_positional_qm}}{
+    #' Positional binding of character values (question mark syntax)..
     #' }
-    bind_character_positional = function() {
+    bind_character_positional_qm = function() {
       with_connection({
         res <- dbSendQuery(
           con,
@@ -245,10 +246,10 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{bind_date_positional}}{
-    #' Positional binding of date values.
+    #' \item{\code{bind_date_positional_qm}}{
+    #' Positional binding of date values (question mark syntax)..
     #' }
-    bind_date_positional = function() {
+    bind_date_positional_qm = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT cast(? as character) as a")
         on.exit(expect_error(dbClearResult(res), NA))
@@ -261,10 +262,10 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{bind_timestamp_positional}}{
-    #' Positional binding of timestamp values.
+    #' \item{\code{bind_timestamp_positional_qm}}{
+    #' Positional binding of timestamp values (question mark syntax)..
     #' }
-    bind_timestamp_positional = function() {
+    bind_timestamp_positional_qm = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT cast(? as datetime) as a")
         on.exit(expect_error(dbClearResult(res), NA))
@@ -277,10 +278,11 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{bind_timestamp_lt_positional}}{
-    #' Positional binding of \code{\link{POSIXlt}} timestamp values.
+    #' \item{\code{bind_timestamp_lt_positional_qm}}{
+    #' Positional binding of \code{\link{POSIXlt}} timestamp values (question
+    #' mark syntax)..
     #' }
-    bind_timestamp_lt_positional = function() {
+    bind_timestamp_lt_positional_qm = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT cast(? as datetime) as a")
         on.exit(expect_error(dbClearResult(res), NA))
@@ -293,10 +295,10 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{bind_raw_positional}}{
-    #' Positional binding of raw values.
+    #' \item{\code{bind_raw_positional_qm}}{
+    #' Positional binding of raw values (question mark syntax)..
     #' }
-    bind_raw_positional = function() {
+    bind_raw_positional_qm = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT ? as a")
         on.exit(expect_error(dbClearResult(res), NA))
