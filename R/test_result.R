@@ -528,8 +528,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_raw_null = function() {
       with_connection({
         query <- union(
-          paste0("SELECT cast(1 as ", dbDataType(con, list(raw())), ") a"),
-          paste0("SELECT cast(NULL as ", dbDataType(con, list(raw())), ") a"))
+          paste0("SELECT cast(1 as ", dbDataType(con, list(raw())), ") a, ",
+                 "0 as b"),
+          paste0("SELECT cast(NULL as ", dbDataType(con, list(raw())), ") a, ",
+                 "1"),
+          .order_by = "b")
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
         expect_is(rows$a, "list")
