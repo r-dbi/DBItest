@@ -202,7 +202,8 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_character_positional_qm = function() {
       with_connection({
         test_select_bind(
-          con, positional_qm, c(text_cyrillic, text_latin, text_chinese, text_ascii))
+          con, positional_qm,
+          c(text_cyrillic, text_latin, text_chinese, text_ascii))
       })
     },
 
@@ -315,7 +316,8 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_character_positional_dollar = function() {
       with_connection({
         test_select_bind(
-          con, positional_dollar, c(text_cyrillic, text_latin, text_chinese, text_ascii))
+          con, positional_dollar,
+          c(text_cyrillic, text_latin, text_chinese, text_ascii))
       })
     },
 
@@ -428,7 +430,8 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_character_named_colon = function() {
       with_connection({
         test_select_bind(
-          con, named_colon, c(text_cyrillic, text_latin, text_chinese, text_ascii))
+          con, named_colon,
+          c(text_cyrillic, text_latin, text_chinese, text_ascii))
       })
     },
 
@@ -541,7 +544,8 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_character_named_dollar = function() {
       with_connection({
         test_select_bind(
-          con, named_dollar, c(text_cyrillic, text_latin, text_chinese, text_ascii))
+          con, named_dollar,
+          c(text_cyrillic, text_latin, text_chinese, text_ascii))
       })
     },
 
@@ -611,8 +615,7 @@ test_select_bind <- function(con, placeholder_fun, values,
                              type = "character(10)",
                              transform_input = as.character,
                              transform_output = function(x) trimws(x, "right"),
-                             expect = expect_identical)
-{
+                             expect = expect_identical) {
   placeholder <- placeholder_fun(length(values))
 
   value_names <- letters[seq_along(values)]
