@@ -150,7 +150,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_integer_positional_qm = function() {
       with_connection({
-        test_select_bind(con, qm, 1L)
+        test_select_bind(con, positional_qm, 1L)
       })
     },
 
@@ -159,7 +159,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_numeric_positional_qm = function() {
       with_connection({
-        test_select_bind(con, qm, 1.5)
+        test_select_bind(con, positional_qm, 1.5)
       })
     },
 
@@ -168,7 +168,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_logical_positional_qm = function() {
       with_connection({
-        test_select_bind(con, qm, TRUE)
+        test_select_bind(con, positional_qm, TRUE)
       })
     },
 
@@ -179,7 +179,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_logical_int_positional_qm = function() {
       with_connection({
         test_select_bind(
-          con, qm, TRUE,
+          con, positional_qm, TRUE,
           transform_input = function(x) as.character(as.integer(x)))
       })
     },
@@ -190,7 +190,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_null_positional_qm = function() {
       with_connection({
         test_select_bind(
-          con, qm, NA,
+          con, positional_qm, NA,
           transform_input = function(x) TRUE,
           transform_output = is.na)
       })
@@ -202,7 +202,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_character_positional_qm = function() {
       with_connection({
         test_select_bind(
-          con, qm, c(text_cyrillic, text_latin, text_chinese, text_ascii))
+          con, positional_qm, c(text_cyrillic, text_latin, text_chinese, text_ascii))
       })
     },
 
@@ -211,7 +211,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_date_positional_qm = function() {
       with_connection({
-        test_select_bind(con, qm, Sys.Date())
+        test_select_bind(con, positional_qm, Sys.Date())
       })
     },
 
@@ -222,7 +222,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         data_in <- as.POSIXct(round(Sys.time()))
         test_select_bind(
-          con, qm, data_in,
+          con, positional_qm, data_in,
           type = dbDataType(con, data_in),
           transform_input = identity,
           transform_output = identity,
@@ -238,7 +238,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         data_in <- as.POSIXlt(round(Sys.time()))
         test_select_bind(
-          con, qm, data_in,
+          con, positional_qm, data_in,
           type = dbDataType(con, data_in),
           transform_input = as.POSIXct,
           transform_output = identity)
@@ -251,7 +251,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_raw_positional_qm = function() {
       with_connection({
         test_select_bind(
-          con, qm, list(list(as.raw(1:10))),
+          con, positional_qm, list(list(as.raw(1:10))),
           type = NULL,
           transform_input = function(x) x[[1L]],
           transform_output = identity)
@@ -263,7 +263,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_integer_positional_dollar = function() {
       with_connection({
-        test_select_bind(con, dollar, 1L)
+        test_select_bind(con, positional_dollar, 1L)
       })
     },
 
@@ -272,7 +272,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_numeric_positional_dollar = function() {
       with_connection({
-        test_select_bind(con, dollar, 1.5)
+        test_select_bind(con, positional_dollar, 1.5)
       })
     },
 
@@ -281,7 +281,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_logical_positional_dollar = function() {
       with_connection({
-        test_select_bind(con, dollar, TRUE)
+        test_select_bind(con, positional_dollar, TRUE)
       })
     },
 
@@ -292,7 +292,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_logical_int_positional_dollar = function() {
       with_connection({
         test_select_bind(
-          con, dollar, TRUE,
+          con, positional_dollar, TRUE,
           transform_input = function(x) as.character(as.integer(x)))
       })
     },
@@ -303,7 +303,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_null_positional_dollar = function() {
       with_connection({
         test_select_bind(
-          con, dollar, NA,
+          con, positional_dollar, NA,
           transform_input = function(x) TRUE,
           transform_output = is.na)
       })
@@ -315,7 +315,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_character_positional_dollar = function() {
       with_connection({
         test_select_bind(
-          con, dollar, c(text_cyrillic, text_latin, text_chinese, text_ascii))
+          con, positional_dollar, c(text_cyrillic, text_latin, text_chinese, text_ascii))
       })
     },
 
@@ -324,7 +324,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_date_positional_dollar = function() {
       with_connection({
-        test_select_bind(con, dollar, Sys.Date())
+        test_select_bind(con, positional_dollar, Sys.Date())
       })
     },
 
@@ -335,7 +335,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         data_in <- as.POSIXct(round(Sys.time()))
         test_select_bind(
-          con, dollar, data_in,
+          con, positional_dollar, data_in,
           type = dbDataType(con, data_in),
           transform_input = identity,
           transform_output = identity,
@@ -351,7 +351,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         data_in <- as.POSIXlt(round(Sys.time()))
         test_select_bind(
-          con, dollar, data_in,
+          con, positional_dollar, data_in,
           type = dbDataType(con, data_in),
           transform_input = as.POSIXct,
           transform_output = identity)
@@ -364,7 +364,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_raw_positional_dollar = function() {
       with_connection({
         test_select_bind(
-          con, dollar, list(list(as.raw(1:10))),
+          con, positional_dollar, list(list(as.raw(1:10))),
           type = NULL,
           transform_input = function(x) x[[1L]],
           transform_output = identity)
@@ -730,10 +730,10 @@ test_select_bind <- function(con, placeholder_fun, values,
   expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
 }
 
-qm <- function(n) {
+positional_qm <- function(n) {
   "?"
 }
 
-dollar <- function(n) {
+positional_dollar <- function(n) {
   paste0("$", seq_len(n))
 }
