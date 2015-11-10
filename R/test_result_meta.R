@@ -150,14 +150,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_integer_positional_qm = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT cast(? as character(10)) as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- 1L
-        dbBind(res, list(data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(trimws(rows$a, "right"), as.character(data_in))
+        test_select_bind(con, "?", 1L)
       })
     },
 
@@ -166,14 +159,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_numeric_positional_qm = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT cast(? as character(10)) as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- 1.5
-        dbBind(res, list(data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(trimws(rows$a, "right"), as.character(data_in))
+        test_select_bind(con, "?", 1.5)
       })
     },
 
@@ -182,14 +168,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_logical_positional_qm = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT ? as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- TRUE
-        dbBind(res, list(data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(trimws(rows$a, "right"), as.character(data_in))
+        test_select_bind(con, "?", TRUE)
       })
     },
 
@@ -199,14 +178,9 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_logical_int_positional_qm = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT cast(? as character(10)) as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- TRUE
-        dbBind(res, list(data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, as.character(as.integer(data_in)))
+        test_select_bind(
+          con, "?", TRUE,
+          transform_input = function(x) as.character(as.integer(x)))
       })
     },
 
@@ -215,13 +189,10 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_null_positional_qm = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT cast(? as character(10)) as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        dbBind(res, list(NA))
-
-        rows <- dbFetch(res)
-        expect_true(is.na(rows$a))
+        test_select_bind(
+          con, "?", NA,
+          transform_input = function(x) TRUE,
+          transform_output = is.na)
       })
     },
 
@@ -230,19 +201,8 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_character_positional_qm = function() {
       with_connection({
-        res <- dbSendQuery(
-          con,
-          "SELECT cast(? as character(10)) as a, cast(? as character(10)) as b,
-           cast(? as character(10)) as c, cast(? as character(10)) as d")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        dbBind(res, list(text_cyrillic, text_latin, text_chinese, text_ascii))
-
-        rows <- dbFetch(res)
-        expect_identical(trimws(rows$a, "right"), text_cyrillic)
-        expect_identical(trimws(rows$b, "right"), text_latin)
-        expect_identical(trimws(rows$c, "right"), text_chinese)
-        expect_identical(trimws(rows$d, "right"), text_ascii)
+        test_select_bind(
+          con, "?", c(text_cyrillic, text_latin, text_chinese, text_ascii))
       })
     },
 
@@ -251,14 +211,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_date_positional_qm = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT cast(? as character(10)) as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- Sys.Date()
-        dbBind(res, list(data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(trimws(rows$a, "right"), as.character(data_in))
+        test_select_bind(con, "?", Sys.Date())
       })
     },
 
@@ -267,14 +220,13 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_timestamp_positional_qm = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT cast(? as datetime) as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
         data_in <- as.POSIXct(round(Sys.time()))
-        dbBind(res, list(data_in))
-
-        rows <- dbFetch(res)
-        expect_equal(rows$a, data_in)
+        test_select_bind(
+          con, "?", data_in,
+          type = dbDataType(con, data_in),
+          transform_input = identity,
+          transform_output = identity,
+          expect = expect_equal)
       })
     },
 
@@ -284,14 +236,12 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_timestamp_lt_positional_qm = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT cast(? as datetime) as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
         data_in <- as.POSIXlt(round(Sys.time()))
-        dbBind(res, list(data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(
+          con, "?", data_in,
+          type = dbDataType(con, data_in),
+          transform_input = as.POSIXct,
+          transform_output = identity)
       })
     },
 
@@ -300,17 +250,13 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_raw_positional_qm = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT ? as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- list(as.raw(1:10))
-        dbBind(res, list(data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(
+          con, "?", list(list(as.raw(1:10))),
+          type = NULL,
+          transform_input = function(x) x[[1L]],
+          transform_output = identity)
       })
     },
-
 
     #' \item{\code{bind_integer_positional_dollar}}{
     #' Positional binding of integer values (dollar syntax).
@@ -810,4 +756,27 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
   )
   #'}
   run_tests(tests, skip, test_suite)
+}
+
+test_select_bind <- function(con, placeholder, values,
+                             type = "character(10)",
+                             transform_input = as.character,
+                             transform_output = function(x) trimws(x, "right"),
+                             expect = expect_identical)
+{
+  value_names <- letters[seq_along(values)]
+  if (is.null(type)) {
+    typed_placeholder <- placeholder
+  } else {
+    typed_placeholder <- paste0("cast(", placeholder, " as ", type, ")")
+  }
+  query <- paste0("SELECT ", paste0(
+    typed_placeholder, " as ", value_names, collapse = ", "))
+  res <- dbSendQuery(con, query)
+  on.exit(expect_error(dbClearResult(res), NA))
+
+  dbBind(res, as.list(values))
+
+  rows <- dbFetch(res)
+  expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
 }
