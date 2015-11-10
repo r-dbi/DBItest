@@ -52,7 +52,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     column_info = function() {
       with_connection({
         query <- "SELECT 1 as a, 1.5 as b, NULL"
-        res <- dbSendQuery(con, query)
+        expect_warning(res <- dbSendQuery(con, query), NA)
         on.exit(dbClearResult(res), add = TRUE)
         ci <- dbColumnInfo(res)
         expect_is(ci, "data.frame")
