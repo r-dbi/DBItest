@@ -201,7 +201,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_in <- data.frame(SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
                              stringsAsFactors = FALSE)
 
-        on.exit(dbRemoveTable(con, "EXISTS"), add = TRUE)
+        on.exit(try(dbRemoveTable(con, "EXISTS"), silent = TRUE), add = TRUE)
         dbWriteTable(con, "EXISTS", tbl_in)
 
         tbl_out <- dbReadTable(con, "EXISTS")
@@ -226,7 +226,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
           "with space",
           ",")
 
-        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -241,7 +241,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(1:5, NA))
 
-        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -256,7 +256,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA))
 
-        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -272,7 +272,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA, -Inf, Inf, NaN))
 
-        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -287,7 +287,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
 
-        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -302,7 +302,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = NA)
 
-        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -318,7 +318,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_in <- data.frame(a = c(-1e14, 1e15, 0.25, NA))
         tbl_in_trunc <- data.frame(a = trunc(tbl_in$a))
 
-        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
         dbWriteTable(con, "test", tbl_in, field.types = "bigint")
 
         tbl_out <- dbReadTable(con, "test")
@@ -335,7 +335,24 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
                                    text_chinese, text_ascii, NA),
                              stringsAsFactors = FALSE)
 
-        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_identical(tbl_in, tbl_out)
+      })
+    },
+
+    #' \item{\code{roundtrip_raw}}{
+    #' Can create tables with raw columns.
+    #' }
+    roundtrip_raw = function() {
+      with_connection({
+        tbl_in <- list(a = list(as.raw(1:10), NA))
+        tbl_in <- structure(tbl_in, class = "data.frame",
+                            row.names = c(NA, -2L))
+
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -350,7 +367,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(Sys.Date() + 1:5, NA))
 
-        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -367,7 +384,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
         tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST")
 
-        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -383,7 +400,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_in <- data.frame(a = c(1:5, NA),
                              row.names = paste0(LETTERS[1:6], 1:6))
 
-        on.exit(dbRemoveTable(con, "test"), add = TRUE)
+        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
