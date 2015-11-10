@@ -102,14 +102,6 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_true("max.connections" %in% info_names)
     },
 
-    #' \item{\code{show}}{
-    #' show method for driver class is defined
-    #' }
-    show = function() {
-      expect_that(ctx$drv, has_method("show"))
-      expect_output(show(ctx$drv), ".")
-    },
-
     NULL
   )
   #'}

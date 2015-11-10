@@ -82,19 +82,6 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{show}}{
-    #' show method for result class is defined
-    #' }
-    show = function() {
-      with_connection({
-        res <- dbSendQuery(con, "SELECT 1")
-        on.exit(dbClearResult(res), add = TRUE)
-
-        expect_that(res, has_method("show"))
-        expect_output(show(res), ".")
-      })
-    },
-
     #' \item{\code{fetch_single}}{
     #' single-value queries can be fetched
     #' }
