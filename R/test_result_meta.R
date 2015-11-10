@@ -372,164 +372,115 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{bind_integer_named_colon}}{
-    #' Named binding (colon syntax) of integer values.
+    #' Named binding of integer values (colon syntax).
     #' }
     bind_integer_named_colon = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT :a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- 1L
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(con, named_colon, 1L)
       })
     },
 
     #' \item{\code{bind_numeric_named_colon}}{
-    #' Named binding (colon syntax) of numeric values.
+    #' Named binding of numeric values (colon syntax).
     #' }
     bind_numeric_named_colon = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT :a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- 1.5
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(con, named_colon, 1.5)
       })
     },
 
     #' \item{\code{bind_logical_named_colon}}{
-    #' Named binding (colon syntax) of logical values.
+    #' Named binding of logical values (colon syntax).
     #' }
     bind_logical_named_colon = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT :a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- TRUE
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(con, named_colon, TRUE)
       })
     },
 
     #' \item{\code{bind_logical_int_named_colon}}{
-    #' Named binding (colon syntax) of logical values (coerced to integer).
+    #' Named binding of logical values (coerced to integer, colon
+    #' syntax).
     #' }
     bind_logical_int_named_colon = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT :a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- TRUE
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, as.integer(data_in))
+        test_select_bind(
+          con, named_colon, TRUE,
+          transform_input = function(x) as.character(as.integer(x)))
       })
     },
 
     #' \item{\code{bind_null_named_colon}}{
-    #' Named binding (colon syntax) of \code{NULL} values.
+    #' Named binding of \code{NULL} values (colon syntax).
     #' }
     bind_null_named_colon = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT :a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        dbBind(res, list(a = NA))
-
-        rows <- dbFetch(res)
-        expect_true(is.na(rows$a))
+        test_select_bind(
+          con, named_colon, NA,
+          transform_input = function(x) TRUE,
+          transform_output = is.na)
       })
     },
 
     #' \item{\code{bind_character_named_colon}}{
-    #' Named binding (colon syntax) of character values.
+    #' Named binding of character values (colon syntax).
     #' }
     bind_character_named_colon = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT :a as a, :b as b, :c as c, :d as d")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        dbBind(res, list(a = text_cyrillic, b = text_latin, c = text_chinese,
-                         d = text_ascii))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, text_cyrillic)
-        expect_identical(rows$b, text_latin)
-        expect_identical(rows$c, text_chinese)
-        expect_identical(rows$d, text_ascii)
+        test_select_bind(
+          con, named_colon, c(text_cyrillic, text_latin, text_chinese, text_ascii))
       })
     },
 
     #' \item{\code{bind_date_named_colon}}{
-    #' Named binding (colon syntax) of date values.
+    #' Named binding of date values (colon syntax).
     #' }
     bind_date_named_colon = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT :a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- Sys.Date()
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(con, named_colon, Sys.Date())
       })
     },
 
     #' \item{\code{bind_timestamp_named_colon}}{
-    #' Named binding (colon syntax) of timestamp values.
+    #' Named binding of timestamp values (colon syntax).
     #' }
     bind_timestamp_named_colon = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT :a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
         data_in <- as.POSIXct(round(Sys.time()))
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(
+          con, named_colon, data_in,
+          type = dbDataType(con, data_in),
+          transform_input = identity,
+          transform_output = identity,
+          expect = expect_equal)
       })
     },
 
     #' \item{\code{bind_timestamp_lt_named_colon}}{
-    #' Named binding (colon syntax) of \code{\link{POSIXlt}} timestamp values.
+    #' Named binding of \code{\link{POSIXlt}} timestamp values (colon
+    #' syntax).
     #' }
     bind_timestamp_lt_named_colon = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT :a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
         data_in <- as.POSIXlt(round(Sys.time()))
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(
+          con, named_colon, data_in,
+          type = dbDataType(con, data_in),
+          transform_input = as.POSIXct,
+          transform_output = identity)
       })
     },
 
     #' \item{\code{bind_raw_named_colon}}{
-    #' Named binding (colon syntax) of raw values.
+    #' Named binding of raw values (colon syntax).
     #' }
     bind_raw_named_colon = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT :a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- list(as.raw(1:10))
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(
+          con, named_colon, list(list(as.raw(1:10))),
+          type = NULL,
+          transform_input = function(x) x[[1L]],
+          transform_output = identity)
       })
     },
 
@@ -697,4 +648,9 @@ positional_dollar <- function(n) {
 named_dollar <- function(n) {
   l <- letters[seq_len(n)]
   stats::setNames(paste0("$", l), l)
+}
+
+named_colon <- function(n) {
+  l <- letters[seq_len(n)]
+  stats::setNames(paste0(":", l), l)
 }
