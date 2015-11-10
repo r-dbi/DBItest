@@ -17,19 +17,22 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
   #' This function defines the following tests:
   #' \describe{
   tests <- list(
-    #' \item{\code{is_valid_result}}{
-    #' Only an open result set is valid.
+    #' \item{\code{compliance}}{
+    #' The package defines three classes that implement the required methods.
     #' }
-    is_valid_result = function() {
-      with_connection({
-        query <- "SELECT 1 as a"
-        res <- dbSendQuery(con, query)
-        expect_true(dbIsValid(res))
-        expect_error(dbFetch(res), NA)
-        expect_true(dbIsValid(res))
-        dbClearResult(res)
-        expect_false(dbIsValid(res))
-      })
+    compliance = function() {
+      pkg <- package_name(ctx)
+
+      where <- asNamespace(pkg)
+
+      classes <- sort(getClasses(where))
+      expect_equal(length(classes), length(key_methods))
+
+      names(classes) <- sort(names(key_methods))
+      classes <- classes[names(key_methods)]
+
+      methods <- Map(function(g, c) test_has_methods(g, c, where),
+        key_methods, classes)
     },
 
     NULL
@@ -37,3 +40,58 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
   #'}
   run_tests(tests, skip, test_suite)
 }
+
+expect_has_class_method <- function(name, class, args, driver_package) {
+  full_args <- c(class, args)
+  eval(bquote(
+    expect_true(hasMethod(.(name), .(full_args), driver_package))
+  ))
+}
+
+test_has_methods <- function(generic, class, where) {
+  mapply(function(x, args) expect_has_class_method(x, class, args, where),
+         names(generic), generic)
+}
+
+compliance_message <- function(methods, name) {
+  if (all(methods)) return(paste0(name, ": OK"))
+
+  methods <- paste0(names(methods)[!methods], collapse = ", ")
+  paste0(name, ": NOT OK\n",
+         paste0(strwrap(methods, indent = 2, exdent = 2), collapse = "\n"))
+}
+
+key_methods <- list(
+  Driver = list(
+    "dbGetInfo" = NULL,
+    "dbConnect" = NULL,
+    "dbUnloadDriver" = NULL,
+    "dbListConnections" = NULL,
+    "dbDataType" = NULL
+  ),
+  Connection = list(
+    "dbDisconnect" = NULL,
+    "dbGetInfo" = NULL,
+    "dbSendQuery" = "character",
+    "dbGetException" = NULL,
+    "dbListResults" = NULL,
+    "dbListFields" = "character",
+    "dbListTables" = NULL,
+    "dbReadTable" = "character",
+    "dbWriteTable" = c("character", "data.frame"),
+    "dbExistsTable" = "character",
+    "dbRemoveTable" = "character",
+    "dbBegin" = NULL,
+    "dbCommit" = NULL,
+    "dbRollback" = NULL,
+    "dbIsValid" = NULL,
+    "dbQuoteString" = "character",
+    "dbQuoteIdentifier" = "character"
+  ),
+  Result = list(
+    "dbIsValid" = NULL,
+    "dbFetch" = NULL,
+    "dbClearResult" = NULL,
+    "dbColumnInfo" = NULL
+  )
+)
