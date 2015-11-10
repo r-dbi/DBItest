@@ -308,18 +308,18 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         }))
       }
 
-      expect_connection_has_data_type <- function(value) {
+      expect_conn_has_data_type <- function(value) {
         eval(bquote(
           expect_error(check_connection_data_type(.(value)), NA)))
       }
 
-      expect_connection_has_data_type(logical(1))
-      expect_connection_has_data_type(integer(1))
-      expect_connection_has_data_type(numeric(1))
-      expect_connection_has_data_type(character(1))
-      expect_connection_has_data_type(list(raw(1)))
-      expect_connection_has_data_type(Sys.Date())
-      expect_connection_has_data_type(Sys.time())
+      expect_conn_has_data_type(logical(1))
+      expect_conn_has_data_type(integer(1))
+      expect_conn_has_data_type(numeric(1))
+      expect_conn_has_data_type(character(1))
+      expect_conn_has_data_type(list(raw(1)))
+      expect_conn_has_data_type(Sys.Date())
+      expect_conn_has_data_type(Sys.time())
     },
 
     #' \item{\code{data_integer}}{
