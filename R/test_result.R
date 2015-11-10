@@ -286,6 +286,42 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{data_type_connection}}{
+    #' SQL Data types exist for all basic R data types, and the engine can
+    #' process them.
+    #' }
+    data_type_connection = function() {
+      con <- connect(ctx)
+      on.exit(dbDisconnect(con), add = TRUE)
+
+      check_connection_data_type <- function(value) {
+        eval(bquote({
+          expect_is(dbDataType(con, .(value)), "character")
+          expect_equal(length(dbDataType(con, .(value))), 1L)
+          query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)),
+                          ")")
+        }))
+
+        eval(bquote({
+          expect_error(dbGetQuery(con, .(query)), NA)
+          on.exit(try(dbGetQuery(con, "DROP TABLE test")))
+        }))
+      }
+
+      expect_conn_has_data_type <- function(value) {
+        eval(bquote(
+          expect_error(check_connection_data_type(.(value)), NA)))
+      }
+
+      expect_conn_has_data_type(logical(1))
+      expect_conn_has_data_type(integer(1))
+      expect_conn_has_data_type(numeric(1))
+      expect_conn_has_data_type(character(1))
+      expect_conn_has_data_type(list(raw(1)))
+      expect_conn_has_data_type(Sys.Date())
+      expect_conn_has_data_type(Sys.time())
+    },
+
     #' \item{\code{data_integer}}{
     #' data conversion from SQL to R: integer
     #' }
@@ -469,6 +505,39 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_equal(rows$b, c(text_latin, NA))
         expect_equal(rows$c, c(text_chinese, NA))
         expect_equal(rows$d, c(text_ascii, NA))
+      })
+    },
+
+    #' \item{\code{data_raw}}{
+    #' data conversion from SQL to R: raw
+    #' }
+    data_raw = function() {
+      with_connection({
+        query <- paste0("SELECT cast(1 as ",
+                        dbDataType(con, list(raw())), ") a")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "list")
+        expect_is(rows$a[[1L]], "raw")
+      })
+    },
+
+    #' \item{\code{data_raw_null}}{
+    #' data conversion from SQL to R: raw with typed NULL values
+    #' }
+    data_raw_null = function() {
+      with_connection({
+        query <- union(
+          paste0("SELECT cast(1 as ", dbDataType(con, list(raw())), ") a, ",
+                 "0 as b"),
+          paste0("SELECT cast(NULL as ", dbDataType(con, list(raw())), ") a, ",
+                 "1"),
+          .order_by = "b")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "list")
+        expect_is(rows$a[[1L]], "raw")
+        expect_true(is.na(rows$a[[2L]]))
       })
     },
 

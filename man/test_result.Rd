@@ -7,7 +7,8 @@
 test_result(skip = NULL, ctx = get_default_context())
 }
 \arguments{
-\item{skip}{\code{[character()]}\cr A list of test names to skip}
+\item{skip}{\code{[character()]}\cr A vector of regular expressions to match
+against test names; skip test if matching any.}
 
 \item{ctx}{\code{[DBItest_context]}\cr A test context as created by
 \code{\link{make_context}}.}
@@ -72,6 +73,10 @@ single-row multi-column queries can be read with dbGetQuery
 \item{\code{get_query_multi}}{
 multi-row multi-column queries can be read with dbGetQuery
 }
+\item{\code{data_type_connection}}{
+SQL Data types exist for all basic R data types, and the engine can
+process them.
+}
 \item{\code{data_integer}}{
 data conversion from SQL to R: integer
 }
@@ -111,6 +116,12 @@ data conversion from SQL to R: character
 }
 \item{\code{data_character_null}}{
 data conversion from SQL to R: character with typed NULL values
+}
+\item{\code{data_raw}}{
+data conversion from SQL to R: raw
+}
+\item{\code{data_raw_null}}{
+data conversion from SQL to R: raw with typed NULL values
 }
 \item{\code{data_date}}{
 data conversion from SQL to R: date

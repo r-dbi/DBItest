@@ -7,7 +7,8 @@
 test_result_meta(skip = NULL, ctx = get_default_context())
 }
 \arguments{
-\item{skip}{\code{[character()]}\cr A list of test names to skip}
+\item{skip}{\code{[character()]}\cr A vector of regular expressions to match
+against test names; skip test if matching any.}
 
 \item{ctx}{\code{[DBItest_context]}\cr A test context as created by
 \code{\link{make_context}}.}
@@ -32,6 +33,134 @@ Row count information is correct.
 }
 \item{\code{rows_affected}}{
 Information on affected rows is correct.
+}
+\item{\code{bind_integer_positional_qm}}{
+Positional binding of integer values (question mark syntax).
+}
+\item{\code{bind_numeric_positional_qm}}{
+Positional binding of numeric values (question mark syntax).
+}
+\item{\code{bind_logical_positional_qm}}{
+Positional binding of logical values (question mark syntax).
+}
+\item{\code{bind_logical_int_positional_qm}}{
+Positional binding of logical values (coerced to integer, question mark
+syntax).
+}
+\item{\code{bind_null_positional_qm}}{
+Positional binding of \code{NULL} values (question mark syntax).
+}
+\item{\code{bind_character_positional_qm}}{
+Positional binding of character values (question mark syntax).
+}
+\item{\code{bind_date_positional_qm}}{
+Positional binding of date values (question mark syntax).
+}
+\item{\code{bind_timestamp_positional_qm}}{
+Positional binding of timestamp values (question mark syntax).
+}
+\item{\code{bind_timestamp_lt_positional_qm}}{
+Positional binding of \code{\link{POSIXlt}} timestamp values (question
+mark syntax).
+}
+\item{\code{bind_raw_positional_qm}}{
+Positional binding of raw values (question mark syntax).
+}
+\item{\code{bind_integer_positional_dollar}}{
+Positional binding of integer values (dollar syntax).
+}
+\item{\code{bind_numeric_positional_dollar}}{
+Positional binding of numeric values (dollar syntax).
+}
+\item{\code{bind_logical_positional_dollar}}{
+Positional binding of logical values (dollar syntax).
+}
+\item{\code{bind_logical_int_positional_dollar}}{
+Positional binding of logical values (coerced to integer, dollar
+syntax).
+}
+\item{\code{bind_null_positional_dollar}}{
+Positional binding of \code{NULL} values (dollar syntax).
+}
+\item{\code{bind_character_positional_dollar}}{
+Positional binding of character values (dollar syntax).
+}
+\item{\code{bind_date_positional_dollar}}{
+Positional binding of date values (dollar syntax).
+}
+\item{\code{bind_timestamp_positional_dollar}}{
+Positional binding of timestamp values (dollar syntax).
+}
+\item{\code{bind_timestamp_lt_positional_dollar}}{
+Positional binding of \code{\link{POSIXlt}} timestamp values (dollar
+syntax).
+}
+\item{\code{bind_raw_positional_dollar}}{
+Positional binding of raw values (dollar syntax).
+}
+\item{\code{bind_integer_named_colon}}{
+Named binding of integer values (colon syntax).
+}
+\item{\code{bind_numeric_named_colon}}{
+Named binding of numeric values (colon syntax).
+}
+\item{\code{bind_logical_named_colon}}{
+Named binding of logical values (colon syntax).
+}
+\item{\code{bind_logical_int_named_colon}}{
+Named binding of logical values (coerced to integer, colon
+syntax).
+}
+\item{\code{bind_null_named_colon}}{
+Named binding of \code{NULL} values (colon syntax).
+}
+\item{\code{bind_character_named_colon}}{
+Named binding of character values (colon syntax).
+}
+\item{\code{bind_date_named_colon}}{
+Named binding of date values (colon syntax).
+}
+\item{\code{bind_timestamp_named_colon}}{
+Named binding of timestamp values (colon syntax).
+}
+\item{\code{bind_timestamp_lt_named_colon}}{
+Named binding of \code{\link{POSIXlt}} timestamp values (colon
+syntax).
+}
+\item{\code{bind_raw_named_colon}}{
+Named binding of raw values (colon syntax).
+}
+\item{\code{bind_integer_named_dollar}}{
+Named binding of integer values (dollar syntax).
+}
+\item{\code{bind_numeric_named_dollar}}{
+Named binding of numeric values (dollar syntax).
+}
+\item{\code{bind_logical_named_dollar}}{
+Named binding of logical values (dollar syntax).
+}
+\item{\code{bind_logical_int_named_dollar}}{
+Named binding of logical values (coerced to integer, dollar
+syntax).
+}
+\item{\code{bind_null_named_dollar}}{
+Named binding of \code{NULL} values (dollar syntax).
+}
+\item{\code{bind_character_named_dollar}}{
+Named binding of character values (dollar syntax).
+}
+\item{\code{bind_date_named_dollar}}{
+Named binding of date values (dollar syntax).
+}
+\item{\code{bind_timestamp_named_dollar}}{
+Named binding of timestamp values (dollar syntax).
+}
+\item{\code{bind_timestamp_lt_named_dollar}}{
+Named binding of \code{\link{POSIXlt}} timestamp values (dollar
+syntax).
+}
+\item{\code{bind_raw_named_dollar}}{
+Named binding of raw values (dollar syntax).
 }
 }
 }

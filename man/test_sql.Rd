@@ -7,7 +7,8 @@
 test_sql(skip = NULL, ctx = get_default_context())
 }
 \arguments{
-\item{skip}{\code{[character()]}\cr A list of test names to skip}
+\item{skip}{\code{[character()]}\cr A vector of regular expressions to match
+against test names; skip test if matching any.}
 
 \item{ctx}{\code{[DBItest_context]}\cr A test context as created by
 \code{\link{make_context}}.}
@@ -79,6 +80,9 @@ Can create tables with 64-bit columns.
 }
 \item{\code{roundtrip_character}}{
 Can create tables with character columns.
+}
+\item{\code{roundtrip_raw}}{
+Can create tables with raw columns.
 }
 \item{\code{roundtrip_date}}{
 Can create tables with date columns.

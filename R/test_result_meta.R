@@ -52,7 +52,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     column_info = function() {
       with_connection({
         query <- "SELECT 1 as a, 1.5 as b, NULL"
-        res <- dbSendQuery(con, query)
+        expect_warning(res <- dbSendQuery(con, query), NA)
         on.exit(dbClearResult(res), add = TRUE)
         ci <- dbColumnInfo(res)
         expect_is(ci, "data.frame")
@@ -145,10 +145,515 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{bind_integer_positional_qm}}{
+    #' Positional binding of integer values (question mark syntax).
+    #' }
+    bind_integer_positional_qm = function() {
+      with_connection({
+        test_select_bind(con, positional_qm, 1L)
+      })
+    },
+
+    #' \item{\code{bind_numeric_positional_qm}}{
+    #' Positional binding of numeric values (question mark syntax).
+    #' }
+    bind_numeric_positional_qm = function() {
+      with_connection({
+        test_select_bind(con, positional_qm, 1.5)
+      })
+    },
+
+    #' \item{\code{bind_logical_positional_qm}}{
+    #' Positional binding of logical values (question mark syntax).
+    #' }
+    bind_logical_positional_qm = function() {
+      with_connection({
+        test_select_bind(con, positional_qm, TRUE)
+      })
+    },
+
+    #' \item{\code{bind_logical_int_positional_qm}}{
+    #' Positional binding of logical values (coerced to integer, question mark
+    #' syntax).
+    #' }
+    bind_logical_int_positional_qm = function() {
+      with_connection({
+        test_select_bind(
+          con, positional_qm, TRUE,
+          transform_input = function(x) as.character(as.integer(x)))
+      })
+    },
+
+    #' \item{\code{bind_null_positional_qm}}{
+    #' Positional binding of \code{NULL} values (question mark syntax).
+    #' }
+    bind_null_positional_qm = function() {
+      with_connection({
+        test_select_bind(
+          con, positional_qm, NA,
+          transform_input = function(x) TRUE,
+          transform_output = is.na)
+      })
+    },
+
+    #' \item{\code{bind_character_positional_qm}}{
+    #' Positional binding of character values (question mark syntax).
+    #' }
+    bind_character_positional_qm = function() {
+      with_connection({
+        test_select_bind(
+          con, positional_qm,
+          c(text_cyrillic, text_latin, text_chinese, text_ascii))
+      })
+    },
+
+    #' \item{\code{bind_date_positional_qm}}{
+    #' Positional binding of date values (question mark syntax).
+    #' }
+    bind_date_positional_qm = function() {
+      with_connection({
+        test_select_bind(con, positional_qm, Sys.Date())
+      })
+    },
+
+    #' \item{\code{bind_timestamp_positional_qm}}{
+    #' Positional binding of timestamp values (question mark syntax).
+    #' }
+    bind_timestamp_positional_qm = function() {
+      with_connection({
+        data_in <- as.POSIXct(round(Sys.time()))
+        test_select_bind(
+          con, positional_qm, data_in,
+          type = dbDataType(con, data_in),
+          transform_input = identity,
+          transform_output = identity,
+          expect = expect_equal)
+      })
+    },
+
+    #' \item{\code{bind_timestamp_lt_positional_qm}}{
+    #' Positional binding of \code{\link{POSIXlt}} timestamp values (question
+    #' mark syntax).
+    #' }
+    bind_timestamp_lt_positional_qm = function() {
+      with_connection({
+        data_in <- as.POSIXlt(round(Sys.time()))
+        test_select_bind(
+          con, positional_qm, data_in,
+          type = dbDataType(con, data_in),
+          transform_input = as.POSIXct,
+          transform_output = identity)
+      })
+    },
+
+    #' \item{\code{bind_raw_positional_qm}}{
+    #' Positional binding of raw values (question mark syntax).
+    #' }
+    bind_raw_positional_qm = function() {
+      with_connection({
+        test_select_bind(
+          con, positional_qm, list(list(as.raw(1:10))),
+          type = NULL,
+          transform_input = function(x) x[[1L]],
+          transform_output = identity)
+      })
+    },
+
+    #' \item{\code{bind_integer_positional_dollar}}{
+    #' Positional binding of integer values (dollar syntax).
+    #' }
+    bind_integer_positional_dollar = function() {
+      with_connection({
+        test_select_bind(con, positional_dollar, 1L)
+      })
+    },
+
+    #' \item{\code{bind_numeric_positional_dollar}}{
+    #' Positional binding of numeric values (dollar syntax).
+    #' }
+    bind_numeric_positional_dollar = function() {
+      with_connection({
+        test_select_bind(con, positional_dollar, 1.5)
+      })
+    },
+
+    #' \item{\code{bind_logical_positional_dollar}}{
+    #' Positional binding of logical values (dollar syntax).
+    #' }
+    bind_logical_positional_dollar = function() {
+      with_connection({
+        test_select_bind(con, positional_dollar, TRUE)
+      })
+    },
+
+    #' \item{\code{bind_logical_int_positional_dollar}}{
+    #' Positional binding of logical values (coerced to integer, dollar
+    #' syntax).
+    #' }
+    bind_logical_int_positional_dollar = function() {
+      with_connection({
+        test_select_bind(
+          con, positional_dollar, TRUE,
+          transform_input = function(x) as.character(as.integer(x)))
+      })
+    },
+
+    #' \item{\code{bind_null_positional_dollar}}{
+    #' Positional binding of \code{NULL} values (dollar syntax).
+    #' }
+    bind_null_positional_dollar = function() {
+      with_connection({
+        test_select_bind(
+          con, positional_dollar, NA,
+          transform_input = function(x) TRUE,
+          transform_output = is.na)
+      })
+    },
+
+    #' \item{\code{bind_character_positional_dollar}}{
+    #' Positional binding of character values (dollar syntax).
+    #' }
+    bind_character_positional_dollar = function() {
+      with_connection({
+        test_select_bind(
+          con, positional_dollar,
+          c(text_cyrillic, text_latin, text_chinese, text_ascii))
+      })
+    },
+
+    #' \item{\code{bind_date_positional_dollar}}{
+    #' Positional binding of date values (dollar syntax).
+    #' }
+    bind_date_positional_dollar = function() {
+      with_connection({
+        test_select_bind(con, positional_dollar, Sys.Date())
+      })
+    },
+
+    #' \item{\code{bind_timestamp_positional_dollar}}{
+    #' Positional binding of timestamp values (dollar syntax).
+    #' }
+    bind_timestamp_positional_dollar = function() {
+      with_connection({
+        data_in <- as.POSIXct(round(Sys.time()))
+        test_select_bind(
+          con, positional_dollar, data_in,
+          type = dbDataType(con, data_in),
+          transform_input = identity,
+          transform_output = identity,
+          expect = expect_equal)
+      })
+    },
+
+    #' \item{\code{bind_timestamp_lt_positional_dollar}}{
+    #' Positional binding of \code{\link{POSIXlt}} timestamp values (dollar
+    #' syntax).
+    #' }
+    bind_timestamp_lt_positional_dollar = function() {
+      with_connection({
+        data_in <- as.POSIXlt(round(Sys.time()))
+        test_select_bind(
+          con, positional_dollar, data_in,
+          type = dbDataType(con, data_in),
+          transform_input = as.POSIXct,
+          transform_output = identity)
+      })
+    },
+
+    #' \item{\code{bind_raw_positional_dollar}}{
+    #' Positional binding of raw values (dollar syntax).
+    #' }
+    bind_raw_positional_dollar = function() {
+      with_connection({
+        test_select_bind(
+          con, positional_dollar, list(list(as.raw(1:10))),
+          type = NULL,
+          transform_input = function(x) x[[1L]],
+          transform_output = identity)
+      })
+    },
+
+    #' \item{\code{bind_integer_named_colon}}{
+    #' Named binding of integer values (colon syntax).
+    #' }
+    bind_integer_named_colon = function() {
+      with_connection({
+        test_select_bind(con, named_colon, 1L)
+      })
+    },
+
+    #' \item{\code{bind_numeric_named_colon}}{
+    #' Named binding of numeric values (colon syntax).
+    #' }
+    bind_numeric_named_colon = function() {
+      with_connection({
+        test_select_bind(con, named_colon, 1.5)
+      })
+    },
+
+    #' \item{\code{bind_logical_named_colon}}{
+    #' Named binding of logical values (colon syntax).
+    #' }
+    bind_logical_named_colon = function() {
+      with_connection({
+        test_select_bind(con, named_colon, TRUE)
+      })
+    },
+
+    #' \item{\code{bind_logical_int_named_colon}}{
+    #' Named binding of logical values (coerced to integer, colon
+    #' syntax).
+    #' }
+    bind_logical_int_named_colon = function() {
+      with_connection({
+        test_select_bind(
+          con, named_colon, TRUE,
+          transform_input = function(x) as.character(as.integer(x)))
+      })
+    },
+
+    #' \item{\code{bind_null_named_colon}}{
+    #' Named binding of \code{NULL} values (colon syntax).
+    #' }
+    bind_null_named_colon = function() {
+      with_connection({
+        test_select_bind(
+          con, named_colon, NA,
+          transform_input = function(x) TRUE,
+          transform_output = is.na)
+      })
+    },
+
+    #' \item{\code{bind_character_named_colon}}{
+    #' Named binding of character values (colon syntax).
+    #' }
+    bind_character_named_colon = function() {
+      with_connection({
+        test_select_bind(
+          con, named_colon,
+          c(text_cyrillic, text_latin, text_chinese, text_ascii))
+      })
+    },
+
+    #' \item{\code{bind_date_named_colon}}{
+    #' Named binding of date values (colon syntax).
+    #' }
+    bind_date_named_colon = function() {
+      with_connection({
+        test_select_bind(con, named_colon, Sys.Date())
+      })
+    },
+
+    #' \item{\code{bind_timestamp_named_colon}}{
+    #' Named binding of timestamp values (colon syntax).
+    #' }
+    bind_timestamp_named_colon = function() {
+      with_connection({
+        data_in <- as.POSIXct(round(Sys.time()))
+        test_select_bind(
+          con, named_colon, data_in,
+          type = dbDataType(con, data_in),
+          transform_input = identity,
+          transform_output = identity,
+          expect = expect_equal)
+      })
+    },
+
+    #' \item{\code{bind_timestamp_lt_named_colon}}{
+    #' Named binding of \code{\link{POSIXlt}} timestamp values (colon
+    #' syntax).
+    #' }
+    bind_timestamp_lt_named_colon = function() {
+      with_connection({
+        data_in <- as.POSIXlt(round(Sys.time()))
+        test_select_bind(
+          con, named_colon, data_in,
+          type = dbDataType(con, data_in),
+          transform_input = as.POSIXct,
+          transform_output = identity)
+      })
+    },
+
+    #' \item{\code{bind_raw_named_colon}}{
+    #' Named binding of raw values (colon syntax).
+    #' }
+    bind_raw_named_colon = function() {
+      with_connection({
+        test_select_bind(
+          con, named_colon, list(list(as.raw(1:10))),
+          type = NULL,
+          transform_input = function(x) x[[1L]],
+          transform_output = identity)
+      })
+    },
+
+    #' \item{\code{bind_integer_named_dollar}}{
+    #' Named binding of integer values (dollar syntax).
+    #' }
+    bind_integer_named_dollar = function() {
+      with_connection({
+        test_select_bind(con, named_dollar, 1L)
+      })
+    },
+
+    #' \item{\code{bind_numeric_named_dollar}}{
+    #' Named binding of numeric values (dollar syntax).
+    #' }
+    bind_numeric_named_dollar = function() {
+      with_connection({
+        test_select_bind(con, named_dollar, 1.5)
+      })
+    },
+
+    #' \item{\code{bind_logical_named_dollar}}{
+    #' Named binding of logical values (dollar syntax).
+    #' }
+    bind_logical_named_dollar = function() {
+      with_connection({
+        test_select_bind(con, named_dollar, TRUE)
+      })
+    },
+
+    #' \item{\code{bind_logical_int_named_dollar}}{
+    #' Named binding of logical values (coerced to integer, dollar
+    #' syntax).
+    #' }
+    bind_logical_int_named_dollar = function() {
+      with_connection({
+        test_select_bind(
+          con, named_dollar, TRUE,
+          transform_input = function(x) as.character(as.integer(x)))
+      })
+    },
+
+    #' \item{\code{bind_null_named_dollar}}{
+    #' Named binding of \code{NULL} values (dollar syntax).
+    #' }
+    bind_null_named_dollar = function() {
+      with_connection({
+        test_select_bind(
+          con, named_dollar, NA,
+          transform_input = function(x) TRUE,
+          transform_output = is.na)
+      })
+    },
+
+    #' \item{\code{bind_character_named_dollar}}{
+    #' Named binding of character values (dollar syntax).
+    #' }
+    bind_character_named_dollar = function() {
+      with_connection({
+        test_select_bind(
+          con, named_dollar,
+          c(text_cyrillic, text_latin, text_chinese, text_ascii))
+      })
+    },
+
+    #' \item{\code{bind_date_named_dollar}}{
+    #' Named binding of date values (dollar syntax).
+    #' }
+    bind_date_named_dollar = function() {
+      with_connection({
+        test_select_bind(con, named_dollar, Sys.Date())
+      })
+    },
+
+    #' \item{\code{bind_timestamp_named_dollar}}{
+    #' Named binding of timestamp values (dollar syntax).
+    #' }
+    bind_timestamp_named_dollar = function() {
+      with_connection({
+        data_in <- as.POSIXct(round(Sys.time()))
+        test_select_bind(
+          con, named_dollar, data_in,
+          type = dbDataType(con, data_in),
+          transform_input = identity,
+          transform_output = identity,
+          expect = expect_equal)
+      })
+    },
+
+    #' \item{\code{bind_timestamp_lt_named_dollar}}{
+    #' Named binding of \code{\link{POSIXlt}} timestamp values (dollar
+    #' syntax).
+    #' }
+    bind_timestamp_lt_named_dollar = function() {
+      with_connection({
+        data_in <- as.POSIXlt(round(Sys.time()))
+        test_select_bind(
+          con, named_dollar, data_in,
+          type = dbDataType(con, data_in),
+          transform_input = as.POSIXct,
+          transform_output = identity)
+      })
+    },
+
+    #' \item{\code{bind_raw_named_dollar}}{
+    #' Named binding of raw values (dollar syntax).
+    #' }
+    bind_raw_named_dollar = function() {
+      with_connection({
+        test_select_bind(
+          con, named_dollar, list(list(as.raw(1:10))),
+          type = NULL,
+          transform_input = function(x) x[[1L]],
+          transform_output = identity)
+      })
+    },
+
     # dbHasCompleted tested in test_result
+
+    # no 64-bit or time input data type yet
 
     NULL
   )
   #'}
   run_tests(tests, skip, test_suite)
+}
+
+test_select_bind <- function(con, placeholder_fun, values,
+                             type = "character(10)",
+                             transform_input = as.character,
+                             transform_output = function(x) trimws(x, "right"),
+                             expect = expect_identical) {
+  placeholder <- placeholder_fun(length(values))
+
+  value_names <- letters[seq_along(values)]
+  if (is.null(type)) {
+    typed_placeholder <- placeholder
+  } else {
+    typed_placeholder <- paste0("cast(", placeholder, " as ", type, ")")
+  }
+  query <- paste0("SELECT ", paste0(
+    typed_placeholder, " as ", value_names, collapse = ", "))
+  res <- dbSendQuery(con, query)
+  on.exit(expect_error(dbClearResult(res), NA))
+
+  bind_values <- values
+  if (!is.null(names(placeholder))) {
+    names(bind_values) <- names(placeholder)
+  }
+
+  dbBind(res, as.list(values))
+
+  rows <- dbFetch(res)
+  expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
+}
+
+positional_qm <- function(n) {
+  "?"
+}
+
+positional_dollar <- function(n) {
+  paste0("$", seq_len(n))
+}
+
+named_dollar <- function(n) {
+  l <- letters[seq_len(n)]
+  stats::setNames(paste0("$", l), l)
+}
+
+named_colon <- function(n) {
+  l <- letters[seq_len(n)]
+  stats::setNames(paste0(":", l), l)
 }
