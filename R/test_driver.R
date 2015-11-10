@@ -89,10 +89,10 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_that(constructor, all_args_have_default_values())
     },
 
-    #' \item{\code{get_info}}{
+    #' \item{\code{get_info_driver}}{
     #' Return value of dbGetInfo has necessary elements
     #' }
-    get_info = function() {
+    get_info_driver = function() {
       info <- dbGetInfo(ctx$drv)
       expect_is(info, "list")
       info_names <- names(info)

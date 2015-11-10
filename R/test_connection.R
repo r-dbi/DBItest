@@ -51,10 +51,10 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       }
     },
 
-    #' \item{\code{get_info}}{
+    #' \item{\code{get_info_connection}}{
     #' Return value of dbGetInfo has necessary elements
     #' }
-    get_info = function() {
+    get_info_connection = function() {
       con <- connect(ctx)
       on.exit(dbDisconnect(con), add = TRUE)
 

@@ -353,10 +353,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_logical}}{
+    #' \item{\code{data_logical_null}}{
     #' data conversion from SQL to R: logical with typed NULL values
     #' }
-    data_logical = function() {
+    data_logical_null = function() {
       with_connection({
         query <- union(
           "SELECT CAST(1 AS boolean) as a, cast(0 AS boolean) as b, 0 as c",
