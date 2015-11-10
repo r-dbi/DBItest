@@ -62,26 +62,6 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       )
     },
 
-    #' \item{\code{get_info}}{
-    #' Return value of dbGetInfo has necessary elements
-    #' }
-    get_info = function() {
-      with_connection({
-        res <- dbSendQuery(con, "SELECT 1")
-        on.exit(dbClearResult(res), add = TRUE)
-
-        info <- dbGetInfo(res)
-        expect_is(info, "list")
-        info_names <- names(info)
-
-        expect_true("statement" %in% info_names)
-        expect_true("row.count" %in% info_names)
-        expect_true("rows.affected" %in% info_names)
-        expect_true("has.completed" %in% info_names)
-        expect_true("is.select" %in% info_names)
-      })
-    },
-
     #' \item{\code{fetch_single}}{
     #' single-value queries can be fetched
     #' }
