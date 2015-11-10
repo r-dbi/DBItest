@@ -431,7 +431,23 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, "SELECT :a as a")
         on.exit(expect_error(dbClearResult(res), NA))
 
-        data_in <- Sys.time()
+        data_in <- as.POSIXct(round(Sys.time()))
+        dbBind(res, list(a = data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
+    #' \item{\code{bind_timestamp_lt_named_colon}}{
+    #' Named binding (colon syntax) of \code{\link{POSIXlt}} timestamp values.
+    #' }
+    bind_timestamp_lt_named_colon = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT :a as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- as.POSIXlt(round(Sys.time()))
         dbBind(res, list(a = data_in))
 
         rows <- dbFetch(res)
@@ -577,7 +593,23 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, "SELECT $a as a")
         on.exit(expect_error(dbClearResult(res), NA))
 
-        data_in <- Sys.time()
+        data_in <- as.POSIXlt(round(Sys.time()))
+        dbBind(res, list(a = data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
+    #' \item{\code{bind_timestamp_lt_named_dollar}}{
+    #' Named binding (dollar syntax) of \code{\link{POSIXlt}} timestamp values.
+    #' }
+    bind_timestamp_lt_named_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT $a as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- as.POSIXct(round(Sys.time()))
         dbBind(res, list(a = data_in))
 
         rows <- dbFetch(res)
