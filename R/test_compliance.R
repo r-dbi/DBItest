@@ -65,15 +65,12 @@ key_methods <- list(
   Driver = list(
     "dbGetInfo" = NULL,
     "dbConnect" = NULL,
-    "dbUnloadDriver" = NULL,
-    "dbListConnections" = NULL,
     "dbDataType" = NULL
   ),
   Connection = list(
     "dbDisconnect" = NULL,
     "dbGetInfo" = NULL,
     "dbSendQuery" = "character",
-    "dbGetException" = NULL,
     "dbListResults" = NULL,
     "dbListFields" = "character",
     "dbListTables" = NULL,
