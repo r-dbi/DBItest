@@ -1,3 +1,12 @@
+Version 0.1-5 (2015-11-10)
+===
+
+- Test `dbBind()` in all supported variants
+- Test BLOB data type (#17)
+- Check actual availability of type returned by `dbDataType()` (#19)
+- Use regex matching for deciding skipped tests, skip regex must match the entire test name
+
+
 Version 0.1-4 (2015-11-08)
 ===
 
