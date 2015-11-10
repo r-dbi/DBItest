@@ -508,6 +508,36 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{data_raw}}{
+    #' data conversion from SQL to R: raw
+    #' }
+    data_raw = function() {
+      with_connection({
+        query <- paste0("SELECT cast(1 as ",
+                        dbDataType(con, list(raw())), ") a")
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "list")
+        expect_is(rows$a[[1L]], "raw")
+      })
+    },
+
+    #' \item{\code{data_raw_null}}{
+    #' data conversion from SQL to R: raw with typed NULL values
+    #' }
+    data_raw_null = function() {
+      with_connection({
+        query <- union(
+          paste0("SELECT cast(1 as ", dbDataType(con, list(raw())), ") a"),
+          paste0("SELECT cast(NULL as ", dbDataType(con, list(raw())), ") a"))
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_is(rows$a, "list")
+        expect_is(rows$a[[1L]], "raw")
+        expect_true(is.na(rows$a[[2L]]))
+      })
+    },
+
     #' \item{\code{data_date}}{
     #' data conversion from SQL to R: date
     #' }
