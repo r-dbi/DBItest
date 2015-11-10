@@ -81,6 +81,9 @@ Can create tables with 64-bit columns.
 \item{\code{roundtrip_character}}{
 Can create tables with character columns.
 }
+\item{\code{roundtrip_raw}}{
+Can create tables with raw columns.
+}
 \item{\code{roundtrip_date}}{
 Can create tables with date columns.
 }
