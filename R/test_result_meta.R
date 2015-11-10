@@ -150,7 +150,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_integer_positional_qm = function() {
       with_connection({
-        test_select_bind(con, "?", 1L)
+        test_select_bind(con, qm, 1L)
       })
     },
 
@@ -159,7 +159,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_numeric_positional_qm = function() {
       with_connection({
-        test_select_bind(con, "?", 1.5)
+        test_select_bind(con, qm, 1.5)
       })
     },
 
@@ -168,7 +168,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_logical_positional_qm = function() {
       with_connection({
-        test_select_bind(con, "?", TRUE)
+        test_select_bind(con, qm, TRUE)
       })
     },
 
@@ -179,7 +179,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_logical_int_positional_qm = function() {
       with_connection({
         test_select_bind(
-          con, "?", TRUE,
+          con, qm, TRUE,
           transform_input = function(x) as.character(as.integer(x)))
       })
     },
@@ -190,7 +190,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_null_positional_qm = function() {
       with_connection({
         test_select_bind(
-          con, "?", NA,
+          con, qm, NA,
           transform_input = function(x) TRUE,
           transform_output = is.na)
       })
@@ -202,7 +202,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_character_positional_qm = function() {
       with_connection({
         test_select_bind(
-          con, "?", c(text_cyrillic, text_latin, text_chinese, text_ascii))
+          con, qm, c(text_cyrillic, text_latin, text_chinese, text_ascii))
       })
     },
 
@@ -211,7 +211,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_date_positional_qm = function() {
       with_connection({
-        test_select_bind(con, "?", Sys.Date())
+        test_select_bind(con, qm, Sys.Date())
       })
     },
 
@@ -222,7 +222,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         data_in <- as.POSIXct(round(Sys.time()))
         test_select_bind(
-          con, "?", data_in,
+          con, qm, data_in,
           type = dbDataType(con, data_in),
           transform_input = identity,
           transform_output = identity,
@@ -238,7 +238,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         data_in <- as.POSIXlt(round(Sys.time()))
         test_select_bind(
-          con, "?", data_in,
+          con, qm, data_in,
           type = dbDataType(con, data_in),
           transform_input = as.POSIXct,
           transform_output = identity)
@@ -251,7 +251,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_raw_positional_qm = function() {
       with_connection({
         test_select_bind(
-          con, "?", list(list(as.raw(1:10))),
+          con, qm, list(list(as.raw(1:10))),
           type = NULL,
           transform_input = function(x) x[[1L]],
           transform_output = identity)
@@ -758,12 +758,14 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
   run_tests(tests, skip, test_suite)
 }
 
-test_select_bind <- function(con, placeholder, values,
+test_select_bind <- function(con, placeholder_fun, values,
                              type = "character(10)",
                              transform_input = as.character,
                              transform_output = function(x) trimws(x, "right"),
                              expect = expect_identical)
 {
+  placeholder <- placeholder_fun(length(values))
+
   value_names <- letters[seq_along(values)]
   if (is.null(type)) {
     typed_placeholder <- placeholder
@@ -779,4 +781,8 @@ test_select_bind <- function(con, placeholder, values,
 
   rows <- dbFetch(res)
   expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
+}
+
+qm <- function(n) {
+  "?"
 }
