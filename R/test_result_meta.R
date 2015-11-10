@@ -534,164 +534,115 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{bind_integer_named_dollar}}{
-    #' Named binding (dollar syntax) of integer values.
+    #' Named binding of integer values (dollar syntax).
     #' }
     bind_integer_named_dollar = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT $a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- 1L
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(con, named_dollar, 1L)
       })
     },
 
     #' \item{\code{bind_numeric_named_dollar}}{
-    #' Named binding (dollar syntax) of numeric values.
+    #' Named binding of numeric values (dollar syntax).
     #' }
     bind_numeric_named_dollar = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT $a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- 1.5
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(con, named_dollar, 1.5)
       })
     },
 
     #' \item{\code{bind_logical_named_dollar}}{
-    #' Named binding (dollar syntax) of logical values.
+    #' Named binding of logical values (dollar syntax).
     #' }
     bind_logical_named_dollar = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT $a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- TRUE
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(con, named_dollar, TRUE)
       })
     },
 
     #' \item{\code{bind_logical_int_named_dollar}}{
-    #' Named binding (dollar syntax) of logical values (coerced to integer).
+    #' Named binding of logical values (coerced to integer, dollar
+    #' syntax).
     #' }
     bind_logical_int_named_dollar = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT $a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- TRUE
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, as.integer(data_in))
+        test_select_bind(
+          con, named_dollar, TRUE,
+          transform_input = function(x) as.character(as.integer(x)))
       })
     },
 
     #' \item{\code{bind_null_named_dollar}}{
-    #' Named binding (dollar syntax) of \code{NULL} values.
+    #' Named binding of \code{NULL} values (dollar syntax).
     #' }
     bind_null_named_dollar = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT $a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        dbBind(res, list(a = NA))
-
-        rows <- dbFetch(res)
-        expect_true(is.na(rows$a))
+        test_select_bind(
+          con, named_dollar, NA,
+          transform_input = function(x) TRUE,
+          transform_output = is.na)
       })
     },
 
     #' \item{\code{bind_character_named_dollar}}{
-    #' Named binding (dollar syntax) of character values.
+    #' Named binding of character values (dollar syntax).
     #' }
     bind_character_named_dollar = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT $a as a, $b as b, $c as c, $d as d")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        dbBind(res, list(a = text_cyrillic, b = text_latin, c = text_chinese,
-                         d = text_ascii))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, text_cyrillic)
-        expect_identical(rows$b, text_latin)
-        expect_identical(rows$c, text_chinese)
-        expect_identical(rows$d, text_ascii)
+        test_select_bind(
+          con, named_dollar, c(text_cyrillic, text_latin, text_chinese, text_ascii))
       })
     },
 
     #' \item{\code{bind_date_named_dollar}}{
-    #' Named binding (dollar syntax) of date values.
+    #' Named binding of date values (dollar syntax).
     #' }
     bind_date_named_dollar = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT $a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- Sys.Date()
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(con, named_dollar, Sys.Date())
       })
     },
 
     #' \item{\code{bind_timestamp_named_dollar}}{
-    #' Named binding (dollar syntax) of timestamp values.
+    #' Named binding of timestamp values (dollar syntax).
     #' }
     bind_timestamp_named_dollar = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT $a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- as.POSIXlt(round(Sys.time()))
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        data_in <- as.POSIXct(round(Sys.time()))
+        test_select_bind(
+          con, named_dollar, data_in,
+          type = dbDataType(con, data_in),
+          transform_input = identity,
+          transform_output = identity,
+          expect = expect_equal)
       })
     },
 
     #' \item{\code{bind_timestamp_lt_named_dollar}}{
-    #' Named binding (dollar syntax) of \code{\link{POSIXlt}} timestamp values.
+    #' Named binding of \code{\link{POSIXlt}} timestamp values (dollar
+    #' syntax).
     #' }
     bind_timestamp_lt_named_dollar = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT $a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- as.POSIXct(round(Sys.time()))
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        data_in <- as.POSIXlt(round(Sys.time()))
+        test_select_bind(
+          con, named_dollar, data_in,
+          type = dbDataType(con, data_in),
+          transform_input = as.POSIXct,
+          transform_output = identity)
       })
     },
 
     #' \item{\code{bind_raw_named_dollar}}{
-    #' Named binding (dollar syntax) of raw values.
+    #' Named binding of raw values (dollar syntax).
     #' }
     bind_raw_named_dollar = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT $a as a")
-        on.exit(expect_error(dbClearResult(res), NA))
-
-        data_in <- list(as.raw(1:10))
-        dbBind(res, list(a = data_in))
-
-        rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        test_select_bind(
+          con, named_dollar, list(list(as.raw(1:10))),
+          type = NULL,
+          transform_input = function(x) x[[1L]],
+          transform_output = identity)
       })
     },
 
@@ -724,6 +675,11 @@ test_select_bind <- function(con, placeholder_fun, values,
   res <- dbSendQuery(con, query)
   on.exit(expect_error(dbClearResult(res), NA))
 
+  bind_values <- values
+  if (!is.null(names(placeholder))) {
+    names(bind_values) <- names(placeholder)
+  }
+
   dbBind(res, as.list(values))
 
   rows <- dbFetch(res)
@@ -736,4 +692,9 @@ positional_qm <- function(n) {
 
 positional_dollar <- function(n) {
   paste0("$", seq_len(n))
+}
+
+named_dollar <- function(n) {
+  l <- letters[seq_len(n)]
+  stats::setNames(paste0("$", l), l)
 }
