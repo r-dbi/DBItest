@@ -38,7 +38,8 @@ show method for connection class is defined
 }
 }
 \seealso{
-Other tests: \code{\link{test_connection_meta}},
+Other tests: \code{\link{test_compliance}},
+  \code{\link{test_connection_meta}},
   \code{\link{test_driver}},
   \code{\link{test_getting_started}},
   \code{\link{test_result_meta}},
