@@ -35,11 +35,8 @@ package exports constructor function, named like the package without the
 package exports constructor function, named like the package without the
   leading R (if it exists), where all arguments have default values
 }
-\item{\code{get_info}}{
+\item{\code{get_info_driver}}{
 Return value of dbGetInfo has necessary elements
-}
-\item{\code{show}}{
-show method for driver class is defined
 }
 }
 }

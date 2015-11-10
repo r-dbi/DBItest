@@ -29,11 +29,8 @@ Open 50 simultaneous connections
 \item{\code{stress_connections}}{
 Open and close 50 connections
 }
-\item{\code{get_info}}{
+\item{\code{get_info_connection}}{
 Return value of dbGetInfo has necessary elements
-}
-\item{\code{show}}{
-show method for connection class is defined
 }
 }
 }

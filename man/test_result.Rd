@@ -31,12 +31,6 @@ status.
 Issuing an invalid query throws error (but no warnings, e.g. related to
   pending results, are thrown)
 }
-\item{\code{get_info}}{
-Return value of dbGetInfo has necessary elements
-}
-\item{\code{show}}{
-show method for result class is defined
-}
 \item{\code{fetch_single}}{
 single-value queries can be fetched
 }
@@ -92,7 +86,7 @@ data conversion from SQL to R: numeric with typed NULL values
 \item{\code{data_logical}}{
 data conversion from SQL to R: logical
 }
-\item{\code{data_logical}}{
+\item{\code{data_logical_null}}{
 data conversion from SQL to R: logical with typed NULL values
 }
 \item{\code{data_logical_int}}{

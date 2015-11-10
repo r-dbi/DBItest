@@ -19,8 +19,8 @@ Test full compliance to DBI
 \details{
 This function defines the following tests:
 \describe{
-\item{\code{is_valid_result}}{
-Only an open result set is valid.
+\item{\code{compliance}}{
+The package defines three classes that implement the required methods.
 }
 }
 }
