@@ -1,6 +1,6 @@
 Package: DBItest
 Title: Testing "DBI" Backends
-Version: 0.1-5
+Version: 0.1-6
 Date: 2015-11-10
 Authors@R: as.person("Kirill Müller <krlmlr+r@mailbox.org> [aut, cre]")
 Description: A helper that simplifies writing tests for "DBI" backends.
@@ -31,5 +31,6 @@ Collate:
     'test_sql.R'
     'test_connection_meta.R'
     'test_result_meta.R'
+    'test_compliance.R'
     'utf8.R'
 RoxygenNote: 5.0.0.9000

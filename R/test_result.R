@@ -62,39 +62,6 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       )
     },
 
-    #' \item{\code{get_info}}{
-    #' Return value of dbGetInfo has necessary elements
-    #' }
-    get_info = function() {
-      with_connection({
-        res <- dbSendQuery(con, "SELECT 1")
-        on.exit(dbClearResult(res), add = TRUE)
-
-        info <- dbGetInfo(res)
-        expect_is(info, "list")
-        info_names <- names(info)
-
-        expect_true("statement" %in% info_names)
-        expect_true("row.count" %in% info_names)
-        expect_true("rows.affected" %in% info_names)
-        expect_true("has.completed" %in% info_names)
-        expect_true("is.select" %in% info_names)
-      })
-    },
-
-    #' \item{\code{show}}{
-    #' show method for result class is defined
-    #' }
-    show = function() {
-      with_connection({
-        res <- dbSendQuery(con, "SELECT 1")
-        on.exit(dbClearResult(res), add = TRUE)
-
-        expect_that(res, has_method("show"))
-        expect_output(show(res), ".")
-      })
-    },
-
     #' \item{\code{fetch_single}}{
     #' single-value queries can be fetched
     #' }
@@ -386,10 +353,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_logical}}{
+    #' \item{\code{data_logical_null}}{
     #' data conversion from SQL to R: logical with typed NULL values
     #' }
-    data_logical = function() {
+    data_logical_null = function() {
       with_connection({
         query <- union(
           "SELECT CAST(1 AS boolean) as a, cast(0 AS boolean) as b, 0 as c",

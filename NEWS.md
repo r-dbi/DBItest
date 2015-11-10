@@ -1,3 +1,10 @@
+Version 0.1-6 (2015-11-10)
+===
+
+- Add DBI compliance test
+- Disambiguate test names (#21)
+
+
 Version 0.1-5 (2015-11-10)
 ===
 
