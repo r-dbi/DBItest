@@ -311,6 +311,173 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+
+    #' \item{\code{bind_integer_positional_dollar}}{
+    #' Positional binding of integer values (dollar syntax).
+    #' }
+    bind_integer_positional_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT cast($1 as character) as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- 1L
+        dbBind(res, list(data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, as.character(data_in))
+      })
+    },
+
+    #' \item{\code{bind_numeric_positional_dollar}}{
+    #' Positional binding of numeric values (dollar syntax).
+    #' }
+    bind_numeric_positional_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT cast($1 as character) as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- 1.5
+        dbBind(res, list(data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, as.character(data_in))
+      })
+    },
+
+    #' \item{\code{bind_logical_positional_dollar}}{
+    #' Positional binding of logical values (dollar syntax).
+    #' }
+    bind_logical_positional_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT cast($1 as character) as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- TRUE
+        dbBind(res, list(data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, as.character(data_in))
+      })
+    },
+
+    #' \item{\code{bind_logical_int_positional_dollar}}{
+    #' Positional binding of logical values (coerced to integer, dollar
+    #' syntax).
+    #' }
+    bind_logical_int_positional_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT cast($1 as character) as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- TRUE
+        dbBind(res, list(data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, as.character(as.integer(data_in)))
+      })
+    },
+
+    #' \item{\code{bind_null_positional_dollar}}{
+    #' Positional binding of \code{NULL} values (dollar syntax)..
+    #' }
+    bind_null_positional_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT cast($1 as character) as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        dbBind(res, list(NA))
+
+        rows <- dbFetch(res)
+        expect_true(is.na(rows$a))
+      })
+    },
+
+    #' \item{\code{bind_character_positional_dollar}}{
+    #' Positional binding of character values (dollar syntax)..
+    #' }
+    bind_character_positional_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(
+          con,
+          "SELECT cast($1 as character) as a, cast($2 as character) as b,
+          cast($3 as character) as c, cast($4 as character) as d")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        dbBind(res, list(text_cyrillic, text_latin, text_chinese, text_ascii))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, text_cyrillic)
+        expect_identical(rows$b, text_latin)
+        expect_identical(rows$c, text_chinese)
+        expect_identical(rows$d, text_ascii)
+      })
+    },
+
+    #' \item{\code{bind_date_positional_dollar}}{
+    #' Positional binding of date values (dollar syntax)..
+    #' }
+    bind_date_positional_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT cast($1 as character) as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- Sys.Date()
+        dbBind(res, list(data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, as.character(data_in))
+      })
+    },
+
+    #' \item{\code{bind_timestamp_positional_dollar}}{
+    #' Positional binding of timestamp values (dollar syntax)..
+    #' }
+    bind_timestamp_positional_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT cast($1 as datetime) as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- as.POSIXct(round(Sys.time()))
+        dbBind(res, list(data_in))
+
+        rows <- dbFetch(res)
+        expect_equal(rows$a, data_in)
+      })
+    },
+
+    #' \item{\code{bind_timestamp_lt_positional_dollar}}{
+    #' Positional binding of \code{\link{POSIXlt}} timestamp values (question
+    #' mark syntax)..
+    #' }
+    bind_timestamp_lt_positional_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT cast($1 as datetime) as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- as.POSIXlt(round(Sys.time()))
+        dbBind(res, list(data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
+    #' \item{\code{bind_raw_positional_dollar}}{
+    #' Positional binding of raw values (dollar syntax)..
+    #' }
+    bind_raw_positional_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT $1 as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- list(as.raw(1:10))
+        dbBind(res, list(data_in))
+
+        rows <- dbFetch(res)
+        expect_identical(rows$a, data_in)
+      })
+    },
+
     #' \item{\code{bind_integer_named_colon}}{
     #' Named binding (colon syntax) of integer values.
     #' }
