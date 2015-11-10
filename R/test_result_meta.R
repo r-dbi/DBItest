@@ -185,7 +185,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{bind_null_positional_qm}}{
-    #' Positional binding of \code{NULL} values (question mark syntax)..
+    #' Positional binding of \code{NULL} values (question mark syntax).
     #' }
     bind_null_positional_qm = function() {
       with_connection({
@@ -197,7 +197,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{bind_character_positional_qm}}{
-    #' Positional binding of character values (question mark syntax)..
+    #' Positional binding of character values (question mark syntax).
     #' }
     bind_character_positional_qm = function() {
       with_connection({
@@ -207,7 +207,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{bind_date_positional_qm}}{
-    #' Positional binding of date values (question mark syntax)..
+    #' Positional binding of date values (question mark syntax).
     #' }
     bind_date_positional_qm = function() {
       with_connection({
@@ -216,7 +216,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{bind_timestamp_positional_qm}}{
-    #' Positional binding of timestamp values (question mark syntax)..
+    #' Positional binding of timestamp values (question mark syntax).
     #' }
     bind_timestamp_positional_qm = function() {
       with_connection({
@@ -232,7 +232,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
 
     #' \item{\code{bind_timestamp_lt_positional_qm}}{
     #' Positional binding of \code{\link{POSIXlt}} timestamp values (question
-    #' mark syntax)..
+    #' mark syntax).
     #' }
     bind_timestamp_lt_positional_qm = function() {
       with_connection({
@@ -246,7 +246,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{bind_raw_positional_qm}}{
-    #' Positional binding of raw values (question mark syntax)..
+    #' Positional binding of raw values (question mark syntax).
     #' }
     bind_raw_positional_qm = function() {
       with_connection({
