@@ -150,14 +150,14 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_integer_positional = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT ? as a")
+        res <- dbSendQuery(con, "SELECT cast(? as character) as a")
         on.exit(expect_error(dbClearResult(res), NA))
 
         data_in <- 1L
         dbBind(res, list(data_in))
 
         rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        expect_identical(rows$a, as.character(data_in))
       })
     },
 
@@ -166,14 +166,14 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_numeric_positional = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT ? as a")
+        res <- dbSendQuery(con, "SELECT cast(? as character) as a")
         on.exit(expect_error(dbClearResult(res), NA))
 
         data_in <- 1.5
         dbBind(res, list(data_in))
 
         rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        expect_identical(rows$a, as.character(data_in))
       })
     },
 
@@ -189,7 +189,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         dbBind(res, list(data_in))
 
         rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        expect_identical(rows$a, as.character(data_in))
       })
     },
 
@@ -198,14 +198,14 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_logical_int_positional = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT ? as a")
+        res <- dbSendQuery(con, "SELECT cast(? as character) as a")
         on.exit(expect_error(dbClearResult(res), NA))
 
         data_in <- TRUE
         dbBind(res, list(data_in))
 
         rows <- dbFetch(res)
-        expect_identical(rows$a, as.integer(data_in))
+        expect_identical(rows$a, as.character(as.integer(data_in)))
       })
     },
 
@@ -214,7 +214,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_null_positional = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT ? as a")
+        res <- dbSendQuery(con, "SELECT cast(? as character) as a")
         on.exit(expect_error(dbClearResult(res), NA))
 
         dbBind(res, list(NA))
@@ -229,7 +229,10 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_character_positional = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT ? as a, ? as b, ? as c, ? as d")
+        res <- dbSendQuery(
+          con,
+          "SELECT cast(? as character) as a, cast(? as character) as b,
+           cast(? as character) as c, cast(? as character) as d")
         on.exit(expect_error(dbClearResult(res), NA))
 
         dbBind(res, list(text_cyrillic, text_latin, text_chinese, text_ascii))
@@ -247,14 +250,14 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_date_positional = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT ? as a")
+        res <- dbSendQuery(con, "SELECT cast(? as character) as a")
         on.exit(expect_error(dbClearResult(res), NA))
 
         data_in <- Sys.Date()
         dbBind(res, list(data_in))
 
         rows <- dbFetch(res)
-        expect_identical(rows$a, data_in)
+        expect_identical(rows$a, as.character(data_in))
       })
     },
 
@@ -263,10 +266,26 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_timestamp_positional = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT ? as a")
+        res <- dbSendQuery(con, "SELECT cast(? as datetime) as a")
         on.exit(expect_error(dbClearResult(res), NA))
 
-        data_in <- Sys.time()
+        data_in <- as.POSIXct(round(Sys.time()))
+        dbBind(res, list(data_in))
+
+        rows <- dbFetch(res)
+        expect_equal(rows$a, data_in)
+      })
+    },
+
+    #' \item{\code{bind_timestamp_lt_positional}}{
+    #' Positional binding of \code{\link{POSIXlt}} timestamp values.
+    #' }
+    bind_timestamp_lt_positional = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT cast(? as datetime) as a")
+        on.exit(expect_error(dbClearResult(res), NA))
+
+        data_in <- as.POSIXlt(round(Sys.time()))
         dbBind(res, list(data_in))
 
         rows <- dbFetch(res)
