@@ -703,6 +703,42 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{data_type_connection}}{
+    #' SQL Data types exist for all basic R data types, and the engine can
+    #' process them.
+    #' }
+    data_type_connection = function() {
+      con <- connect(ctx)
+      on.exit(dbDisconnect(con), add = TRUE)
+
+      check_connection_data_type <- function(value) {
+        eval(bquote({
+          expect_is(dbDataType(con, .(value)), "character")
+          expect_equal(length(dbDataType(con, .(value))), 1L)
+          query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)),
+                          ")")
+        }))
+
+        eval(bquote({
+          expect_error(dbGetQuery(con, .(query)), NA)
+          on.exit(try(dbGetQuery(con, "DROP TABLE test")))
+        }))
+      }
+
+      expect_connection_has_data_type <- function(value) {
+        eval(bquote(
+          expect_error(check_connection_data_type(.(value)), NA)))
+      }
+
+      expect_connection_has_data_type(logical(1))
+      expect_connection_has_data_type(integer(1))
+      expect_connection_has_data_type(numeric(1))
+      expect_connection_has_data_type(character(1))
+      expect_connection_has_data_type(list(raw(1)))
+      expect_connection_has_data_type(Sys.Date())
+      expect_connection_has_data_type(Sys.time())
+    },
+
     NULL
   )
   #'}
