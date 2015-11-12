@@ -39,7 +39,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         query <- "SELECT 1 as a"
         res <- dbSendQuery(con, query)
-        on.exit(dbClearResult(res), add = TRUE)
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         s <- dbGetStatement(res)
         expect_is(s, "character")
         expect_identical(s, query)
@@ -53,7 +53,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         query <- "SELECT 1 as a, 1.5 as b, NULL"
         expect_warning(res <- dbSendQuery(con, query), NA)
-        on.exit(dbClearResult(res), add = TRUE)
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         ci <- dbColumnInfo(res)
         expect_is(ci, "data.frame")
         expect_equal(colnames(ci), c("name", "type"))
@@ -69,7 +69,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         query <- "SELECT 1 as a"
         res <- dbSendQuery(con, query)
-        on.exit(dbClearResult(res), add = TRUE)
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
         expect_is(rc, "integer")
         expect_identical(rc, 0L)
@@ -82,7 +82,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         query <- union("SELECT 1 as a", "SELECT 2", "SELECT 3")
         res <- dbSendQuery(con, query)
-        on.exit(dbClearResult(res), add = TRUE)
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
         expect_is(rc, "integer")
         expect_identical(rc, 0L)
@@ -99,7 +99,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         query <- union("SELECT * FROM (SELECT 1 as a) a WHERE (0 = 1)")
         res <- dbSendQuery(con, query)
-        on.exit(dbClearResult(res), add = TRUE)
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
         expect_is(rc, "integer")
         expect_identical(rc, 0L)
@@ -126,7 +126,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
             " = ", dbQuoteString(con, "versicolor"),
             ")")
           res <- dbSendQuery(con, query)
-          on.exit(dbClearResult(res), add = TRUE)
+          on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
           ra <- dbGetRowsAffected(res)
 
           expect_is(ra, "integer")
@@ -136,7 +136,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         local({
           query <- "DELETE FROM iris WHERE (0 = 1)"
           res <- dbSendQuery(con, query)
-          on.exit(dbClearResult(res), add = TRUE)
+          on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
           ra <- dbGetRowsAffected(res)
 
           expect_is(ra, "integer")
