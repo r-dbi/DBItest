@@ -48,21 +48,30 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     quote_identifier = function() {
       with_connection({
         simple <- dbQuoteIdentifier(con, "simple")
-        with_spaces <- dbQuoteIdentifier(con, "with spaces")
+        with_space <- dbQuoteIdentifier(con, "with space")
+        with_dot <- dbQuoteIdentifier(con, "with.dot")
+        with_comma <- dbQuoteIdentifier(con, "with,comma")
         quoted_simple <- dbQuoteIdentifier(con, as.character(simple))
-        quoted_with_spaces <- dbQuoteIdentifier(con, as.character(with_spaces))
+        quoted_with_space <- dbQuoteIdentifier(con, as.character(with_space))
+        quoted_with_dot <- dbQuoteIdentifier(con, as.character(with_dot))
+        quoted_with_comma <- dbQuoteIdentifier(con, as.character(with_comma))
 
         query <- paste0("SELECT ",
                         "1 as", simple, ",",
-                        "2 as", with_spaces, ",",
-                        "3 as", quoted_simple, ",",
-                        "4 as", quoted_with_spaces)
+                        "2 as", with_space, ",",
+                        "3 as", with_dot, ",",
+                        "4 as", with_comma, ",",
+                        "5 as", quoted_simple, ",",
+                        "6 as", quoted_with_space, ",",
+                        "7 as", quoted_with_dot, ",",
+                        "8 as", quoted_with_comma)
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_equal(names(rows), c("simple", "with spaces",
-                                    as.character(simple),
-                                    as.character(with_spaces)))
-        expect_equal(unlist(unname(rows)), 1:4)
+        expect_equal(names(rows),
+                     c("simple", "with space", "with.dot", "with,comma",
+                       as.character(simple), as.character(with_space),
+                       as.character(with_dot), as.character(with_comma)))
+        expect_equal(unlist(unname(rows)), 1:8)
       })
     },
 
