@@ -258,35 +258,34 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' process them.
     #' }
     data_type_connection = function() {
-      con <- connect(ctx)
-      on.exit(dbDisconnect(con), add = TRUE)
+      with_connection({
+        check_connection_data_type <- function(value) {
+          eval(bquote({
+            expect_is(dbDataType(con, .(value)), "character")
+            expect_equal(length(dbDataType(con, .(value))), 1L)
+            query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)),
+                            ")")
+          }))
 
-      check_connection_data_type <- function(value) {
-        eval(bquote({
-          expect_is(dbDataType(con, .(value)), "character")
-          expect_equal(length(dbDataType(con, .(value))), 1L)
-          query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)),
-                          ")")
-        }))
+          eval(bquote({
+            expect_error(dbGetQuery(con, .(query)), NA)
+            on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA))
+          }))
+        }
 
-        eval(bquote({
-          expect_error(dbGetQuery(con, .(query)), NA)
-          on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA))
-        }))
-      }
+        expect_conn_has_data_type <- function(value) {
+          eval(bquote(
+            expect_error(check_connection_data_type(.(value)), NA)))
+        }
 
-      expect_conn_has_data_type <- function(value) {
-        eval(bquote(
-          expect_error(check_connection_data_type(.(value)), NA)))
-      }
-
-      expect_conn_has_data_type(logical(1))
-      expect_conn_has_data_type(integer(1))
-      expect_conn_has_data_type(numeric(1))
-      expect_conn_has_data_type(character(1))
-      expect_conn_has_data_type(list(raw(1)))
-      expect_conn_has_data_type(Sys.Date())
-      expect_conn_has_data_type(Sys.time())
+        expect_conn_has_data_type(logical(1))
+        expect_conn_has_data_type(integer(1))
+        expect_conn_has_data_type(numeric(1))
+        expect_conn_has_data_type(character(1))
+        expect_conn_has_data_type(list(raw(1)))
+        expect_conn_has_data_type(Sys.Date())
+        expect_conn_has_data_type(Sys.time())
+      })
     },
 
     #' \item{\code{data_integer}}{
