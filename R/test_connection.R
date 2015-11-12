@@ -56,7 +56,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_info_connection = function() {
       con <- connect(ctx)
-      on.exit(dbDisconnect(con), add = TRUE)
+      on.exit(expect_error(dbDisconnect(con), NA), add = TRUE)
 
       info <- dbGetInfo(con)
       expect_is(info, "list")

@@ -116,7 +116,8 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     rows_affected = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(dbGetQuery(con, "DROP TABLE iris"), add = TRUE)
+        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+                add = TRUE)
         dbWriteTable(con, "iris", iris)
 
         local({
