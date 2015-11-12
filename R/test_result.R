@@ -23,7 +23,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     trivial_query = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT 1")
-        on.exit(dbClearResult(res), add = TRUE)
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         expect_is(res, "DBIResult")
       })
     },
@@ -70,7 +70,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         query <- "SELECT 1 as a"
 
         res <- dbSendQuery(con, query)
-        on.exit(dbClearResult(res), add = TRUE)
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
         expect_false(dbHasCompleted(res))
 
@@ -88,7 +88,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         query <- union("SELECT 1 as a", "SELECT 2", "SELECT 3", .order_by = "a")
 
         res <- dbSendQuery(con, query)
-        on.exit(dbClearResult(res), add = TRUE)
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
         expect_false(dbHasCompleted(res))
 
@@ -106,7 +106,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         query <- union(paste("SELECT", 1:25, "AS a"), .order_by = "a")
 
         res <- dbSendQuery(con, query)
-        on.exit(dbClearResult(res), add = TRUE)
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
         expect_false(dbHasCompleted(res))
 
@@ -133,7 +133,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         query <- union("SELECT 1 as a", "SELECT 2", "SELECT 3", .order_by = "a")
 
         res <- dbSendQuery(con, query)
-        on.exit(dbClearResult(res), add = TRUE)
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
         expect_false(dbHasCompleted(res))
 
@@ -153,7 +153,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         query <- union("SELECT 1 as a", "SELECT 2", "SELECT 3", .order_by = "a")
 
         res <- dbSendQuery(con, query)
-        on.exit(dbClearResult(res), add = TRUE)
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
         expect_warning(rows <- dbFetch(res, 0L), NA)
         expect_identical(rows, data.frame(a=integer()))
@@ -176,7 +176,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit({
           expect_error(dbClearResult(res), NA)
-          dbClearResult(dbSendQuery(con, "DROP TABLE test"))
+          expect_error(dbClearResult(dbSendQuery(con, "DROP TABLE test")), NA)
         }
         , add = TRUE)
 
@@ -258,35 +258,34 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' process them.
     #' }
     data_type_connection = function() {
-      con <- connect(ctx)
-      on.exit(dbDisconnect(con), add = TRUE)
+      with_connection({
+        check_connection_data_type <- function(value) {
+          eval(bquote({
+            expect_is(dbDataType(con, .(value)), "character")
+            expect_equal(length(dbDataType(con, .(value))), 1L)
+            query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)),
+                            ")")
+          }))
 
-      check_connection_data_type <- function(value) {
-        eval(bquote({
-          expect_is(dbDataType(con, .(value)), "character")
-          expect_equal(length(dbDataType(con, .(value))), 1L)
-          query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)),
-                          ")")
-        }))
+          eval(bquote({
+            expect_error(dbGetQuery(con, .(query)), NA)
+            on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA))
+          }))
+        }
 
-        eval(bquote({
-          expect_error(dbGetQuery(con, .(query)), NA)
-          on.exit(try(dbGetQuery(con, "DROP TABLE test")))
-        }))
-      }
+        expect_conn_has_data_type <- function(value) {
+          eval(bquote(
+            expect_error(check_connection_data_type(.(value)), NA)))
+        }
 
-      expect_conn_has_data_type <- function(value) {
-        eval(bquote(
-          expect_error(check_connection_data_type(.(value)), NA)))
-      }
-
-      expect_conn_has_data_type(logical(1))
-      expect_conn_has_data_type(integer(1))
-      expect_conn_has_data_type(numeric(1))
-      expect_conn_has_data_type(character(1))
-      expect_conn_has_data_type(list(raw(1)))
-      expect_conn_has_data_type(Sys.Date())
-      expect_conn_has_data_type(Sys.time())
+        expect_conn_has_data_type(logical(1))
+        expect_conn_has_data_type(integer(1))
+        expect_conn_has_data_type(numeric(1))
+        expect_conn_has_data_type(character(1))
+        expect_conn_has_data_type(list(raw(1)))
+        expect_conn_has_data_type(Sys.Date())
+        expect_conn_has_data_type(Sys.time())
+      })
     },
 
     #' \item{\code{data_integer}}{
@@ -755,7 +754,7 @@ with_connection <- function(code, env = parent.frame()) {
 
   eval(bquote({
     con <- connect(ctx)
-    on.exit(dbDisconnect(con), add = TRUE)
+    on.exit(expect_error(dbDisconnect(con), NA), add = TRUE)
     local(.(code_sub))
   }
   ), envir = env)
