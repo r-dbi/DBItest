@@ -263,13 +263,13 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_integer = function() {
       with_connection({
-        tbl_in <- data.frame(a = c(1:5, NA))
+        tbl_in <- data.frame(a = c(1:5, NA), id = 1:6)
 
         on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_identical(tbl_in, tbl_out)
+        expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
       })
     },
 
@@ -278,13 +278,13 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_numeric = function() {
       with_connection({
-        tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA))
+        tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA), id = 1:6)
 
         on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_identical(tbl_in, tbl_out)
+        expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
       })
     },
 
@@ -294,13 +294,14 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_numeric_special = function() {
       with_connection({
-        tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA, -Inf, Inf, NaN))
+        tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA, -Inf, Inf, NaN),
+                             id = 1:9)
 
         on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal(tbl_in$a, tbl_out$a)
+        expect_equal(tbl_in$a, tbl_out$a[order(tbl_out$id)])
       })
     },
 
@@ -309,13 +310,13 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_logical = function() {
       with_connection({
-        tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
+        tbl_in <- data.frame(a = c(TRUE, FALSE, NA), id = 1:3)
 
         on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_identical(tbl_in, tbl_out)
+        expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
       })
     },
 
@@ -339,14 +340,14 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_64_bit = function() {
       with_connection({
-        tbl_in <- data.frame(a = c(-1e14, 1e15, 0.25, NA))
+        tbl_in <- data.frame(a = c(-1e14, 1e15, 0.25, NA), id = 1:4)
         tbl_in_trunc <- data.frame(a = trunc(tbl_in$a))
 
         on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in, field.types = "bigint")
 
         tbl_out <- dbReadTable(con, "test")
-        expect_identical(tbl_in_trunc, tbl_out)
+        expect_identical(tbl_in_trunc, tbl_out[order(tbl_out$id), ])
       })
     },
 
@@ -357,13 +358,13 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(text_cyrillic, text_latin,
                                    text_chinese, text_ascii, NA),
-                             stringsAsFactors = FALSE)
+                             id = 1:5, stringsAsFactors = FALSE)
 
         on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_identical(tbl_in, tbl_out)
+        expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
       })
     },
 
@@ -372,7 +373,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_raw = function() {
       with_connection({
-        tbl_in <- list(a = list(as.raw(1:10), NA))
+        tbl_in <- list(a = list(as.raw(1:10), NA), id = 1:2)
         tbl_in <- structure(tbl_in, class = "data.frame",
                             row.names = c(NA, -2L))
 
@@ -380,7 +381,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_identical(tbl_in, tbl_out)
+        expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
       })
     },
 
@@ -389,14 +390,14 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_date = function() {
       with_connection({
-        tbl_in <- data.frame(row.names = 1:6)
+        tbl_in <- data.frame(id = 1:6)
         tbl_in$a <- c(Sys.Date() + 1:5, NA)
 
         on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal(tbl_in, tbl_out)
+        expect_equal(tbl_in, tbl_out[order(tbl_out$id), ])
       })
     },
 
@@ -405,7 +406,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_timestamp = function() {
       with_connection({
-        tbl_in <- data.frame(row.names = 1:5)
+        tbl_in <- data.frame(id = 1:5)
         tbl_in$a <- round(Sys.time()) + c(1, 60, 3600, 86400, NA)
         tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
         tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST")
@@ -414,7 +415,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_identical(tbl_in, tbl_out)
+        expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
       })
     },
 
@@ -424,13 +425,14 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     roundtrip_rownames = function() {
       with_connection({
         tbl_in <- data.frame(a = c(1:5, NA),
-                             row.names = paste0(LETTERS[1:6], 1:6))
+                             row.names = paste0(LETTERS[1:6], 1:6),
+                             id = 1:6)
 
         on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_identical(rownames(tbl_in), rownames(tbl_out))
+        expect_identical(rownames(tbl_in), rownames(tbl_out)[order(tbl_out$id)])
       })
     },
 
