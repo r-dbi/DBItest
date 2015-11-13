@@ -407,7 +407,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
           expect_true(is.na(rows$a))
         }
 
-        test_select(con, "NULL" = NA, .check_result = check_result)
+        test_select(con, "NULL" = is.na)
       })
     },
 
@@ -459,16 +459,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_raw = function() {
       with_connection({
-        check_result <- function(rows) {
-          expect_is(rows$a, "list")
-          expect_is(rows$a[[1L]], "raw")
-        }
-
-        values <- list(list(raw()))
+        values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(con, setNames(values, sql_names),
-                    .check_result = check_result)
+        test_select(con, setNames(values, sql_names))
       })
     },
 
@@ -477,17 +471,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_raw_null = function() {
       with_connection({
-        check_result <- function(rows) {
-          expect_is(rows$a, "list")
-          expect_is(rows$a[[1L]], "raw")
-          expect_true(is.na(rows$a[[2L]]))
-        }
-
-        values <- list(list(raw()))
+        values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(con, setNames(values, sql_names), .add_null = TRUE,
-                    .check_result = check_result)
+        test_select(con, setNames(values, sql_names), .add_null = TRUE)
       })
     },
 
@@ -749,23 +736,6 @@ union <- function(..., .order_by = NULL) {
 
 test_select <- function(con, ..., .add_null = FALSE,
                         .check_result = NULL) {
-
-  check_result_default <- function(rows)
-  {
-    expect_identical(Reduce(c, unname(rows[1L, ])), unname(values))
-
-    if (.add_null) {
-      expect_equal(nrow(rows), 2L)
-      expect_true(all(is.na(unname(unlist(rows[2L, ])))))
-    } else {
-      expect_equal(nrow(rows), 1L)
-    }
-  }
-
-  if (is.null(.check_result)) {
-    .check_result <- check_result_default
-  }
-
   values <- c(...)
   if (is.null(names(values))) {
     sql_values <- as.character(values)
@@ -791,7 +761,25 @@ test_select <- function(con, ..., .add_null = FALSE,
 
   expect_identical(names(rows), sql_names)
 
-  .check_result(rows)
+  for (i in seq_along(values)) {
+    value_or_testfun <- values[[i]]
+    if (is.function(value_or_testfun)) {
+      expect_true(value_or_testfun(rows[1L, i]))
+    } else {
+      expect_identical(rows[1L, i], value_or_testfun)
+    }
+  }
+
+  if (.add_null) {
+    expect_equal(nrow(rows), 2L)
+    expect_true(all(is.na(unname(unlist(rows[2L, ])))))
+  } else {
+    expect_equal(nrow(rows), 1L)
+  }
+}
+
+is_raw_list <- function(x) {
+  is.list(x) && is.raw(x[[1L]])
 }
 
 as_integer_date <- function(d) {
