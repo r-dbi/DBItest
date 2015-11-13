@@ -360,10 +360,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical = function() {
       with_connection({
-        query <- "SELECT CAST(1 AS boolean) as a, cast(0 AS boolean) as b"
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_identical(rows, data.frame(a=TRUE, b=FALSE))
+        test_select(con,
+                    "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE)
       })
     },
 
@@ -372,13 +370,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_null = function() {
       with_connection({
-        query <- union(
-          "SELECT CAST(1 AS boolean) as a, cast(0 AS boolean) as b, 0 as c",
-          "SELECT NULL, NULL, 1",
-          .order_by = "c")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_identical(rows, data.frame(a=c(TRUE, NA), b=c(FALSE, NA), c=0:1))
+        test_select(con,
+                    "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE,
+                    .add_null = TRUE)
       })
     },
 
@@ -789,8 +783,12 @@ union <- function(..., .order_by = NULL) {
 
 test_select <- function(con, ..., .add_null = FALSE) {
   values <- c(...)
-  in_values <- unname(values)
-  sql_values <- as.character(values)
+  if (is.null(names(values))) {
+    sql_values <- as.character(values)
+  } else {
+    sql_values <- names(values)
+  }
+
   sql_names <- letters[seq_along(sql_values)]
 
   query <- paste("SELECT",
@@ -808,7 +806,7 @@ test_select <- function(con, ..., .add_null = FALSE) {
   }
 
   expect_identical(names(rows), sql_names)
-  expect_identical(unname(unlist(rows[1L, ])), values)
+  expect_identical(unname(unlist(rows[1L, ])), unname(values))
 
   if (.add_null) {
     expect_equal(nrow(rows), 2L)
