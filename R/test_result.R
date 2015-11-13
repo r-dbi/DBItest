@@ -415,11 +415,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_64_bit = function() {
       with_connection({
-        query <- "SELECT 10000000000 as a, -10000000000 as b"
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_identical(as.numeric(rows$a), 10000000000)
-        expect_identical(as.numeric(rows$b), -10000000000)
+        test_select(con,
+                    "10000000000" = 10000000000, "-10000000000" = 10000000000)
       })
     },
 
@@ -428,13 +425,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_64_bit_null = function() {
       with_connection({
-        query <- union("SELECT 10000000000 as a, -10000000000 as b, 0 as c",
-                       "SELECT NULL, NULL, 1",
-                       .order_by = "c")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_identical(as.numeric(rows$a), c(10000000000, NA))
-        expect_identical(as.numeric(rows$b), c(-10000000000, NA))
+        test_select(con,
+                    "10000000000" = 10000000000, "-10000000000" = 10000000000,
+                    .add_null = TRUE)
       })
     },
 
