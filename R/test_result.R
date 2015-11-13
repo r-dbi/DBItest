@@ -324,10 +324,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_integer = function() {
       with_connection({
-        query <- "SELECT 1 as a, -100 as b"
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_identical(rows, data.frame(a=1L, b=-100L))
+        test_select(con, 1L, -100L)
       })
     },
 
@@ -801,4 +798,18 @@ union <- function(..., .order_by = NULL) {
     query <- paste(query, "ORDER BY", .order_by)
   }
   query
+}
+
+test_select <- function(con, ...) {
+  values <- c(...)
+  in_values <- unname(values)
+  sql_values <- as.character(values)
+  sql_names <- letters[seq_along(sql_values)]
+  query <- paste("SELECT",
+                 paste(sql_values, "as", sql_names, collapse = ", "))
+
+  expect_warning(rows <- dbGetQuery(con, query), NA)
+  expect_equal(nrow(rows), 1L)
+  expect_identical(names(rows), sql_names)
+  expect_identical(unname(unlist(rows[1L, ])), values)
 }
