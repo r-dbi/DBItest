@@ -389,7 +389,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_date = function() {
       with_connection({
-        tbl_in <- data.frame(a = c(Sys.Date() + 1:5, NA))
+        tbl_in <- data.frame(row.names = 1:6)
+        tbl_in$a <- c(Sys.Date() + 1:5, NA)
 
         on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
@@ -404,7 +405,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     roundtrip_timestamp = function() {
       with_connection({
-        tbl_in <- data.frame(a = round(Sys.time()) + c(1, 60, 3600, 86400, NA))
+        tbl_in <- data.frame(row.names = 1:5)
+        tbl_in$a <- round(Sys.time()) + c(1, 60, 3600, 86400, NA)
         tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
         tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST")
 
