@@ -61,7 +61,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         simple_out <- dbQuoteString(con, "simple")
         expect_equal(length(single), 1L)
-        letters_out <-dbQuoteString(con, letters)
+        letters_out <- dbQuoteString(con, letters)
         expect_equal(length(letters_out), length(letters))
       })
     },
