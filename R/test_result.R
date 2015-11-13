@@ -508,15 +508,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time = function() {
       with_connection({
-        query <- "SELECT time '00:00:00' as a,
-                  time '12:34:56' as b, current_time as c"
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "character")
-        expect_is(rows$b, "character")
-        expect_is(rows$c, "character")
-        expect_identical(rows$a, "00:00:00")
-        expect_identical(rows$b, "12:34:56")
+        test_select(con,
+                    "time '00:00:00'" = "00:00:00",
+                    "time '12:34:56'" = "12:34:56",
+                    "current_time" = is.character)
       })
     },
 
@@ -525,17 +520,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_null = function() {
       with_connection({
-        query <- union("SELECT time '00:00:00' as a,
-                        time '12:34:56' as b, current_time as c, 0 as d",
-                       "SELECT NULL, NULL, NULL, 1",
-                       .order_by = "d")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "character")
-        expect_is(rows$b, "character")
-        expect_is(rows$c, "character")
-        expect_identical(rows$a, c("00:00:00", NA))
-        expect_identical(rows$b, c("12:34:56", NA))
+        test_select(con,
+                    "time '00:00:00'" = "00:00:00",
+                    "time '12:34:56'" = "12:34:56",
+                    "current_time" = is.character,
+                    .add_null = TRUE)
       })
     },
 
@@ -545,15 +534,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_parens = function() {
       with_connection({
-        query <- "SELECT time('00:00:00') as a,
-                  time('12:34:56') as b, current_time as c"
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "character")
-        expect_is(rows$b, "character")
-        expect_is(rows$c, "character")
-        expect_identical(rows$a, "00:00:00")
-        expect_identical(rows$b, "12:34:56")
+        test_select(con,
+                    "time('00:00:00')" = "00:00:00",
+                    "time('12:34:56')" = "12:34:56",
+                    "current_time" = is.character)
       })
     },
 
@@ -563,17 +547,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_parens_null = function() {
       with_connection({
-        query <- union("SELECT time('00:00:00') as a,
-                        time('12:34:56') as b, current_time as c, 0 as d",
-                       "SELECT NULL, NULL, NULL, 1",
-                       .order_by = "d")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "character")
-        expect_is(rows$b, "character")
-        expect_is(rows$c, "character")
-        expect_identical(rows$a, c("00:00:00", NA))
-        expect_identical(rows$b, c("12:34:56", NA))
+        test_select(con,
+                    "time('00:00:00')" = "00:00:00",
+                    "time('12:34:56')" = "12:34:56",
+                    "current_time" = is.character,
+                    .add_null = TRUE)
       })
     },
 
