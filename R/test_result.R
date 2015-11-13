@@ -483,10 +483,20 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_date = function() {
       with_connection({
-        values <- as_integer_date(c(as.Date("2015-10-10"), Sys.Date()))
-        sql_names <- c("date('2015-10-10')", "current_date")
-
-        test_select(con, setNames(values, sql_names))
+        test_select(con,
+                    "date('2015-01-01')" = as_integer_date("2015-01-01"),
+                    "date('2015-02-02')" = as_integer_date("2015-02-02"),
+                    "date('2015-03-03')" = as_integer_date("2015-03-03"),
+                    "date('2015-04-04')" = as_integer_date("2015-04-04"),
+                    "date('2015-05-05')" = as_integer_date("2015-05-05"),
+                    "date('2015-06-06')" = as_integer_date("2015-06-06"),
+                    "date('2015-07-07')" = as_integer_date("2015-07-07"),
+                    "date('2015-08-08')" = as_integer_date("2015-08-08"),
+                    "date('2015-09-09')" = as_integer_date("2015-09-09"),
+                    "date('2015-10-10')" = as_integer_date("2015-10-10"),
+                    "date('2015-11-11')" = as_integer_date("2015-11-11"),
+                    "date('2015-12-12')" = as_integer_date("2015-12-12"),
+                    "current_date" = as_integer_date(Sys.time()))
       })
     },
 
@@ -496,10 +506,21 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_date_null_below = function() {
       with_connection({
-        values <- as_integer_date(c(as.Date("2015-10-10"), Sys.Date()))
-        sql_names <- c("date('2015-10-10')", "current_date")
-
-        test_select(con, setNames(values, sql_names), .add_null = "below")
+        test_select(con,
+                    "date('2015-01-01')" = as_integer_date("2015-01-01"),
+                    "date('2015-02-02')" = as_integer_date("2015-02-02"),
+                    "date('2015-03-03')" = as_integer_date("2015-03-03"),
+                    "date('2015-04-04')" = as_integer_date("2015-04-04"),
+                    "date('2015-05-05')" = as_integer_date("2015-05-05"),
+                    "date('2015-06-06')" = as_integer_date("2015-06-06"),
+                    "date('2015-07-07')" = as_integer_date("2015-07-07"),
+                    "date('2015-08-08')" = as_integer_date("2015-08-08"),
+                    "date('2015-09-09')" = as_integer_date("2015-09-09"),
+                    "date('2015-10-10')" = as_integer_date("2015-10-10"),
+                    "date('2015-11-11')" = as_integer_date("2015-11-11"),
+                    "date('2015-12-12')" = as_integer_date("2015-12-12"),
+                    "current_date" = as_integer_date(Sys.time()),
+                    .add_null = "below")
       })
     },
 
@@ -740,5 +761,6 @@ is_roughly_current_time <- function(x) {
 }
 
 as_integer_date <- function(d) {
+  d <- as.Date(d)
   structure(as.integer(unclass(d)), class = class(d))
 }
