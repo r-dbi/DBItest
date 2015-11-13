@@ -146,6 +146,31 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{bind_empty_positional_qm}}{
+    #' Empty positional binding (question mark syntax) with check of
+    #' return value.
+    #' }
+    bind_empty_positional_qm = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT 1")
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
+
+        bind_res <- withVisible(dbBind(res, list()))
+        expect_false(bind_res$visible)
+        expect_identical(res, bind_res$value)
+      })
+    },
+
+    #' \item{\code{bind_error_positional_qm}}{
+    #' Positional binding of integer values (question mark syntax) raises an
+    #' error if connection is closed.
+    #' }
+    bind_error_positional_qm = function() {
+      con <- connect(ctx)
+      dbDisconnect(con)
+      expect_error(test_select_bind(con, positional_qm, 1L))
+    },
+
     #' \item{\code{bind_return_value_positional_qm}}{
     #' Positional binding of integer values (question mark syntax) with check of
     #' return value.
@@ -268,6 +293,31 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
           transform_input = function(x) x[[1L]],
           transform_output = identity)
       })
+    },
+
+    #' \item{\code{bind_empty_positional_dollar}}{
+    #' Empty positional binding (dollar syntax) with check of
+    #' return value.
+    #' }
+    bind_empty_positional_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT 1")
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
+
+        bind_res <- withVisible(dbBind(res, list()))
+        expect_false(bind_res$visible)
+        expect_identical(res, bind_res$value)
+      })
+    },
+
+    #' \item{\code{bind_error_positional_dollar}}{
+    #' Positional binding of integer values (dollar syntax) raises an
+    #' error if connection is closed.
+    #' }
+    bind_error_positional_dollar = function() {
+      con <- connect(ctx)
+      dbDisconnect(con)
+      expect_error(test_select_bind(con, positional_dollar, 1L))
     },
 
     #' \item{\code{bind_return_value_positional_dollar}}{
@@ -394,6 +444,31 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{bind_empty_named_colon}}{
+    #' Empty named binding (colon syntax) with check of
+    #' return value.
+    #' }
+    bind_empty_named_colon = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT 1")
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
+
+        bind_res <- withVisible(dbBind(res, list()))
+        expect_false(bind_res$visible)
+        expect_identical(res, bind_res$value)
+      })
+    },
+
+    #' \item{\code{bind_error_named_colon}}{
+    #' named binding of integer values (colon syntax) raises an
+    #' error if connection is closed.
+    #' }
+    bind_error_named_colon = function() {
+      con <- connect(ctx)
+      dbDisconnect(con)
+      expect_error(test_select_bind(con, named_colon, 1L))
+    },
+
     #' \item{\code{bind_return_value_named_colon}}{
     #' named binding of integer values (colon syntax) with check of
     #' return value.
@@ -516,6 +591,31 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
           transform_input = function(x) x[[1L]],
           transform_output = identity)
       })
+    },
+
+    #' \item{\code{bind_empty_named_dollar}}{
+    #' Empty named binding (dollar syntax) with check of
+    #' return value.
+    #' }
+    bind_empty_named_dollar = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT 1")
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
+
+        bind_res <- withVisible(dbBind(res, list()))
+        expect_false(bind_res$visible)
+        expect_identical(res, bind_res$value)
+      })
+    },
+
+    #' \item{\code{bind_error_named_dollar}}{
+    #' named binding of integer values (dollar syntax) raises an
+    #' error if connection is closed.
+    #' }
+    bind_error_named_dollar = function() {
+      con <- connect(ctx)
+      dbDisconnect(con)
+      expect_error(test_select_bind(con, named_dollar, 1L))
     },
 
     #' \item{\code{bind_return_value_named_dollar}}{
