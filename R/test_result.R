@@ -464,9 +464,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
           expect_is(rows$a[[1L]], "raw")
         }
 
-        values <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
+        values <- list(list(raw()))
+        sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(con, values, .check_result = check_result)
+        test_select(con, setNames(values, sql_names),
+                    .check_result = check_result)
       })
     },
 
@@ -481,9 +483,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
           expect_true(is.na(rows$a[[2L]]))
         }
 
-        values <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
+        values <- list(list(raw()))
+        sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(con, values, .add_null = TRUE, .check_result = check_result)
+        test_select(con, setNames(values, sql_names), .add_null = TRUE,
+                    .check_result = check_result)
       })
     },
 
