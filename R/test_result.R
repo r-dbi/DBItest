@@ -507,10 +507,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_date_integer}}{
+    #' \item{\code{data_date}}{
     #' data conversion from SQL to R: date, returned as integer with class
     #' }
-    data_date_integer = function() {
+    data_date = function() {
       with_connection({
         query <- "SELECT date('2015-10-10') as a, current_date as b"
 
@@ -522,11 +522,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_date_integer_null}}{
+    #' \item{\code{data_date_null}}{
     #' data conversion from SQL to R: date with typed NULL values, returned as
     #' integer with class
     #' }
-    data_date_integer_null = function() {
+    data_date_null = function() {
       with_connection({
         query <- union(
           "SELECT date('2015-10-10') as a, current_date as b, 0 as c",
@@ -538,38 +538,6 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$b, "Date")
         expect_equal(rows$a, c(as.Date("2015-10-10"), NA))
         expect_is(unclass(rows$a), "integer")
-      })
-    },
-
-    #' \item{\code{data_date_numeric}}{
-    #' data conversion from SQL to R: date, returned as numeric with class
-    #' }
-    data_date_numeric = function() {
-      with_connection({
-        query <- "SELECT date('2015-10-10') as a, current_date as b"
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "Date")
-        expect_is(rows$b, "Date")
-        expect_identical(rows$a, as.Date("2015-10-10"))
-      })
-    },
-
-    #' \item{\code{data_date_numeric_null}}{
-    #' data conversion from SQL to R: date with typed NULL values, returned as
-    #' numeric with class
-    #' }
-    data_date_numeric_null = function() {
-      with_connection({
-        query <- union(
-          "SELECT date('2015-10-10') as a, current_date as b, 0 as c",
-          "SELECT NULL, NULL, 1",
-          .order_by = "c")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "Date")
-        expect_is(rows$b, "Date")
-        expect_identical(rows$a, c(as.Date("2015-10-10"), NA))
       })
     },
 
