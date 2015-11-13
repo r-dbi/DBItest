@@ -436,16 +436,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_character = function() {
       with_connection({
-        query <- paste0("SELECT '", text_cyrillic, "' as a, '",
-                        text_latin, "' as b, '",
-                        text_chinese, "' as c, '",
-                        text_ascii, "' as d")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_identical(rows$a, text_cyrillic)
-        expect_identical(rows$b, text_latin)
-        expect_identical(rows$c, text_chinese)
-        expect_identical(rows$d, text_ascii)
+        values <- texts
+        sql_names <- as.character(dbQuoteString(con, texts))
+        test_select(con, setNames(values, sql_names))
       })
     },
 
@@ -454,19 +447,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_character_null = function() {
       with_connection({
-        query <- union(paste0("SELECT '", text_cyrillic, "' as a, '",
-                              text_latin, "' as b, '",
-                              text_chinese, "' as c, '",
-                              text_ascii, "' as d, ",
-                              "0 as e"),
-                       "SELECT NULL, NULL, NULL, NULL, 1",
-                       .order_by = "e")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_identical(rows$a, c(text_cyrillic, NA))
-        expect_identical(rows$b, c(text_latin, NA))
-        expect_identical(rows$c, c(text_chinese, NA))
-        expect_identical(rows$d, c(text_ascii, NA))
+        values <- texts
+        sql_names <- as.character(dbQuoteString(con, texts))
+        test_select(con, setNames(values, sql_names), .add_null = TRUE)
       })
     },
 
