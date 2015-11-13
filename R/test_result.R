@@ -381,10 +381,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_int = function() {
       with_connection({
-        query <- "SELECT CAST(1 AS boolean) as a, cast(0 AS boolean) as b"
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_identical(rows, data.frame(a=1L, b=0L))
+        test_select(con,
+                    "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L)
       })
     },
 
@@ -394,13 +392,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_int_null = function() {
       with_connection({
-        query <- union(
-          "SELECT CAST(1 AS boolean) as a, cast(0 AS boolean) as b, 0 as c",
-          "SELECT NULL, NULL, 1",
-          .order_by = "c")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_identical(rows, data.frame(a=c(1L, NA), b=c(0L, NA), c=0:1))
+        test_select(con,
+                    "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L,
+                    .add_null = TRUE)
       })
     },
 
