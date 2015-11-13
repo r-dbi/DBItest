@@ -53,6 +53,19 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{quote_string_vectorized}}{
+    #' Can quote more than one string at once by passing a character vector.
+    #'
+    #' }
+    quote_string_vectorized = function() {
+      with_connection({
+        simple_out <- dbQuoteString(con, "simple")
+        expect_equal(length(single), 1L)
+        letters_out <-dbQuoteString(con, letters)
+        expect_equal(length(letters_out), length(letters))
+      })
+    },
+
     #' \item{\code{quote_identifier}}{
     #' Can quote identifiers, and create identifiers that contain quotes and
     #' spaces
@@ -84,6 +97,18 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
                        as.character(simple), as.character(with_space),
                        as.character(with_dot), as.character(with_comma)))
         expect_identical(unlist(unname(rows)), 1:8)
+      })
+    },
+
+    #' \item{\code{quote_identifier_not_vectorized}}{
+    #' Character vectors are treated as a single qualified identifier.
+    #' }
+    quote_identifier_not_vectorized = function() {
+      with_connection({
+        simple_out <- dbQuoteString(con, "simple")
+        expect_equal(length(single), 1L)
+        letters_out <- dbQuoteString(con, letters[1:3])
+        expect_equal(length(letters_out), 1L)
       })
     },
 
