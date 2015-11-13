@@ -237,9 +237,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_character_positional_qm = function() {
       with_connection({
-        test_select_bind(
-          con, positional_qm,
-          c(text_cyrillic, text_latin, text_chinese, text_ascii))
+        test_select_bind(con, positional_qm, texts)
       })
     },
 
@@ -386,9 +384,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_character_positional_dollar = function() {
       with_connection({
-        test_select_bind(
-          con, positional_dollar,
-          c(text_cyrillic, text_latin, text_chinese, text_ascii))
+        test_select_bind(con, positional_dollar, texts)
       })
     },
 
@@ -535,9 +531,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_character_named_colon = function() {
       with_connection({
-        test_select_bind(
-          con, named_colon,
-          c(text_cyrillic, text_latin, text_chinese, text_ascii))
+        test_select_bind(con, named_colon, texts)
       })
     },
 
@@ -684,9 +678,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_character_named_dollar = function() {
       with_connection({
-        test_select_bind(
-          con, named_dollar,
-          c(text_cyrillic, text_latin, text_chinese, text_ascii))
+        test_select_bind(con, named_dollar, texts)
       })
     },
 
