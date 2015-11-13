@@ -146,6 +146,16 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{bind_return_value_positional_qm}}{
+    #' Positional binding of integer values (question mark syntax) with check of
+    #' return value.
+    #' }
+    bind_return_value_positional_qm = function() {
+      with_connection({
+        test_select_bind(con, positional_qm, 1L, check_return_value = TRUE)
+      })
+    },
+
     #' \item{\code{bind_integer_positional_qm}}{
     #' Positional binding of integer values (question mark syntax).
     #' }
@@ -257,6 +267,16 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
           type = NULL,
           transform_input = function(x) x[[1L]],
           transform_output = identity)
+      })
+    },
+
+    #' \item{\code{bind_return_value_positional_dollar}}{
+    #' Positional binding of integer values (dollar syntax) with check of
+    #' return value.
+    #' }
+    bind_return_value_positional_dollar = function() {
+      with_connection({
+        test_select_bind(con, positional_dollar, 1L, check_return_value = TRUE)
       })
     },
 
@@ -374,6 +394,16 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{bind_return_value_named_colon}}{
+    #' named binding of integer values (colon syntax) with check of
+    #' return value.
+    #' }
+    bind_return_value_named_colon = function() {
+      with_connection({
+        test_select_bind(con, named_colon, 1L, check_return_value = TRUE)
+      })
+    },
+
     #' \item{\code{bind_integer_named_colon}}{
     #' Named binding of integer values (colon syntax).
     #' }
@@ -485,6 +515,16 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
           type = NULL,
           transform_input = function(x) x[[1L]],
           transform_output = identity)
+      })
+    },
+
+    #' \item{\code{bind_return_value_named_dollar}}{
+    #' named binding of integer values (dollar syntax) with check of
+    #' return value.
+    #' }
+    bind_return_value_named_dollar = function() {
+      with_connection({
+        test_select_bind(con, named_dollar, 1L, check_return_value = TRUE)
       })
     },
 
@@ -616,7 +656,8 @@ test_select_bind <- function(con, placeholder_fun, values,
                              type = "character(10)",
                              transform_input = as.character,
                              transform_output = function(x) trimws(x, "right"),
-                             expect = expect_identical) {
+                             expect = expect_identical,
+                             check_return_value = FALSE) {
   placeholder <- placeholder_fun(length(values))
 
   value_names <- letters[seq_along(values)]
@@ -635,7 +676,11 @@ test_select_bind <- function(con, placeholder_fun, values,
     names(bind_values) <- names(placeholder)
   }
 
-  dbBind(res, as.list(values))
+  bind_res <- withVisible(dbBind(res, as.list(values)))
+  if (check_return_value) {
+    expect_false(bind_res$visible)
+    expect_is(bind_res$value, "DBIResult")
+  }
 
   rows <- dbFetch(res)
   expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
