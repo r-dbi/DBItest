@@ -882,7 +882,7 @@ union <- function(..., .order_by = NULL) {
   query
 }
 
-test_select <- function(con, ..., .add_null = "none") {
+test_select <- function(con, ..., .add_null = "none", .table = FALSE) {
   values <- c(...)
   if (is.null(names(values))) {
     sql_values <- as.character(values)
@@ -902,10 +902,18 @@ test_select <- function(con, ..., .add_null = "none") {
       query <- rev(query)
     }
     query <- paste0(query, ", ", 1:2, " as id")
-    query <- union(query, .order_by = "id")
+    query <- union(query)
   }
 
-  expect_warning(rows <- dbGetQuery(con, query), NA)
+  if (.table) {
+    query <- paste("CREATE TABLE test AS", query)
+    expect_warning(dbGetQuery(con, query), NA)
+    on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA), add = TRUE)
+    expect_warning(rows <- dbReadTable(con, "test"), NA)
+  } else {
+    expect_warning(rows <- dbGetQuery(con, query), NA)
+  }
+
   if (.add_null != "none") {
     rows <- rows[order(rows$id), -(length(sql_names) + 1L)]
     if (.add_null == "above") {
