@@ -403,10 +403,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_null = function() {
       with_connection({
-        query <- "SELECT NULL as a"
+        check_result <- function(rows) {
+          expect_true(is.na(rows$a))
+        }
 
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_true(is.na(rows$a))
+        test_select(con, "NULL" = NA, .check_result = check_result)
       })
     },
 
