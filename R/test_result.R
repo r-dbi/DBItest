@@ -734,9 +734,9 @@ test_select <- function(con, ..., .add_null = "none") {
   for (i in seq_along(values)) {
     value_or_testfun <- values[[i]]
     if (is.function(value_or_testfun)) {
-      expect_true(value_or_testfun(rows[1L, i]))
+      eval(bquote(expect_true(value_or_testfun(rows[1L, .(i)]))))
     } else {
-      expect_identical(rows[1L, i], value_or_testfun)
+      eval(bquote(expect_identical(rows[1L, .(i)], .(value_or_testfun))))
     }
   }
 
