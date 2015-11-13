@@ -42,14 +42,14 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
                         quoted_na, "as quoted_na")
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_equal(rows$simple, "simple")
-        expect_equal(rows$with_spaces, "with spaces")
+        expect_identical(rows$simple, "simple")
+        expect_identical(rows$with_spaces, "with spaces")
         expect_true(is.na(rows$null))
-        expect_equal(rows$na_return, "NA")
-        expect_equal(rows$quoted_simple, as.character(simple))
-        expect_equal(rows$quoted_with_spaces, as.character(with_spaces))
-        expect_equal(rows$quoted_null, as.character(null))
-        expect_equal(rows$quoted_na, as.character(na))
+        expect_identical(rows$na_return, "NA")
+        expect_identical(rows$quoted_simple, as.character(simple))
+        expect_identical(rows$quoted_with_spaces, as.character(with_spaces))
+        expect_identical(rows$quoted_null, as.character(null))
+        expect_identical(rows$quoted_na, as.character(na))
       })
     },
 
@@ -79,11 +79,11 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
                         "8 as", quoted_with_comma)
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_equal(names(rows),
+        expect_identical(names(rows),
                      c("simple", "with space", "with.dot", "with,comma",
                        as.character(simple), as.character(with_space),
                        as.character(with_dot), as.character(with_comma)))
-        expect_equal(unlist(unname(rows)), 1:8)
+        expect_identical(unlist(unname(rows)), 1:8)
       })
     },
 
@@ -118,7 +118,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         iris_out <- dbReadTable(con, "iris")
         order_out <- do.call(order, iris_out)
 
-        expect_equal(iris_in[order_in, ], iris_out[order_out, ])
+        expect_identical(iris_in[order_in, ], iris_out[order_out, ])
       })
     },
 
@@ -135,7 +135,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
                      NA)
         iris_out <- dbReadTable(con, "iris")
-        expect_equal(nrow(iris_out), 10L)
+        expect_identical(nrow(iris_out), 10L)
       })
     },
 
@@ -151,7 +151,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
         iris_out <- dbReadTable(con, "iris")
-        expect_equal(nrow(iris_out), nrow(iris) + 10L)
+        expect_identical(nrow(iris_out), nrow(iris) + 10L)
       })
     },
 
@@ -175,7 +175,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         dbWriteTable(con, "iris", iris[1:30, ], temporary = TRUE)
         iris_out <- dbReadTable(con, "iris")
-        expect_equal(nrow(iris_out), 30L)
+        expect_identical(nrow(iris_out), 30L)
       })
 
       with_connection({
@@ -412,7 +412,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal(tbl_in, tbl_out)
+        expect_identical(tbl_in, tbl_out)
       })
     },
 

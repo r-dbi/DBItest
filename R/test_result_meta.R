@@ -56,8 +56,8 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         ci <- dbColumnInfo(res)
         expect_is(ci, "data.frame")
-        expect_equal(colnames(ci), c("name", "type"))
-        expect_equal(ci$name[1:2], c("a", "b"))
+        expect_identical(colnames(ci), c("name", "type"))
+        expect_identical(ci$name[1:2], c("a", "b"))
         expect_is(ci$type, "character")
       })
     },

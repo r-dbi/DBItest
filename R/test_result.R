@@ -415,8 +415,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         query <- "SELECT 10000000000 as a, -10000000000 as b"
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_equal(as.numeric(rows$a), 10000000000)
-        expect_equal(as.numeric(rows$b), -10000000000)
+        expect_identical(as.numeric(rows$a), 10000000000)
+        expect_identical(as.numeric(rows$b), -10000000000)
       })
     },
 
@@ -430,8 +430,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                        .order_by = "c")
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_equal(as.numeric(rows$a), c(10000000000, NA))
-        expect_equal(as.numeric(rows$b), c(-10000000000, NA))
+        expect_identical(as.numeric(rows$a), c(10000000000, NA))
+        expect_identical(as.numeric(rows$b), c(-10000000000, NA))
       })
     },
 
@@ -446,10 +446,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                         text_ascii, "' as d")
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_equal(rows$a, text_cyrillic)
-        expect_equal(rows$b, text_latin)
-        expect_equal(rows$c, text_chinese)
-        expect_equal(rows$d, text_ascii)
+        expect_identical(rows$a, text_cyrillic)
+        expect_identical(rows$b, text_latin)
+        expect_identical(rows$c, text_chinese)
+        expect_identical(rows$d, text_ascii)
       })
     },
 
@@ -467,10 +467,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                        .order_by = "e")
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_equal(rows$a, c(text_cyrillic, NA))
-        expect_equal(rows$b, c(text_latin, NA))
-        expect_equal(rows$c, c(text_chinese, NA))
-        expect_equal(rows$d, c(text_ascii, NA))
+        expect_identical(rows$a, c(text_cyrillic, NA))
+        expect_identical(rows$b, c(text_latin, NA))
+        expect_identical(rows$c, c(text_chinese, NA))
+        expect_identical(rows$d, c(text_ascii, NA))
       })
     },
 
@@ -550,8 +550,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$a, "character")
         expect_is(rows$b, "character")
         expect_is(rows$c, "character")
-        expect_equal(rows$a, "00:00:00")
-        expect_equal(rows$b, "12:34:56")
+        expect_identical(rows$a, "00:00:00")
+        expect_identical(rows$b, "12:34:56")
       })
     },
 
@@ -569,8 +569,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$a, "character")
         expect_is(rows$b, "character")
         expect_is(rows$c, "character")
-        expect_equal(rows$a, c("00:00:00", NA))
-        expect_equal(rows$b, c("12:34:56", NA))
+        expect_identical(rows$a, c("00:00:00", NA))
+        expect_identical(rows$b, c("12:34:56", NA))
       })
     },
 
@@ -587,8 +587,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$a, "character")
         expect_is(rows$b, "character")
         expect_is(rows$c, "character")
-        expect_equal(rows$a, "00:00:00")
-        expect_equal(rows$b, "12:34:56")
+        expect_identical(rows$a, "00:00:00")
+        expect_identical(rows$b, "12:34:56")
       })
     },
 
@@ -607,8 +607,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$a, "character")
         expect_is(rows$b, "character")
         expect_is(rows$c, "character")
-        expect_equal(rows$a, c("00:00:00", NA))
-        expect_equal(rows$b, c("12:34:56", NA))
+        expect_identical(rows$a, c("00:00:00", NA))
+        expect_identical(rows$b, c("12:34:56", NA))
       })
     },
 
@@ -664,8 +664,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$a, "POSIXct")
         expect_is(rows$b, "POSIXct")
         expect_is(rows$c, "POSIXct")
-        expect_equal(rows$a, as.POSIXct("2015-10-11 00:00:00+02:00"))
-        expect_equal(rows$b, as.POSIXct("2015-10-11 12:34:56-05:00"))
+        expect_identical(rows$a, as.POSIXct("2015-10-11 00:00:00+02:00"))
+        expect_identical(rows$b, as.POSIXct("2015-10-11 12:34:56-05:00"))
         expect_less_than(Sys.time() - rows$c, 1)
       })
     },
@@ -688,8 +688,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$a, "POSIXct")
         expect_is(rows$b, "POSIXct")
         expect_is(rows$c, "POSIXct")
-        expect_equal(rows$a, c(as.POSIXct("2015-10-11 00:00:00+02:00"), NA))
-        expect_equal(rows$b, c(as.POSIXct("2015-10-11 12:34:56-05:00"), NA))
+        expect_identical(rows$a, c(as.POSIXct("2015-10-11 00:00:00+02:00"), NA))
+        expect_identical(rows$b, c(as.POSIXct("2015-10-11 12:34:56-05:00"), NA))
         expect_less_than(Sys.time() - rows$c[[1L]], 1)
         expect_true(is.na(rows$c[[2L]]))
       })
@@ -708,8 +708,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$a, "POSIXct")
         expect_is(rows$b, "POSIXct")
         expect_is(rows$c, "POSIXct")
-        expect_equal(rows$a, as.POSIXct("2015-10-11 00:00:00Z"))
-        expect_equal(rows$b, as.POSIXct("2015-10-11 12:34:56Z"))
+        expect_identical(rows$a, as.POSIXct("2015-10-11 00:00:00Z"))
+        expect_identical(rows$b, as.POSIXct("2015-10-11 12:34:56Z"))
         expect_less_than(Sys.time() - rows$c, 2)
       })
     },
@@ -731,8 +731,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$a, "POSIXct")
         expect_is(rows$b, "POSIXct")
         expect_is(rows$c, "POSIXct")
-        expect_equal(rows$a, c(as.POSIXct("2015-10-11 00:00:00Z", NA)))
-        expect_equal(rows$b, c(as.POSIXct("2015-10-11 12:34:56Z", NA)))
+        expect_identical(rows$a, c(as.POSIXct("2015-10-11 00:00:00Z", NA)))
+        expect_identical(rows$b, c(as.POSIXct("2015-10-11 12:34:56Z", NA)))
         expect_less_than(Sys.time() - rows$c[[1L]], 2)
         expect_true(is.na(rows$c[[2L]]))
       })
