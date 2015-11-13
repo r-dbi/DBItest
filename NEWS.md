@@ -1,3 +1,11 @@
+Version 0.2-1 (2015-11-12)
+===
+
+- Test `NA` to `NULL` conversion in `dbQuoteString()`, and false friends (#23)
+- Enhance test for `dbQuoteIdentifier()` (#30)
+- Catch all errors in `on.exit()` handlers via `expect_error()` (#20).
+
+
 Version 0.2 (2015-11-11)
 ===
 

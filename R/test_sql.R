@@ -26,18 +26,30 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         with_spaces <- dbQuoteString(con, "with spaces")
         quoted_simple <- dbQuoteString(con, as.character(simple))
         quoted_with_spaces <- dbQuoteString(con, as.character(with_spaces))
+        null <- dbQuoteString(con, NA_character_)
+        quoted_null <- dbQuoteString(con, as.character(null))
+        na <- dbQuoteString(con, "NA")
+        quoted_na <- dbQuoteString(con, as.character(na))
 
         query <- paste0("SELECT",
                         simple, "as simple,",
                         with_spaces, "as with_spaces,",
+                        null, " as null_return,",
+                        na, "as na_return,",
                         quoted_simple, "as quoted_simple,",
-                        quoted_with_spaces, "as quoted_with_spaces")
+                        quoted_with_spaces, "as quoted_with_spaces,",
+                        quoted_null, "as quoted_null,",
+                        quoted_na, "as quoted_na")
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
         expect_equal(rows$simple, "simple")
         expect_equal(rows$with_spaces, "with spaces")
+        expect_true(is.na(rows$null))
+        expect_equal(rows$na_return, "NA")
         expect_equal(rows$quoted_simple, as.character(simple))
         expect_equal(rows$quoted_with_spaces, as.character(with_spaces))
+        expect_equal(rows$quoted_null, as.character(null))
+        expect_equal(rows$quoted_na, as.character(na))
       })
     },
 
@@ -48,21 +60,30 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     quote_identifier = function() {
       with_connection({
         simple <- dbQuoteIdentifier(con, "simple")
-        with_spaces <- dbQuoteIdentifier(con, "with spaces")
+        with_space <- dbQuoteIdentifier(con, "with space")
+        with_dot <- dbQuoteIdentifier(con, "with.dot")
+        with_comma <- dbQuoteIdentifier(con, "with,comma")
         quoted_simple <- dbQuoteIdentifier(con, as.character(simple))
-        quoted_with_spaces <- dbQuoteIdentifier(con, as.character(with_spaces))
+        quoted_with_space <- dbQuoteIdentifier(con, as.character(with_space))
+        quoted_with_dot <- dbQuoteIdentifier(con, as.character(with_dot))
+        quoted_with_comma <- dbQuoteIdentifier(con, as.character(with_comma))
 
         query <- paste0("SELECT ",
                         "1 as", simple, ",",
-                        "2 as", with_spaces, ",",
-                        "3 as", quoted_simple, ",",
-                        "4 as", quoted_with_spaces)
+                        "2 as", with_space, ",",
+                        "3 as", with_dot, ",",
+                        "4 as", with_comma, ",",
+                        "5 as", quoted_simple, ",",
+                        "6 as", quoted_with_space, ",",
+                        "7 as", quoted_with_dot, ",",
+                        "8 as", quoted_with_comma)
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_equal(names(rows), c("simple", "with spaces",
-                                    as.character(simple),
-                                    as.character(with_spaces)))
-        expect_equal(unlist(unname(rows)), 1:4)
+        expect_equal(names(rows),
+                     c("simple", "with space", "with.dot", "with,comma",
+                       as.character(simple), as.character(with_space),
+                       as.character(with_dot), as.character(with_comma)))
+        expect_equal(unlist(unname(rows)), 1:8)
       })
     },
 
@@ -73,7 +94,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     write_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(dbGetQuery(con, "DROP TABLE iris"), add = TRUE)
+        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+                add = TRUE)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris))
       })
@@ -85,7 +107,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     read_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(dbGetQuery(con, "DROP TABLE iris"), add = TRUE)
+        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+                add = TRUE)
 
         iris_in <- iris
         iris_in$Species <- as.character(iris_in$Species)
@@ -106,7 +129,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     overwrite_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(dbGetQuery(con, "DROP TABLE iris"), add = TRUE)
+        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+                add = TRUE)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
                      NA)
@@ -122,7 +146,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     append_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(try(dbGetQuery(con, "DROP TABLE iris"), silent = TRUE),
+        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
                 add = TRUE)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
@@ -137,8 +161,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     append_table_error = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(try(dbGetQuery(con, "DROP TABLE iris"), silent = TRUE),
-                add = TRUE)
+        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris")), add = TRUE)
         expect_error(dbWriteTable(con, "iris", iris[1:20,], append = TRUE))
       })
     },
@@ -175,7 +198,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
         expect_false(dbExistsTable(con, "iris"))
 
-        on.exit(dbGetQuery(con, "DROP TABLE iris"), add = TRUE)
+        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+                add = TRUE)
         dbWriteTable(con, "iris", iris)
 
         tables <- dbListTables(con)
@@ -201,7 +225,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_in <- data.frame(SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
                              stringsAsFactors = FALSE)
 
-        on.exit(try(dbRemoveTable(con, "EXISTS"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "EXISTS"), NA), add = TRUE)
         dbWriteTable(con, "EXISTS", tbl_in)
 
         tbl_out <- dbReadTable(con, "EXISTS")
@@ -226,7 +250,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
           "with space",
           ",")
 
-        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -241,7 +265,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(1:5, NA))
 
-        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -256,7 +280,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA))
 
-        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -272,7 +296,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA, -Inf, Inf, NaN))
 
-        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -287,7 +311,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
 
-        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -302,7 +326,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = NA)
 
-        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -318,7 +342,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_in <- data.frame(a = c(-1e14, 1e15, 0.25, NA))
         tbl_in_trunc <- data.frame(a = trunc(tbl_in$a))
 
-        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in, field.types = "bigint")
 
         tbl_out <- dbReadTable(con, "test")
@@ -335,7 +359,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
                                    text_chinese, text_ascii, NA),
                              stringsAsFactors = FALSE)
 
-        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -352,7 +376,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_in <- structure(tbl_in, class = "data.frame",
                             row.names = c(NA, -2L))
 
-        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -367,7 +391,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         tbl_in <- data.frame(a = c(Sys.Date() + 1:5, NA))
 
-        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -384,7 +408,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
         tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST")
 
-        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
@@ -400,7 +424,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_in <- data.frame(a = c(1:5, NA),
                              row.names = paste0(LETTERS[1:6], 1:6))
 
-        on.exit(try(dbRemoveTable(con, "test"), silent = TRUE), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
