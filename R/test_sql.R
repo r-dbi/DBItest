@@ -398,6 +398,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
         tbl_out <- dbReadTable(con, "test")
         expect_equal(tbl_in, tbl_out[order(tbl_out$id), ])
+        expect_is(unclass(tbl_out$a), "integer")
       })
     },
 

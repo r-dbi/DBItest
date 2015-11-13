@@ -508,7 +508,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{data_date}}{
-    #' data conversion from SQL to R: date
+    #' data conversion from SQL to R: date, returned as integer with class
     #' }
     data_date = function() {
       with_connection({
@@ -518,11 +518,13 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$a, "Date")
         expect_is(rows$b, "Date")
         expect_equal(rows$a, as.Date("2015-10-10"))
+        expect_is(unclass(rows$a), "integer")
       })
     },
 
     #' \item{\code{data_date_null}}{
-    #' data conversion from SQL to R: date with typed NULL values
+    #' data conversion from SQL to R: date with typed NULL values, returned as
+    #' integer with class
     #' }
     data_date_null = function() {
       with_connection({
@@ -535,6 +537,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(rows$a, "Date")
         expect_is(rows$b, "Date")
         expect_equal(rows$a, c(as.Date("2015-10-10"), NA))
+        expect_is(unclass(rows$a), "integer")
       })
     },
 
