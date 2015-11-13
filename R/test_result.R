@@ -28,6 +28,37 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{clear_result_return}}{
+    #' Return value, currently tests that the return value is always
+    #' \code{TRUE}.
+    #' }
+    clear_result_return = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT 1")
+        expect_true(dbClearResult(res))
+        expect_true(dbClearResult(res))
+      })
+    },
+
+    #' \item{\code{stale_result_warning}}{
+    #' Leaving a result open when closing a connection gives a warning
+    #' }
+    stale_result_warning = function() {
+      expect_warning(
+        with_connection(dbClearResult(dbSendQuery(con, "SELECT 1"))),
+        NA)
+
+      expect_warning(
+        with_connection(dbSendQuery(con, "SELECT 1"))
+      )
+
+      with_connection({
+        dbSendQuery(con, "SELECT 1")
+        expect_warning(res <- dbSendQuery(con, "SELECT 2"))
+        dbClearResult(res)
+      })
+    },
+
     #' \item{\code{command_query}}{
     #' Can issue a command query that creates a table, inserts a row, and
     #' deletes it; the result sets for these query always have "completed"
