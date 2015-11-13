@@ -560,14 +560,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp = function() {
       with_connection({
-        query <- "SELECT timestamp '2015-10-11 00:00:00' as a,
-        timestamp '2015-10-11 12:34:56' as b, current_timestamp as c"
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "POSIXct")
-        expect_is(rows$b, "POSIXct")
-        expect_is(rows$c, "POSIXct")
-        expect_less_than(Sys.time() - rows$c, 2)
+        test_select(con,
+                    "timestamp '2015-10-11 00:00:00'" = is_time,
+                    "timestamp '2015-10-11 12:34:56'" = is_time,
+                    "current_timestamp" = is_roughly_current_time)
       })
     },
 
@@ -576,20 +572,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_null = function() {
       with_connection({
-        query <- union(
-          "SELECT
-           timestamp '2015-10-11 00:00:00' as a,
-           timestamp '2015-10-11 12:34:56' as b,
-           current_timestamp as c, 0 as d",
-          "SELECT NULL, NULL, NULL, 1",
-          .order_by = "d")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "POSIXct")
-        expect_is(rows$b, "POSIXct")
-        expect_is(rows$c, "POSIXct")
-        expect_less_than(Sys.time() - rows$c[[1L]], 2)
-        expect_true(is.na(rows$c[[2L]]))
+        test_select(con,
+                    "timestamp '2015-10-11 00:00:00'" = is_time,
+                    "timestamp '2015-10-11 12:34:56'" = is_time,
+                    "current_timestamp" = is_roughly_current_time,
+                    .add_null = TRUE)
       })
     },
 
@@ -598,18 +585,13 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_utc = function() {
       with_connection({
-        query <- "SELECT
-        timestamp with time zone '2015-10-11 00:00:00+02:00' as a,
-        timestamp with time zone '2015-10-11 12:34:56-05:00' as b,
-        current_timestamp as c"
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "POSIXct")
-        expect_is(rows$b, "POSIXct")
-        expect_is(rows$c, "POSIXct")
-        expect_identical(rows$a, as.POSIXct("2015-10-11 00:00:00+02:00"))
-        expect_identical(rows$b, as.POSIXct("2015-10-11 12:34:56-05:00"))
-        expect_less_than(Sys.time() - rows$c, 1)
+        test_select(
+          con,
+          "timestamp '2015-10-11 00:00:00+02:00'" =
+            as.POSIXct("2015-10-11 00:00:00+02:00"),
+          "timestamp '2015-10-11 12:34:56-05:00'" =
+            as.POSIXct("2015-10-11 12:34:56-05:00"),
+          "current_timestamp" = is_roughly_current_time)
       })
     },
 
@@ -619,22 +601,14 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_utc_null = function() {
       with_connection({
-        query <- union(
-          "SELECT
-           timestamp with time zone '2015-10-11 00:00:00+02:00' as a,
-           timestamp with time zone '2015-10-11 12:34:56-05:00' as b,
-           current_timestamp as c, 0 as d",
-          "SELECT NULL, NULL, NULL, 1",
-          .order_by = "d")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "POSIXct")
-        expect_is(rows$b, "POSIXct")
-        expect_is(rows$c, "POSIXct")
-        expect_identical(rows$a, c(as.POSIXct("2015-10-11 00:00:00+02:00"), NA))
-        expect_identical(rows$b, c(as.POSIXct("2015-10-11 12:34:56-05:00"), NA))
-        expect_less_than(Sys.time() - rows$c[[1L]], 1)
-        expect_true(is.na(rows$c[[2L]]))
+        test_select(
+          con,
+          "timestamp '2015-10-11 00:00:00+02:00'" =
+            as.POSIXct("2015-10-11 00:00:00+02:00"),
+          "timestamp '2015-10-11 12:34:56-05:00'" =
+            as.POSIXct("2015-10-11 12:34:56-05:00"),
+          "current_timestamp" = is_roughly_current_time,
+          .add_null = TRUE)
       })
     },
 
@@ -644,16 +618,14 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_parens = function() {
       with_connection({
-        query <- "SELECT datetime('2015-10-11 00:00:00') as a,
-                  datetime('2015-10-11 12:34:56') as b, current_timestamp as c"
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "POSIXct")
-        expect_is(rows$b, "POSIXct")
-        expect_is(rows$c, "POSIXct")
-        expect_identical(rows$a, as.POSIXct("2015-10-11 00:00:00Z"))
-        expect_identical(rows$b, as.POSIXct("2015-10-11 12:34:56Z"))
-        expect_less_than(Sys.time() - rows$c, 2)
+        test_select(
+          con,
+          "datetime('2015-10-11 00:00:00')" =
+            as.POSIXct("2015-10-11 00:00:00Z"),
+          "datetime('2015-10-11 12:34:56')" =
+            as.POSIXct("2015-10-11 12:34:56Z"),
+          "current_timestamp" = is_roughly_current_time,
+          .add_null = TRUE)
       })
     },
 
@@ -663,21 +635,14 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_parens_null = function() {
       with_connection({
-        query <- union(
-          "SELECT datetime('2015-10-11 00:00:00') as a,
-           datetime('2015-10-11 12:34:56') as b, current_timestamp as c,
-           0 as d",
-          "SELECT NULL, NULL, NULL, 1",
-          .order_by = "d")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "POSIXct")
-        expect_is(rows$b, "POSIXct")
-        expect_is(rows$c, "POSIXct")
-        expect_identical(rows$a, c(as.POSIXct("2015-10-11 00:00:00Z", NA)))
-        expect_identical(rows$b, c(as.POSIXct("2015-10-11 12:34:56Z", NA)))
-        expect_less_than(Sys.time() - rows$c[[1L]], 2)
-        expect_true(is.na(rows$c[[2L]]))
+        test_select(
+          con,
+          "datetime('2015-10-11 00:00:00')" =
+            as.POSIXct("2015-10-11 00:00:00Z"),
+          "datetime('2015-10-11 12:34:56')" =
+            as.POSIXct("2015-10-11 12:34:56Z"),
+          "current_timestamp" = is_roughly_current_time,
+          .add_null = TRUE)
       })
     },
 
@@ -758,6 +723,14 @@ test_select <- function(con, ..., .add_null = FALSE,
 
 is_raw_list <- function(x) {
   is.list(x) && is.raw(x[[1L]])
+}
+
+is_time <- function(x) {
+  inherits(x, "POSIXct")
+}
+
+is_roughly_current_time <- function(x) {
+  is_time(x) && (Sys.time() - x <= 2)
 }
 
 as_integer_date <- function(d) {
