@@ -679,7 +679,7 @@ test_select_bind <- function(con, placeholder_fun, values,
   bind_res <- withVisible(dbBind(res, as.list(values)))
   if (check_return_value) {
     expect_false(bind_res$visible)
-    expect_is(bind_res$value, "DBIResult")
+    expect_identical(res, bind_res$value)
   }
 
   rows <- dbFetch(res)
