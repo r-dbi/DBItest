@@ -328,10 +328,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_integer_null}}{
+    #' \item{\code{data_integer_null_below}}{
     #' data conversion from SQL to R: integer with typed NULL values
     #' }
-    data_integer_null = function() {
+    data_integer_null_below = function() {
       with_connection({
         test_select(con, 1L, -100L, .add_null = "below")
       })
@@ -346,10 +346,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_numeric_null}}{
+    #' \item{\code{data_numeric_null_below}}{
     #' data conversion from SQL to R: numeric with typed NULL values
     #' }
-    data_numeric_null = function() {
+    data_numeric_null_below = function() {
       with_connection({
         test_select(con, 1.5, -100.5, .add_null = "below")
       })
@@ -365,10 +365,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_logical_null}}{
+    #' \item{\code{data_logical_null_below}}{
     #' data conversion from SQL to R: logical with typed NULL values
     #' }
-    data_logical_null = function() {
+    data_logical_null_below = function() {
       with_connection({
         test_select(con,
                     "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE,
@@ -386,11 +386,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_logical_int_null}}{
+    #' \item{\code{data_logical_int_null_below}}{
     #' data conversion from SQL to R: logical (as integers) with typed NULL
     #' values
     #' }
-    data_logical_int_null = function() {
+    data_logical_int_null_below = function() {
       with_connection({
         test_select(con,
                     "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L,
@@ -398,10 +398,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_null}}{
+    #' \item{\code{data_null_below}}{
     #' data conversion from SQL to R: A NULL value is returned as NA
     #' }
-    data_null = function() {
+    data_null_below = function() {
       with_connection({
         check_result <- function(rows) {
           expect_true(is.na(rows$a))
@@ -421,10 +421,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_64_bit_null}}{
+    #' \item{\code{data_64_bit_null_below}}{
     #' data conversion from SQL to R: 64-bit integers with typed NULL values
     #' }
-    data_64_bit_null = function() {
+    data_64_bit_null_below = function() {
       with_connection({
         test_select(con,
                     "10000000000" = 10000000000, "-10000000000" = 10000000000,
@@ -443,10 +443,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_character_null}}{
+    #' \item{\code{data_character_null_below}}{
     #' data conversion from SQL to R: character with typed NULL values
     #' }
-    data_character_null = function() {
+    data_character_null_below = function() {
       with_connection({
         values <- texts
         sql_names <- as.character(dbQuoteString(con, texts))
@@ -466,10 +466,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_raw_null}}{
+    #' \item{\code{data_raw_null_below}}{
     #' data conversion from SQL to R: raw with typed NULL values
     #' }
-    data_raw_null = function() {
+    data_raw_null_below = function() {
       with_connection({
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
@@ -490,11 +490,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_date_null}}{
+    #' \item{\code{data_date_null_below}}{
     #' data conversion from SQL to R: date with typed NULL values, returned as
     #' integer with class
     #' }
-    data_date_null = function() {
+    data_date_null_below = function() {
       with_connection({
         values <- as_integer_date(c(as.Date("2015-10-10"), Sys.Date()))
         sql_names <- c("date('2015-10-10')", "current_date")
@@ -515,10 +515,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_time_null}}{
+    #' \item{\code{data_time_null_below}}{
     #' data conversion from SQL to R: time with typed NULL values
     #' }
-    data_time_null = function() {
+    data_time_null_below = function() {
       with_connection({
         test_select(con,
                     "time '00:00:00'" = "00:00:00",
@@ -541,11 +541,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_time_parens_null}}{
+    #' \item{\code{data_time_parens_null_below}}{
     #' data conversion from SQL to R: time (using alternative syntax with
     #' parentheses for specifying time literals) with typed NULL values
     #' }
-    data_time_parens_null = function() {
+    data_time_parens_null_below = function() {
       with_connection({
         test_select(con,
                     "time('00:00:00')" = "00:00:00",
@@ -567,10 +567,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_timestamp_null}}{
+    #' \item{\code{data_timestamp_null_below}}{
     #' data conversion from SQL to R: timestamp with typed NULL values
     #' }
-    data_timestamp_null = function() {
+    data_timestamp_null_below = function() {
       with_connection({
         test_select(con,
                     "timestamp '2015-10-11 00:00:00'" = is_time,
@@ -595,11 +595,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_timestamp_utc_null}}{
+    #' \item{\code{data_timestamp_utc_null_below}}{
     #' data conversion from SQL to R: timestamp with time zone with typed NULL
     #' values
     #' }
-    data_timestamp_utc_null = function() {
+    data_timestamp_utc_null_below = function() {
       with_connection({
         test_select(
           con,
@@ -629,11 +629,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{data_timestamp_parens_null}}{
+    #' \item{\code{data_timestamp_parens_null_below}}{
     #' data conversion: timestamp (alternative syntax with parentheses
     #' for specifying timestamp literals) with typed NULL values
     #' }
-    data_timestamp_parens_null = function() {
+    data_timestamp_parens_null_below = function() {
       with_connection({
         test_select(
           con,
