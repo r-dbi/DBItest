@@ -342,10 +342,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_numeric = function() {
       with_connection({
-        query <- "SELECT 1.0 as a, -100.5 as b"
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_identical(rows, data.frame(a=1, b=-100.5))
+        test_select(con, 1.5, -100.5)
       })
     },
 
@@ -354,12 +351,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_numeric_null = function() {
       with_connection({
-        query <- union("SELECT 1.0 as a, -100.5 as b, 0 as c",
-                       "SELECT NULL, NULL, 1",
-                       .order_by = "c")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_identical(rows, data.frame(a=c(1, NA), b=c(-100.5, NA), c=0:1))
+        test_select(con, 1.5, -100.5, .add_null = TRUE)
       })
     },
 
