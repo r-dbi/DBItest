@@ -333,7 +333,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_integer_null = function() {
       with_connection({
-        test_select(con, 1L, -100L, .add_null = TRUE)
+        test_select(con, 1L, -100L, .add_null = "below")
       })
     },
 
@@ -351,7 +351,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_numeric_null = function() {
       with_connection({
-        test_select(con, 1.5, -100.5, .add_null = TRUE)
+        test_select(con, 1.5, -100.5, .add_null = "below")
       })
     },
 
@@ -372,7 +372,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         test_select(con,
                     "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE,
-                    .add_null = TRUE)
+                    .add_null = "below")
       })
     },
 
@@ -394,7 +394,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         test_select(con,
                     "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L,
-                    .add_null = TRUE)
+                    .add_null = "below")
       })
     },
 
@@ -428,7 +428,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         test_select(con,
                     "10000000000" = 10000000000, "-10000000000" = 10000000000,
-                    .add_null = TRUE)
+                    .add_null = "below")
       })
     },
 
@@ -450,7 +450,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         values <- texts
         sql_names <- as.character(dbQuoteString(con, texts))
-        test_select(con, setNames(values, sql_names), .add_null = TRUE)
+        test_select(con, setNames(values, sql_names), .add_null = "below")
       })
     },
 
@@ -474,7 +474,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(con, setNames(values, sql_names), .add_null = TRUE)
+        test_select(con, setNames(values, sql_names), .add_null = "below")
       })
     },
 
@@ -499,7 +499,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         values <- as_integer_date(c(as.Date("2015-10-10"), Sys.Date()))
         sql_names <- c("date('2015-10-10')", "current_date")
 
-        test_select(con, setNames(values, sql_names), .add_null = TRUE)
+        test_select(con, setNames(values, sql_names), .add_null = "below")
       })
     },
 
@@ -524,7 +524,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                     "time '00:00:00'" = "00:00:00",
                     "time '12:34:56'" = "12:34:56",
                     "current_time" = is.character,
-                    .add_null = TRUE)
+                    .add_null = "below")
       })
     },
 
@@ -551,7 +551,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                     "time('00:00:00')" = "00:00:00",
                     "time('12:34:56')" = "12:34:56",
                     "current_time" = is.character,
-                    .add_null = TRUE)
+                    .add_null = "below")
       })
     },
 
@@ -576,7 +576,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                     "timestamp '2015-10-11 00:00:00'" = is_time,
                     "timestamp '2015-10-11 12:34:56'" = is_time,
                     "current_timestamp" = is_roughly_current_time,
-                    .add_null = TRUE)
+                    .add_null = "below")
       })
     },
 
@@ -608,7 +608,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
           "timestamp '2015-10-11 12:34:56-05:00'" =
             as.POSIXct("2015-10-11 12:34:56-05:00"),
           "current_timestamp" = is_roughly_current_time,
-          .add_null = TRUE)
+          .add_null = "below")
       })
     },
 
@@ -625,7 +625,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
           "datetime('2015-10-11 12:34:56')" =
             as.POSIXct("2015-10-11 12:34:56Z"),
           "current_timestamp" = is_roughly_current_time,
-          .add_null = TRUE)
+          .add_null = "below")
       })
     },
 
@@ -642,7 +642,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
           "datetime('2015-10-11 12:34:56')" =
             as.POSIXct("2015-10-11 12:34:56Z"),
           "current_timestamp" = is_roughly_current_time,
-          .add_null = TRUE)
+          .add_null = "below")
       })
     },
 
@@ -677,8 +677,7 @@ union <- function(..., .order_by = NULL) {
   query
 }
 
-test_select <- function(con, ..., .add_null = FALSE,
-                        .check_result = NULL) {
+test_select <- function(con, ..., .add_null = "none") {
   values <- c(...)
   if (is.null(names(values))) {
     sql_values <- as.character(values)
@@ -690,16 +689,23 @@ test_select <- function(con, ..., .add_null = FALSE,
 
   query <- paste("SELECT",
                  paste(sql_values, "as", sql_names, collapse = ", "))
-  if (.add_null) {
+  if (.add_null != "none") {
     query_null <- paste("SELECT",
                         paste("NULL as", sql_names, collapse = ", "))
-    query <- paste(c(query, query_null), ", ", 1:2, "as id")
-    query <- union(query[[1L]], query[[2L]], .order_by = "id")
+    query <- c(query, query_null)
+    if (.add_null == "above") {
+      query <- rev(query)
+    }
+    query <- paste0(query, ", ", 1:2, " as id")
+    query <- union(query, .order_by = "id")
   }
 
   expect_warning(rows <- dbGetQuery(con, query), NA)
-  if (.add_null) {
-    rows <- rows[-(length(sql_names) + 1L)]
+  if (.add_null != "none") {
+    rows <- rows[order(rows$id), -(length(sql_names) + 1L)]
+    if (.add_null == "above") {
+      rows <- rows[2:1, ]
+    }
   }
 
   expect_identical(names(rows), sql_names)
@@ -713,7 +719,7 @@ test_select <- function(con, ..., .add_null = FALSE,
     }
   }
 
-  if (.add_null) {
+  if (.add_null != "none") {
     expect_equal(nrow(rows), 2L)
     expect_true(all(is.na(unname(unlist(rows[2L, ])))))
   } else {
