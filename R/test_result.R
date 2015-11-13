@@ -496,13 +496,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_date = function() {
       with_connection({
-        query <- "SELECT date('2015-10-10') as a, current_date as b"
+        values <- as_integer_date(c(as.Date("2015-10-10"), Sys.Date()))
+        sql_names <- c("date('2015-10-10')", "current_date")
 
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "Date")
-        expect_is(rows$b, "Date")
-        expect_equal(rows$a, as.Date("2015-10-10"))
-        expect_is(unclass(rows$a), "integer")
+        test_select(con, setNames(values, sql_names))
       })
     },
 
@@ -512,16 +509,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_date_null = function() {
       with_connection({
-        query <- union(
-          "SELECT date('2015-10-10') as a, current_date as b, 0 as c",
-          "SELECT NULL, NULL, 1",
-          .order_by = "c")
+        values <- as_integer_date(c(as.Date("2015-10-10"), Sys.Date()))
+        sql_names <- c("date('2015-10-10')", "current_date")
 
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_is(rows$a, "Date")
-        expect_is(rows$b, "Date")
-        expect_equal(rows$a, c(as.Date("2015-10-10"), NA))
-        expect_is(unclass(rows$a), "integer")
+        test_select(con, setNames(values, sql_names), .add_null = TRUE)
       })
     },
 
@@ -761,8 +752,7 @@ test_select <- function(con, ..., .add_null = FALSE,
 
   check_result_default <- function(rows)
   {
-    expect_identical(unname(unlist(rows[1L, ], recursive = FALSE)),
-                     unname(values))
+    expect_identical(Reduce(c, unname(rows[1L, ])), unname(values))
 
     if (.add_null) {
       expect_equal(nrow(rows), 2L)
@@ -776,7 +766,7 @@ test_select <- function(con, ..., .add_null = FALSE,
     .check_result <- check_result_default
   }
 
-    values <- c(...)
+  values <- c(...)
   if (is.null(names(values))) {
     sql_values <- as.character(values)
   } else {
@@ -802,4 +792,8 @@ test_select <- function(con, ..., .add_null = FALSE,
   expect_identical(names(rows), sql_names)
 
   .check_result(rows)
+}
+
+as_integer_date <- function(d) {
+  structure(as.integer(unclass(d)), class = class(d))
 }
