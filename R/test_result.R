@@ -333,12 +333,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_integer_null = function() {
       with_connection({
-        query <- union("SELECT 1 as a, -100 as b, 0 as c",
-                       "SELECT NULL, NULL, 1",
-                       .order_by = "c")
-
-        expect_warning(rows <- dbGetQuery(con, query), NA)
-        expect_identical(rows, data.frame(a=c(1L, NA), b=c(-100L, NA), c=0:1))
+        test_select(con, 1L, -100L, .add_null = TRUE)
       })
     },
 
@@ -800,16 +795,33 @@ union <- function(..., .order_by = NULL) {
   query
 }
 
-test_select <- function(con, ...) {
+test_select <- function(con, ..., .add_null = FALSE) {
   values <- c(...)
   in_values <- unname(values)
   sql_values <- as.character(values)
   sql_names <- letters[seq_along(sql_values)]
+
   query <- paste("SELECT",
                  paste(sql_values, "as", sql_names, collapse = ", "))
+  if (.add_null) {
+    query_null <- paste("SELECT",
+                        paste("NULL as", sql_names, collapse = ", "))
+    query <- paste(c(query, query_null), ", ", 1:2, "as id")
+    query <- union(query[[1L]], query[[2L]], .order_by = "id")
+  }
 
   expect_warning(rows <- dbGetQuery(con, query), NA)
-  expect_equal(nrow(rows), 1L)
+  if (.add_null) {
+    rows <- rows[-(length(sql_names) + 1L)]
+  }
+
   expect_identical(names(rows), sql_names)
   expect_identical(unname(unlist(rows[1L, ])), values)
+
+  if (.add_null) {
+    expect_equal(nrow(rows), 2L)
+    expect_true(all(is.na(unname(unlist(rows[2L, ])))))
+  } else {
+    expect_equal(nrow(rows), 1L)
+  }
 }
