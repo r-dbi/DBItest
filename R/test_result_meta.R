@@ -839,8 +839,7 @@ test_select_bind <- function(con, placeholder_fun, values,
                              transform_output = function(x) trimws(x, "right"),
                              expect = expect_identical,
                              extra = c("none", "return_value", "too_many",
-                                       "not_enough", "wrong_name"))
-{
+                                       "not_enough", "wrong_name")) {
   extra <- match.arg(extra)
 
   placeholder <- placeholder_fun(length(values))
@@ -865,7 +864,8 @@ test_select_bind <- function(con, placeholder_fun, values,
     extra,
     too_many = c(bind_values, bind_values[[1L]]),
     not_enough = bind_values[-1L],
-    wrong_name = stats::setNames(bind_values, paste0("bogus", names(bind_values))),
+    wrong_name = stats::setNames(bind_values, paste0("bogus",
+                                                     names(bind_values))),
     bind_values
   )
 
