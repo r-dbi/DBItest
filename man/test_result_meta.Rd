@@ -34,6 +34,18 @@ Row count information is correct.
 \item{\code{rows_affected}}{
 Information on affected rows is correct.
 }
+\item{\code{bind_empty_positional_qm}}{
+Empty positional binding (question mark syntax) with check of
+return value.
+}
+\item{\code{bind_error_positional_qm}}{
+Positional binding of integer values (question mark syntax) raises an
+error if connection is closed.
+}
+\item{\code{bind_return_value_positional_qm}}{
+Positional binding of integer values (question mark syntax) with check of
+return value.
+}
 \item{\code{bind_integer_positional_qm}}{
 Positional binding of integer values (question mark syntax).
 }
@@ -65,6 +77,18 @@ mark syntax).
 }
 \item{\code{bind_raw_positional_qm}}{
 Positional binding of raw values (question mark syntax).
+}
+\item{\code{bind_empty_positional_dollar}}{
+Empty positional binding (dollar syntax) with check of
+return value.
+}
+\item{\code{bind_error_positional_dollar}}{
+Positional binding of integer values (dollar syntax) raises an
+error if connection is closed.
+}
+\item{\code{bind_return_value_positional_dollar}}{
+Positional binding of integer values (dollar syntax) with check of
+return value.
 }
 \item{\code{bind_integer_positional_dollar}}{
 Positional binding of integer values (dollar syntax).
@@ -98,6 +122,18 @@ syntax).
 \item{\code{bind_raw_positional_dollar}}{
 Positional binding of raw values (dollar syntax).
 }
+\item{\code{bind_empty_named_colon}}{
+Empty named binding (colon syntax) with check of
+return value.
+}
+\item{\code{bind_error_named_colon}}{
+named binding of integer values (colon syntax) raises an
+error if connection is closed.
+}
+\item{\code{bind_return_value_named_colon}}{
+named binding of integer values (colon syntax) with check of
+return value.
+}
 \item{\code{bind_integer_named_colon}}{
 Named binding of integer values (colon syntax).
 }
@@ -129,6 +165,18 @@ syntax).
 }
 \item{\code{bind_raw_named_colon}}{
 Named binding of raw values (colon syntax).
+}
+\item{\code{bind_empty_named_dollar}}{
+Empty named binding (dollar syntax) with check of
+return value.
+}
+\item{\code{bind_error_named_dollar}}{
+named binding of integer values (dollar syntax) raises an
+error if connection is closed.
+}
+\item{\code{bind_return_value_named_dollar}}{
+named binding of integer values (dollar syntax) with check of
+return value.
 }
 \item{\code{bind_integer_named_dollar}}{
 Named binding of integer values (dollar syntax).
