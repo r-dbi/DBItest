@@ -324,8 +324,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
           eval(bquote({
             expect_is(dbDataType(con, .(value)), "character")
             expect_equal(length(dbDataType(con, .(value))), 1L)
-            expect_identical(dbDataType(con, .(value)),
-                             dbDataType(con, I(.(value))))
+            expect_identical(
+              dbDataType(con, .(value)), dbDataType(con, I(.(value))))
+            expect_identical(
+              dbDataType(con, unclass(.(value))),
+              dbDataType(con, structure(.(value), class = "unknown1")))
             query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)),
                             ")")
           }))
