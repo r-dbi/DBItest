@@ -7,7 +7,7 @@ NULL
 #' Test full compliance to DBI
 #'
 #' @inheritParams test_all
-#' @include test_result_meta.R
+#' @include test_meta.R
 #' @family tests
 #' @export
 test_compliance <- function(skip = NULL, ctx = get_default_context()) {

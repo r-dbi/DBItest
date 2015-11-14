@@ -30,9 +30,8 @@ package depends (!) on "DBI" and imports "methods"}
 }
 \seealso{
 Other tests: \code{\link{test_compliance}},
-  \code{\link{test_connection_meta}},
   \code{\link{test_connection}}, \code{\link{test_driver}},
-  \code{\link{test_result_meta}},
-  \code{\link{test_result}}, \code{\link{test_sql}}
+  \code{\link{test_meta}}, \code{\link{test_result}},
+  \code{\link{test_sql}}
 }
 
