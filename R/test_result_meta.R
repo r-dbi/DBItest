@@ -168,7 +168,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_return_value_positional_qm = function() {
       with_connection({
-        test_select_bind(con, positional_qm, 1L, check_return_value = TRUE)
+        test_select_bind(con, positional_qm, 1L, extra = "return_value")
       })
     },
 
@@ -315,7 +315,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_return_value_positional_dollar = function() {
       with_connection({
-        test_select_bind(con, positional_dollar, 1L, check_return_value = TRUE)
+        test_select_bind(con, positional_dollar, 1L, extra = "return_value")
       })
     },
 
@@ -462,7 +462,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_return_value_named_colon = function() {
       with_connection({
-        test_select_bind(con, named_colon, 1L, check_return_value = TRUE)
+        test_select_bind(con, named_colon, 1L, extra = "return_value")
       })
     },
 
@@ -609,7 +609,7 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_return_value_named_dollar = function() {
       with_connection({
-        test_select_bind(con, named_dollar, 1L, check_return_value = TRUE)
+        test_select_bind(con, named_dollar, 1L, extra = "return_value")
       })
     },
 
@@ -740,7 +740,11 @@ test_select_bind <- function(con, placeholder_fun, values,
                              transform_input = as.character,
                              transform_output = function(x) trimws(x, "right"),
                              expect = expect_identical,
-                             check_return_value = FALSE) {
+                             extra = c("none", "return_value", "too_many",
+                                       "not_enough", "wrong_name"))
+{
+  extra <- match.arg(extra)
+
   placeholder <- placeholder_fun(length(values))
 
   value_names <- letters[seq_along(values)]
@@ -760,7 +764,7 @@ test_select_bind <- function(con, placeholder_fun, values,
   }
 
   bind_res <- withVisible(dbBind(res, as.list(bind_values)))
-  if (check_return_value) {
+  if (extra == "return_value") {
     expect_false(bind_res$visible)
     expect_identical(res, bind_res$value)
   }
