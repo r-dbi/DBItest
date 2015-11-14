@@ -8,3 +8,5 @@ text_chinese <- iconv(list(as.raw(c(0xe6, 0x88, 0x91, 0xe6, 0x98, 0xaf, 0xe8,
                                     0xb0, 0x81))))
 # "ASCII"
 text_ascii <- "ASCII"
+
+texts <- c(text_cyrillic, text_latin, text_chinese, text_ascii)

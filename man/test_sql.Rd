@@ -22,9 +22,16 @@ This function defines the following tests:
 \item{\code{quote_string}}{
 Can quote strings, and create strings that contain quotes and spaces
 }
+\item{\code{quote_string_vectorized}}{
+Can quote more than one string at once by passing a character vector.
+
+}
 \item{\code{quote_identifier}}{
 Can quote identifiers, and create identifiers that contain quotes and
 spaces
+}
+\item{\code{quote_identifier_not_vectorized}}{
+Character vectors are treated as a single qualified identifier.
 }
 \item{\code{write_table}}{
 Can write the \code{\link[datasets]{iris}} data as a table to the

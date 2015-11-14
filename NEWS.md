@@ -1,3 +1,16 @@
+Version 0.2-2 (2015-11-14)
+===
+
+- Refactor `data_` tests to use a worker function `test_select()`
+- Test tables with `NA` values above and below the non-`NA` value in `data_` tests
+- Test return values and error conditions for `dbBind()` and `dbClearResult()` (#31)
+- Test vectorization of `dbQuoteString()` and `dbQuoteIdentifier()` (#18)
+- Test that dates have `integer` as underlying data type (#9)
+- Roundtrip tests sort output table to be sure (#32)
+- Avoid using `data.frame()` for date and time columns (#10)
+- Use `expect_identical()` instead of `expect_equal()` in many places (#13)
+
+
 Version 0.2-1 (2015-11-12)
 ===
 
