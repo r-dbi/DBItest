@@ -71,11 +71,9 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 0L)
         dbFetch(res)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 1L)
       })
 
@@ -84,15 +82,12 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 0L)
         dbFetch(res, 2L)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 2L)
         dbFetch(res)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 3L)
       })
 
@@ -101,11 +96,9 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 0L)
         dbFetch(res)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 0L)
       })
     },
@@ -130,7 +123,6 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
           on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
           ra <- dbGetRowsAffected(res)
 
-          expect_is(ra, "integer")
           expect_identical(ra, sum(iris$Species == "versicolor"))
         })
 
@@ -140,7 +132,6 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
           on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
           ra <- dbGetRowsAffected(res)
 
-          expect_is(ra, "integer")
           expect_identical(ra, 0L)
         })
       })
@@ -177,7 +168,27 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_return_value_positional_qm = function() {
       with_connection({
-        test_select_bind(con, positional_qm, 1L, check_return_value = TRUE)
+        test_select_bind(con, positional_qm, 1L, extra = "return_value")
+      })
+    },
+
+    #' \item{\code{bind_too_many_positional_qm}}{
+    #' Positional binding of integer values (question mark syntax) with too many
+    #' values.
+    #' }
+    bind_too_many_positional_qm = function() {
+      with_connection({
+        test_select_bind(con, positional_qm, 1L, extra = "too_many")
+      })
+    },
+
+    #' \item{\code{bind_not_enough_positional_qm}}{
+    #' Positional binding of integer values (question mark syntax) with too few
+    #' values.
+    #' }
+    bind_not_enough_positional_qm = function() {
+      with_connection({
+        test_select_bind(con, positional_qm, 1L, extra = "not_enough")
       })
     },
 
@@ -324,7 +335,27 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_return_value_positional_dollar = function() {
       with_connection({
-        test_select_bind(con, positional_dollar, 1L, check_return_value = TRUE)
+        test_select_bind(con, positional_dollar, 1L, extra = "return_value")
+      })
+    },
+
+    #' \item{\code{bind_too_many_positional_dollar}}{
+    #' Positional binding of integer values (dollar syntax) with too many
+    #' values.
+    #' }
+    bind_too_many_positional_dollar = function() {
+      with_connection({
+        test_select_bind(con, positional_dollar, 1L, extra = "too_many")
+      })
+    },
+
+    #' \item{\code{bind_not_enough_positional_dollar}}{
+    #' Positional binding of integer values (dollar syntax) with too few
+    #' values.
+    #' }
+    bind_not_enough_positional_dollar = function() {
+      with_connection({
+        test_select_bind(con, positional_dollar, 1L, extra = "not_enough")
       })
     },
 
@@ -471,7 +502,36 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_return_value_named_colon = function() {
       with_connection({
-        test_select_bind(con, named_colon, 1L, check_return_value = TRUE)
+        test_select_bind(con, named_colon, 1L, extra = "return_value")
+      })
+    },
+
+    #' \item{\code{bind_too_many_named_colon}}{
+    #' named binding of integer values (colon syntax) with too many
+    #' values.
+    #' }
+    bind_too_many_named_colon = function() {
+      with_connection({
+        test_select_bind(con, named_colon, 1L, extra = "too_many")
+      })
+    },
+
+    #' \item{\code{bind_not_enough_named_colon}}{
+    #' named binding of integer values (colon syntax) with too few
+    #' values.
+    #' }
+    bind_not_enough_named_colon = function() {
+      with_connection({
+        test_select_bind(con, named_colon, 1L, extra = "not_enough")
+      })
+    },
+
+    #' \item{\code{bind_wrong_name_named_colon}}{
+    #' named binding of integer values (colon syntax) with wrong names.
+    #' }
+    bind_wrong_name_named_colon = function() {
+      with_connection({
+        test_select_bind(con, named_colon, 1L, extra = "wrong_name")
       })
     },
 
@@ -618,7 +678,36 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     bind_return_value_named_dollar = function() {
       with_connection({
-        test_select_bind(con, named_dollar, 1L, check_return_value = TRUE)
+        test_select_bind(con, named_dollar, 1L, extra = "return_value")
+      })
+    },
+
+    #' \item{\code{bind_too_many_named_dollar}}{
+    #' named binding of integer values (dollar syntax) with too many
+    #' values.
+    #' }
+    bind_too_many_named_dollar = function() {
+      with_connection({
+        test_select_bind(con, named_dollar, 1L, extra = "too_many")
+      })
+    },
+
+    #' \item{\code{bind_not_enough_named_dollar}}{
+    #' named binding of integer values (dollar syntax) with too few
+    #' values.
+    #' }
+    bind_not_enough_named_dollar = function() {
+      with_connection({
+        test_select_bind(con, named_dollar, 1L, extra = "not_enough")
+      })
+    },
+
+    #' \item{\code{bind_wrong_name_named_dollar}}{
+    #' named binding of integer values (dollar syntax) with wrong names.
+    #' }
+    bind_wrong_name_named_dollar = function() {
+      with_connection({
+        test_select_bind(con, named_dollar, 1L, extra = "wrong_name")
       })
     },
 
@@ -749,7 +838,10 @@ test_select_bind <- function(con, placeholder_fun, values,
                              transform_input = as.character,
                              transform_output = function(x) trimws(x, "right"),
                              expect = expect_identical,
-                             check_return_value = FALSE) {
+                             extra = c("none", "return_value", "too_many",
+                                       "not_enough", "wrong_name")) {
+  extra <- match.arg(extra)
+
   placeholder <- placeholder_fun(length(values))
 
   value_names <- letters[seq_along(values)]
@@ -768,8 +860,22 @@ test_select_bind <- function(con, placeholder_fun, values,
     names(bind_values) <- names(placeholder)
   }
 
-  bind_res <- withVisible(dbBind(res, as.list(values)))
-  if (check_return_value) {
+  error_bind_values <- switch(
+    extra,
+    too_many = c(bind_values, bind_values[[1L]]),
+    not_enough = bind_values[-1L],
+    wrong_name = stats::setNames(bind_values, paste0("bogus",
+                                                     names(bind_values))),
+    bind_values
+  )
+
+  if (!identical(bind_values, error_bind_values)) {
+    expect_error(dbBind(res, as.list(error_bind_values)))
+    return()
+  }
+
+  bind_res <- withVisible(dbBind(res, as.list(bind_values)))
+  if (extra == "return_value") {
     expect_false(bind_res$visible)
     expect_identical(res, bind_res$value)
   }

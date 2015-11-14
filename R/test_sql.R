@@ -123,6 +123,15 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
                 add = TRUE)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris))
+
+        with_connection({
+          expect_error(dbGetQuery(con2, "SELECT * FROM iris"), NA)
+        }
+        , con = "con2")
+      })
+
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
       })
     },
 
@@ -193,7 +202,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
     #' \item{\code{temporary_table}}{
     #' Can write the \code{\link[datasets]{iris}} data as a temporary table to
-    #' the database, the table is gone after reconnecting.
+    #' the database, the table is not available in a second connection and is
+    #' gone after reconnecting.
     #' }
     temporary_table = function() {
       with_connection({
@@ -201,6 +211,11 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         dbWriteTable(con, "iris", iris[1:30, ], temporary = TRUE)
         iris_out <- dbReadTable(con, "iris")
         expect_identical(nrow(iris_out), 30L)
+
+        with_connection({
+          expect_error(dbGetQuery(con2, "SELECT * FROM iris"))
+        }
+        , con = "con2")
       })
 
       with_connection({
@@ -345,6 +360,21 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{roundtrip_logical_int}}{
+    #' Can create tables with logical columns, returned as integer.
+    #' }
+    roundtrip_logical_int = function() {
+      with_connection({
+        tbl_in <- data.frame(a = c(TRUE, FALSE, NA), id = 1:3)
+
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_identical(as.integer(tbl_in$a), tbl_out$a[order(tbl_out$id)])
+      })
+    },
+
     #' \item{\code{roundtrip_null}}{
     #' Can create tables with NULL values.
     #' }
@@ -390,6 +420,23 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
         tbl_out <- dbReadTable(con, "test")
         expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
+      })
+    },
+
+    #' \item{\code{roundtrip_factor}}{
+    #' Can create tables with factor columns.
+    #' }
+    roundtrip_factor = function() {
+      with_connection({
+        tbl_in <- data.frame(a = factor(c(text_cyrillic, text_latin,
+                                          text_chinese, text_ascii, NA)),
+                             id = 1:5, stringsAsFactors = FALSE)
+
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_identical(as.character(tbl_in$a), tbl_out$a[order(tbl_out$id)])
       })
     },
 

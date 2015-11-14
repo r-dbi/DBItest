@@ -53,7 +53,8 @@ Cannot append to nonexisting table.
 }
 \item{\code{temporary_table}}{
 Can write the \code{\link[datasets]{iris}} data as a temporary table to
-the database, the table is gone after reconnecting.
+the database, the table is not available in a second connection and is
+gone after reconnecting.
 }
 \item{\code{list_tables}}{
 Can list the tables in the database, adding and removing tables affects
@@ -79,6 +80,9 @@ as \code{Inf} and \code{NaN}.
 \item{\code{roundtrip_logical}}{
 Can create tables with logical columns.
 }
+\item{\code{roundtrip_logical_int}}{
+Can create tables with logical columns, returned as integer.
+}
 \item{\code{roundtrip_null}}{
 Can create tables with NULL values.
 }
@@ -87,6 +91,9 @@ Can create tables with 64-bit columns.
 }
 \item{\code{roundtrip_character}}{
 Can create tables with character columns.
+}
+\item{\code{roundtrip_factor}}{
+Can create tables with factor columns.
 }
 \item{\code{roundtrip_raw}}{
 Can create tables with raw columns.

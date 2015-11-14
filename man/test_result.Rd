@@ -68,15 +68,27 @@ single-value queries can be read with dbGetQuery
 \item{\code{get_query_multi_row_single_column}}{
 multi-row single-column queries can be read with dbGetQuery
 }
-\item{\code{get_query_single_column_multi_row}}{
+\item{\code{get_query_empty_single_column}}{
+Empty single-column queries can be read with dbGetQuery
+}
+\item{\code{get_query_single_row_multi_column}}{
 single-row multi-column queries can be read with dbGetQuery
 }
 \item{\code{get_query_multi}}{
 multi-row multi-column queries can be read with dbGetQuery
 }
+\item{\code{get_query_empty_multi_column}}{
+Empty multi-column queries can be read with dbGetQuery
+}
+\item{\code{table_visible_in_other_connection}}{
+A new table is visible in a second connection.
+}
 \item{\code{data_type_connection}}{
 SQL Data types exist for all basic R data types, and the engine can
 process them.
+}
+\item{\code{data_type_factor}}{
+SQL data type for factor is the same as for character.
 }
 \item{\code{data_integer}}{
 data conversion from SQL to R: integer

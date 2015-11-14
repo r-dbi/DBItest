@@ -21,7 +21,7 @@ This function defines the following tests:
 \describe{
 \item{\code{can_connect_and_disconnect}}{
 Can connect and disconnect, connection object inherits from
-  "DBIConnection"
+  "DBIConnection". Repeated disconnect throws error.
 }
 \item{\code{simultaneous_connections}}{
 Open 50 simultaneous connections
@@ -31,6 +31,10 @@ Open and close 50 connections
 }
 \item{\code{get_info_connection}}{
 Return value of dbGetInfo has necessary elements
+}
+\item{\code{stress_load_connect_unload}}{
+Repeated load, instantiation, connection, disconnection, and unload of
+package in a new R session.
 }
 }
 }

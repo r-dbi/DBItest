@@ -46,6 +46,14 @@ error if connection is closed.
 Positional binding of integer values (question mark syntax) with check of
 return value.
 }
+\item{\code{bind_too_many_positional_qm}}{
+Positional binding of integer values (question mark syntax) with too many
+values.
+}
+\item{\code{bind_not_enough_positional_qm}}{
+Positional binding of integer values (question mark syntax) with too few
+values.
+}
 \item{\code{bind_integer_positional_qm}}{
 Positional binding of integer values (question mark syntax).
 }
@@ -89,6 +97,14 @@ error if connection is closed.
 \item{\code{bind_return_value_positional_dollar}}{
 Positional binding of integer values (dollar syntax) with check of
 return value.
+}
+\item{\code{bind_too_many_positional_dollar}}{
+Positional binding of integer values (dollar syntax) with too many
+values.
+}
+\item{\code{bind_not_enough_positional_dollar}}{
+Positional binding of integer values (dollar syntax) with too few
+values.
 }
 \item{\code{bind_integer_positional_dollar}}{
 Positional binding of integer values (dollar syntax).
@@ -134,6 +150,17 @@ error if connection is closed.
 named binding of integer values (colon syntax) with check of
 return value.
 }
+\item{\code{bind_too_many_named_colon}}{
+named binding of integer values (colon syntax) with too many
+values.
+}
+\item{\code{bind_not_enough_named_colon}}{
+named binding of integer values (colon syntax) with too few
+values.
+}
+\item{\code{bind_wrong_name_named_colon}}{
+named binding of integer values (colon syntax) with wrong names.
+}
 \item{\code{bind_integer_named_colon}}{
 Named binding of integer values (colon syntax).
 }
@@ -177,6 +204,17 @@ error if connection is closed.
 \item{\code{bind_return_value_named_dollar}}{
 named binding of integer values (dollar syntax) with check of
 return value.
+}
+\item{\code{bind_too_many_named_dollar}}{
+named binding of integer values (dollar syntax) with too many
+values.
+}
+\item{\code{bind_not_enough_named_dollar}}{
+named binding of integer values (dollar syntax) with too few
+values.
+}
+\item{\code{bind_wrong_name_named_dollar}}{
+named binding of integer values (dollar syntax) with wrong names.
 }
 \item{\code{bind_integer_named_dollar}}{
 Named binding of integer values (dollar syntax).

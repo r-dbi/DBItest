@@ -1,3 +1,12 @@
+Version 0.2-3 (2015-11-14)
+===
+
+- Package is now feature-complete
+- Migrate all tests from existing backends (#28)
+- Implement simple read-only test (#27)
+- Stress tests for repeated load/unload (with and without connecting) in new R session (#2)
+
+
 Version 0.2-2 (2015-11-14)
 ===
 
