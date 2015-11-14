@@ -44,18 +44,22 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' Leaving a result open when closing a connection gives a warning
     #' }
     stale_result_warning = function() {
-      expect_warning(
-        with_connection(dbClearResult(dbSendQuery(con, "SELECT 1"))),
-        NA)
+      with_connection({
+        expect_warning(dbClearResult(dbSendQuery(con, "SELECT 1")), NA)
+        expect_warning(dbClearResult(dbSendQuery(con, "SELECT 2")), NA)
+      })
 
       expect_warning(
         with_connection(dbSendQuery(con, "SELECT 1"))
       )
 
       with_connection({
-        dbSendQuery(con, "SELECT 1")
-        expect_warning(res <- dbSendQuery(con, "SELECT 2"))
-        dbClearResult(res)
+        expect_warning(res1 <- dbSendQuery(con, "SELECT 1"), NA)
+        expect_true(dbIsValid(res1))
+        expect_warning(res2 <- dbSendQuery(con, "SELECT 2"))
+        expect_true(dbIsValid(res2))
+        expect_false(dbIsValid(res1))
+        dbClearResult(res2)
       })
     },
 
@@ -66,15 +70,18 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     command_query = function() {
       with_connection({
+        on.exit({
+          res <- dbSendQuery(con, "DROP TABLE test")
+          expect_true(dbHasCompleted(res))
+          expect_error(dbClearResult(res), NA)
+        }
+        , add = TRUE)
+
         res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
         expect_true(dbHasCompleted(res))
         expect_error(dbClearResult(res), NA)
 
         res <- dbSendQuery(con, "INSERT INTO test SELECT 1")
-        expect_true(dbHasCompleted(res))
-        expect_error(dbClearResult(res), NA)
-
-        res <- dbSendQuery(con, "DROP TABLE test")
         expect_true(dbHasCompleted(res))
         expect_error(dbClearResult(res), NA)
       })
@@ -260,10 +267,23 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{get_query_single_column_multi_row}}{
+    #' \item{\code{get_query_empty_single_column}}{
+    #' Empty single-column queries can be read with dbGetQuery
+    #' }
+    get_query_empty_single_column = function() {
+      with_connection({
+        query <- "SELECT 1 as a WHERE (1 = 0)"
+
+        rows <- dbGetQuery(con, query)
+        expect_identical(names(rows), "a")
+        expect_identical(dim(rows), c(0L, 1L))
+      })
+    },
+
+    #' \item{\code{get_query_single_row_multi_column}}{
     #' single-row multi-column queries can be read with dbGetQuery
     #' }
-    get_query_single_column_multi_row = function() {
+    get_query_single_row_multi_column = function() {
       with_connection({
         query <- "SELECT 1 as a, 2 as b, 3 as c"
 
@@ -284,6 +304,40 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{get_query_empty_multi_column}}{
+    #' Empty multi-column queries can be read with dbGetQuery
+    #' }
+    get_query_empty_multi_column = function() {
+      with_connection({
+        query <- "SELECT 1 as a, 2 as b, 3 as c WHERE (1 = 0)"
+
+        rows <- dbGetQuery(con, query)
+        expect_identical(names(rows), letters[1:3])
+        expect_identical(dim(rows), c(0L, 3L))
+      })
+    },
+
+    #' \item{\code{table_visible_in_other_connection}}{
+    #' A new table is visible in a second connection.
+    #' }
+    table_visible_in_other_connection = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * from test"))
+
+        on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA),
+                add = TRUE)
+
+        dbGetQuery(con, "CREATE TABLE test (a integer)")
+        dbGetQuery(con, "INSERT INTO test SELECT 1")
+
+        with_connection({
+          expect_error(rows <- dbGetQuery(con2, "SELECT * FROM test"), NA)
+          expect_identical(rows, data.frame(a=1L))
+        }
+        , con = "con2")
+      })
+    },
+
     #' \item{\code{data_type_connection}}{
     #' SQL Data types exist for all basic R data types, and the engine can
     #' process them.
@@ -294,6 +348,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
           eval(bquote({
             expect_is(dbDataType(con, .(value)), "character")
             expect_equal(length(dbDataType(con, .(value))), 1L)
+            expect_identical(
+              dbDataType(con, .(value)), dbDataType(con, I(.(value))))
+            expect_identical(
+              dbDataType(con, unclass(.(value))),
+              dbDataType(con, structure(.(value), class = "unknown1")))
             query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)),
                             ")")
           }))
@@ -316,6 +375,18 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_conn_has_data_type(list(raw(1)))
         expect_conn_has_data_type(Sys.Date())
         expect_conn_has_data_type(Sys.time())
+      })
+    },
+
+    #' \item{\code{data_type_factor}}{
+    #' SQL data type for factor is the same as for character.
+    #' }
+    data_type_factor = function() {
+      with_connection({
+        expect_identical(dbDataType(con, letters),
+                         dbDataType(con, factor(letters)))
+        expect_identical(dbDataType(con, letters),
+                         dbDataType(con, ordered(letters)))
       })
     },
 
@@ -860,13 +931,16 @@ utils::globalVariables("con")
 
 # Expects a variable "ctx" in the environment env,
 # evaluates the code inside local() after defining a variable "con"
+# (can be overridden by specifying con argument)
 # that points to a newly opened connection. Disconnects on exit.
-with_connection <- function(code, env = parent.frame()) {
+with_connection <- function(code, con = "con", env = parent.frame()) {
   code_sub <- substitute(code)
 
+  con <- as.name(con)
+
   eval(bquote({
-    con <- connect(ctx)
-    on.exit(expect_error(dbDisconnect(con), NA), add = TRUE)
+    .(con) <- connect(ctx)
+    on.exit(expect_error(dbDisconnect(.(con)), NA), add = TRUE)
     local(.(code_sub))
   }
   ), envir = env)
