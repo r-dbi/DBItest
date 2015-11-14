@@ -264,6 +264,19 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{get_query_empty_single_column}}{
+    #' Empty single-column queries can be read with dbGetQuery
+    #' }
+    get_query_empty_single_column = function() {
+      with_connection({
+        query <- "SELECT 1 as a WHERE (1 = 0)"
+
+        rows <- dbGetQuery(con, query)
+        expect_identical(names(rows), "a")
+        expect_identical(dim(rows), c(0L, 1L))
+      })
+    },
+
     #' \item{\code{get_query_single_row_multi_column}}{
     #' single-row multi-column queries can be read with dbGetQuery
     #' }
@@ -285,6 +298,19 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L:2L, b=2L:3L))
+      })
+    },
+
+    #' \item{\code{get_query_empty_multi_column}}{
+    #' Empty multi-column queries can be read with dbGetQuery
+    #' }
+    get_query_empty_multi_column = function() {
+      with_connection({
+        query <- "SELECT 1 as a, 2 as b, 3 as c WHERE (1 = 0)"
+
+        rows <- dbGetQuery(con, query)
+        expect_identical(names(rows), letters[1:3])
+        expect_identical(dim(rows), c(0L, 3L))
       })
     },
 
