@@ -360,6 +360,21 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{roundtrip_logical_int}}{
+    #' Can create tables with logical columns, returned as integer.
+    #' }
+    roundtrip_logical_int = function() {
+      with_connection({
+        tbl_in <- data.frame(a = c(TRUE, FALSE, NA), id = 1:3)
+
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_identical(as.integer(tbl_in$a), tbl_out$a[order(tbl_out$id)])
+      })
+    },
+
     #' \item{\code{roundtrip_null}}{
     #' Can create tables with NULL values.
     #' }
