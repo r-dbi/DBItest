@@ -19,12 +19,12 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
   tests <- list(
     #' \item{\code{can_connect_and_disconnect}}{
     #' Can connect and disconnect, connection object inherits from
-    #'   "DBIConnection"
+    #'   "DBIConnection". Repeated disconnect throws error.
     #' }
     can_connect_and_disconnect = function() {
       con <- connect(ctx)
       expect_is(con, "DBIConnection")
-      expect_error(dbDisconnect(con), NA)
+      expect_true(dbDisconnect(con))
       expect_error(dbDisconnect(con))
       expect_error(dbGetQuery(con, "select 1"))
     },
