@@ -99,6 +99,11 @@ key_methods <- list(
     "dbIsValid" = NULL,
     "dbFetch" = NULL,
     "dbClearResult" = NULL,
-    "dbColumnInfo" = NULL
+    "dbColumnInfo" = NULL,
+    "dbGetRowsAffected" = NULL,
+    "dbGetRowCount" = NULL,
+    "dbHasCompleted" = NULL,
+    "dbGetStatement" = NULL,
+    "dbBind" = NULL
   )
 )
