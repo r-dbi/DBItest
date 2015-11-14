@@ -759,7 +759,7 @@ test_select_bind <- function(con, placeholder_fun, values,
     names(bind_values) <- names(placeholder)
   }
 
-  bind_res <- withVisible(dbBind(res, as.list(values)))
+  bind_res <- withVisible(dbBind(res, as.list(bind_values)))
   if (check_return_value) {
     expect_false(bind_res$visible)
     expect_identical(res, bind_res$value)
