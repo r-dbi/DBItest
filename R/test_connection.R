@@ -75,7 +75,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' package in a new R session.
     #' }
     stress_load_connect_unload = function() {
-      script_file <- tempfile("DBItest", fileext = "R")
+      script_file <- tempfile("DBItest", fileext = ".R")
       local({
         sink(script_file)
         on.exit(sink(), add = TRUE)

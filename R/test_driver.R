@@ -106,7 +106,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #' Repeated load, instantiation, and unload of package in a new R session.
     #' }
     stress_load_unload = function() {
-      script_file <- tempfile("DBItest", fileext = "R")
+      script_file <- tempfile("DBItest", fileext = ".R")
       cat(
         "for (i in 1:50) {\n",
         "  ", package_name(ctx), "::", deparse(ctx$drv_call), "\n",
