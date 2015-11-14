@@ -71,11 +71,9 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 0L)
         dbFetch(res)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 1L)
       })
 
@@ -84,15 +82,12 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 0L)
         dbFetch(res, 2L)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 2L)
         dbFetch(res)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 3L)
       })
 
@@ -101,11 +96,9 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 0L)
         dbFetch(res)
         rc <- dbGetRowCount(res)
-        expect_is(rc, "integer")
         expect_identical(rc, 0L)
       })
     },
@@ -130,7 +123,6 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
           on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
           ra <- dbGetRowsAffected(res)
 
-          expect_is(ra, "integer")
           expect_identical(ra, sum(iris$Species == "versicolor"))
         })
 
@@ -140,7 +132,6 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
           on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
           ra <- dbGetRowsAffected(res)
 
-          expect_is(ra, "integer")
           expect_identical(ra, 0L)
         })
       })
