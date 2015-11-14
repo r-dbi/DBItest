@@ -38,6 +38,9 @@ package exports constructor function, named like the package without the
 \item{\code{get_info_driver}}{
 Return value of dbGetInfo has necessary elements
 }
+\item{\code{stress_load_unload}}{
+Repeated load, instantiation, and unload of package in a new R session.
+}
 }
 }
 \seealso{

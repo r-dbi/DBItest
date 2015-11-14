@@ -22,6 +22,10 @@ This function defines the following tests:
 \item{\code{compliance}}{
 The package defines three classes that implement the required methods.
 }
+\item{\code{read_only}}{
+Writing to the database fails.  (You might need to set up a separate
+test context just for this test.)
+}
 }
 }
 \seealso{

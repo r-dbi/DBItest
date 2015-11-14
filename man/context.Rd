@@ -13,7 +13,8 @@ set_default_context(ctx)
 get_default_context()
 }
 \arguments{
-\item{drv}{\code{[DBIDriver]}\cr A DBI driver.}
+\item{drv}{\code{[DBIDriver]}\cr An expression that constructs a DBI driver,
+like `SQLite()`.}
 
 \item{connect_args}{\code{[named list]}\cr Connection arguments (names and
 values).}
