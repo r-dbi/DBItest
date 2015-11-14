@@ -123,6 +123,15 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
                 add = TRUE)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris))
+
+        with_connection({
+          expect_error(dbGetQuery(con2, "SELECT * FROM iris"), NA)
+        }
+        , con = "con2")
+      })
+
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * FROM iris"))
       })
     },
 
