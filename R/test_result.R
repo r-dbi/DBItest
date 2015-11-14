@@ -349,6 +349,18 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{data_type_factor}}{
+    #' SQL data type for factor is the same as for character.
+    #' }
+    data_type_factor = function() {
+      with_connection({
+        expect_identical(dbDataType(con, letters),
+                         dbDataType(con, factor(letters)))
+        expect_identical(dbDataType(con, letters),
+                         dbDataType(con, ordered(letters)))
+      })
+    },
+
     #' \item{\code{data_integer}}{
     #' data conversion from SQL to R: integer
     #' }
