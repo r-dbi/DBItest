@@ -202,7 +202,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
     #' \item{\code{temporary_table}}{
     #' Can write the \code{\link[datasets]{iris}} data as a temporary table to
-    #' the database, the table is gone after reconnecting.
+    #' the database, the table is not available in a second connection and is
+    #' gone after reconnecting.
     #' }
     temporary_table = function() {
       with_connection({
@@ -210,6 +211,11 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         dbWriteTable(con, "iris", iris[1:30, ], temporary = TRUE)
         iris_out <- dbReadTable(con, "iris")
         expect_identical(nrow(iris_out), 30L)
+
+        with_connection({
+          expect_error(dbGetQuery(con2, "SELECT * FROM iris"))
+        }
+        , con = "con2")
       })
 
       with_connection({
