@@ -22,6 +22,13 @@ This function defines the following tests:
 \item{\code{trivial_query}}{
 Can issue trivial query, result object inherits from "DBIResult"
 }
+\item{\code{clear_result_return}}{
+Return value, currently tests that the return value is always
+\code{TRUE}.
+}
+\item{\code{stale_result_warning}}{
+Leaving a result open when closing a connection gives a warning
+}
 \item{\code{command_query}}{
 Can issue a command query that creates a table, inserts a row, and
 deletes it; the result sets for these query always have "completed"
@@ -74,27 +81,44 @@ process them.
 \item{\code{data_integer}}{
 data conversion from SQL to R: integer
 }
-\item{\code{data_integer_null}}{
+\item{\code{data_integer_null_below}}{
 data conversion from SQL to R: integer with typed NULL values
+}
+\item{\code{data_integer_null_above}}{
+data conversion from SQL to R: integer with typed NULL values
+in the first row
 }
 \item{\code{data_numeric}}{
 data conversion from SQL to R: numeric
 }
-\item{\code{data_numeric_null}}{
+\item{\code{data_numeric_null_below}}{
 data conversion from SQL to R: numeric with typed NULL values
+}
+\item{\code{data_numeric_null_above}}{
+data conversion from SQL to R: numeric with typed NULL values
+in the first row
 }
 \item{\code{data_logical}}{
 data conversion from SQL to R: logical
 }
-\item{\code{data_logical_null}}{
+\item{\code{data_logical_null_below}}{
 data conversion from SQL to R: logical with typed NULL values
+}
+\item{\code{data_logical_null_above}}{
+data conversion from SQL to R: logical with typed NULL values
+in the first row
 }
 \item{\code{data_logical_int}}{
 data conversion from SQL to R: logical (as integers)
 }
-\item{\code{data_logical_int_null}}{
+\item{\code{data_logical_int_null_below}}{
 data conversion from SQL to R: logical (as integers) with typed NULL
 values
+}
+\item{\code{data_logical_int_null_above}}{
+data conversion from SQL to R: logical (as integers) with typed NULL
+values
+in the first row
 }
 \item{\code{data_null}}{
 data conversion from SQL to R: A NULL value is returned as NA
@@ -102,61 +126,100 @@ data conversion from SQL to R: A NULL value is returned as NA
 \item{\code{data_64_bit}}{
 data conversion from SQL to R: 64-bit integers
 }
-\item{\code{data_64_bit_null}}{
+\item{\code{data_64_bit_null_below}}{
 data conversion from SQL to R: 64-bit integers with typed NULL values
+}
+\item{\code{data_64_bit_null_above}}{
+data conversion from SQL to R: 64-bit integers with typed NULL values
+in the first row
 }
 \item{\code{data_character}}{
 data conversion from SQL to R: character
 }
-\item{\code{data_character_null}}{
+\item{\code{data_character_null_below}}{
 data conversion from SQL to R: character with typed NULL values
+}
+\item{\code{data_character_null_above}}{
+data conversion from SQL to R: character with typed NULL values
+in the first row
 }
 \item{\code{data_raw}}{
 data conversion from SQL to R: raw
 }
-\item{\code{data_raw_null}}{
+\item{\code{data_raw_null_below}}{
 data conversion from SQL to R: raw with typed NULL values
 }
-\item{\code{data_date}}{
-data conversion from SQL to R: date
+\item{\code{data_raw_null_above}}{
+data conversion from SQL to R: raw with typed NULL values
+in the first row
 }
-\item{\code{data_date_null}}{
+\item{\code{data_date}}{
+data conversion from SQL to R: date, returned as integer with class
+}
+\item{\code{data_date_null_below}}{
 data conversion from SQL to R: date with typed NULL values
+}
+\item{\code{data_date_null_above}}{
+data conversion from SQL to R: date with typed NULL values
+in the first row
 }
 \item{\code{data_time}}{
 data conversion from SQL to R: time
 }
-\item{\code{data_time_null}}{
+\item{\code{data_time_null_below}}{
 data conversion from SQL to R: time with typed NULL values
+}
+\item{\code{data_time_null_above}}{
+data conversion from SQL to R: time with typed NULL values
+in the first row
 }
 \item{\code{data_time_parens}}{
 data conversion from SQL to R: time (using alternative syntax with
 parentheses for specifying time literals)
 }
-\item{\code{data_time_parens_null}}{
+\item{\code{data_time_parens_null_below}}{
 data conversion from SQL to R: time (using alternative syntax with
 parentheses for specifying time literals) with typed NULL values
+}
+\item{\code{data_time_parens_null_above}}{
+data conversion from SQL to R: time (using alternative syntax with
+parentheses for specifying time literals) with typed NULL values
+in the first row
 }
 \item{\code{data_timestamp}}{
 data conversion from SQL to R: timestamp
 }
-\item{\code{data_timestamp_null}}{
+\item{\code{data_timestamp_null_below}}{
 data conversion from SQL to R: timestamp with typed NULL values
+}
+\item{\code{data_timestamp_null_above}}{
+data conversion from SQL to R: timestamp with typed NULL values
+in the first row
 }
 \item{\code{data_timestamp_utc}}{
 data conversion from SQL to R: timestamp with time zone
 }
-\item{\code{data_timestamp_utc_null}}{
+\item{\code{data_timestamp_utc_null_below}}{
 data conversion from SQL to R: timestamp with time zone with typed NULL
 values
+}
+\item{\code{data_timestamp_utc_null_above}}{
+data conversion from SQL to R: timestamp with time zone with typed NULL
+values
+in the first row
 }
 \item{\code{data_timestamp_parens}}{
 data conversion: timestamp (alternative syntax with parentheses
 for specifying timestamp literals)
 }
-\item{\code{data_timestamp_parens_null}}{
+\item{\code{data_timestamp_parens_null_below}}{
 data conversion: timestamp (alternative syntax with parentheses
 for specifying timestamp literals) with typed NULL values
+}
+\item{\code{data_timestamp_parens_null_above}}{
+data conversion: timestamp (alternative syntax with parentheses
+for specifying timestamp literals) with typed NULL values
+in the first row
 }
 }
 }
