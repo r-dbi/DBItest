@@ -70,11 +70,11 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       expect_false("password" %in% info_names)
     },
 
-    #' \item{\code{stress_connection}}{
+    #' \item{\code{stress_load_connect_unload}}{
     #' Repeated load, instantiation, connection, disconnection, and unload of
     #' package in a new R session.
     #' }
-    stress_connection = function() {
+    stress_load_connect_unload = function() {
       script_file <- tempfile("DBItest", fileext = "R")
       local({
         sink(script_file)
