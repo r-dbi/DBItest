@@ -70,15 +70,18 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     command_query = function() {
       with_connection({
+        on.exit({
+          res <- dbSendQuery(con, "DROP TABLE test")
+          expect_true(dbHasCompleted(res))
+          expect_error(dbClearResult(res), NA)
+        }
+        , add = TRUE)
+
         res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
         expect_true(dbHasCompleted(res))
         expect_error(dbClearResult(res), NA)
 
         res <- dbSendQuery(con, "INSERT INTO test SELECT 1")
-        expect_true(dbHasCompleted(res))
-        expect_error(dbClearResult(res), NA)
-
-        res <- dbSendQuery(con, "DROP TABLE test")
         expect_true(dbHasCompleted(res))
         expect_error(dbClearResult(res), NA)
       })
