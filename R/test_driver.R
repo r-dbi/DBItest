@@ -102,6 +102,25 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_true("max.connections" %in% info_names)
     },
 
+    #' \item{\code{stress_driver}}{
+    #' Repeated load, instantiation, and unload of package in a new R session.
+    #' }
+    stress_driver = function() {
+      script_file <- tempfile("DBItest", fileext = "R")
+      cat(
+        "for (i in 1:50) {\n",
+        "  ", package_name(ctx), "::", deparse(ctx$drv_call), "\n",
+        "  unloadNamespace(getNamespace(\"", package_name(ctx), "\"))\n",
+        "}\n",
+        sep = "",
+        file = script_file
+      )
+
+      expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file)),
+                          ignore.stdout = TRUE),
+                   0L)
+    },
+
     NULL
   )
   #'}

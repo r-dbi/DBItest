@@ -70,6 +70,37 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       expect_false("password" %in% info_names)
     },
 
+    #' \item{\code{stress_connection}}{
+    #' Repeated load, instantiation, connection, disconnection, and unload of
+    #' package in a new R session.
+    #' }
+    stress_connection = function() {
+      script_file <- tempfile("DBItest", fileext = "R")
+      local({
+        sink(script_file)
+        on.exit(sink(), add = TRUE)
+        cat(
+          "library(DBI, quietly = TRUE)\n",
+          "connect_args <- ",
+          sep = ""
+        )
+        dput(ctx$connect_args)
+        cat(
+          "for (i in 1:50) {\n",
+          "  drv <- ", package_name(ctx), "::", deparse(ctx$drv_call), "\n",
+          "  con <- do.call(dbConnect, c(drv, connect_args))\n",
+          "  dbDisconnect(con)\n",
+          "  unloadNamespace(getNamespace(\"", package_name(ctx), "\"))\n",
+          "}\n",
+          sep = ""
+        )
+      })
+
+      expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file)),
+                          ignore.stdout = TRUE),
+                   0L)
+    },
+
     NULL
   )
   #'}

@@ -2,7 +2,8 @@
 #'
 #' Create a test context, set and query the default context.
 #'
-#' @param drv \code{[DBIDriver]}\cr A DBI driver.
+#' @param drv \code{[DBIDriver]}\cr An expression that constructs a DBI driver,
+#'   like `SQLite()`.
 #' @param connect_args \code{[named list]}\cr Connection arguments (names and
 #'   values).
 #' @param set_as_default \code{[logical(1)]}\cr Should the created context be
@@ -15,6 +16,8 @@
 #' @rdname context
 #' @export
 make_context <- function(drv, connect_args, set_as_default = TRUE) {
+  drv_call <- substitute(drv)
+
   if (is.null(drv)) {
     stop("drv cannot be NULL.")
   }
@@ -22,6 +25,7 @@ make_context <- function(drv, connect_args, set_as_default = TRUE) {
   ctx <- structure(
     list(
       drv = drv,
+      drv_call = drv_call,
       connect_args = connect_args
     ),
     class = "DBItest_context"
