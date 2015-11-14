@@ -408,6 +408,23 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{roundtrip_factor}}{
+    #' Can create tables with factor columns.
+    #' }
+    roundtrip_factor = function() {
+      with_connection({
+        tbl_in <- data.frame(a = factor(c(text_cyrillic, text_latin,
+                                          text_chinese, text_ascii, NA)),
+                             id = 1:5, stringsAsFactors = FALSE)
+
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        expect_identical(as.character(tbl_in$a), tbl_out$a[order(tbl_out$id)])
+      })
+    },
+
     #' \item{\code{roundtrip_raw}}{
     #' Can create tables with raw columns.
     #' }
