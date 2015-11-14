@@ -18,6 +18,7 @@ Encoding: UTF-8
 GitHub: https://github.com/rstats-db/DBItest
 BugReports: https://github.com/rstats-db/DBItest/issues
 Collate:
+    'DBItest.R'
     'context.R'
     'expectations.R'
     'import-dbi.R'
