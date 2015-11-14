@@ -264,10 +264,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{get_query_single_column_multi_row}}{
+    #' \item{\code{get_query_single_row_multi_column}}{
     #' single-row multi-column queries can be read with dbGetQuery
     #' }
-    get_query_single_column_multi_row = function() {
+    get_query_single_row_multi_column = function() {
       with_connection({
         query <- "SELECT 1 as a, 2 as b, 3 as c"
 
