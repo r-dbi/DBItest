@@ -53,9 +53,12 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       )
 
       with_connection({
-        dbSendQuery(con, "SELECT 1")
-        expect_warning(res <- dbSendQuery(con, "SELECT 2"))
-        dbClearResult(res)
+        expect_warning(res1 <- dbSendQuery(con, "SELECT 1"), NA)
+        expect_true(dbIsValid(res1))
+        expect_warning(res2 <- dbSendQuery(con, "SELECT 2"))
+        expect_true(dbIsValid(res2))
+        expect_false(dbIsValid(res1))
+        dbClearResult(res2)
       })
     },
 
