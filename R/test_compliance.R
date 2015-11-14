@@ -35,6 +35,16 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
         key_methods, classes)
     },
 
+    #' \item{\code{read_only}}{
+    #' Writing to the database fails.  (You might need to set up a separate
+    #' test context just for this test.)
+    #' }
+    read_only = function() {
+      with_connection({
+        expect_error(dbWriteTable(con, "iris", iris))
+      })
+    },
+
     NULL
   )
   #'}
