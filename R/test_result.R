@@ -44,9 +44,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' Leaving a result open when closing a connection gives a warning
     #' }
     stale_result_warning = function() {
-      expect_warning(
-        with_connection(dbClearResult(dbSendQuery(con, "SELECT 1"))),
-        NA)
+      with_connection({
+        expect_warning(dbClearResult(dbSendQuery(con, "SELECT 1")), NA)
+        expect_warning(dbClearResult(dbSendQuery(con, "SELECT 2")), NA)
+      })
 
       expect_warning(
         with_connection(dbSendQuery(con, "SELECT 1"))
