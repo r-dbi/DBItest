@@ -52,9 +52,10 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{constructor_strict}}{
-    #' package name starts with R;
+    #' Package name starts with R;
     #' package exports constructor function, named like the package without the
-    #'   leading R, that has no arguments
+    #'   leading R, that has no arguments. This test is optional, the
+    #'   \code{constructor} test is a slightly weaker version.
     #' }
     constructor_strict = function() {
       pkg_name <- package_name(ctx)
