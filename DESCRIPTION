@@ -1,7 +1,7 @@
 Package: DBItest
 Title: Testing "DBI" Backends
-Version: 0.2-3
-Date: 2015-11-14
+Version: 0.2-4
+Date: 2015-11-15
 Authors@R: as.person("Kirill Müller <krlmlr+r@mailbox.org> [aut, cre]")
 Description: A helper that simplifies writing tests for "DBI" backends.
 Depends:
@@ -11,13 +11,16 @@ Imports:
     testthat,
     DBI
 Suggests:
-    lintr
+    lintr,
+    knitr,
+    rmarkdown
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
 GitHub: https://github.com/rstats-db/DBItest
 BugReports: https://github.com/rstats-db/DBItest/issues
 Collate:
+    'DBItest.R'
     'context.R'
     'expectations.R'
     'import-dbi.R'
@@ -29,8 +32,8 @@ Collate:
     'test_connection.R'
     'test_result.R'
     'test_sql.R'
-    'test_connection_meta.R'
-    'test_result_meta.R'
+    'test_meta.R'
     'test_compliance.R'
     'utf8.R'
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr

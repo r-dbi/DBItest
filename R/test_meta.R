@@ -1,22 +1,48 @@
 #' @name test_all
 #' @section Tests:
-#' \code{\link{test_result_meta}}:
-#' Test metadata functions for the "Result" class
+#' \code{\link{test_meta}}:
+#' Test metadata functions
 NULL
 
-#' Test metadata functions for the "Result" class
+#' Test metadata functions
 #'
 #' @inheritParams test_all
-#' @include test_connection_meta.R
+#' @include test_sql.R
 #' @family tests
 #' @export
-test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
-  test_suite <- "Result (metadata)"
+test_meta <- function(skip = NULL, ctx = get_default_context()) {
+  test_suite <- "Metadata"
 
   #' @details
   #' This function defines the following tests:
   #' \describe{
   tests <- list(
+    #' \item{\code{is_valid_connection}}{
+    #' Only an open connection is valid.
+    #' }
+    is_valid_connection = function() {
+      con <- connect(ctx)
+      expect_true(dbIsValid(con))
+      expect_error(dbDisconnect(con), NA)
+      expect_false(dbIsValid(con))
+    },
+
+    #' \item{\code{get_exception}}{
+    #' Exception is available after triggering an error, and changes when
+    #' triggering a different error.
+    #' }
+    get_exception = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT SELECT"))
+        expect_error(ex1 <- dbGetException(con), NA)
+        expect_is(ex1, "character")
+        expect_error(dbGetQuery(con, "UPDATE UPDATE"))
+        expect_error(ex2 <- dbGetException(con), NA)
+        expect_is(ex2, "character")
+        expect_true(ex1 != ex2)
+      })
+    },
+
     #' \item{\code{is_valid_result}}{
     #' Only an open result set is valid.
     #' }
@@ -822,6 +848,8 @@ test_result_meta <- function(skip = NULL, ctx = get_default_context()) {
           transform_output = identity)
       })
     },
+
+    # dbListResults is unsupported in the existing backends
 
     # dbHasCompleted tested in test_result
 

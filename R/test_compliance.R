@@ -7,7 +7,7 @@ NULL
 #' Test full compliance to DBI
 #'
 #' @inheritParams test_all
-#' @include test_result_meta.R
+#' @include test_meta.R
 #' @family tests
 #' @export
 test_compliance <- function(skip = NULL, ctx = get_default_context()) {
@@ -99,6 +99,11 @@ key_methods <- list(
     "dbIsValid" = NULL,
     "dbFetch" = NULL,
     "dbClearResult" = NULL,
-    "dbColumnInfo" = NULL
+    "dbColumnInfo" = NULL,
+    "dbGetRowsAffected" = NULL,
+    "dbGetRowCount" = NULL,
+    "dbHasCompleted" = NULL,
+    "dbGetStatement" = NULL,
+    "dbBind" = NULL
   )
 )
