@@ -23,6 +23,7 @@ Version 0.3 (2015-11-15)
 - Documentation
     - New "test" vignette (#16)
     - Add package documentation (#38)
+- Same as 0.2-5
 
 
 Version 0.2 (2015-11-11)
