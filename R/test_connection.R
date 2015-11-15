@@ -75,6 +75,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' package in a new R session.
     #' }
     stress_load_connect_unload = function() {
+      skip_on_travis()
       script_file <- tempfile("DBItest", fileext = ".R")
       local({
         sink(script_file)

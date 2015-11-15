@@ -1,6 +1,6 @@
 Package: DBItest
 Title: Testing "DBI" Backends
-Version: 0.2-4
+Version: 0.2-5
 Date: 2015-11-15
 Authors@R: as.person("Kirill Müller <krlmlr+r@mailbox.org> [aut, cre]")
 Description: A helper that simplifies writing tests for "DBI" backends.
