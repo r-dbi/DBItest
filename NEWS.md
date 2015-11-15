@@ -1,3 +1,6 @@
+Version 0.2-4 (2015-11-14)
+===
+
 - New "test" vignette (#16)
 - Add missing methods to compliance check
 - Add package documentation (#38)
