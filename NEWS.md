@@ -1,3 +1,9 @@
+Version 0.2-5 (2015-11-15)
+===
+
+- Turn off stress tests on Travis for now (see #39)
+
+
 Version 0.2-4 (2015-11-14)
 ===
 
