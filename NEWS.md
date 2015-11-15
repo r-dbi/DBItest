@@ -1,46 +1,28 @@
-Version 0.2-5 (2015-11-15)
+Version 0.3 (2015-11-15)
 ===
 
-- Turn off stress tests on Travis for now (see #39)
-
-
-Version 0.2-4 (2015-11-14)
-===
-
-- New "test" vignette (#16)
-- Add missing methods to compliance check
-- Add package documentation (#38)
-- Combine "meta" tests into new `test_meta()` (#37)
-
-
-Version 0.2-3 (2015-11-14)
-===
-
-- Package is now feature-complete
-- Migrate all tests from existing backends (#28)
-- Implement simple read-only test (#27)
-- Stress tests for repeated load/unload (with and without connecting) in new R session (#2)
-
-
-Version 0.2-2 (2015-11-14)
-===
-
-- Refactor `data_` tests to use a worker function `test_select()`
-- Test tables with `NA` values above and below the non-`NA` value in `data_` tests
-- Test return values and error conditions for `dbBind()` and `dbClearResult()` (#31)
-- Test vectorization of `dbQuoteString()` and `dbQuoteIdentifier()` (#18)
-- Test that dates have `integer` as underlying data type (#9)
-- Roundtrip tests sort output table to be sure (#32)
-- Avoid using `data.frame()` for date and time columns (#10)
-- Use `expect_identical()` instead of `expect_equal()` in many places (#13)
-
-
-Version 0.2-1 (2015-11-12)
-===
-
-- Test `NA` to `NULL` conversion in `dbQuoteString()`, and false friends (#23)
-- Enhance test for `dbQuoteIdentifier()` (#30)
-- Catch all errors in `on.exit()` handlers via `expect_error()` (#20).
+- Feature-complete, ready for review
+- Tests from the proposal
+    - Add missing methods to compliance check
+    - Add simple read-only test (#27)
+    - Add stress tests for repeated load/unload (with and without connecting) in new R session (#2),
+    - Migrate all tests from existing backends (#28)
+    - Refactor `data_` tests to use a worker function `test_select()`
+    - Test tables with `NA` values above and below the non-`NA` value in `data_` tests
+    - Test return values and error conditions for `dbBind()` and `dbClearResult()` (#31)
+    - Test vectorization of `dbQuoteString()` and `dbQuoteIdentifier()` (#18)
+    - Test that dates have `integer` as underlying data type (#9)
+    - Roundtrip tests sort output table to be sure (#32)
+    - Test `NA` to `NULL` conversion in `dbQuoteString()`, and false friends (#23)
+    - Enhance test for `dbQuoteIdentifier()` (#30)
+- Style
+    - Avoid using `data.frame()` for date and time columns (#10)
+    - Use `expect_identical()` instead of `expect_equal()` in many places (#13)
+    - Catch all errors in `on.exit()` handlers via `expect_error()` (#20).
+    - Combine "meta" tests into new `test_meta()` (#37)
+- Documentation
+    - New "test" vignette (#16)
+    - Add package documentation (#38)
 
 
 Version 0.2 (2015-11-11)
