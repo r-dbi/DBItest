@@ -1,0 +1,54 @@
+---
+title: "Testing DBI backends"
+author: "Kirill Müller"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Testing DBI backends}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+This document shows how to use the `DBItest` package when implementing a new `DBI` backend or when applying it to an existing backend.  The `DBItest` package provides a large collection of automated tests.
+
+
+## Testing a new backend
+
+You can add the tests in the `DBItest` package incrementally, as you proceed with implementing the various parts of the DBI. The `DBItest` package builds upon the `testthat` package. To enable it, run the following in your package directory (after installing or updating `devtools`):
+
+```r
+devtools::use_testthat()
+devtools::use_test("DBItest")
+```
+
+This creates, among others, a file `test-DBItest.R` in the `tests/testthat` directory. Replace its entire contents by the following:
+
+```r
+DBItest::make_context(Kazam(), NULL)
+DBItest::test_getting_started()
+```
+
+Now test your package with `devtools::test()`. If you followed the instructions in the document until now, all tests should succeed.
+
+The test cases in the `DBItest` package are structured very similarly to the sections in the "backend" vignette of the `DBI` package:
+```r
+vignette("backend", package = "DBI")
+```
+By adding the corresponding test function to your `tests/test-DBItest.R` file *before* implementing a section, you get immediate feedback which functionality of this section still needs to be implemented by running `devtools::test()` again.  Therefore, proceed by appending the following to  `tests/test-DBItest.R`, to include a (currently) failing test case for the forthcoming section:
+
+```r
+DBItest::test_driver()
+```
+
+Again, all tests should succeed when you are done with the "Driver" section.  Add the call to the next tester function, implement the following section until all tests succeed, and so forth.
+
+The tests are documented with the corresponding functions: For instance, `?test_driver` shows a description of all tests for the "Driver" test case. Test failures will include the name of the test that is failing. If you feel unable to satisfy some of the tests, either because your database does not support a feature, or because you want to postpone or avoid the implementation, or because the test takes too long to run, add regular expressions for the tests to skip as character vector to the call, as in the following[^termnull]:
+```r
+DBItest::test_driver(skip = c(
+  "data_type"           # Reason 1...
+  "constructor.*",      # Reason 2...
+  NULL
+))
+```
+[^termnull]: The terminating `NULL` allows appending new lines to the end by copy-pasting an existing line, without having to take care of the terminating comma.

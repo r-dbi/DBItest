@@ -11,7 +11,9 @@ Imports:
     testthat,
     DBI
 Suggests:
-    lintr
+    lintr,
+    knitr,
+    rmarkdown
 License: GPL-3
 LazyData: true
 Encoding: UTF-8
@@ -34,3 +36,4 @@ Collate:
     'test_compliance.R'
     'utf8.R'
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr
