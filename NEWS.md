@@ -1,3 +1,9 @@
+- New "test" vignette (#16)
+- Add missing methods to compliance check
+- Add package documentation (#38)
+- Combine "meta" tests into new `test_meta()` (#37)
+
+
 Version 0.2-3 (2015-11-14)
 ===
 
