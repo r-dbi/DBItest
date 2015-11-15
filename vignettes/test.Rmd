@@ -1,0 +1,83 @@
+---
+title: "Testing DBI backends"
+author: "Kirill Müller"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Testing DBI backends}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+
+This document shows how to use the `DBItest` package when implementing a new `DBI` backend or when applying it to an existing backend.  The `DBItest` package provides a large collection of automated tests.
+
+
+## Testing a new backend
+
+The test cases in the `DBItest` package are structured very similarly to the sections in the "backend" vignette:
+```r
+vignette("backend", package = "DBI")
+```
+Like the "backend" vignette, this vignette assumes that you are implementing the `RKazam` package that has a `Kazam()` function that creates a new `DBIDriver` instance for connecting to a "Kazam" database.
+
+You can add the tests in the `DBItest` package incrementally, as you proceed with implementing the various parts of the DBI. The `DBItest` package builds upon the `testthat` package. To enable it, run the following in your package directory (after installing or updating `devtools`):
+
+```r
+devtools::use_testthat()
+devtools::use_test("DBItest")
+```
+
+This creates, among others, a file `test-DBItest.R` in the `tests/testthat` directory. Replace its entire contents by the following:
+
+```r
+DBItest::make_context(Kazam(), NULL)
+DBItest::test_getting_started()
+```
+Now test your package with `devtools::test()`. If you followed at least the "Getting started" section of the `DBI` "backend" vignette, all tests should succeed.
+
+By adding the corresponding test function to your `tests/test-DBItest.R` file *before* implementing a section, you get immediate feedback which functionality of this section still needs to be implemented by running `devtools::test()` again. Therefore, proceed by appending the following to  `tests/test-DBItest.R`, to include a test case for the forthcoming section:
+
+```r
+DBItest::test_driver()
+```
+
+Again, all tests should succeed when you are done with the "Driver" section.  Add the call to the next tester function, implement the following section until all tests succeed, and so forth.
+
+In this scenario, you are usually interested only in the first error the test suite finds. The `StopReporter` of `testthat` is most helpful here, activate it by passing `reporter = "stop"` to `devtools::test()`. Alternatively, call the relevant `DBItest::test_()` function directly.
+
+The tests are documented with the corresponding functions: For instance, `?test_driver` shows a coarse description of all tests for the "Driver" test case.  Test failures will include the name of the test that is failing; in this case, investigating the documentation or the source code of the `DBItest` package will usually lead to the cause of the error.
+
+Not all tests can be satisfied: For example, there is one test that tests that `logical` variables survive a write-read roundtrip to the database, whereas another test tests that `logical` variables are converted to `integer` in such a case. Tests can be skipped by adding regular expressions for the tests to skip as character vector to the call, as in the following[^termnull]:
+```r
+DBItest::test_driver(skip = c(
+  "data_type"           # Reason 1...
+  "constructor.*",      # Reason 2...
+  NULL
+))
+[^termnull]: The terminating `NULL` allows appending new lines to the end by copy-pasting an existing line, without having to take care of the terminating comma.
+```
+Some other reasons to skip tests are:
+- your database does not support a feature
+- you want to postpone or avoid the implementation of a feature
+- the test takes too long to run
+
+
+## Testing an existing backend
+
+
+For an existing backends, simply enabling all tests may be the quickest way to get started. Run the following in your package directory (after installing or updating `devtools`):
+
+```r
+devtools::use_testthat()
+devtools::use_test("DBItest")
+```
+
+This creates, among others, a file `test-DBItest.R` in the `tests/testthat` directory. Replace its entire contents by the following:
+
+```r
+DBItest::make_context(Kazam(), NULL)
+DBItest::test_all()
+```
+
+The notes about "Kazam" and skipping tests from the previous section apply here as well. The `test_all()` function simply calls all test cases.
