@@ -25,7 +25,8 @@ This function defines the following tests:
 \code{test_} functions in this package}
 \item{\code{package_dependencies}}{
 can relate the driver to an installed (or devtools-loaded) package;
-package depends (!) on "DBI" and imports "methods"}
+package depends (!) on "DBI" and imports "methods"}. This test requires
+the \code{devtools} package and will be skipped if it is not installed.
 }
 }
 \seealso{
