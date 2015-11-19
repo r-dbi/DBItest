@@ -7,10 +7,10 @@ Description: A helper that simplifies writing tests for "DBI" backends.
 Depends:
     R (>= 3.0.0)
 Imports:
-    devtools,
     testthat,
     DBI
 Suggests:
+    devtools,
     lintr,
     knitr,
     rmarkdown
