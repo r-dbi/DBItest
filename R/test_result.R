@@ -928,6 +928,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 }
 
 utils::globalVariables("con")
+utils::globalVariables("con2")
 
 # Expects a variable "ctx" in the environment env,
 # evaluates the code inside local() after defining a variable "con"
