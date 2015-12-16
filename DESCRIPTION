@@ -3,10 +3,10 @@ Title: Testing "DBI" Backends
 Version: 0.3-1
 Date: 2015-11-19
 Authors@R: c(
-  person(given = "Kirill", family = "Müller",
-         role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
-  person("RStudio", role = "cph")
-)
+    person(given = "Kirill", family = "Müller",
+           role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
+    person("RStudio", role = "cph")
+  )
 Description: A helper that simplifies writing tests for "DBI" backends.
 Depends:
     R (>= 3.0.0)
