@@ -1,6 +1,6 @@
 # The imports below were generated using the following call:
 # @import.gen::importFrom("DBI")
-#' @importFrom DBI dbBegin dbBind dbCallProc dbClearResult dbColumnInfo
+#' @importFrom DBI dbBegin dbCallProc dbClearResult dbColumnInfo
 #' @importFrom DBI dbCommit dbConnect dbDataType dbDisconnect dbDriver
 #' @importFrom DBI dbExistsTable dbFetch dbGetDBIVersion dbGetException
 #' @importFrom DBI dbGetInfo dbGetQuery dbGetRowCount dbGetRowsAffected
