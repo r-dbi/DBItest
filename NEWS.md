@@ -1,3 +1,9 @@
+Version 0.3-1 (2015-11-19)
+===
+
+- Move `devtools` package from "Imports" to "Suggests"
+
+
 Version 0.3 (2015-11-15)
 ===
 
