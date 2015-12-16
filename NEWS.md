@@ -1,3 +1,11 @@
+Version 0.3-2 (2015-12-17)
+===
+
+- Use LGPL-2 license
+- Add RStudio as copyright holder
+- Satisfy R CMD check
+
+
 Version 0.3-1 (2015-11-19)
 ===
 
