@@ -1,12 +1,10 @@
 Package: DBItest
 Title: Testing "DBI" Backends
-Version: 0.3-1
-Date: 2015-11-19
-Authors@R: c(
-    person(given = "Kirill", family = "Müller",
-           role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
-    person("RStudio", role = "cph")
-  )
+Version: 0.3-2
+Date: 2015-12-17
+Authors@R: c( person(given = "Kirill", family = "Müller", role =
+        c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
+        person("RStudio", role = "cph") )
 Description: A helper that simplifies writing tests for "DBI" backends.
 Depends:
     R (>= 3.0.0)
@@ -39,5 +37,5 @@ Collate:
     'test_meta.R'
     'test_compliance.R'
     'utf8.R'
-RoxygenNote: 5.0.1
+RoxygenNote: 5.0.1.9000
 VignetteBuilder: knitr
