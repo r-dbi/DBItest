@@ -202,6 +202,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris")), add = TRUE)
+
+        iris <- datasets::iris
         expect_error(dbWriteTable(con, "iris", iris[1:20,], append = TRUE))
       })
     },
