@@ -121,6 +121,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
                 add = TRUE)
+
+        iris <- datasets::iris
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris))
 
@@ -165,6 +167,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
                 add = TRUE)
+
+        iris <- datasets::iris
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
                      NA)
@@ -182,6 +186,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
                 add = TRUE)
+
+        iris <- datasets::iris
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
         iris_out <- dbReadTable(con, "iris")
@@ -240,6 +246,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
         on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
                 add = TRUE)
+
+        iris <- datasets::iris
         dbWriteTable(con, "iris", iris)
 
         tables <- dbListTables(con)

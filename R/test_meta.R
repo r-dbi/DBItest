@@ -137,6 +137,8 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
                 add = TRUE)
+
+        iris <- datasets::iris
         dbWriteTable(con, "iris", iris)
 
         local({
