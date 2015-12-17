@@ -1,11 +1,12 @@
 Package: DBItest
 Title: Testing "DBI" Back Ends
-Version: 0.3-2
+Version: 0.3-3
 Date: 2015-12-17
 Authors@R: c( person(given = "Kirill", family = "Müller", role =
         c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
         person("RStudio", role = "cph") )
-Description: A helper that simplifies writing tests for "DBI" back ends.
+Description: A helper that simplifies writing tests for "DBI" back
+    ends.
 Depends:
     R (>= 3.0.0)
 Imports:
