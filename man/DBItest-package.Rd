@@ -6,7 +6,8 @@
 \alias{DBItest-package}
 \title{Testing "DBI" Back Ends}
 \description{
-A helper that simplifies writing tests for "DBI" back ends.
+A helper that simplifies writing tests for "DBI" back
+ends.
 }
 \details{
 The two most important functions are \code{\link{make_context}} and
