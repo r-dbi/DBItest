@@ -9,6 +9,7 @@ Description: A helper that simplifies writing tests for "DBI" back ends.
 Depends:
     R (>= 3.0.0)
 Imports:
+    methods,
     testthat,
     DBI
 Suggests:
