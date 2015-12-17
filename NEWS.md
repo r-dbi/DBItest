@@ -1,21 +1,12 @@
-Version 0.3-3 (2015-12-17)
+Version 1.0 (2015-12-17)
 ===
 
-- Eliminate errors on win-builder
-
-
-Version 0.3-2 (2015-12-17)
-===
-
-- Use LGPL-2 license
-- Add RStudio as copyright holder
-- Satisfy R CMD check
-
-
-Version 0.3-1 (2015-11-19)
-===
-
-- Move `devtools` package from "Imports" to "Suggests"
+- CRAN release
+    - Eliminate errors on win-builder
+    - Satisfy R CMD check
+    - Use LGPL-2 license
+    - Add RStudio as copyright holder
+    - Move `devtools` package from "Imports" to "Suggests"
 
 
 Version 0.3 (2015-11-15)
