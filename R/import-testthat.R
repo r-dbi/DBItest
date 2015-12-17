@@ -10,6 +10,7 @@
 #' @importFrom testthat expect_that expect_true expect_warning
 #' @importFrom testthat skip
 #' @importFrom testthat skip_on_appveyor skip_on_cran skip_on_travis
+#' @importFrom testthat test_that
 NULL
 
 #' @importFrom datasets iris
