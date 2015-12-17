@@ -13,7 +13,6 @@
 #' @importFrom testthat test_that
 NULL
 
-#' @importFrom datasets iris
 #' @importFrom methods findMethod getClasses
 #' @importFrom stats setNames
 NULL
