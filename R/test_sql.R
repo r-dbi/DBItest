@@ -216,6 +216,8 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     temporary_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+
+        iris <- datasets::iris
         dbWriteTable(con, "iris", iris[1:30, ], temporary = TRUE)
         iris_out <- dbReadTable(con, "iris")
         expect_identical(nrow(iris_out), 30L)
