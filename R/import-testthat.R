@@ -11,3 +11,8 @@
 #' @importFrom testthat skip
 #' @importFrom testthat skip_on_appveyor skip_on_cran skip_on_travis
 NULL
+
+#' @importFrom datasets iris
+#' @importFrom methods findMethod getClasses
+#' @importFrom stats setNames
+NULL
