@@ -146,7 +146,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
                 add = TRUE)
 
-        iris_in <- iris
+        iris_in <- datasets::iris
         iris_in$Species <- as.character(iris_in$Species)
         order_in <- do.call(order, iris_in)
 
