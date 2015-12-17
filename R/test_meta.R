@@ -137,6 +137,8 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
                 add = TRUE)
+
+        iris <- datasets::iris
         dbWriteTable(con, "iris", iris)
 
         local({
@@ -172,7 +174,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, "SELECT 1")
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
-        bind_res <- withVisible(dbBind(res, list()))
+        bind_res <- withVisible(DBI::dbBind(res, list()))
         expect_false(bind_res$visible)
         expect_identical(res, bind_res$value)
       })
@@ -339,7 +341,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, "SELECT 1")
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
-        bind_res <- withVisible(dbBind(res, list()))
+        bind_res <- withVisible(DBI::dbBind(res, list()))
         expect_false(bind_res$visible)
         expect_identical(res, bind_res$value)
       })
@@ -506,7 +508,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, "SELECT 1")
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
-        bind_res <- withVisible(dbBind(res, list()))
+        bind_res <- withVisible(DBI::dbBind(res, list()))
         expect_false(bind_res$visible)
         expect_identical(res, bind_res$value)
       })
@@ -682,7 +684,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, "SELECT 1")
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
-        bind_res <- withVisible(dbBind(res, list()))
+        bind_res <- withVisible(DBI::dbBind(res, list()))
         expect_false(bind_res$visible)
         expect_identical(res, bind_res$value)
       })
@@ -898,11 +900,11 @@ test_select_bind <- function(con, placeholder_fun, values,
   )
 
   if (!identical(bind_values, error_bind_values)) {
-    expect_error(dbBind(res, as.list(error_bind_values)))
+    expect_error(DBI::dbBind(res, as.list(error_bind_values)))
     return()
   }
 
-  bind_res <- withVisible(dbBind(res, as.list(bind_values)))
+  bind_res <- withVisible(DBI::dbBind(res, as.list(bind_values)))
   if (extra == "return_value") {
     expect_false(bind_res$visible)
     expect_identical(res, bind_res$value)
