@@ -12,7 +12,7 @@ Depends:
 Imports:
     methods,
     testthat,
-    DBI
+    DBI (>= 0.3.1.9008)
 Suggests:
     devtools,
     lintr,
