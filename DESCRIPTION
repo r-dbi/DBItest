@@ -1,7 +1,7 @@
 Package: DBItest
 Title: Testing "DBI" Back Ends
-Version: 1.0
-Date: 2015-12-17
+Version: 1.0-1
+Date: 2015-12-18
 Authors@R: c( person(given = "Kirill", family = "Müller", role =
         c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
         person("RStudio", role = "cph") )
@@ -12,7 +12,7 @@ Depends:
 Imports:
     methods,
     testthat,
-    DBI
+    DBI (>= 0.3.1.9008)
 Suggests:
     devtools,
     lintr,

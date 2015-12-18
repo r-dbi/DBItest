@@ -1,3 +1,10 @@
+Version 1.0-1 (2015-12-18)
+===
+
+- Use versioned dependency for DBI
+- Use unqualified calls to `dbBind()` again
+
+
 Version 1.0 (2015-12-17)
 ===
 
