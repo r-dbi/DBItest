@@ -41,9 +41,8 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
       pkg_path <- find.package(pkg_name)
 
       pkg <- devtools::as.package(pkg_path)
-      pkg_depends <- devtools::parse_deps(pkg$depends)$name
-      expect_true("DBI" %in% pkg_depends)
       pkg_imports <- devtools::parse_deps(pkg$imports)$name
+      expect_true("DBI" %in% pkg_imports)
       expect_true("methods" %in% pkg_imports)
     },
 
