@@ -19,14 +19,30 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
   tests <- list(
     #' \item{\code{can_connect_and_disconnect}}{
     #' Can connect and disconnect, connection object inherits from
-    #'   "DBIConnection". Repeated disconnect throws error.
+    #'   "DBIConnection".
     #' }
     can_connect_and_disconnect = function() {
       con <- connect(ctx)
       expect_is(con, "DBIConnection")
       expect_true(dbDisconnect(con))
-      expect_error(dbDisconnect(con))
+    },
+
+    #' \item{\code{cannot_query_disconnected}}{
+    #' Querying a disconnected connection throws error.
+    #' }
+    cannot_query_disconnected = function() {
+      con <- connect(ctx)
+      dbDisconnect(con)
       expect_error(dbGetQuery(con, "select 1"))
+    },
+
+    #' \item{\code{cannot_disconnect_twice}}{
+    #' Repeated disconnect throws error.
+    #' }
+    cannot_disconnect_twice = function() {
+      con <- connect(ctx)
+      dbDisconnect(con)
+      expect_error(dbDisconnect(con))
     },
 
     #' \item{\code{simultaneous_connections}}{
