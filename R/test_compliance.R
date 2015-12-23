@@ -82,7 +82,6 @@ key_methods <- list(
     "dbDisconnect" = NULL,
     "dbGetInfo" = NULL,
     "dbSendQuery" = "character",
-    "dbListResults" = NULL,
     "dbListFields" = "character",
     "dbListTables" = NULL,
     "dbReadTable" = "character",
