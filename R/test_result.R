@@ -22,7 +22,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     trivial_query = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT 1")
+        res <- dbSendQuery(con, "SELECT 1 AS a")
         on.exit(expect_true(dbClearResult(res), NA), add = TRUE)
         expect_is(res, "DBIResult")
       })
@@ -34,7 +34,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     clear_result_return = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT 1")
+        res <- dbSendQuery(con, "SELECT 1 AS a")
         expect_true(dbClearResult(res))
         expect_true(dbClearResult(res))
       })
@@ -45,18 +45,18 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     stale_result_warning = function() {
       with_connection({
-        expect_warning(dbClearResult(dbSendQuery(con, "SELECT 1")), NA)
-        expect_warning(dbClearResult(dbSendQuery(con, "SELECT 2")), NA)
+        expect_warning(dbClearResult(dbSendQuery(con, "SELECT 1 AS a")), NA)
+        expect_warning(dbClearResult(dbSendQuery(con, "SELECT 2 AS b")), NA)
       })
 
       expect_warning(
-        with_connection(dbSendQuery(con, "SELECT 1"))
+        with_connection(dbSendQuery(con, "SELECT 1 AS a"))
       )
 
       with_connection({
-        expect_warning(res1 <- dbSendQuery(con, "SELECT 1"), NA)
+        expect_warning(res1 <- dbSendQuery(con, "SELECT 1 AS a"), NA)
         expect_true(dbIsValid(res1))
-        expect_warning(res2 <- dbSendQuery(con, "SELECT 2"))
+        expect_warning(res2 <- dbSendQuery(con, "SELECT 2 AS b"))
         expect_true(dbIsValid(res2))
         expect_false(dbIsValid(res1))
         dbClearResult(res2)
@@ -81,7 +81,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_true(dbHasCompleted(res))
         expect_error(dbClearResult(res), NA)
 
-        res <- dbSendQuery(con, "INSERT INTO test SELECT 1")
+        res <- dbSendQuery(con, "INSERT INTO test SELECT 1 AS a")
         expect_true(dbHasCompleted(res))
         expect_error(dbClearResult(res), NA)
       })
@@ -232,7 +232,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_closed = function() {
       with_connection({
-        query <- "SELECT 1"
+        query <- "SELECT 1 AS a"
 
         res <- dbSendQuery(con, query)
         dbClearResult(res)
@@ -248,7 +248,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_single = function() {
       with_connection({
-        query <- "SELECT 1 as a"
+        query <- "SELECT 1 AS a"
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L))
@@ -260,7 +260,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_multi_row_single_column = function() {
       with_connection({
-        query <- union("SELECT 1 as a", "SELECT 2", "SELECT 3", .order_by = "a")
+        query <- union("SELECT 1 AS a", "SELECT 2", "SELECT 3", .order_by = "a")
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L:3L))
@@ -272,7 +272,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_empty_single_column = function() {
       with_connection({
-        query <- "SELECT 1 as a WHERE (1 = 0)"
+        query <- "SELECT 1 AS a WHERE (1 = 0)"
 
         rows <- dbGetQuery(con, query)
         expect_identical(names(rows), "a")
@@ -285,7 +285,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_single_row_multi_column = function() {
       with_connection({
-        query <- "SELECT 1 as a, 2 as b, 3 as c"
+        query <- "SELECT 1 AS a, 2 AS b, 3 AS c"
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L, b=2L, c=3L))
@@ -297,7 +297,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_multi = function() {
       with_connection({
-        query <- union("SELECT 1 as a, 2 as b", "SELECT 2, 3", .order_by = "a")
+        query <- union("SELECT 1 AS a, 2 AS b", "SELECT 2, 3", .order_by = "a")
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L:2L, b=2L:3L))
@@ -309,7 +309,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_empty_multi_column = function() {
       with_connection({
-        query <- "SELECT 1 as a, 2 as b, 3 as c WHERE (1 = 0)"
+        query <- "SELECT 1 AS a, 2 AS b, 3 AS c WHERE (1 = 0)"
 
         rows <- dbGetQuery(con, query)
         expect_identical(names(rows), letters[1:3])
@@ -328,7 +328,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                 add = TRUE)
 
         dbGetQuery(con, "CREATE TABLE test (a integer)")
-        dbGetQuery(con, "INSERT INTO test SELECT 1")
+        dbGetQuery(con, "INSERT INTO test SELECT 1 AS a")
 
         with_connection({
           expect_error(rows <- dbGetQuery(con2, "SELECT * FROM test"), NA)
