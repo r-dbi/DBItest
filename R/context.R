@@ -8,6 +8,9 @@
 #'   values).
 #' @param set_as_default \code{[logical(1)]}\cr Should the created context be
 #'   set as default context?
+#' @param tweaks \code{[named list]} \cr Several options to configure SQL statements.
+#'			- dummy_table \code{[character]} If the DBMS demands a FROM statement in SELECTs,
+#' 				 a dummy_table can be given, e.g. "dual" for Oracle etc.
 #' @param ctx \code{[DBItest_context]}\cr A test context.
 #' @return \code{[DBItest_context]}\cr A test context, for
 #'   \code{set_default_context} the previous default context (invisibly) or
@@ -15,7 +18,9 @@
 #'
 #' @rdname context
 #' @export
-make_context <- function(drv, connect_args, set_as_default = TRUE) {
+make_context <- function(drv, connect_args, set_as_default = TRUE, tweaks=list(
+																			dummy_table = NA
+																			)) {
   drv_call <- substitute(drv)
 
   if (is.null(drv)) {
@@ -26,7 +31,8 @@ make_context <- function(drv, connect_args, set_as_default = TRUE) {
     list(
       drv = drv,
       drv_call = drv_call,
-      connect_args = connect_args
+      connect_args = connect_args,
+	  tweaks = tweaks
     ),
     class = "DBItest_context"
   )
