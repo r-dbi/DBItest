@@ -66,7 +66,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     trivial_query = function() {
       with_connection({
         res <- dbSendQuery(con, sql$q1_trivial)
-        on.exit(expect_true(dbClearResult(res), NA), add = TRUE)
+        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         expect_is(res, "DBIResult")
       })
     },
