@@ -16,14 +16,14 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
   # SQL statements (there is still some more in the data type tests)
   sql <- list()
   sql$q1_trivial <- paste("SELECT 1 AS a",
-						ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",ctx$tweaks$dummy_table))
-						)
+                        ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",ctx$tweaks$dummy_table))
+                        )
   sql$q2_trivial <- paste("SELECT 2 AS a",
-						ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",ctx$tweaks$dummy_table))
-						)
+                        ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",ctx$tweaks$dummy_table))
+                        )
   sql$q3_trivial <- paste("SELECT 3 AS a",
-						ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",ctx$tweaks$dummy_table))
-						)
+                        ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",ctx$tweaks$dummy_table))
+                        )
   sql$q4_drop_test <- "DROP TABLE test"
   sql$q5_create_test <- "CREATE TABLE test (a integer)"
   sql$q6_insert_test <- "INSERT INTO test SELECT 1 AS a"
@@ -31,27 +31,27 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
   
   sql$q8_multi_row_single_col_select <- union(sql$q1_trivial, sql$q2_trivial, sql$q3_trivial, .order_by = "a")
   sql$q9_multi_row_select <- union(paste("SELECT", 1:25, "AS a",
-											ifelse(is.na(ctx$tweaks$dummy_table),
-														"",
-														paste("FROM",ctx$tweaks$dummy_table)
-													)
-										), .order_by = "a")
+                                            ifelse(is.na(ctx$tweaks$dummy_table),
+                                                        "",
+                                                        paste("FROM",ctx$tweaks$dummy_table)
+                                                    )
+                                        ), .order_by = "a")
   sql$q10_select_test <- "SELECT * FROM test"
   sql$q11_empty_single_col_select <- paste("SELECT 1 AS a",
-											ifelse(is.na(ctx$tweaks$dummy_table),
-														"",
-														paste("FROM",ctx$tweaks$dummy_table)
-													)
-											,"WHERE (1 = 0)")
+                                            ifelse(is.na(ctx$tweaks$dummy_table),
+                                                        "",
+                                                        paste("FROM",ctx$tweaks$dummy_table)
+                                                    )
+                                            ,"WHERE (1 = 0)")
   sql$q12_single_row_multi_col_select <- paste("SELECT 1 AS a, 2 AS b, 3 AS c",
-												ifelse(is.na(ctx$tweaks$dummy_table),
-														"",
-														paste("FROM",ctx$tweaks$dummy_table)
-													)
-												)
+                                                ifelse(is.na(ctx$tweaks$dummy_table),
+                                                        "",
+                                                        paste("FROM",ctx$tweaks$dummy_table)
+                                                    )
+                                                )
   sql$q13_multi_row_multi_col_select <- union(sql$q12_single_row_multi_col_select,
-											  sql$q12_single_row_multi_col_select,
-											.order_by = "a")
+                                              sql$q12_single_row_multi_col_select,
+                                            .order_by = "a")
   sql$q14_empty_multi_col_select <- paste(sql$q12_single_row_multi_col_select, "WHERE (1 = 0)")
   
   
