@@ -851,8 +851,6 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # dbListResults is unsupported in the existing backends
-
     # dbHasCompleted tested in test_result
 
     # no 64-bit or time input data type yet
