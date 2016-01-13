@@ -38,6 +38,7 @@ Collate:
     'test_sql.R'
     'test_meta.R'
     'test_compliance.R'
+    'tweaks.R'
     'utf8.R'
 RoxygenNote: 5.0.1.9000
 VignetteBuilder: knitr
