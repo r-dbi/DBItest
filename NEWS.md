@@ -1,3 +1,11 @@
+Version 1.0-2 (2016-01-13)
+===
+
+- Deprecate `dbListResults()`.
+- Split "can_connect_and_disconnect" test.
+- Expect `DBI` to be in `Imports`, not in `Depends`.
+
+
 Version 1.0-1 (2015-12-18)
 ===
 
