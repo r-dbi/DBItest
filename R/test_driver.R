@@ -123,7 +123,8 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       )
 
       with_temp_libpaths({
-        expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file))),
+        expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file)),
+                            ignore.stdout = TRUE, ignore.stderr = TRUE),
                      0L)
       })
     },
