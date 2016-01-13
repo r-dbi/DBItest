@@ -53,15 +53,15 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{constructor_strict}}{
-    #' package name starts with R;
-    #' package exports constructor function, named like the package without the
-    #'   leading R, that has no arguments
+    #' Package exports constructor function that has no arguments.
+    #'   The name of the constructor can be tweaked via \code{constructor_name}
+    #'   in the context's \code{\link{tweaks}}, default: package name without
+    #'   the leading R.
     #' }
     constructor_strict = function() {
       pkg_name <- package_name(ctx)
 
-      expect_match(pkg_name, "^R")
-      constructor_name <- gsub("^R", "", pkg_name)
+      constructor_name <- ctx$tweaks$constructor_name %||% gsub("^R", "", pkg_name)
 
       pkg_env <- getNamespace(pkg_name)
       eval(bquote(
@@ -73,13 +73,15 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{constructor}}{
-    #' package exports constructor function, named like the package without the
-    #'   leading R (if it exists), where all arguments have default values
+    #' Package exports constructor function, all arguments have default values.
+    #'   The name of the constructor can be tweaked via \code{constructor_name}
+    #'   in the context's \code{\link{tweaks}}, default: package name without
+    #'   the leading R (if it exists).
     #' }
     constructor = function() {
       pkg_name <- package_name(ctx)
 
-      constructor_name <- gsub("^R", "", pkg_name)
+      constructor_name <- ctx$tweaks$constructor_name %||% gsub("^R", "", pkg_name)
 
       pkg_env <- getNamespace(pkg_name)
       eval(bquote(

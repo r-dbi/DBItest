@@ -28,7 +28,7 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{package_dependencies}}{
-    #' can relate the driver to an installed (or devtools-loaded) package;
+    #' Can relate the driver to an installed (or devtools-loaded) package;
     #' package depends (!) on "DBI" and imports "methods"}. This test requires
     #' the \code{devtools} package and will be skipped if it is not installed.
     package_dependencies = function() {
@@ -37,6 +37,14 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
       pkg_imports <- devtools::parse_deps(pkg$imports)$name
       expect_true("DBI" %in% pkg_imports)
       expect_true("methods" %in% pkg_imports)
+    },
+
+    #' \item{\code{package_name}}{
+    #' Optional: Package name starts with R.
+    #' }
+    package_name = function() {
+      pkg_name <- package_name(ctx)
+      expect_match(pkg_name, "^R")
     },
 
     NULL

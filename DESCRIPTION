@@ -40,5 +40,6 @@ Collate:
     'test_compliance.R'
     'tweaks.R'
     'utf8.R'
+    'utils.R'
 RoxygenNote: 5.0.1.9000
 VignetteBuilder: knitr
