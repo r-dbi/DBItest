@@ -107,19 +107,24 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     stress_load_unload = function() {
       skip_on_travis()
+
+      pkg <- get_pkg(ctx)
+
       script_file <- tempfile("DBItest", fileext = ".R")
       cat(
+        "devtools::install('", pkg$path, "')\n",
         "for (i in 1:50) {\n",
-        "  ", package_name(ctx), "::", deparse(ctx$drv_call), "\n",
-        "  unloadNamespace(getNamespace(\"", package_name(ctx), "\"))\n",
+        "  ", pkg$package, "::", deparse(ctx$drv_call), "\n",
+        "  unloadNamespace(getNamespace(\"", pkg$package, "\"))\n",
         "}\n",
         sep = "",
         file = script_file
       )
 
-      expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file)),
-                          ignore.stdout = TRUE),
-                   0L)
+      withr::with_temp_libpaths({
+        expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file))),
+                     0L)
+      })
     },
 
     NULL
