@@ -9,6 +9,7 @@ NULL
 #' @inheritParams test_all
 #' @include test_driver.R
 #' @family tests
+#' @importFrom withr with_temp_libpaths
 #' @export
 test_connection <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Connection"
@@ -92,6 +93,9 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     stress_load_connect_unload = function() {
       skip_on_travis()
+
+      pkg <- get_pkg(ctx)
+
       script_file <- tempfile("DBItest", fileext = ".R")
       local({
         sink(script_file)
@@ -103,19 +107,21 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
         )
         dput(ctx$connect_args)
         cat(
+          "devtools::install('", pkg$path, "')\n",
           "for (i in 1:50) {\n",
-          "  drv <- ", package_name(ctx), "::", deparse(ctx$drv_call), "\n",
+          "  drv <- ", pkg$package, "::", deparse(ctx$drv_call), "\n",
           "  con <- do.call(dbConnect, c(drv, connect_args))\n",
           "  dbDisconnect(con)\n",
-          "  unloadNamespace(getNamespace(\"", package_name(ctx), "\"))\n",
+          "  unloadNamespace(getNamespace(\"", pkg$package, "\"))\n",
           "}\n",
           sep = ""
         )
       })
 
-      expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file)),
-                          ignore.stdout = TRUE),
-                   0L)
+      with_temp_libpaths({
+        expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file))),
+                     0L)
+      })
     },
 
     NULL

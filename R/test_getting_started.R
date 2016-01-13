@@ -32,15 +32,8 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
     #' package depends (!) on "DBI" and imports "methods"}. This test requires
     #' the \code{devtools} package and will be skipped if it is not installed.
     package_dependencies = function() {
-      if (!requireNamespace("devtools", quietly = TRUE)) {
-        skip("devtools not installed")
-      }
-      expect_error(pkg_name <- package_name(ctx), NA)
-      expect_is(pkg_name, "character")
+      pkg <- get_pkg(ctx)
 
-      pkg_path <- find.package(pkg_name)
-
-      pkg <- devtools::as.package(pkg_path)
       pkg_imports <- devtools::parse_deps(pkg$imports)$name
       expect_true("DBI" %in% pkg_imports)
       expect_true("methods" %in% pkg_imports)
@@ -50,4 +43,17 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
   )
   #'}
   run_tests(tests, skip, test_suite)
+}
+
+get_pkg <- function(ctx) {
+  if (!requireNamespace("devtools", quietly = TRUE)) {
+    skip("devtools not installed")
+  }
+
+  pkg_name <- package_name(ctx)
+  expect_is(pkg_name, "character")
+
+  pkg_path <- find.package(pkg_name)
+
+  devtools::as.package(pkg_path)
 }
