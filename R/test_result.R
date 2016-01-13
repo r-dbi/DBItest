@@ -12,6 +12,49 @@ NULL
 #' @export
 test_result <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Result"
+  
+  # SQL statements (there is still some more in the data type tests)
+  sql <- list()
+  sql$q1_trivial <- paste("SELECT 1 AS a",
+                        ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",ctx$tweaks$dummy_table))
+                        )
+  sql$q2_trivial <- paste("SELECT 2 AS a",
+                        ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",ctx$tweaks$dummy_table))
+                        )
+  sql$q3_trivial <- paste("SELECT 3 AS a",
+                        ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",ctx$tweaks$dummy_table))
+                        )
+  sql$q4_drop_test <- "DROP TABLE test"
+  sql$q5_create_test <- "CREATE TABLE test (a integer)"
+  sql$q6_insert_test <- "INSERT INTO test SELECT 1 AS a"
+  sql$q7_bogus <- "RAISE"
+  
+  sql$q8_multi_row_single_col_select <- union(sql$q1_trivial, sql$q2_trivial, sql$q3_trivial, .order_by = "a")
+  sql$q9_multi_row_select <- union(paste("SELECT", 1:25, "AS a",
+                                            ifelse(is.na(ctx$tweaks$dummy_table),
+                                                        "",
+                                                        paste("FROM",ctx$tweaks$dummy_table)
+                                                    )
+                                        ), .order_by = "a")
+  sql$q10_select_test <- "SELECT * FROM test"
+  sql$q11_empty_single_col_select <- paste("SELECT 1 AS a",
+                                            ifelse(is.na(ctx$tweaks$dummy_table),
+                                                        "",
+                                                        paste("FROM",ctx$tweaks$dummy_table)
+                                                    )
+                                            ,"WHERE (1 = 0)")
+  sql$q12_single_row_multi_col_select <- paste("SELECT 1 AS a, 2 AS b, 3 AS c",
+                                                ifelse(is.na(ctx$tweaks$dummy_table),
+                                                        "",
+                                                        paste("FROM",ctx$tweaks$dummy_table)
+                                                    )
+                                                )
+  sql$q13_multi_row_multi_col_select <- union(sql$q12_single_row_multi_col_select,
+                                              sql$q12_single_row_multi_col_select,
+                                            .order_by = "a")
+  sql$q14_empty_multi_col_select <- paste(sql$q12_single_row_multi_col_select, "WHERE (1 = 0)")
+  
+  
 
   #' @details
   #' This function defines the following tests:
@@ -22,7 +65,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     trivial_query = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT 1")
+        res <- dbSendQuery(con, sql$q1_trivial)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         expect_is(res, "DBIResult")
       })
@@ -34,7 +77,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     clear_result_return = function() {
       with_connection({
-        res <- dbSendQuery(con, "SELECT 1")
+        res <- dbSendQuery(con, sql$q1_trivial)
         expect_true(dbClearResult(res))
         expect_true(dbClearResult(res))
       })
@@ -45,18 +88,18 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     stale_result_warning = function() {
       with_connection({
-        expect_warning(dbClearResult(dbSendQuery(con, "SELECT 1")), NA)
-        expect_warning(dbClearResult(dbSendQuery(con, "SELECT 2")), NA)
+        expect_warning(dbClearResult(dbSendQuery(con, sql$q1_trivial)), NA)
+        expect_warning(dbClearResult(dbSendQuery(con, sql$q2_trivial)), NA)
       })
 
       expect_warning(
-        with_connection(dbSendQuery(con, "SELECT 1"))
+        with_connection(dbSendQuery(con, sql$q1_trivial))
       )
 
       with_connection({
-        expect_warning(res1 <- dbSendQuery(con, "SELECT 1"), NA)
+        expect_warning(res1 <- dbSendQuery(con, sql$q1_trivial), NA)
         expect_true(dbIsValid(res1))
-        expect_warning(res2 <- dbSendQuery(con, "SELECT 2"))
+        expect_warning(res2 <- dbSendQuery(con, sql$q2_trivial))
         expect_true(dbIsValid(res2))
         expect_false(dbIsValid(res1))
         dbClearResult(res2)
@@ -71,17 +114,17 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     command_query = function() {
       with_connection({
         on.exit({
-          res <- dbSendQuery(con, "DROP TABLE test")
+          res <- dbSendQuery(con, sql$q4_drop_test)
           expect_true(dbHasCompleted(res))
           expect_error(dbClearResult(res), NA)
         }
         , add = TRUE)
 
-        res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
+        res <- dbSendQuery(con, sql$q5_create_test)
         expect_true(dbHasCompleted(res))
         expect_error(dbClearResult(res), NA)
 
-        res <- dbSendQuery(con, "INSERT INTO test SELECT 1")
+        res <- dbSendQuery(con, sql$q6_insert_test)
         expect_true(dbHasCompleted(res))
         expect_error(dbClearResult(res), NA)
       })
@@ -94,7 +137,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     invalid_query = function() {
       expect_warning(
         with_connection({
-          expect_error(dbSendQuery(con, "RAISE"))
+          expect_error(dbSendQuery(con, sql$q7_bogus))
         }),
         NA
       )
@@ -105,7 +148,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_single = function() {
       with_connection({
-        query <- "SELECT 1 as a"
+        query <- sql$q1_trivial
 
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
@@ -123,7 +166,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_multi_row_single_column = function() {
       with_connection({
-        query <- union("SELECT 1 as a", "SELECT 2", "SELECT 3", .order_by = "a")
+        query <- sql$q8_multi_row_single_col_select
 
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
@@ -141,7 +184,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_progressive = function() {
       with_connection({
-        query <- union(paste("SELECT", 1:25, "AS a"), .order_by = "a")
+        query <- sql$q9_multi_row_select
 
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
@@ -168,7 +211,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_more_rows = function() {
       with_connection({
-        query <- union("SELECT 1 as a", "SELECT 2", "SELECT 3", .order_by = "a")
+        query <- sql$q9_multi_row_select
 
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
@@ -188,7 +231,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_premature_close = function() {
       with_connection({
-        query <- union("SELECT 1 as a", "SELECT 2", "SELECT 3", .order_by = "a")
+        query <- sql$q9_multi_row_select
 
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
@@ -209,12 +252,12 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_no_return_value = function() {
       with_connection({
-        query <- "CREATE TABLE test (a integer)"
+        query <- sql$q5_create_test
 
         res <- dbSendQuery(con, query)
         on.exit({
           expect_error(dbClearResult(res), NA)
-          expect_error(dbClearResult(dbSendQuery(con, "DROP TABLE test")), NA)
+          expect_error(dbClearResult(dbSendQuery(con, sql$q4_drop_test)), NA)
         }
         , add = TRUE)
 
@@ -232,7 +275,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_closed = function() {
       with_connection({
-        query <- "SELECT 1"
+        query <- sql$q1_trivial
 
         res <- dbSendQuery(con, query)
         dbClearResult(res)
@@ -248,7 +291,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_single = function() {
       with_connection({
-        query <- "SELECT 1 as a"
+        query <- sql$q1_trivial
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L))
@@ -260,7 +303,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_multi_row_single_column = function() {
       with_connection({
-        query <- union("SELECT 1 as a", "SELECT 2", "SELECT 3", .order_by = "a")
+        query <- sql$q9_multi_row_select
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L:3L))
@@ -272,7 +315,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_empty_single_column = function() {
       with_connection({
-        query <- "SELECT 1 as a WHERE (1 = 0)"
+        query <- sql$q11_empty_single_col_select
 
         rows <- dbGetQuery(con, query)
         expect_identical(names(rows), "a")
@@ -285,7 +328,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_single_row_multi_column = function() {
       with_connection({
-        query <- "SELECT 1 as a, 2 as b, 3 as c"
+        query <- sql$q12_single_row_multi_col_select
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L, b=2L, c=3L))
@@ -297,7 +340,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_multi = function() {
       with_connection({
-        query <- union("SELECT 1 as a, 2 as b", "SELECT 2, 3", .order_by = "a")
+        query <- sql$q13_multi_row_multi_col_select
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L:2L, b=2L:3L))
@@ -309,7 +352,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_empty_multi_column = function() {
       with_connection({
-        query <- "SELECT 1 as a, 2 as b, 3 as c WHERE (1 = 0)"
+        query <- q14_empty_multi_col_select
 
         rows <- dbGetQuery(con, query)
         expect_identical(names(rows), letters[1:3])
@@ -322,16 +365,16 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     table_visible_in_other_connection = function() {
       with_connection({
-        expect_error(dbGetQuery(con, "SELECT * from test"))
+        expect_error(dbGetQuery(con, sql$q10_select_test))
 
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA),
+        on.exit(expect_error(dbGetQuery(con, sql$q4_drop_test), NA),
                 add = TRUE)
 
-        dbGetQuery(con, "CREATE TABLE test (a integer)")
-        dbGetQuery(con, "INSERT INTO test SELECT 1")
+        dbGetQuery(con, sql$q5_create_test)
+        dbGetQuery(con, sql$q6_insert_test)
 
         with_connection({
-          expect_error(rows <- dbGetQuery(con2, "SELECT * FROM test"), NA)
+          expect_error(rows <- dbGetQuery(con2, sql$q10_select_test), NA)
           expect_identical(rows, data.frame(a=1L))
         }
         , con = "con2")
@@ -359,7 +402,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
           eval(bquote({
             expect_error(dbGetQuery(con, .(query)), NA)
-            on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA))
+            on.exit(expect_error(dbGetQuery(con, sql$q4_drop_test), NA))
           }))
         }
 
@@ -982,7 +1025,7 @@ test_select <- function(con, ..., .add_null = "none", .table = FALSE) {
   if (.table) {
     query <- paste("CREATE TABLE test AS", query)
     expect_warning(dbGetQuery(con, query), NA)
-    on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA), add = TRUE)
+    on.exit(expect_error(dbGetQuery(con, sql$q4_drop_test), NA), add = TRUE)
     expect_warning(rows <- dbReadTable(con, "test"), NA)
   } else {
     expect_warning(rows <- dbGetQuery(con, query), NA)
