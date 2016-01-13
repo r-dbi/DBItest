@@ -9,6 +9,7 @@ NULL
 #' @inheritParams test_all
 #' @include test_driver.R
 #' @family tests
+#' @importFrom withr with_temp_libpaths
 #' @export
 test_connection <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Connection"
@@ -117,7 +118,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
         )
       })
 
-      withr::with_temp_libpaths({
+      with_temp_libpaths({
         expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file))),
                      0L)
       })

@@ -9,6 +9,7 @@ NULL
 #' @inheritParams test_all
 #' @include test_getting_started.R
 #' @family tests
+#' @importFrom withr with_temp_libpaths
 #' @export
 test_driver <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Driver"
@@ -121,7 +122,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
         file = script_file
       )
 
-      withr::with_temp_libpaths({
+      with_temp_libpaths({
         expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file))),
                      0L)
       })
