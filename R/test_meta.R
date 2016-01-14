@@ -396,6 +396,15 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{bind_repeated_positional_dollar}}{
+    #' TBD.
+    #' }
+    bind_repeated_positional_dollar = function() {
+      with_connection({
+        test_select_bind(con, positional_dollar, 1L, extra = "repeated")
+      })
+    },
+
     #' \item{\code{bind_integer_positional_dollar}}{
     #' Positional binding of integer values (dollar syntax).
     #' }
@@ -888,7 +897,7 @@ test_select_bind <- function(con, placeholder_fun, values,
                              transform_output = function(x) trimws(x, "right"),
                              expect = expect_identical,
                              extra = c("none", "return_value", "too_many",
-                                       "not_enough", "wrong_name")) {
+                                       "not_enough", "wrong_name", "repeated")) {
   extra <- match.arg(extra)
 
   placeholder <- placeholder_fun(length(values))
@@ -931,6 +940,14 @@ test_select_bind <- function(con, placeholder_fun, values,
 
   rows <- dbFetch(res)
   expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
+
+  if (extra == "repeated") {
+    expect_warning(dbClearResult(res), NA)
+    bind_res <- withVisible(dbBind(res, as.list(bind_values)))
+
+    rows <- dbFetch(res)
+    expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
+  }
 }
 
 positional_qm <- function(n) {
