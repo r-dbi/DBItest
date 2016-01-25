@@ -34,7 +34,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     cannot_disconnect_twice = function() {
       con <- connect(ctx)
       dbDisconnect(con)
-      expect_error(dbDisconnect(con))
+      expect_warning(dbDisconnect(con))
     },
 
     #' \item{\code{simultaneous_connections}}{
