@@ -18,11 +18,15 @@
 #' @rdname context
 #' @export
 make_context <- function(drv, connect_args, set_as_default = TRUE,
-                         tweaks = tweaks()) {
+                         tweaks = NULL) {
   drv_call <- substitute(drv)
 
   if (is.null(drv)) {
     stop("drv cannot be NULL.")
+  }
+
+  if (is.null(tweaks)) {
+    tweaks <- tweaks()
   }
 
   ctx <- structure(
