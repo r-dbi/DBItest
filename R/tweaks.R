@@ -2,9 +2,10 @@
 #'
 #' TBD.
 #' @name tweaks
-{
+{ # nolint
   tweak_names <- c(
-    #' @param constructor_name Name of the function that constructs the \code{Driver} object.
+    #' @param constructor_name Name of the function that constructs the
+    #' \code{Driver} object.
     "constructor_name",
     NULL
   )
@@ -22,8 +23,8 @@ make_tweaks <- function(envir = parent.frame()) {
     ret <- .(list_call)
     ret <- ret[!vapply(ret, is.null, logical(1L))]
     structure(ret, class = "DBItest_tweaks")
-  }, as.environment(list(
-    list_call = list_call))))
+  }
+  , as.environment(list(list_call = list_call))))
 
   formals(fun) <- fmls
   environment(fun) <- envir
