@@ -27,13 +27,16 @@ SQL Data types exist for all basic R data types. dbDataType() does not
 throw an error and returns a nonempty atomic character
 }
 \item{\code{constructor_strict}}{
-package name starts with R;
-package exports constructor function, named like the package without the
-  leading R, that has no arguments
+Package exports constructor function that has no arguments.
+  The name of the constructor can be tweaked via \code{constructor_name}
+  in the context's \code{\link{tweaks}}, default: package name without
+  the leading R.
 }
 \item{\code{constructor}}{
-package exports constructor function, named like the package without the
-  leading R (if it exists), where all arguments have default values
+Package exports constructor function, all arguments have default values.
+  The name of the constructor can be tweaked via \code{constructor_name}
+  in the context's \code{\link{tweaks}}, default: package name without
+  the leading R (if it exists).
 }
 \item{\code{get_info_driver}}{
 Return value of dbGetInfo has necessary elements

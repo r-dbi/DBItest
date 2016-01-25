@@ -1,6 +1,6 @@
 Package: DBItest
 Title: Testing "DBI" Back Ends
-Version: 1.0-2
+Version: 1.0-3
 Date: 2016-01-13
 Authors@R: c( person(given = "Kirill", family = "Müller", role =
         c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
@@ -12,6 +12,7 @@ Depends:
 Imports:
     methods,
     testthat,
+    withr,
     DBI (>= 0.3.1.9008)
 Suggests:
     devtools,
@@ -37,6 +38,8 @@ Collate:
     'test_sql.R'
     'test_meta.R'
     'test_compliance.R'
+    'tweaks.R'
     'utf8.R'
+    'utils.R'
 RoxygenNote: 5.0.1.9000
 VignetteBuilder: knitr

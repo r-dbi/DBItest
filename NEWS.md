@@ -1,3 +1,13 @@
+Version 1.0-3 (2016-01-13)
+===
+
+- New argument `tweaks` to `make_context()` (#49).
+- New `tweaks()`, essentially constructs a named list of tweaks but with predefined and documented argument names.
+- New "package_name" test in `test_getting_started()`.
+- The "constructor.*" tests respect the "constructor_name" tweak.
+- Stress tests install package in a temporary library (#48).
+
+
 Version 1.0-2 (2016-01-13)
 ===
 
