@@ -28,15 +28,6 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       expect_true(dbDisconnect(con))
     },
 
-    #' \item{\code{cannot_query_disconnected}}{
-    #' Querying a disconnected connection throws error.
-    #' }
-    cannot_query_disconnected = function() {
-      con <- connect(ctx)
-      dbDisconnect(con)
-      expect_error(dbGetQuery(con, "select 1"))
-    },
-
     #' \item{\code{cannot_disconnect_twice}}{
     #' Repeated disconnect throws error.
     #' }
