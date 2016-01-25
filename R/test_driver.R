@@ -61,7 +61,8 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     constructor_strict = function() {
       pkg_name <- package_name(ctx)
 
-      constructor_name <- ctx$tweaks$constructor_name %||% gsub("^R", "", pkg_name)
+      constructor_name <- ctx$tweaks$constructor_name %||%
+        gsub("^R", "", pkg_name)
 
       pkg_env <- getNamespace(pkg_name)
       eval(bquote(
@@ -81,7 +82,8 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     constructor = function() {
       pkg_name <- package_name(ctx)
 
-      constructor_name <- ctx$tweaks$constructor_name %||% gsub("^R", "", pkg_name)
+      constructor_name <- ctx$tweaks$constructor_name %||%
+        gsub("^R", "", pkg_name)
 
       pkg_env <- getNamespace(pkg_name)
       eval(bquote(
