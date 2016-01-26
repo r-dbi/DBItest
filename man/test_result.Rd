@@ -62,6 +62,9 @@ side-effect-only queries (without return value) can be fetched
 \item{\code{fetch_closed}}{
 Fetching from a closed result set raises an error
 }
+\item{\code{cannot_query_disconnected}}{
+Querying a disconnected connection throws error.
+}
 \item{\code{get_query_single}}{
 single-value queries can be read with dbGetQuery
 }

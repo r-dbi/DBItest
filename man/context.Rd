@@ -6,7 +6,7 @@
 \alias{set_default_context}
 \title{Test contexts}
 \usage{
-make_context(drv, connect_args, set_as_default = TRUE, tweaks = tweaks())
+make_context(drv, connect_args, set_as_default = TRUE, tweaks = NULL)
 
 set_default_context(ctx)
 

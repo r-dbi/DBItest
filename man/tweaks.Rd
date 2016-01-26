@@ -7,7 +7,8 @@
 tweaks(constructor_name = NULL)
 }
 \arguments{
-\item{constructor_name}{Name of the function that constructs the \code{Driver} object.}
+\item{constructor_name}{Name of the function that constructs the
+\code{Driver} object.}
 }
 \description{
 TBD.
