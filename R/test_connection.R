@@ -92,13 +92,13 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
         sink(script_file)
         on.exit(sink(), add = TRUE)
         cat(
+          "devtools::install('", pkg$path, "')\n",
           "library(DBI, quietly = TRUE)\n",
           "connect_args <- ",
           sep = ""
         )
         dput(ctx$connect_args)
         cat(
-          "devtools::install('", pkg$path, "')\n",
           "for (i in 1:50) {\n",
           "  drv <- ", pkg$package, "::", deparse(ctx$drv_call), "\n",
           "  con <- do.call(dbConnect, c(drv, connect_args))\n",
