@@ -3,6 +3,9 @@ language: c
 # language: objective-c
 sudo: required
 
+addons:
+  postgresql: "9.4"
+
 env:
   global:
     - NOT_CRAN=true
@@ -24,6 +27,7 @@ install:
   - ./travis-tool.sh install_r roxygen2
   - ./travis-tool.sh install_deps
   - ./travis-tool.sh dump_sysinfo
+  - sudo apt-get install -qq libpq-dev
 
 after_failure:
   - cat tikzDevice.Rcheck/00install.out || true
