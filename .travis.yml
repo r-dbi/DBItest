@@ -2,6 +2,8 @@ language: c
 # To build on OSX, switch the previous line to
 # language: objective-c
 sudo: required
+dist: trusty
+
 env:
   global:
     - NOT_CRAN=true
