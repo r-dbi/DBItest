@@ -17,6 +17,7 @@ RPostgres RMySQL RSQLite RKazam:
 test: ${TEST_TARGETS}
 
 test-%: install %
+	R CMD INSTALL $*
 	Rscript --vanilla -e "options(crayon.enabled=TRUE, deparse.max.lines=2); devtools::test('$*', filter = 'DBItest')"
 
 clean:
