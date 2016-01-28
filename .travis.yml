@@ -21,6 +21,7 @@ before_install:
 
 install:
   - ./travis-tool.sh install_github krlmlr/DBI
+  - ./travis-tool.sh install_r roxygen2
   - ./travis-tool.sh install_deps
   - ./travis-tool.sh dump_sysinfo
 
