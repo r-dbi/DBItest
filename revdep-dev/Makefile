@@ -1,0 +1,23 @@
+all: test
+
+REVDEP := RPostgres RMySQL RSQLite RKazam
+TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
+
+LIB_DIR := $(shell Rscript -e "cat(.libPaths()[1])")
+
+${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION
+	R CMD INSTALL ..
+
+install: ${LIB_DIR}/DBItest/DESCRIPTION
+
+RPostgres RMySQL RSQLite RKazam:
+	# Use local checkout if available, otherwise clone from GitHub
+	if [ -d ../../$@ ]; then ln -s ../../$@ .; else git clone git@github.com:krlmlr/$@.git -b feature/dbi-test; fi
+
+test: ${TEST_TARGETS}
+
+test-%: install %
+	Rscript --vanilla -e "options(crayon.enabled=TRUE, deparse.max.lines=2); devtools::test('$*', filter = 'DBItest')"
+
+clean:
+	rm -rf ${REVDEP}
