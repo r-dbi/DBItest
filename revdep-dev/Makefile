@@ -19,7 +19,7 @@ test: ${TEST_TARGETS}
 test-%: install %
 	Rscript --vanilla -e "devtools::install_deps('$*', dependencies = TRUE)"
 	R CMD INSTALL $*
-	Rscript --vanilla -e "options(crayon.enabled=TRUE, deparse.max.lines=2); devtools::test('$*', filter = 'DBItest')"
+	Rscript --vanilla -e "options(crayon.enabled=TRUE, deparse.max.lines=2); devtools::test('$*', filter = 'DBItest', reporter = 'check')"
 
 clean:
 	rm -rf ${REVDEP}
