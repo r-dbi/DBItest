@@ -6,6 +6,8 @@ env:
   global:
     - NOT_CRAN=true
     - LINTR_COMMENT_BOT=0
+    - R_BUILD_ARGS=--no-manual
+    - R_CHECK_ARGS=--no-manual --as-cran
 
 script:
   - ./travis-tool.sh run_tests
