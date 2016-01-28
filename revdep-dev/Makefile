@@ -12,7 +12,7 @@ install: ${LIB_DIR}/DBItest/DESCRIPTION
 
 RPostgres RMySQL RSQLite RKazam:
 	# Use local checkout if available, otherwise clone from GitHub
-	if [ -d ../../$@ ]; then ln -s ../../$@ .; else git clone git@github.com:krlmlr/$@.git -b feature/dbi-test; fi
+	if [ -d ../../$@ ]; then ln -s ../../$@ .; else git clone https://github.com/krlmlr/$@.git -b feature/dbi-test; fi
 
 test: ${TEST_TARGETS}
 
