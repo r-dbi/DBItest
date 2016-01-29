@@ -27,6 +27,8 @@ before_install:
   - mysql -e "CREATE DATABASE IF NOT EXISTS test;" -uroot
   - mysql -e "CREATE USER 'billy'@'localhost' IDENTIFIED BY 'supersecret';"
   - printf "[rs-dbi]\nusername=billy\npassword=supersecret\n" > ~/.my.cnf
+  - sed -i '/^VignetteBuilder:/d' DESCRIPTION
+  - rm -r vignettes
 
 install:
   - ./travis-tool.sh install_github krlmlr/DBI
