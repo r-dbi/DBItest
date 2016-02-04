@@ -1,5 +1,7 @@
 all: test
 
+TESTTHAT_REPORTER ?= summary+fail
+
 REVDEP := RPostgres RMySQL RSQLite RKazam
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
 
@@ -17,7 +19,7 @@ RPostgres RMySQL RSQLite RKazam:
 test: ${TEST_TARGETS}
 
 test-%: install %
-	Rscript --vanilla -e "options(crayon.enabled=TRUE, deparse.max.lines=2); devtools::install_deps('$*', dependencies = TRUE, upgrade = FALSE); devtools::test('$*', filter = 'DBItest', reporter = 'check')"
+	Rscript --vanilla -e "options(crayon.enabled=TRUE, deparse.max.lines=2); devtools::install_deps('$*', dependencies = TRUE, upgrade = FALSE); devtools::test('$*', filter = 'DBItest', reporter = '${TESTTHAT_REPORTER}')"
 
 clean:
 	rm -rf ${REVDEP}
