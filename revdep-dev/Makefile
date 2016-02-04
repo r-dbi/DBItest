@@ -14,7 +14,7 @@ install: ${LIB_DIR}/DBItest/DESCRIPTION
 
 RPostgres RMySQL RSQLite RKazam:
 	# Use local checkout if available, otherwise clone from GitHub
-	if [ -d ../../$@ ]; then ln -s ../../$@ .; else git clone https://github.com/krlmlr/$@.git -b feature/dbi-test; Rscript -e "devtools::install_deps('$*', dependencies = TRUE)"; fi
+	if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/krlmlr/$@.git -b feature/dbi-test; Rscript -e "devtools::install_deps('$*', dependencies = TRUE)"; fi
 
 test: ${TEST_TARGETS}
 
