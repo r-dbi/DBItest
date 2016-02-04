@@ -368,7 +368,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
           eval(bquote({
             expect_error(dbGetQuery(con, .(query)), NA)
-            on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA))
+            on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA),
+                    add = TRUE)
           }))
         }
 
