@@ -326,27 +326,6 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    #' \item{\code{table_visible_in_other_connection}}{
-    #' A new table is visible in a second connection.
-    #' }
-    table_visible_in_other_connection = function() {
-      with_connection({
-        expect_error(dbGetQuery(con, "SELECT * from test"))
-
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA),
-                add = TRUE)
-
-        dbGetQuery(con, "CREATE TABLE test (a integer)")
-        dbGetQuery(con, "INSERT INTO test SELECT 1")
-
-        with_connection({
-          expect_error(rows <- dbGetQuery(con2, "SELECT * FROM test"), NA)
-          expect_identical(rows, data.frame(a=1L))
-        }
-        , con = "con2")
-      })
-    },
-
     #' \item{\code{data_type_connection}}{
     #' SQL Data types exist for all basic R data types, and the engine can
     #' process them.
