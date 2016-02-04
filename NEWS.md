@@ -1,3 +1,13 @@
+Version 1.0-4 (2016-02-04)
+===
+
+- Test `RPostgres`, `RMySQL`, `RSQLite` and `RKazam` as part of the Travis-CI tests (#52).
+- Stress test now installs package in temporary library before loading DBI (rstats-db/RSQLite#128).
+- `make_context()` now works again if `tweaks` arg is omitted (regression introduced in 1.0-3).
+- Expect a warning instead of an error for double disconnect (#50).
+- Move connection test that requires `dbFetch()` to `test_result()`.
+
+
 Version 1.0-3 (2016-01-13)
 ===
 
