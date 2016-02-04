@@ -945,6 +945,7 @@ union <- function(..., .order_by = NULL) {
   query
 }
 
+# NB: .table = TRUE will not work in bigrquery
 test_select <- function(con, ..., .add_null = "none", .table = FALSE) {
   values <- c(...)
   if (is.null(names(values))) {
