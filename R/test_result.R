@@ -243,6 +243,15 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{cannot_query_disconnected}}{
+    #' Querying a disconnected connection throws error.
+    #' }
+    cannot_query_disconnected = function() {
+      con <- connect(ctx)
+      dbDisconnect(con)
+      expect_error(dbGetQuery(con, "SELECT 1"))
+    },
+
     #' \item{\code{get_query_single}}{
     #' single-value queries can be read with dbGetQuery
     #' }
@@ -359,7 +368,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
           eval(bquote({
             expect_error(dbGetQuery(con, .(query)), NA)
-            on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA))
+            on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA),
+                    add = TRUE)
           }))
         }
 

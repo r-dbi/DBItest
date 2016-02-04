@@ -23,9 +23,6 @@ This function defines the following tests:
 Can connect and disconnect, connection object inherits from
   "DBIConnection".
 }
-\item{\code{cannot_query_disconnected}}{
-Querying a disconnected connection throws error.
-}
 \item{\code{cannot_disconnect_twice}}{
 Repeated disconnect throws error.
 }

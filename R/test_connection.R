@@ -28,22 +28,13 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       expect_true(dbDisconnect(con))
     },
 
-    #' \item{\code{cannot_query_disconnected}}{
-    #' Querying a disconnected connection throws error.
-    #' }
-    cannot_query_disconnected = function() {
-      con <- connect(ctx)
-      dbDisconnect(con)
-      expect_error(dbGetQuery(con, "select 1"))
-    },
-
     #' \item{\code{cannot_disconnect_twice}}{
     #' Repeated disconnect throws error.
     #' }
     cannot_disconnect_twice = function() {
       con <- connect(ctx)
       dbDisconnect(con)
-      expect_error(dbDisconnect(con))
+      expect_warning(dbDisconnect(con))
     },
 
     #' \item{\code{simultaneous_connections}}{
@@ -101,13 +92,13 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
         sink(script_file)
         on.exit(sink(), add = TRUE)
         cat(
+          "devtools::install('", pkg$path, "')\n",
           "library(DBI, quietly = TRUE)\n",
           "connect_args <- ",
           sep = ""
         )
         dput(ctx$connect_args)
         cat(
-          "devtools::install('", pkg$path, "')\n",
           "for (i in 1:50) {\n",
           "  drv <- ", pkg$package, "::", deparse(ctx$drv_call), "\n",
           "  con <- do.call(dbConnect, c(drv, connect_args))\n",
