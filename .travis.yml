@@ -14,6 +14,7 @@ env:
     - NOT_CRAN=true
     - LINTR_COMMENT_BOT=0
     - WARNINGS_ARE_ERRORS=1
+    - TESTTHAT_REPORTER=check
 
 script:
   - ./travis-tool.sh run_tests
