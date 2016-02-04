@@ -241,15 +241,15 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * from test"))
 
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA),
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA),
                 add = TRUE)
 
-        dbGetQuery(con, "CREATE TABLE test (a integer)")
-        dbGetQuery(con, "INSERT INTO test SELECT 1")
+        data <- data.frame(a = 1L)
+        dbWriteTable(con, "test", data)
 
         with_connection({
           expect_error(rows <- dbGetQuery(con2, "SELECT * FROM test"), NA)
-          expect_identical(rows, data.frame(a=1L))
+          expect_identical(rows, data)
         }
         , con = "con2")
       })
