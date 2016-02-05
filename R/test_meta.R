@@ -118,7 +118,8 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
 
       with_connection({
-        query <- union(.ctx = ctx, "SELECT * FROM (SELECT 1 as a) a WHERE (0 = 1)")
+        query <- union(
+          .ctx = ctx, "SELECT * FROM (SELECT 1 as a) a WHERE (0 = 1)")
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
