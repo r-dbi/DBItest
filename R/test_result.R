@@ -390,7 +390,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_integer = function() {
       with_connection({
-        test_select(con, 1L, -100L)
+        test_select(.ctx = ctx, con, 1L, -100L)
       })
     },
 
@@ -399,7 +399,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_integer_null_below = function() {
       with_connection({
-        test_select(con, 1L, -100L, .add_null = "below")
+        test_select(.ctx = ctx, con, 1L, -100L, .add_null = "below")
       })
     },
 
@@ -409,7 +409,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_integer_null_above = function() {
       with_connection({
-        test_select(con, 1L, -100L, .add_null = "above")
+        test_select(.ctx = ctx, con, 1L, -100L, .add_null = "above")
       })
     },
 
@@ -418,7 +418,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_numeric = function() {
       with_connection({
-        test_select(con, 1.5, -100.5)
+        test_select(.ctx = ctx, con, 1.5, -100.5)
       })
     },
 
@@ -427,7 +427,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_numeric_null_below = function() {
       with_connection({
-        test_select(con, 1.5, -100.5, .add_null = "below")
+        test_select(.ctx = ctx, con, 1.5, -100.5, .add_null = "below")
       })
     },
 
@@ -437,7 +437,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_numeric_null_above = function() {
       with_connection({
-        test_select(con, 1.5, -100.5, .add_null = "above")
+        test_select(.ctx = ctx, con, 1.5, -100.5, .add_null = "above")
       })
     },
 
@@ -446,7 +446,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE)
       })
     },
@@ -456,7 +456,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_null_below = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE,
                     .add_null = "below")
       })
@@ -468,7 +468,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_null_above = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE,
                     .add_null = "above")
       })
@@ -479,7 +479,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_int = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L)
       })
     },
@@ -490,7 +490,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_int_null_below = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L,
                     .add_null = "below")
       })
@@ -503,7 +503,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_int_null_above = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L,
                     .add_null = "above")
       })
@@ -518,7 +518,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
           expect_true(is.na(rows$a))
         }
 
-        test_select(con, "NULL" = is.na)
+        test_select(.ctx = ctx, con, "NULL" = is.na)
       })
     },
 
@@ -527,7 +527,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_64_bit = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "10000000000" = 10000000000, "-10000000000" = 10000000000)
       })
     },
@@ -537,7 +537,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_64_bit_null_below = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "10000000000" = 10000000000, "-10000000000" = 10000000000,
                     .add_null = "below")
       })
@@ -549,7 +549,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_64_bit_null_above = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "10000000000" = 10000000000, "-10000000000" = 10000000000,
                     .add_null = "above")
       })
@@ -562,7 +562,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         values <- texts
         sql_names <- as.character(dbQuoteString(con, texts))
-        test_select(con, setNames(values, sql_names))
+        test_select(.ctx = ctx, con, setNames(values, sql_names))
       })
     },
 
@@ -573,7 +573,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         values <- texts
         sql_names <- as.character(dbQuoteString(con, texts))
-        test_select(con, setNames(values, sql_names), .add_null = "below")
+        test_select(.ctx = ctx, con, setNames(values, sql_names),
+                    .add_null = "below")
       })
     },
 
@@ -585,7 +586,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         values <- texts
         sql_names <- as.character(dbQuoteString(con, texts))
-        test_select(con, setNames(values, sql_names), .add_null = "above")
+        test_select(.ctx = ctx, con, setNames(values, sql_names),
+                    .add_null = "above")
       })
     },
 
@@ -597,7 +599,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(con, setNames(values, sql_names))
+        test_select(.ctx = ctx, con, setNames(values, sql_names))
       })
     },
 
@@ -609,7 +611,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(con, setNames(values, sql_names), .add_null = "below")
+        test_select(.ctx = ctx, con, setNames(values, sql_names),
+                    .add_null = "below")
       })
     },
 
@@ -622,7 +625,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(con, setNames(values, sql_names), .add_null = "above")
+        test_select(.ctx = ctx, con, setNames(values, sql_names),
+                    .add_null = "above")
       })
     },
 
@@ -631,7 +635,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_date = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "date('2015-01-01')" = as_integer_date("2015-01-01"),
                     "date('2015-02-02')" = as_integer_date("2015-02-02"),
                     "date('2015-03-03')" = as_integer_date("2015-03-03"),
@@ -653,7 +657,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_date_null_below = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "date('2015-01-01')" = as_integer_date("2015-01-01"),
                     "date('2015-02-02')" = as_integer_date("2015-02-02"),
                     "date('2015-03-03')" = as_integer_date("2015-03-03"),
@@ -677,7 +681,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_date_null_above = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "date('2015-01-01')" = as_integer_date("2015-01-01"),
                     "date('2015-02-02')" = as_integer_date("2015-02-02"),
                     "date('2015-03-03')" = as_integer_date("2015-03-03"),
@@ -700,7 +704,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "time '00:00:00'" = "00:00:00",
                     "time '12:34:56'" = "12:34:56",
                     "current_time" = is.character)
@@ -712,7 +716,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_null_below = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "time '00:00:00'" = "00:00:00",
                     "time '12:34:56'" = "12:34:56",
                     "current_time" = is.character,
@@ -726,7 +730,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_null_above = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "time '00:00:00'" = "00:00:00",
                     "time '12:34:56'" = "12:34:56",
                     "current_time" = is.character,
@@ -740,7 +744,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_parens = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "time('00:00:00')" = "00:00:00",
                     "time('12:34:56')" = "12:34:56",
                     "current_time" = is.character)
@@ -753,7 +757,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_parens_null_below = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "time('00:00:00')" = "00:00:00",
                     "time('12:34:56')" = "12:34:56",
                     "current_time" = is.character,
@@ -768,7 +772,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_parens_null_above = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "time('00:00:00')" = "00:00:00",
                     "time('12:34:56')" = "12:34:56",
                     "current_time" = is.character,
@@ -781,7 +785,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "timestamp '2015-10-11 00:00:00'" = is_time,
                     "timestamp '2015-10-11 12:34:56'" = is_time,
                     "current_timestamp" = is_roughly_current_time)
@@ -793,7 +797,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_null_below = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "timestamp '2015-10-11 00:00:00'" = is_time,
                     "timestamp '2015-10-11 12:34:56'" = is_time,
                     "current_timestamp" = is_roughly_current_time,
@@ -807,7 +811,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_null_above = function() {
       with_connection({
-        test_select(con,
+        test_select(.ctx = ctx, con,
                     "timestamp '2015-10-11 00:00:00'" = is_time,
                     "timestamp '2015-10-11 12:34:56'" = is_time,
                     "current_timestamp" = is_roughly_current_time,
@@ -820,7 +824,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_utc = function() {
       with_connection({
-        test_select(
+        test_select(.ctx = ctx,
           con,
           "timestamp '2015-10-11 00:00:00+02:00'" =
             as.POSIXct("2015-10-11 00:00:00+02:00"),
@@ -836,7 +840,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_utc_null_below = function() {
       with_connection({
-        test_select(
+        test_select(.ctx = ctx,
           con,
           "timestamp '2015-10-11 00:00:00+02:00'" =
             as.POSIXct("2015-10-11 00:00:00+02:00"),
@@ -854,7 +858,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_utc_null_above = function() {
       with_connection({
-        test_select(
+        test_select(.ctx = ctx,
           con,
           "timestamp '2015-10-11 00:00:00+02:00'" =
             as.POSIXct("2015-10-11 00:00:00+02:00"),
@@ -871,7 +875,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_parens = function() {
       with_connection({
-        test_select(
+        test_select(.ctx = ctx,
           con,
           "datetime('2015-10-11 00:00:00')" =
             as.POSIXct("2015-10-11 00:00:00Z"),
@@ -887,7 +891,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_parens_null_below = function() {
       with_connection({
-        test_select(
+        test_select(.ctx = ctx,
           con,
           "datetime('2015-10-11 00:00:00')" =
             as.POSIXct("2015-10-11 00:00:00Z"),
@@ -905,7 +909,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_parens_null_above = function() {
       with_connection({
-        test_select(
+        test_select(.ctx = ctx,
           con,
           "datetime('2015-10-11 00:00:00')" =
             as.POSIXct("2015-10-11 00:00:00Z"),
@@ -957,7 +961,7 @@ union <- function(..., .order_by = NULL, .ctx) {
 }
 
 # NB: .table = TRUE will not work in bigrquery
-test_select <- function(con, ..., .add_null = "none", .table = FALSE) {
+test_select <- function(con, ..., .add_null = "none", .table = FALSE, .ctx) {
   values <- c(...)
   if (is.null(names(values))) {
     sql_values <- as.character(values)
@@ -977,7 +981,7 @@ test_select <- function(con, ..., .add_null = "none", .table = FALSE) {
       query <- rev(query)
     }
     query <- paste0(query, ", ", 1:2, " as id")
-    query <- union(.ctx = ctx, query)
+    query <- union(.ctx = .ctx, query)
   }
 
   if (.table) {
