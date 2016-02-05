@@ -56,6 +56,9 @@ Can write the \code{\link[datasets]{iris}} data as a temporary table to
 the database, the table is not available in a second connection and is
 gone after reconnecting.
 }
+\item{\code{table_visible_in_other_connection}}{
+A new table is visible in a second connection.
+}
 \item{\code{list_tables}}{
 Can list the tables in the database, adding and removing tables affects
 the list. Can also check existence of a table.
