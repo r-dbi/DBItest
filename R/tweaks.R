@@ -49,7 +49,7 @@ format.DBItest_tweaks <- function(x, ...) {
     "DBItest tweaks:",
     unlist(mapply(
       function(name, value) {
-        paste0("  ", name, ": ", value)
+        paste0("  ", name, ": ", format(value)[[1]])
       },
       names(x), unclass(x)))
   )
