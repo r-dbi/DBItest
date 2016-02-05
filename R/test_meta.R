@@ -104,7 +104,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
 
       with_connection({
-        query <- union("SELECT 1 as a", "SELECT 2", "SELECT 3")
+        query <- union(.ctx = ctx, "SELECT 1 as a", "SELECT 2", "SELECT 3")
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
@@ -118,7 +118,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
 
       with_connection({
-        query <- union("SELECT * FROM (SELECT 1 as a) a WHERE (0 = 1)")
+        query <- union(.ctx = ctx, "SELECT * FROM (SELECT 1 as a) a WHERE (0 = 1)")
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
