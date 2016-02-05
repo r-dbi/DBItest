@@ -944,7 +944,12 @@ with_connection <- function(code, con = "con", env = parent.frame()) {
 
 # Helper function
 union <- function(..., .order_by = NULL, .ctx) {
-  query <- paste(c(...), collapse = " UNION ")
+  if (is.null(.ctx$tweaks$union)) {
+    query <- paste(c(...), collapse = " UNION ")
+  } else {
+    query <- .ctx$tweaks$union(c(...))
+  }
+
   if (!missing(.order_by)) {
     query <- paste(query, "ORDER BY", .order_by)
   }
