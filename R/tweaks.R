@@ -4,9 +4,14 @@
 #' @name tweaks
 { # nolint
   tweak_names <- c(
-    #' @param constructor_name Name of the function that constructs the
-    #' \code{Driver} object.
+    #' @param constructor_name \code{[character(1)]}\cr
+    #'   Name of the function that constructs the \code{Driver} object.
     "constructor_name",
+
+    #' @param union \code{[function(character)]}\cr
+    #'   Function that combines several subqueries into one so that the
+    #'   resulting query returns the concatenated results of the subqueries
+    "union",
     NULL
   )
 }
