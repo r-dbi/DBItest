@@ -1,3 +1,12 @@
+Version 1.0-5 (2016-02-06)
+===
+
+- New tweak `union`, for specifying a nonstandard way of combining queries.
+- All union queries now use full qualification for each column (required for `bigrquery`).
+- Return test results as named array of logical. Requires hadley/testthat#360.
+- Use fork of `testthat`.
+
+
 Version 1.0-4 (2016-02-04)
 ===
 
