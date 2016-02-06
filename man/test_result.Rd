@@ -83,9 +83,6 @@ multi-row multi-column queries can be read with dbGetQuery
 \item{\code{get_query_empty_multi_column}}{
 Empty multi-column queries can be read with dbGetQuery
 }
-\item{\code{table_visible_in_other_connection}}{
-A new table is visible in a second connection.
-}
 \item{\code{data_type_connection}}{
 SQL Data types exist for all basic R data types, and the engine can
 process them.

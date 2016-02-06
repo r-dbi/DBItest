@@ -234,6 +234,27 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{table_visible_in_other_connection}}{
+    #' A new table is visible in a second connection.
+    #' }
+    table_visible_in_other_connection = function() {
+      with_connection({
+        expect_error(dbGetQuery(con, "SELECT * from test"))
+
+        on.exit(expect_error(dbRemoveTable(con, "test"), NA),
+                add = TRUE)
+
+        data <- data.frame(a = 1L)
+        dbWriteTable(con, "test", data)
+
+        with_connection({
+          expect_error(rows <- dbGetQuery(con2, "SELECT * FROM test"), NA)
+          expect_identical(rows, data)
+        }
+        , con = "con2")
+      })
+    },
+
     #' \item{\code{list_tables}}{
     #' Can list the tables in the database, adding and removing tables affects
     #' the list. Can also check existence of a table.
