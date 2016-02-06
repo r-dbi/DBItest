@@ -93,9 +93,9 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
         expect_identical(names(rows),
-                     c("simple", "with space", "with.dot", "with,comma",
-                       as.character(simple), as.character(with_space),
-                       as.character(with_dot), as.character(with_comma)))
+                         c("simple", "with space", "with.dot", "with,comma",
+                           as.character(simple), as.character(with_space),
+                           as.character(with_dot), as.character(with_comma)))
         expect_identical(unlist(unname(rows)), 1:8)
       })
     },
