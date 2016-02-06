@@ -60,7 +60,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     quote_string_vectorized = function() {
       with_connection({
         simple_out <- dbQuoteString(con, "simple")
-        expect_equal(length(single), 1L)
+        expect_equal(length(simple_out), 1L)
         letters_out <- dbQuoteString(con, letters)
         expect_equal(length(letters_out), length(letters))
       })
@@ -105,9 +105,9 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     quote_identifier_not_vectorized = function() {
       with_connection({
-        simple_out <- dbQuoteString(con, "simple")
-        expect_equal(length(single), 1L)
-        letters_out <- dbQuoteString(con, letters[1:3])
+        simple_out <- dbQuoteIdentifier(con, "simple")
+        expect_equal(length(simple_out), 1L)
+        letters_out <- dbQuoteIdentifier(con, letters[1:3])
         expect_equal(length(letters_out), 1L)
       })
     },
