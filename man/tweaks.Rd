@@ -4,11 +4,15 @@
 \alias{tweaks}
 \title{Tweaks for DBI tests}
 \usage{
-tweaks(constructor_name = NULL)
+tweaks(constructor_name = NULL, union = NULL)
 }
 \arguments{
-\item{constructor_name}{Name of the function that constructs the
-\code{Driver} object.}
+\item{constructor_name}{\code{[character(1)]}\cr
+Name of the function that constructs the \code{Driver} object.}
+
+\item{union}{\code{[function(character)]}\cr
+Function that combines several subqueries into one so that the
+resulting query returns the concatenated results of the subqueries}
 }
 \description{
 TBD.

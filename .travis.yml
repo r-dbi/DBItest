@@ -14,7 +14,6 @@ env:
     - NOT_CRAN=true
     - LINTR_COMMENT_BOT=0
     - WARNINGS_ARE_ERRORS=1
-    - TESTTHAT_REPORTER=check
 
 script:
   - ./travis-tool.sh run_tests
@@ -25,13 +24,12 @@ before_install:
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
   - mysql -e "CREATE DATABASE IF NOT EXISTS test;" -uroot
-  - mysql -e "CREATE USER 'billy'@'localhost' IDENTIFIED BY 'supersecret';"
-  - printf "[rs-dbi]\nusername=billy\npassword=supersecret\n" > ~/.my.cnf
+  - mysql -e "GRANT ALL PRIVILEGES ON test.* TO 'travis'@'localhost'; FLUSH PRIVILEGES;" -uroot
   - sed -i '/^VignetteBuilder:/d' DESCRIPTION
   - rm -r vignettes
 
 install:
-  - ./travis-tool.sh install_github krlmlr/DBI
+  - ./travis-tool.sh install_github krlmlr/DBI krlmlr/testthat@develop
   - ./travis-tool.sh install_r roxygen2
   - ./travis-tool.sh install_deps
   - ./travis-tool.sh dump_sysinfo
