@@ -67,10 +67,25 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{quote_identifier}}{
-    #' Can quote identifiers, and create identifiers that contain quotes and
-    #' spaces
+    #' Can quote identifiers that consist of letters only
     #' }
     quote_identifier = function() {
+      with_connection({
+        simple <- dbQuoteIdentifier(con, "simple")
+
+        query <- paste0("SELECT 1 as", simple)
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_identical(names(rows), "simple")
+        expect_identical(unlist(unname(rows)), 1L)
+      })
+    },
+
+    #' \item{\code{quote_identifier_special}}{
+    #' Can quote identifiers with special characters, and create identifiers
+    #' that contain quotes and spaces
+    #' }
+    quote_identifier_special = function() {
       with_connection({
         simple <- dbQuoteIdentifier(con, "simple")
         with_space <- dbQuoteIdentifier(con, "with space")
