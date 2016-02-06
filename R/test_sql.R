@@ -119,7 +119,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     write_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+        on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
         iris <- datasets::iris
@@ -143,7 +143,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     read_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+        on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
         iris_in <- datasets::iris
@@ -165,7 +165,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     overwrite_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+        on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
         iris <- datasets::iris
@@ -184,7 +184,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     append_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+        on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
         iris <- datasets::iris
@@ -201,7 +201,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     append_table_error = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris")), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "iris")))
 
         iris <- datasets::iris
         expect_error(dbWriteTable(con, "iris", iris[1:20,], append = TRUE))
@@ -230,7 +230,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        try(dbGetQuery(con, "DROP TABLE iris"), silent = TRUE)
+        try(dbRemoveTable(con, "iris"), silent = TRUE)
       })
     },
 
@@ -269,7 +269,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
         expect_false(dbExistsTable(con, "iris"))
 
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+        on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
         iris <- datasets::iris
