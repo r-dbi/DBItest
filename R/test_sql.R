@@ -60,17 +60,36 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     quote_string_vectorized = function() {
       with_connection({
         simple_out <- dbQuoteString(con, "simple")
-        expect_equal(length(single), 1L)
+        expect_equal(length(simple_out), 1L)
         letters_out <- dbQuoteString(con, letters)
         expect_equal(length(letters_out), length(letters))
       })
     },
 
     #' \item{\code{quote_identifier}}{
-    #' Can quote identifiers, and create identifiers that contain quotes and
-    #' spaces
+    #' Can quote identifiers that consist of letters only
     #' }
     quote_identifier = function() {
+      with_connection({
+        simple <- dbQuoteIdentifier(con, "simple")
+
+        query <- paste0("SELECT 1 as", simple)
+
+        expect_warning(rows <- dbGetQuery(con, query), NA)
+        expect_identical(names(rows), "simple")
+        expect_identical(unlist(unname(rows)), 1L)
+      })
+    },
+
+    #' \item{\code{quote_identifier_special}}{
+    #' Can quote identifiers with special characters, and create identifiers
+    #' that contain quotes and spaces
+    #' }
+    quote_identifier_special = function() {
+      if (isTRUE(ctx$tweaks$strict_identifier)) {
+        skip("tweak: strict_identifier")
+      }
+
       with_connection({
         simple <- dbQuoteIdentifier(con, "simple")
         with_space <- dbQuoteIdentifier(con, "with space")
@@ -93,9 +112,9 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
         expect_warning(rows <- dbGetQuery(con, query), NA)
         expect_identical(names(rows),
-                     c("simple", "with space", "with.dot", "with,comma",
-                       as.character(simple), as.character(with_space),
-                       as.character(with_dot), as.character(with_comma)))
+                         c("simple", "with space", "with.dot", "with,comma",
+                           as.character(simple), as.character(with_space),
+                           as.character(with_dot), as.character(with_comma)))
         expect_identical(unlist(unname(rows)), 1:8)
       })
     },
@@ -105,9 +124,9 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     quote_identifier_not_vectorized = function() {
       with_connection({
-        simple_out <- dbQuoteString(con, "simple")
-        expect_equal(length(single), 1L)
-        letters_out <- dbQuoteString(con, letters[1:3])
+        simple_out <- dbQuoteIdentifier(con, "simple")
+        expect_equal(length(simple_out), 1L)
+        letters_out <- dbQuoteIdentifier(con, letters[1:3])
         expect_equal(length(letters_out), 1L)
       })
     },
@@ -119,10 +138,10 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     write_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+        on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris))
 
@@ -143,10 +162,10 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     read_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+        on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
-        iris_in <- datasets::iris
+        iris_in <- get_iris(ctx)
         iris_in$Species <- as.character(iris_in$Species)
         order_in <- do.call(order, iris_in)
 
@@ -165,10 +184,10 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     overwrite_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+        on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
                      NA)
@@ -184,10 +203,10 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     append_table = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+        on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
         iris_out <- dbReadTable(con, "iris")
@@ -201,9 +220,9 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     append_table_error = function() {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris")), add = TRUE)
+        on.exit(expect_error(dbRemoveTable(con, "iris")))
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         expect_error(dbWriteTable(con, "iris", iris[1:20,], append = TRUE))
       })
     },
@@ -217,7 +236,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris[1:30, ], temporary = TRUE)
         iris_out <- dbReadTable(con, "iris")
         expect_identical(nrow(iris_out), 30L)
@@ -230,7 +249,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-        try(dbGetQuery(con, "DROP TABLE iris"), silent = TRUE)
+        try(dbRemoveTable(con, "iris"), silent = TRUE)
       })
     },
 
@@ -269,10 +288,10 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
         expect_false(dbExistsTable(con, "iris"))
 
-        on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+        on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
 
         tables <- dbListTables(con)
@@ -546,4 +565,12 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
   )
   #' }
   run_tests(tests, skip, test_suite)
+}
+
+get_iris <- function(ctx) {
+  datasets_iris <- datasets::iris
+  if (isTRUE(ctx$tweaks$strict_identifier)) {
+    names(datasets_iris) <- gsub(".", "_", names(datasets_iris), fixed = TRUE)
+  }
+  datasets_iris
 }

@@ -8,6 +8,11 @@
     #'   Name of the function that constructs the \code{Driver} object.
     "constructor_name",
 
+    #' @param strict_identifier \code{[logical(1)]}\cr
+    #'   Set to \code{TRUE} if the DBMS does not support arbitrarily-named
+    #'   identifiers even when quoting is used.
+    "strict_identifier",
+
     #' @param union \code{[function(character)]}\cr
     #'   Function that combines several subqueries into one so that the
     #'   resulting query returns the concatenated results of the subqueries

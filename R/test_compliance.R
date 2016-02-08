@@ -41,8 +41,7 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     read_only = function() {
       with_connection({
-        iris <- datasets::iris
-        expect_error(dbWriteTable(con, "iris", iris))
+        expect_error(dbWriteTable(con, "test", data.frame(a = 1)))
       })
     },
 
