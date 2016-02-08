@@ -571,7 +571,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         values <- texts
         sql_names <- as.character(dbQuoteString(con, texts))
-        test_select(.ctx = ctx, con, setNames(values, sql_names))
+        test_select(.ctx = ctx, con, .dots = setNames(values, sql_names))
       })
     },
 
@@ -582,7 +582,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         values <- texts
         sql_names <- as.character(dbQuoteString(con, texts))
-        test_select(.ctx = ctx, con, setNames(values, sql_names),
+        test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
                     .add_null = "below")
       })
     },
@@ -595,7 +595,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         values <- texts
         sql_names <- as.character(dbQuoteString(con, texts))
-        test_select(.ctx = ctx, con, setNames(values, sql_names),
+        test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
                     .add_null = "above")
       })
     },
@@ -669,7 +669,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                     "date('2015-10-10')" = as_integer_date("2015-10-10"),
                     "date('2015-11-11')" = as_integer_date("2015-11-11"),
                     "date('2015-12-12')" = as_integer_date("2015-12-12"),
-                    "current_date" = as_integer_date(Sys.time()))
+                    "current_date" ~ as_integer_date(Sys.time()))
       })
     },
 
@@ -691,7 +691,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                     "date('2015-10-10')" = as_integer_date("2015-10-10"),
                     "date('2015-11-11')" = as_integer_date("2015-11-11"),
                     "date('2015-12-12')" = as_integer_date("2015-12-12"),
-                    "current_date" = as_integer_date(Sys.time()),
+                    "current_date" ~ as_integer_date(Sys.time()),
                     .add_null = "below")
       })
     },
@@ -715,7 +715,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                     "date('2015-10-10')" = as_integer_date("2015-10-10"),
                     "date('2015-11-11')" = as_integer_date("2015-11-11"),
                     "date('2015-12-12')" = as_integer_date("2015-12-12"),
-                    "current_date" = as_integer_date(Sys.time()),
+                    "current_date" ~ as_integer_date(Sys.time()),
                     .add_null = "above")
       })
     },
@@ -728,7 +728,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         test_select(.ctx = ctx, con,
                     "time '00:00:00'" = "00:00:00",
                     "time '12:34:56'" = "12:34:56",
-                    "current_time" = is.character)
+                    "current_time" ~ is.character)
       })
     },
 
@@ -740,7 +740,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         test_select(.ctx = ctx, con,
                     "time '00:00:00'" = "00:00:00",
                     "time '12:34:56'" = "12:34:56",
-                    "current_time" = is.character,
+                    "current_time" ~ is.character,
                     .add_null = "below")
       })
     },
@@ -754,7 +754,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         test_select(.ctx = ctx, con,
                     "time '00:00:00'" = "00:00:00",
                     "time '12:34:56'" = "12:34:56",
-                    "current_time" = is.character,
+                    "current_time" ~ is.character,
                     .add_null = "above")
       })
     },
@@ -768,7 +768,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         test_select(.ctx = ctx, con,
                     "time('00:00:00')" = "00:00:00",
                     "time('12:34:56')" = "12:34:56",
-                    "current_time" = is.character)
+                    "current_time" ~ is.character)
       })
     },
 
@@ -781,7 +781,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         test_select(.ctx = ctx, con,
                     "time('00:00:00')" = "00:00:00",
                     "time('12:34:56')" = "12:34:56",
-                    "current_time" = is.character,
+                    "current_time" ~ is.character,
                     .add_null = "below")
       })
     },
@@ -796,7 +796,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         test_select(.ctx = ctx, con,
                     "time('00:00:00')" = "00:00:00",
                     "time('12:34:56')" = "12:34:56",
-                    "current_time" = is.character,
+                    "current_time" ~ is.character,
                     .add_null = "above")
       })
     },
@@ -809,7 +809,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         test_select(.ctx = ctx, con,
                     "timestamp '2015-10-11 00:00:00'" = is_time,
                     "timestamp '2015-10-11 12:34:56'" = is_time,
-                    "current_timestamp" = is_roughly_current_time)
+                    "current_timestamp" ~ is_roughly_current_time)
       })
     },
 
@@ -821,7 +821,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         test_select(.ctx = ctx, con,
                     "timestamp '2015-10-11 00:00:00'" = is_time,
                     "timestamp '2015-10-11 12:34:56'" = is_time,
-                    "current_timestamp" = is_roughly_current_time,
+                    "current_timestamp" ~ is_roughly_current_time,
                     .add_null = "below")
       })
     },
@@ -835,7 +835,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         test_select(.ctx = ctx, con,
                     "timestamp '2015-10-11 00:00:00'" = is_time,
                     "timestamp '2015-10-11 12:34:56'" = is_time,
-                    "current_timestamp" = is_roughly_current_time,
+                    "current_timestamp" ~ is_roughly_current_time,
                     .add_null = "above")
       })
     },
@@ -851,7 +851,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
             as.POSIXct("2015-10-11 00:00:00+02:00"),
           "timestamp '2015-10-11 12:34:56-05:00'" =
             as.POSIXct("2015-10-11 12:34:56-05:00"),
-          "current_timestamp" = is_roughly_current_time)
+          "current_timestamp" ~ is_roughly_current_time)
       })
     },
 
@@ -867,7 +867,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
             as.POSIXct("2015-10-11 00:00:00+02:00"),
           "timestamp '2015-10-11 12:34:56-05:00'" =
             as.POSIXct("2015-10-11 12:34:56-05:00"),
-          "current_timestamp" = is_roughly_current_time,
+          "current_timestamp" ~ is_roughly_current_time,
           .add_null = "below")
       })
     },
@@ -885,7 +885,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
             as.POSIXct("2015-10-11 00:00:00+02:00"),
           "timestamp '2015-10-11 12:34:56-05:00'" =
             as.POSIXct("2015-10-11 12:34:56-05:00"),
-          "current_timestamp" = is_roughly_current_time,
+          "current_timestamp" ~ is_roughly_current_time,
           .add_null = "above")
       })
     },
@@ -902,7 +902,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
             as.POSIXct("2015-10-11 00:00:00Z"),
           "datetime('2015-10-11 12:34:56')" =
             as.POSIXct("2015-10-11 12:34:56Z"),
-          "current_timestamp" = is_roughly_current_time)
+          "current_timestamp" ~ is_roughly_current_time)
       })
     },
 
@@ -918,7 +918,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
             as.POSIXct("2015-10-11 00:00:00Z"),
           "datetime('2015-10-11 12:34:56')" =
             as.POSIXct("2015-10-11 12:34:56Z"),
-          "current_timestamp" = is_roughly_current_time,
+          "current_timestamp" ~ is_roughly_current_time,
           .add_null = "below")
       })
     },
@@ -936,7 +936,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
             as.POSIXct("2015-10-11 00:00:00Z"),
           "datetime('2015-10-11 12:34:56')" =
             as.POSIXct("2015-10-11 12:34:56Z"),
-          "current_timestamp" = is_roughly_current_time,
+          "current_timestamp" ~ is_roughly_current_time,
           .add_null = "above")
       })
     },
@@ -982,10 +982,21 @@ union <- function(..., .order_by = NULL, .ctx) {
 }
 
 # NB: .table = TRUE will not work in bigrquery
-test_select <- function(con, ..., .add_null = "none", .table = FALSE, .ctx) {
-  values <- c(...)
+test_select <- function(con, ..., .dots = NULL, .add_null = "none",
+                        .table = FALSE, .ctx, .envir = parent.frame()) {
+  values <- c(list(...), .dots)
+
+  value_is_formula <- vapply(values, is.call, logical(1L))
+  names(values)[value_is_formula] <- lapply(values[value_is_formula], "[[", 2L)
+  values[value_is_formula] <- lapply(
+    values[value_is_formula],
+    function(x) {
+      eval(x[[3]], envir = .envir)
+    }
+  )
+
   if (is.null(names(values))) {
-    sql_values <- as.character(values)
+    sql_values <- lapply(values, as.character)
   } else {
     sql_values <- names(values)
   }
