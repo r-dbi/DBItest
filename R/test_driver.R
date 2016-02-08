@@ -47,9 +47,11 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_driver_has_data_type(integer(1))
       expect_driver_has_data_type(numeric(1))
       expect_driver_has_data_type(character(1))
-      expect_driver_has_data_type(list(raw(1)))
       expect_driver_has_data_type(Sys.Date())
       expect_driver_has_data_type(Sys.time())
+      if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
+        expect_driver_has_data_type(list(raw(1)))
+      }
     },
 
     #' \item{\code{constructor_strict}}{

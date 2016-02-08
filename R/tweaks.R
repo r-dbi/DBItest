@@ -13,6 +13,11 @@
     #'   identifiers even when quoting is used.
     "strict_identifier",
 
+    #' @param omit_blob_tests \code{[logical(1)]}\cr
+    #'   Set to \code{TRUE} if the DBMS does not support a \code{BLOB} data
+    #'   type.
+    "omit_blob_tests",
+
     #' @param union \code{[function(character)]}\cr
     #'   Function that combines several subqueries into one so that the
     #'   resulting query returns the concatenated results of the subqueries

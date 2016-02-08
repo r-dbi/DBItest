@@ -308,6 +308,10 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of raw values (question mark syntax).
     #' }
     bind_raw_positional_qm = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         test_select_bind(
           con, positional_qm, list(list(as.raw(1:10))),
@@ -475,6 +479,10 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of raw values (dollar syntax).
     #' }
     bind_raw_positional_dollar = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         test_select_bind(
           con, positional_dollar, list(list(as.raw(1:10))),
@@ -637,6 +645,10 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' syntax).
     #' }
     bind_timestamp_lt_named_colon = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         data_in <- as.POSIXlt(round(Sys.time()))
         test_select_bind(
@@ -827,6 +839,10 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Named binding of raw values (dollar syntax).
     #' }
     bind_raw_named_dollar = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         test_select_bind(
           con, named_dollar, list(list(as.raw(1:10))),

@@ -496,6 +496,10 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' Can create tables with raw columns.
     #' }
     roundtrip_raw = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         tbl_in <- list(a = list(as.raw(1:10), NA), id = 1:2)
         tbl_in <- structure(tbl_in, class = "data.frame",

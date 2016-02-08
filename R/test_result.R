@@ -343,11 +343,17 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
           eval(bquote({
             expect_is(dbDataType(con, .(value)), "character")
             expect_equal(length(dbDataType(con, .(value))), 1L)
-            expect_identical(
-              dbDataType(con, .(value)), dbDataType(con, I(.(value))))
-            expect_identical(
-              dbDataType(con, unclass(.(value))),
-              dbDataType(con, structure(.(value), class = "unknown1")))
+            expect_error({
+              as_is_type <- dbDataType(con, I(.(value)))
+              expect_identical(dbDataType(con, .(value)), as_is_type)
+            }
+            , NA)
+            expect_error({
+              unknown_type <- dbDataType(con, structure(.(value),
+                                                        class = "unknown1"))
+              expect_identical(dbDataType(con, unclass(.(value))), unknown_type)
+            }
+            , NA)
             query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)),
                             ")")
           }))
@@ -368,9 +374,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         expect_conn_has_data_type(integer(1))
         expect_conn_has_data_type(numeric(1))
         expect_conn_has_data_type(character(1))
-        expect_conn_has_data_type(list(raw(1)))
         expect_conn_has_data_type(Sys.Date())
         expect_conn_has_data_type(Sys.time())
+        if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
+          expect_conn_has_data_type(list(raw(1)))
+        }
       })
     },
 
@@ -596,6 +604,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' data conversion from SQL to R: raw
     #' }
     data_raw = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
@@ -608,6 +620,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' data conversion from SQL to R: raw with typed NULL values
     #' }
     data_raw_null_below = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
@@ -622,6 +638,10 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' in the first row
     #' }
     data_raw_null_above = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
