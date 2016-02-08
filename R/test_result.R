@@ -286,7 +286,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_empty_single_column = function() {
       with_connection({
-        query <- "SELECT 1 as a WHERE (1 = 0)"
+        query <- "SELECT * FROM (SELECT 1 as a) AS x WHERE (1 = 0)"
 
         rows <- dbGetQuery(con, query)
         expect_identical(names(rows), "a")
@@ -324,7 +324,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_empty_multi_column = function() {
       with_connection({
-        query <- "SELECT 1 as a, 2 as b, 3 as c WHERE (1 = 0)"
+        query <-
+          "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
 
         rows <- dbGetQuery(con, query)
         expect_identical(names(rows), letters[1:3])
