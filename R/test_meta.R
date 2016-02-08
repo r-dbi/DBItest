@@ -27,22 +27,6 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
       expect_false(dbIsValid(con))
     },
 
-    #' \item{\code{get_exception}}{
-    #' Exception is available after triggering an error, and changes when
-    #' triggering a different error.
-    #' }
-    get_exception = function() {
-      with_connection({
-        expect_error(dbGetQuery(con, "SELECT SELECT"))
-        expect_error(ex1 <- dbGetException(con), NA)
-        expect_is(ex1, "character")
-        expect_error(dbGetQuery(con, "UPDATE UPDATE"))
-        expect_error(ex2 <- dbGetException(con), NA)
-        expect_is(ex2, "character")
-        expect_true(ex1 != ex2)
-      })
-    },
-
     #' \item{\code{is_valid_result}}{
     #' Only an open result set is valid.
     #' }
