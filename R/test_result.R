@@ -343,11 +343,17 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
           eval(bquote({
             expect_is(dbDataType(con, .(value)), "character")
             expect_equal(length(dbDataType(con, .(value))), 1L)
-            expect_identical(
-              dbDataType(con, .(value)), dbDataType(con, I(.(value))))
-            expect_identical(
-              dbDataType(con, unclass(.(value))),
-              dbDataType(con, structure(.(value), class = "unknown1")))
+            expect_error({
+              as_is_type <- dbDataType(con, I(.(value)))
+              expect_identical(dbDataType(con, .(value)), as_is_type)
+            }
+            , NA)
+            expect_error({
+              unknown_type <- dbDataType(con, structure(.(value),
+                                                        class = "unknown1"))
+              expect_identical(dbDataType(con, unclass(.(value))), unknown_type)
+            }
+            , NA)
             query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)),
                             ")")
           }))
