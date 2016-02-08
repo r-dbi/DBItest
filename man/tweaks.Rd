@@ -4,11 +4,15 @@
 \alias{tweaks}
 \title{Tweaks for DBI tests}
 \usage{
-tweaks(constructor_name = NULL, union = NULL)
+tweaks(constructor_name = NULL, strict_identifier = NULL, union = NULL)
 }
 \arguments{
 \item{constructor_name}{\code{[character(1)]}\cr
 Name of the function that constructs the \code{Driver} object.}
+
+\item{strict_identifier}{\code{[logical(1)]}\cr
+Set to \code{TRUE} if the DBMS does not support arbitrarily-named
+identifiers even when quoting is used.}
 
 \item{union}{\code{[function(character)]}\cr
 Function that combines several subqueries into one so that the
