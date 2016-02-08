@@ -22,10 +22,6 @@ This function defines the following tests:
 \item{\code{is_valid_connection}}{
 Only an open connection is valid.
 }
-\item{\code{get_exception}}{
-Exception is available after triggering an error, and changes when
-triggering a different error.
-}
 \item{\code{is_valid_result}}{
 Only an open result set is valid.
 }
