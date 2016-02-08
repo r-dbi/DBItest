@@ -86,6 +86,10 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' that contain quotes and spaces
     #' }
     quote_identifier_special = function() {
+      if (isTRUE(ctx$tweaks$strict_identifier)) {
+        skip("tweak: strict_identifier")
+      }
+
       with_connection({
         simple <- dbQuoteIdentifier(con, "simple")
         with_space <- dbQuoteIdentifier(con, "with space")
