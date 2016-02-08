@@ -86,6 +86,10 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' that contain quotes and spaces
     #' }
     quote_identifier_special = function() {
+      if (isTRUE(ctx$tweaks$strict_identifier)) {
+        skip("tweak: strict_identifier")
+      }
+
       with_connection({
         simple <- dbQuoteIdentifier(con, "simple")
         with_space <- dbQuoteIdentifier(con, "with space")
@@ -137,7 +141,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris))
 
@@ -161,7 +165,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
-        iris_in <- datasets::iris
+        iris_in <- get_iris(ctx)
         iris_in$Species <- as.character(iris_in$Species)
         order_in <- do.call(order, iris_in)
 
@@ -183,7 +187,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
                      NA)
@@ -202,7 +206,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
         iris_out <- dbReadTable(con, "iris")
@@ -218,7 +222,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbRemoveTable(con, "iris")))
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         expect_error(dbWriteTable(con, "iris", iris[1:20,], append = TRUE))
       })
     },
@@ -232,7 +236,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris[1:30, ], temporary = TRUE)
         iris_out <- dbReadTable(con, "iris")
         expect_identical(nrow(iris_out), 30L)
@@ -287,7 +291,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
 
         tables <- dbListTables(con)
@@ -561,4 +565,12 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
   )
   #' }
   run_tests(tests, skip, test_suite)
+}
+
+get_iris <- function(ctx) {
+  datasets_iris <- datasets::iris
+  if (isTRUE(ctx$tweaks$strict_identifier)) {
+    names(datasets_iris) <- gsub(".", "_", names(datasets_iris), fixed = TRUE)
+  }
+  datasets_iris
 }

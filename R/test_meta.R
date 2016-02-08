@@ -139,7 +139,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
                 add = TRUE)
 
-        iris <- datasets::iris
+        iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
 
         local({
