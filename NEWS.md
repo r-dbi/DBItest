@@ -1,3 +1,13 @@
+Version 1.0-6 (2016-02-08)
+===
+
+- Fix broken tests for quoting.
+- Call `dbRemoveTable()` instead of issuing `DROP` requests, the latter might be unsupported.
+- Use subqueries in queries that use `WHERE`.
+- Remove test for `dbGetException()` (rstats-db/DBI#51).
+- New tweak `strict_identifier`, if `TRUE` all identifier must be syntactic names even if quoted. The quoting test is now split, and a part is ignored conditional to this tweak.
+
+
 Version 1.0-5 (2016-02-06)
 ===
 
