@@ -612,7 +612,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(.ctx = ctx, con, setNames(values, sql_names))
+        test_select(.ctx = ctx, con, .dots = setNames(values, sql_names))
       })
     },
 
@@ -628,7 +628,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(.ctx = ctx, con, setNames(values, sql_names),
+        test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
                     .add_null = "below")
       })
     },
@@ -646,7 +646,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(.ctx = ctx, con, setNames(values, sql_names),
+        test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
                     .add_null = "above")
       })
     },
