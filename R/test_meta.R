@@ -150,6 +150,23 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{get_info_result}}{
+    #' Return value of dbGetInfo has necessary elements
+    #' }
+    get_info_result = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT 1 as a")
+        info <- dbGetInfo(res)
+        expect_is(info, "list")
+        info_names <- names(info)
+
+        expect_true("statement" %in% info_names)
+        expect_true("row.count" %in% info_names)
+        expect_true("rows.affected" %in% info_names)
+        expect_true("has.completed" %in% info_names)
+      })
+    },
+
     #' \item{\code{bind_empty_positional_qm}}{
     #' Empty positional binding (question mark syntax) with check of
     #' return value.
