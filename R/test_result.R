@@ -1001,6 +1001,11 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
     sql_values <- names(values)
   }
 
+  if (isTRUE(.ctx$tweaks$current_needs_parens)) {
+    sql_values <- gsub("^(current_(?:date|time|timestamp))$", "\\1()",
+                       sql_values)
+  }
+
   sql_names <- letters[seq_along(sql_values)]
 
   query <- paste("SELECT",
