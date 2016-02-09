@@ -352,11 +352,14 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
                              c = "with space",
                              d = ",",
                              stringsAsFactors = FALSE)
-        names(tbl_in) <- c(
-          as.character(dbQuoteIdentifier(con, "")),
-          as.character(dbQuoteString(con, "")),
-          "with space",
-          ",")
+
+        if (!isTRUE(ctx$tweaks$strict_identifier)) {
+          names(tbl_in) <- c(
+            as.character(dbQuoteIdentifier(con, "")),
+            as.character(dbQuoteString(con, "")),
+            "with space",
+            ",")
+        }
 
         on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
