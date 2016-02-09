@@ -18,6 +18,11 @@
     #'   type.
     "omit_blob_tests",
 
+    #' @param current_needs_parens \code{[logical(1)]}\cr
+    #'   Set to \code{TRUE} if the SQL functions \code{current_date},
+    #'   \code{current_time}, and \code{current_timestamp} require parentheses.
+    "current_needs_parens",
+
     #' @param union \code{[function(character)]}\cr
     #'   Function that combines several subqueries into one so that the
     #'   resulting query returns the concatenated results of the subqueries
