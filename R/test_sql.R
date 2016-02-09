@@ -309,6 +309,22 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{list_fields}}{
+    #' Can list the fields for a table in the database.
+    #' }
+    list_fields = function() {
+      with_connection({
+        on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
+                add = TRUE)
+
+        iris <- get_iris(ctx)
+        dbWriteTable(con, "iris", iris)
+
+        fields <- dbListFields(con, "iris")
+        expect_identical(fields, names(iris))
+      })
+    },
+
     #' \item{\code{roundtrip_keywords}}{
     #' Can create tables with keywords as table and column names.
     #' }

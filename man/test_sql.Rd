@@ -66,6 +66,9 @@ A new table is visible in a second connection.
 Can list the tables in the database, adding and removing tables affects
 the list. Can also check existence of a table.
 }
+\item{\code{list_fields}}{
+Can list the fields for a table in the database.
+}
 \item{\code{roundtrip_keywords}}{
 Can create tables with keywords as table and column names.
 }
