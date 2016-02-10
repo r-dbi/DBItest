@@ -19,6 +19,8 @@ run_tests <- function(tests, skip, test_suite) {
     if (!is.logical(ok)) {
       ok <- TRUE
     }
+
+    ok
   },
   logical(1L))
 }
