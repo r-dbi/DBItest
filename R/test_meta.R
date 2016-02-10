@@ -160,10 +160,13 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(info, "list")
         info_names <- names(info)
 
-        expect_true("statement" %in% info_names)
-        expect_true("row.count" %in% info_names)
-        expect_true("rows.affected" %in% info_names)
-        expect_true("has.completed" %in% info_names)
+        necessary_names <-
+          c("statement", "row.count", "rows.affected", "has.completed")
+
+        for (name in necessary_names) {
+          eval(bquote(
+            expect_true(.(name) %in% info_names)))
+        }
       })
     },
 
