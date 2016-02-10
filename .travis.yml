@@ -29,7 +29,7 @@ before_install:
   - rm -r vignettes
 
 install:
-  - ./travis-tool.sh install_github krlmlr/DBI krlmlr/testthat@develop
+  - ./travis-tool.sh install_github krlmlr/DBI
   - ./travis-tool.sh install_r roxygen2
   - ./travis-tool.sh install_deps
   - ./travis-tool.sh dump_sysinfo
