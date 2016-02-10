@@ -27,6 +27,8 @@
     #'   Function that combines several subqueries into one so that the
     #'   resulting query returns the concatenated results of the subqueries
     "union",
+
+    # Dummy placeholder
     NULL
   )
 }
