@@ -6,7 +6,7 @@ run_tests <- function(tests, skip, test_suite) {
   skip_rx <- paste0(paste0("(?:^", skip, "$)"), collapse = "|")
 
   vapply(names(tests), function(test_name) {
-    test_that(paste0("DBItest: ", test_name), {
+    ok <- test_that(paste0("DBItest: ", test_name), {
       if (grepl(skip_rx, test_name)) {
         skip("by request")
       } else {
@@ -14,6 +14,13 @@ run_tests <- function(tests, skip, test_suite) {
         test_fun()
       }
     })
+
+    # Workaround until hadley/testthat#360 is merged.
+    if (!is.logical(ok)) {
+      ok <- TRUE
+    }
+
+    ok
   },
   logical(1L))
 }

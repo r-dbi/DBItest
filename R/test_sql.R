@@ -309,6 +309,22 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{list_fields}}{
+    #' Can list the fields for a table in the database.
+    #' }
+    list_fields = function() {
+      with_connection({
+        on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
+                add = TRUE)
+
+        iris <- get_iris(ctx)
+        dbWriteTable(con, "iris", iris)
+
+        fields <- dbListFields(con, "iris")
+        expect_identical(fields, names(iris))
+      })
+    },
+
     #' \item{\code{roundtrip_keywords}}{
     #' Can create tables with keywords as table and column names.
     #' }
@@ -336,11 +352,14 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
                              c = "with space",
                              d = ",",
                              stringsAsFactors = FALSE)
-        names(tbl_in) <- c(
-          as.character(dbQuoteIdentifier(con, "")),
-          as.character(dbQuoteString(con, "")),
-          "with space",
-          ",")
+
+        if (!isTRUE(ctx$tweaks$strict_identifier)) {
+          names(tbl_in) <- c(
+            as.character(dbQuoteIdentifier(con, "")),
+            as.character(dbQuoteString(con, "")),
+            "with space",
+            ",")
+        }
 
         on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
         dbWriteTable(con, "test", tbl_in)
@@ -496,6 +515,10 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' Can create tables with raw columns.
     #' }
     roundtrip_raw = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         tbl_in <- list(a = list(as.raw(1:10), NA), id = 1:2)
         tbl_in <- structure(tbl_in, class = "data.frame",

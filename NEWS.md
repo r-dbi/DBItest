@@ -1,3 +1,14 @@
+Version 1.0-7 (2016-02-10)
+===
+
+- The `run_test()` function doesn't require a development version of `testthat` anymore. (Regression introduced in 1.0-5.)
+- Avoid using weird column names in `roundtrip_quotes` test if the `strict_identifier` tweak is enabled.
+- Add test for `dbGetInfo(Result)` (rstats-db/DBI#55).
+- Add test for `dbListFields()` (#26).
+- Some SQL dialects (e.g., BigQuery) require parentheses for the functions `current_date`, `current_time` and `current_timestamp`. This can be specified with the new tweak `current_needs_parens`.
+- New tweak `omit_blob_tests` for DBMS that don't have a BLOB data type.
+
+
 Version 1.0-6 (2016-02-08)
 ===
 
