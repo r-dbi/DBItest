@@ -37,6 +37,9 @@ Row count information is correct.
 \item{\code{rows_affected}}{
 Information on affected rows is correct.
 }
+\item{\code{get_info_result}}{
+Return value of dbGetInfo has necessary elements
+}
 \item{\code{bind_empty_positional_qm}}{
 Empty positional binding (question mark syntax) with check of
 return value.
