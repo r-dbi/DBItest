@@ -104,9 +104,13 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_is(info, "list")
       info_names <- names(info)
 
-      expect_true("driver.version" %in% info_names)
-      expect_true("client.version" %in% info_names)
-      expect_true("max.connections" %in% info_names)
+      necessary_names <-
+        c("driver.version", "client.version", "max.connections")
+
+      for (name in necessary_names) {
+        eval(bquote(
+          expect_true(.(name) %in% info_names)))
+      }
     },
 
     #' \item{\code{stress_load_unload}}{
