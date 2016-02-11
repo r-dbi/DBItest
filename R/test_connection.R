@@ -95,7 +95,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
         sink(script_file)
         on.exit(sink(), add = TRUE)
         cat(
-          "devtools::install('", pkg$path, "')\n",
+          "devtools::RCMD('INSTALL', ", shQuote(pkg$path), ")\n",
           "library(DBI, quietly = TRUE)\n",
           "connect_args <- ",
           sep = ""

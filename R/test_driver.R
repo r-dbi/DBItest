@@ -123,7 +123,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
 
       script_file <- tempfile("DBItest", fileext = ".R")
       cat(
-        "devtools::install('", pkg$path, "')\n",
+        "devtools::RCMD('INSTALL', ", shQuote(pkg$path), ")\n",
         "for (i in 1:50) {\n",
         "  ", pkg$package, "::", deparse(ctx$drv_call), "\n",
         "  unloadNamespace(getNamespace(\"", pkg$package, "\"))\n",
