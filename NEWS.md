@@ -1,3 +1,13 @@
+Version 1.0-8 (2016-02-11)
+===
+
+- Use `R CMD INSTALL` instead of `devtools::install()` in stress tests.
+- Row count is now tested for equality but not identity, so that backends can return a numeric value > 2^31 at their discretion.
+- Travis CI now installs rstats-db/DBI, updated namespace imports.
+- Test that `dbClearResult()` on a closed result set raises a warning.
+- Refactored the `get_info_()` tests to use a vector of names.
+
+
 Version 1.0-7 (2016-02-10)
 ===
 
