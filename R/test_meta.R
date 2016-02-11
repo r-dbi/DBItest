@@ -81,10 +81,10 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 0L)
+        expect_equal(rc, 0L)
         dbFetch(res)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 1L)
+        expect_equal(rc, 1L)
       })
 
       with_connection({
@@ -92,13 +92,13 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 0L)
+        expect_equal(rc, 0L)
         dbFetch(res, 2L)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 2L)
+        expect_equal(rc, 2L)
         dbFetch(res)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 3L)
+        expect_equal(rc, 3L)
       })
 
       with_connection({
@@ -107,10 +107,10 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 0L)
+        expect_equal(rc, 0L)
         dbFetch(res)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 0L)
+        expect_equal(rc, 0L)
       })
     },
 
@@ -160,10 +160,13 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         expect_is(info, "list")
         info_names <- names(info)
 
-        expect_true("statement" %in% info_names)
-        expect_true("row.count" %in% info_names)
-        expect_true("rows.affected" %in% info_names)
-        expect_true("has.completed" %in% info_names)
+        necessary_names <-
+          c("statement", "row.count", "rows.affected", "has.completed")
+
+        for (name in necessary_names) {
+          eval(bquote(
+            expect_true(.(name) %in% info_names)))
+        }
       })
     },
 

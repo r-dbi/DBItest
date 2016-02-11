@@ -24,7 +24,8 @@ Can issue trivial query, result object inherits from "DBIResult"
 }
 \item{\code{clear_result_return}}{
 Return value, currently tests that the return value is always
-\code{TRUE}.
+\code{TRUE}, and that an attempt to close a closed result set issues a
+warning.
 }
 \item{\code{stale_result_warning}}{
 Leaving a result open when closing a connection gives a warning

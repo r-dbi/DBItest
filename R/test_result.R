@@ -30,13 +30,14 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
     #' \item{\code{clear_result_return}}{
     #' Return value, currently tests that the return value is always
-    #' \code{TRUE}.
+    #' \code{TRUE}, and that an attempt to close a closed result set issues a
+    #' warning.
     #' }
     clear_result_return = function() {
       with_connection({
         res <- dbSendQuery(con, "SELECT 1")
         expect_true(dbClearResult(res))
-        expect_true(dbClearResult(res))
+        expect_warning(expect_true(dbClearResult(res)))
       })
     },
 
