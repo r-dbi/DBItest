@@ -1,76 +1,44 @@
-Version 1.0-8 (2016-02-11)
+Version 1.1 (2016-02-12)
 ===
 
-- Use `R CMD INSTALL` instead of `devtools::install()` in stress tests.
-- Row count is now tested for equality but not identity, so that backends can return a numeric value > 2^31 at their discretion.
-- Travis CI now installs rstats-db/DBI, updated namespace imports.
-- Test that `dbClearResult()` on a closed result set raises a warning.
-- Refactored the `get_info_()` tests to use a vector of names.
+- New feature: tweaks
+    - New argument `tweaks` to `make_context()` (#49).
+    - New `tweaks()`, essentially constructs a named list of tweaks but with predefined and documented argument names.
+    - `constructor_name`, respected by the `constructor.*` tests.
+    - `strict_identifier`, if `TRUE` all identifier must be syntactic names even if quoted. The quoting test is now split, and a part is ignored conditional to this tweak. The `roundtrip_quotes` tests also respects this tweak.
+    - `omit_blob_tests` for DBMS that don't have a BLOB data type.
+    - `current_needs_parens` -- some SQL dialects (e.g., BigQuery) require parentheses for the functions `current_date`, `current_time` and `current_timestamp`.
+    - `union`, for specifying a nonstandard way of combining queries. All union queries now name each column in each subquery (required for `bigrquery`).
 
+- New tests
+    - `dbGetInfo(Result)` (rstats-db/DBI#55).
+    - `dbListFields()` (#26).
+    - New "package_name" test in `test_getting_started()`.
+- Improved tests
+    - Stress test now installs package in temporary library (before loading `DBI`) using `R CMD INSTALL` before loading DBI (rstats-db/RSQLite#128, #48).
+    - Row count is now tested for equality but not identity, so that backends can return a numeric value > 2^31 at their discretion.
+    - Call `dbRemoveTable()` instead of issuing `DROP` requests, the latter might be unsupported.
+    - Use subqueries in queries that use `WHERE`.
+    - Test that `dbClearResult()` on a closed result set raises a warning.
+    - Expect a warning instead of an error for double disconnect (#50).
+    - Move connection test that requires `dbFetch()` to `test_result()`.
+    - Split "can_connect_and_disconnect" test.
+    - Expect `DBI` to be in `Imports`, not in `Depends`.
+- Removed tests
+    - Remove test for `dbGetException()` (rstats-db/DBI#51).
+- Bug fixes
+    - Fix broken tests for quoting.
+- Self-testing
+    - Test `RPostgres`, `RMySQL`, `RSQLite` and `RKazam` as part of the Travis-CI tests (#52).
+    - Travis CI now installs rstats-db/DBI, updated namespace imports (`dbiCheckCompliance()`, `dbListResults()`).
 
-Version 1.0-7 (2016-02-10)
-===
-
-- The `run_test()` function doesn't require a development version of `testthat` anymore. (Regression introduced in 1.0-5.)
-- Avoid using weird column names in `roundtrip_quotes` test if the `strict_identifier` tweak is enabled.
-- Add test for `dbGetInfo(Result)` (rstats-db/DBI#55).
-- Add test for `dbListFields()` (#26).
-- Some SQL dialects (e.g., BigQuery) require parentheses for the functions `current_date`, `current_time` and `current_timestamp`. This can be specified with the new tweak `current_needs_parens`.
-- New tweak `omit_blob_tests` for DBMS that don't have a BLOB data type.
-
-
-Version 1.0-6 (2016-02-08)
-===
-
-- Fix broken tests for quoting.
-- Call `dbRemoveTable()` instead of issuing `DROP` requests, the latter might be unsupported.
-- Use subqueries in queries that use `WHERE`.
-- Remove test for `dbGetException()` (rstats-db/DBI#51).
-- New tweak `strict_identifier`, if `TRUE` all identifier must be syntactic names even if quoted. The quoting test is now split, and a part is ignored conditional to this tweak.
-
-
-Version 1.0-5 (2016-02-06)
-===
-
-- New tweak `union`, for specifying a nonstandard way of combining queries.
-- All union queries now use full qualification for each column (required for `bigrquery`).
-- Return test results as named array of logical. Requires hadley/testthat#360.
-- Use fork of `testthat`.
-
-
-Version 1.0-4 (2016-02-04)
-===
-
-- Test `RPostgres`, `RMySQL`, `RSQLite` and `RKazam` as part of the Travis-CI tests (#52).
-- Stress test now installs package in temporary library before loading DBI (rstats-db/RSQLite#128).
-- `make_context()` now works again if `tweaks` arg is omitted (regression introduced in 1.0-3).
-- Expect a warning instead of an error for double disconnect (#50).
-- Move connection test that requires `dbFetch()` to `test_result()`.
-
-
-Version 1.0-3 (2016-01-13)
-===
-
-- New argument `tweaks` to `make_context()` (#49).
-- New `tweaks()`, essentially constructs a named list of tweaks but with predefined and documented argument names.
-- New "package_name" test in `test_getting_started()`.
-- The "constructor.*" tests respect the "constructor_name" tweak.
-- Stress tests install package in a temporary library (#48).
-
-
-Version 1.0-2 (2016-01-13)
-===
-
-- Deprecate `dbListResults()`.
-- Split "can_connect_and_disconnect" test.
-- Expect `DBI` to be in `Imports`, not in `Depends`.
-
-
-Version 1.0-1 (2015-12-18)
-===
-
-- Use versioned dependency for DBI
-- Use unqualified calls to `dbBind()` again
+    - Use fork of `testthat`.
+- Utilities
+    - Return test results as named array of logical. Requires hadley/testthat#360, gracefully degrades with the CRAN version.
+- Internal
+    - Refactored the `get_info_()` tests to use a vector of names.
+    - Use versioned dependency for DBI
+    - Use unqualified calls to `dbBind()` again
 
 
 Version 1.0 (2015-12-17)
