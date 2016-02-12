@@ -9,11 +9,10 @@ Version 1.1 (2016-02-12)
     - `omit_blob_tests` for DBMS that don't have a BLOB data type.
     - `current_needs_parens` -- some SQL dialects (e.g., BigQuery) require parentheses for the functions `current_date`, `current_time` and `current_timestamp`.
     - `union`, for specifying a nonstandard way of combining queries. All union queries now name each column in each subquery (required for `bigrquery`).
-
 - New tests
     - `dbGetInfo(Result)` (rstats-db/DBI#55).
     - `dbListFields()` (#26).
-    - New "package_name" test in `test_getting_started()`.
+    - New `package_name` test in `test_getting_started()`.
 - Improved tests
     - Stress test now installs package in temporary library (before loading `DBI`) using `R CMD INSTALL` before loading DBI (rstats-db/RSQLite#128, #48).
     - Row count is now tested for equality but not identity, so that backends can return a numeric value > 2^31 at their discretion.
@@ -22,7 +21,7 @@ Version 1.1 (2016-02-12)
     - Test that `dbClearResult()` on a closed result set raises a warning.
     - Expect a warning instead of an error for double disconnect (#50).
     - Move connection test that requires `dbFetch()` to `test_result()`.
-    - Split "can_connect_and_disconnect" test.
+    - Split `can_connect_and_disconnect` test.
     - Expect `DBI` to be in `Imports`, not in `Depends`.
 - Removed tests
     - Remove test for `dbGetException()` (rstats-db/DBI#51).
@@ -31,7 +30,6 @@ Version 1.1 (2016-02-12)
 - Self-testing
     - Test `RPostgres`, `RMySQL`, `RSQLite` and `RKazam` as part of the Travis-CI tests (#52).
     - Travis CI now installs rstats-db/DBI, updated namespace imports (`dbiCheckCompliance()`, `dbListResults()`).
-
     - Use fork of `testthat`.
 - Utilities
     - Return test results as named array of logical. Requires hadley/testthat#360, gracefully degrades with the CRAN version.
