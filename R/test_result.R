@@ -12,49 +12,80 @@ NULL
 #' @export
 test_result <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Result"
-  
-  # SQL statements (there is still some more in the data type tests)
+
+  ctx <- get_default_context()
+  con <- connect(ctx)
+
   sql <- list()
-  sql$q1_trivial <- paste("SELECT 1 AS a",
-                        ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",ctx$tweaks$dummy_table))
-                        )
-  sql$q2_trivial <- paste("SELECT 2 AS a",
-                        ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",ctx$tweaks$dummy_table))
-                        )
-  sql$q3_trivial <- paste("SELECT 3 AS a",
-                        ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",ctx$tweaks$dummy_table))
-                        )
-  sql$q4_drop_test <- "DROP TABLE test"
-  sql$q5_create_test <- "CREATE TABLE test (a integer)"
-  sql$q6_insert_test <- "INSERT INTO test SELECT 1 AS a"
+
+  # SQL statements (there is still some more in the data type tests)
+
+  sql$q1_trivial <- paste("SELECT 1 AS ",
+                        dbQuoteIdentifier(con, "a"),
+                        ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM", dbQuoteIdentifier(con,
+                                                                            ctx$tweaks$dummy_table)
+                        )))
+  sql$q2_trivial <- paste("SELECT 2 AS ",
+                          dbQuoteIdentifier(con, "a"),
+                        ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM", dbQuoteIdentifier(con,
+                                                                            ctx$tweaks$dummy_table)
+                        )))
+  sql$q3_trivial <- paste("SELECT 3 AS ",
+                          dbQuoteIdentifier(con, "a"),
+                        ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",dbQuoteIdentifier(con,
+                                                                            ctx$tweaks$dummy_table)
+                        )))
+  sql$q4_drop_test <- paste("DROP TABLE ", dbQuoteIdentifier(con, "test"))
+  sql$q5_create_test <- paste("CREATE TABLE", dbQuoteIdentifier(con, "test"),
+                              "(", dbQuoteIdentifier(con, "a"), "integer)")
+  sql$q6_insert_test <- paste("INSERT INTO",dbQuoteIdentifier(con, "test"),"SELECT 1 AS",
+                              dbQuoteIdentifier(con, "a"))
   sql$q7_bogus <- "RAISE"
-  
-  sql$q8_multi_row_single_col_select <- union(sql$q1_trivial, sql$q2_trivial, sql$q3_trivial, .order_by = "a")
-  sql$q9_multi_row_select <- union(paste("SELECT", 1:25, "AS a",
+
+  sql$q8_multi_row_single_col_select <- union(sql$q1_trivial, sql$q2_trivial, sql$q3_trivial,
+                                              .order_by = dbQuoteIdentifier(con, "a"))
+  sql$q9_multi_row_select <- union(paste("SELECT", 1:25, "AS", dbQuoteIdentifier(con, "a"),
                                             ifelse(is.na(ctx$tweaks$dummy_table),
                                                         "",
-                                                        paste("FROM",ctx$tweaks$dummy_table)
+                                                        paste("FROM",dbQuoteIdentifier(con,
+                                                                            ctx$tweaks$dummy_table))
                                                     )
-                                        ), .order_by = "a")
-  sql$q10_select_test <- "SELECT * FROM test"
-  sql$q11_empty_single_col_select <- paste("SELECT 1 AS a",
+                                        ), .order_by = dbQuoteIdentifier(con, "a"))
+  sql$q10_select_test <- paste("SELECT * FROM", dbQuoteIdentifier(con, "test"))
+  sql$q11_empty_single_col_select <- paste("SELECT 1 AS", dbQuoteIdentifier(con, "a"),
                                             ifelse(is.na(ctx$tweaks$dummy_table),
                                                         "",
-                                                        paste("FROM",ctx$tweaks$dummy_table)
+                                                        paste("FROM",dbQuoteIdentifier(con,
+                                                                            ctx$tweaks$dummy_table))
                                                     )
                                             ,"WHERE (1 = 0)")
-  sql$q12_single_row_multi_col_select <- paste("SELECT 1 AS a, 2 AS b, 3 AS c",
+  sql$q12_single_row_multi_col_select <- paste("SELECT 1 AS", dbQuoteIdentifier(con, "a"),
+                                                    ", 2 AS", dbQuoteIdentifier(con, "b"),
+                                                    ", 3 AS", dbQuoteIdentifier(con, "c"),
                                                 ifelse(is.na(ctx$tweaks$dummy_table),
                                                         "",
-                                                        paste("FROM",ctx$tweaks$dummy_table)
+                                                        paste("FROM",dbQuoteIdentifier(con,
+                                                                            ctx$tweaks$dummy_table))
                                                     )
                                                 )
+  sql$q12b_single_row_multi_col_select <- paste("SELECT 4 AS", dbQuoteIdentifier(con, "a"),
+                                               ", 5 AS", dbQuoteIdentifier(con, "b"),
+                                               ", 6 AS", dbQuoteIdentifier(con, "c"),
+                                               ifelse(is.na(ctx$tweaks$dummy_table),
+                                                      "",
+                                                      paste("FROM",dbQuoteIdentifier(con,
+                                                                                     ctx$tweaks$dummy_table))
+                                               )
+  )
   sql$q13_multi_row_multi_col_select <- union(sql$q12_single_row_multi_col_select,
-                                              sql$q12_single_row_multi_col_select,
-                                            .order_by = "a")
+                                              sql$q12b_single_row_multi_col_select,
+                                            .order_by = dbQuoteIdentifier(con, "a"))
   sql$q14_empty_multi_col_select <- paste(sql$q12_single_row_multi_col_select, "WHERE (1 = 0)")
-  
-  
+
+  dbDisconnect(con)
+  rm(con)
+
+
 
   #' @details
   #' This function defines the following tests:
@@ -211,7 +242,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     fetch_more_rows = function() {
       with_connection({
-        query <- sql$q9_multi_row_select
+        query <- sql$q8_multi_row_single_col_select
 
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
@@ -236,10 +267,14 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
-        expect_warning(rows <- dbFetch(res, 0L), NA)
+        #expect_warning(
+          rows <- dbFetch(res, 0L)
+        #  , NA)
         expect_identical(rows, data.frame(a=integer()))
 
-        expect_warning(rows <- dbFetch(res, 2L), NA)
+        #expect_warning(
+          rows <- dbFetch(res, 2L)
+        #  , NA)
         expect_identical(rows, data.frame(a=1L:2L))
 
         expect_warning(dbClearResult(res), NA)
@@ -303,7 +338,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_multi_row_single_column = function() {
       with_connection({
-        query <- sql$q9_multi_row_select
+        query <- sql$q8_multi_row_single_col_select
 
         rows <- dbGetQuery(con, query)
         expect_identical(rows, data.frame(a=1L:3L))
@@ -343,7 +378,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         query <- sql$q13_multi_row_multi_col_select
 
         rows <- dbGetQuery(con, query)
-        expect_identical(rows, data.frame(a=1L:2L, b=2L:3L))
+        expect_identical(rows, data.frame(a=c(1L,4L), b=c(2L,5L), c=c(3L,6L)))
       })
     },
 
@@ -352,7 +387,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     get_query_empty_multi_column = function() {
       with_connection({
-        query <- q14_empty_multi_col_select
+        query <- sql$q14_empty_multi_col_select
 
         rows <- dbGetQuery(con, query)
         expect_identical(names(rows), letters[1:3])
