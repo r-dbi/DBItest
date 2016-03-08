@@ -25,14 +25,17 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
 
       where <- asNamespace(pkg)
 
-      classes <- sort(getClasses(where))
-      expect_equal(length(classes), length(key_methods))
-
-      names(classes) <- sort(names(key_methods))
-      classes <- classes[names(key_methods)]
-
-      methods <- Map(function(g, c) test_has_methods(g, c, where),
-        key_methods, classes)
+      sapply(names(key_methods), function(name) {
+        dbi_class <- paste0("DBI", name)
+        class <- Find(function(class) { extends(class, dbi_class) }, getClasses(where))
+        
+        expect_that(class, not(is_null()), info = paste0("No class inherits from ", dbi_class))
+        
+        mapply(function(method, args) {
+          expect_has_class_method(method, class, args, where)
+        }, names(key_methods[[name]]), key_methods[[name]])
+     
+      })
     },
 
     #' \item{\code{read_only}}{
