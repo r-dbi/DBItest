@@ -27,14 +27,18 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
 
       sapply(names(key_methods), function(name) {
         dbi_class <- paste0("DBI", name)
-        class <- Find(function(class) { extends(class, dbi_class) }, getClasses(where))
         
-        expect_that(class, not(is_null()), info = paste0("No class inherits from ", dbi_class))
+        classes <- Filter(function(class) {
+          extends(class, dbi_class) && getClass(class)@virtual == FALSE
+        }, getClasses(where))
+
+        expect_more_than(length(classes), 0, info = paste0("No class in package ", pkg, " extends ", dbi_class))
         
-        mapply(function(method, args) {
-          expect_has_class_method(method, class, args, where)
-        }, names(key_methods[[name]]), key_methods[[name]])
-     
+        sapply(classes, function(class) {
+          mapply(function(method, args) {
+            expect_has_class_method(method, class, args, where)
+          }, names(key_methods[[name]]), key_methods[[name]])
+        })
       })
     },
 
