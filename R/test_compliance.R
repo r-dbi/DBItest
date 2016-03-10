@@ -58,6 +58,7 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
   run_tests(tests, skip, test_suite)
 }
 
+#' @importFrom methods hasMethod
 expect_has_class_method <- function(name, class, args, driver_package) {
   full_args <- c(class, args)
   eval(bquote(
