@@ -32,7 +32,7 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
           extends(class, dbi_class) && getClass(class)@virtual == FALSE
         }, getClasses(where))
 
-        expect_more_than(length(classes), 0, info = paste0("No class in package ", pkg, " extends ", dbi_class))
+        expect_gt(length(classes), 0)
         
         sapply(classes, function(class) {
           mapply(function(method, args) {
