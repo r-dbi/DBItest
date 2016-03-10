@@ -10,6 +10,7 @@ NULL
 #' @include test_driver.R
 #' @family tests
 #' @importFrom withr with_temp_libpaths
+#' @importFrom methods is
 #' @export
 test_connection <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Connection"
