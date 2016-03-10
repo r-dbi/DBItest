@@ -10,6 +10,7 @@ NULL
 #' @include test_driver.R
 #' @family tests
 #' @importFrom withr with_temp_libpaths
+#' @importFrom methods is
 #' @export
 test_connection <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Connection"
@@ -24,7 +25,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     can_connect_and_disconnect = function() {
       con <- connect(ctx)
-      expect_is(con, "DBIConnection")
+      expect_s4_class(con, "DBIConnection")
       expect_true(dbDisconnect(con))
     },
 
@@ -43,7 +44,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     simultaneous_connections = function() {
       cons <- lapply(seq_len(50L), function(i) connect(ctx))
       inherit_from_connection <-
-        vapply(cons, inherits, what = "DBIConnection", logical(1))
+        vapply(cons, is, class2 = "DBIConnection", logical(1))
       expect_true(all(inherit_from_connection))
       expect_error(lapply(cons, dbDisconnect), NA)
     },
@@ -54,7 +55,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     stress_connections = function() {
       for (i in seq_len(50L)) {
         con <- connect(ctx)
-        expect_is(con, "DBIConnection")
+        expect_s4_class(con, "DBIConnection")
         expect_error(dbDisconnect(con), NA)
       }
     },

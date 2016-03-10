@@ -22,7 +22,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #' Driver inherits from "DBIDriver" class
     #' }
     inherits_from_driver = function() {
-      expect_is(ctx$drv, "DBIDriver")
+      expect_s4_class(ctx$drv, "DBIDriver")
     },
 
     #' \item{\code{data_type}}{

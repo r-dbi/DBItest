@@ -1,10 +1,8 @@
-# The imports below were generated using the following call:
-# @import.gen::importFrom("testthat")
 #' @importFrom testthat context
 #' @importFrom testthat expectation
 #' @importFrom testthat expect_equal
 #' @importFrom testthat expect_error expect_false
-#' @importFrom testthat expect_identical expect_is
+#' @importFrom testthat expect_identical expect_is expect_s4_class
 #' @importFrom testthat expect_match
 #' @importFrom testthat expect_null
 #' @importFrom testthat expect_that expect_true expect_warning
