@@ -30,7 +30,6 @@ before_install:
 
 install:
   - ./travis-tool.sh install_github rstats-db/DBI
-  - ./travis-tool.sh install_github rstats-db/RKazam
   - ./travis-tool.sh install_github hadley/testthat
   - ./travis-tool.sh install_r roxygen2
   - ./travis-tool.sh install_deps
