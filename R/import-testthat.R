@@ -11,6 +11,6 @@
 #' @importFrom testthat test_that
 NULL
 
-#' @importFrom methods findMethod getClasses
+#' @importFrom methods findMethod getClasses getClass extends
 #' @importFrom stats setNames
 NULL
