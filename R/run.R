@@ -7,7 +7,7 @@ run_tests <- function(tests, skip, test_suite) {
 
   vapply(names(tests), function(test_name) {
     ok <- test_that(paste0("DBItest: ", test_name), {
-      if (grepl(skip_rx, test_name)) {
+      if (grepl(skip_rx, test_name, perl = TRUE)) {
         skip("by request")
       } else {
         test_fun <- tests[[test_name]]
