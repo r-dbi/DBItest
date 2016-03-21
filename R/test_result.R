@@ -94,24 +94,28 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                                                                                     ctx$tweaks$dummy_table)))
     }
 
-  sql$q21_test_select_query_null <- function(con=con, sql_names=sql_names, sql_values=sql_values) {
-                                        paste("SELECT",
-                                          paste(
-                                            "NULL as", dbQuoteIdentifier(con, sql_names),
-                                            ifelse(
-                                              is.na(ctx$tweaks$dummy_table),"",paste("FROM", dbQuoteIdentifier(con,
-                                                                                            ctx$tweaks$dummy_table))
-                                            ),
-                                            collapse = ", "
-                                          ))
-                                        }
+  sql$q21_test_select_query_null <- function(con=con, sql_names=sql_names) {
+    s <- paste("SELECT",
+               paste("NULL as", dbQuoteIdentifier(con, sql_names),
+                     collapse = ", "
+               )
+    )
+    ifelse(
+      is.na(ctx$tweaks$dummy_table),s,paste(s, "FROM", dbQuoteIdentifier(con,
+                                                                         ctx$tweaks$dummy_table)))
+  }
   sql$tbl_name_q22 <- dbQuoteIdentifier(con, "test")
   sql$q22_test_select_create_as_q20 <- function(con = con, sql_names=sql_names, sql_values=sql_values) {
-                                            paste("CREATE TABLE", sql$tbl_name_q22 ,"AS", sql$q21_test_select_query())
+                                            paste("CREATE TABLE", sql$tbl_name_q22 ,"AS", sql$q21_test_select_query(con=con, sql_names=sql_names, sql_values=sql_values))
                                         }
 
   sql$test_select <- function(con, ..., .add_null = "none", .table = FALSE) {
     # uses q20, q21, q22
+    #
+    # Selects the data given in ... as constants. If a named vector is given the names are used as column names;
+    # otherwise the cols are named a..z..add_null specifies if a row with NULLs is added. Params: "none", "above",
+    # other values account to "below".
+    # .table materialises a table.
     values <- c(...)
     if (is.null(names(values))) {
       sql_values <- as.character(values)
@@ -122,12 +126,16 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
 
     query <- sql$q20_test_select_query(con=con, sql_names=sql_names, sql_values=sql_values)
     if (.add_null != "none") {
-      query_null <- sql$q21_test_select_query_null(con=con, sql_names=sql_names, sql_values=sql_values)
+      query_null <- sql$q21_test_select_query_null(con=con, sql_names=sql_names) # "SELECT NULL as \"a\" FROM \"DUAL\""
       query <- c(query, query_null)
       if (.add_null == "above") {
         query <- rev(query)
       }
-      query <- paste0(query, ", ", 1:2, " as id")
+      # query <- paste0(query, ", ", 1:2, " as id")
+      #
+      for (i in 1:length(query)) {
+        query[i] <- gsub("FROM", paste0(", ", i, " as ", dbQuoteIdentifier(con, "id"), " FROM"), query[i])
+      }
       query <- union(query)
     }
 
