@@ -16,50 +16,50 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
   ctx <- get_default_context()
   con <- connect(ctx)
 
-  sql <<- list()
+  sql <- list()
 
   # SQL statements (there is still some more in the data type tests)
 
-  sql$q1_trivial <<- paste("SELECT 1 AS ",
+  sql$q1_trivial <- paste("SELECT 1 AS ",
                         dbQuoteIdentifier(con, "a"),
                         ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM", dbQuoteIdentifier(con,
                                                                             ctx$tweaks$dummy_table)
                         )))
-  sql$q2_trivial <<- paste("SELECT 2 AS ",
+  sql$q2_trivial <- paste("SELECT 2 AS ",
                           dbQuoteIdentifier(con, "a"),
                         ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM", dbQuoteIdentifier(con,
                                                                             ctx$tweaks$dummy_table)
                         )))
-  sql$q3_trivial <<- paste("SELECT 3 AS ",
+  sql$q3_trivial <- paste("SELECT 3 AS ",
                           dbQuoteIdentifier(con, "a"),
                         ifelse(is.na(ctx$tweaks$dummy_table),"",paste("FROM",dbQuoteIdentifier(con,
                                                                             ctx$tweaks$dummy_table)
                         )))
-  sql$q4_drop_test <<- paste("DROP TABLE ", dbQuoteIdentifier(con, "test"))
-  sql$q5_create_test <<- paste("CREATE TABLE", dbQuoteIdentifier(con, "test"),
+  sql$q4_drop_test <- paste("DROP TABLE ", dbQuoteIdentifier(con, "test"))
+  sql$q5_create_test <- paste("CREATE TABLE", dbQuoteIdentifier(con, "test"),
                               "(", dbQuoteIdentifier(con, "a"), "integer)")
-  sql$q6_insert_test <<- paste("INSERT INTO",dbQuoteIdentifier(con, "test"),"SELECT 1 AS",
+  sql$q6_insert_test <- paste("INSERT INTO",dbQuoteIdentifier(con, "test"),"SELECT 1 AS",
                               dbQuoteIdentifier(con, "a"))
-  sql$q7_bogus <<- "RAISE"
+  sql$q7_bogus <- "RAISE"
 
-  sql$q8_multi_row_single_col_select <<- union(sql$q1_trivial, sql$q2_trivial, sql$q3_trivial,
+  sql$q8_multi_row_single_col_select <- union(sql$q1_trivial, sql$q2_trivial, sql$q3_trivial,
                                               .order_by = dbQuoteIdentifier(con, "a"))
-  sql$q9_multi_row_select <<- union(paste("SELECT", 1:25, "AS", dbQuoteIdentifier(con, "a"),
+  sql$q9_multi_row_select <- union(paste("SELECT", 1:25, "AS", dbQuoteIdentifier(con, "a"),
                                             ifelse(is.na(ctx$tweaks$dummy_table),
                                                         "",
                                                         paste("FROM",dbQuoteIdentifier(con,
                                                                             ctx$tweaks$dummy_table))
                                                     )
                                         ), .order_by = dbQuoteIdentifier(con, "a"))
-  sql$q10_select_test <<- paste("SELECT * FROM", dbQuoteIdentifier(con, "test"))
-  sql$q11_empty_single_col_select <<- paste("SELECT 1 AS", dbQuoteIdentifier(con, "a"),
+  sql$q10_select_test <- paste("SELECT * FROM", dbQuoteIdentifier(con, "test"))
+  sql$q11_empty_single_col_select <- paste("SELECT 1 AS", dbQuoteIdentifier(con, "a"),
                                             ifelse(is.na(ctx$tweaks$dummy_table),
                                                         "",
                                                         paste("FROM",dbQuoteIdentifier(con,
                                                                             ctx$tweaks$dummy_table))
                                                     )
                                             ,"WHERE (1 = 0)")
-  sql$q12_single_row_multi_col_select <<- paste("SELECT 1 AS", dbQuoteIdentifier(con, "a"),
+  sql$q12_single_row_multi_col_select <- paste("SELECT 1 AS", dbQuoteIdentifier(con, "a"),
                                                     ", 2 AS", dbQuoteIdentifier(con, "b"),
                                                     ", 3 AS", dbQuoteIdentifier(con, "c"),
                                                 ifelse(is.na(ctx$tweaks$dummy_table),
@@ -68,7 +68,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                                                                             ctx$tweaks$dummy_table))
                                                     )
                                                 )
-  sql$q12b_single_row_multi_col_select <<- paste("SELECT 4 AS", dbQuoteIdentifier(con, "a"),
+  sql$q12b_single_row_multi_col_select <- paste("SELECT 4 AS", dbQuoteIdentifier(con, "a"),
                                                ", 5 AS", dbQuoteIdentifier(con, "b"),
                                                ", 6 AS", dbQuoteIdentifier(con, "c"),
                                                ifelse(is.na(ctx$tweaks$dummy_table),
@@ -77,12 +77,12 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                                                                                      ctx$tweaks$dummy_table))
                                                )
   )
-  sql$q13_multi_row_multi_col_select <<- union(sql$q12_single_row_multi_col_select,
+  sql$q13_multi_row_multi_col_select <- union(sql$q12_single_row_multi_col_select,
                                               sql$q12b_single_row_multi_col_select,
                                             .order_by = dbQuoteIdentifier(con, "a"))
-  sql$q14_empty_multi_col_select <<- paste(sql$q12_single_row_multi_col_select, "WHERE (1 = 0)")
+  sql$q14_empty_multi_col_select <- paste(sql$q12_single_row_multi_col_select, "WHERE (1 = 0)")
 
-  sql$q20_test_select_query <<- function(sql_names=sql_names, sql_values=sql_values)  {
+  sql$q20_test_select_query <- function(con=con, sql_names=sql_names, sql_values=sql_values)  {
                                   s <- paste("SELECT",
                                       paste(
                                         sql_values, "as", dbQuoteIdentifier(con, sql_names),
@@ -94,21 +94,77 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
                                                                                     ctx$tweaks$dummy_table)))
     }
 
-  sql$q21_test_select_query_null <<- function(sql_names=sql_names, sql_values=sql_values) {
+  sql$q21_test_select_query_null <- function(con=con, sql_names=sql_names, sql_values=sql_values) {
                                         paste("SELECT",
                                           paste(
                                             "NULL as", dbQuoteIdentifier(con, sql_names),
                                             ifelse(
                                               is.na(ctx$tweaks$dummy_table),"",paste("FROM", dbQuoteIdentifier(con,
-                                                                                                               ctx$tweaks$dummy_table))
+                                                                                            ctx$tweaks$dummy_table))
                                             ),
                                             collapse = ", "
                                           ))
                                         }
-  sql$tbl_name_q22 <<- dbQuoteIdentifier(con, "test")
-  sql$q22_test_select_create_as_q20 <<- function(sql_names=sql_names, sql_values=sql_values) {
+  sql$tbl_name_q22 <- dbQuoteIdentifier(con, "test")
+  sql$q22_test_select_create_as_q20 <- function(con = con, sql_names=sql_names, sql_values=sql_values) {
                                             paste("CREATE TABLE", sql$tbl_name_q22 ,"AS", sql$q21_test_select_query())
                                         }
+
+  sql$test_select <- function(con, ..., .add_null = "none", .table = FALSE) {
+    # uses q20, q21, q22
+    values <- c(...)
+    if (is.null(names(values))) {
+      sql_values <- as.character(values)
+    } else {
+      sql_values <- names(values)
+    }
+    sql_names <- letters[seq_along(sql_values)]
+
+    query <- sql$q20_test_select_query(con=con, sql_names=sql_names, sql_values=sql_values)
+    if (.add_null != "none") {
+      query_null <- sql$q21_test_select_query_null(con=con, sql_names=sql_names, sql_values=sql_values)
+      query <- c(query, query_null)
+      if (.add_null == "above") {
+        query <- rev(query)
+      }
+      query <- paste0(query, ", ", 1:2, " as id")
+      query <- union(query)
+    }
+
+    if (.table) {
+      query <- sql$q22_test_select_create_as_q20(con=con, sql_names=sql_names, sql_values=sql_values)
+      expect_warning(dbGetQuery(con, query), NA)
+      on.exit(expect_error(dbGetQuery(con, sql$q4_drop_test), NA), add = TRUE)
+      expect_warning(rows <- dbReadTable(con, sql$tbl_name_q22), NA)
+    } else {
+      expect_warning(rows <- dbGetQuery(con, query), NA)
+    }
+
+    if (.add_null != "none") {
+      rows <- rows[order(rows$id), -(length(sql_names) + 1L)]
+      if (.add_null == "above") {
+        rows <- rows[2:1, ]
+      }
+    }
+
+    expect_identical(names(rows), sql_names)
+
+    for (i in seq_along(values)) {
+      value_or_testfun <- values[[i]]
+      if (is.function(value_or_testfun)) {
+        eval(bquote(expect_true(value_or_testfun(rows[1L, .(i)]))))
+      } else {
+        eval(bquote(expect_identical(rows[1L, .(i)], .(value_or_testfun))))
+      }
+    }
+
+    if (.add_null != "none") {
+      expect_equal(nrow(rows), 2L)
+      expect_true(all(is.na(unname(unlist(rows[2L, ])))))
+    } else {
+      expect_equal(nrow(rows), 1L)
+    }
+  }
 
 
   dbDisconnect(con)
@@ -502,7 +558,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_integer = function() {
       with_connection({
-        test_select(con, 1L, -100L)
+        sql$test_select(con, 1L, -100L)
       })
     },
 
@@ -511,7 +567,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_integer_null_below = function() {
       with_connection({
-        test_select(con, 1L, -100L, .add_null = "below")
+        sql$test_select(con, 1L, -100L, .add_null = "below")
       })
     },
 
@@ -521,7 +577,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_integer_null_above = function() {
       with_connection({
-        test_select(con, 1L, -100L, .add_null = "above")
+        sql$test_select(con, 1L, -100L, .add_null = "above")
       })
     },
 
@@ -530,7 +586,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_numeric = function() {
       with_connection({
-        test_select(con, 1.5, -100.5)
+        sql$test_select(con, 1.5, -100.5)
       })
     },
 
@@ -539,7 +595,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_numeric_null_below = function() {
       with_connection({
-        test_select(con, 1.5, -100.5, .add_null = "below")
+        sql$test_select(con, 1.5, -100.5, .add_null = "below")
       })
     },
 
@@ -549,7 +605,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_numeric_null_above = function() {
       with_connection({
-        test_select(con, 1.5, -100.5, .add_null = "above")
+        sql$test_select(con, 1.5, -100.5, .add_null = "above")
       })
     },
 
@@ -558,7 +614,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE)
       })
     },
@@ -568,7 +624,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_null_below = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE,
                     .add_null = "below")
       })
@@ -580,7 +636,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_null_above = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE,
                     .add_null = "above")
       })
@@ -591,7 +647,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_int = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L)
       })
     },
@@ -602,7 +658,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_int_null_below = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L,
                     .add_null = "below")
       })
@@ -615,7 +671,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_logical_int_null_above = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L,
                     .add_null = "above")
       })
@@ -630,7 +686,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
           expect_true(is.na(rows$a))
         }
 
-        test_select(con, "NULL" = is.na)
+        sql$test_select(con, "NULL" = is.na)
       })
     },
 
@@ -639,7 +695,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_64_bit = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "10000000000" = 10000000000, "-10000000000" = 10000000000)
       })
     },
@@ -649,7 +705,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_64_bit_null_below = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "10000000000" = 10000000000, "-10000000000" = 10000000000,
                     .add_null = "below")
       })
@@ -661,7 +717,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_64_bit_null_above = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "10000000000" = 10000000000, "-10000000000" = 10000000000,
                     .add_null = "above")
       })
@@ -674,7 +730,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         values <- texts
         sql_names <- as.character(dbQuoteString(con, texts))
-        test_select(con, setNames(values, sql_names))
+        sql$test_select(con, setNames(values, sql_names))
       })
     },
 
@@ -685,7 +741,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         values <- texts
         sql_names <- as.character(dbQuoteString(con, texts))
-        test_select(con, setNames(values, sql_names), .add_null = "below")
+        sql$test_select(con, setNames(values, sql_names), .add_null = "below")
       })
     },
 
@@ -697,7 +753,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
       with_connection({
         values <- texts
         sql_names <- as.character(dbQuoteString(con, texts))
-        test_select(con, setNames(values, sql_names), .add_null = "above")
+        sql$test_select(con, setNames(values, sql_names), .add_null = "above")
       })
     },
 
@@ -709,7 +765,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(con, setNames(values, sql_names))
+        sql$test_select(con, setNames(values, sql_names))
       })
     },
 
@@ -721,7 +777,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(con, setNames(values, sql_names), .add_null = "below")
+        sql$test_select(con, setNames(values, sql_names), .add_null = "below")
       })
     },
 
@@ -734,7 +790,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
         values <- list(is_raw_list)
         sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
-        test_select(con, setNames(values, sql_names), .add_null = "above")
+        sql$test_select(con, setNames(values, sql_names), .add_null = "above")
       })
     },
 
@@ -743,7 +799,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_date = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "date('2015-01-01')" = as_integer_date("2015-01-01"),
                     "date('2015-02-02')" = as_integer_date("2015-02-02"),
                     "date('2015-03-03')" = as_integer_date("2015-03-03"),
@@ -765,7 +821,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_date_null_below = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "date('2015-01-01')" = as_integer_date("2015-01-01"),
                     "date('2015-02-02')" = as_integer_date("2015-02-02"),
                     "date('2015-03-03')" = as_integer_date("2015-03-03"),
@@ -789,7 +845,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_date_null_above = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "date('2015-01-01')" = as_integer_date("2015-01-01"),
                     "date('2015-02-02')" = as_integer_date("2015-02-02"),
                     "date('2015-03-03')" = as_integer_date("2015-03-03"),
@@ -812,7 +868,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "time '00:00:00'" = "00:00:00",
                     "time '12:34:56'" = "12:34:56",
                     "current_time" = is.character)
@@ -824,7 +880,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_null_below = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "time '00:00:00'" = "00:00:00",
                     "time '12:34:56'" = "12:34:56",
                     "current_time" = is.character,
@@ -838,7 +894,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_null_above = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "time '00:00:00'" = "00:00:00",
                     "time '12:34:56'" = "12:34:56",
                     "current_time" = is.character,
@@ -852,7 +908,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_parens = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "time('00:00:00')" = "00:00:00",
                     "time('12:34:56')" = "12:34:56",
                     "current_time" = is.character)
@@ -865,7 +921,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_parens_null_below = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "time('00:00:00')" = "00:00:00",
                     "time('12:34:56')" = "12:34:56",
                     "current_time" = is.character,
@@ -880,7 +936,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_time_parens_null_above = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "time('00:00:00')" = "00:00:00",
                     "time('12:34:56')" = "12:34:56",
                     "current_time" = is.character,
@@ -893,7 +949,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "timestamp '2015-10-11 00:00:00'" = is_time,
                     "timestamp '2015-10-11 12:34:56'" = is_time,
                     "current_timestamp" = is_roughly_current_time)
@@ -905,7 +961,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_null_below = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "timestamp '2015-10-11 00:00:00'" = is_time,
                     "timestamp '2015-10-11 12:34:56'" = is_time,
                     "current_timestamp" = is_roughly_current_time,
@@ -919,7 +975,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_null_above = function() {
       with_connection({
-        test_select(con,
+        sql$test_select(con,
                     "timestamp '2015-10-11 00:00:00'" = is_time,
                     "timestamp '2015-10-11 12:34:56'" = is_time,
                     "current_timestamp" = is_roughly_current_time,
@@ -932,7 +988,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_utc = function() {
       with_connection({
-        test_select(
+        sql$test_select(
           con,
           "timestamp '2015-10-11 00:00:00+02:00'" =
             as.POSIXct("2015-10-11 00:00:00+02:00"),
@@ -948,7 +1004,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_utc_null_below = function() {
       with_connection({
-        test_select(
+        sql$test_select(
           con,
           "timestamp '2015-10-11 00:00:00+02:00'" =
             as.POSIXct("2015-10-11 00:00:00+02:00"),
@@ -966,7 +1022,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_utc_null_above = function() {
       with_connection({
-        test_select(
+        sql$test_select(
           con,
           "timestamp '2015-10-11 00:00:00+02:00'" =
             as.POSIXct("2015-10-11 00:00:00+02:00"),
@@ -983,7 +1039,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_parens = function() {
       with_connection({
-        test_select(
+        sql$test_select(
           con,
           "datetime('2015-10-11 00:00:00')" =
             as.POSIXct("2015-10-11 00:00:00Z"),
@@ -999,7 +1055,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_parens_null_below = function() {
       with_connection({
-        test_select(
+        sql$test_select(
           con,
           "datetime('2015-10-11 00:00:00')" =
             as.POSIXct("2015-10-11 00:00:00Z"),
@@ -1017,7 +1073,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     data_timestamp_parens_null_above = function() {
       with_connection({
-        test_select(
+        sql$test_select(
           con,
           "datetime('2015-10-11 00:00:00')" =
             as.POSIXct("2015-10-11 00:00:00Z"),
@@ -1054,7 +1110,7 @@ with_connection <- function(code, con = "con", env = parent.frame()) {
   ), envir = env)
 }
 
-# Helper function
+# Helper functions
 union <- function(..., .order_by = NULL) {
   query <- paste(c(...), collapse = " UNION ")
   if (!missing(.order_by)) {
@@ -1063,61 +1119,9 @@ union <- function(..., .order_by = NULL) {
   query
 }
 
-test_select <- function(con, ..., .add_null = "none", .table = FALSE) {
-  values <- c(...)
-  if (is.null(names(values))) {
-    sql_values <- as.character(values)
-  } else {
-    sql_values <- names(values)
-  }
+# test_select orig pos
 
-  sql_names <- letters[seq_along(sql_values)]
 
-  query <- sql$q20_test_select_query(sql_names, sql_values)
-  if (.add_null != "none") {
-    query_null <- sql$q21_test_select_query_null
-    query <- c(query, query_null)
-    if (.add_null == "above") {
-      query <- rev(query)
-    }
-    query <- paste0(query, ", ", 1:2, " as id")
-    query <- union(query)
-  }
-
-  if (.table) {
-    query <- sql$q22_test_select_create_as_q20
-    expect_warning(dbGetQuery(con, query), NA)
-    on.exit(expect_error(dbGetQuery(con, sql$q4_drop_test), NA), add = TRUE)
-    expect_warning(rows <- dbReadTable(con, sql$tbl_name_q22), NA)
-  } else {
-    expect_warning(rows <- dbGetQuery(con, query), NA)
-  }
-
-  if (.add_null != "none") {
-    rows <- rows[order(rows$id), -(length(sql_names) + 1L)]
-    if (.add_null == "above") {
-      rows <- rows[2:1, ]
-    }
-  }
-
-  expect_identical(names(rows), sql_names)
-
-  for (i in seq_along(values)) {
-    value_or_testfun <- values[[i]]
-    if (is.function(value_or_testfun)) {
-      eval(bquote(expect_true(value_or_testfun(rows[1L, .(i)]))))
-    } else {
-      eval(bquote(expect_identical(rows[1L, .(i)], .(value_or_testfun))))
-    }
-  }
-
-  if (.add_null != "none") {
-    expect_equal(nrow(rows), 2L)
-    expect_true(all(is.na(unname(unlist(rows[2L, ])))))
-  } else {
-    expect_equal(nrow(rows), 1L)
-  }
-}
 
 is_raw_list <- function(x) {
   is.list(x) && is.raw(x[[1L]])
