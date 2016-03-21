@@ -704,7 +704,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_64_bit = function() {
       with_connection({
         sql$test_select(con,
-                    "10000000000" = 10000000000, "-10000000000" = 10000000000)
+                    "10000000000" = 10000000000, "-10000000000" = -10000000000)
       })
     },
 
@@ -714,7 +714,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_64_bit_null_below = function() {
       with_connection({
         sql$test_select(con,
-                    "10000000000" = 10000000000, "-10000000000" = 10000000000,
+                    "10000000000" = 10000000000, "-10000000000" = -10000000000,
                     .add_null = "below")
       })
     },
@@ -726,7 +726,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_64_bit_null_above = function() {
       with_connection({
         sql$test_select(con,
-                    "10000000000" = 10000000000, "-10000000000" = 10000000000,
+                    "10000000000" = 10000000000, "-10000000000" = -10000000000,
                     .add_null = "above")
       })
     },
