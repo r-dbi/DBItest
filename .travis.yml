@@ -1,13 +1,21 @@
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
+# Info:
+# https://docs.travis-ci.com/user/languages/r/
+# https://docs.travis-ci.com/user/database-setup/#MySQL
 
 language: r
 cache: packages
+sudo: false
 
 services:
   - MySQL
   - postgresql
 addons:
   postgresql: "9.4"
+  apt:
+    packages:
+      - libmysqlclient-dev
+
+#r_check_revdep: true
 
 # Seems to be necessary with devtools 1.10.0, check again when the next version is on CRAN
 r_github_packages:
