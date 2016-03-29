@@ -14,6 +14,7 @@ addons:
   apt:
     packages:
       - libmysqlclient-dev
+      - libpq-dev
 
 #r_check_revdep: true
 
