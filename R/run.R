@@ -1,6 +1,6 @@
 run_tests <- function(tests, skip, test_suite, ctx_name) {
   test_context <- paste0(
-    "DBItest", ifelse(is.null(ctx_name), "", paste0("[", ctx_name, "]")),
+    "DBItest", if(!is.null(ctx_name)) paste0("[", ctx_name, "]"),
     ": ", test_suite)
   context(test_context)
 
