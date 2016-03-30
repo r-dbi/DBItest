@@ -24,8 +24,7 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
     #' \code{make_context()} must be called before calling any of the
     #' \code{test_} functions in this package}
     has_context = function() {
-      object <- ctx # object duplication fixes lazyeval error
-      expect_is(object, "DBItest_context")
+      expect_is((ctx), "DBItest_context")
     },
 
     #' \item{\code{package_dependencies}}{
