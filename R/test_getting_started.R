@@ -24,7 +24,8 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
     #' \code{make_context()} must be called before calling any of the
     #' \code{test_} functions in this package}
     has_context = function() {
-      expect_is(ctx, "DBItest_context")
+      expected_ctx <- ctx
+      expect_is(expected_ctx, "DBItest_context")
     },
 
     #' \item{\code{package_dependencies}}{
