@@ -42,11 +42,13 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' Open 50 simultaneous connections
     #' }
     simultaneous_connections = function() {
+      cons <- list()
+      on.exit(expect_error(lapply(cons, dbDisconnect), NA), add = TRUE)
       cons <- lapply(seq_len(50L), function(i) connect(ctx))
+
       inherit_from_connection <-
         vapply(cons, is, class2 = "DBIConnection", logical(1))
       expect_true(all(inherit_from_connection))
-      expect_error(lapply(cons, dbDisconnect), NA)
     },
 
     #' \item{\code{stress_connections}}{
