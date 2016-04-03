@@ -30,7 +30,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{cannot_disconnect_twice}}{
-    #' Repeated disconnect throws error.
+    #' Repeated disconnect throws warning.
     #' }
     cannot_disconnect_twice = function() {
       con <- connect(ctx)
