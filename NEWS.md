@@ -1,3 +1,9 @@
+# DBItest 1.1-5 (2016-05-21)
+
+- Reenable checking of DBI drivers.
+- Import all of `testthat` to avoid `R CMD check` warnings.
+
+
 # DBItest 1.1-4 (2016-05-21)
 
 - Update documentation to reflect test condition (@imanuelcostigan, #70).
