@@ -18,6 +18,9 @@ addons:
 
 #r_check_revdep: true
 
+r_packages:
+  - roxygen2
+
 # Seems to be necessary with devtools 1.10.0, check again when the next version is on CRAN
 r_github_packages:
   - rstats-db/DBI
@@ -26,6 +29,9 @@ r_github_packages:
 before_install:
   - mysql -e "CREATE DATABASE IF NOT EXISTS test;" -uroot
   - mysql -e "GRANT ALL PRIVILEGES ON test.* TO 'travis'@'localhost'; FLUSH PRIVILEGES;" -uroot
+
+before_script:
+  - make --keep-going --directory=revdep-dev
 
 notifications:
   email:
