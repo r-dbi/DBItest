@@ -24,7 +24,7 @@ Can connect and disconnect, connection object inherits from
   "DBIConnection".
 }
 \item{\code{cannot_disconnect_twice}}{
-Repeated disconnect throws error.
+Repeated disconnect throws warning.
 }
 \item{\code{simultaneous_connections}}{
 Open 50 simultaneous connections
