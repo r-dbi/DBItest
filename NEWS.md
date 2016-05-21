@@ -1,36 +1,20 @@
-# DBItest 1.1-5 (2016-05-21)
+# DBItest 1.2 (2016-05-21)
 
-- Reenable checking of DBI drivers.
-- Import all of `testthat` to avoid `R CMD check` warnings.
-
-
-# DBItest 1.1-4 (2016-05-21)
-
-- Update documentation to reflect test condition (@imanuelcostigan, #70).
-- Support names for contexts (@hoesler, #67).
-- `simultaneous_connections` test always closes all connections on exit (@hoesler, #68).
-- More generic compliance check (@hoesler, #61).
-- Use container-based builds on Travis.
-- Install `RPostgres` and `RMySQL` from `rstats-db`.
-
-
-Version 1.1-3 (2016-03-24)
-===
-
-- Install `DBI` and `testthat` from GitHub.
-
-
-Version 1.1-2 (2016-03-15)
-===
-
-- The `skip` argument to the test functions is now treated as a Perl regular expression to allow negative lookahead. Use `skip = "(?!test_regex).*"` to choose a single test to run (#33).
-
-
-Version 1.1-1 (2016-03-10)
-===
-
-- Compatibility with dev version of `testthat` (#62).
-- Added encoding arguments to non-ASCII string constants (#60, @hoesler).
+- Infrastructure
+    - Support names for contexts (@hoesler, #67).
+    - The `skip` argument to the test functions is now treated as a Perl regular expression to allow negative lookahead. Use `skip = "(?!test_regex).*"` to choose a single test to run (#33).
+    - Added encoding arguments to non-ASCII string constants (#60, @hoesler).
+- Improve tests
+    - `simultaneous_connections` test always closes all connections on exit (@hoesler, #68).
+    - More generic compliance check (@hoesler, #61).
+    - Update documentation to reflect test condition (@imanuelcostigan, #70).
+- `testthat` dependency
+    - Import all of `testthat` to avoid `R CMD check` warnings.
+    - Compatibility with dev version of `testthat` (#62).
+- Improve Travis builds
+    - Use container-based builds on Travis.
+    - Install `RPostgres` and `RMySQL` from `rstats-db`.
+    - Install `DBI` and `testthat` from GitHub.
 
 
 Version 1.1 (2016-02-12)
