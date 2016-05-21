@@ -30,7 +30,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{cannot_disconnect_twice}}{
-    #' Repeated disconnect throws error.
+    #' Repeated disconnect throws warning.
     #' }
     cannot_disconnect_twice = function() {
       con <- connect(ctx)
@@ -42,11 +42,15 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' Open 50 simultaneous connections
     #' }
     simultaneous_connections = function() {
-      cons <- lapply(seq_len(50L), function(i) connect(ctx))
+      cons <- list()
+      on.exit(expect_error(lapply(cons, dbDisconnect), NA), add = TRUE)
+      for (i in seq_len(50L)) {
+        cons <- c(cons, connect(ctx))
+      }
+
       inherit_from_connection <-
         vapply(cons, is, class2 = "DBIConnection", logical(1))
       expect_true(all(inherit_from_connection))
-      expect_error(lapply(cons, dbDisconnect), NA)
     },
 
     #' \item{\code{stress_connections}}{
@@ -123,5 +127,5 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     NULL
   )
   #'}
-  run_tests(tests, skip, test_suite)
+  run_tests(tests, skip, test_suite, ctx$name)
 }

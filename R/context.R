@@ -11,6 +11,8 @@
 #' @param tweaks \code{[DBItest_tweaks]}\cr Tweaks as constructed by the
 #'   \code{\link{tweaks}} function.
 #' @param ctx \code{[DBItest_context]}\cr A test context.
+#' @param name \code{[character]}\cr An optional name of the context which will 
+#'   be used in test messages.
 #' @return \code{[DBItest_context]}\cr A test context, for
 #'   \code{set_default_context} the previous default context (invisibly) or
 #'   \code{NULL}.
@@ -18,7 +20,7 @@
 #' @rdname context
 #' @export
 make_context <- function(drv, connect_args, set_as_default = TRUE,
-                         tweaks = NULL) {
+                         tweaks = NULL, name = NULL) {
   drv_call <- substitute(drv)
 
   if (is.null(drv)) {
@@ -34,7 +36,8 @@ make_context <- function(drv, connect_args, set_as_default = TRUE,
       drv = drv,
       drv_call = drv_call,
       connect_args = connect_args,
-      tweaks = tweaks
+      tweaks = tweaks,
+      name = name
     ),
     class = "DBItest_context"
   )

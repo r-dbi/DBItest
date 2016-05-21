@@ -1,41 +1,33 @@
-language: c
-# To build on OSX, switch the previous line to
-# language: objective-c
-sudo: required
+# Info:
+# https://docs.travis-ci.com/user/languages/r/
+# https://docs.travis-ci.com/user/database-setup/#MySQL
+
+language: r
+cache: packages
+sudo: false
 
 services:
   - MySQL
   - postgresql
 addons:
   postgresql: "9.4"
+  apt:
+    packages:
+      - libmysqlclient-dev
+      - libpq-dev
 
-env:
-  global:
-    - NOT_CRAN=true
-    - LINTR_COMMENT_BOT=0
-    - WARNINGS_ARE_ERRORS=1
+#r_check_revdep: true
 
-script:
-  - ./travis-tool.sh run_tests
-  - make --keep-going --directory=revdep-dev
+# Seems to be necessary with devtools 1.10.0, check again when the next version is on CRAN
+r_github_packages:
+  - rstats-db/DBI
+  - hadley/testthat
 
 before_install:
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - ./travis-tool.sh bootstrap
   - mysql -e "CREATE DATABASE IF NOT EXISTS test;" -uroot
   - mysql -e "GRANT ALL PRIVILEGES ON test.* TO 'travis'@'localhost'; FLUSH PRIVILEGES;" -uroot
-  - sed -i '/^VignetteBuilder:/d' DESCRIPTION
-  - rm -r vignettes
 
-install:
-  - ./travis-tool.sh install_github rstats-db/DBI
-  - ./travis-tool.sh install_github hadley/testthat
-  - ./travis-tool.sh install_r roxygen2
-  - ./travis-tool.sh install_deps
-  - ./travis-tool.sh dump_sysinfo
-  - sudo apt-get install -qq libpq-dev libmysqlclient-dev
-
-after_failure:
-  - cat tikzDevice.Rcheck/00install.out || true
-  - cat tikzDevice.Rcheck/00check.log || true
+notifications:
+  email:
+    on_success: change
+    on_failure: change

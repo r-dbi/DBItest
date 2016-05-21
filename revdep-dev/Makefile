@@ -12,11 +12,11 @@ ${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION
 
 install: ${LIB_DIR}/DBItest/DESCRIPTION
 
-RKazam RSQLite:
+RKazam RSQLite RPostgres RMySQL:
 	# Use local checkout if available, otherwise clone from rstats-db GitHub
 	if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/rstats-db/$@.git; Rscript -e "devtools::install_deps('$@', dependencies = TRUE)"; fi
 
-RMySQL RPostgres bigrquery:
+bigrquery:
 	# Use local checkout if available, otherwise clone from GitHub
 	if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/krlmlr/$@.git -b feature/dbi-test; Rscript -e "devtools::install_deps('$@', dependencies = TRUE)"; fi
 
