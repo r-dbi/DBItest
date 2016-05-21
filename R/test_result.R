@@ -945,7 +945,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     NULL
   )
   #'}
-  run_tests(tests, skip, test_suite)
+  run_tests(tests, skip, test_suite, ctx$name)
 }
 
 utils::globalVariables("con")
