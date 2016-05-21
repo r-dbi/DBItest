@@ -1,3 +1,13 @@
+# DBItest 1.1-4 (2016-05-21)
+
+- Update documentation to reflect test condition (#70, @imanuelcostigan).
+- Support names for contexts (#67, @hoesler).
+- `simultaneous_connections` test always closes all connections on exit (@hoesler, #68).
+- More generic compliance check (@hoesler, #61).
+- Use container-based builds on Travis.
+- Install `RPostgres` and `RMySQL` from `rstats-db`.
+
+
 Version 1.1-3 (2016-03-24)
 ===
 
