@@ -19,9 +19,6 @@ Suggests:
     lintr,
     knitr,
     rmarkdown
-Remotes:
-    rstats-db/DBI,
-    hadley/testthat
 License: LGPL (>= 2)
 LazyData: true
 Encoding: UTF-8
