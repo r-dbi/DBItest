@@ -1,6 +1,6 @@
 ## Test environments
-* ubuntu 14.04, R 3.2.2
-* ubuntu 12.04 (on travis-ci), R 3.2.3
+* ubuntu 14.10, R 3.3.0
+* ubuntu 12.04 (on travis-ci), R 3.3.0
 * win-builder (devel and release)
 
 ## R CMD check results
@@ -8,11 +8,8 @@ There were no ERRORs or WARNINGs.
 
 There was 1 NOTE:
 
-* checking dependencies in R code ... NOTE
-  Missing or unexported object: 'DBI::dbBind'
+* New submission.
 
-  This virtual method is available only in the development release of the DBI
-  package, which hasn't been published to CRAN yet..
+## Reverse dependencies
 
-## Downstream dependencies
-Initial submission.
+This is a new release, so there are no reverse dependencies.
