@@ -4,7 +4,13 @@ This package provides a considerable set of test cases which you can easily inco
 
 ## Usage
 
-Install using
+Install from CRAN via
+
+```r
+install.packages("DBItest")
+```
+
+or the development version using
 
 ```r
 devtools::install_github("rstats-db/DBItest")
