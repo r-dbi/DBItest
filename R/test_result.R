@@ -571,8 +571,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_character = function() {
       with_connection({
         values <- texts
+        test_funs <- rep(list(is_ascii_or_has_utf8_encoding), length(values))
         sql_names <- as.character(dbQuoteString(con, texts))
+
         test_select(.ctx = ctx, con, .dots = setNames(values, sql_names))
+        test_select(.ctx = ctx, con, .dots = setNames(test_funs, sql_names))
       })
     },
 
@@ -582,8 +585,12 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_character_null_below = function() {
       with_connection({
         values <- texts
+        test_funs <- rep(list(is_ascii_or_has_utf8_encoding), length(values))
         sql_names <- as.character(dbQuoteString(con, texts))
+
         test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
+                    .add_null = "below")
+        test_select(.ctx = ctx, con, .dots = setNames(test_funs, sql_names),
                     .add_null = "below")
       })
     },
@@ -595,8 +602,12 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_character_null_above = function() {
       with_connection({
         values <- texts
+        test_funs <- rep(list(is_ascii_or_has_utf8_encoding), length(values))
         sql_names <- as.character(dbQuoteString(con, texts))
+
         test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
+                    .add_null = "above")
+        test_select(.ctx = ctx, con, .dots = setNames(test_funs, sql_names),
                     .add_null = "above")
       })
     },
@@ -1055,6 +1066,20 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
   } else {
     expect_equal(nrow(rows), 1L)
   }
+}
+
+is_ascii_or_has_utf8_encoding <- function(x) {
+  if (Encoding(x) == "UTF-8")
+    TRUE
+  else if (Encoding(x) == "unknown") {
+    # Characters encoded as "unknown" must be ASCII only, and remain "unknown"
+    # after attempting to assign an encoding. From ?Encoding :
+    # > ASCII strings will never be marked with a declared encoding, since their
+    # > representation is the same in all supported encodings.
+    Encoding(x) <- "UTF-8"
+    Encoding(x) == "unknown"
+  } else
+    FALSE
 }
 
 is_raw_list <- function(x) {

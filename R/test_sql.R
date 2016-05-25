@@ -491,6 +491,9 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
         tbl_out <- dbReadTable(con, "test")
         expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
+
+        expected_encoding <- rep(c("UTF-8", "unknown"), c(3,2))
+        expect_equal(Encoding(tbl_out$a), expected_encoding[order(tbl_out$id)])
       })
     },
 
@@ -508,6 +511,9 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
 
         tbl_out <- dbReadTable(con, "test")
         expect_identical(as.character(tbl_in$a), tbl_out$a[order(tbl_out$id)])
+
+        expected_encoding <- rep(c("UTF-8", "unknown"), c(3,2))
+        expect_equal(Encoding(tbl_out$a), expected_encoding[order(tbl_out$id)])
       })
     },
 
