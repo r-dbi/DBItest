@@ -1,4 +1,4 @@
-# DBItest [![Travis-CI Build Status](https://travis-ci.org/rstats-db/DBItest.svg?branch=master)](https://travis-ci.org/rstats-db/DBItest) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DBItest)](https://cran.r-project.org/package=DBItest)
+# DBItest [![Travis-CI Build Status](https://travis-ci.org/rstats-db/DBItest.svg?branch=master)](https://travis-ci.org/rstats-db/DBItest) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rstats-db/DBItest?branch=master&svg=true)](https://ci.appveyor.com/project/rstats-db/DBItest) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DBItest)](https://cran.r-project.org/package=DBItest)
 
 This package provides a considerable set of test cases which you can easily incorporate in your DBI driver package.
 
