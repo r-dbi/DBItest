@@ -26,6 +26,7 @@ build_script:
   - travis-tool.sh install_deps
 
 test_script:
+  - make --keep-going --directory=revdep-dev test-RKazam test-RSQLite
   - travis-tool.sh run_tests
 
 on_failure:
