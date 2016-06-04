@@ -118,6 +118,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     stress_load_unload = function() {
       skip_on_travis()
+      skip_if_not(getRversion() != "3.3.0")
 
       pkg <- get_pkg(ctx)
 
@@ -142,5 +143,5 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     NULL
   )
   #'}
-  run_tests(tests, skip, test_suite)
+  run_tests(tests, skip, test_suite, ctx$name)
 }
