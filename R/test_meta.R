@@ -585,6 +585,15 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{bind_repeated_named_colon}}{
+    #' Named binding of integer values (colon syntax), repeated.
+    #' }
+    bind_repeated_named_colon = function() {
+      with_connection({
+        test_select_bind(con, named_colon, 1L, extra = "repeated")
+      })
+    },
+
     #' \item{\code{bind_integer_named_colon}}{
     #' Named binding of integer values (colon syntax).
     #' }
@@ -762,6 +771,15 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_wrong_name_named_dollar = function() {
       with_connection({
         test_select_bind(con, named_dollar, 1L, extra = "wrong_name")
+      })
+    },
+
+    #' \item{\code{bind_repeated_named_dollar}}{
+    #' Named binding of integer values (dollar syntax), repeated.
+    #' }
+    bind_repeated_named_dollar = function() {
+      with_connection({
+        test_select_bind(con, named_dollar, 1L, extra = "repeated")
       })
     },
 
