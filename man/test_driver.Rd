@@ -22,7 +22,7 @@ This function defines the following tests:
 \item{\code{inherits_from_driver}}{
 Driver inherits from "DBIDriver" class
 }
-\item{\code{data_type}}{
+\item{\code{data_type_driver}}{
 SQL Data types exist for all basic R data types. dbDataType() does not
 throw an error and returns a nonempty atomic character
 }

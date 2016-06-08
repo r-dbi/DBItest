@@ -29,11 +29,11 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       expect_true(dbDisconnect(con))
     },
 
-    #' \item{\code{data_type}}{
+    #' \item{\code{data_type_connection}}{
     #' SQL Data types exist for all basic R data types. dbDataType() does not
     #' throw an error and returns a nonempty atomic character
     #' }
-    data_type = function() {
+    data_type_connection = function() {
       con <- connect(ctx)
       check_conn_data_type <- function(value) {
         eval(bquote({
