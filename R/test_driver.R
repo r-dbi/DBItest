@@ -9,6 +9,7 @@ NULL
 #' @inheritParams test_all
 #' @include test_getting_started.R
 #' @family tests
+#' @importFrom withr with_temp_libpaths
 #' @export
 test_driver <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Driver"
@@ -21,7 +22,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #' Driver inherits from "DBIDriver" class
     #' }
     inherits_from_driver = function() {
-      expect_is(ctx$drv, "DBIDriver")
+      expect_s4_class(ctx$drv, "DBIDriver")
     },
 
     #' \item{\code{data_type}}{
@@ -46,22 +47,26 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_driver_has_data_type(integer(1))
       expect_driver_has_data_type(numeric(1))
       expect_driver_has_data_type(character(1))
-      expect_driver_has_data_type(list(raw(1)))
       expect_driver_has_data_type(Sys.Date())
       expect_driver_has_data_type(Sys.time())
+      if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
+        expect_driver_has_data_type(list(raw(1)))
+      }
     },
 
     #' \item{\code{constructor_strict}}{
-    #' Package name starts with R;
-    #' package exports constructor function, named like the package without the
-    #'   leading R, that has no arguments. This test is optional, the
+    #' Package exports constructor function that has no arguments.
+    #'   The name of the constructor can be tweaked via \code{constructor_name}
+    #'   in the context's \code{\link{tweaks}}, default: package name without
+    #'   the leading R.
+    #'   This test is optional, the
     #'   \code{constructor} test is a slightly weaker version.
     #' }
     constructor_strict = function() {
       pkg_name <- package_name(ctx)
 
-      expect_match(pkg_name, "^R")
-      constructor_name <- gsub("^R", "", pkg_name)
+      constructor_name <- ctx$tweaks$constructor_name %||%
+        gsub("^R", "", pkg_name)
 
       pkg_env <- getNamespace(pkg_name)
       eval(bquote(
@@ -73,13 +78,16 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{constructor}}{
-    #' package exports constructor function, named like the package without the
-    #'   leading R (if it exists), where all arguments have default values
+    #' Package exports constructor function, all arguments have default values.
+    #'   The name of the constructor can be tweaked via \code{constructor_name}
+    #'   in the context's \code{\link{tweaks}}, default: package name without
+    #'   the leading R (if it exists).
     #' }
     constructor = function() {
       pkg_name <- package_name(ctx)
 
-      constructor_name <- gsub("^R", "", pkg_name)
+      constructor_name <- ctx$tweaks$constructor_name %||%
+        gsub("^R", "", pkg_name)
 
       pkg_env <- getNamespace(pkg_name)
       eval(bquote(
@@ -98,32 +106,44 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_is(info, "list")
       info_names <- names(info)
 
-      expect_true("driver.version" %in% info_names)
-      expect_true("client.version" %in% info_names)
-      expect_true("max.connections" %in% info_names)
+      necessary_names <-
+        c("driver.version", "client.version", "max.connections")
+
+      for (name in necessary_names) {
+        eval(bquote(
+          expect_true(.(name) %in% info_names)))
+      }
     },
 
     #' \item{\code{stress_load_unload}}{
     #' Repeated load, instantiation, and unload of package in a new R session.
     #' }
     stress_load_unload = function() {
+      skip_on_travis()
+      skip_if_not(getRversion() != "3.3.0")
+
+      pkg <- get_pkg(ctx)
+
       script_file <- tempfile("DBItest", fileext = ".R")
       cat(
+        "devtools::RCMD('INSTALL', ", shQuote(pkg$path), ")\n",
         "for (i in 1:50) {\n",
-        "  ", package_name(ctx), "::", deparse(ctx$drv_call), "\n",
-        "  unloadNamespace(getNamespace(\"", package_name(ctx), "\"))\n",
+        "  ", pkg$package, "::", deparse(ctx$drv_call), "\n",
+        "  unloadNamespace(getNamespace(\"", pkg$package, "\"))\n",
         "}\n",
         sep = "",
         file = script_file
       )
 
-      expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file)),
-                          ignore.stdout = TRUE),
-                   0L)
+      with_temp_libpaths({
+        expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file)),
+                            ignore.stdout = TRUE, ignore.stderr = TRUE),
+                     0L)
+      })
     },
 
     NULL
   )
   #'}
-  run_tests(tests, skip, test_suite)
+  run_tests(tests, skip, test_suite, ctx$name)
 }

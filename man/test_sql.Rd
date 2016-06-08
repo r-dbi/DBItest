@@ -27,8 +27,11 @@ Can quote more than one string at once by passing a character vector.
 
 }
 \item{\code{quote_identifier}}{
-Can quote identifiers, and create identifiers that contain quotes and
-spaces
+Can quote identifiers that consist of letters only
+}
+\item{\code{quote_identifier_special}}{
+Can quote identifiers with special characters, and create identifiers
+that contain quotes and spaces
 }
 \item{\code{quote_identifier_not_vectorized}}{
 Character vectors are treated as a single qualified identifier.
@@ -56,9 +59,15 @@ Can write the \code{\link[datasets]{iris}} data as a temporary table to
 the database, the table is not available in a second connection and is
 gone after reconnecting.
 }
+\item{\code{table_visible_in_other_connection}}{
+A new table is visible in a second connection.
+}
 \item{\code{list_tables}}{
 Can list the tables in the database, adding and removing tables affects
 the list. Can also check existence of a table.
+}
+\item{\code{list_fields}}{
+Can list the fields for a table in the database.
 }
 \item{\code{roundtrip_keywords}}{
 Can create tables with keywords as table and column names.

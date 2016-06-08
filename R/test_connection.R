@@ -9,6 +9,8 @@ NULL
 #' @inheritParams test_all
 #' @include test_driver.R
 #' @family tests
+#' @importFrom withr with_temp_libpaths
+#' @importFrom methods is
 #' @export
 test_connection <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Connection"
@@ -19,25 +21,36 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
   tests <- list(
     #' \item{\code{can_connect_and_disconnect}}{
     #' Can connect and disconnect, connection object inherits from
-    #'   "DBIConnection". Repeated disconnect throws error.
+    #'   "DBIConnection".
     #' }
     can_connect_and_disconnect = function() {
       con <- connect(ctx)
-      expect_is(con, "DBIConnection")
+      expect_s4_class(con, "DBIConnection")
       expect_true(dbDisconnect(con))
-      expect_error(dbDisconnect(con))
-      expect_error(dbGetQuery(con, "select 1"))
+    },
+
+    #' \item{\code{cannot_disconnect_twice}}{
+    #' Repeated disconnect throws warning.
+    #' }
+    cannot_disconnect_twice = function() {
+      con <- connect(ctx)
+      dbDisconnect(con)
+      expect_warning(dbDisconnect(con))
     },
 
     #' \item{\code{simultaneous_connections}}{
     #' Open 50 simultaneous connections
     #' }
     simultaneous_connections = function() {
-      cons <- lapply(seq_len(50L), function(i) connect(ctx))
+      cons <- list()
+      on.exit(expect_error(lapply(cons, dbDisconnect), NA), add = TRUE)
+      for (i in seq_len(50L)) {
+        cons <- c(cons, connect(ctx))
+      }
+
       inherit_from_connection <-
-        vapply(cons, inherits, what = "DBIConnection", logical(1))
+        vapply(cons, is, class2 = "DBIConnection", logical(1))
       expect_true(all(inherit_from_connection))
-      expect_error(lapply(cons, dbDisconnect), NA)
     },
 
     #' \item{\code{stress_connections}}{
@@ -46,7 +59,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     stress_connections = function() {
       for (i in seq_len(50L)) {
         con <- connect(ctx)
-        expect_is(con, "DBIConnection")
+        expect_s4_class(con, "DBIConnection")
         expect_error(dbDisconnect(con), NA)
       }
     },
@@ -62,11 +75,14 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
       expect_is(info, "list")
       info_names <- names(info)
 
-      expect_true("db.version" %in% info_names)
-      expect_true("dbname" %in% info_names)
-      expect_true("username" %in% info_names)
-      expect_true("host" %in% info_names)
-      expect_true("port" %in% info_names)
+      necessary_names <-
+        c("db.version", "dbname", "username", "host", "port")
+
+      for (name in necessary_names) {
+        eval(bquote(
+          expect_true(.(name) %in% info_names)))
+      }
+
       expect_false("password" %in% info_names)
     },
 
@@ -75,11 +91,17 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' package in a new R session.
     #' }
     stress_load_connect_unload = function() {
+      skip_on_travis()
+      skip_if_not(getRversion() != "3.3.0")
+
+      pkg <- get_pkg(ctx)
+
       script_file <- tempfile("DBItest", fileext = ".R")
       local({
         sink(script_file)
         on.exit(sink(), add = TRUE)
         cat(
+          "devtools::RCMD('INSTALL', ", shQuote(pkg$path), ")\n",
           "library(DBI, quietly = TRUE)\n",
           "connect_args <- ",
           sep = ""
@@ -87,22 +109,24 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
         dput(ctx$connect_args)
         cat(
           "for (i in 1:50) {\n",
-          "  drv <- ", package_name(ctx), "::", deparse(ctx$drv_call), "\n",
+          "  drv <- ", pkg$package, "::", deparse(ctx$drv_call), "\n",
           "  con <- do.call(dbConnect, c(drv, connect_args))\n",
           "  dbDisconnect(con)\n",
-          "  unloadNamespace(getNamespace(\"", package_name(ctx), "\"))\n",
+          "  unloadNamespace(getNamespace(\"", pkg$package, "\"))\n",
           "}\n",
           sep = ""
         )
       })
 
-      expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file)),
-                          ignore.stdout = TRUE),
-                   0L)
+      with_temp_libpaths({
+        expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file)),
+                            ignore.stdout = TRUE, ignore.stderr = TRUE),
+                     0L)
+      })
     },
 
     NULL
   )
   #'}
-  run_tests(tests, skip, test_suite)
+  run_tests(tests, skip, test_suite, ctx$name)
 }

@@ -22,10 +22,6 @@ This function defines the following tests:
 \item{\code{is_valid_connection}}{
 Only an open connection is valid.
 }
-\item{\code{get_exception}}{
-Exception is available after triggering an error, and changes when
-triggering a different error.
-}
 \item{\code{is_valid_result}}{
 Only an open result set is valid.
 }
@@ -40,6 +36,9 @@ Row count information is correct.
 }
 \item{\code{rows_affected}}{
 Information on affected rows is correct.
+}
+\item{\code{get_info_result}}{
+Return value of dbGetInfo has necessary elements
 }
 \item{\code{bind_empty_positional_qm}}{
 Empty positional binding (question mark syntax) with check of

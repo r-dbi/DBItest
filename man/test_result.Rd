@@ -24,7 +24,8 @@ Can issue trivial query, result object inherits from "DBIResult"
 }
 \item{\code{clear_result_return}}{
 Return value, currently tests that the return value is always
-\code{TRUE}.
+\code{TRUE}, and that an attempt to close a closed result set issues a
+warning.
 }
 \item{\code{stale_result_warning}}{
 Leaving a result open when closing a connection gives a warning
@@ -62,6 +63,9 @@ side-effect-only queries (without return value) can be fetched
 \item{\code{fetch_closed}}{
 Fetching from a closed result set raises an error
 }
+\item{\code{cannot_query_disconnected}}{
+Querying a disconnected connection throws error.
+}
 \item{\code{get_query_single}}{
 single-value queries can be read with dbGetQuery
 }
@@ -79,9 +83,6 @@ multi-row multi-column queries can be read with dbGetQuery
 }
 \item{\code{get_query_empty_multi_column}}{
 Empty multi-column queries can be read with dbGetQuery
-}
-\item{\code{table_visible_in_other_connection}}{
-A new table is visible in a second connection.
 }
 \item{\code{data_type_connection}}{
 SQL Data types exist for all basic R data types, and the engine can

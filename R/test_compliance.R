@@ -25,14 +25,21 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
 
       where <- asNamespace(pkg)
 
-      classes <- sort(getClasses(where))
-      expect_equal(length(classes), length(key_methods))
+      sapply(names(key_methods), function(name) {
+        dbi_class <- paste0("DBI", name)
+        
+        classes <- Filter(function(class) {
+          extends(class, dbi_class) && getClass(class)@virtual == FALSE
+        }, getClasses(where))
 
-      names(classes) <- sort(names(key_methods))
-      classes <- classes[names(key_methods)]
-
-      methods <- Map(function(g, c) test_has_methods(g, c, where),
-        key_methods, classes)
+        expect_gt(length(classes), 0)
+        
+        sapply(classes, function(class) {
+          mapply(function(method, args) {
+            expect_has_class_method(method, class, args, where)
+          }, names(key_methods[[name]]), key_methods[[name]])
+        })
+      })
     },
 
     #' \item{\code{read_only}}{
@@ -41,16 +48,17 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     read_only = function() {
       with_connection({
-        expect_error(dbWriteTable(con, "iris", iris))
+        expect_error(dbWriteTable(con, "test", data.frame(a = 1)))
       })
     },
 
     NULL
   )
   #'}
-  run_tests(tests, skip, test_suite)
+  run_tests(tests, skip, test_suite, ctx$name)
 }
 
+#' @importFrom methods hasMethod
 expect_has_class_method <- function(name, class, args, driver_package) {
   full_args <- c(class, args)
   eval(bquote(
@@ -81,7 +89,6 @@ key_methods <- list(
     "dbDisconnect" = NULL,
     "dbGetInfo" = NULL,
     "dbSendQuery" = "character",
-    "dbListResults" = NULL,
     "dbListFields" = "character",
     "dbListTables" = NULL,
     "dbReadTable" = "character",

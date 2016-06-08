@@ -1,10 +1,16 @@
-# DBItest [![Travis-CI Build Status](https://travis-ci.org/rstats-db/DBItest.svg?branch=master)](https://travis-ci.org/rstats-db/DBItest)
+# DBItest [![Travis-CI Build Status](https://travis-ci.org/rstats-db/DBItest.svg?branch=master)](https://travis-ci.org/rstats-db/DBItest) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DBItest)](https://cran.r-project.org/package=DBItest)
 
 This package provides a considerable set of test cases which you can easily incorporate in your DBI driver package.
 
 ## Usage
 
-Install using
+Install from CRAN via
+
+```r
+install.packages("DBItest")
+```
+
+or the development version using
 
 ```r
 devtools::install_github("rstats-db/DBItest")

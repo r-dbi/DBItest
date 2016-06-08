@@ -21,7 +21,10 @@ This function defines the following tests:
 \describe{
 \item{\code{can_connect_and_disconnect}}{
 Can connect and disconnect, connection object inherits from
-  "DBIConnection". Repeated disconnect throws error.
+  "DBIConnection".
+}
+\item{\code{cannot_disconnect_twice}}{
+Repeated disconnect throws warning.
 }
 \item{\code{simultaneous_connections}}{
 Open 50 simultaneous connections

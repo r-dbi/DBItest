@@ -6,7 +6,8 @@
 \alias{set_default_context}
 \title{Test contexts}
 \usage{
-make_context(drv, connect_args, set_as_default = TRUE)
+make_context(drv, connect_args, set_as_default = TRUE, tweaks = NULL,
+  name = NULL)
 
 set_default_context(ctx)
 
@@ -21,6 +22,12 @@ values).}
 
 \item{set_as_default}{\code{[logical(1)]}\cr Should the created context be
 set as default context?}
+
+\item{tweaks}{\code{[DBItest_tweaks]}\cr Tweaks as constructed by the
+\code{\link{tweaks}} function.}
+
+\item{name}{\code{[character]}\cr An optional name of the context which will 
+be used in test messages.}
 
 \item{ctx}{\code{[DBItest_context]}\cr A test context.}
 }

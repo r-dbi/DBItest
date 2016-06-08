@@ -27,22 +27,6 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
       expect_false(dbIsValid(con))
     },
 
-    #' \item{\code{get_exception}}{
-    #' Exception is available after triggering an error, and changes when
-    #' triggering a different error.
-    #' }
-    get_exception = function() {
-      with_connection({
-        expect_error(dbGetQuery(con, "SELECT SELECT"))
-        expect_error(ex1 <- dbGetException(con), NA)
-        expect_is(ex1, "character")
-        expect_error(dbGetQuery(con, "UPDATE UPDATE"))
-        expect_error(ex2 <- dbGetException(con), NA)
-        expect_is(ex2, "character")
-        expect_true(ex1 != ex2)
-      })
-    },
-
     #' \item{\code{is_valid_result}}{
     #' Only an open result set is valid.
     #' }
@@ -97,35 +81,36 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 0L)
+        expect_equal(rc, 0L)
         dbFetch(res)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 1L)
+        expect_equal(rc, 1L)
       })
 
       with_connection({
-        query <- union("SELECT 1 as a", "SELECT 2", "SELECT 3")
+        query <- union(.ctx = ctx, "SELECT 1 as a", "SELECT 2", "SELECT 3")
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 0L)
+        expect_equal(rc, 0L)
         dbFetch(res, 2L)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 2L)
+        expect_equal(rc, 2L)
         dbFetch(res)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 3L)
+        expect_equal(rc, 3L)
       })
 
       with_connection({
-        query <- union("SELECT * FROM (SELECT 1 as a) a WHERE (0 = 1)")
+        query <- union(
+          .ctx = ctx, "SELECT * FROM (SELECT 1 as a) a WHERE (0 = 1)")
         res <- dbSendQuery(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 0L)
+        expect_equal(rc, 0L)
         dbFetch(res)
         rc <- dbGetRowCount(res)
-        expect_identical(rc, 0L)
+        expect_equal(rc, 0L)
       })
     },
 
@@ -137,6 +122,8 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
                 add = TRUE)
+
+        iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
 
         local({
@@ -160,6 +147,26 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
 
           expect_identical(ra, 0L)
         })
+      })
+    },
+
+    #' \item{\code{get_info_result}}{
+    #' Return value of dbGetInfo has necessary elements
+    #' }
+    get_info_result = function() {
+      with_connection({
+        res <- dbSendQuery(con, "SELECT 1 as a")
+        info <- dbGetInfo(res)
+        expect_is(info, "list")
+        info_names <- names(info)
+
+        necessary_names <-
+          c("statement", "row.count", "rows.affected", "has.completed")
+
+        for (name in necessary_names) {
+          eval(bquote(
+            expect_true(.(name) %in% info_names)))
+        }
       })
     },
 
@@ -321,6 +328,10 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of raw values (question mark syntax).
     #' }
     bind_raw_positional_qm = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         test_select_bind(
           con, positional_qm, list(list(as.raw(1:10))),
@@ -488,6 +499,10 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of raw values (dollar syntax).
     #' }
     bind_raw_positional_dollar = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         test_select_bind(
           con, positional_dollar, list(list(as.raw(1:10))),
@@ -650,6 +665,10 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' syntax).
     #' }
     bind_timestamp_lt_named_colon = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         data_in <- as.POSIXlt(round(Sys.time()))
         test_select_bind(
@@ -840,6 +859,10 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Named binding of raw values (dollar syntax).
     #' }
     bind_raw_named_dollar = function() {
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       with_connection({
         test_select_bind(
           con, named_dollar, list(list(as.raw(1:10))),
@@ -849,8 +872,6 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
-    # dbListResults is unsupported in the existing backends
-
     # dbHasCompleted tested in test_result
 
     # no 64-bit or time input data type yet
@@ -858,7 +879,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     NULL
   )
   #'}
-  run_tests(tests, skip, test_suite)
+  run_tests(tests, skip, test_suite, ctx$name)
 }
 
 test_select_bind <- function(con, placeholder_fun, values,

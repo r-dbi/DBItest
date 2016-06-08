@@ -1,17 +1,39 @@
-# Sample .travis.yml for R projects
+# Info:
+# https://docs.travis-ci.com/user/languages/r/
+# https://docs.travis-ci.com/user/database-setup/#MySQL
 
 language: r
-warnings_are_errors: true
-sudo: required
+cache: packages
+sudo: false
 
-env:
-  global:
-    - NOT_CRAN=true
-    - LINTR_COMMENT_BOT=0
+services:
+  - MySQL
+  - postgresql
+addons:
+  postgresql: "9.4"
+  apt:
+    packages:
+      - libmysqlclient-dev
+      - libpq-dev
 
-r_binary_packages:
-  - igraph
+#r_check_revdep: true
 
+r_packages:
+  - roxygen2
+
+# Seems to be necessary with devtools 1.10.0, check again when the next version is on CRAN
 r_github_packages:
-  - krlmlr/DBI
+  - rstats-db/DBI
   - hadley/testthat
+
+before_install:
+  - mysql -e "CREATE DATABASE IF NOT EXISTS test;" -uroot
+  - mysql -e "GRANT ALL PRIVILEGES ON test.* TO 'travis'@'localhost'; FLUSH PRIVILEGES;" -uroot
+
+before_script:
+  - make --keep-going --directory=revdep-dev
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change
