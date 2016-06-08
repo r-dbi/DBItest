@@ -396,6 +396,15 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{bind_repeated_positional_dollar}}{
+    #' Positional binding of integer values (dollar syntax), repeated.
+    #' }
+    bind_repeated_positional_dollar = function() {
+      with_connection({
+        test_select_bind(con, positional_dollar, 1L, extra = "repeated")
+      })
+    },
+
     #' \item{\code{bind_integer_positional_dollar}}{
     #' Positional binding of integer values (dollar syntax).
     #' }
@@ -573,6 +582,15 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     bind_wrong_name_named_colon = function() {
       with_connection({
         test_select_bind(con, named_colon, 1L, extra = "wrong_name")
+      })
+    },
+
+    #' \item{\code{bind_repeated_named_colon}}{
+    #' Named binding of integer values (colon syntax), repeated.
+    #' }
+    bind_repeated_named_colon = function() {
+      with_connection({
+        test_select_bind(con, named_colon, 1L, extra = "repeated")
       })
     },
 
@@ -756,6 +774,15 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
       })
     },
 
+    #' \item{\code{bind_repeated_named_dollar}}{
+    #' Named binding of integer values (dollar syntax), repeated.
+    #' }
+    bind_repeated_named_dollar = function() {
+      with_connection({
+        test_select_bind(con, named_dollar, 1L, extra = "repeated")
+      })
+    },
+
     #' \item{\code{bind_integer_named_dollar}}{
     #' Named binding of integer values (dollar syntax).
     #' }
@@ -888,7 +915,7 @@ test_select_bind <- function(con, placeholder_fun, values,
                              transform_output = function(x) trimws(x, "right"),
                              expect = expect_identical,
                              extra = c("none", "return_value", "too_many",
-                                       "not_enough", "wrong_name")) {
+                                       "not_enough", "wrong_name", "repeated")) {
   extra <- match.arg(extra)
 
   placeholder <- placeholder_fun(length(values))
@@ -931,6 +958,13 @@ test_select_bind <- function(con, placeholder_fun, values,
 
   rows <- dbFetch(res)
   expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
+
+  if (extra == "repeated") {
+    dbBind(res, as.list(bind_values))
+
+    rows <- dbFetch(res)
+    expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
+  }
 }
 
 positional_qm <- function(n) {

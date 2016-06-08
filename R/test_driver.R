@@ -59,6 +59,8 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #'   The name of the constructor can be tweaked via \code{constructor_name}
     #'   in the context's \code{\link{tweaks}}, default: package name without
     #'   the leading R.
+    #'   This test is optional, the
+    #'   \code{constructor} test is a slightly weaker version.
     #' }
     constructor_strict = function() {
       pkg_name <- package_name(ctx)
@@ -118,6 +120,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     stress_load_unload = function() {
       skip_on_travis()
+      skip_if_not(getRversion() != "3.3.0")
 
       pkg <- get_pkg(ctx)
 
