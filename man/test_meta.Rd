@@ -112,6 +112,9 @@ values.
 Positional binding of integer values (dollar syntax) with too few
 values.
 }
+\item{\code{bind_repeated_positional_dollar}}{
+Positional binding of integer values (dollar syntax), repeated.
+}
 \item{\code{bind_integer_positional_dollar}}{
 Positional binding of integer values (dollar syntax).
 }
@@ -167,6 +170,9 @@ values.
 \item{\code{bind_wrong_name_named_colon}}{
 named binding of integer values (colon syntax) with wrong names.
 }
+\item{\code{bind_repeated_named_colon}}{
+Named binding of integer values (colon syntax), repeated.
+}
 \item{\code{bind_integer_named_colon}}{
 Named binding of integer values (colon syntax).
 }
@@ -221,6 +227,9 @@ values.
 }
 \item{\code{bind_wrong_name_named_dollar}}{
 named binding of integer values (dollar syntax) with wrong names.
+}
+\item{\code{bind_repeated_named_dollar}}{
+Named binding of integer values (dollar syntax), repeated.
 }
 \item{\code{bind_integer_named_dollar}}{
 Named binding of integer values (dollar syntax).

@@ -73,7 +73,9 @@ single-value queries can be read with dbGetQuery
 multi-row single-column queries can be read with dbGetQuery
 }
 \item{\code{get_query_empty_single_column}}{
-Empty single-column queries can be read with dbGetQuery
+Empty single-column queries can be read with
+\code{\link[DBI]{dbGetQuery}}. Not all SQL dialects support the query
+used here.
 }
 \item{\code{get_query_single_row_multi_column}}{
 single-row multi-column queries can be read with dbGetQuery
@@ -82,7 +84,9 @@ single-row multi-column queries can be read with dbGetQuery
 multi-row multi-column queries can be read with dbGetQuery
 }
 \item{\code{get_query_empty_multi_column}}{
-Empty multi-column queries can be read with dbGetQuery
+Empty multi-column queries can be read with
+\code{\link[DBI]{dbGetQuery}}. Not all SQL dialects support the query
+used here.
 }
 \item{\code{data_type_connection}}{
 SQL Data types exist for all basic R data types, and the engine can
@@ -112,7 +116,8 @@ data conversion from SQL to R: numeric with typed NULL values
 in the first row
 }
 \item{\code{data_logical}}{
-data conversion from SQL to R: logical
+data conversion from SQL to R: logical. Optional, conflict with the
+\code{data_logical_int} test.
 }
 \item{\code{data_logical_null_below}}{
 data conversion from SQL to R: logical with typed NULL values
@@ -122,7 +127,8 @@ data conversion from SQL to R: logical with typed NULL values
 in the first row
 }
 \item{\code{data_logical_int}}{
-data conversion from SQL to R: logical (as integers)
+data conversion from SQL to R: logical (as integers). Optional,
+conflict with the \code{data_logical} test.
 }
 \item{\code{data_logical_int_null_below}}{
 data conversion from SQL to R: logical (as integers) with typed NULL
@@ -157,7 +163,8 @@ data conversion from SQL to R: character with typed NULL values
 in the first row
 }
 \item{\code{data_raw}}{
-data conversion from SQL to R: raw
+data conversion from SQL to R: raw. Not all SQL dialects support the
+syntax of the query used here.
 }
 \item{\code{data_raw_null_below}}{
 data conversion from SQL to R: raw with typed NULL values
