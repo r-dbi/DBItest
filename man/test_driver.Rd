@@ -31,6 +31,8 @@ Package exports constructor function that has no arguments.
   The name of the constructor can be tweaked via \code{constructor_name}
   in the context's \code{\link{tweaks}}, default: package name without
   the leading R.
+  This test is optional, the
+  \code{constructor} test is a slightly weaker version.
 }
 \item{\code{constructor}}{
 Package exports constructor function, all arguments have default values.

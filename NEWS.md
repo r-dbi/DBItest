@@ -1,3 +1,10 @@
+# DBItest 1.2-1 (2016-06-08)
+
+- Add test for repeated `dbBind()` + `dbFetch()` on the same result set (#51).
+- Indicate that some tests are optional (#15).
+- Work around regression in R 3.3.0 (fix scheduled for R 3.3.1) which affected stress tests.
+
+
 # DBItest 1.2 (2016-05-21)
 
 - Infrastructure
