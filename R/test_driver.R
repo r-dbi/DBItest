@@ -59,6 +59,8 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #'   The name of the constructor can be tweaked via \code{constructor_name}
     #'   in the context's \code{\link{tweaks}}, default: package name without
     #'   the leading R.
+    #'   This test is optional, the
+    #'   \code{constructor} test is a slightly weaker version.
     #' }
     constructor_strict = function() {
       pkg_name <- package_name(ctx)
