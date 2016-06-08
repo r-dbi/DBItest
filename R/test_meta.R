@@ -397,7 +397,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{bind_repeated_positional_dollar}}{
-    #' TBD.
+    #' Positional binding of integer values (dollar syntax), repeated.
     #' }
     bind_repeated_positional_dollar = function() {
       with_connection({
