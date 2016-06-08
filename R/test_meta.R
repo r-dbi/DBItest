@@ -942,8 +942,7 @@ test_select_bind <- function(con, placeholder_fun, values,
   expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
 
   if (extra == "repeated") {
-    expect_warning(dbClearResult(res), NA)
-    bind_res <- withVisible(dbBind(res, as.list(bind_values)))
+    dbBind(res, as.list(bind_values))
 
     rows <- dbFetch(res)
     expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
