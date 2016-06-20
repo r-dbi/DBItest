@@ -25,11 +25,11 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
       expect_s4_class(ctx$drv, "DBIDriver")
     },
 
-    #' \item{\code{data_type}}{
+    #' \item{\code{data_type_driver}}{
     #' SQL Data types exist for all basic R data types. dbDataType() does not
     #' throw an error and returns a nonempty atomic character
     #' }
-    data_type = function() {
+    data_type_driver = function() {
       check_driver_data_type <- function(value) {
         eval(bquote({
           expect_is(dbDataType(ctx$drv, .(value)), "character")
@@ -120,6 +120,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     stress_load_unload = function() {
       skip_on_travis()
+      skip_on_appveyor()
       skip_if_not(getRversion() != "3.3.0")
 
       pkg <- get_pkg(ctx)

@@ -4,3 +4,4 @@
 ^\.lintr$
 ^cran-comments\.md$
 ^revdep-dev$
+^appveyor\.yml$
