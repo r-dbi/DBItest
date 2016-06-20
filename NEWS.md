@@ -1,3 +1,10 @@
+# DBItest 1.2-2 (2016-06-20)
+
+- Test on AppVeyor (#73).
+- Check returned strings for UTF-8 encoding (#72).
+- Test `dbDataType()` on connections (#69, #75, @imanuelcostigan).
+
+
 # DBItest 1.2-1 (2016-06-08)
 
 - Add test for repeated `dbBind()` + `dbFetch()` on the same result set (#51).
