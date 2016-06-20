@@ -283,7 +283,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{get_query_empty_single_column}}{
-    #' Empty single-column queries can be read with dbGetQuery
+    #' Empty single-column queries can be read with
+    #' \code{\link[DBI]{dbGetQuery}}. Not all SQL dialects support the query
+    #' used here.
     #' }
     get_query_empty_single_column = function() {
       with_connection({
@@ -321,7 +323,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{get_query_empty_multi_column}}{
-    #' Empty multi-column queries can be read with dbGetQuery
+    #' Empty multi-column queries can be read with
+    #' \code{\link[DBI]{dbGetQuery}}. Not all SQL dialects support the query
+    #' used here.
     #' }
     get_query_empty_multi_column = function() {
       with_connection({
@@ -452,7 +456,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{data_logical}}{
-    #' data conversion from SQL to R: logical
+    #' data conversion from SQL to R: logical. Optional, conflict with the
+    #' \code{data_logical_int} test.
     #' }
     data_logical = function() {
       with_connection({
@@ -485,7 +490,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{data_logical_int}}{
-    #' data conversion from SQL to R: logical (as integers)
+    #' data conversion from SQL to R: logical (as integers). Optional,
+    #' conflict with the \code{data_logical} test.
     #' }
     data_logical_int = function() {
       with_connection({
@@ -538,7 +544,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_64_bit = function() {
       with_connection({
         test_select(.ctx = ctx, con,
-                    "10000000000" = 10000000000, "-10000000000" = 10000000000)
+                    "10000000000" = 10000000000, "-10000000000" = -10000000000)
       })
     },
 
@@ -548,7 +554,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_64_bit_null_below = function() {
       with_connection({
         test_select(.ctx = ctx, con,
-                    "10000000000" = 10000000000, "-10000000000" = 10000000000,
+                    "10000000000" = 10000000000, "-10000000000" = -10000000000,
                     .add_null = "below")
       })
     },
@@ -560,7 +566,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_64_bit_null_above = function() {
       with_connection({
         test_select(.ctx = ctx, con,
-                    "10000000000" = 10000000000, "-10000000000" = 10000000000,
+                    "10000000000" = 10000000000, "-10000000000" = -10000000000,
                     .add_null = "above")
       })
     },
@@ -613,7 +619,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{data_raw}}{
-    #' data conversion from SQL to R: raw
+    #' data conversion from SQL to R: raw. Not all SQL dialects support the
+    #' syntax of the query used here.
     #' }
     data_raw = function() {
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {

@@ -23,6 +23,10 @@ This function defines the following tests:
 Can connect and disconnect, connection object inherits from
   "DBIConnection".
 }
+\item{\code{data_type_connection}}{
+SQL Data types exist for all basic R data types. dbDataType() does not
+throw an error and returns a nonempty atomic character
+}
 \item{\code{cannot_disconnect_twice}}{
 Repeated disconnect throws warning.
 }

@@ -44,7 +44,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         expect_warning(rows <- dbGetQuery(con, query), NA)
         expect_identical(rows$simple, "simple")
         expect_identical(rows$with_spaces, "with spaces")
-        expect_true(is.na(rows$null))
+        expect_true(is.na(rows$null_return))
         expect_identical(rows$na_return, "NA")
         expect_identical(rows$quoted_simple, as.character(simple))
         expect_identical(rows$quoted_with_spaces, as.character(with_spaces))
