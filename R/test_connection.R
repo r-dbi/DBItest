@@ -122,6 +122,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' }
     stress_load_connect_unload = function() {
       skip_on_travis()
+      skip_on_appveyor()
       skip_if_not(getRversion() != "3.3.0")
 
       pkg <- get_pkg(ctx)
