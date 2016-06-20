@@ -22,7 +22,7 @@ This function defines the following tests:
 \item{\code{inherits_from_driver}}{
 Driver inherits from "DBIDriver" class
 }
-\item{\code{data_type}}{
+\item{\code{data_type_driver}}{
 SQL Data types exist for all basic R data types. dbDataType() does not
 throw an error and returns a nonempty atomic character
 }
@@ -31,6 +31,8 @@ Package exports constructor function that has no arguments.
   The name of the constructor can be tweaked via \code{constructor_name}
   in the context's \code{\link{tweaks}}, default: package name without
   the leading R.
+  This test is optional, the
+  \code{constructor} test is a slightly weaker version.
 }
 \item{\code{constructor}}{
 Package exports constructor function, all arguments have default values.

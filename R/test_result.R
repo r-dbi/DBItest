@@ -283,7 +283,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{get_query_empty_single_column}}{
-    #' Empty single-column queries can be read with dbGetQuery
+    #' Empty single-column queries can be read with
+    #' \code{\link[DBI]{dbGetQuery}}. Not all SQL dialects support the query
+    #' used here.
     #' }
     get_query_empty_single_column = function() {
       with_connection({
@@ -321,7 +323,9 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{get_query_empty_multi_column}}{
-    #' Empty multi-column queries can be read with dbGetQuery
+    #' Empty multi-column queries can be read with
+    #' \code{\link[DBI]{dbGetQuery}}. Not all SQL dialects support the query
+    #' used here.
     #' }
     get_query_empty_multi_column = function() {
       with_connection({
@@ -452,7 +456,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{data_logical}}{
-    #' data conversion from SQL to R: logical
+    #' data conversion from SQL to R: logical. Optional, conflict with the
+    #' \code{data_logical_int} test.
     #' }
     data_logical = function() {
       with_connection({
@@ -485,7 +490,8 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     },
 
     #' \item{\code{data_logical_int}}{
-    #' data conversion from SQL to R: logical (as integers)
+    #' data conversion from SQL to R: logical (as integers). Optional,
+    #' conflict with the \code{data_logical} test.
     #' }
     data_logical_int = function() {
       with_connection({
@@ -571,8 +577,11 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_character = function() {
       with_connection({
         values <- texts
+        test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
         sql_names <- as.character(dbQuoteString(con, texts))
+
         test_select(.ctx = ctx, con, .dots = setNames(values, sql_names))
+        test_select(.ctx = ctx, con, .dots = setNames(test_funs, sql_names))
       })
     },
 
@@ -582,8 +591,12 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_character_null_below = function() {
       with_connection({
         values <- texts
+        test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
         sql_names <- as.character(dbQuoteString(con, texts))
+
         test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
+                    .add_null = "below")
+        test_select(.ctx = ctx, con, .dots = setNames(test_funs, sql_names),
                     .add_null = "below")
       })
     },
@@ -595,14 +608,19 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_character_null_above = function() {
       with_connection({
         values <- texts
+        test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
         sql_names <- as.character(dbQuoteString(con, texts))
+
         test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
+                    .add_null = "above")
+        test_select(.ctx = ctx, con, .dots = setNames(test_funs, sql_names),
                     .add_null = "above")
       })
     },
 
     #' \item{\code{data_raw}}{
-    #' data conversion from SQL to R: raw
+    #' data conversion from SQL to R: raw. Not all SQL dialects support the
+    #' syntax of the query used here.
     #' }
     data_raw = function() {
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {
@@ -1055,6 +1073,20 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
   } else {
     expect_equal(nrow(rows), 1L)
   }
+}
+
+has_utf8_or_ascii_encoding <- function(x) {
+  if (Encoding(x) == "UTF-8")
+    TRUE
+  else if (Encoding(x) == "unknown") {
+    # Characters encoded as "unknown" must be ASCII only, and remain "unknown"
+    # after attempting to assign an encoding. From ?Encoding :
+    # > ASCII strings will never be marked with a declared encoding, since their
+    # > representation is the same in all supported encodings.
+    Encoding(x) <- "UTF-8"
+    Encoding(x) == "unknown"
+  } else
+    FALSE
 }
 
 is_raw_list <- function(x) {
