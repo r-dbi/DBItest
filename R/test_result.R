@@ -577,7 +577,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_character = function() {
       with_connection({
         values <- texts
-        test_funs <- rep(list(is_ascii_or_has_utf8_encoding), length(values))
+        test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
         sql_names <- as.character(dbQuoteString(con, texts))
 
         test_select(.ctx = ctx, con, .dots = setNames(values, sql_names))
@@ -591,7 +591,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_character_null_below = function() {
       with_connection({
         values <- texts
-        test_funs <- rep(list(is_ascii_or_has_utf8_encoding), length(values))
+        test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
         sql_names <- as.character(dbQuoteString(con, texts))
 
         test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
@@ -608,7 +608,7 @@ test_result <- function(skip = NULL, ctx = get_default_context()) {
     data_character_null_above = function() {
       with_connection({
         values <- texts
-        test_funs <- rep(list(is_ascii_or_has_utf8_encoding), length(values))
+        test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
         sql_names <- as.character(dbQuoteString(con, texts))
 
         test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
@@ -1075,7 +1075,7 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
   }
 }
 
-is_ascii_or_has_utf8_encoding <- function(x) {
+has_utf8_or_ascii_encoding <- function(x) {
   if (Encoding(x) == "UTF-8")
     TRUE
   else if (Encoding(x) == "unknown") {
