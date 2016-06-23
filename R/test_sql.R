@@ -492,7 +492,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_out <- dbReadTable(con, "test")
         expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
 
-        expect_true(has_utf8_or_ascii_encoding(tbl_out$a))
+        expect_true(all_have_utf8_or_ascii_encoding(tbl_out$a))
       })
     },
 
@@ -511,7 +511,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         tbl_out <- dbReadTable(con, "test")
         expect_identical(as.character(tbl_in$a), tbl_out$a[order(tbl_out$id)])
 
-        expect_true(has_utf8_or_ascii_encoding(tbl_out$a))
+        expect_true(all_have_utf8_or_ascii_encoding(tbl_out$a))
       })
     },
 
@@ -600,4 +600,8 @@ get_iris <- function(ctx) {
     names(datasets_iris) <- gsub(".", "_", names(datasets_iris), fixed = TRUE)
   }
   datasets_iris
+}
+
+all_have_utf8_or_ascii_encoding <- function(x) {
+  all(vapply(x, has_utf8_or_ascii_encoding, logical(1L)))
 }
