@@ -173,7 +173,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
         iris_out <- dbReadTable(con, "iris")
         order_out <- do.call(order, iris_out)
 
-        expect_identical(iris_in[order_in, ], iris_out[order_out, ])
+        expect_identical(unrowname(iris_in[order_in, ]), unrowname(iris_out[order_out, ]))
       })
     },
 
@@ -600,6 +600,11 @@ get_iris <- function(ctx) {
     names(datasets_iris) <- gsub(".", "_", names(datasets_iris), fixed = TRUE)
   }
   datasets_iris
+}
+
+unrowname <- function(x) {
+  rownames(x) <- NULL
+  x
 }
 
 all_have_utf8_or_ascii_encoding <- function(x) {
