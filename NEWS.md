@@ -1,3 +1,9 @@
+# DBItest 1.2-3 (2016-06-23)
+
+- Fix `read_table` test when the backend actually returns the data in a different order.
+- New `all_have_utf8_or_ascii_encoding()` which vectorizes `has_utf8_or_ascii_encoding()`.
+
+
 # DBItest 1.2-2 (2016-06-20)
 
 - Test on AppVeyor (#73).
