@@ -7,7 +7,7 @@ NULL
 #' Test the "Connection" class
 #'
 #' @inheritParams test_all
-#' @include test_driver.R
+#' @include test-driver.R
 #' @family tests
 #' @importFrom withr with_temp_libpaths
 #' @importFrom methods is

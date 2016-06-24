@@ -23,6 +23,8 @@ License: LGPL (>= 2)
 LazyData: true
 Encoding: UTF-8
 BugReports: https://github.com/rstats-db/DBItest/issues
+RoxygenNote: 5.0.1
+VignetteBuilder: knitr
 Collate:
     'DBItest.R'
     'context.R'
@@ -30,16 +32,14 @@ Collate:
     'import-dbi.R'
     'import-testthat.R'
     'run.R'
-    'test_all.R'
-    'test_getting_started.R'
-    'test_driver.R'
-    'test_connection.R'
-    'test_result.R'
-    'test_sql.R'
-    'test_meta.R'
-    'test_compliance.R'
+    'test-all.R'
+    'test-getting-started.R'
+    'test-driver.R'
+    'test-connection.R'
+    'test-result.R'
+    'test-sql.R'
+    'test-meta.R'
+    'test-compliance.R'
     'tweaks.R'
     'utf8.R'
     'utils.R'
-RoxygenNote: 5.0.1
-VignetteBuilder: knitr

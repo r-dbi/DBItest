@@ -10,7 +10,7 @@ NULL
 #' and test-first development right from the start.
 #'
 #' @inheritParams test_all
-#' @include test_all.R
+#' @include test-all.R
 #' @family tests
 #' @export
 test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
