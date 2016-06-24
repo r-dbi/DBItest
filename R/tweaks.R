@@ -28,8 +28,9 @@
     #'   resulting query returns the concatenated results of the subqueries
     "union",
 
-    # Dummy placeholder
-    NULL
+    #' @param ... \code{[any]}\cr
+    #'   Unknown tweaks are accepted, with a warning.
+    "..."
   )
 }
 
@@ -37,11 +38,17 @@
 make_tweaks <- function(envir = parent.frame()) {
   fmls <- vector(mode = "list", length(tweak_names))
   names(fmls) <- tweak_names
+  fmls["..."] <- alist(`...` = )
 
   tweak_quoted <- lapply(setNames(nm = tweak_names), as.name)
+  tweak_quoted <- c(tweak_quoted)
   list_call <- as.call(c(quote(list), tweak_quoted))
 
   fun <- eval(bquote(function() {
+    unknown <- list(...)
+    if (length(unknown) > 0) {
+      warning("Unknown tweaks: ", paste(names(unknown), collapse = ", "))
+    }
     ret <- .(list_call)
     ret <- ret[!vapply(ret, is.null, logical(1L))]
     structure(ret, class = "DBItest_tweaks")
