@@ -38,6 +38,7 @@ Collate:
     'spec-connection.R'
     'spec-result.R'
     'spec-sql.R'
+    'spec-meta.R'
     'spec-.R'
     'test-all.R'
     'test-getting-started.R'

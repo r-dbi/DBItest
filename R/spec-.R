@@ -1,5 +1,6 @@
 # reverse order
 
+#' @include spec-meta.R
 #' @include spec-sql.R
 #' @include spec-result.R
 #' @include spec-connection.R
