@@ -7,7 +7,7 @@ NULL
 #' Test the "Driver" class
 #'
 #' @inheritParams test_all
-#' @include test_getting_started.R
+#' @include test-getting-started.R
 #' @family tests
 #' @importFrom withr with_temp_libpaths
 #' @export
@@ -21,7 +21,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{inherits_from_driver}}{
     #' Driver inherits from "DBIDriver" class
     #' }
-    inherits_from_driver = function() {
+    inherits_from_driver = function(ctx) {
       expect_s4_class(ctx$drv, "DBIDriver")
     },
 
@@ -29,7 +29,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #' SQL Data types exist for all basic R data types. dbDataType() does not
     #' throw an error and returns a nonempty atomic character
     #' }
-    data_type_driver = function() {
+    data_type_driver = function(ctx) {
       check_driver_data_type <- function(value) {
         eval(bquote({
           expect_is(dbDataType(ctx$drv, .(value)), "character")
@@ -62,7 +62,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #'   This test is optional, the
     #'   \code{constructor} test is a slightly weaker version.
     #' }
-    constructor_strict = function() {
+    constructor_strict = function(ctx) {
       pkg_name <- package_name(ctx)
 
       constructor_name <- ctx$tweaks$constructor_name %||%
@@ -83,7 +83,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #'   in the context's \code{\link{tweaks}}, default: package name without
     #'   the leading R (if it exists).
     #' }
-    constructor = function() {
+    constructor = function(ctx) {
       pkg_name <- package_name(ctx)
 
       constructor_name <- ctx$tweaks$constructor_name %||%
@@ -101,7 +101,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{get_info_driver}}{
     #' Return value of dbGetInfo has necessary elements
     #' }
-    get_info_driver = function() {
+    get_info_driver = function(ctx) {
       info <- dbGetInfo(ctx$drv)
       expect_is(info, "list")
       info_names <- names(info)
@@ -118,7 +118,7 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{stress_load_unload}}{
     #' Repeated load, instantiation, and unload of package in a new R session.
     #' }
-    stress_load_unload = function() {
+    stress_load_unload = function(ctx) {
       skip_on_travis()
       skip_on_appveyor()
       skip_if_not(getRversion() != "3.3.0")
@@ -146,5 +146,5 @@ test_driver <- function(skip = NULL, ctx = get_default_context()) {
     NULL
   )
   #'}
-  run_tests(tests, skip, test_suite, ctx$name)
+  run_tests(ctx, tests, skip, test_suite)
 }

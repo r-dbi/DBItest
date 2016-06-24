@@ -7,7 +7,7 @@ NULL
 #' Test metadata functions
 #'
 #' @inheritParams test_all
-#' @include test_sql.R
+#' @include test-sql.R
 #' @family tests
 #' @export
 test_meta <- function(skip = NULL, ctx = get_default_context()) {
@@ -20,7 +20,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{is_valid_connection}}{
     #' Only an open connection is valid.
     #' }
-    is_valid_connection = function() {
+    is_valid_connection = function(ctx) {
       con <- connect(ctx)
       expect_true(dbIsValid(con))
       expect_error(dbDisconnect(con), NA)
@@ -30,7 +30,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{is_valid_result}}{
     #' Only an open result set is valid.
     #' }
-    is_valid_result = function() {
+    is_valid_result = function(ctx) {
       with_connection({
         query <- "SELECT 1 as a"
         res <- dbSendQuery(con, query)
@@ -45,7 +45,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{get_statement}}{
     #' SQL query can be retrieved from the result.
     #' }
-    get_statement = function() {
+    get_statement = function(ctx) {
       with_connection({
         query <- "SELECT 1 as a"
         res <- dbSendQuery(con, query)
@@ -59,7 +59,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{column_info}}{
     #' Column information is correct.
     #' }
-    column_info = function() {
+    column_info = function(ctx) {
       with_connection({
         query <- "SELECT 1 as a, 1.5 as b, NULL"
         expect_warning(res <- dbSendQuery(con, query), NA)
@@ -75,7 +75,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{row_count}}{
     #' Row count information is correct.
     #' }
-    row_count = function() {
+    row_count = function(ctx) {
       with_connection({
         query <- "SELECT 1 as a"
         res <- dbSendQuery(con, query)
@@ -117,7 +117,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{rows_affected}}{
     #' Information on affected rows is correct.
     #' }
-    rows_affected = function() {
+    rows_affected = function(ctx) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
@@ -153,7 +153,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{get_info_result}}{
     #' Return value of dbGetInfo has necessary elements
     #' }
-    get_info_result = function() {
+    get_info_result = function(ctx) {
       with_connection({
         res <- dbSendQuery(con, "SELECT 1 as a")
         info <- dbGetInfo(res)
@@ -174,7 +174,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Empty positional binding (question mark syntax) with check of
     #' return value.
     #' }
-    bind_empty_positional_qm = function() {
+    bind_empty_positional_qm = function(ctx) {
       with_connection({
         res <- dbSendQuery(con, "SELECT 1")
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
@@ -189,7 +189,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of integer values (question mark syntax) raises an
     #' error if connection is closed.
     #' }
-    bind_error_positional_qm = function() {
+    bind_error_positional_qm = function(ctx) {
       con <- connect(ctx)
       dbDisconnect(con)
       expect_error(test_select_bind(con, positional_qm, 1L))
@@ -199,7 +199,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of integer values (question mark syntax) with check of
     #' return value.
     #' }
-    bind_return_value_positional_qm = function() {
+    bind_return_value_positional_qm = function(ctx) {
       with_connection({
         test_select_bind(con, positional_qm, 1L, extra = "return_value")
       })
@@ -209,7 +209,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of integer values (question mark syntax) with too many
     #' values.
     #' }
-    bind_too_many_positional_qm = function() {
+    bind_too_many_positional_qm = function(ctx) {
       with_connection({
         test_select_bind(con, positional_qm, 1L, extra = "too_many")
       })
@@ -219,7 +219,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of integer values (question mark syntax) with too few
     #' values.
     #' }
-    bind_not_enough_positional_qm = function() {
+    bind_not_enough_positional_qm = function(ctx) {
       with_connection({
         test_select_bind(con, positional_qm, 1L, extra = "not_enough")
       })
@@ -228,7 +228,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_integer_positional_qm}}{
     #' Positional binding of integer values (question mark syntax).
     #' }
-    bind_integer_positional_qm = function() {
+    bind_integer_positional_qm = function(ctx) {
       with_connection({
         test_select_bind(con, positional_qm, 1L)
       })
@@ -237,7 +237,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_numeric_positional_qm}}{
     #' Positional binding of numeric values (question mark syntax).
     #' }
-    bind_numeric_positional_qm = function() {
+    bind_numeric_positional_qm = function(ctx) {
       with_connection({
         test_select_bind(con, positional_qm, 1.5)
       })
@@ -246,7 +246,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_logical_positional_qm}}{
     #' Positional binding of logical values (question mark syntax).
     #' }
-    bind_logical_positional_qm = function() {
+    bind_logical_positional_qm = function(ctx) {
       with_connection({
         test_select_bind(con, positional_qm, TRUE)
       })
@@ -256,7 +256,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of logical values (coerced to integer, question mark
     #' syntax).
     #' }
-    bind_logical_int_positional_qm = function() {
+    bind_logical_int_positional_qm = function(ctx) {
       with_connection({
         test_select_bind(
           con, positional_qm, TRUE,
@@ -267,7 +267,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_null_positional_qm}}{
     #' Positional binding of \code{NULL} values (question mark syntax).
     #' }
-    bind_null_positional_qm = function() {
+    bind_null_positional_qm = function(ctx) {
       with_connection({
         test_select_bind(
           con, positional_qm, NA,
@@ -279,7 +279,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_character_positional_qm}}{
     #' Positional binding of character values (question mark syntax).
     #' }
-    bind_character_positional_qm = function() {
+    bind_character_positional_qm = function(ctx) {
       with_connection({
         test_select_bind(con, positional_qm, texts)
       })
@@ -288,7 +288,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_date_positional_qm}}{
     #' Positional binding of date values (question mark syntax).
     #' }
-    bind_date_positional_qm = function() {
+    bind_date_positional_qm = function(ctx) {
       with_connection({
         test_select_bind(con, positional_qm, Sys.Date())
       })
@@ -297,7 +297,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_timestamp_positional_qm}}{
     #' Positional binding of timestamp values (question mark syntax).
     #' }
-    bind_timestamp_positional_qm = function() {
+    bind_timestamp_positional_qm = function(ctx) {
       with_connection({
         data_in <- as.POSIXct(round(Sys.time()))
         test_select_bind(
@@ -313,7 +313,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of \code{\link{POSIXlt}} timestamp values (question
     #' mark syntax).
     #' }
-    bind_timestamp_lt_positional_qm = function() {
+    bind_timestamp_lt_positional_qm = function(ctx) {
       with_connection({
         data_in <- as.POSIXlt(round(Sys.time()))
         test_select_bind(
@@ -327,7 +327,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_raw_positional_qm}}{
     #' Positional binding of raw values (question mark syntax).
     #' }
-    bind_raw_positional_qm = function() {
+    bind_raw_positional_qm = function(ctx) {
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {
         skip("tweak: omit_blob_tests")
       }
@@ -345,7 +345,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Empty positional binding (dollar syntax) with check of
     #' return value.
     #' }
-    bind_empty_positional_dollar = function() {
+    bind_empty_positional_dollar = function(ctx) {
       with_connection({
         res <- dbSendQuery(con, "SELECT 1")
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
@@ -360,7 +360,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of integer values (dollar syntax) raises an
     #' error if connection is closed.
     #' }
-    bind_error_positional_dollar = function() {
+    bind_error_positional_dollar = function(ctx) {
       con <- connect(ctx)
       dbDisconnect(con)
       expect_error(test_select_bind(con, positional_dollar, 1L))
@@ -370,7 +370,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of integer values (dollar syntax) with check of
     #' return value.
     #' }
-    bind_return_value_positional_dollar = function() {
+    bind_return_value_positional_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, positional_dollar, 1L, extra = "return_value")
       })
@@ -380,7 +380,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of integer values (dollar syntax) with too many
     #' values.
     #' }
-    bind_too_many_positional_dollar = function() {
+    bind_too_many_positional_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, positional_dollar, 1L, extra = "too_many")
       })
@@ -390,7 +390,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of integer values (dollar syntax) with too few
     #' values.
     #' }
-    bind_not_enough_positional_dollar = function() {
+    bind_not_enough_positional_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, positional_dollar, 1L, extra = "not_enough")
       })
@@ -399,7 +399,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_repeated_positional_dollar}}{
     #' Positional binding of integer values (dollar syntax), repeated.
     #' }
-    bind_repeated_positional_dollar = function() {
+    bind_repeated_positional_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, positional_dollar, 1L, extra = "repeated")
       })
@@ -408,7 +408,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_integer_positional_dollar}}{
     #' Positional binding of integer values (dollar syntax).
     #' }
-    bind_integer_positional_dollar = function() {
+    bind_integer_positional_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, positional_dollar, 1L)
       })
@@ -417,7 +417,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_numeric_positional_dollar}}{
     #' Positional binding of numeric values (dollar syntax).
     #' }
-    bind_numeric_positional_dollar = function() {
+    bind_numeric_positional_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, positional_dollar, 1.5)
       })
@@ -426,7 +426,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_logical_positional_dollar}}{
     #' Positional binding of logical values (dollar syntax).
     #' }
-    bind_logical_positional_dollar = function() {
+    bind_logical_positional_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, positional_dollar, TRUE)
       })
@@ -436,7 +436,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of logical values (coerced to integer, dollar
     #' syntax).
     #' }
-    bind_logical_int_positional_dollar = function() {
+    bind_logical_int_positional_dollar = function(ctx) {
       with_connection({
         test_select_bind(
           con, positional_dollar, TRUE,
@@ -447,7 +447,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_null_positional_dollar}}{
     #' Positional binding of \code{NULL} values (dollar syntax).
     #' }
-    bind_null_positional_dollar = function() {
+    bind_null_positional_dollar = function(ctx) {
       with_connection({
         test_select_bind(
           con, positional_dollar, NA,
@@ -459,7 +459,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_character_positional_dollar}}{
     #' Positional binding of character values (dollar syntax).
     #' }
-    bind_character_positional_dollar = function() {
+    bind_character_positional_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, positional_dollar, texts)
       })
@@ -468,7 +468,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_date_positional_dollar}}{
     #' Positional binding of date values (dollar syntax).
     #' }
-    bind_date_positional_dollar = function() {
+    bind_date_positional_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, positional_dollar, Sys.Date())
       })
@@ -477,7 +477,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_timestamp_positional_dollar}}{
     #' Positional binding of timestamp values (dollar syntax).
     #' }
-    bind_timestamp_positional_dollar = function() {
+    bind_timestamp_positional_dollar = function(ctx) {
       with_connection({
         data_in <- as.POSIXct(round(Sys.time()))
         test_select_bind(
@@ -493,7 +493,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Positional binding of \code{\link{POSIXlt}} timestamp values (dollar
     #' syntax).
     #' }
-    bind_timestamp_lt_positional_dollar = function() {
+    bind_timestamp_lt_positional_dollar = function(ctx) {
       with_connection({
         data_in <- as.POSIXlt(round(Sys.time()))
         test_select_bind(
@@ -507,7 +507,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_raw_positional_dollar}}{
     #' Positional binding of raw values (dollar syntax).
     #' }
-    bind_raw_positional_dollar = function() {
+    bind_raw_positional_dollar = function(ctx) {
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {
         skip("tweak: omit_blob_tests")
       }
@@ -525,7 +525,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Empty named binding (colon syntax) with check of
     #' return value.
     #' }
-    bind_empty_named_colon = function() {
+    bind_empty_named_colon = function(ctx) {
       with_connection({
         res <- dbSendQuery(con, "SELECT 1")
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
@@ -540,7 +540,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' named binding of integer values (colon syntax) raises an
     #' error if connection is closed.
     #' }
-    bind_error_named_colon = function() {
+    bind_error_named_colon = function(ctx) {
       con <- connect(ctx)
       dbDisconnect(con)
       expect_error(test_select_bind(con, named_colon, 1L))
@@ -550,7 +550,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' named binding of integer values (colon syntax) with check of
     #' return value.
     #' }
-    bind_return_value_named_colon = function() {
+    bind_return_value_named_colon = function(ctx) {
       with_connection({
         test_select_bind(con, named_colon, 1L, extra = "return_value")
       })
@@ -560,7 +560,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' named binding of integer values (colon syntax) with too many
     #' values.
     #' }
-    bind_too_many_named_colon = function() {
+    bind_too_many_named_colon = function(ctx) {
       with_connection({
         test_select_bind(con, named_colon, 1L, extra = "too_many")
       })
@@ -570,7 +570,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' named binding of integer values (colon syntax) with too few
     #' values.
     #' }
-    bind_not_enough_named_colon = function() {
+    bind_not_enough_named_colon = function(ctx) {
       with_connection({
         test_select_bind(con, named_colon, 1L, extra = "not_enough")
       })
@@ -579,7 +579,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_wrong_name_named_colon}}{
     #' named binding of integer values (colon syntax) with wrong names.
     #' }
-    bind_wrong_name_named_colon = function() {
+    bind_wrong_name_named_colon = function(ctx) {
       with_connection({
         test_select_bind(con, named_colon, 1L, extra = "wrong_name")
       })
@@ -588,7 +588,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_repeated_named_colon}}{
     #' Named binding of integer values (colon syntax), repeated.
     #' }
-    bind_repeated_named_colon = function() {
+    bind_repeated_named_colon = function(ctx) {
       with_connection({
         test_select_bind(con, named_colon, 1L, extra = "repeated")
       })
@@ -597,7 +597,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_integer_named_colon}}{
     #' Named binding of integer values (colon syntax).
     #' }
-    bind_integer_named_colon = function() {
+    bind_integer_named_colon = function(ctx) {
       with_connection({
         test_select_bind(con, named_colon, 1L)
       })
@@ -606,7 +606,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_numeric_named_colon}}{
     #' Named binding of numeric values (colon syntax).
     #' }
-    bind_numeric_named_colon = function() {
+    bind_numeric_named_colon = function(ctx) {
       with_connection({
         test_select_bind(con, named_colon, 1.5)
       })
@@ -615,7 +615,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_logical_named_colon}}{
     #' Named binding of logical values (colon syntax).
     #' }
-    bind_logical_named_colon = function() {
+    bind_logical_named_colon = function(ctx) {
       with_connection({
         test_select_bind(con, named_colon, TRUE)
       })
@@ -625,7 +625,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Named binding of logical values (coerced to integer, colon
     #' syntax).
     #' }
-    bind_logical_int_named_colon = function() {
+    bind_logical_int_named_colon = function(ctx) {
       with_connection({
         test_select_bind(
           con, named_colon, TRUE,
@@ -636,7 +636,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_null_named_colon}}{
     #' Named binding of \code{NULL} values (colon syntax).
     #' }
-    bind_null_named_colon = function() {
+    bind_null_named_colon = function(ctx) {
       with_connection({
         test_select_bind(
           con, named_colon, NA,
@@ -648,7 +648,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_character_named_colon}}{
     #' Named binding of character values (colon syntax).
     #' }
-    bind_character_named_colon = function() {
+    bind_character_named_colon = function(ctx) {
       with_connection({
         test_select_bind(con, named_colon, texts)
       })
@@ -657,7 +657,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_date_named_colon}}{
     #' Named binding of date values (colon syntax).
     #' }
-    bind_date_named_colon = function() {
+    bind_date_named_colon = function(ctx) {
       with_connection({
         test_select_bind(con, named_colon, Sys.Date())
       })
@@ -666,7 +666,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_timestamp_named_colon}}{
     #' Named binding of timestamp values (colon syntax).
     #' }
-    bind_timestamp_named_colon = function() {
+    bind_timestamp_named_colon = function(ctx) {
       with_connection({
         data_in <- as.POSIXct(round(Sys.time()))
         test_select_bind(
@@ -682,7 +682,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Named binding of \code{\link{POSIXlt}} timestamp values (colon
     #' syntax).
     #' }
-    bind_timestamp_lt_named_colon = function() {
+    bind_timestamp_lt_named_colon = function(ctx) {
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {
         skip("tweak: omit_blob_tests")
       }
@@ -700,7 +700,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_raw_named_colon}}{
     #' Named binding of raw values (colon syntax).
     #' }
-    bind_raw_named_colon = function() {
+    bind_raw_named_colon = function(ctx) {
       with_connection({
         test_select_bind(
           con, named_colon, list(list(as.raw(1:10))),
@@ -714,7 +714,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Empty named binding (dollar syntax) with check of
     #' return value.
     #' }
-    bind_empty_named_dollar = function() {
+    bind_empty_named_dollar = function(ctx) {
       with_connection({
         res <- dbSendQuery(con, "SELECT 1")
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
@@ -729,7 +729,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' named binding of integer values (dollar syntax) raises an
     #' error if connection is closed.
     #' }
-    bind_error_named_dollar = function() {
+    bind_error_named_dollar = function(ctx) {
       con <- connect(ctx)
       dbDisconnect(con)
       expect_error(test_select_bind(con, named_dollar, 1L))
@@ -739,7 +739,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' named binding of integer values (dollar syntax) with check of
     #' return value.
     #' }
-    bind_return_value_named_dollar = function() {
+    bind_return_value_named_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, named_dollar, 1L, extra = "return_value")
       })
@@ -749,7 +749,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' named binding of integer values (dollar syntax) with too many
     #' values.
     #' }
-    bind_too_many_named_dollar = function() {
+    bind_too_many_named_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, named_dollar, 1L, extra = "too_many")
       })
@@ -759,7 +759,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' named binding of integer values (dollar syntax) with too few
     #' values.
     #' }
-    bind_not_enough_named_dollar = function() {
+    bind_not_enough_named_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, named_dollar, 1L, extra = "not_enough")
       })
@@ -768,7 +768,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_wrong_name_named_dollar}}{
     #' named binding of integer values (dollar syntax) with wrong names.
     #' }
-    bind_wrong_name_named_dollar = function() {
+    bind_wrong_name_named_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, named_dollar, 1L, extra = "wrong_name")
       })
@@ -777,7 +777,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_repeated_named_dollar}}{
     #' Named binding of integer values (dollar syntax), repeated.
     #' }
-    bind_repeated_named_dollar = function() {
+    bind_repeated_named_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, named_dollar, 1L, extra = "repeated")
       })
@@ -786,7 +786,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_integer_named_dollar}}{
     #' Named binding of integer values (dollar syntax).
     #' }
-    bind_integer_named_dollar = function() {
+    bind_integer_named_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, named_dollar, 1L)
       })
@@ -795,7 +795,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_numeric_named_dollar}}{
     #' Named binding of numeric values (dollar syntax).
     #' }
-    bind_numeric_named_dollar = function() {
+    bind_numeric_named_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, named_dollar, 1.5)
       })
@@ -804,7 +804,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_logical_named_dollar}}{
     #' Named binding of logical values (dollar syntax).
     #' }
-    bind_logical_named_dollar = function() {
+    bind_logical_named_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, named_dollar, TRUE)
       })
@@ -814,7 +814,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Named binding of logical values (coerced to integer, dollar
     #' syntax).
     #' }
-    bind_logical_int_named_dollar = function() {
+    bind_logical_int_named_dollar = function(ctx) {
       with_connection({
         test_select_bind(
           con, named_dollar, TRUE,
@@ -825,7 +825,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_null_named_dollar}}{
     #' Named binding of \code{NULL} values (dollar syntax).
     #' }
-    bind_null_named_dollar = function() {
+    bind_null_named_dollar = function(ctx) {
       with_connection({
         test_select_bind(
           con, named_dollar, NA,
@@ -837,7 +837,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_character_named_dollar}}{
     #' Named binding of character values (dollar syntax).
     #' }
-    bind_character_named_dollar = function() {
+    bind_character_named_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, named_dollar, texts)
       })
@@ -846,7 +846,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_date_named_dollar}}{
     #' Named binding of date values (dollar syntax).
     #' }
-    bind_date_named_dollar = function() {
+    bind_date_named_dollar = function(ctx) {
       with_connection({
         test_select_bind(con, named_dollar, Sys.Date())
       })
@@ -855,7 +855,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_timestamp_named_dollar}}{
     #' Named binding of timestamp values (dollar syntax).
     #' }
-    bind_timestamp_named_dollar = function() {
+    bind_timestamp_named_dollar = function(ctx) {
       with_connection({
         data_in <- as.POSIXct(round(Sys.time()))
         test_select_bind(
@@ -871,7 +871,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' Named binding of \code{\link{POSIXlt}} timestamp values (dollar
     #' syntax).
     #' }
-    bind_timestamp_lt_named_dollar = function() {
+    bind_timestamp_lt_named_dollar = function(ctx) {
       with_connection({
         data_in <- as.POSIXlt(round(Sys.time()))
         test_select_bind(
@@ -885,7 +885,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{bind_raw_named_dollar}}{
     #' Named binding of raw values (dollar syntax).
     #' }
-    bind_raw_named_dollar = function() {
+    bind_raw_named_dollar = function(ctx) {
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {
         skip("tweak: omit_blob_tests")
       }
@@ -906,7 +906,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     NULL
   )
   #'}
-  run_tests(tests, skip, test_suite, ctx$name)
+  run_tests(ctx, tests, skip, test_suite)
 }
 
 test_select_bind <- function(con, placeholder_fun, values,

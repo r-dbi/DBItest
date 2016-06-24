@@ -10,7 +10,7 @@ NULL
 #' and test-first development right from the start.
 #'
 #' @inheritParams test_all
-#' @include test_all.R
+#' @include test-all.R
 #' @family tests
 #' @export
 test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
@@ -23,7 +23,7 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{has_context}}{
     #' \code{make_context()} must be called before calling any of the
     #' \code{test_} functions in this package}
-    has_context = function() {
+    has_context = function(ctx) {
       expect_is((ctx), "DBItest_context")
     },
 
@@ -31,7 +31,7 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
     #' Can relate the driver to an installed (or devtools-loaded) package;
     #' package depends (!) on "DBI" and imports "methods"}. This test requires
     #' the \code{devtools} package and will be skipped if it is not installed.
-    package_dependencies = function() {
+    package_dependencies = function(ctx) {
       pkg <- get_pkg(ctx)
 
       pkg_imports <- devtools::parse_deps(pkg$imports)$name
@@ -42,7 +42,7 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{package_name}}{
     #' Optional: Package name starts with R.
     #' }
-    package_name = function() {
+    package_name = function(ctx) {
       pkg_name <- package_name(ctx)
       expect_match(pkg_name, "^R")
     },
@@ -50,7 +50,7 @@ test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
     NULL
   )
   #'}
-  run_tests(tests, skip, test_suite, ctx$name)
+  run_tests(ctx, tests, skip, test_suite)
 }
 
 get_pkg <- function(ctx) {

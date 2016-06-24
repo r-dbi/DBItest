@@ -4,12 +4,22 @@
 \alias{tweaks}
 \title{Tweaks for DBI tests}
 \usage{
-tweaks(constructor_name = NULL, strict_identifier = NULL,
-  omit_blob_tests = NULL, current_needs_parens = NULL, union = NULL)
+tweaks(..., constructor_name = NULL, constructor_relax_args = NULL,
+  strict_identifier = NULL, omit_blob_tests = NULL,
+  current_needs_parens = NULL, union = NULL)
 }
 \arguments{
+\item{...}{\code{[any]}\cr
+Unknown tweaks are accepted, with a warning.  The ellipsis
+also asserts that all arguments are named.}
+
 \item{constructor_name}{\code{[character(1)]}\cr
 Name of the function that constructs the \code{Driver} object.}
+
+\item{constructor_relax_args}{\code{[logical(1)]}\cr
+If \code{TRUE}, allow a driver constructor with default values for all
+arguments; otherwise, require a constructor with empty argument list
+(default).}
 
 \item{strict_identifier}{\code{[logical(1)]}\cr
 Set to \code{TRUE} if the DBMS does not support arbitrarily-named

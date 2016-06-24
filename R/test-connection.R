@@ -7,7 +7,7 @@ NULL
 #' Test the "Connection" class
 #'
 #' @inheritParams test_all
-#' @include test_driver.R
+#' @include test-driver.R
 #' @family tests
 #' @importFrom withr with_temp_libpaths
 #' @importFrom methods is
@@ -23,7 +23,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' Can connect and disconnect, connection object inherits from
     #'   "DBIConnection".
     #' }
-    can_connect_and_disconnect = function() {
+    can_connect_and_disconnect = function(ctx) {
       con <- connect(ctx)
       expect_s4_class(con, "DBIConnection")
       expect_true(dbDisconnect(con))
@@ -33,7 +33,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' SQL Data types exist for all basic R data types. dbDataType() does not
     #' throw an error and returns a nonempty atomic character
     #' }
-    data_type_connection = function() {
+    data_type_connection = function(ctx) {
       con <- connect(ctx)
       check_conn_data_type <- function(value) {
         eval(bquote({
@@ -62,7 +62,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{cannot_disconnect_twice}}{
     #' Repeated disconnect throws warning.
     #' }
-    cannot_disconnect_twice = function() {
+    cannot_disconnect_twice = function(ctx) {
       con <- connect(ctx)
       dbDisconnect(con)
       expect_warning(dbDisconnect(con))
@@ -71,7 +71,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{simultaneous_connections}}{
     #' Open 50 simultaneous connections
     #' }
-    simultaneous_connections = function() {
+    simultaneous_connections = function(ctx) {
       cons <- list()
       on.exit(expect_error(lapply(cons, dbDisconnect), NA), add = TRUE)
       for (i in seq_len(50L)) {
@@ -86,7 +86,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{stress_connections}}{
     #' Open and close 50 connections
     #' }
-    stress_connections = function() {
+    stress_connections = function(ctx) {
       for (i in seq_len(50L)) {
         con <- connect(ctx)
         expect_s4_class(con, "DBIConnection")
@@ -97,7 +97,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{get_info_connection}}{
     #' Return value of dbGetInfo has necessary elements
     #' }
-    get_info_connection = function() {
+    get_info_connection = function(ctx) {
       con <- connect(ctx)
       on.exit(expect_error(dbDisconnect(con), NA), add = TRUE)
 
@@ -120,7 +120,7 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     #' Repeated load, instantiation, connection, disconnection, and unload of
     #' package in a new R session.
     #' }
-    stress_load_connect_unload = function() {
+    stress_load_connect_unload = function(ctx) {
       skip_on_travis()
       skip_on_appveyor()
       skip_if_not(getRversion() != "3.3.0")
@@ -159,5 +159,5 @@ test_connection <- function(skip = NULL, ctx = get_default_context()) {
     NULL
   )
   #'}
-  run_tests(tests, skip, test_suite, ctx$name)
+  run_tests(ctx, tests, skip, test_suite)
 }

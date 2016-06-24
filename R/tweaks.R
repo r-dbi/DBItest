@@ -4,9 +4,20 @@
 #' @name tweaks
 { # nolint
   tweak_names <- c(
+    #' @param ... \code{[any]}\cr
+    #'   Unknown tweaks are accepted, with a warning.  The ellipsis
+    #'   also asserts that all arguments are named.
+    "...",
+
     #' @param constructor_name \code{[character(1)]}\cr
     #'   Name of the function that constructs the \code{Driver} object.
     "constructor_name",
+
+    #' @param constructor_relax_args \code{[logical(1)]}\cr
+    #'   If \code{TRUE}, allow a driver constructor with default values for all
+    #'   arguments; otherwise, require a constructor with empty argument list
+    #'   (default).
+    "constructor_relax_args",
 
     #' @param strict_identifier \code{[logical(1)]}\cr
     #'   Set to \code{TRUE} if the DBMS does not support arbitrarily-named
@@ -28,7 +39,7 @@
     #'   resulting query returns the concatenated results of the subqueries
     "union",
 
-    # Dummy placeholder
+    # Dummy argument
     NULL
   )
 }
@@ -37,11 +48,22 @@
 make_tweaks <- function(envir = parent.frame()) {
   fmls <- vector(mode = "list", length(tweak_names))
   names(fmls) <- tweak_names
+  fmls["..."] <- alist(`...` = )
 
   tweak_quoted <- lapply(setNames(nm = tweak_names), as.name)
+  tweak_quoted <- c(tweak_quoted)
   list_call <- as.call(c(quote(list), tweak_quoted))
 
   fun <- eval(bquote(function() {
+    unknown <- list(...)
+    if (length(unknown) > 0) {
+      if (is.null(names(unknown)) || any(names(unknown) == "")) {
+        warning("All tweaks must be named", call. = FALSE)
+      } else {
+        warning("Unknown tweaks: ", paste(names(unknown), collapse = ", "),
+                call. = FALSE)
+      }
+    }
     ret <- .(list_call)
     ret <- ret[!vapply(ret, is.null, logical(1L))]
     structure(ret, class = "DBItest_tweaks")
