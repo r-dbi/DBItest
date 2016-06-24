@@ -5,7 +5,7 @@
 \title{Tweaks for DBI tests}
 \usage{
 tweaks(constructor_name = NULL, strict_identifier = NULL,
-  omit_blob_tests = NULL, current_needs_parens = NULL, union = NULL)
+  omit_blob_tests = NULL, current_needs_parens = NULL, union = NULL, ...)
 }
 \arguments{
 \item{constructor_name}{\code{[character(1)]}\cr
@@ -26,6 +26,9 @@ Set to \code{TRUE} if the SQL functions \code{current_date},
 \item{union}{\code{[function(character)]}\cr
 Function that combines several subqueries into one so that the
 resulting query returns the concatenated results of the subqueries}
+
+\item{...}{\code{[any]}\cr
+Unknown tweaks are accepted, with a warning.}
 }
 \description{
 TBD.
