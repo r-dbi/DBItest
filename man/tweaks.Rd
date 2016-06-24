@@ -4,10 +4,14 @@
 \alias{tweaks}
 \title{Tweaks for DBI tests}
 \usage{
-tweaks(constructor_name = NULL, strict_identifier = NULL,
-  omit_blob_tests = NULL, current_needs_parens = NULL, union = NULL, ...)
+tweaks(..., constructor_name = NULL, strict_identifier = NULL,
+  omit_blob_tests = NULL, current_needs_parens = NULL, union = NULL)
 }
 \arguments{
+\item{...}{\code{[any]}\cr
+Unknown tweaks are accepted, with a warning.  The ellipsis
+also asserts that all arguments are named.}
+
 \item{constructor_name}{\code{[character(1)]}\cr
 Name of the function that constructs the \code{Driver} object.}
 
@@ -26,9 +30,6 @@ Set to \code{TRUE} if the SQL functions \code{current_date},
 \item{union}{\code{[function(character)]}\cr
 Function that combines several subqueries into one so that the
 resulting query returns the concatenated results of the subqueries}
-
-\item{...}{\code{[any]}\cr
-Unknown tweaks are accepted, with a warning.}
 }
 \description{
 TBD.

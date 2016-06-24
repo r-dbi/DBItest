@@ -4,6 +4,11 @@
 #' @name tweaks
 { # nolint
   tweak_names <- c(
+    #' @param ... \code{[any]}\cr
+    #'   Unknown tweaks are accepted, with a warning.  The ellipsis
+    #'   also asserts that all arguments are named.
+    "...",
+
     #' @param constructor_name \code{[character(1)]}\cr
     #'   Name of the function that constructs the \code{Driver} object.
     "constructor_name",
@@ -28,9 +33,8 @@
     #'   resulting query returns the concatenated results of the subqueries
     "union",
 
-    #' @param ... \code{[any]}\cr
-    #'   Unknown tweaks are accepted, with a warning.
-    "..."
+    # Dummy argument
+    NULL
   )
 }
 
@@ -47,7 +51,12 @@ make_tweaks <- function(envir = parent.frame()) {
   fun <- eval(bquote(function() {
     unknown <- list(...)
     if (length(unknown) > 0) {
-      warning("Unknown tweaks: ", paste(names(unknown), collapse = ", "))
+      if (is.null(names(unknown)) || any(names(unknown) == "")) {
+        warning("All tweaks must be named", call. = FALSE)
+      } else {
+        warning("Unknown tweaks: ", paste(names(unknown), collapse = ", "),
+                call. = FALSE)
+      }
     }
     ret <- .(list_call)
     ret <- ret[!vapply(ret, is.null, logical(1L))]
