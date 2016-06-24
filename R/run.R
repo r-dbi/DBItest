@@ -1,4 +1,4 @@
-run_tests <- function(ctx, tests, skip, test_suite, ctx_name) {
+run_tests <- function(ctx, tests, skip, test_suite) {
   if (is.null(ctx)) {
     stop("Need to call make_context() to use the test_...() functions.", call. = FALSE)
   }
@@ -7,7 +7,7 @@ run_tests <- function(ctx, tests, skip, test_suite, ctx_name) {
   }
 
   test_context <- paste0(
-    "DBItest", if(!is.null(ctx_name)) paste0("[", ctx_name, "]"),
+    "DBItest", if(!is.null(ctx$name)) paste0("[", ctx$name, "]"),
     ": ", test_suite)
   context(test_context)
 

@@ -591,7 +591,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     NULL
   )
   #' }
-  run_tests(ctx, tests, skip, test_suite, ctx$name)
+  run_tests(ctx, tests, skip, test_suite)
 }
 
 get_iris <- function(ctx) {

@@ -906,7 +906,7 @@ test_meta <- function(skip = NULL, ctx = get_default_context()) {
     NULL
   )
   #'}
-  run_tests(ctx, tests, skip, test_suite, ctx$name)
+  run_tests(ctx, tests, skip, test_suite)
 }
 
 test_select_bind <- function(con, placeholder_fun, values,
