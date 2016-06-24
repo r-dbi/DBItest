@@ -8,7 +8,7 @@ spec_driver <- list(
     expect_s4_class(ctx$drv, "DBIDriver")
   },
 
-  constructor_strict = function(ctx) {
+  constructor = function(ctx) {
     pkg_name <- package_name(ctx)
 
     #' The backend must support creation of an instance of this driver class
