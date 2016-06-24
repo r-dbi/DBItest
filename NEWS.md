@@ -1,3 +1,14 @@
+# DBItest 1.2-4 (2016-06-25)
+
+- `testthat` now shows a more accurate location for the source of errors, failures, and skips (#78).
+- New `constructor_relax_args` tweak, currently not queried.
+- The `ctx` argument is now explicit in the test functions.
+- Aggregate skipped tests, only one `skip()` call per test function.
+- `tweaks()` gains an `...` as first argument to support future/deprecated tweaks (with a warning), and also to avoid unnamed arguments (#83).
+- Change underscores to dashes in file names.
+- Remove `testthat` compatibility hack.
+
+
 # DBItest 1.2-3 (2016-06-23)
 
 - Fix `read_table` test when the backend actually returns the data in a different order.
