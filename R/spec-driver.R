@@ -1,13 +1,24 @@
 #' @rdname DBIspec
 #' @format NULL
+#' @usage NULL
+#' @aliases NULL
 #' @section Driver:
-spec_driver <- list(
+spec_driver_class <- list(
   inherits_from_driver = function(ctx) {
     #' Each DBI backend implements a "driver" class,
     #' which must be an S4 class and inherit from the \code{DBIDriver} class.
     expect_s4_class(ctx$drv, "DBIDriver")
   },
 
+  NULL
+)
+
+#' @rdname DBIspec
+#' @format NULL
+#' @usage NULL
+#' @aliases NULL
+#' @section Driver:
+spec_driver_constructor <- list(
   constructor = function(ctx) {
     pkg_name <- package_name(ctx)
 
@@ -46,6 +57,15 @@ spec_driver <- list(
     #'
   },
 
+  NULL
+)
+
+#' @rdname DBIspec
+#' @format NULL
+#' @usage NULL
+#' @aliases NULL
+#' @section Driver:
+spec_driver_data_type <- list(
   #' SQL Data types exist for all basic R data types. dbDataType() does not
   #' throw an error and returns a nonempty atomic character.
   data_type_driver = function(ctx) {
@@ -73,6 +93,15 @@ spec_driver <- list(
     }
   },
 
+  NULL
+)
+
+#' @rdname DBIspec
+#' @format NULL
+#' @usage NULL
+#' @aliases NULL
+#' @section Driver:
+spec_driver_get_info <- list(
   #' Return value of dbGetInfo has necessary elements.
   get_info_driver = function(ctx) {
     info <- dbGetInfo(ctx$drv)
@@ -88,6 +117,15 @@ spec_driver <- list(
     }
   },
 
+  NULL
+)
+
+#' @rdname DBIspec
+#' @format NULL
+#' @usage NULL
+#' @aliases NULL
+#' @section Driver:
+spec_driver_stress <- list(
   #' Repeated load, instantiation, and unload of package in a new R session.
   stress_load_unload = function(ctx) {
     skip_on_travis()
@@ -115,4 +153,14 @@ spec_driver <- list(
   },
 
   NULL
+)
+
+#' @rdname DBIspec
+#' @format NULL
+spec_driver <- c(
+  spec_driver_class,
+  spec_driver_constructor,
+  spec_driver_data_type,
+  spec_driver_get_info,
+  spec_driver_stress
 )

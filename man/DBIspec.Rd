@@ -57,6 +57,8 @@ to the package author to adopt this convention or not.
 
 Each DBI backend implements a "driver" class,
 which must be an S4 class and inherit from the \code{DBIDriver} class.
+
+
 The backend must support creation of an instance of this driver class
 with a \dfn{constructor function}.
 By default, its name is the package name without the leading \sQuote{R}
@@ -73,9 +75,14 @@ an empty argument list is expected.
 Otherwise, an argument list where all arguments have default values
 is also accepted.
 
+
 SQL Data types exist for all basic R data types. dbDataType() does not
 throw an error and returns a nonempty atomic character.
+
+
 Return value of dbGetInfo has necessary elements.
+
+
 Repeated load, instantiation, and unload of package in a new R session.
 }
 
