@@ -1,4 +1,4 @@
-run_tests <- function(tests, skip, test_suite, ctx_name) {
+run_tests <- function(ctx, tests, skip, test_suite, ctx_name) {
   test_context <- paste0(
     "DBItest", if(!is.null(ctx_name)) paste0("[", ctx_name, "]"),
     ": ", test_suite)
@@ -16,7 +16,7 @@ run_tests <- function(tests, skip, test_suite, ctx_name) {
     else {
       test_that(paste0(test_context, ": ", test_name), {
         test_fun <- tests[[test_name]]
-        test_fun()
+        test_fun(ctx)
       })
     }
   },

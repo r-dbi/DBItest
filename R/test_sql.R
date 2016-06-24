@@ -20,7 +20,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{quote_string}}{
     #' Can quote strings, and create strings that contain quotes and spaces
     #' }
-    quote_string = function() {
+    quote_string = function(ctx) {
       with_connection({
         simple <- dbQuoteString(con, "simple")
         with_spaces <- dbQuoteString(con, "with spaces")
@@ -57,7 +57,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' Can quote more than one string at once by passing a character vector.
     #'
     #' }
-    quote_string_vectorized = function() {
+    quote_string_vectorized = function(ctx) {
       with_connection({
         simple_out <- dbQuoteString(con, "simple")
         expect_equal(length(simple_out), 1L)
@@ -69,7 +69,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{quote_identifier}}{
     #' Can quote identifiers that consist of letters only
     #' }
-    quote_identifier = function() {
+    quote_identifier = function(ctx) {
       with_connection({
         simple <- dbQuoteIdentifier(con, "simple")
 
@@ -85,7 +85,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' Can quote identifiers with special characters, and create identifiers
     #' that contain quotes and spaces
     #' }
-    quote_identifier_special = function() {
+    quote_identifier_special = function(ctx) {
       if (isTRUE(ctx$tweaks$strict_identifier)) {
         skip("tweak: strict_identifier")
       }
@@ -122,7 +122,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{quote_identifier_not_vectorized}}{
     #' Character vectors are treated as a single qualified identifier.
     #' }
-    quote_identifier_not_vectorized = function() {
+    quote_identifier_not_vectorized = function(ctx) {
       with_connection({
         simple_out <- dbQuoteIdentifier(con, "simple")
         expect_equal(length(simple_out), 1L)
@@ -135,7 +135,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' Can write the \code{\link[datasets]{iris}} data as a table to the
     #' database, but won't overwrite by default.
     #' }
-    write_table = function() {
+    write_table = function(ctx) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
@@ -159,7 +159,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{read_table}}{
     #' Can read the \code{\link[datasets]{iris}} data from a database table.
     #' }
-    read_table = function() {
+    read_table = function(ctx) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
@@ -181,7 +181,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' Can write the \code{\link[datasets]{iris}} data as a table to the
     #' database, will overwrite if asked.
     #' }
-    overwrite_table = function() {
+    overwrite_table = function(ctx) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
@@ -200,7 +200,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' Can write the \code{\link[datasets]{iris}} data as a table to the
     #' database, will append if asked.
     #' }
-    append_table = function() {
+    append_table = function(ctx) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
@@ -217,7 +217,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{append_table}}{
     #' Cannot append to nonexisting table.
     #' }
-    append_table_error = function() {
+    append_table_error = function(ctx) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
         on.exit(expect_error(dbRemoveTable(con, "iris")))
@@ -232,7 +232,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' the database, the table is not available in a second connection and is
     #' gone after reconnecting.
     #' }
-    temporary_table = function() {
+    temporary_table = function(ctx) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
 
@@ -256,7 +256,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{table_visible_in_other_connection}}{
     #' A new table is visible in a second connection.
     #' }
-    table_visible_in_other_connection = function() {
+    table_visible_in_other_connection = function(ctx) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * from test"))
 
@@ -278,7 +278,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' Can list the tables in the database, adding and removing tables affects
     #' the list. Can also check existence of a table.
     #' }
-    list_tables = function() {
+    list_tables = function(ctx) {
       with_connection({
         expect_error(dbGetQuery(con, "SELECT * FROM iris"))
 
@@ -312,7 +312,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{list_fields}}{
     #' Can list the fields for a table in the database.
     #' }
-    list_fields = function() {
+    list_fields = function(ctx) {
       with_connection({
         on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
                 add = TRUE)
@@ -328,7 +328,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_keywords}}{
     #' Can create tables with keywords as table and column names.
     #' }
-    roundtrip_keywords = function() {
+    roundtrip_keywords = function(ctx) {
       with_connection({
         tbl_in <- data.frame(SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
                              stringsAsFactors = FALSE)
@@ -345,7 +345,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' Can create tables with quotes, commas, and spaces in column names and
     #' data.
     #' }
-    roundtrip_quotes = function() {
+    roundtrip_quotes = function(ctx) {
       with_connection({
         tbl_in <- data.frame(a = as.character(dbQuoteString(con, "")),
                              b = as.character(dbQuoteIdentifier(con, "")),
@@ -372,7 +372,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_integer}}{
     #' Can create tables with integer columns.
     #' }
-    roundtrip_integer = function() {
+    roundtrip_integer = function(ctx) {
       with_connection({
         tbl_in <- data.frame(a = c(1:5, NA), id = 1:6)
 
@@ -387,7 +387,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_numeric}}{
     #' Can create tables with numeric columns.
     #' }
-    roundtrip_numeric = function() {
+    roundtrip_numeric = function(ctx) {
       with_connection({
         tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA), id = 1:6)
 
@@ -403,7 +403,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' Can create tables with numeric columns that contain special values such
     #' as \code{Inf} and \code{NaN}.
     #' }
-    roundtrip_numeric_special = function() {
+    roundtrip_numeric_special = function(ctx) {
       with_connection({
         tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA, -Inf, Inf, NaN),
                              id = 1:9)
@@ -419,7 +419,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_logical}}{
     #' Can create tables with logical columns.
     #' }
-    roundtrip_logical = function() {
+    roundtrip_logical = function(ctx) {
       with_connection({
         tbl_in <- data.frame(a = c(TRUE, FALSE, NA), id = 1:3)
 
@@ -434,7 +434,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_logical_int}}{
     #' Can create tables with logical columns, returned as integer.
     #' }
-    roundtrip_logical_int = function() {
+    roundtrip_logical_int = function(ctx) {
       with_connection({
         tbl_in <- data.frame(a = c(TRUE, FALSE, NA), id = 1:3)
 
@@ -449,7 +449,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_null}}{
     #' Can create tables with NULL values.
     #' }
-    roundtrip_null = function() {
+    roundtrip_null = function(ctx) {
       with_connection({
         tbl_in <- data.frame(a = NA)
 
@@ -464,7 +464,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_64_bit}}{
     #' Can create tables with 64-bit columns.
     #' }
-    roundtrip_64_bit = function() {
+    roundtrip_64_bit = function(ctx) {
       with_connection({
         tbl_in <- data.frame(a = c(-1e14, 1e15, 0.25, NA), id = 1:4)
         tbl_in_trunc <- data.frame(a = trunc(tbl_in$a))
@@ -480,7 +480,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_character}}{
     #' Can create tables with character columns.
     #' }
-    roundtrip_character = function() {
+    roundtrip_character = function(ctx) {
       with_connection({
         tbl_in <- data.frame(a = c(text_cyrillic, text_latin,
                                    text_chinese, text_ascii, NA),
@@ -499,7 +499,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_factor}}{
     #' Can create tables with factor columns.
     #' }
-    roundtrip_factor = function() {
+    roundtrip_factor = function(ctx) {
       with_connection({
         tbl_in <- data.frame(a = factor(c(text_cyrillic, text_latin,
                                           text_chinese, text_ascii, NA)),
@@ -518,7 +518,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_raw}}{
     #' Can create tables with raw columns.
     #' }
-    roundtrip_raw = function() {
+    roundtrip_raw = function(ctx) {
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {
         skip("tweak: omit_blob_tests")
       }
@@ -539,7 +539,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_date}}{
     #' Can create tables with date columns.
     #' }
-    roundtrip_date = function() {
+    roundtrip_date = function(ctx) {
       with_connection({
         tbl_in <- data.frame(id = 1:6)
         tbl_in$a <- c(Sys.Date() + 1:5, NA)
@@ -556,7 +556,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_timestamp}}{
     #' Can create tables with timestamp columns.
     #' }
-    roundtrip_timestamp = function() {
+    roundtrip_timestamp = function(ctx) {
       with_connection({
         tbl_in <- data.frame(id = 1:5)
         tbl_in$a <- round(Sys.time()) + c(1, 60, 3600, 86400, NA)
@@ -574,7 +574,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{roundtrip_rownames}}{
     #' Can create tables with row names.
     #' }
-    roundtrip_rownames = function() {
+    roundtrip_rownames = function(ctx) {
       with_connection({
         tbl_in <- data.frame(a = c(1:5, NA),
                              row.names = paste0(LETTERS[1:6], 1:6),
@@ -591,7 +591,7 @@ test_sql <- function(skip = NULL, ctx = get_default_context()) {
     NULL
   )
   #' }
-  run_tests(tests, skip, test_suite, ctx$name)
+  run_tests(ctx, tests, skip, test_suite, ctx$name)
 }
 
 get_iris <- function(ctx) {
