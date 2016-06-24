@@ -63,6 +63,7 @@ By default, its name is the package name without the leading \sQuote{R}
 (if it exists), e.g., \code{SQLite} for the \pkg{RSQLite} package.
 For the automated tests, the constructor name can be tweaked using the
 \code{constructor_name} tweak.
+
 The constructor must be exported, and
 it must be a function
 that is callable without arguments.

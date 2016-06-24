@@ -21,6 +21,7 @@ spec_driver <- list(
     #' \code{constructor_name} tweak.
     constructor_name <- ctx$tweaks$constructor_name %||% default_constructor_name
 
+    #'
     #' The constructor must be exported, and
     pkg_env <- getNamespace(pkg_name)
     eval(bquote(
