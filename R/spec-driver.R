@@ -33,8 +33,8 @@ spec_driver <- list(
 
     #' that is callable without arguments.
     #' For the automated tests, unless the
-    #' \code{constuctur_relax_args} tweak is set to \code{TRUE},
-    if (!isTRUE(ctx$tweaks$constuctur_relax_args)) {
+    #' \code{constructor_relax_args} tweak is set to \code{TRUE},
+    if (!isTRUE(ctx$tweaks$constructor_relax_args)) {
       #' an empty argument list is expected.
       expect_that(constructor, arglist_is_empty())
     } else {

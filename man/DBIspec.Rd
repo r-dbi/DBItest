@@ -52,7 +52,7 @@ The constructor must be exported, and
 it must be a function
 that is callable without arguments.
 For the automated tests, unless the
-\code{constuctur_relax_args} tweak is set to \code{TRUE},
+\code{constructor_relax_args} tweak is set to \code{TRUE},
 an empty argument list is expected.
 Otherwise, an argument list where all arguments have default values
 is also accepted.
