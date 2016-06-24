@@ -16,7 +16,5 @@
 #' This ensures that an extension or update to the tests will be reflected in
 #' this document.
 #'
-#' @usage NULL
-#'
 #' @name DBIspec
 NULL
