@@ -34,7 +34,7 @@ which should import the \pkg{DBI}
 and \pkg{methods}
 packages.
 For better or worse, the names of many existing backends start with
-\code{R}, e.g., \pkg{RSQLite}, \pkg{RMySQL}, \pkg{RSQLServer}; it is up
+\sQuote{R}, e.g., \pkg{RSQLite}, \pkg{RMySQL}, \pkg{RSQLServer}; it is up
 to the package author to adopt this convention or not.
 }
 
@@ -42,19 +42,24 @@ to the package author to adopt this convention or not.
 
 Each DBI backend implements a "driver" class,
 which must be an S4 class and inherit from the \code{DBIDriver} class.
+The backend must support creation of an instance of this driver class
+with a \dfn{constructor function}.
+By default, its name is the package name without the leading \sQuote{R}
+(if it exists), e.g., \code{SQLite} for the \pkg{RSQLite} package.
+For the automated tests, the constructor name can be tweaked using the
+\code{constructor_name} tweak.
+The constructor must be exported, and
+it must be a function
+that is callable without arguments.
+For the automated tests, unless the
+\code{constuctur_relax_args} tweak is set to \code{TRUE},
+an empty argument list is expected.
+Otherwise, an argument list where all arguments have default values
+is also accepted.
+
 SQL Data types exist for all basic R data types. dbDataType() does not
-throw an error and returns a nonempty atomic character
-Package exports constructor function that has no arguments.
-  The name of the constructor can be tweaked via \code{constructor_name}
-  in the context's \code{\link{tweaks}}, default: package name without
-  the leading R.
-  This test is optional, the
-  \code{constructor} test is a slightly weaker version.
-Package exports constructor function, all arguments have default values.
-  The name of the constructor can be tweaked via \code{constructor_name}
-  in the context's \code{\link{tweaks}}, default: package name without
-  the leading R (if it exists).
-Return value of dbGetInfo has necessary elements
+throw an error and returns a nonempty atomic character.
+Return value of dbGetInfo has necessary elements.
 Repeated load, instantiation, and unload of package in a new R session.
 }
 \keyword{datasets}
