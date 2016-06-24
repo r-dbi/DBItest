@@ -1,5 +1,6 @@
 # reverse order
 
+#' @include spec-compliance.R
 #' @include spec-meta.R
 #' @include spec-sql.R
 #' @include spec-result.R
