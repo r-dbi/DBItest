@@ -45,6 +45,10 @@ make_tweaks <- function(envir = parent.frame()) {
   list_call <- as.call(c(quote(list), tweak_quoted))
 
   fun <- eval(bquote(function() {
+    unknown <- list(...)
+    if (length(unknown) > 0) {
+      warning("Unknown tweaks: ", paste(names(unknown), collapse = ", "))
+    }
     ret <- .(list_call)
     ret <- ret[!vapply(ret, is.null, logical(1L))]
     structure(ret, class = "DBItest_tweaks")
