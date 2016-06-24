@@ -1,4 +1,11 @@
 run_tests <- function(ctx, tests, skip, test_suite, ctx_name) {
+  if (is.null(ctx)) {
+    stop("Need to call make_context() to use the test_...() functions.", call. = FALSE)
+  }
+  if (!inherits(ctx, "DBItest_context")) {
+    stop("ctx must be a DBItest_context object created by make_context().", call. = FALSE)
+  }
+
   test_context <- paste0(
     "DBItest", if(!is.null(ctx_name)) paste0("[", ctx_name, "]"),
     ": ", test_suite)
