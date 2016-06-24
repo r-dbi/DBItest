@@ -7,7 +7,7 @@ NULL
 #' Test metadata functions
 #'
 #' @inheritParams test_all
-#' @include test_sql.R
+#' @include test-sql.R
 #' @family tests
 #' @export
 test_meta <- function(skip = NULL, ctx = get_default_context()) {

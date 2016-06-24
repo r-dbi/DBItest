@@ -7,7 +7,7 @@ NULL
 #' Test the "Result" class
 #'
 #' @inheritParams test_all
-#' @include test_connection.R
+#' @include test-connection.R
 #' @family tests
 #' @export
 test_result <- function(skip = NULL, ctx = get_default_context()) {

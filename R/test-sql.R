@@ -7,7 +7,7 @@ NULL
 #' Test SQL methods
 #'
 #' @inheritParams test_all
-#' @include test_result.R
+#' @include test-result.R
 #' @family tests
 #' @export
 test_sql <- function(skip = NULL, ctx = get_default_context()) {

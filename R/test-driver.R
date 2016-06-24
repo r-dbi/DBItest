@@ -7,7 +7,7 @@ NULL
 #' Test the "Driver" class
 #'
 #' @inheritParams test_all
-#' @include test_getting_started.R
+#' @include test-getting-started.R
 #' @family tests
 #' @importFrom withr with_temp_libpaths
 #' @export
