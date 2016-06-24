@@ -40,7 +40,8 @@ to the package author to adopt this convention or not.
 
 \section{Driver}{
 
-Driver inherits from "DBIDriver" class
+Each DBI backend implements a "driver" class,
+which must be an S4 class and inherit from the \code{DBIDriver} class.
 SQL Data types exist for all basic R data types. dbDataType() does not
 throw an error and returns a nonempty atomic character
 Package exports constructor function that has no arguments.

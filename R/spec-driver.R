@@ -2,8 +2,9 @@
 #' @format NULL
 #' @section Driver:
 spec_driver <- list(
-  #' Driver inherits from "DBIDriver" class
   inherits_from_driver = function(ctx) {
+    #' Each DBI backend implements a "driver" class,
+    #' which must be an S4 class and inherit from the \code{DBIDriver} class.
     expect_s4_class(ctx$drv, "DBIDriver")
   },
 
