@@ -27,13 +27,13 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
 
       sapply(names(key_methods), function(name) {
         dbi_class <- paste0("DBI", name)
-        
+
         classes <- Filter(function(class) {
           extends(class, dbi_class) && getClass(class)@virtual == FALSE
         }, getClasses(where))
 
         expect_gt(length(classes), 0)
-        
+
         sapply(classes, function(class) {
           mapply(function(method, args) {
             expect_has_class_method(method, class, args, where)
