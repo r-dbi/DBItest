@@ -20,7 +20,7 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
     #' \item{\code{compliance}}{
     #' The package defines three classes that implement the required methods.
     #' }
-    compliance = function() {
+    compliance = function(ctx) {
       pkg <- package_name(ctx)
 
       where <- asNamespace(pkg)
@@ -46,7 +46,7 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
     #' Writing to the database fails.  (You might need to set up a separate
     #' test context just for this test.)
     #' }
-    read_only = function() {
+    read_only = function(ctx) {
       with_connection({
         expect_error(dbWriteTable(con, "test", data.frame(a = 1)))
       })
@@ -55,7 +55,7 @@ test_compliance <- function(skip = NULL, ctx = get_default_context()) {
     NULL
   )
   #'}
-  run_tests(tests, skip, test_suite, ctx$name)
+  run_tests(ctx, tests, skip, test_suite)
 }
 
 #' @importFrom methods hasMethod

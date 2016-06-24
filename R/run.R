@@ -1,6 +1,13 @@
-run_tests <- function(tests, skip, test_suite, ctx_name) {
+run_tests <- function(ctx, tests, skip, test_suite) {
+  if (is.null(ctx)) {
+    stop("Need to call make_context() to use the test_...() functions.", call. = FALSE)
+  }
+  if (!inherits(ctx, "DBItest_context")) {
+    stop("ctx must be a DBItest_context object created by make_context().", call. = FALSE)
+  }
+
   test_context <- paste0(
-    "DBItest", if(!is.null(ctx_name)) paste0("[", ctx_name, "]"),
+    "DBItest", if(!is.null(ctx$name)) paste0("[", ctx$name, "]"),
     ": ", test_suite)
   context(test_context)
 
@@ -16,7 +23,7 @@ run_tests <- function(tests, skip, test_suite, ctx_name) {
     else {
       test_that(paste0(test_context, ": ", test_name), {
         test_fun <- tests[[test_name]]
-        test_fun()
+        test_fun(ctx)
       })
     }
   },
