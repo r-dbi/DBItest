@@ -13,6 +13,12 @@
     #'   Name of the function that constructs the \code{Driver} object.
     "constructor_name",
 
+    #' @param constructor_relax_args \code{[logical(1)]}\cr
+    #'   If \code{TRUE}, allow a driver constructor with default values for all
+    #'   arguments; otherwise, require a constructor with empty argument list
+    #'   (default).
+    "constructor_relax_args",
+
     #' @param strict_identifier \code{[logical(1)]}\cr
     #'   Set to \code{TRUE} if the DBMS does not support arbitrarily-named
     #'   identifiers even when quoting is used.
