@@ -36,6 +36,7 @@ Collate:
     'spec-getting-started.R'
     'spec-driver.R'
     'spec-connection.R'
+    'spec-result.R'
     'spec-.R'
     'test-all.R'
     'test-getting-started.R'
