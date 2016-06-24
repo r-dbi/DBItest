@@ -21,7 +21,7 @@ run_tests <- function(ctx, tests, skip, test_suite) {
     if (skip_flag[[test_idx]])
       FALSE
     else {
-      test_fun <- patch_fun(tests[[test_name]], paste0(test_context, ": ", test_name))
+      test_fun <- patch_test_fun(tests[[test_name]], paste0(test_context, ": ", test_name))
       test_fun(ctx)
     }
   },
@@ -36,7 +36,7 @@ run_tests <- function(ctx, tests, skip, test_suite) {
   ok
 }
 
-patch_fun <- function(test_fun, desc) {
+patch_test_fun <- function(test_fun, desc) {
   body_of_test_fun <- body(test_fun)
   eval(bquote(
     function(ctx) {
