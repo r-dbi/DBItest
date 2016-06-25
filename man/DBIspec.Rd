@@ -62,6 +62,7 @@ This section describes the construction of, and the methods defined for,
 this driver class.
 
 
+\subsection{Construction}{}
 The backend must support creation of an instance of this driver class
 with a \dfn{constructor function}.
 By default, its name is the package name without the leading \sQuote{R}
@@ -79,13 +80,16 @@ Otherwise, an argument list where all arguments have default values
 is also accepted.
 
 
+\subsection{\code{dbDataType("DBIDriver", "ANY")}}{}
 SQL Data types exist for all basic R data types. dbDataType() does not
 throw an error and returns a nonempty atomic character.
 
 
+\subsection{\code{dbGetInfo("DBIDriver")} (deprecated)}{}
 Return value of dbGetInfo has necessary elements.
 
 
+\subsection{Repeated loading, instantiation, and unloading}{}
 Repeated load, instantiation, and unload of package in a new R session.
 }
 

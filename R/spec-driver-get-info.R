@@ -1,5 +1,6 @@
 #' @template dbispec-sub
 #' @section Driver:
+#' \subsection{\code{dbGetInfo("DBIDriver")} (deprecated)}{}
 spec_driver_get_info <- list(
   #' Return value of dbGetInfo has necessary elements.
   get_info_driver = function(ctx) {
