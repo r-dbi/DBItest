@@ -7,7 +7,7 @@
 #' This document formalizes the behavior expected by the functions declared in
 #' \pkg{DBI} and implemented by the individal backends.
 #'
-#' To ensure maximal portability and exchangeability, and to reduce the effort
+#' To ensure maximum portability and exchangeability, and to reduce the effort
 #' for implementing a new DBI backend, the \pkg{DBItest} package defines
 #' a comprehensive set of test cases that test conformance to the DBI
 #' specification.
