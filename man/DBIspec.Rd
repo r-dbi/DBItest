@@ -11,6 +11,7 @@
 \alias{spec_result}
 \alias{spec_sql}
 \title{DBI specification}
+\format{The test functions are implemented as named lists.}
 \usage{
 spec_getting_started
 

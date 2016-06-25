@@ -1,7 +1,4 @@
-#' @rdname DBIspec
-#' @format NULL
-#' @usage NULL
-#' @aliases NULL
+#' @template dbispec-sub
 #' @section Driver:
 spec_driver_class <- list(
   inherits_from_driver = function(ctx) {
@@ -13,10 +10,7 @@ spec_driver_class <- list(
   NULL
 )
 
-#' @rdname DBIspec
-#' @format NULL
-#' @usage NULL
-#' @aliases NULL
+#' @template dbispec-sub
 #' @section Driver:
 spec_driver_constructor <- list(
   constructor = function(ctx) {
@@ -60,10 +54,7 @@ spec_driver_constructor <- list(
   NULL
 )
 
-#' @rdname DBIspec
-#' @format NULL
-#' @usage NULL
-#' @aliases NULL
+#' @template dbispec-sub
 #' @section Driver:
 spec_driver_data_type <- list(
   #' SQL Data types exist for all basic R data types. dbDataType() does not
@@ -96,10 +87,7 @@ spec_driver_data_type <- list(
   NULL
 )
 
-#' @rdname DBIspec
-#' @format NULL
-#' @usage NULL
-#' @aliases NULL
+#' @template dbispec-sub
 #' @section Driver:
 spec_driver_get_info <- list(
   #' Return value of dbGetInfo has necessary elements.
@@ -120,10 +108,7 @@ spec_driver_get_info <- list(
   NULL
 )
 
-#' @rdname DBIspec
-#' @format NULL
-#' @usage NULL
-#' @aliases NULL
+#' @template dbispec-sub
 #' @section Driver:
 spec_driver_stress <- list(
   #' Repeated load, instantiation, and unload of package in a new R session.
@@ -155,8 +140,7 @@ spec_driver_stress <- list(
   NULL
 )
 
-#' @rdname DBIspec
-#' @format NULL
+#' @template dbispec
 spec_driver <- c(
   spec_driver_class,
   spec_driver_constructor,
