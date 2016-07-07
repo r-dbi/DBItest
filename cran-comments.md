@@ -1,15 +1,13 @@
 ## Test environments
-* ubuntu 14.10, R 3.3.0
-* ubuntu 12.04 (on travis-ci), R 3.3.0
+* ubuntu 16.04, R 3.3.1
+* ubuntu 12.04 (on travis-ci), R 3.3.1
 * win-builder (devel and release)
 
 ## R CMD check results
-There were no ERRORs or WARNINGs. 
 
-There was 1 NOTE:
-
-* New submission.
+There were no ERRORs, WARNINGs or NOTEs. 
 
 ## Reverse dependencies
 
-This is a new release, so there are no reverse dependencies.
+* I checked the single reverse dependency, `bigrquery`, locally.
+  There were no ERRORs, WARNINGs or NOTEs.
