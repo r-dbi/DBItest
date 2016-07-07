@@ -3,6 +3,12 @@
 #' @include spec-compliance.R
 #' @include spec-meta.R
 #' @include spec-sql.R
+#' @include spec-sql-list-fields.R
+#' @include spec-sql-list-tables.R
+#' @include spec-sql-read-write-roundtrip.R
+#' @include spec-sql-read-write-table.R
+#' @include spec-sql-quote-identifier.R
+#' @include spec-sql-quote-string.R
 #' @include spec-result.R
 #' @include spec-result-roundtrip.R
 #' @include spec-result-create-table-with-data-type.R
