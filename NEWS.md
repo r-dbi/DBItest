@@ -1,31 +1,38 @@
-# DBItest 1.2-4 (2016-06-25)
-
-- `testthat` now shows a more accurate location for the source of errors, failures, and skips (#78).
-- New `constructor_relax_args` tweak, currently not queried.
-- The `ctx` argument is now explicit in the test functions.
-- Aggregate skipped tests, only one `skip()` call per test function.
-- `tweaks()` gains an `...` as first argument to support future/deprecated tweaks (with a warning), and also to avoid unnamed arguments (#83).
-- Change underscores to dashes in file names.
-- Remove `testthat` compatibility hack.
+# DBItest 1.3 (2016-07-07)
 
 
-# DBItest 1.2-3 (2016-06-23)
+Bug fixes
+---------
 
 - Fix `read_table` test when the backend actually returns the data in a different order.
-- New `all_have_utf8_or_ascii_encoding()` which vectorizes `has_utf8_or_ascii_encoding()`.
 
 
-# DBItest 1.2-2 (2016-06-20)
+New tests
+---------
 
-- Test on AppVeyor (#73).
-- Check returned strings for UTF-8 encoding (#72).
 - Test `dbDataType()` on connections (#69, #75, @imanuelcostigan).
+- Check returned strings for UTF-8 encoding (#72).
+- Repeated `dbBind()` + `dbFetch()` on the same result set (#51).
 
 
-# DBItest 1.2-1 (2016-06-08)
+Features
+--------
 
-- Add test for repeated `dbBind()` + `dbFetch()` on the same result set (#51).
-- Indicate that some tests are optional (#15).
+- `tweaks()` gains an `...` as first argument to support future/deprecated tweaks (with a warning), and also to avoid unnamed arguments (#83).
+- `testthat` now shows a more accurate location for the source of errors, failures, and skips (#78).
+- Aggregate skipped tests, only one `skip()` call per test function.
+- Indicate that some tests are optional in documentation (#15).
+
+
+Internal
+--------
+
+- New `constructor_relax_args` tweak, currently not queried.
+- The `ctx` argument is now explicit in the test functions.
+- Change underscores to dashes in file names.
+- Remove `testthat` compatibility hack.
+- New `all_have_utf8_or_ascii_encoding()` which vectorizes `has_utf8_or_ascii_encoding()`.
+- Test on AppVeyor (#73).
 - Work around regression in R 3.3.0 (fix scheduled for R 3.3.1) which affected stress tests.
 
 
