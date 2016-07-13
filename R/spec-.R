@@ -2,6 +2,17 @@
 
 #' @include spec-compliance.R
 #' @include spec-meta.R
+#' @include spec-meta-bind-named-dollar.R
+#' @include spec-meta-bind-named-colon.R
+#' @include spec-meta-bind-positional-dollar.R
+#' @include spec-meta-bind-positional-qm.R
+#' @include spec-meta-get-info-result.R
+#' @include spec-meta-get-rows-affected.R
+#' @include spec-meta-get-row-count.R
+#' @include spec-meta-column-info.R
+#' @include spec-meta-get-statement.R
+#' @include spec-meta-is-valid-result.R
+#' @include spec-meta-is-valid-connection.R
 #' @include spec-sql.R
 #' @include spec-sql-list-fields.R
 #' @include spec-sql-list-tables.R
