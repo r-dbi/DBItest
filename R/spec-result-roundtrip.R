@@ -562,6 +562,10 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
   }
 }
 
+all_have_utf8_or_ascii_encoding <- function(x) {
+  all(vapply(x, has_utf8_or_ascii_encoding, logical(1L)))
+}
+
 has_utf8_or_ascii_encoding <- function(x) {
   if (Encoding(x) == "UTF-8")
     TRUE

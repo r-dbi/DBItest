@@ -45,7 +45,3 @@ unrowname <- function(x) {
   rownames(x) <- NULL
   x
 }
-
-all_have_utf8_or_ascii_encoding <- function(x) {
-  all(vapply(x, has_utf8_or_ascii_encoding, logical(1L)))
-}
