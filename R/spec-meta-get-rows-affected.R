@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Meta:
-#' \subsection{\code{dbGetRowsAffected("DBIResult")}}{}
+#' \subsection{\code{dbGetRowsAffected("DBIResult")}}{
 spec_meta_get_rows_affected <- list(
   #' Information on affected rows is correct.
   rows_affected = function(ctx) {
@@ -36,5 +36,6 @@ spec_meta_get_rows_affected <- list(
     })
   },
 
+  #' }
   NULL
 )

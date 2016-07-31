@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Connection:
-#' \subsection{\code{dbDataType("DBIConnection", "ANY")}}{}
+#' \subsection{\code{dbDataType("DBIConnection", "ANY")}}{
 spec_connection_data_type <- list(
   #' SQL Data types exist for all basic R data types. dbDataType() does not
   #' throw an error and returns a nonempty atomic character
@@ -30,5 +30,6 @@ spec_connection_data_type <- list(
     }
   },
 
+  #' }
   NULL
 )

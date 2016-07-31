@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Meta:
-#' \subsection{\code{dbIsValid("DBIConnection")}}{}
+#' \subsection{\code{dbIsValid("DBIConnection")}}{
 spec_meta_is_valid_connection <- list(
   #' Only an open connection is valid.
   is_valid_connection = function(ctx) {
@@ -10,5 +10,6 @@ spec_meta_is_valid_connection <- list(
     expect_false(dbIsValid(con))
   },
 
+  #' }
   NULL
 )

@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Driver:
-#' \subsection{Repeated loading, instantiation, and unloading}{}
+#' \subsection{Repeated loading, instantiation, and unloading}{
 spec_driver_stress <- list(
   #' Repeated load, instantiation, and unload of package in a new R session.
   stress_load_unload = function(ctx) {
@@ -28,5 +28,6 @@ spec_driver_stress <- list(
     })
   },
 
+  #' }
   NULL
 )

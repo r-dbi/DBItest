@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section SQL:
-#' \subsection{Roundtrip tests}{}
+#' \subsection{Roundtrip tests}{
 spec_sql_read_write_roundtrip <- list(
   #' Can create tables with keywords as table and column names.
   roundtrip_keywords = function(ctx) {
@@ -235,5 +235,6 @@ spec_sql_read_write_roundtrip <- list(
     })
   },
 
+  #' }
   NULL
 )
