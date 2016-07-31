@@ -26,3 +26,50 @@ spec_compliance_methods <- list(
 
   NULL
 )
+
+
+# Helpers -----------------------------------------------------------------
+
+#' @importFrom methods hasMethod
+expect_has_class_method <- function(name, class, args, driver_package) {
+  full_args <- c(class, args)
+  eval(bquote(
+    expect_true(hasMethod(.(name), .(full_args), driver_package))
+  ))
+}
+
+key_methods <- list(
+  Driver = list(
+    "dbGetInfo" = NULL,
+    "dbConnect" = NULL,
+    "dbDataType" = NULL
+  ),
+  Connection = list(
+    "dbDisconnect" = NULL,
+    "dbGetInfo" = NULL,
+    "dbSendQuery" = "character",
+    "dbListFields" = "character",
+    "dbListTables" = NULL,
+    "dbReadTable" = "character",
+    "dbWriteTable" = c("character", "data.frame"),
+    "dbExistsTable" = "character",
+    "dbRemoveTable" = "character",
+    "dbBegin" = NULL,
+    "dbCommit" = NULL,
+    "dbRollback" = NULL,
+    "dbIsValid" = NULL,
+    "dbQuoteString" = "character",
+    "dbQuoteIdentifier" = "character"
+  ),
+  Result = list(
+    "dbIsValid" = NULL,
+    "dbFetch" = NULL,
+    "dbClearResult" = NULL,
+    "dbColumnInfo" = NULL,
+    "dbGetRowsAffected" = NULL,
+    "dbGetRowCount" = NULL,
+    "dbHasCompleted" = NULL,
+    "dbGetStatement" = NULL,
+    "dbBind" = NULL
+  )
+)
