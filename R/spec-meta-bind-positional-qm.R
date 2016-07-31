@@ -46,6 +46,13 @@ spec_meta_bind_positional_qm <- list(
     })
   },
 
+  #' Positional binding of integer values (question mark syntax), repeated.
+  bind_repeated_positional_qm = function(ctx) {
+    with_connection({
+      test_select_bind(con, positional_qm, 1L, extra = "repeated")
+    })
+  },
+
   #' Positional binding of integer values (question mark syntax).
   bind_integer_positional_qm = function(ctx) {
     with_connection({

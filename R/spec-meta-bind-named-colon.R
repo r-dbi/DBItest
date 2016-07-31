@@ -131,10 +131,6 @@ spec_meta_bind_named_colon <- list(
   #' Named binding of \code{\link{POSIXlt}} timestamp values (colon
   #' syntax).
   bind_timestamp_lt_named_colon = function(ctx) {
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
     with_connection({
       data_in <- as.POSIXlt(round(Sys.time()))
       test_select_bind(
@@ -147,6 +143,10 @@ spec_meta_bind_named_colon <- list(
 
   #' Named binding of raw values (colon syntax).
   bind_raw_named_colon = function(ctx) {
+    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+      skip("tweak: omit_blob_tests")
+    }
+
     with_connection({
       test_select_bind(
         con, named_colon, list(list(as.raw(1:10))),

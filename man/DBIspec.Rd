@@ -331,6 +331,7 @@ Positional binding of integer values (question mark syntax) with too many
 values.
 Positional binding of integer values (question mark syntax) with too few
 values.
+Positional binding of integer values (question mark syntax), repeated.
 Positional binding of integer values (question mark syntax).
 Positional binding of numeric values (question mark syntax).
 Positional binding of logical values (question mark syntax).
