@@ -17,21 +17,6 @@ against test names; skip test if matching any.}
 Tests very basic features of a DBI driver package, to support testing
 and test-first development right from the start.
 }
-\details{
-This function defines the following tests:
-\describe{
-\item{\code{has_context}}{
-\code{make_context()} must be called before calling any of the
-\code{test_} functions in this package}
-\item{\code{package_dependencies}}{
-Can relate the driver to an installed (or devtools-loaded) package;
-package depends (!) on "DBI" and imports "methods"}. This test requires
-the \code{devtools} package and will be skipped if it is not installed.
-\item{\code{package_name}}{
-Optional: Package name starts with R.
-}
-}
-}
 \seealso{
 Other tests: \code{\link{test_compliance}},
   \code{\link{test_connection}}, \code{\link{test_driver}},

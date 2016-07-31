@@ -16,18 +16,6 @@ against test names; skip test if matching any.}
 \description{
 Test full compliance to DBI
 }
-\details{
-This function defines the following tests:
-\describe{
-\item{\code{compliance}}{
-The package defines three classes that implement the required methods.
-}
-\item{\code{read_only}}{
-Writing to the database fails.  (You might need to set up a separate
-test context just for this test.)
-}
-}
-}
 \seealso{
 Other tests: \code{\link{test_connection}},
   \code{\link{test_driver}},
