@@ -1,6 +1,8 @@
 # reverse order
 
 #' @include spec-compliance.R
+#' @include spec-compliance-read-only.R
+#' @include spec-compliance-methods.R
 #' @include spec-meta.R
 #' @include spec-meta-bind-named-dollar.R
 #' @include spec-meta-bind-named-colon.R

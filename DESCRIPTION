@@ -70,6 +70,8 @@ Collate:
     'spec-meta-bind-named-colon.R'
     'spec-meta-bind-named-dollar.R'
     'spec-meta.R'
+    'spec-compliance-methods.R'
+    'spec-compliance-read-only.R'
     'spec-compliance.R'
     'spec-.R'
     'test-all.R'
