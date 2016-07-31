@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section SQL:
-#' \subsection{\code{dbListTables("DBIConnection")}}{}
+#' \subsection{\code{dbListTables("DBIConnection")}}{
 spec_sql_list_tables <- list(
   #' Can list the tables in the database, adding and removing tables affects
   #' the list. Can also check existence of a table.
@@ -35,5 +35,6 @@ spec_sql_list_tables <- list(
     })
   },
 
+  #' }
   NULL
 )

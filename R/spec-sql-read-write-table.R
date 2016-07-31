@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section SQL:
-#' \subsection{\code{dbReadTable("DBIConnection")} and \code{dbWriteTable("DBIConnection")}}{}
+#' \subsection{\code{dbReadTable("DBIConnection")} and \code{dbWriteTable("DBIConnection")}}{
 spec_sql_read_write_table <- list(
   #' Can write the \code{\link[datasets]{iris}} data as a table to the
   #' database, but won't overwrite by default.
@@ -131,5 +131,6 @@ spec_sql_read_write_table <- list(
     })
   },
 
+  #' }
   NULL
 )

@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Result:
-#' \subsection{\code{dbFetch("DBIResult")} and \code{dbHasCompleted("DBIResult")}}{}
+#' \subsection{\code{dbFetch("DBIResult")} and \code{dbHasCompleted("DBIResult")}}{
 spec_result_fetch <- list(
   #' Single-value queries can be fetched.
   fetch_single = function(ctx) {
@@ -143,5 +143,6 @@ spec_result_fetch <- list(
     expect_error(dbGetQuery(con, "SELECT 1"))
   },
 
+  #' }
   NULL
 )

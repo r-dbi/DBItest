@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Result:
-#' \subsection{Data roundtrip}{}
+#' \subsection{Data roundtrip}{
 spec_result_roundtrip <- list(
   #' Data conversion from SQL to R: integer
   data_integer = function(ctx) {
@@ -483,6 +483,7 @@ spec_result_roundtrip <- list(
     })
   },
 
+  #' }
   NULL
 )
 

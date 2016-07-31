@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Result:
-#' \subsection{Construction: \code{dbSendQuery("DBIConnection")} and \code{dbClearResult("DBIResult")}}{}
+#' \subsection{Construction: \code{dbSendQuery("DBIConnection")} and \code{dbClearResult("DBIResult")}}{
 spec_result_send_query <- list(
   #' Can issue trivial query, result object inherits from "DBIResult".
   trivial_query = function(ctx) {
@@ -76,5 +76,6 @@ spec_result_send_query <- list(
     )
   },
 
+  #' }
   NULL
 )

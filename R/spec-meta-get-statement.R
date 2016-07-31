@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Meta:
-#' \subsection{\code{dbGetStatement("DBIResult")}}{}
+#' \subsection{\code{dbGetStatement("DBIResult")}}{
 spec_meta_get_statement <- list(
   #' SQL query can be retrieved from the result.
   get_statement = function(ctx) {
@@ -14,5 +14,6 @@ spec_meta_get_statement <- list(
     })
   },
 
+  #' }
   NULL
 )

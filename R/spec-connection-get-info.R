@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Connection:
-#' \subsection{\code{dbGetInfo("DBIConnection")} (deprecated)}{}
+#' \subsection{\code{dbGetInfo("DBIConnection")} (deprecated)}{
 spec_connection_get_info <- list(
   #' Return value of dbGetInfo has necessary elements
   get_info_connection = function(ctx) {
@@ -22,5 +22,6 @@ spec_connection_get_info <- list(
     expect_false("password" %in% info_names)
   },
 
+  #' }
   NULL
 )

@@ -1,5 +1,6 @@
 #' @template dbispec-sub
 #' @section Meta:
+#' \subsection{\code{dbBind("DBIResult")}}{
 spec_meta_bind_positional_qm <- list(
   #' Empty positional binding (question mark syntax) with check of
   #' return value.
@@ -149,5 +150,6 @@ spec_meta_bind_positional_qm <- list(
     })
   },
 
+  #' }
   NULL
 )

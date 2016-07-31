@@ -2,7 +2,7 @@
 
 #' @template dbispec-sub
 #' @section Result:
-#' \subsection{\code{dbGetQuery("DBIConnection", "ANY")}}{}
+#' \subsection{\code{dbGetQuery("DBIConnection", "ANY")}}{
 spec_result_get_query <- list(
   #' Single-value queries can be read with dbGetQuery
   get_query_single = function(ctx) {
@@ -73,5 +73,6 @@ spec_result_get_query <- list(
     })
   },
 
+  #' }
   NULL
 )

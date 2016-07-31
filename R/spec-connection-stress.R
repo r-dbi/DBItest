@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Connection:
-#' \subsection{Stress tests}{}
+#' \subsection{Stress tests}{
 spec_connection_stress <- list(
   #' Open 50 simultaneous connections
   simultaneous_connections = function(ctx) {
@@ -62,5 +62,6 @@ spec_connection_stress <- list(
     })
   },
 
+  #' }
   NULL
 )

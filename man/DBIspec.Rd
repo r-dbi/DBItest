@@ -62,7 +62,7 @@ This section describes the construction of, and the methods defined for,
 this driver class.
 
 
-\subsection{Construction}{}
+\subsection{Construction}{
 The backend must support creation of an instance of this driver class
 with a \dfn{constructor function}.
 By default, its name is the package name without the leading \sQuote{R}
@@ -79,47 +79,56 @@ an empty argument list is expected.
 Otherwise, an argument list where all arguments have default values
 is also accepted.
 
+}
 
-\subsection{\code{dbDataType("DBIDriver", "ANY")}}{}
+
+\subsection{\code{dbDataType("DBIDriver", "ANY")}}{
 SQL Data types exist for all basic R data types. dbDataType() does not
 throw an error and returns a nonempty atomic character.
+}
 
 
-\subsection{\code{dbGetInfo("DBIDriver")} (deprecated)}{}
+\subsection{\code{dbGetInfo("DBIDriver")} (deprecated)}{
 Return value of dbGetInfo has necessary elements.
+}
 
 
-\subsection{Repeated loading, instantiation, and unloading}{}
+\subsection{Repeated loading, instantiation, and unloading}{
 Repeated load, instantiation, and unload of package in a new R session.
+}
 }
 
 \section{Connection}{
 
-\subsection{Construction: \code{dbConnect("DBIDriver")} and \code{dbDisconnect("DBIConnection", "ANY")}}{}
+\subsection{Construction: \code{dbConnect("DBIDriver")} and \code{dbDisconnect("DBIConnection", "ANY")}}{
 Can connect and disconnect, connection object inherits from
   "DBIConnection".
 Repeated disconnect throws warning.
+}
 
 
-\subsection{\code{dbDataType("DBIConnection", "ANY")}}{}
+\subsection{\code{dbDataType("DBIConnection", "ANY")}}{
 SQL Data types exist for all basic R data types. dbDataType() does not
 throw an error and returns a nonempty atomic character
+}
 
 
-\subsection{\code{dbGetInfo("DBIConnection")} (deprecated)}{}
+\subsection{\code{dbGetInfo("DBIConnection")} (deprecated)}{
 Return value of dbGetInfo has necessary elements
+}
 
 
-\subsection{Stress tests}{}
+\subsection{Stress tests}{
 Open 50 simultaneous connections
 Open and close 50 connections
 Repeated load, instantiation, connection, disconnection, and unload of
 package in a new R session.
 }
+}
 
 \section{Result}{
 
-\subsection{Construction: \code{dbSendQuery("DBIConnection")} and \code{dbClearResult("DBIResult")}}{}
+\subsection{Construction: \code{dbSendQuery("DBIConnection")} and \code{dbClearResult("DBIResult")}}{
 Can issue trivial query, result object inherits from "DBIResult".
 Return value, currently tests that the return value is always
 \code{TRUE}, and that an attempt to close a closed result set issues a
@@ -130,9 +139,10 @@ deletes it; the result sets for these query always have "completed"
 status.
 Issuing an invalid query throws error (but no warnings, e.g. related to
   pending results, are thrown).
+}
 
 
-\subsection{\code{dbFetch("DBIResult")} and \code{dbHasCompleted("DBIResult")}}{}
+\subsection{\code{dbFetch("DBIResult")} and \code{dbHasCompleted("DBIResult")}}{
 Single-value queries can be fetched.
 Multi-row single-column queries can be fetched.
 Multi-row queries can be fetched progressively.
@@ -144,9 +154,10 @@ If less rows than available are fetched, the result is returned in full
 Side-effect-only queries (without return value) can be fetched.
 Fetching from a closed result set raises an error.
 Querying a disconnected connection throws error.
+}
 
 
-\subsection{\code{dbGetQuery("DBIConnection", "ANY")}}{}
+\subsection{\code{dbGetQuery("DBIConnection", "ANY")}}{
 Single-value queries can be read with dbGetQuery
 Multi-row single-column queries can be read with dbGetQuery.
 Empty single-column queries can be read with
@@ -157,15 +168,17 @@ Multi-row multi-column queries can be read with dbGetQuery.
 Empty multi-column queries can be read with
 \code{\link[DBI]{dbGetQuery}}. Not all SQL dialects support the query
 used here.
+}
 
 
-\subsection{Create table with data type}{}
+\subsection{Create table with data type}{
 SQL Data types exist for all basic R data types, and the engine can
 process them.
 SQL data type for factor is the same as for character.
+}
 
 
-\subsection{Data roundtrip}{}
+\subsection{Data roundtrip}{
 Data conversion from SQL to R: integer
 Data conversion from SQL to R: integer with typed NULL values.
 Data conversion from SQL to R: integer with typed NULL values
@@ -233,22 +246,25 @@ Data conversion: timestamp (alternative syntax with parentheses
 for specifying timestamp literals) with typed NULL values
 in the first row.
 }
+}
 
 \section{SQL}{
 
-\subsection{\code{dbQuoteString("DBIConnection")}}{}
+\subsection{\code{dbQuoteString("DBIConnection")}}{
 Can quote strings, and create strings that contain quotes and spaces.
 Can quote more than one string at once by passing a character vector.
+}
 
 
-\subsection{\code{dbQuoteIdentifier("DBIConnection")}}{}
+\subsection{\code{dbQuoteIdentifier("DBIConnection")}}{
 Can quote identifiers that consist of letters only.
 Can quote identifiers with special characters, and create identifiers
 that contain quotes and spaces.
 Character vectors are treated as a single qualified identifier.
+}
 
 
-\subsection{\code{dbReadTable("DBIConnection")} and \code{dbWriteTable("DBIConnection")}}{}
+\subsection{\code{dbReadTable("DBIConnection")} and \code{dbWriteTable("DBIConnection")}}{
 Can write the \code{\link[datasets]{iris}} data as a table to the
 database, but won't overwrite by default.
 Can read the \code{\link[datasets]{iris}} data from a database table.
@@ -261,9 +277,10 @@ Can write the \code{\link[datasets]{iris}} data as a temporary table to
 the database, the table is not available in a second connection and is
 gone after reconnecting.
 A new table is visible in a second connection.
+}
 
 
-\subsection{Roundtrip tests}{}
+\subsection{Roundtrip tests}{
 Can create tables with keywords as table and column names.
 Can create tables with quotes, commas, and spaces in column names and
 data.
@@ -281,46 +298,58 @@ Can create tables with raw columns.
 Can create tables with date columns.
 Can create tables with timestamp columns.
 Can create tables with row names.
+}
 
 
-\subsection{\code{dbListTables("DBIConnection")}}{}
+\subsection{\code{dbListTables("DBIConnection")}}{
 Can list the tables in the database, adding and removing tables affects
 the list. Can also check existence of a table.
+}
 
 
-\subsection{\code{dbListFields("DBIConnection")}}{}
+\subsection{\code{dbListFields("DBIConnection")}}{
 Can list the fields for a table in the database.
+}
 }
 
 \section{Meta}{
 
-\subsection{\code{dbIsValid("DBIConnection")}}{}
+\subsection{\code{dbIsValid("DBIConnection")}}{
 Only an open connection is valid.
+}
 
 
-\subsection{\code{dbIsValid("DBIResult")}}{}
+\subsection{\code{dbIsValid("DBIResult")}}{
 Only an open result set is valid.
+}
 
 
-\subsection{\code{dbGetStatement("DBIResult")}}{}
+\subsection{\code{dbGetStatement("DBIResult")}}{
 SQL query can be retrieved from the result.
+}
 
 
-\subsection{\code{dbColumnInfo("DBIResult")}}{}
+\subsection{\code{dbColumnInfo("DBIResult")}}{
 Column information is correct.
+}
 
 
-\subsection{\code{dbGetRowCount("DBIResult")}}{}
+\subsection{\code{dbGetRowCount("DBIResult")}}{
 Row count information is correct.
+}
 
 
-\subsection{\code{dbGetRowsAffected("DBIResult")}}{}
+\subsection{\code{dbGetRowsAffected("DBIResult")}}{
 Information on affected rows is correct.
+}
 
 
+\subsection{\code{dbGetInfo("DBIResult")} (deprecated)}{
 Return value of dbGetInfo has necessary elements
+}
 
 
+\subsection{\code{dbBind("DBIResult")}}{
 Empty positional binding (question mark syntax) with check of
 return value.
 Positional binding of integer values (question mark syntax) raises an
@@ -344,8 +373,10 @@ Positional binding of timestamp values (question mark syntax).
 Positional binding of \code{\link{POSIXlt}} timestamp values (question
 mark syntax).
 Positional binding of raw values (question mark syntax).
+}
 
 
+\subsection{\code{dbBind("DBIResult")}}{
 Empty positional binding (dollar syntax) with check of
 return value.
 Positional binding of integer values (dollar syntax) raises an
@@ -369,8 +400,10 @@ Positional binding of timestamp values (dollar syntax).
 Positional binding of \code{\link{POSIXlt}} timestamp values (dollar
 syntax).
 Positional binding of raw values (dollar syntax).
+}
 
 
+\subsection{\code{dbBind("DBIResult")}}{
 Empty named binding (colon syntax) with check of
 return value.
 Named binding of integer values (colon syntax) raises an
@@ -395,8 +428,10 @@ Named binding of timestamp values (colon syntax).
 Named binding of \code{\link{POSIXlt}} timestamp values (colon
 syntax).
 Named binding of raw values (colon syntax).
+}
 
 
+\subsection{\code{dbBind("DBIResult")}}{
 Empty named binding (dollar syntax) with check of
 return value.
 Named binding of integer values (dollar syntax) raises an
@@ -422,14 +457,19 @@ Named binding of \code{\link{POSIXlt}} timestamp values (dollar
 syntax).
 Named binding of raw values (dollar syntax).
 }
+}
 
 \section{Full compliance}{
 
+\subsection{All of DBI}{
 The package defines three classes that implement the required methods.
+}
 
 
+\subsection{Read-only access}{
 Writing to the database fails.  (You might need to set up a separate
 test context just for this test.)
+}
 }
 \keyword{datasets}
 

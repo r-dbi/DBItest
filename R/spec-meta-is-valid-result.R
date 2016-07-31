@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Meta:
-#' \subsection{\code{dbIsValid("DBIResult")}}{}
+#' \subsection{\code{dbIsValid("DBIResult")}}{
 spec_meta_is_valid_result <- list(
   #' Only an open result set is valid.
   is_valid_result = function(ctx) {
@@ -15,5 +15,6 @@ spec_meta_is_valid_result <- list(
     })
   },
 
+  #' }
   NULL
 )
