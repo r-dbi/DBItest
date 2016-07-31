@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Driver:
-#' \subsection{Construction}{}
+#' \subsection{Construction}{
 spec_driver_constructor <- list(
   constructor = function(ctx) {
     pkg_name <- package_name(ctx)
@@ -40,5 +40,6 @@ spec_driver_constructor <- list(
     #'
   },
 
+  #' }
   NULL
 )

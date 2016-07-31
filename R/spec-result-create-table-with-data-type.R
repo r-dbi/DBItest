@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Result:
-#' \subsection{Create table with data type}{}
+#' \subsection{Create table with data type}{
 spec_result_create_table_with_data_type <- list(
   #' SQL Data types exist for all basic R data types, and the engine can
   #' process them.
@@ -59,5 +59,6 @@ spec_result_create_table_with_data_type <- list(
     })
   },
 
+  #' }
   NULL
 )

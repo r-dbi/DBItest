@@ -1,5 +1,6 @@
 #' @template dbispec-sub
 #' @section Meta:
+#' \subsection{\code{dbBind("DBIResult")}}{
 spec_meta_bind_named_dollar <- list(
   #' Empty named binding (dollar syntax) with check of
   #' return value.
@@ -156,5 +157,6 @@ spec_meta_bind_named_dollar <- list(
     })
   },
 
+  #' }
   NULL
 )

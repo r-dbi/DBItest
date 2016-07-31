@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Connection:
-#' \subsection{Construction: \code{dbConnect("DBIDriver")} and \code{dbDisconnect("DBIConnection", "ANY")}}{}
+#' \subsection{Construction: \code{dbConnect("DBIDriver")} and \code{dbDisconnect("DBIConnection", "ANY")}}{
 spec_connection_connect <- list(
   #' Can connect and disconnect, connection object inherits from
   #'   "DBIConnection".
@@ -17,5 +17,6 @@ spec_connection_connect <- list(
     expect_warning(dbDisconnect(con))
   },
 
+  #' }
   NULL
 )

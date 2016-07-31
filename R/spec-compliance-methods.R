@@ -1,5 +1,6 @@
 #' @template dbispec-sub
 #' @section Full compliance:
+#' \subsection{All of DBI}{
 spec_compliance_methods <- list(
   #' The package defines three classes that implement the required methods.
   compliance = function(ctx) {
@@ -24,6 +25,7 @@ spec_compliance_methods <- list(
     })
   },
 
+  #' }
   NULL
 )
 

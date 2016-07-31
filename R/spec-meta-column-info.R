@@ -1,6 +1,6 @@
 #' @template dbispec-sub
 #' @section Meta:
-#' \subsection{\code{dbColumnInfo("DBIResult")}}{}
+#' \subsection{\code{dbColumnInfo("DBIResult")}}{
 spec_meta_column_info <- list(
   #' Column information is correct.
   column_info = function(ctx) {
@@ -16,5 +16,6 @@ spec_meta_column_info <- list(
     })
   },
 
+  #' }
   NULL
 )
