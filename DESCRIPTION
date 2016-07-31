@@ -69,6 +69,7 @@ Collate:
     'spec-meta-bind-positional-dollar.R'
     'spec-meta-bind-named-colon.R'
     'spec-meta-bind-named-dollar.R'
+    'spec-meta-bind.R'
     'spec-meta.R'
     'spec-compliance-methods.R'
     'spec-compliance-read-only.R'

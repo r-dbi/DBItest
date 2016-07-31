@@ -7,10 +7,7 @@ spec_meta <- c(
   spec_meta_get_row_count,
   spec_meta_get_rows_affected,
   spec_meta_get_info_result,
-  spec_meta_bind_positional_qm,
-  spec_meta_bind_positional_dollar,
-  spec_meta_bind_named_colon,
-  spec_meta_bind_named_dollar,
+  spec_meta_bind,
 
   # dbHasCompleted tested in test_result
 
