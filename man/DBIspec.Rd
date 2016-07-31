@@ -83,8 +83,30 @@ is also accepted.
 
 
 \subsection{\code{dbDataType("DBIDriver", "ANY")}}{
-SQL Data types exist for all basic R data types. dbDataType() does not
-throw an error and returns a nonempty atomic character.
+The backend can override the \code{\link[DBI]{dbDataType}} generic
+for its driver class.
+This generic expects an arbitrary object as second argument
+and returns a corresponding SQL type
+as atomic
+character value
+with at least one character.
+As-is objects (i.e., wrapped by \code{\link[base]{I}}) must be
+supported and return the same results as their unwrapped counterparts.
+
+To query the values returned by the default implementation,
+run \code{example(dbDataType, package = "DBI")}.
+If the backend needs to override this generic,
+it must accept all basic R data types as its second argument, namely
+\code{\link[base]{logical}},
+\code{\link[base]{integer}},
+\code{\link[base]{numeric}},
+\code{\link[base]{character}},
+dates (see \code{\link[base]{Dates}}),
+date-time (see \code{\link[base]{DateTimeClasses}}),
+and \code{\link[base]{difftime}}.
+It also must accept lists of \code{raw} vectors
+and map them to the BLOB (binary large object) data type.
+The behavior for other object types is not specified.
 }
 
 
