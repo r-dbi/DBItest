@@ -1,9 +1,14 @@
-# DBItest 1.3-2 (2016-07-31)
+## DBItest 1.3-3 (2016-08-03)
+
+- Document and enhance test for `dbDataType("DBIDriver", "ANY")` (#88).
+
+
+## DBItest 1.3-2 (2016-07-31)
 
 - Avoid empty subsections in Rd documentation to satisfy `R CMD check` (#81).
 
 
-# DBItest 1.3-1 (2016-07-31)
+## DBItest 1.3-1 (2016-07-31)
 
 - Refactor test specification in smaller modules, isolated from actual test execution (#81). This breaks the documentation of the tests, which will substituted by a DBI specification in prose.
 - Minor corrections for "bind" tests.
