@@ -1,4 +1,4 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
 #' @format NULL
 #' @section SQL:
 #' \subsection{\code{dbListFields("DBIConnection")}}{
