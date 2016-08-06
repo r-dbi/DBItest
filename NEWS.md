@@ -1,3 +1,9 @@
+## DBItest 1.3-4 (2016-08-06)
+
+- Add machinery to automatically copy `DBIspec.Rd` to a local checkout of the DBI package (rstats-db/DBI#129), with message indicating if documentation was updated. Two passes may be necessary to arrive to a stable state.
+- Get rid of "Format" and "Usage" sections, and aliases, in the specs.
+
+
 ## DBItest 1.3-3 (2016-08-03)
 
 - Document and enhance test for `dbDataType("DBIDriver", "ANY")` (#88).
