@@ -28,7 +28,7 @@ copy_spec <- function(dbitest_path, dbi_path) {
 }
 
 update_file <- function(contents, file) {
-  old_contents <- readLines(file)
+  old_contents <- tryCatch(readLines(file), error = function(e) character())
   # Always write to update timestamp
   writeLines(contents, file)
   !identical(contents, old_contents)
