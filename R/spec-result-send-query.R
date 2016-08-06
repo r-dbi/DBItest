@@ -1,4 +1,4 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
 #' @format NULL
 #' @section Result:
 #' \subsection{Construction: \code{dbSendQuery("DBIConnection")} and \code{dbClearResult("DBIResult")}}{
