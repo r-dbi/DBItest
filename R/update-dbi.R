@@ -1,7 +1,7 @@
 update_dbi <- function() {
   dbitest_path <- getwd()
   dbi_path <- normalizePath(file.path(getwd(), "..", "DBI"), mustWork = FALSE)
-  if (!dir.exists(dbi_path))
+  if (!dir.exists(file.path(dbi_path, "man")))
     return()
 
   if (spec_rd_too_old(dbitest_path, dbi_path)) {
