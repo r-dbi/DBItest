@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Connection:
 #' \subsection{Stress tests}{
 spec_connection_stress <- list(

@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Meta:
 #' \subsection{\code{dbIsValid("DBIResult")}}{
 spec_meta_is_valid_result <- list(

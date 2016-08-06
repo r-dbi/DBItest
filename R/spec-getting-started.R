@@ -1,4 +1,4 @@
-#' @rdname DBIspec
+#' @template dbispec
 #' @format NULL
 #' @section Getting started:
 spec_getting_started <- list(

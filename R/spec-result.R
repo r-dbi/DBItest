@@ -1,4 +1,5 @@
 #' @template dbispec
+#' @format NULL
 spec_result <- c(
   spec_result_send_query,
   spec_result_fetch,

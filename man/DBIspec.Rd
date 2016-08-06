@@ -11,22 +11,6 @@
 \alias{spec_result}
 \alias{spec_sql}
 \title{DBI specification}
-\format{The test functions are implemented as named lists.}
-\usage{
-spec_getting_started
-
-spec_driver
-
-spec_connection
-
-spec_result
-
-spec_sql
-
-spec_meta
-
-spec_compliance
-}
 \description{
 The \pkg{DBI} package defines the generic DataBase Interface for R.
 The connection to individual DBMS is made by packages that import \pkg{DBI}

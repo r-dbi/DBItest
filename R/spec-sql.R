@@ -1,4 +1,5 @@
 #' @template dbispec
+#' @format NULL
 spec_sql <- c(
   spec_sql_quote_string,
   spec_sql_quote_identifier,
