@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section SQL:
 #' \subsection{\code{dbListFields("DBIConnection")}}{
 spec_sql_list_fields <- list(

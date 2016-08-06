@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Driver:
 #' \subsection{\code{dbDataType("DBIDriver", "ANY")}}{
 spec_driver_data_type <- list(

@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Connection:
 #' \subsection{Construction: \code{dbConnect("DBIDriver")} and \code{dbDisconnect("DBIConnection", "ANY")}}{
 spec_connection_connect <- list(

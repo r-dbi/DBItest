@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Meta:
 #' \subsection{\code{dbBind("DBIResult")}}{
 spec_meta_bind_named_dollar <- list(

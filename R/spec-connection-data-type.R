@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Connection:
 #' \subsection{\code{dbDataType("DBIConnection", "ANY")}}{
 spec_connection_data_type <- list(

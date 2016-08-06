@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Driver:
 #' \subsection{\code{dbGetInfo("DBIDriver")} (deprecated)}{
 spec_driver_get_info <- list(

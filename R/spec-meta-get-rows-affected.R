@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Meta:
 #' \subsection{\code{dbGetRowsAffected("DBIResult")}}{
 spec_meta_get_rows_affected <- list(

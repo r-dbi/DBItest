@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Result:
 #' \subsection{\code{dbFetch("DBIResult")} and \code{dbHasCompleted("DBIResult")}}{
 spec_result_fetch <- list(
