@@ -24,6 +24,8 @@ copy_spec <- function(dbitest_path, dbi_path) {
   spec <- readLines(file.path(dbitest_path, "man", "DBIspec.Rd"))
   if (update_file(spec[-1:-2], file.path(dbi_path, "man", "DBIspec.Rd"))) {
     message("Updated DBI documentation in ", dbi_path)
+  } else {
+    message("Unchanged DBI documentation in ", dbi_path)
   }
 }
 
