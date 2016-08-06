@@ -3,13 +3,6 @@
 \docType{data}
 \name{DBIspec}
 \alias{DBIspec}
-\alias{spec_compliance}
-\alias{spec_connection}
-\alias{spec_driver}
-\alias{spec_getting_started}
-\alias{spec_meta}
-\alias{spec_result}
-\alias{spec_sql}
 \title{DBI specification}
 \description{
 The \pkg{DBI} package defines the generic DataBase Interface for R.
