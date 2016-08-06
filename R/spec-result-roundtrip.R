@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Result:
 #' \subsection{Data roundtrip}{
 spec_result_roundtrip <- list(

@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Result:
 #' \subsection{Create table with data type}{
 spec_result_create_table_with_data_type <- list(

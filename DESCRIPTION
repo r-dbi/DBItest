@@ -84,5 +84,6 @@ Collate:
     'test-meta.R'
     'test-compliance.R'
     'tweaks.R'
+    'update-dbi.R'
     'utf8.R'
     'utils.R'

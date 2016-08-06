@@ -1,4 +1,5 @@
 #' @template dbispec
+#' @format NULL
 spec_meta <- c(
   spec_meta_is_valid_connection,
   spec_meta_is_valid_result,

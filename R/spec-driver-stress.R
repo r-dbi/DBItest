@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Driver:
 #' \subsection{Repeated loading, instantiation, and unloading}{
 spec_driver_stress <- list(

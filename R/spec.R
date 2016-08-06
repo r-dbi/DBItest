@@ -16,6 +16,7 @@
 #' This ensures that an extension or update to the tests will be reflected in
 #' this document.
 #'
-#' @format The test functions are implemented as named lists.
+#' @format NULL
+#' @usage NULL
 #' @name DBIspec
 NULL

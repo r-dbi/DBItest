@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Driver:
 #' \subsection{Construction}{
 spec_driver_constructor <- list(

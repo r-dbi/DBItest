@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Full compliance:
 #' \subsection{All of DBI}{
 spec_compliance_methods <- list(

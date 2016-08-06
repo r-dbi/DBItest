@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section SQL:
 #' \subsection{\code{dbQuoteIdentifier("DBIConnection")}}{
 spec_sql_quote_identifier <- list(
