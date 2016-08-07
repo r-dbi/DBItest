@@ -1,3 +1,8 @@
+## DBItest 1.3-5 (2016-08-07)
+
+- New hidden `DBIspec-wip` page for work-in-progress documentation.
+
+
 ## DBItest 1.3-4 (2016-08-06)
 
 - Add machinery to automatically copy `DBIspec.Rd` to a local checkout of the DBI package (rstats-db/DBI#129), with message indicating if documentation was updated. Two passes may be necessary to arrive to a stable state.
