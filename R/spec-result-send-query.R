@@ -50,17 +50,17 @@ spec_result_send_query <- list(
   command_query = function(ctx) {
     with_connection({
       on.exit({
-        res <- dbSendQuery(con, "DROP TABLE test")
+        res <- dbSendUpdate(con, "DROP TABLE test")
         expect_true(dbHasCompleted(res))
         expect_error(dbClearResult(res), NA)
       }
       , add = TRUE)
 
-      res <- dbSendQuery(con, "CREATE TABLE test (a integer)")
+      res <- dbSendUpdate(con, "CREATE TABLE test (a integer)")
       expect_true(dbHasCompleted(res))
       expect_error(dbClearResult(res), NA)
 
-      res <- dbSendQuery(con, "INSERT INTO test SELECT 1")
+      res <- dbSendUpdate(con, "INSERT INTO test SELECT 1")
       expect_true(dbHasCompleted(res))
       expect_error(dbClearResult(res), NA)
     })
@@ -71,7 +71,7 @@ spec_result_send_query <- list(
   invalid_query = function(ctx) {
     expect_warning(
       with_connection({
-        expect_error(dbSendQuery(con, "RAISE"))
+        expect_error(dbSendUpdate(con, "RAISE"))
       }),
       NA
     )

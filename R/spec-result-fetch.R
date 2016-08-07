@@ -106,10 +106,10 @@ spec_result_fetch <- list(
     with_connection({
       query <- "CREATE TABLE test (a integer)"
 
-      res <- dbSendQuery(con, query)
+      res <- dbSendUpdate(con, query)
       on.exit({
         expect_error(dbClearResult(res), NA)
-        expect_error(dbClearResult(dbSendQuery(con, "DROP TABLE test")), NA)
+        expect_error(dbClearResult(dbSendUpdate(con, "DROP TABLE test")), NA)
       }
       , add = TRUE)
 

@@ -7,6 +7,6 @@
 #' @importFrom DBI dbGetStatement dbHasCompleted dbIsValid
 #' @importFrom DBI dbListConnections dbListFields dbListTables
 #' @importFrom DBI dbQuoteIdentifier dbQuoteString dbReadTable dbRemoveTable
-#' @importFrom DBI dbRollback dbSendQuery dbSetDataMappings dbUnloadDriver
-#' @importFrom DBI dbWriteTable
+#' @importFrom DBI dbRollback dbSendQuery dbSendUpdate dbSetDataMappings
+#' @importFrom DBI dbUnloadDriver dbWriteTable
 NULL
