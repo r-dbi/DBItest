@@ -7,7 +7,7 @@ spec_meta_get_rows_affected <- list(
   rows_affected = function(ctx) {
     with_connection({
       expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-      on.exit(expect_error(dbGetQuery(con, "DROP TABLE iris"), NA),
+      on.exit(expect_error(dbExecute(con, "DROP TABLE iris"), NA),
               add = TRUE)
 
       iris <- get_iris(ctx)
@@ -19,7 +19,7 @@ spec_meta_get_rows_affected <- list(
           dbQuoteIdentifier(con, "Species"),
           " = ", dbQuoteString(con, "versicolor"),
           ")")
-        res <- dbSendQuery(con, query)
+        res <- dbSendStatement(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         ra <- dbGetRowsAffected(res)
 
@@ -28,7 +28,7 @@ spec_meta_get_rows_affected <- list(
 
       local({
         query <- "DELETE FROM iris WHERE (0 = 1)"
-        res <- dbSendQuery(con, query)
+        res <- dbSendStatement(con, query)
         on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
         ra <- dbGetRowsAffected(res)
 

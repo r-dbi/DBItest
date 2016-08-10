@@ -27,8 +27,8 @@ spec_result_create_table_with_data_type <- list(
         }))
 
         eval(bquote({
-          expect_error(dbGetQuery(con, .(query)), NA)
-          on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA),
+          expect_error(dbExecute(con, .(query)), NA)
+          on.exit(expect_error(dbExecute(con, "DROP TABLE test"), NA),
                   add = TRUE)
         }))
       }
