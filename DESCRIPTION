@@ -86,6 +86,7 @@ Collate:
     'test-result.R'
     'test-sql.R'
     'test-meta.R'
+    'test-transaction.R'
     'test-compliance.R'
     'tweaks.R'
     'update-dbi.R'

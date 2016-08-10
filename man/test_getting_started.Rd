@@ -21,6 +21,6 @@ and test-first development right from the start.
 Other tests: \code{\link{test_compliance}},
   \code{\link{test_connection}}, \code{\link{test_driver}},
   \code{\link{test_meta}}, \code{\link{test_result}},
-  \code{\link{test_sql}}
+  \code{\link{test_sql}}, \code{\link{test_transaction}}
 }
 
