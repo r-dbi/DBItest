@@ -1,3 +1,9 @@
+## DBItest 1.3-6 (2016-08-11)
+
+- Use `dbSendStatement()` and `dbExecute()` where appropriate.
+- The "compliance" test tests that the backend package exports exactly one subclass of each DBI virtual class.
+
+
 ## DBItest 1.3-5 (2016-08-07)
 
 - New hidden `DBIspec-wip` page for work-in-progress documentation.
