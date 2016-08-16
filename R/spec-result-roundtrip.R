@@ -13,7 +13,7 @@ spec_result_roundtrip <- list(
   #' Data conversion from SQL to R: integer with typed NULL values.
   data_integer_null_below = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con, 1L, -100L, .add_null = "below")
+      test_select(.ctx = ctx, con, "integer '1'" = 1L, "integer '-100'" = -100L, .add_null = "below")
     })
   },
 
@@ -21,21 +21,21 @@ spec_result_roundtrip <- list(
   #' in the first row.
   data_integer_null_above = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con, 1L, -100L, .add_null = "above")
+      test_select(.ctx = ctx, con, "integer '1'" = 1L, "integer '-100'" = -100L, .add_null = "above")
     })
   },
 
   #' Data conversion from SQL to R: numeric.
   data_numeric = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con, 1.5, -100.5)
+      test_select(.ctx = ctx, con, "real '1.5'" = 1.5, "real '-100.5'" = -100.5)
     })
   },
 
   #' Data conversion from SQL to R: numeric with typed NULL values.
   data_numeric_null_below = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con, 1.5, -100.5, .add_null = "below")
+      test_select(.ctx = ctx, con, "real '1.5'" = 1.5, "real '-100.5'" = -100.5, .add_null = "below")
     })
   },
 
@@ -43,7 +43,7 @@ spec_result_roundtrip <- list(
   #' in the first row.
   data_numeric_null_above = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con, 1.5, -100.5, .add_null = "above")
+      test_select(.ctx = ctx, con, "real '1.5'" = 1.5, "real '-100.5'" = -100.5, .add_null = "above")
     })
   },
 
