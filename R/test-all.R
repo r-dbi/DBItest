@@ -13,12 +13,5 @@
 #'
 #' @export
 test_all <- function(skip = NULL, ctx = get_default_context()) {
-  test_getting_started(skip = skip, ctx = ctx)
-  test_driver(skip = skip, ctx = ctx)
-  test_connection(skip = skip, ctx = ctx)
-  test_result(skip = skip, ctx = ctx)
-  test_sql(skip = skip, ctx = ctx)
-  test_meta(skip = skip, ctx = ctx)
   test_transaction(skip = skip, ctx = ctx)
-  test_compliance(skip = skip, ctx = ctx)
 }
