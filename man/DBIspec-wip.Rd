@@ -69,9 +69,9 @@ Multi-row single-column queries can be fetched.
 Multi-row queries can be fetched progressively.
 If more rows than available are fetched, the result is returned in full
   but no warning is issued.
+If zero rows are fetched, the result is still fully typed.
 If less rows than available are fetched, the result is returned in full
-  but no warning is issued; also tests the corner case of fetching zero
-  rows.
+  but no warning is issued.
 Side-effect-only queries (without return value) can be fetched.
 Fetching from a closed result set raises an error.
 Querying a disconnected connection throws error.

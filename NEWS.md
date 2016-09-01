@@ -1,3 +1,10 @@
+## DBItest 1.3-7 (2016-09-01)
+
+- New `fetch_zero_rows` test, split from `fetch_premature_close`.
+- The `skip` argument to the `test_()` functions is again evaluated with `perl = TRUE` to support negative lookaheads (#33).
+- Isolate stress tests from main test suite (#92).
+
+
 ## DBItest 1.3-6 (2016-08-11)
 
 - Use `dbSendStatement()` and `dbExecute()` where appropriate.
