@@ -14,7 +14,7 @@ run_tests <- function(ctx, tests, skip, test_suite) {
   tests <- tests[!vapply(tests, is.null, logical(1L))]
 
   skip_rx <- paste0(paste0("(?:^", skip, "$)"), collapse = "|")
-  skip_flag <- grepl(skip_rx, names(tests))
+  skip_flag <- grepl(skip_rx, names(tests), perl = TRUE)
 
   ok <- vapply(seq_along(tests), function(test_idx) {
     test_name <- names(tests)[[test_idx]]
