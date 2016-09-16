@@ -9,6 +9,9 @@
 #
 # Output: Files R/test-xxx-1.R and R/test-xxx-2.R, and @include directives to stdout
 
+#' @include spec-stress.R
+#' @include spec-stress-connection.R
+#' @include spec-stress-driver.R
 #' @include spec-compliance.R
 #' @include spec-compliance-read-only.R
 #' @include spec-compliance-methods.R
@@ -43,12 +46,10 @@
 #' @include spec-result-fetch.R
 #' @include spec-result-send-query.R
 #' @include spec-connection.R
-#' @include spec-connection-stress.R
 #' @include spec-connection-get-info.R
 #' @include spec-connection-data-type.R
 #' @include spec-connection-connect.R
 #' @include spec-driver.R
-#' @include spec-driver-stress.R
 #' @include spec-driver-get-info.R
 #' @include spec-driver-data-type.R
 #' @include spec-driver-constructor.R

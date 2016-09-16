@@ -1,7 +1,7 @@
 Package: DBItest
 Title: Testing 'DBI' Back Ends
-Version: 1.3-6
-Date: 2016-08-11
+Version: 1.3-7
+Date: 2016-09-01
 Authors@R: c( person(given = "Kirill", family = "Müller", role =
         c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
         person("RStudio", role = "cph") )
@@ -38,12 +38,10 @@ Collate:
     'spec-driver-constructor.R'
     'spec-driver-data-type.R'
     'spec-driver-get-info.R'
-    'spec-driver-stress.R'
     'spec-driver.R'
     'spec-connection-connect.R'
     'spec-connection-data-type.R'
     'spec-connection-get-info.R'
-    'spec-connection-stress.R'
     'spec-connection.R'
     'spec-result-send-query.R'
     'spec-result-fetch.R'
@@ -78,6 +76,9 @@ Collate:
     'spec-compliance-methods.R'
     'spec-compliance-read-only.R'
     'spec-compliance.R'
+    'spec-stress-driver.R'
+    'spec-stress-connection.R'
+    'spec-stress.R'
     'spec-.R'
     'test-all.R'
     'test-getting-started.R'
@@ -88,6 +89,7 @@ Collate:
     'test-meta.R'
     'test-transaction.R'
     'test-compliance.R'
+    'test-stress.R'
     'tweaks.R'
     'update-dbi.R'
     'utf8.R'
