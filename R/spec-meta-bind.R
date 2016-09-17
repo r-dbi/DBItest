@@ -169,6 +169,10 @@ test_select_bind <- function(con, placeholder_fun, ...) {
   else if (is.function(placeholder_fun))
     placeholder_fun <- list(placeholder_fun)
 
+  if (length(placeholder_fun) == 0) {
+    skip("Use the placeholder_pattern tweak, or skip all 'bind_.*' tests")
+  }
+
   lapply(placeholder_fun, test_select_bind_one, con = con, ...)
 }
 
