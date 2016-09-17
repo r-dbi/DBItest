@@ -19,6 +19,7 @@ test_all <- function(skip = NULL, ctx = get_default_context()) {
   test_result(skip = skip, ctx = ctx)
   test_sql(skip = skip, ctx = ctx)
   test_meta(skip = skip, ctx = ctx)
+  test_transaction(skip = skip, ctx = ctx)
   test_compliance(skip = skip, ctx = ctx)
   # stress tests are not tested by default (#92)
 }
