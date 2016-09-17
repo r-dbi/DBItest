@@ -123,8 +123,8 @@ spec_meta_bind_named_colon <- list(
     })
   },
 
-  #' Named binding of \code{\link{POSIXlt}} timestamp values (colon
-  #' syntax).
+  #' Named binding of \code{\link{POSIXlt}} timestamp values
+  #' (colon syntax).
   bind_timestamp_lt_named_colon = function(ctx) {
     with_connection({
       data_in <- as.POSIXlt(round(Sys.time()))

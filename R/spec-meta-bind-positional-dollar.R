@@ -123,8 +123,8 @@ spec_meta_bind_positional_dollar <- list(
     })
   },
 
-  #' Positional binding of \code{\link{POSIXlt}} timestamp values (dollar
-  #' syntax).
+  #' Positional binding of \code{\link{POSIXlt}} timestamp values
+  #' (dollar syntax).
   bind_timestamp_lt_positional_dollar = function(ctx) {
     with_connection({
       data_in <- as.POSIXlt(round(Sys.time()))

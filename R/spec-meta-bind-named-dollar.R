@@ -123,8 +123,8 @@ spec_meta_bind_named_dollar <- list(
     })
   },
 
-  #' Named binding of \code{\link{POSIXlt}} timestamp values (dollar
-  #' syntax).
+  #' Named binding of \code{\link{POSIXlt}} timestamp values
+  #' (dollar syntax).
   bind_timestamp_lt_named_dollar = function(ctx) {
     with_connection({
       data_in <- as.POSIXlt(round(Sys.time()))

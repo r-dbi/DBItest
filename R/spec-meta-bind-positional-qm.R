@@ -123,8 +123,8 @@ spec_meta_bind_positional_qm <- list(
     })
   },
 
-  #' Positional binding of \code{\link{POSIXlt}} timestamp values (question
-  #' mark syntax).
+  #' Positional binding of \code{\link{POSIXlt}} timestamp values
+  #' (question mark syntax).
   bind_timestamp_lt_positional_qm = function(ctx) {
     with_connection({
       data_in <- as.POSIXlt(round(Sys.time()))

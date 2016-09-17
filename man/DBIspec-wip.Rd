@@ -291,8 +291,8 @@ Positional binding of \code{NULL} values (question mark syntax).
 Positional binding of character values (question mark syntax).
 Positional binding of date values (question mark syntax).
 Positional binding of timestamp values (question mark syntax).
-Positional binding of \code{\link{POSIXlt}} timestamp values (question
-mark syntax).
+Positional binding of \code{\link{POSIXlt}} timestamp values
+(question mark syntax).
 Positional binding of raw values (question mark syntax).
 }
 
@@ -318,8 +318,8 @@ Positional binding of \code{NULL} values (dollar syntax).
 Positional binding of character values (dollar syntax).
 Positional binding of date values (dollar syntax).
 Positional binding of timestamp values (dollar syntax).
-Positional binding of \code{\link{POSIXlt}} timestamp values (dollar
-syntax).
+Positional binding of \code{\link{POSIXlt}} timestamp values
+(dollar syntax).
 Positional binding of raw values (dollar syntax).
 }
 
@@ -345,8 +345,8 @@ Named binding of \code{NULL} values (colon syntax).
 Named binding of character values (colon syntax).
 Named binding of date values (colon syntax).
 Named binding of timestamp values (colon syntax).
-Named binding of \code{\link{POSIXlt}} timestamp values (colon
-syntax).
+Named binding of \code{\link{POSIXlt}} timestamp values
+(colon syntax).
 Named binding of raw values (colon syntax).
 }
 
@@ -372,8 +372,8 @@ Named binding of \code{NULL} values (dollar syntax).
 Named binding of character values (dollar syntax).
 Named binding of date values (dollar syntax).
 Named binding of timestamp values (dollar syntax).
-Named binding of \code{\link{POSIXlt}} timestamp values (dollar
-syntax).
+Named binding of \code{\link{POSIXlt}} timestamp values
+(dollar syntax).
 Named binding of raw values (dollar syntax).
 }
 
