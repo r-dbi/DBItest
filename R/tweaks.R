@@ -39,6 +39,12 @@
     #'   resulting query returns the concatenated results of the subqueries
     "union",
 
+    #' @param placholder_pattern \code{[character]}\cr
+    #'   A pattern for placeholders used in \code{\link[DBI]{dbBind}}, e.g.,
+    #'   \code{"?"}, \code{"$1"}, or \code{":name"}. See
+    #'   \code{\link{make_placeholder_fun}} for details.
+    "placeholder_pattern",
+
     # Dummy argument
     NULL
   )

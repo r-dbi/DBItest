@@ -6,7 +6,7 @@
 \usage{
 tweaks(..., constructor_name = NULL, constructor_relax_args = NULL,
   strict_identifier = NULL, omit_blob_tests = NULL,
-  current_needs_parens = NULL, union = NULL)
+  current_needs_parens = NULL, union = NULL, placeholder_pattern = NULL)
 }
 \arguments{
 \item{...}{\code{[any]}\cr
@@ -36,6 +36,11 @@ Set to \code{TRUE} if the SQL functions \code{current_date},
 \item{union}{\code{[function(character)]}\cr
 Function that combines several subqueries into one so that the
 resulting query returns the concatenated results of the subqueries}
+
+\item{placholder_pattern}{\code{[character]}\cr
+A pattern for placeholders used in \code{\link[DBI]{dbBind}}, e.g.,
+\code{"?"}, \code{"$1"}, or \code{":name"}. See
+\code{\link{make_placeholder_fun}} for details.}
 }
 \description{
 TBD.
