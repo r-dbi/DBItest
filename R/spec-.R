@@ -21,6 +21,7 @@
 #' @include spec-transaction-begin-commit.R
 #' @include spec-meta.R
 #' @include spec-meta-bind.R
+#' @include spec-meta-bind-wrong-name.R
 #' @include spec-meta-bind-named-dollar.R
 #' @include spec-meta-bind-named-colon.R
 #' @include spec-meta-bind-positional-dollar.R

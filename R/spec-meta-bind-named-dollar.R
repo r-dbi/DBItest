@@ -48,13 +48,6 @@ spec_meta_bind_named_dollar <- list(
     })
   },
 
-  #' Named binding of integer values (dollar syntax) with wrong names.
-  bind_wrong_name_named_dollar = function(ctx) {
-    with_connection({
-      test_select_bind(con, named_dollar, 1L, extra = "wrong_name")
-    })
-  },
-
   #' Named binding of integer values (dollar syntax), repeated.
   bind_repeated_named_dollar = function(ctx) {
     with_connection({

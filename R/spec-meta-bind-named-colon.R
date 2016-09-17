@@ -48,13 +48,6 @@ spec_meta_bind_named_colon <- list(
     })
   },
 
-  #' Named binding of integer values (colon syntax) with wrong names.
-  bind_wrong_name_named_colon = function(ctx) {
-    with_connection({
-      test_select_bind(con, named_colon, 1L, extra = "wrong_name")
-    })
-  },
-
   #' Named binding of integer values (colon syntax), repeated.
   bind_repeated_named_colon = function(ctx) {
     with_connection({
