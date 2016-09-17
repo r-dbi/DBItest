@@ -21,10 +21,6 @@
 #' @include spec-transaction-begin-commit.R
 #' @include spec-meta.R
 #' @include spec-meta-bind.R
-#' @include spec-meta-bind-named-dollar.R
-#' @include spec-meta-bind-named-colon.R
-#' @include spec-meta-bind-positional-dollar.R
-#' @include spec-meta-bind-positional-qm.R
 #' @include spec-meta-get-info-result.R
 #' @include spec-meta-get-rows-affected.R
 #' @include spec-meta-get-row-count.R
