@@ -1,7 +1,8 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section Driver:
 #' \subsection{Repeated loading, instantiation, and unloading}{
-spec_driver_stress <- list(
+spec_stress_driver <- list(
   #' Repeated load, instantiation, and unload of package in a new R session.
   stress_load_unload = function(ctx) {
     skip_on_travis()

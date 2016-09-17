@@ -1,4 +1,5 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section Result:
 #' \subsection{Data roundtrip}{
 spec_result_roundtrip <- list(
@@ -530,8 +531,8 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
 
   if (.table) {
     query <- paste("CREATE TABLE test AS", query)
-    expect_warning(dbGetQuery(con, query), NA)
-    on.exit(expect_error(dbGetQuery(con, "DROP TABLE test"), NA), add = TRUE)
+    expect_warning(dbExecute(con, query), NA)
+    on.exit(expect_error(dbExecute(con, "DROP TABLE test"), NA), add = TRUE)
     expect_warning(rows <- dbReadTable(con, "test"), NA)
   } else {
     expect_warning(rows <- dbGetQuery(con, query), NA)

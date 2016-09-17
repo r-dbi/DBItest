@@ -1,4 +1,5 @@
 #' @template dbispec-sub
+#' @format NULL
 #' @section Driver:
 spec_driver_class <- list(
   inherits_from_driver = function(ctx) {

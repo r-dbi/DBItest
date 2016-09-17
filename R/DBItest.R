@@ -7,4 +7,5 @@
 #' See the package's vignette for more details.
 #'
 #' @author Kirill Müller
+#' @evalRd update_dbi()
 "_PACKAGE"

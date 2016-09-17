@@ -1,4 +1,5 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section SQL:
 #' \subsection{Roundtrip tests}{
 spec_sql_read_write_roundtrip <- list(

@@ -1,4 +1,5 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section Meta:
 #' \subsection{\code{dbGetStatement("DBIResult")}}{
 spec_meta_get_statement <- list(

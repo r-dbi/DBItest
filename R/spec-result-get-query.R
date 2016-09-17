@@ -1,6 +1,7 @@
 # TODO: Decide where to put this, it's a connection method but requires result methods to be implemented
 
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section Result:
 #' \subsection{\code{dbGetQuery("DBIConnection", "ANY")}}{
 spec_result_get_query <- list(

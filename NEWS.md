@@ -1,9 +1,38 @@
-# DBItest 1.3-2 (2016-07-31)
+## DBItest 1.3-7 (2016-09-01)
+
+- New `fetch_zero_rows` test, split from `fetch_premature_close`.
+- The `skip` argument to the `test_()` functions is again evaluated with `perl = TRUE` to support negative lookaheads (#33).
+- Isolate stress tests from main test suite (#92).
+
+
+## DBItest 1.3-6 (2016-08-11)
+
+- Use `dbSendStatement()` and `dbExecute()` where appropriate.
+- The "compliance" test tests that the backend package exports exactly one subclass of each DBI virtual class.
+
+
+## DBItest 1.3-5 (2016-08-07)
+
+- New hidden `DBIspec-wip` page for work-in-progress documentation.
+
+
+## DBItest 1.3-4 (2016-08-06)
+
+- Add machinery to automatically copy `DBIspec.Rd` to a local checkout of the DBI package (rstats-db/DBI#129), with message indicating if documentation was updated. Two passes may be necessary to arrive to a stable state.
+- Get rid of "Format" and "Usage" sections, and aliases, in the specs.
+
+
+## DBItest 1.3-3 (2016-08-03)
+
+- Document and enhance test for `dbDataType("DBIDriver", "ANY")` (#88).
+
+
+## DBItest 1.3-2 (2016-07-31)
 
 - Avoid empty subsections in Rd documentation to satisfy `R CMD check` (#81).
 
 
-# DBItest 1.3-1 (2016-07-31)
+## DBItest 1.3-1 (2016-07-31)
 
 - Refactor test specification in smaller modules, isolated from actual test execution (#81). This breaks the documentation of the tests, which will substituted by a DBI specification in prose.
 - Minor corrections for "bind" tests.

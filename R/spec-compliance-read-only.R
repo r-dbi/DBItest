@@ -1,4 +1,5 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section Full compliance:
 #' \subsection{Read-only access}{
 spec_compliance_read_only <- list(

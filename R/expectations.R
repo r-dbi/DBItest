@@ -24,3 +24,12 @@ has_method <- function(method_name) {
       paste("object of class", my_class, "has no", method_name, "method"))
   }
 }
+
+expect_invisible_true <- function(code) {
+  ret <- withVisible(code)
+  expect_true(ret$value)
+
+  # Cannot test for visibility of return value yet (#89)
+  return()
+  expect_false(ret$visible)
+}

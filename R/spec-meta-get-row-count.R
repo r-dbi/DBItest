@@ -1,4 +1,5 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section Meta:
 #' \subsection{\code{dbGetRowCount("DBIResult")}}{
 spec_meta_get_row_count <- list(

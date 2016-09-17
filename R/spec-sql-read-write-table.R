@@ -1,4 +1,5 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section SQL:
 #' \subsection{\code{dbReadTable("DBIConnection")} and \code{dbWriteTable("DBIConnection")}}{
 spec_sql_read_write_table <- list(

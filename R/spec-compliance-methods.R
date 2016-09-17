@@ -1,4 +1,5 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section Full compliance:
 #' \subsection{All of DBI}{
 spec_compliance_methods <- list(
@@ -15,13 +16,13 @@ spec_compliance_methods <- list(
         extends(class, dbi_class) && getClass(class)@virtual == FALSE
       }, getClasses(where))
 
-      expect_gt(length(classes), 0)
+      expect_equal(length(classes), 1)
 
-      sapply(classes, function(class) {
-        mapply(function(method, args) {
-          expect_has_class_method(method, class, args, where)
-        }, names(key_methods[[name]]), key_methods[[name]])
-      })
+      class <- classes[[1]]
+
+      mapply(function(method, args) {
+        expect_has_class_method(method, class, args, where)
+      }, names(key_methods[[name]]), key_methods[[name]])
     })
   },
 

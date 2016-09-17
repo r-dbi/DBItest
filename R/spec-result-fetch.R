@@ -1,4 +1,5 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section Result:
 #' \subsection{\code{dbFetch("DBIResult")} and \code{dbHasCompleted("DBIResult")}}{
 spec_result_fetch <- list(
@@ -78,10 +79,8 @@ spec_result_fetch <- list(
     })
   },
 
-  #' If less rows than available are fetched, the result is returned in full
-  #'   but no warning is issued; also tests the corner case of fetching zero
-  #'   rows.
-  fetch_premature_close = function(ctx) {
+  #' If zero rows are fetched, the result is still fully typed.
+  fetch_zero_rows = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
@@ -91,6 +90,21 @@ spec_result_fetch <- list(
 
       expect_warning(rows <- dbFetch(res, 0L), NA)
       expect_identical(rows, data.frame(a=integer()))
+
+      expect_warning(dbClearResult(res), NA)
+      on.exit(NULL, add = FALSE)
+    })
+  },
+
+  #' If less rows than available are fetched, the result is returned in full
+  #'   but no warning is issued.
+  fetch_premature_close = function(ctx) {
+    with_connection({
+      query <- union(
+        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+
+      res <- dbSendQuery(con, query)
+      on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
       expect_warning(rows <- dbFetch(res, 2L), NA)
       expect_identical(rows, data.frame(a=1L:2L))
@@ -105,10 +119,10 @@ spec_result_fetch <- list(
     with_connection({
       query <- "CREATE TABLE test (a integer)"
 
-      res <- dbSendQuery(con, query)
+      res <- dbSendStatement(con, query)
       on.exit({
         expect_error(dbClearResult(res), NA)
-        expect_error(dbClearResult(dbSendQuery(con, "DROP TABLE test")), NA)
+        expect_error(dbClearResult(dbSendStatement(con, "DROP TABLE test")), NA)
       }
       , add = TRUE)
 

@@ -1,4 +1,5 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section Meta:
 #' \subsection{\code{dbColumnInfo("DBIResult")}}{
 spec_meta_column_info <- list(

@@ -1,4 +1,5 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section Meta:
 #' \subsection{\code{dbIsValid("DBIConnection")}}{
 spec_meta_is_valid_connection <- list(

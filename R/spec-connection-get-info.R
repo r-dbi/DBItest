@@ -1,4 +1,5 @@
-#' @template dbispec-sub
+#' @template dbispec-sub-wip
+#' @format NULL
 #' @section Connection:
 #' \subsection{\code{dbGetInfo("DBIConnection")} (deprecated)}{
 spec_connection_get_info <- list(
