@@ -1,6 +1,6 @@
 all: test
 
-TESTTHAT_REPORTER ?= c('summary','fail')
+TESTTHAT_REPORTER ?= 'check'
 
 REVDEP := RPostgres RMySQL RSQLite RKazam
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
