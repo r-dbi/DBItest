@@ -11,7 +11,14 @@ spec_meta_bind <- c(
 
 # Helpers -----------------------------------------------------------------
 
-test_select_bind <- function(con, placeholder_fun, values,
+test_select_bind <- function(con, placeholder_fun, ...) {
+  if (is.function(placeholder_fun))
+    placeholder_fun <- list(placeholder_fun)
+
+  lapply(placeholder_fun, test_select_bind_one, con = con, ...)
+}
+
+test_select_bind_one <- function(con, placeholder_fun, values,
                              type = "character(10)",
                              transform_input = as.character,
                              transform_output = function(x) trimws(x, "right"),
