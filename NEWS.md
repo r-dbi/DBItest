@@ -1,3 +1,9 @@
+## DBItest 1.3-8 (2016-09-17)
+
+- Refactored `bind_` tests to use the new `parameter_pattern` tweak (#95).
+- Rough draft of transaction tests (#36).
+
+
 ## DBItest 1.3-7 (2016-09-01)
 
 - New `fetch_zero_rows` test, split from `fetch_premature_close`.
