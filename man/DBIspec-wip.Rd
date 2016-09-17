@@ -313,10 +313,12 @@ Binding of raw values.
 \section{Transactions}{
 
 \subsection{\code{dbBegin("DBIConnection")} and \code{dbRollback("DBIConnection")}}{
+Filler
 }
 
 
 \subsection{\code{dbWithTransaction("DBIConnection")} and \code{dbBreak()}}{
+Filler
 }
 }
 
