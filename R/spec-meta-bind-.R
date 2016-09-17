@@ -2,7 +2,7 @@
 #' @format NULL
 #' @section Meta:
 #' \subsection{\code{dbBind("DBIResult")}}{
-spec_meta_bind_ <- list(
+spec_meta_bind <- list(
   #' Empty binding with check of
   #' return value.
   bind_empty = function(ctx) {
@@ -52,6 +52,13 @@ spec_meta_bind_ <- list(
   bind_repeated = function(ctx) {
     with_connection({
       test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = "repeated")
+    })
+  },
+
+  #' Binding of integer values with wrong names.
+  bind_wrong_name = function(ctx) {
+    with_connection({
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = "wrong_name")
     })
   },
 

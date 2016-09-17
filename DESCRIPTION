@@ -64,7 +64,6 @@ Collate:
     'spec-meta-get-rows-affected.R'
     'spec-meta-get-info-result.R'
     'spec-meta-bind-.R'
-    'spec-meta-bind-wrong-name.R'
     'spec-meta-bind.R'
     'spec-meta.R'
     'spec-transaction-begin-commit.R'

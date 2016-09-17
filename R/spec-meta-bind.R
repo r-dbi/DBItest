@@ -1,11 +1,3 @@
-spec_meta_bind <- c(
-  spec_meta_bind_,
-  spec_meta_bind_wrong_name,
-
-  NULL
-)
-
-
 # Helpers -----------------------------------------------------------------
 
 test_select_bind <- function(con, placeholder_fun, ...) {
@@ -27,6 +19,11 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   extra <- match.arg(extra)
 
   placeholder <- placeholder_fun(length(values))
+
+  if (extra == "wrong_name" && is.null(names(placeholder))) {
+    # wrong_name test only valid for named placeholders
+    return()
+  }
 
   value_names <- letters[seq_along(values)]
   if (is.null(type)) {
