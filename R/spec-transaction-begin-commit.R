@@ -87,6 +87,10 @@ spec_transaction_begin_commit <- list(
   },
 
   #'
+  #' The behavior is not specified if other arguments are passed to these
+  #' functions. In particular, \pkg{RSQLite} issues named transactions
+  #' if the \code{name} argument is set.
+  #'
   #' The transaction isolation level is not specified by DBI.
   #'
   #' }

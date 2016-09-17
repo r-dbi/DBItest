@@ -113,6 +113,10 @@ must exist and contain the data added there
 both during
 and after the transaction.
 
+The behavior is not specified if other arguments are passed to these
+functions. In particular, \pkg{RSQLite} issues named transactions
+if the \code{name} argument is set.
+
 The transaction isolation level is not specified by DBI.
 
 }
