@@ -12,7 +12,9 @@ spec_meta_bind <- c(
 # Helpers -----------------------------------------------------------------
 
 test_select_bind <- function(con, placeholder_fun, ...) {
-  if (is.function(placeholder_fun))
+  if (is.character(placeholder_fun))
+    placeholder_fun <- lapply(placeholder_fun, make_placeholder_fun)
+  else if (is.function(placeholder_fun))
     placeholder_fun <- list(placeholder_fun)
 
   lapply(placeholder_fun, test_select_bind_one, con = con, ...)
@@ -76,20 +78,51 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   }
 }
 
-positional_qm <- function(n) {
-  "?"
+#' Create a function that creates n placeholders
+#'
+#' For internal use by the \code{placeholder_format} tweak.
+#'
+#' @param pattern \code{[character(1)]}\cr Any character, optionally followed by \code{1} or \code{name}. Examples: \code{"?"}, \code{"$1"}, \code{":name"}
+#'
+#' @return \code{[function(n)]}\cr A function with one argument \code{n} that
+#'   returns a vector of length \code{n} with placeholders of the specified format.
+#'   Examples: \code{?, ?, ?, ...}, \code{$1, $2, $3, ...}, \code{:a, :b, :c}
+#'
+#' @keywords internal
+make_placeholder_fun <- function(pattern) {
+  format_rx <- "^(.)(.*)$"
+
+  character <- gsub(format_rx, "\\1", pattern)
+  kind <- gsub(format_rx, "\\2", pattern)
+
+  if (character == "") {
+    stop("placeholder pattern must have at least one character", call. = FALSE)
+  }
+
+  if (kind == "") {
+    eval(bquote(
+      function(n) .(character)
+    ))
+  } else if (kind == "1") {
+    eval(bquote(
+      function(n) paste0(.(character), seq_len(n))
+    ))
+  } else if (kind == "name") {
+    eval(bquote(
+      function(n) {
+        l <- letters[seq_len(n)]
+        stats::setNames(paste0(.(character), l), l)
+      }
+    ))
+  } else {
+    stop("Pattern must be any character, optionally followed by 1 or name. Examples: $1, :name", call. = FALSE)
+  }
 }
 
-positional_dollar <- function(n) {
-  paste0("$", seq_len(n))
-}
+positional_qm <- make_placeholder_fun("?")
 
-named_dollar <- function(n) {
-  l <- letters[seq_len(n)]
-  stats::setNames(paste0("$", l), l)
-}
+positional_dollar <- make_placeholder_fun("$1")
 
-named_colon <- function(n) {
-  l <- letters[seq_len(n)]
-  stats::setNames(paste0(":", l), l)
-}
+named_dollar <- make_placeholder_fun("$name")
+
+named_colon <- make_placeholder_fun(":name")
