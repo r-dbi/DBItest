@@ -1,7 +1,7 @@
 Package: DBItest
 Title: Testing 'DBI' Back Ends
-Version: 1.3-7
-Date: 2016-09-01
+Version: 1.3-8
+Date: 2016-09-17
 Authors@R: c( person(given = "Kirill", family = "Müller", role =
         c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
         person("RStudio", role = "cph") )
@@ -63,12 +63,12 @@ Collate:
     'spec-meta-get-row-count.R'
     'spec-meta-get-rows-affected.R'
     'spec-meta-get-info-result.R'
-    'spec-meta-bind-positional-qm.R'
-    'spec-meta-bind-positional-dollar.R'
-    'spec-meta-bind-named-colon.R'
-    'spec-meta-bind-named-dollar.R'
     'spec-meta-bind.R'
     'spec-meta.R'
+    'spec-transaction-begin-commit.R'
+    'spec-transaction-begin-rollback.R'
+    'spec-transaction-with-transaction.R'
+    'spec-transaction.R'
     'spec-compliance-methods.R'
     'spec-compliance-read-only.R'
     'spec-compliance.R'
@@ -83,6 +83,7 @@ Collate:
     'test-result.R'
     'test-sql.R'
     'test-meta.R'
+    'test-transaction.R'
     'test-compliance.R'
     'test-stress.R'
     'tweaks.R'

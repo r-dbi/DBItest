@@ -1,6 +1,6 @@
 all: test
 
-TESTTHAT_REPORTER ?= c('summary','fail')
+TESTTHAT_REPORTER ?= 'check'
 
 REVDEP := RPostgres RMySQL RSQLite RKazam
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
@@ -27,7 +27,7 @@ safe-load-%:
 
 # Necessary because of https://github.com/hadley/devtools/issues/1070
 load-%:
-	make -j1 safe-load-$*
+	make --quiet -j1 safe-load-$*
 
 test-%: install load-% %
 	Rscript --vanilla -e "options(crayon.enabled=TRUE, deparse.max.lines=2); devtools::test('$*', filter = 'DBItest', reporter = ${TESTTHAT_REPORTER})"
