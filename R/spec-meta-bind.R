@@ -1,9 +1,6 @@
 spec_meta_bind <- c(
+  spec_meta_bind_,
   spec_meta_bind_wrong_name,
-  spec_meta_bind_positional_qm,
-  spec_meta_bind_positional_dollar,
-  spec_meta_bind_named_colon,
-  spec_meta_bind_named_dollar,
 
   NULL
 )
@@ -118,11 +115,3 @@ make_placeholder_fun <- function(pattern) {
     stop("Pattern must be any character, optionally followed by 1 or name. Examples: $1, :name", call. = FALSE)
   }
 }
-
-positional_qm <- make_placeholder_fun("?")
-
-positional_dollar <- make_placeholder_fun("$1")
-
-named_dollar <- make_placeholder_fun("$name")
-
-named_colon <- make_placeholder_fun(":name")
