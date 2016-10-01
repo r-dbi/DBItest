@@ -13,6 +13,44 @@
 #'   such as the execution plan,
 #'   and execute it faster.
 #' - Separation of query syntax and parameters protects against SQL injection.
+#'
+#' The placeholder format is currently not specified by \pkg{DBI};
+#' in the future, a uniform placeholder syntax may be supported.
+#' Consult the backend documentation for the supported formats.
+#' For automated testing, backend authors specify the placeholder syntax with
+#' the `placeholder_pattern` tweak.
+#' Known examples are:
+#'
+#' - `?` (positional matching in order of appearance) in \pkg{RMySQL} and \pkg{RSQLite}
+#' - `$1` (positional matching by index) in \pkg{RPostgres} and \pkg{RSQLite}
+#' - `:name` and `$name` (named matching) in \pkg{RSQLite}
+#'
+#' \pkg{DBI} clients execute parametrized statements as follows:
+#'
+#' 1. Call [DBI::dbSendQuery()] or [DBI::dbSendStatement()] with a query or statement
+#'    that contains placeholders,
+#'    store the returned \code{\linkS4class{DBIResult}} object in a variable.
+#'    Mixing placeholders (in particular, named and unnamed ones) is not
+#'    recommended.
+#' 1. Call [dbBind()] on the `DBIResult` object with a list
+#'    that specifies actual values for the placeholders.
+#'    All elements in this list must have the same lengths and contain values
+#'    supported by the backend; a [data.frame()] is internally stored as such
+#'    a list.
+#'    The list must be named or unnamed,
+#'    depending on the kind of placeholders used.
+#'    Named values are matched to named parameters, unnamed values
+#'    are matched by position.
+#' 1. Retrieve the data or the number of affected rows from the  `DBIResult` object.
+#'     - For queries issued by `dbSendQuery()`,
+#'       call [DBI::dbFetch()].
+#'     - For statements issued by `dbSendStatements()`,
+#'       call [DBI::dbGetRowsAffected()].
+#'       (Execution begins immediately after the `dbBind()` call.
+#'       Calls to `dbFetch()` are ignored.)
+#' 1. Repeat 2. and 3. as necessary.
+#' 1. Close the result set via [DBI::dbClearResult()].
+#'
 NULL
 
 #' @template dbispec-sub-wip
