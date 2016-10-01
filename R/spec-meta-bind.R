@@ -199,6 +199,7 @@ test_select_bind_one <- function(con, placeholder_fun, values,
     too_many = BindTesterExtraTooMany,
     not_enough = BindTesterExtraNotEnough,
     wrong_name = BindTesterExtraWrongName,
+    repeated = BindTesterExtraRepeated,
     BindTesterExtra
   )
   bind_tester$run()
@@ -243,7 +244,7 @@ run_bind_tester <- function() {
   rows <- dbFetch(res)
   expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
 
-  if (extra == "repeated") {
+  if (extra_obj$is_repeated()) {
     dbBind(res, as.list(bind_values))
 
     rows <- dbFetch(res)
@@ -261,7 +262,8 @@ BindTesterExtra <- R6::R6Class(
   public = list(
     check_return_value = function(bind_res, res) invisible(NULL),
     patch_bind_values = identity,
-    requires_names = function() FALSE
+    requires_names = function() FALSE,
+    is_repeated = function() FALSE
   )
 )
 
@@ -325,6 +327,19 @@ BindTesterExtraWrongName <- R6::R6Class(
     },
 
     requires_names = function() TRUE
+  )
+)
+
+
+# BindTesterExtraRepeated -------------------------------------------------
+
+BindTesterExtraRepeated <- R6::R6Class(
+  "BindTesterExtraRepeated",
+  inherit = BindTesterExtra,
+  portable = TRUE,
+
+  public = list(
+    is_repeated = function() TRUE
   )
 )
 
