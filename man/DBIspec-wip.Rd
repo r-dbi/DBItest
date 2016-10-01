@@ -37,7 +37,7 @@ Repeated load, instantiation, and unload of package in a new R session.
 
 \subsection{Construction: \code{dbConnect("DBIDriver")} and \code{dbDisconnect("DBIConnection", "ANY")}}{
 Can connect and disconnect, connection object inherits from
-  "DBIConnection".
+"DBIConnection".
 Repeated disconnect throws warning.
 }
 
@@ -73,7 +73,7 @@ Can issue a command query that creates a table, inserts a row, and
 deletes it; the result sets for these query always have "completed"
 status.
 Issuing an invalid query throws error (but no warnings, e.g. related to
-  pending results, are thrown).
+pending results, are thrown).
 }
 
 
@@ -82,10 +82,10 @@ Single-value queries can be fetched.
 Multi-row single-column queries can be fetched.
 Multi-row queries can be fetched progressively.
 If more rows than available are fetched, the result is returned in full
-  but no warning is issued.
+but no warning is issued.
 If zero rows are fetched, the result is still fully typed.
 If less rows than available are fetched, the result is returned in full
-  but no warning is issued.
+but no warning is issued.
 Side-effect-only queries (without return value) can be fetched.
 Fetching from a closed result set raises an error.
 Querying a disconnected connection throws error.

@@ -15,7 +15,7 @@ get_default_context()
 }
 \arguments{
 \item{drv}{\code{[DBIDriver]}\cr An expression that constructs a DBI driver,
-like `SQLite()`.}
+like \code{SQLite()}.}
 
 \item{connect_args}{\code{[named list]}\cr Connection arguments (names and
 values).}
@@ -26,15 +26,15 @@ set as default context?}
 \item{tweaks}{\code{[DBItest_tweaks]}\cr Tweaks as constructed by the
 \code{\link{tweaks}} function.}
 
-\item{name}{\code{[character]}\cr An optional name of the context which will 
+\item{name}{\code{[character]}\cr An optional name of the context which will
 be used in test messages.}
 
 \item{ctx}{\code{[DBItest_context]}\cr A test context.}
 }
 \value{
 \code{[DBItest_context]}\cr A test context, for
-  \code{set_default_context} the previous default context (invisibly) or
-  \code{NULL}.
+\code{set_default_context} the previous default context (invisibly) or
+\code{NULL}.
 }
 \description{
 Create a test context, set and query the default context.
