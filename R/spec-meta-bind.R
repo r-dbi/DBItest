@@ -196,6 +196,9 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   bind_tester$extra_imp <- switch(
     extra,
     return_value = BindTesterExtraReturnValue,
+    too_many = BindTesterExtraTooMany,
+    not_enough = BindTesterExtraNotEnough,
+    wrong_name = BindTesterExtraWrongName,
     BindTesterExtra
   )
   bind_tester$run()
@@ -227,14 +230,7 @@ run_bind_tester <- function() {
     names(bind_values) <- names(placeholder)
   }
 
-  error_bind_values <- switch(
-    extra,
-    too_many = c(bind_values, bind_values[[1L]]),
-    not_enough = bind_values[-1L],
-    wrong_name = stats::setNames(bind_values, paste0("bogus",
-                                                     names(bind_values))),
-    bind_values
-  )
+  error_bind_values <- extra_obj$patch_bind_values(bind_values)
 
   if (!identical(bind_values, error_bind_values)) {
     expect_error(dbBind(res, as.list(error_bind_values)))
@@ -255,17 +251,25 @@ run_bind_tester <- function() {
   }
 }
 
+
+# BindTesterExtra ---------------------------------------------------------
+
 BindTesterExtra <- R6::R6Class(
   "BindTesterExtra",
   portable = TRUE,
 
   public = list(
-    check_return_value = function(bind_res, res) invisible(NULL)
+    check_return_value = function(bind_res, res) invisible(NULL),
+    patch_bind_values = identity
   )
 )
 
+
+# BindTesterExtraReturnValue ----------------------------------------------
+
 BindTesterExtraReturnValue <- R6::R6Class(
   "BindTesterExtraReturnValue",
+  inherit = BindTesterExtra,
   portable = TRUE,
 
   public = list(
@@ -275,6 +279,54 @@ BindTesterExtraReturnValue <- R6::R6Class(
     }
   )
 )
+
+
+# BindTesterExtraTooMany --------------------------------------------------
+
+BindTesterExtraTooMany <- R6::R6Class(
+  "BindTesterExtraTooMany",
+  inherit = BindTesterExtra,
+  portable = TRUE,
+
+  public = list(
+    patch_bind_values = function(bind_values) {
+      c(bind_values, bind_values[[1L]])
+    }
+  )
+)
+
+
+# BindTesterExtraNotEnough --------------------------------------------------
+
+BindTesterExtraNotEnough <- R6::R6Class(
+  "BindTesterExtraNotEnough",
+  inherit = BindTesterExtra,
+  portable = TRUE,
+
+  public = list(
+    patch_bind_values = function(bind_values) {
+      bind_values[-1L]
+    }
+  )
+)
+
+
+# BindTesterExtraWrongName ------------------------------------------------
+
+BindTesterExtraWrongName <- R6::R6Class(
+  "BindTesterExtraWrongName",
+  inherit = BindTesterExtra,
+  portable = TRUE,
+
+  public = list(
+    patch_bind_values = function(bind_values) {
+      stats::setNames(bind_values, paste0("bogus", names(bind_values)))
+    }
+  )
+)
+
+
+# BindTester --------------------------------------------------------------
 
 BindTester <- R6::R6Class(
   "BindTester",
@@ -296,6 +348,9 @@ BindTester <- R6::R6Class(
     extra_imp = BindTesterExtra
   )
 )
+
+
+# make_placeholder_fun ----------------------------------------------------
 
 #' Create a function that creates n placeholders
 #'
