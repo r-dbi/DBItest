@@ -65,27 +65,27 @@ is also accepted.
 
 
 \subsection{\code{dbDataType("DBIDriver", "ANY")}}{
-The backend can override the \code{\link[DBI]{dbDataType}} generic
+The backend can override the \code{\link[DBI:dbDataType]{DBI::dbDataType()}} generic
 for its driver class.
 This generic expects an arbitrary object as second argument
 and returns a corresponding SQL type
 as atomic
 character value
 with at least one character.
-As-is objects (i.e., wrapped by \code{\link[base]{I}}) must be
+As-is objects (i.e., wrapped by \code{\link[base:I]{base::I()}}) must be
 supported and return the same results as their unwrapped counterparts.
 
 To query the values returned by the default implementation,
 run \code{example(dbDataType, package = "DBI")}.
 If the backend needs to override this generic,
 it must accept all basic R data types as its second argument, namely
-\code{\link[base]{logical}},
-\code{\link[base]{integer}},
-\code{\link[base]{numeric}},
-\code{\link[base]{character}},
-dates (see \code{\link[base]{Dates}}),
-date-time (see \code{\link[base]{DateTimeClasses}}),
-and \code{\link[base]{difftime}}.
+\code{\link[base:logical]{base::logical()}},
+\code{\link[base:integer]{base::integer()}},
+\code{\link[base:numeric]{base::numeric()}},
+\code{\link[base:character]{base::character()}},
+dates (see \code{\link[base:Dates]{base::Dates()}}),
+date-time (see \code{\link[base:DateTimeClasses]{base::DateTimeClasses()}}),
+and \code{\link[base:difftime]{base::difftime()}}.
 It also must accept lists of \code{raw} vectors
 and map them to the BLOB (binary large object) data type.
 The behavior for other object types is not specified.
@@ -96,18 +96,18 @@ The behavior for other object types is not specified.
 
 \subsection{\code{dbBegin("DBIConnection")} and \code{dbCommit("DBIConnection")}}{
 Transactions are available in DBI, but actual support may vary between backends.
-A transaction is initiated by a call to \code{\link[DBI]{dbBegin}}
-and committed by a call to \code{\link[DBI]{dbCommit}}.
+A transaction is initiated by a call to \code{\link[DBI:dbBegin]{DBI::dbBegin()}}
+and committed by a call to \code{\link[DBI:dbCommit]{DBI::dbCommit()}}.
 Both generics expect an object of class \code{\linkS4class{DBIConnection}}
 and return \code{TRUE} (invisibly) upon success.
 
 The implementations are expected to raise an error in case of failure,
 but this is difficult to test in an automated way.
 In any way, both generics should throw an error with a closed connection.
-In addition, a call to \code{\link[DBI]{dbCommit}} without
-a call to \code{\link[DBI]{dbBegin}} should raise an error.
+In addition, a call to \code{\link[DBI:dbCommit]{DBI::dbCommit()}} without
+a call to \code{\link[DBI:dbBegin]{DBI::dbBegin()}} should raise an error.
 Nested transactions are not supported by DBI,
-an attempt to call \code{\link[DBI]{dbBegin}} twice
+an attempt to call \code{\link[DBI:dbBegin]{DBI::dbBegin()}} twice
 should yield an error.
 
 Data written in a transaction must persist after the transaction is committed.

@@ -3,7 +3,7 @@
 #' @section SQL:
 #' \subsection{\code{dbReadTable("DBIConnection")} and \code{dbWriteTable("DBIConnection")}}{
 spec_sql_read_write_table <- list(
-  #' Can write the \code{\link[datasets]{iris}} data as a table to the
+  #' Can write the [datasets::iris] data as a table to the
   #' database, but won't overwrite by default.
   write_table = function(ctx) {
     with_connection({
@@ -26,7 +26,7 @@ spec_sql_read_write_table <- list(
     })
   },
 
-  #' Can read the \code{\link[datasets]{iris}} data from a database table.
+  #' Can read the [datasets::iris] data from a database table.
   read_table = function(ctx) {
     with_connection({
       expect_error(dbGetQuery(con, "SELECT * FROM iris"))
@@ -45,7 +45,7 @@ spec_sql_read_write_table <- list(
     })
   },
 
-  #' Can write the \code{\link[datasets]{iris}} data as a table to the
+  #' Can write the [datasets::iris] data as a table to the
   #' database, will overwrite if asked.
   overwrite_table = function(ctx) {
     with_connection({
@@ -62,7 +62,7 @@ spec_sql_read_write_table <- list(
     })
   },
 
-  #' Can write the \code{\link[datasets]{iris}} data as a table to the
+  #' Can write the [datasets::iris] data as a table to the
   #' database, will append if asked.
   append_table = function(ctx) {
     with_connection({
@@ -89,7 +89,7 @@ spec_sql_read_write_table <- list(
     })
   },
 
-  #' Can write the \code{\link[datasets]{iris}} data as a temporary table to
+  #' Can write the [datasets::iris] data as a temporary table to
   #' the database, the table is not available in a second connection and is
   #' gone after reconnecting.
   temporary_table = function(ctx) {

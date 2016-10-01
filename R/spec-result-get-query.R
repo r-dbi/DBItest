@@ -27,7 +27,7 @@ spec_result_get_query <- list(
   },
 
   #' Empty single-column queries can be read with
-  #' \code{\link[DBI]{dbGetQuery}}. Not all SQL dialects support the query
+  #' [DBI::dbGetQuery()]. Not all SQL dialects support the query
   #' used here.
   get_query_empty_single_column = function(ctx) {
     with_connection({
@@ -61,7 +61,7 @@ spec_result_get_query <- list(
   },
 
   #' Empty multi-column queries can be read with
-  #' \code{\link[DBI]{dbGetQuery}}. Not all SQL dialects support the query
+  #' [DBI::dbGetQuery()]. Not all SQL dialects support the query
   #' used here.
   get_query_empty_multi_column = function(ctx) {
     with_connection({
