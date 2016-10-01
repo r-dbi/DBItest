@@ -191,7 +191,7 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   bind_tester$type <- type
   bind_tester$transform$input <- transform_input
   bind_tester$transform$output <- transform_output
-  bind_tester$expect$fun <- expect_identical
+  bind_tester$expect$fun <- expect
   bind_tester$extra_imp <- switch(
     extra,
     return_value = BindTesterExtraReturnValue,
