@@ -209,7 +209,7 @@ run_bind_tester <- function() {
 
   placeholder <- placeholder_fun(length(values))
 
-  if (extra == "wrong_name" && is.null(names(placeholder))) {
+  if (extra_obj$requires_names() && is.null(names(placeholder))) {
     # wrong_name test only valid for named placeholders
     return()
   }
@@ -260,7 +260,8 @@ BindTesterExtra <- R6::R6Class(
 
   public = list(
     check_return_value = function(bind_res, res) invisible(NULL),
-    patch_bind_values = identity
+    patch_bind_values = identity,
+    requires_names = function() FALSE
   )
 )
 
@@ -321,7 +322,9 @@ BindTesterExtraWrongName <- R6::R6Class(
   public = list(
     patch_bind_values = function(bind_values) {
       stats::setNames(bind_values, paste0("bogus", names(bind_values)))
-    }
+    },
+
+    requires_names = function() TRUE
   )
 )
 
