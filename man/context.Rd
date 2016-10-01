@@ -24,7 +24,7 @@ values).}
 set as default context?}
 
 \item{tweaks}{\code{[DBItest_tweaks]}\cr Tweaks as constructed by the
-\code{\link{tweaks}} function.}
+\code{\link[=tweaks]{tweaks()}} function.}
 
 \item{name}{\code{[character]}\cr An optional name of the context which will
 be used in test messages.}

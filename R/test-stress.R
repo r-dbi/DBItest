@@ -1,6 +1,6 @@
 #' @name test_all
 #' @section Tests:
-#' \code{\link{test_stress}}:
+#' [test_stress()]:
 #' Stress tests (not tested with \code{test_all})
 NULL
 

@@ -1,6 +1,6 @@
 #' @name test_all
 #' @section Tests:
-#' \code{\link{test_meta}}:
+#' [test_meta()]:
 #' Test metadata functions
 NULL
 

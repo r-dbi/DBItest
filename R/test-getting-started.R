@@ -1,6 +1,6 @@
 #' @name test_all
 #' @section Tests:
-#' \code{\link{test_getting_started}}:
+#' [test_getting_started()]:
 #' Getting started with testing
 NULL
 

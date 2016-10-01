@@ -129,7 +129,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' Binding of \code{\link{POSIXlt}} timestamp values.
+  #' Binding of [POSIXlt()] timestamp values.
   bind_timestamp_lt = function(ctx) {
     with_connection({
       data_in <- as.POSIXlt(round(Sys.time()))

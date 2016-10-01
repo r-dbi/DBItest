@@ -13,7 +13,7 @@ test_all(skip = NULL, ctx = get_default_context())
 against test names; skip test if matching any.}
 
 \item{ctx}{\code{[DBItest_context]}\cr A test context as created by
-\code{\link{make_context}}.}
+\code{\link[=make_context]{make_context()}}.}
 }
 \description{
 This function calls all tests defined in this package (see the section
@@ -24,39 +24,39 @@ This function calls all tests defined in this package (see the section
 This function runs the following tests, except the stress tests:
 
 
-\code{\link{test_getting_started}}:
+\code{\link[=test_getting_started]{test_getting_started()}}:
 Getting started with testing
 
 
-\code{\link{test_driver}}:
+\code{\link[=test_driver]{test_driver()}}:
 Test the "Driver" class
 
 
-\code{\link{test_connection}}:
+\code{\link[=test_connection]{test_connection()}}:
 Test the "Connection" class
 
 
-\code{\link{test_result}}:
+\code{\link[=test_result]{test_result()}}:
 Test the "Result" class
 
 
-\code{\link{test_sql}}:
+\code{\link[=test_sql]{test_sql()}}:
 Test SQL methods
 
 
-\code{\link{test_meta}}:
+\code{\link[=test_meta]{test_meta()}}:
 Test metadata functions
 
 
-\code{\link{test_transaction}}:
+\code{\link[=test_transaction]{test_transaction()}}:
 Test transaction functions
 
 
-\code{\link{test_compliance}}:
+\code{\link[=test_compliance]{test_compliance()}}:
 Test full compliance to DBI
 
 
-\code{\link{test_stress}}:
+\code{\link[=test_stress]{test_stress()}}:
 Stress tests (not tested with \code{test_all})
 }
 

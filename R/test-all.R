@@ -9,7 +9,7 @@
 #' @param skip \code{[character()]}\cr A vector of regular expressions to match
 #'   against test names; skip test if matching any.
 #' @param ctx \code{[DBItest_context]}\cr A test context as created by
-#'   \code{\link{make_context}}.
+#'   [make_context()].
 #'
 #' @export
 test_all <- function(skip = NULL, ctx = get_default_context()) {

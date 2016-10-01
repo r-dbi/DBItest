@@ -1,6 +1,6 @@
 #' @name test_all
 #' @section Tests:
-#' \code{\link{test_driver}}:
+#' [test_driver()]:
 #' Test the "Driver" class
 NULL
 

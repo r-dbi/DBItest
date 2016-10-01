@@ -305,7 +305,7 @@ Binding of \code{NULL} values.
 Binding of character values.
 Binding of date values.
 Binding of timestamp values.
-Binding of \code{\link{POSIXlt}} timestamp values.
+Binding of \code{\link[=POSIXlt]{POSIXlt()}} timestamp values.
 Binding of raw values.
 }
 }

@@ -42,7 +42,7 @@
     #' @param placeholder_pattern \code{[character]}\cr
     #'   A pattern for placeholders used in \code{\link[DBI]{dbBind}}, e.g.,
     #'   \code{"?"}, \code{"$1"}, or \code{":name"}. See
-    #'   \code{\link{make_placeholder_fun}} for details.
+    #'   [make_placeholder_fun()] for details.
     "placeholder_pattern",
 
     # Dummy argument
