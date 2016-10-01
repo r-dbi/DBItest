@@ -185,6 +185,18 @@ test_select_bind_one <- function(con, placeholder_fun, values,
                                        "not_enough", "wrong_name", "repeated")) {
   extra <- match.arg(extra)
 
+  bind_tester <- BindTester$new(con)
+  bind_tester$placeholder_fun <- placeholder_fun
+  bind_tester$values <- values
+  bind_tester$type <- type
+  bind_tester$transform$input <- transform_input
+  bind_tester$transform$output <- transform_output
+  bind_tester$expect$fun <- expect_identical
+  bind_tester$extra <- extra
+  bind_tester$run()
+}
+
+run_bind_tester <- function() {
   placeholder <- placeholder_fun(length(values))
 
   if (extra == "wrong_name" && is.null(names(placeholder))) {
@@ -229,15 +241,36 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   }
 
   rows <- dbFetch(res)
-  expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
+  expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
 
   if (extra == "repeated") {
     dbBind(res, as.list(bind_values))
 
     rows <- dbFetch(res)
-    expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
+    expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
   }
 }
+
+BindTester <- R6::R6Class(
+  "BindTester",
+  portable = FALSE,
+
+  public = list(
+    initialize = function(con) {
+      self$con <- con
+    },
+    run = run_bind_tester,
+
+    con = NULL,
+    placeholder_fun = NULL,
+    values = NULL,
+    type = "character(10)",
+    transform = list(input = as.character, output = function(x) trimws(x, "right")),
+    expect = list(fun = expect_identical),
+    extra = "none"
+  )
+)
+
 
 #' Create a function that creates n placeholders
 #'

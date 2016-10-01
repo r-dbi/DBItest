@@ -11,6 +11,7 @@ Depends:
     R (>= 3.0.0)
 Imports:
     methods,
+    R6,
     testthat (>= 1.0.2),
     withr,
     DBI (>= 0.4-9)
