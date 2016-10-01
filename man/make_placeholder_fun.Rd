@@ -11,8 +11,8 @@ make_placeholder_fun(pattern)
 }
 \value{
 \code{[function(n)]}\cr A function with one argument \code{n} that
-  returns a vector of length \code{n} with placeholders of the specified format.
-  Examples: \code{?, ?, ?, ...}, \code{$1, $2, $3, ...}, \code{:a, :b, :c}
+returns a vector of length \code{n} with placeholders of the specified format.
+Examples: \code{?, ?, ?, ...}, \code{$1, $2, $3, ...}, \code{:a, :b, :c}
 }
 \description{
 For internal use by the \code{placeholder_format} tweak.

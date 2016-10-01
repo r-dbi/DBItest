@@ -1,6 +1,6 @@
 #' @name test_all
 #' @section Tests:
-#' \code{\link{test_compliance}}:
+#' [test_compliance()]:
 #' Test full compliance to DBI
 NULL
 

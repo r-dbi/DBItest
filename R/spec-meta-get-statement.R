@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section Meta:
-#' \subsection{\code{dbGetStatement("DBIResult")}}{
+#' \subsection{`dbGetStatement("DBIResult")`}{
 spec_meta_get_statement <- list(
   #' SQL query can be retrieved from the result.
   get_statement = function(ctx) {

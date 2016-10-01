@@ -1,6 +1,6 @@
 #' @name test_all
 #' @section Tests:
-#' \code{\link{test_transaction}}:
+#' [test_transaction()]:
 #' Test transaction functions
 NULL
 

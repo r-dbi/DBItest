@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section Meta:
-#' \subsection{\code{dbGetInfo("DBIResult")} (deprecated)}{
+#' \subsection{`dbGetInfo("DBIResult")` (deprecated)}{
 spec_meta_get_info_result <- list(
   #' Return value of dbGetInfo has necessary elements
   get_info_result = function(ctx) {

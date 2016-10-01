@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section Meta:
-#' \subsection{\code{dbColumnInfo("DBIResult")}}{
+#' \subsection{`dbColumnInfo("DBIResult")`}{
 spec_meta_column_info <- list(
   #' Column information is correct.
   column_info = function(ctx) {

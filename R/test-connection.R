@@ -1,6 +1,6 @@
 #' @name test_all
 #' @section Tests:
-#' \code{\link{test_connection}}:
+#' [test_connection()]:
 #' Test the "Connection" class
 NULL
 

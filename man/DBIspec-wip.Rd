@@ -37,7 +37,7 @@ Repeated load, instantiation, and unload of package in a new R session.
 
 \subsection{Construction: \code{dbConnect("DBIDriver")} and \code{dbDisconnect("DBIConnection", "ANY")}}{
 Can connect and disconnect, connection object inherits from
-  "DBIConnection".
+"DBIConnection".
 Repeated disconnect throws warning.
 }
 
@@ -73,7 +73,7 @@ Can issue a command query that creates a table, inserts a row, and
 deletes it; the result sets for these query always have "completed"
 status.
 Issuing an invalid query throws error (but no warnings, e.g. related to
-  pending results, are thrown).
+pending results, are thrown).
 }
 
 
@@ -82,10 +82,10 @@ Single-value queries can be fetched.
 Multi-row single-column queries can be fetched.
 Multi-row queries can be fetched progressively.
 If more rows than available are fetched, the result is returned in full
-  but no warning is issued.
+but no warning is issued.
 If zero rows are fetched, the result is still fully typed.
 If less rows than available are fetched, the result is returned in full
-  but no warning is issued.
+but no warning is issued.
 Side-effect-only queries (without return value) can be fetched.
 Fetching from a closed result set raises an error.
 Querying a disconnected connection throws error.
@@ -96,12 +96,12 @@ Querying a disconnected connection throws error.
 Single-value queries can be read with dbGetQuery
 Multi-row single-column queries can be read with dbGetQuery.
 Empty single-column queries can be read with
-\code{\link[DBI]{dbGetQuery}}. Not all SQL dialects support the query
+\code{\link[DBI:dbGetQuery]{DBI::dbGetQuery()}}. Not all SQL dialects support the query
 used here.
 Single-row multi-column queries can be read with dbGetQuery.
 Multi-row multi-column queries can be read with dbGetQuery.
 Empty multi-column queries can be read with
-\code{\link[DBI]{dbGetQuery}}. Not all SQL dialects support the query
+\code{\link[DBI:dbGetQuery]{DBI::dbGetQuery()}}. Not all SQL dialects support the query
 used here.
 }
 
@@ -200,15 +200,15 @@ Character vectors are treated as a single qualified identifier.
 
 
 \subsection{\code{dbReadTable("DBIConnection")} and \code{dbWriteTable("DBIConnection")}}{
-Can write the \code{\link[datasets]{iris}} data as a table to the
+Can write the \link[datasets:iris]{datasets::iris} data as a table to the
 database, but won't overwrite by default.
-Can read the \code{\link[datasets]{iris}} data from a database table.
-Can write the \code{\link[datasets]{iris}} data as a table to the
+Can read the \link[datasets:iris]{datasets::iris} data from a database table.
+Can write the \link[datasets:iris]{datasets::iris} data as a table to the
 database, will overwrite if asked.
-Can write the \code{\link[datasets]{iris}} data as a table to the
+Can write the \link[datasets:iris]{datasets::iris} data as a table to the
 database, will append if asked.
 Cannot append to nonexisting table.
-Can write the \code{\link[datasets]{iris}} data as a temporary table to
+Can write the \link[datasets:iris]{datasets::iris} data as a temporary table to
 the database, the table is not available in a second connection and is
 gone after reconnecting.
 A new table is visible in a second connection.
@@ -304,8 +304,8 @@ Binding of logical values (coerced to integer).
 Binding of \code{NULL} values.
 Binding of character values.
 Binding of date values.
-Binding of timestamp values.
-Binding of \code{\link{POSIXlt}} timestamp values.
+Binding of \link{POSIXct} timestamp values.
+Binding of \link{POSIXlt} timestamp values.
 Binding of raw values.
 }
 }

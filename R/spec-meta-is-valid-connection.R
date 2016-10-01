@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section Meta:
-#' \subsection{\code{dbIsValid("DBIConnection")}}{
+#' \subsection{`dbIsValid("DBIConnection")`}{
 spec_meta_is_valid_connection <- list(
   #' Only an open connection is valid.
   is_valid_connection = function(ctx) {

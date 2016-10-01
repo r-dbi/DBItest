@@ -4,45 +4,45 @@
 #' @name tweaks
 { # nolint
   tweak_names <- c(
-    #' @param ... \code{[any]}\cr
+    #' @param ... `[any]`\cr
     #'   Unknown tweaks are accepted, with a warning.  The ellipsis
     #'   also asserts that all arguments are named.
     "...",
 
-    #' @param constructor_name \code{[character(1)]}\cr
-    #'   Name of the function that constructs the \code{Driver} object.
+    #' @param constructor_name `[character(1)]`\cr
+    #'   Name of the function that constructs the `Driver` object.
     "constructor_name",
 
-    #' @param constructor_relax_args \code{[logical(1)]}\cr
-    #'   If \code{TRUE}, allow a driver constructor with default values for all
+    #' @param constructor_relax_args `[logical(1)]`\cr
+    #'   If `TRUE`, allow a driver constructor with default values for all
     #'   arguments; otherwise, require a constructor with empty argument list
     #'   (default).
     "constructor_relax_args",
 
-    #' @param strict_identifier \code{[logical(1)]}\cr
-    #'   Set to \code{TRUE} if the DBMS does not support arbitrarily-named
+    #' @param strict_identifier `[logical(1)]`\cr
+    #'   Set to `TRUE` if the DBMS does not support arbitrarily-named
     #'   identifiers even when quoting is used.
     "strict_identifier",
 
-    #' @param omit_blob_tests \code{[logical(1)]}\cr
-    #'   Set to \code{TRUE} if the DBMS does not support a \code{BLOB} data
+    #' @param omit_blob_tests `[logical(1)]`\cr
+    #'   Set to `TRUE` if the DBMS does not support a `BLOB` data
     #'   type.
     "omit_blob_tests",
 
-    #' @param current_needs_parens \code{[logical(1)]}\cr
-    #'   Set to \code{TRUE} if the SQL functions \code{current_date},
-    #'   \code{current_time}, and \code{current_timestamp} require parentheses.
+    #' @param current_needs_parens `[logical(1)]`\cr
+    #'   Set to `TRUE` if the SQL functions `current_date`,
+    #'   `current_time`, and `current_timestamp` require parentheses.
     "current_needs_parens",
 
-    #' @param union \code{[function(character)]}\cr
+    #' @param union `[function(character)]`\cr
     #'   Function that combines several subqueries into one so that the
     #'   resulting query returns the concatenated results of the subqueries
     "union",
 
-    #' @param placeholder_pattern \code{[character]}\cr
-    #'   A pattern for placeholders used in \code{\link[DBI]{dbBind}}, e.g.,
-    #'   \code{"?"}, \code{"$1"}, or \code{":name"}. See
-    #'   \code{\link{make_placeholder_fun}} for details.
+    #' @param placeholder_pattern `[character]`\cr
+    #'   A pattern for placeholders used in [DBI::dbBind()], e.g.,
+    #'   `"?"`, `"$1"`, or `":name"`. See
+    #'   [make_placeholder_fun()] for details.
     "placeholder_pattern",
 
     # Dummy argument
