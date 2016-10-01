@@ -282,7 +282,9 @@ Information on affected rows is correct.
 \subsection{\code{dbGetInfo("DBIResult")} (deprecated)}{
 Return value of dbGetInfo has necessary elements
 }
+}
 
+\section{Parametrised queries and statements}{
 
 \subsection{\code{dbBind("DBIResult")}}{
 Empty binding with check of
