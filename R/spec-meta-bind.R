@@ -116,7 +116,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' Binding of timestamp values.
+  #' Binding of [POSIXct] timestamp values.
   bind_timestamp = function(ctx) {
     with_connection({
       data_in <- as.POSIXct(round(Sys.time()))
@@ -129,7 +129,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' Binding of [POSIXlt()] timestamp values.
+  #' Binding of [POSIXlt] timestamp values.
   bind_timestamp_lt = function(ctx) {
     with_connection({
       data_in <- as.POSIXlt(round(Sys.time()))

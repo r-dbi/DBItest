@@ -304,8 +304,8 @@ Binding of logical values (coerced to integer).
 Binding of \code{NULL} values.
 Binding of character values.
 Binding of date values.
-Binding of timestamp values.
-Binding of \code{\link[=POSIXlt]{POSIXlt()}} timestamp values.
+Binding of \link{POSIXct} timestamp values.
+Binding of \link{POSIXlt} timestamp values.
 Binding of raw values.
 }
 }
