@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section Meta:
-#' \subsection{\code{dbIsValid("DBIResult")}}{
+#' \subsection{`dbIsValid("DBIResult")`}{
 spec_meta_is_valid_result <- list(
   #' Only an open result set is valid.
   is_valid_result = function(ctx) {

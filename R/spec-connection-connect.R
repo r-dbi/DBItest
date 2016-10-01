@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section Connection:
-#' \subsection{Construction: \code{dbConnect("DBIDriver")} and \code{dbDisconnect("DBIConnection", "ANY")}}{
+#' \subsection{Construction: `dbConnect("DBIDriver")` and `dbDisconnect("DBIConnection", "ANY")`}{
 spec_connection_connect <- list(
   #' Can connect and disconnect, connection object inherits from
   #'   "DBIConnection".

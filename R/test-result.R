@@ -1,6 +1,6 @@
 #' @name test_all
 #' @section Tests:
-#' \code{\link{test_result}}:
+#' [test_result()]:
 #' Test the "Result" class
 NULL
 

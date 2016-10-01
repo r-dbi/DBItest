@@ -9,11 +9,11 @@ spec_driver_constructor <- list(
     #' The backend must support creation of an instance of this driver class
     #' with a \dfn{constructor function}.
     #' By default, its name is the package name without the leading \sQuote{R}
-    #' (if it exists), e.g., \code{SQLite} for the \pkg{RSQLite} package.
+    #' (if it exists), e.g., `SQLite` for the \pkg{RSQLite} package.
     default_constructor_name <- gsub("^R", "", pkg_name)
 
     #' For the automated tests, the constructor name can be tweaked using the
-    #' \code{constructor_name} tweak.
+    #' `constructor_name` tweak.
     constructor_name <- ctx$tweaks$constructor_name %||% default_constructor_name
 
     #'
@@ -29,7 +29,7 @@ spec_driver_constructor <- list(
 
     #' that is callable without arguments.
     #' For the automated tests, unless the
-    #' \code{constructor_relax_args} tweak is set to \code{TRUE},
+    #' `constructor_relax_args` tweak is set to `TRUE`,
     if (!isTRUE(ctx$tweaks$constructor_relax_args)) {
       #' an empty argument list is expected.
       expect_that(constructor, arglist_is_empty())

@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section Connection:
-#' \subsection{\code{dbGetInfo("DBIConnection")} (deprecated)}{
+#' \subsection{`dbGetInfo("DBIConnection")` (deprecated)}{
 spec_connection_get_info <- list(
   #' Return value of dbGetInfo has necessary elements
   get_info_connection = function(ctx) {

@@ -1,20 +1,21 @@
 Package: DBItest
 Title: Testing 'DBI' Back Ends
-Version: 1.3-8
-Date: 2016-09-17
+Version: 1.3-9
+Date: 2016-10-01
 Authors@R: c( person(given = "Kirill", family = "Müller", role =
         c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
         person("RStudio", role = "cph") )
 Description: A helper that tests 'DBI' back ends for conformity
     to the interface, currently work in progress.
-Depends: 
+Depends:
     R (>= 3.0.0)
-Imports: 
+Imports:
     methods,
+    R6,
     testthat (>= 1.0.2),
     withr,
     DBI (>= 0.4-9)
-Suggests: 
+Suggests:
     devtools,
     lintr,
     knitr,
@@ -23,9 +24,10 @@ License: LGPL (>= 2)
 LazyData: true
 Encoding: UTF-8
 BugReports: https://github.com/rstats-db/DBItest/issues
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 5.0.1.9000
 VignetteBuilder: knitr
-Collate: 
+Collate:
     'DBItest.R'
     'context.R'
     'expectations.R'

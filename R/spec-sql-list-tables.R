@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section SQL:
-#' \subsection{\code{dbListTables("DBIConnection")}}{
+#' \subsection{`dbListTables("DBIConnection")`}{
 spec_sql_list_tables <- list(
   #' Can list the tables in the database, adding and removing tables affects
   #' the list. Can also check existence of a table.

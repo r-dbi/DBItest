@@ -1,7 +1,62 @@
+#' @template dbispec-sub
+#' @format NULL
+#' @section Parametrized queries and statements:
+#' \pkg{DBI} supports parametrized (or prepared) queries and statements
+#' via the [DBI::dbBind()] generic.
+#' Parametrized queries are different from normal queries
+#' in that they allow an arbitrary number of placeholders,
+#' which are later substituted by actual values.
+#' Parametrized queries (and statements) serve two purposes:
+#'
+#' - The same query can be executed more than once with different values.
+#'   The DBMS may cache intermediate information for the query,
+#'   such as the execution plan,
+#'   and execute it faster.
+#' - Separation of query syntax and parameters protects against SQL injection.
+#'
+#' The placeholder format is currently not specified by \pkg{DBI};
+#' in the future, a uniform placeholder syntax may be supported.
+#' Consult the backend documentation for the supported formats.
+#' For automated testing, backend authors specify the placeholder syntax with
+#' the `placeholder_pattern` tweak.
+#' Known examples are:
+#'
+#' - `?` (positional matching in order of appearance) in \pkg{RMySQL} and \pkg{RSQLite}
+#' - `$1` (positional matching by index) in \pkg{RPostgres} and \pkg{RSQLite}
+#' - `:name` and `$name` (named matching) in \pkg{RSQLite}
+#'
+#' \pkg{DBI} clients execute parametrized statements as follows:
+#'
+#' 1. Call [DBI::dbSendQuery()] or [DBI::dbSendStatement()] with a query or statement
+#'    that contains placeholders,
+#'    store the returned \code{\linkS4class{DBIResult}} object in a variable.
+#'    Mixing placeholders (in particular, named and unnamed ones) is not
+#'    recommended.
+#' 1. Call [dbBind()] on the `DBIResult` object with a list
+#'    that specifies actual values for the placeholders.
+#'    All elements in this list must have the same lengths and contain values
+#'    supported by the backend; a [data.frame()] is internally stored as such
+#'    a list.
+#'    The list must be named or unnamed,
+#'    depending on the kind of placeholders used.
+#'    Named values are matched to named parameters, unnamed values
+#'    are matched by position.
+#' 1. Retrieve the data or the number of affected rows from the  `DBIResult` object.
+#'     - For queries issued by `dbSendQuery()`,
+#'       call [DBI::dbFetch()].
+#'     - For statements issued by `dbSendStatements()`,
+#'       call [DBI::dbGetRowsAffected()].
+#'       (Execution begins immediately after the `dbBind()` call.
+#'       Calls to `dbFetch()` are ignored.)
+#' 1. Repeat 2. and 3. as necessary.
+#' 1. Close the result set via [DBI::dbClearResult()].
+#'
+NULL
+
 #' @template dbispec-sub-wip
 #' @format NULL
-#' @section Meta:
-#' \subsection{\code{dbBind("DBIResult")}}{
+#' @section Parametrised queries and statements:
+#' \subsection{`dbBind("DBIResult")`}{
 spec_meta_bind <- list(
   #' Empty binding with check of
   #' return value.
@@ -92,7 +147,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' Binding of \code{NULL} values.
+  #' Binding of `NULL` values.
   bind_null = function(ctx) {
     with_connection({
       test_select_bind(
@@ -116,7 +171,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' Binding of timestamp values.
+  #' Binding of [POSIXct] timestamp values.
   bind_timestamp = function(ctx) {
     with_connection({
       data_in <- as.POSIXct(round(Sys.time()))
@@ -129,7 +184,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' Binding of \code{\link{POSIXlt}} timestamp values.
+  #' Binding of [POSIXlt] timestamp values.
   bind_timestamp_lt = function(ctx) {
     with_connection({
       data_in <- as.POSIXlt(round(Sys.time()))
@@ -177,17 +232,39 @@ test_select_bind <- function(con, placeholder_fun, ...) {
 }
 
 test_select_bind_one <- function(con, placeholder_fun, values,
-                             type = "character(10)",
-                             transform_input = as.character,
-                             transform_output = function(x) trimws(x, "right"),
-                             expect = expect_identical,
-                             extra = c("none", "return_value", "too_many",
-                                       "not_enough", "wrong_name", "repeated")) {
+                                 type = "character(10)",
+                                 transform_input = as.character,
+                                 transform_output = function(x) trimws(x, "right"),
+                                 expect = expect_identical,
+                                 extra = c("none", "return_value", "too_many",
+                                           "not_enough", "wrong_name", "repeated")) {
   extra <- match.arg(extra)
+
+  bind_tester <- BindTester$new(con)
+  bind_tester$placeholder_fun <- placeholder_fun
+  bind_tester$values <- values
+  bind_tester$type <- type
+  bind_tester$transform$input <- transform_input
+  bind_tester$transform$output <- transform_output
+  bind_tester$expect$fun <- expect
+  bind_tester$extra_imp <- switch(
+    extra,
+    return_value = BindTesterExtraReturnValue,
+    too_many = BindTesterExtraTooMany,
+    not_enough = BindTesterExtraNotEnough,
+    wrong_name = BindTesterExtraWrongName,
+    repeated = BindTesterExtraRepeated,
+    BindTesterExtra
+  )
+  bind_tester$run()
+}
+
+run_bind_tester <- function() {
+  extra_obj <- self$extra_imp$new()
 
   placeholder <- placeholder_fun(length(values))
 
-  if (extra == "wrong_name" && is.null(names(placeholder))) {
+  if (extra_obj$requires_names() && is.null(names(placeholder))) {
     # wrong_name test only valid for named placeholders
     return()
   }
@@ -208,14 +285,7 @@ test_select_bind_one <- function(con, placeholder_fun, values,
     names(bind_values) <- names(placeholder)
   }
 
-  error_bind_values <- switch(
-    extra,
-    too_many = c(bind_values, bind_values[[1L]]),
-    not_enough = bind_values[-1L],
-    wrong_name = stats::setNames(bind_values, paste0("bogus",
-                                                     names(bind_values))),
-    bind_values
-  )
+  error_bind_values <- extra_obj$patch_bind_values(bind_values)
 
   if (!identical(bind_values, error_bind_values)) {
     expect_error(dbBind(res, as.list(error_bind_values)))
@@ -223,31 +293,145 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   }
 
   bind_res <- withVisible(dbBind(res, as.list(bind_values)))
-  if (extra == "return_value") {
-    expect_false(bind_res$visible)
-    expect_identical(res, bind_res$value)
-  }
+  extra_obj$check_return_value(bind_res, res)
 
   rows <- dbFetch(res)
-  expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
+  expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
 
-  if (extra == "repeated") {
+  if (extra_obj$is_repeated()) {
     dbBind(res, as.list(bind_values))
 
     rows <- dbFetch(res)
-    expect(transform_output(Reduce(c, rows)), transform_input(unname(values)))
+    expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
   }
 }
 
+
+# BindTesterExtra ---------------------------------------------------------
+
+BindTesterExtra <- R6::R6Class(
+  "BindTesterExtra",
+  portable = TRUE,
+
+  public = list(
+    check_return_value = function(bind_res, res) invisible(NULL),
+    patch_bind_values = identity,
+    requires_names = function() FALSE,
+    is_repeated = function() FALSE
+  )
+)
+
+
+# BindTesterExtraReturnValue ----------------------------------------------
+
+BindTesterExtraReturnValue <- R6::R6Class(
+  "BindTesterExtraReturnValue",
+  inherit = BindTesterExtra,
+  portable = TRUE,
+
+  public = list(
+    check_return_value = function(bind_res, res) {
+      expect_false(bind_res$visible)
+      expect_identical(res, bind_res$value)
+    }
+  )
+)
+
+
+# BindTesterExtraTooMany --------------------------------------------------
+
+BindTesterExtraTooMany <- R6::R6Class(
+  "BindTesterExtraTooMany",
+  inherit = BindTesterExtra,
+  portable = TRUE,
+
+  public = list(
+    patch_bind_values = function(bind_values) {
+      c(bind_values, bind_values[[1L]])
+    }
+  )
+)
+
+
+# BindTesterExtraNotEnough --------------------------------------------------
+
+BindTesterExtraNotEnough <- R6::R6Class(
+  "BindTesterExtraNotEnough",
+  inherit = BindTesterExtra,
+  portable = TRUE,
+
+  public = list(
+    patch_bind_values = function(bind_values) {
+      bind_values[-1L]
+    }
+  )
+)
+
+
+# BindTesterExtraWrongName ------------------------------------------------
+
+BindTesterExtraWrongName <- R6::R6Class(
+  "BindTesterExtraWrongName",
+  inherit = BindTesterExtra,
+  portable = TRUE,
+
+  public = list(
+    patch_bind_values = function(bind_values) {
+      stats::setNames(bind_values, paste0("bogus", names(bind_values)))
+    },
+
+    requires_names = function() TRUE
+  )
+)
+
+
+# BindTesterExtraRepeated -------------------------------------------------
+
+BindTesterExtraRepeated <- R6::R6Class(
+  "BindTesterExtraRepeated",
+  inherit = BindTesterExtra,
+  portable = TRUE,
+
+  public = list(
+    is_repeated = function() TRUE
+  )
+)
+
+
+# BindTester --------------------------------------------------------------
+
+BindTester <- R6::R6Class(
+  "BindTester",
+  portable = FALSE,
+
+  public = list(
+    initialize = function(con) {
+      self$con <- con
+    },
+    run = run_bind_tester,
+
+    con = NULL,
+    placeholder_fun = NULL,
+    values = NULL,
+    type = "character(10)",
+    transform = list(input = as.character, output = function(x) trimws(x, "right")),
+    expect = list(fun = expect_identical),
+    extra_imp = BindTesterExtra
+  )
+)
+
+
+# make_placeholder_fun ----------------------------------------------------
+
 #' Create a function that creates n placeholders
 #'
-#' For internal use by the \code{placeholder_format} tweak.
+#' For internal use by the `placeholder_format` tweak.
 #'
-#' @param pattern \code{[character(1)]}\cr Any character, optionally followed by \code{1} or \code{name}. Examples: \code{"?"}, \code{"$1"}, \code{":name"}
+#' @param pattern `[character(1)]`\cr Any character, optionally followed by `1` or `name`. Examples: `"?"`, `"$1"`, `":name"`
 #'
-#' @return \code{[function(n)]}\cr A function with one argument \code{n} that
-#'   returns a vector of length \code{n} with placeholders of the specified format.
-#'   Examples: \code{?, ?, ?, ...}, \code{$1, $2, $3, ...}, \code{:a, :b, :c}
+#' @return `[function(n)]`\cr A function with one argument `n` that
+#'   returns a vector of length `n` with placeholders of the specified format.
+#'   Examples: `?, ?, ?, ...`, `$1, $2, $3, ...`, `:a, :b, :c`
 #'
 #' @keywords internal
 make_placeholder_fun <- function(pattern) {

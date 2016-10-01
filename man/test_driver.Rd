@@ -11,7 +11,7 @@ test_driver(skip = NULL, ctx = get_default_context())
 against test names; skip test if matching any.}
 
 \item{ctx}{\code{[DBItest_context]}\cr A test context as created by
-\code{\link{make_context}}.}
+\code{\link[=make_context]{make_context()}}.}
 }
 \description{
 Test the "Driver" class

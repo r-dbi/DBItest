@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section Meta:
-#' \subsection{\code{dbGetRowCount("DBIResult")}}{
+#' \subsection{`dbGetRowCount("DBIResult")`}{
 spec_meta_get_row_count <- list(
   #' Row count information is correct.
   row_count = function(ctx) {

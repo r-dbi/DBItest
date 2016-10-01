@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section SQL:
-#' \subsection{\code{dbListFields("DBIConnection")}}{
+#' \subsection{`dbListFields("DBIConnection")`}{
 spec_sql_list_fields <- list(
   #' Can list the fields for a table in the database.
   list_fields = function(ctx) {

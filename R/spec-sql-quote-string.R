@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section SQL:
-#' \subsection{\code{dbQuoteString("DBIConnection")}}{
+#' \subsection{`dbQuoteString("DBIConnection")`}{
 spec_sql_quote_string <- list(
   #' Can quote strings, and create strings that contain quotes and spaces.
   quote_string = function(ctx) {

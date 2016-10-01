@@ -1,6 +1,6 @@
 #' @name test_all
 #' @section Tests:
-#' \code{\link{test_sql}}:
+#' [test_sql()]:
 #' Test SQL methods
 NULL
 

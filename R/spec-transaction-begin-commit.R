@@ -1,15 +1,15 @@
 #' @template dbispec-sub
 #' @format NULL
 #' @section Transactions:
-#' \subsection{\code{dbBegin("DBIConnection")} and \code{dbCommit("DBIConnection")}}{
+#' \subsection{`dbBegin("DBIConnection")` and `dbCommit("DBIConnection")`}{
 spec_transaction_begin_commit <- list(
   #' Transactions are available in DBI, but actual support may vary between backends.
   begin_commit = function(ctx) {
     with_connection({
-      #' A transaction is initiated by a call to \code{\link[DBI]{dbBegin}}
+      #' A transaction is initiated by a call to [DBI::dbBegin()]
       dbBegin(con)
       on.exit(dbRollback(con), add = FALSE)
-      #' and committed by a call to \code{\link[DBI]{dbCommit}}.
+      #' and committed by a call to [DBI::dbCommit()].
       expect_error({dbCommit(con); on.exit(NULL, add = FALSE)}, NA)
     })
   },
@@ -17,7 +17,7 @@ spec_transaction_begin_commit <- list(
   begin_commit_return_value = function(ctx) {
     with_connection({
       #' Both generics expect an object of class \code{\linkS4class{DBIConnection}}
-      #' and return \code{TRUE} (invisibly) upon success.
+      #' and return `TRUE` (invisibly) upon success.
       expect_invisible_true(dbBegin(con))
       on.exit(dbRollback(con), add = FALSE)
       expect_invisible_true(dbCommit(con))
@@ -38,8 +38,8 @@ spec_transaction_begin_commit <- list(
   },
 
   commit_without_begin = function(ctx) {
-    #' In addition, a call to \code{\link[DBI]{dbCommit}} without
-    #' a call to \code{\link[DBI]{dbBegin}} should raise an error.
+    #' In addition, a call to [DBI::dbCommit()] without
+    #' a call to [DBI::dbBegin()] should raise an error.
     with_connection({
       expect_error(dbCommit(con))
     })
@@ -48,7 +48,7 @@ spec_transaction_begin_commit <- list(
   begin_begin = function(ctx) {
     #' Nested transactions are not supported by DBI,
     with_connection({
-      #' an attempt to call \code{\link[DBI]{dbBegin}} twice
+      #' an attempt to call [DBI::dbBegin()] twice
       dbBegin(con)
       on.exit(dbRollback(con), add = FALSE)
       #' should yield an error.
@@ -89,7 +89,7 @@ spec_transaction_begin_commit <- list(
   #'
   #' The behavior is not specified if other arguments are passed to these
   #' functions. In particular, \pkg{RSQLite} issues named transactions
-  #' if the \code{name} argument is set.
+  #' if the `name` argument is set.
   #'
   #' The transaction isolation level is not specified by DBI.
   #'
