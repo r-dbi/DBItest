@@ -48,7 +48,7 @@ spec_result_roundtrip <- list(
   },
 
   #' Data conversion from SQL to R: logical. Optional, conflict with the
-  #' \code{data_logical_int} test.
+  #' `data_logical_int` test.
   data_logical = function(ctx) {
     with_connection({
       test_select(.ctx = ctx, con,
@@ -76,7 +76,7 @@ spec_result_roundtrip <- list(
   },
 
   #' Data conversion from SQL to R: logical (as integers). Optional,
-  #' conflict with the \code{data_logical} test.
+  #' conflict with the `data_logical` test.
   data_logical_int = function(ctx) {
     with_connection({
       test_select(.ctx = ctx, con,

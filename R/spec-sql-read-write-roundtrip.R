@@ -70,7 +70,7 @@ spec_sql_read_write_roundtrip <- list(
   },
 
   #' Can create tables with numeric columns that contain special values such
-  #' as \code{Inf} and \code{NaN}.
+  #' as `Inf` and `NaN`.
   roundtrip_numeric_special = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA, -Inf, Inf, NaN),

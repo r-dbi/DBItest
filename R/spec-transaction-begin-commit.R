@@ -1,7 +1,7 @@
 #' @template dbispec-sub
 #' @format NULL
 #' @section Transactions:
-#' \subsection{\code{dbBegin("DBIConnection")} and \code{dbCommit("DBIConnection")}}{
+#' \subsection{`dbBegin("DBIConnection")` and `dbCommit("DBIConnection")`}{
 spec_transaction_begin_commit <- list(
   #' Transactions are available in DBI, but actual support may vary between backends.
   begin_commit = function(ctx) {
@@ -17,7 +17,7 @@ spec_transaction_begin_commit <- list(
   begin_commit_return_value = function(ctx) {
     with_connection({
       #' Both generics expect an object of class \code{\linkS4class{DBIConnection}}
-      #' and return \code{TRUE} (invisibly) upon success.
+      #' and return `TRUE` (invisibly) upon success.
       expect_invisible_true(dbBegin(con))
       on.exit(dbRollback(con), add = FALSE)
       expect_invisible_true(dbCommit(con))
@@ -89,7 +89,7 @@ spec_transaction_begin_commit <- list(
   #'
   #' The behavior is not specified if other arguments are passed to these
   #' functions. In particular, \pkg{RSQLite} issues named transactions
-  #' if the \code{name} argument is set.
+  #' if the `name` argument is set.
   #'
   #' The transaction isolation level is not specified by DBI.
   #'

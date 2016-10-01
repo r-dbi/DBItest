@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section SQL:
-#' \subsection{\code{dbQuoteIdentifier("DBIConnection")}}{
+#' \subsection{`dbQuoteIdentifier("DBIConnection")`}{
 spec_sql_quote_identifier <- list(
   #' Can quote identifiers that consist of letters only.
   quote_identifier = function(ctx) {

@@ -1,7 +1,7 @@
 #' @template dbispec-sub
 #' @format NULL
 #' @section Driver:
-#' \subsection{\code{dbDataType("DBIDriver", "ANY")}}{
+#' \subsection{`dbDataType("DBIDriver", "ANY")`}{
 spec_driver_data_type <- list(
   #' The backend can override the [DBI::dbDataType()] generic
   #' for its driver class.
@@ -25,7 +25,7 @@ spec_driver_data_type <- list(
 
     #'
     #' To query the values returned by the default implementation,
-    #' run \code{example(dbDataType, package = "DBI")}.
+    #' run `example(dbDataType, package = "DBI")`.
     #' If the backend needs to override this generic,
     #' it must accept all basic R data types as its second argument, namely
     expect_driver_has_data_type <- function(value) {
@@ -47,7 +47,7 @@ spec_driver_data_type <- list(
     expect_driver_has_data_type(Sys.time())
     #' and [base::difftime()].
     expect_driver_has_data_type(Sys.time() - Sys.time())
-    #' It also must accept lists of \code{raw} vectors
+    #' It also must accept lists of `raw` vectors
     #' and map them to the BLOB (binary large object) data type.
     if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
       expect_driver_has_data_type(list(raw(1)))

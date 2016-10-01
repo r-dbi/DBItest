@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section Result:
-#' \subsection{Construction: \code{dbSendQuery("DBIConnection")} and \code{dbClearResult("DBIResult")}}{
+#' \subsection{Construction: `dbSendQuery("DBIConnection")` and `dbClearResult("DBIResult")`}{
 spec_result_send_query <- list(
   #' Can issue trivial query, result object inherits from "DBIResult".
   trivial_query = function(ctx) {
@@ -13,7 +13,7 @@ spec_result_send_query <- list(
   },
 
   #' Return value, currently tests that the return value is always
-  #' \code{TRUE}, and that an attempt to close a closed result set issues a
+  #' `TRUE`, and that an attempt to close a closed result set issues a
   #' warning.
   clear_result_return = function(ctx) {
     with_connection({

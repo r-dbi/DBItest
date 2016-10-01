@@ -2,20 +2,20 @@
 #'
 #' Create a test context, set and query the default context.
 #'
-#' @param drv \code{[DBIDriver]}\cr An expression that constructs a DBI driver,
+#' @param drv `[DBIDriver]`\cr An expression that constructs a DBI driver,
 #'   like `SQLite()`.
-#' @param connect_args \code{[named list]}\cr Connection arguments (names and
+#' @param connect_args `[named_list]`\cr Connection arguments (names and
 #'   values).
-#' @param set_as_default \code{[logical(1)]}\cr Should the created context be
+#' @param set_as_default `[logical(1)]`\cr Should the created context be
 #'   set as default context?
-#' @param tweaks \code{[DBItest_tweaks]}\cr Tweaks as constructed by the
+#' @param tweaks `[DBItest_tweaks]`\cr Tweaks as constructed by the
 #'   [tweaks()] function.
-#' @param ctx \code{[DBItest_context]}\cr A test context.
-#' @param name \code{[character]}\cr An optional name of the context which will 
+#' @param ctx `[DBItest_context]`\cr A test context.
+#' @param name `[character]`\cr An optional name of the context which will 
 #'   be used in test messages.
-#' @return \code{[DBItest_context]}\cr A test context, for
-#'   \code{set_default_context} the previous default context (invisibly) or
-#'   \code{NULL}.
+#' @return `[DBItest_context]`\cr A test context, for
+#'   `set_default_context` the previous default context (invisibly) or
+#'   `NULL`.
 #'
 #' @rdname context
 #' @export

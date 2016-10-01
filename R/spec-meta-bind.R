@@ -1,7 +1,7 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section Meta:
-#' \subsection{\code{dbBind("DBIResult")}}{
+#' \subsection{`dbBind("DBIResult")`}{
 spec_meta_bind <- list(
   #' Empty binding with check of
   #' return value.
@@ -92,7 +92,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' Binding of \code{NULL} values.
+  #' Binding of `NULL` values.
   bind_null = function(ctx) {
     with_connection({
       test_select_bind(
@@ -370,13 +370,13 @@ BindTester <- R6::R6Class(
 
 #' Create a function that creates n placeholders
 #'
-#' For internal use by the \code{placeholder_format} tweak.
+#' For internal use by the `placeholder_format` tweak.
 #'
-#' @param pattern \code{[character(1)]}\cr Any character, optionally followed by \code{1} or \code{name}. Examples: \code{"?"}, \code{"$1"}, \code{":name"}
+#' @param pattern `[character(1)]`\cr Any character, optionally followed by `1` or `name`. Examples: `"?"`, `"$1"`, `":name"`
 #'
-#' @return \code{[function(n)]}\cr A function with one argument \code{n} that
-#'   returns a vector of length \code{n} with placeholders of the specified format.
-#'   Examples: \code{?, ?, ?, ...}, \code{$1, $2, $3, ...}, \code{:a, :b, :c}
+#' @return `[function(n)]`\cr A function with one argument `n` that
+#'   returns a vector of length `n` with placeholders of the specified format.
+#'   Examples: `?, ?, ?, ...`, `$1, $2, $3, ...`, `:a, :b, :c`
 #'
 #' @keywords internal
 make_placeholder_fun <- function(pattern) {

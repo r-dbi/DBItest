@@ -1,7 +1,7 @@
 #' @name test_all
 #' @section Tests:
 #' [test_stress()]:
-#' Stress tests (not tested with \code{test_all})
+#' Stress tests (not tested with `test_all`)
 NULL
 
 #' Stress tests
