@@ -177,12 +177,12 @@ test_select_bind <- function(con, placeholder_fun, ...) {
 }
 
 test_select_bind_one <- function(con, placeholder_fun, values,
-                             type = "character(10)",
-                             transform_input = as.character,
-                             transform_output = function(x) trimws(x, "right"),
-                             expect = expect_identical,
-                             extra = c("none", "return_value", "too_many",
-                                       "not_enough", "wrong_name", "repeated")) {
+                                 type = "character(10)",
+                                 transform_input = as.character,
+                                 transform_output = function(x) trimws(x, "right"),
+                                 expect = expect_identical,
+                                 extra = c("none", "return_value", "too_many",
+                                           "not_enough", "wrong_name", "repeated")) {
   extra <- match.arg(extra)
 
   bind_tester <- BindTester$new(con)
