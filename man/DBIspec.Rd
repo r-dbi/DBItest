@@ -2,7 +2,7 @@
 % Please edit documentation in R/spec.R, R/spec-getting-started.R,
 %   R/spec-driver-class.R, R/spec-driver-constructor.R,
 %   R/spec-driver-data-type.R, R/spec-driver.R, R/spec-connection.R,
-%   R/spec-result.R, R/spec-sql.R, R/spec-meta.R,
+%   R/spec-result.R, R/spec-sql.R, R/spec-meta-bind.R, R/spec-meta.R,
 %   R/spec-transaction-begin-commit.R, R/spec-transaction.R,
 %   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
@@ -89,6 +89,23 @@ and \code{\link[base:difftime]{base::difftime()}}.
 It also must accept lists of \code{raw} vectors
 and map them to the BLOB (binary large object) data type.
 The behavior for other object types is not specified.
+}
+}
+
+\section{Parametrized queries and statements}{
+
+\pkg{DBI} supports parametrized (or prepared) queries and statements
+via the \code{\link[DBI:dbBind]{DBI::dbBind()}} generic.
+Parametrized queries are different from normal queries
+in that they allow an arbitrary number of placeholders,
+which are later substituted by actual values.
+Parametrized queries (and statements) serve two purposes:
+\itemize{
+\item The same query can be executed more than once with different values.
+The DBMS may cache intermediate information for the query,
+such as the execution plan,
+and execute it faster.
+\item Separation of query syntax and parameters protects against SQL injection.
 }
 }
 

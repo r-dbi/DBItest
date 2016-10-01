@@ -1,6 +1,23 @@
+#' @template dbispec-sub
+#' @format NULL
+#' @section Parametrized queries and statements:
+#' \pkg{DBI} supports parametrized (or prepared) queries and statements
+#' via the [DBI::dbBind()] generic.
+#' Parametrized queries are different from normal queries
+#' in that they allow an arbitrary number of placeholders,
+#' which are later substituted by actual values.
+#' Parametrized queries (and statements) serve two purposes:
+#'
+#' - The same query can be executed more than once with different values.
+#'   The DBMS may cache intermediate information for the query,
+#'   such as the execution plan,
+#'   and execute it faster.
+#' - Separation of query syntax and parameters protects against SQL injection.
+NULL
+
 #' @template dbispec-sub-wip
 #' @format NULL
-#' @section Meta:
+#' @section Parametrised queries and statements:
 #' \subsection{`dbBind("DBIResult")`}{
 spec_meta_bind <- list(
   #' Empty binding with check of
