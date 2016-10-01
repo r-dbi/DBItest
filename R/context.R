@@ -4,7 +4,7 @@
 #'
 #' @param drv `[DBIDriver]`\cr An expression that constructs a DBI driver,
 #'   like `SQLite()`.
-#' @param connect_args `[named_list]`\cr Connection arguments (names and
+#' @param connect_args `[named list]`\cr Connection arguments (names and
 #'   values).
 #' @param set_as_default `[logical(1)]`\cr Should the created context be
 #'   set as default context?

@@ -17,8 +17,10 @@ get_default_context()
 \item{drv}{\code{[DBIDriver]}\cr An expression that constructs a DBI driver,
 like \code{SQLite()}.}
 
-\item{connect_args}{\code{[named_list]}\cr Connection arguments (names and
-values).}
+\item{connect_args}{\code{[named list]}\cr Connection arguments (names and
+values).
+
+[named list]: R:named list}
 
 \item{set_as_default}{\code{[logical(1)]}\cr Should the created context be
 set as default context?}
