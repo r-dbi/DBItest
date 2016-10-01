@@ -193,10 +193,17 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   bind_tester$transform$output <- transform_output
   bind_tester$expect$fun <- expect_identical
   bind_tester$extra <- extra
+  bind_tester$extra_imp <- switch(
+    extra,
+    return_value = BindTesterExtraReturnValue,
+    BindTesterExtra
+  )
   bind_tester$run()
 }
 
 run_bind_tester <- function() {
+  extra_obj <- self$extra_imp$new()
+
   placeholder <- placeholder_fun(length(values))
 
   if (extra == "wrong_name" && is.null(names(placeholder))) {
@@ -235,10 +242,7 @@ run_bind_tester <- function() {
   }
 
   bind_res <- withVisible(dbBind(res, as.list(bind_values)))
-  if (extra == "return_value") {
-    expect_false(bind_res$visible)
-    expect_identical(res, bind_res$value)
-  }
+  extra_obj$check_return_value(bind_res, res)
 
   rows <- dbFetch(res)
   expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
@@ -250,6 +254,27 @@ run_bind_tester <- function() {
     expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
   }
 }
+
+BindTesterExtra <- R6::R6Class(
+  "BindTesterExtra",
+  portable = TRUE,
+
+  public = list(
+    check_return_value = function(bind_res, res) invisible(NULL)
+  )
+)
+
+BindTesterExtraReturnValue <- R6::R6Class(
+  "BindTesterExtraReturnValue",
+  portable = TRUE,
+
+  public = list(
+    check_return_value = function(bind_res, res) {
+      expect_false(bind_res$visible)
+      expect_identical(res, bind_res$value)
+    }
+  )
+)
 
 BindTester <- R6::R6Class(
   "BindTester",
@@ -267,10 +292,10 @@ BindTester <- R6::R6Class(
     type = "character(10)",
     transform = list(input = as.character, output = function(x) trimws(x, "right")),
     expect = list(fun = expect_identical),
-    extra = "none"
+    extra = "none",
+    extra_imp = BindTesterExtra
   )
 )
-
 
 #' Create a function that creates n placeholders
 #'
