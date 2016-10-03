@@ -18,11 +18,7 @@ test_select_bind_one <- function(con, placeholder_fun, values,
                                  transform_input = as.character,
                                  transform_output = function(x) trimws(x, "right"),
                                  expect = expect_identical,
-                                 extra = c("none", "return_value", "too_many",
-                                           "not_enough", "wrong_name",
-                                           "unequal_length", "repeated")) {
-  extra <- match.arg(extra)
-
+                                 extra = "none") {
   bind_tester <- BindTester$new(con)
   bind_tester$placeholder <- placeholder_fun(length(values))
   bind_tester$values <- values
@@ -30,7 +26,22 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   bind_tester$transform$input <- transform_input
   bind_tester$transform$output <- transform_output
   bind_tester$expect$fun <- expect
+  bind_tester$extra_obj <- new_extra_imp(extra)
 
+  bind_tester$run()
+}
+
+new_extra_imp <- function(extra) {
+  if (length(extra) == 0)
+    new_extra_imp_one("none")
+  else if (length(extra) == 1)
+    new_extra_imp_one(extra)
+  else {
+    BindTesterExtraMulti$new(lapply(extra, new_extra_imp_one))
+  }
+}
+
+new_extra_imp_one <- function(extra) {
   extra_imp <- switch(
     extra,
     return_value = BindTesterExtraReturnValue,
@@ -39,11 +50,11 @@ test_select_bind_one <- function(con, placeholder_fun, values,
     wrong_name = BindTesterExtraWrongName,
     unequal_length = BindTesterExtraUnequalLength,
     repeated = BindTesterExtraRepeated,
-    BindTesterExtra
+    none = BindTesterExtra,
+    stop("Unknown extra: ", extra, call. = FALSE)
   )
-  bind_tester$extra_obj <- extra_imp$new()
 
-  bind_tester$run()
+  extra_imp$new()
 }
 
 # BindTesterExtra ---------------------------------------------------------
