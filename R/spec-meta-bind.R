@@ -388,6 +388,7 @@ BindTesterExtraUnequalLength <- R6::R6Class(
   public = list(
     patch_bind_values = function(bind_values) {
       bind_values[[2]] <- bind_values[[2]][-1]
+      bind_values
     }
   )
 )
