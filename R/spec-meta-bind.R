@@ -30,22 +30,17 @@
 run_bind_tester <- function() {
   extra_obj <- self$extra_imp$new()
 
-  placeholder <- placeholder_fun(length(values))
-
   if (extra_obj$requires_names() && is.null(names(placeholder))) {
     # wrong_name test only valid for named placeholders
     return()
   }
 
-  value_names <- letters[seq_along(values)]
-  if (is.null(type)) {
-    typed_placeholder <- placeholder
-  } else {
-    typed_placeholder <- paste0("cast(", placeholder, " as ", type, ")")
-  }
-  query <- paste0("SELECT ", paste0(
-    typed_placeholder, " as ", value_names, collapse = ", "))
-  res <- dbSendQuery(con, query)
+  #' 1. Call [DBI::dbSendQuery()] or [DBI::dbSendStatement()] with a query or statement
+  #'    that contains placeholders,
+  #'    store the returned \code{\linkS4class{DBIResult}} object in a variable.
+  #'    Mixing placeholders (in particular, named and unnamed ones) is not
+  #'    recommended.
+  res <- send_query()
   on.exit(expect_error(dbClearResult(res), NA))
 
   bind_values <- values
@@ -72,11 +67,6 @@ run_bind_tester <- function() {
     rows <- dbFetch(res)
     expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
   }
-#' 1. Call [DBI::dbSendQuery()] or [DBI::dbSendStatement()] with a query or statement
-#'    that contains placeholders,
-#'    store the returned \code{\linkS4class{DBIResult}} object in a variable.
-#'    Mixing placeholders (in particular, named and unnamed ones) is not
-#'    recommended.
 #' 1. Call [dbBind()] on the `DBIResult` object with a list
 #'    that specifies actual values for the placeholders.
 #'    All elements in this list must have the same lengths and contain values
@@ -288,7 +278,7 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   extra <- match.arg(extra)
 
   bind_tester <- BindTester$new(con)
-  bind_tester$placeholder_fun <- placeholder_fun
+  bind_tester$placeholder <- placeholder_fun(length(values))
   bind_tester$values <- values
   bind_tester$type <- type
   bind_tester$transform$input <- transform_input
@@ -410,12 +400,27 @@ BindTester <- R6::R6Class(
     run = run_bind_tester,
 
     con = NULL,
-    placeholder_fun = NULL,
+    placeholder = NULL,
     values = NULL,
     type = "character(10)",
     transform = list(input = as.character, output = function(x) trimws(x, "right")),
     expect = list(fun = expect_identical),
     extra_imp = BindTesterExtra
+  ),
+
+  private = list(
+    send_query = function() {
+      value_names <- letters[seq_along(values)]
+      if (is.null(type)) {
+        typed_placeholder <- placeholder
+      } else {
+        typed_placeholder <- paste0("cast(", placeholder, " as ", type, ")")
+      }
+      query <- paste0("SELECT ", paste0(
+        typed_placeholder, " as ", value_names, collapse = ", "))
+
+      dbSendQuery(con, query)
+    }
   )
 )
 
