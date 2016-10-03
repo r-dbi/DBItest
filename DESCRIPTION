@@ -66,6 +66,7 @@ Collate:
     'spec-meta-get-rows-affected.R'
     'spec-meta-get-info-result.R'
     'spec-meta-bind.R'
+    'spec-meta-bind-multi-row.R'
     'spec-meta.R'
     'spec-transaction-begin-commit.R'
     'spec-transaction-begin-rollback.R'

@@ -20,6 +20,7 @@
 #' @include spec-transaction-begin-rollback.R
 #' @include spec-transaction-begin-commit.R
 #' @include spec-meta.R
+#' @include spec-meta-bind-multi-row.R
 #' @include spec-meta-bind.R
 #' @include spec-meta-get-info-result.R
 #' @include spec-meta-get-rows-affected.R
