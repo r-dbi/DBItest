@@ -28,8 +28,6 @@
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'
 run_bind_tester <- function() {
-  extra_obj <- self$extra_imp$new()
-
   if (extra_obj$requires_names() && is.null(names(placeholder))) {
     # wrong_name test only valid for named placeholders
     return()
@@ -284,7 +282,8 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   bind_tester$transform$input <- transform_input
   bind_tester$transform$output <- transform_output
   bind_tester$expect$fun <- expect
-  bind_tester$extra_imp <- switch(
+
+  extra_imp <- switch(
     extra,
     return_value = BindTesterExtraReturnValue,
     too_many = BindTesterExtraTooMany,
@@ -293,6 +292,8 @@ test_select_bind_one <- function(con, placeholder_fun, values,
     repeated = BindTesterExtraRepeated,
     BindTesterExtra
   )
+  bind_tester$extra_obj <- extra_imp$new()
+
   bind_tester$run()
 }
 
@@ -405,7 +406,7 @@ BindTester <- R6::R6Class(
     type = "character(10)",
     transform = list(input = as.character, output = function(x) trimws(x, "right")),
     expect = list(fun = expect_identical),
-    extra_imp = BindTesterExtra
+    extra_obj = NULL
   ),
 
   private = list(
