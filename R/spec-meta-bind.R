@@ -39,6 +39,9 @@ run_bind_tester <- function() {
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
   res <- send_query()
+  #'    (It is good practice to register a call to [DBI::dbClearResult()] via
+  #'    [on.exit()] right after calling `dbSendQuery()`, see the last
+  #'    enumeration item.)
   on.exit(expect_error(dbClearResult(res), NA))
 
   bind_values <- values
