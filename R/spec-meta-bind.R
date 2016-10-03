@@ -273,7 +273,8 @@ test_select_bind_one <- function(con, placeholder_fun, values,
                                  transform_output = function(x) trimws(x, "right"),
                                  expect = expect_identical,
                                  extra = c("none", "return_value", "too_many",
-                                           "not_enough", "wrong_name", "repeated")) {
+                                           "not_enough", "wrong_name",
+                                           "unequal_length", "repeated")) {
   extra <- match.arg(extra)
 
   bind_tester <- BindTester$new(con)
@@ -290,6 +291,7 @@ test_select_bind_one <- function(con, placeholder_fun, values,
     too_many = BindTesterExtraTooMany,
     not_enough = BindTesterExtraNotEnough,
     wrong_name = BindTesterExtraWrongName,
+    unequal_length = BindTesterExtraUnequalLength,
     repeated = BindTesterExtraRepeated,
     BindTesterExtra
   )
@@ -372,6 +374,21 @@ BindTesterExtraWrongName <- R6::R6Class(
     },
 
     requires_names = function() TRUE
+  )
+)
+
+
+# BindTesterExtraUnequalLength --------------------------------------------
+
+BindTesterExtraUnequalLength <- R6::R6Class(
+  "BindTesterExtraUnequalLength",
+  inherit = BindTesterExtra,
+  portable = TRUE,
+
+  public = list(
+    patch_bind_values = function(bind_values) {
+      bind_values[[2]] <- bind_values[[2]][-1]
+    }
   )
 )
 
