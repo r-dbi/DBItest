@@ -1,3 +1,10 @@
+## DBItest 1.3-9 (2016-10-01)
+
+- Description of parametrized queries and statements (#88).
+- Use markdown in documentation.
+- Refactor tests for `dbBind()`, test is run by `BindTester` class, and behavior is specified by members and by instances of the new `BindTesterExtra` class.
+
+
 ## DBItest 1.3-8 (2016-09-17)
 
 - Refactored `bind_` tests to use the new `parameter_pattern` tweak (#95).
