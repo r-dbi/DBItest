@@ -27,31 +27,67 @@
 #'
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'
-#' 1. Call [DBI::dbSendQuery()] or [DBI::dbSendStatement()] with a query or statement
-#'    that contains placeholders,
-#'    store the returned \code{\linkS4class{DBIResult}} object in a variable.
-#'    Mixing placeholders (in particular, named and unnamed ones) is not
-#'    recommended.
-#' 1. Call [dbBind()] on the `DBIResult` object with a list
-#'    that specifies actual values for the placeholders.
-#'    All elements in this list must have the same lengths and contain values
-#'    supported by the backend; a [data.frame()] is internally stored as such
-#'    a list.
-#'    The list must be named or unnamed,
-#'    depending on the kind of placeholders used.
-#'    Named values are matched to named parameters, unnamed values
-#'    are matched by position.
-#' 1. Retrieve the data or the number of affected rows from the  `DBIResult` object.
-#'     - For queries issued by `dbSendQuery()`,
-#'       call [DBI::dbFetch()].
-#'     - For statements issued by `dbSendStatements()`,
-#'       call [DBI::dbGetRowsAffected()].
-#'       (Execution begins immediately after the `dbBind()` call.
-#'       Calls to `dbFetch()` are ignored.)
-#' 1. Repeat 2. and 3. as necessary.
-#' 1. Close the result set via [DBI::dbClearResult()].
-#'
-NULL
+run_bind_tester <- function() {
+  if (extra_obj$requires_names() && is.null(names(placeholder))) {
+    # wrong_name test only valid for named placeholders
+    return()
+  }
+
+  # FIXME
+  #' 1. Call [DBI::dbSendQuery()] or [DBI::dbSendStatement()] with a query or statement
+  #'    that contains placeholders,
+  #'    store the returned \code{\linkS4class{DBIResult}} object in a variable.
+  #'    Mixing placeholders (in particular, named and unnamed ones) is not
+  #'    recommended.
+  res <- send_query()
+  #'    It is good practice to register a call to [DBI::dbClearResult()] via
+  #'    [on.exit()] right after calling `dbSendQuery()`, see the last
+  #'    enumeration item.
+  on.exit(expect_error(dbClearResult(res), NA))
+
+  #' 1. Construct a list with parameters
+  #'    that specify actual values for the placeholders.
+  bind_values <- values
+  #'    The list must be named or unnamed,
+  #'    depending on the kind of placeholders used.
+  #'    Named values are matched to named parameters, unnamed values
+  #'    are matched by position.
+  if (!is.null(names(placeholder))) {
+    names(bind_values) <- names(placeholder)
+  }
+  #'    All elements in this list must have the same lengths and contain values
+  #'    supported by the backend; a [data.frame()] is internally stored as such
+  #'    a list.
+  # FIXME
+
+  #'    The parameter list is passed a call to [dbBind()] on the `DBIResult`
+  #'    object.
+  if (!bind(res, bind_values))
+    return()
+
+  #' 1. Retrieve the data or the number of affected rows from the  `DBIResult` object.
+  #'     - For queries issued by `dbSendQuery()`,
+  #'       call [DBI::dbFetch()].
+  rows <- dbFetch(res)
+  expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
+  #'     - For statements issued by `dbSendStatements()`,
+  #'       call [DBI::dbGetRowsAffected()].
+  #'       (Execution begins immediately after the `dbBind()` call.
+  #'       Calls to `dbFetch()` are ignored.)
+  # FIXME
+
+  #' 1. Repeat 2. and 3. as necessary.
+  if (extra_obj$is_repeated()) {
+    dbBind(res, as.list(bind_values))
+
+    rows <- dbFetch(res)
+    expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
+  }
+
+  #' 1. Close the result set via [DBI::dbClearResult()].
+}
+
+
 
 #' @template dbispec-sub-wip
 #' @format NULL
@@ -241,13 +277,14 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   extra <- match.arg(extra)
 
   bind_tester <- BindTester$new(con)
-  bind_tester$placeholder_fun <- placeholder_fun
+  bind_tester$placeholder <- placeholder_fun(length(values))
   bind_tester$values <- values
   bind_tester$type <- type
   bind_tester$transform$input <- transform_input
   bind_tester$transform$output <- transform_output
   bind_tester$expect$fun <- expect
-  bind_tester$extra_imp <- switch(
+
+  extra_imp <- switch(
     extra,
     return_value = BindTesterExtraReturnValue,
     too_many = BindTesterExtraTooMany,
@@ -256,56 +293,10 @@ test_select_bind_one <- function(con, placeholder_fun, values,
     repeated = BindTesterExtraRepeated,
     BindTesterExtra
   )
+  bind_tester$extra_obj <- extra_imp$new()
+
   bind_tester$run()
 }
-
-run_bind_tester <- function() {
-  extra_obj <- self$extra_imp$new()
-
-  placeholder <- placeholder_fun(length(values))
-
-  if (extra_obj$requires_names() && is.null(names(placeholder))) {
-    # wrong_name test only valid for named placeholders
-    return()
-  }
-
-  value_names <- letters[seq_along(values)]
-  if (is.null(type)) {
-    typed_placeholder <- placeholder
-  } else {
-    typed_placeholder <- paste0("cast(", placeholder, " as ", type, ")")
-  }
-  query <- paste0("SELECT ", paste0(
-    typed_placeholder, " as ", value_names, collapse = ", "))
-  res <- dbSendQuery(con, query)
-  on.exit(expect_error(dbClearResult(res), NA))
-
-  bind_values <- values
-  if (!is.null(names(placeholder))) {
-    names(bind_values) <- names(placeholder)
-  }
-
-  error_bind_values <- extra_obj$patch_bind_values(bind_values)
-
-  if (!identical(bind_values, error_bind_values)) {
-    expect_error(dbBind(res, as.list(error_bind_values)))
-    return()
-  }
-
-  bind_res <- withVisible(dbBind(res, as.list(bind_values)))
-  extra_obj$check_return_value(bind_res, res)
-
-  rows <- dbFetch(res)
-  expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
-
-  if (extra_obj$is_repeated()) {
-    dbBind(res, as.list(bind_values))
-
-    rows <- dbFetch(res)
-    expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
-  }
-}
-
 
 # BindTesterExtra ---------------------------------------------------------
 
@@ -411,12 +402,41 @@ BindTester <- R6::R6Class(
     run = run_bind_tester,
 
     con = NULL,
-    placeholder_fun = NULL,
+    placeholder = NULL,
     values = NULL,
     type = "character(10)",
     transform = list(input = as.character, output = function(x) trimws(x, "right")),
     expect = list(fun = expect_identical),
-    extra_imp = BindTesterExtra
+    extra_obj = NULL
+  ),
+
+  private = list(
+    send_query = function() {
+      value_names <- letters[seq_along(values)]
+      if (is.null(type)) {
+        typed_placeholder <- placeholder
+      } else {
+        typed_placeholder <- paste0("cast(", placeholder, " as ", type, ")")
+      }
+      query <- paste0("SELECT ", paste0(
+        typed_placeholder, " as ", value_names, collapse = ", "))
+
+      dbSendQuery(con, query)
+    },
+
+    bind = function(res, bind_values) {
+      error_bind_values <- extra_obj$patch_bind_values(bind_values)
+
+      if (!identical(bind_values, error_bind_values)) {
+        expect_error(dbBind(res, as.list(error_bind_values)))
+        return(FALSE)
+      }
+
+      bind_res <- withVisible(dbBind(res, as.list(bind_values)))
+      extra_obj$check_return_value(bind_res, res)
+
+      TRUE
+    }
   )
 )
 
