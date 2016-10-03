@@ -33,6 +33,7 @@ run_bind_tester <- function() {
     return()
   }
 
+  # FIXME
   #' 1. Call [DBI::dbSendQuery()] or [DBI::dbSendStatement()] with a query or statement
   #'    that contains placeholders,
   #'    store the returned \code{\linkS4class{DBIResult}} object in a variable.
@@ -64,25 +65,26 @@ run_bind_tester <- function() {
   if (!bind(res, bind_values))
     return()
 
+  #' 1. Retrieve the data or the number of affected rows from the  `DBIResult` object.
+  #'     - For queries issued by `dbSendQuery()`,
+  #'       call [DBI::dbFetch()].
   rows <- dbFetch(res)
   expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
+  #'     - For statements issued by `dbSendStatements()`,
+  #'       call [DBI::dbGetRowsAffected()].
+  #'       (Execution begins immediately after the `dbBind()` call.
+  #'       Calls to `dbFetch()` are ignored.)
+  # FIXME
 
+  #' 1. Repeat 2. and 3. as necessary.
   if (extra_obj$is_repeated()) {
     dbBind(res, as.list(bind_values))
 
     rows <- dbFetch(res)
     expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
   }
-#' 1. Retrieve the data or the number of affected rows from the  `DBIResult` object.
-#'     - For queries issued by `dbSendQuery()`,
-#'       call [DBI::dbFetch()].
-#'     - For statements issued by `dbSendStatements()`,
-#'       call [DBI::dbGetRowsAffected()].
-#'       (Execution begins immediately after the `dbBind()` call.
-#'       Calls to `dbFetch()` are ignored.)
-#' 1. Repeat 2. and 3. as necessary.
-#' 1. Close the result set via [DBI::dbClearResult()].
-#'
+
+  #' 1. Close the result set via [DBI::dbClearResult()].
 }
 
 
