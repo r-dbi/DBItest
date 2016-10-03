@@ -44,20 +44,25 @@ run_bind_tester <- function() {
   #'    enumeration item.)
   on.exit(expect_error(dbClearResult(res), NA))
 
+  #' 1. Construct a list with parameters
+  #'    that specify actual values for the placeholders.
   bind_values <- values
+  #'    The list must be named or unnamed,
+  #'    depending on the kind of placeholders used.
+  #'    Named values are matched to named parameters, unnamed values
+  #'    are matched by position.
   if (!is.null(names(placeholder))) {
     names(bind_values) <- names(placeholder)
   }
+  #'    All elements in this list must have the same lengths and contain values
+  #'    supported by the backend; a [data.frame()] is internally stored as such
+  #'    a list.
+  # FIXME
 
-  error_bind_values <- extra_obj$patch_bind_values(bind_values)
-
-  if (!identical(bind_values, error_bind_values)) {
-    expect_error(dbBind(res, as.list(error_bind_values)))
+  #'    The parameter list is passed a call to [dbBind()] on the `DBIResult`
+  #'    object.
+  if (!bind(res, bind_values))
     return()
-  }
-
-  bind_res <- withVisible(dbBind(res, as.list(bind_values)))
-  extra_obj$check_return_value(bind_res, res)
 
   rows <- dbFetch(res)
   expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
@@ -68,15 +73,6 @@ run_bind_tester <- function() {
     rows <- dbFetch(res)
     expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
   }
-#' 1. Call [dbBind()] on the `DBIResult` object with a list
-#'    that specifies actual values for the placeholders.
-#'    All elements in this list must have the same lengths and contain values
-#'    supported by the backend; a [data.frame()] is internally stored as such
-#'    a list.
-#'    The list must be named or unnamed,
-#'    depending on the kind of placeholders used.
-#'    Named values are matched to named parameters, unnamed values
-#'    are matched by position.
 #' 1. Retrieve the data or the number of affected rows from the  `DBIResult` object.
 #'     - For queries issued by `dbSendQuery()`,
 #'       call [DBI::dbFetch()].
@@ -424,6 +420,20 @@ BindTester <- R6::R6Class(
         typed_placeholder, " as ", value_names, collapse = ", "))
 
       dbSendQuery(con, query)
+    },
+
+    bind = function(res, bind_values) {
+      error_bind_values <- extra_obj$patch_bind_values(bind_values)
+
+      if (!identical(bind_values, error_bind_values)) {
+        expect_error(dbBind(res, as.list(error_bind_values)))
+        return(FALSE)
+      }
+
+      bind_res <- withVisible(dbBind(res, as.list(bind_values)))
+      extra_obj$check_return_value(bind_res, res)
+
+      TRUE
     }
   )
 )
