@@ -24,6 +24,11 @@ spec_meta_bind_multi_row <- list(
     })
   },
 
+  #' }
+  NULL
+)
+
+list(
   #' Binding of multi-row integer values with group column.
   bind_multi_row_group_column = function(ctx) {
     with_connection({
