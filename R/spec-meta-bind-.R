@@ -211,6 +211,11 @@ BindTester <- R6::R6Class(
       extra_obj$check_return_value(bind_res, res)
 
       TRUE
+    },
+
+    compare = function(rows, values) {
+      expect$fun(lapply(unname(rows), transform$output),
+                 lapply(unname(values), transform$input))
     }
   )
 )

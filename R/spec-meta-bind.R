@@ -69,7 +69,7 @@ run_bind_tester <- function() {
   #'     - For queries issued by `dbSendQuery()`,
   #'       call [DBI::dbFetch()].
   rows <- dbFetch(res)
-  expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
+  compare(rows, values)
   #'     - For statements issued by `dbSendStatements()`,
   #'       call [DBI::dbGetRowsAffected()].
   #'       (Execution begins immediately after the `dbBind()` call.
@@ -81,7 +81,7 @@ run_bind_tester <- function() {
     dbBind(res, as.list(bind_values))
 
     rows <- dbFetch(res)
-    expect$fun(transform$output(Reduce(c, rows)), transform$input(unname(values)))
+    compare(rows, values)
   }
 
   #' 1. Close the result set via [DBI::dbClearResult()].
