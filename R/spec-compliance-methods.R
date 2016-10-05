@@ -26,6 +26,16 @@ spec_compliance_methods <- list(
     })
   },
 
+  #' All methods have an ellipsis `...` in their formals.
+  ellipsis = function(ctx) {
+    pkg <- package_name(ctx)
+
+    where <- asNamespace(pkg)
+
+    methods <- S4_methods(where)
+    Map(expect_ellipsis_in_formals, methods, names(methods))
+  },
+
   #' }
   NULL
 )
@@ -39,6 +49,14 @@ expect_has_class_method <- function(name, class, args, driver_package) {
   eval(bquote(
     expect_true(hasMethod(.(name), .(full_args), driver_package))
   ))
+}
+
+expect_ellipsis_in_formals <- function(method, name) {
+  sym <- as.name(name)
+  eval(bquote({
+    .(sym) <- method
+    expect_true("..." %in% s4_real_argument_names(.(sym)))
+  }))
 }
 
 key_methods <- list(
@@ -76,3 +94,19 @@ key_methods <- list(
     "dbBind" = NULL
   )
 )
+
+# http://stackoverflow.com/a/39880324/946850
+S4_methods <- function(env) {
+  generics <- methods::getGenerics(env)
+
+  res <- Map(
+    generics@.Data, generics@package, USE.NAMES = TRUE,
+    f = function(name, package) {
+      what <- methods::methodsPackageMetaName("T", paste(name, package, sep = ":"))
+
+      table <- get(what, envir = env)
+
+      mget(ls(table, all.names = TRUE), envir = table)
+    })
+  unlist(res, recursive = FALSE)
+}
