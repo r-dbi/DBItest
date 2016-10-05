@@ -15,6 +15,7 @@ test_select_bind <- function(con, placeholder_fun, ...) {
 
 test_select_bind_one <- function(con, placeholder_fun, values,
                                  type = "character(10)",
+                                 query = TRUE,
                                  transform_input = as.character,
                                  transform_output = function(x) trimws(x, "right"),
                                  expect = expect_identical,
@@ -23,6 +24,7 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   bind_tester$placeholder <- placeholder_fun(length(values))
   bind_tester$values <- values
   bind_tester$type <- type
+  bind_tester$query <- query
   bind_tester$transform$input <- transform_input
   bind_tester$transform$output <- transform_output
   bind_tester$expect$fun <- expect
@@ -202,6 +204,20 @@ BindTester <- R6::R6Class(
         typed_placeholder, " as ", value_names, collapse = ", "))
 
       dbSendQuery(con, query)
+    },
+
+    send_statement = function() {
+      data <- data.frame(a = rep(1:5, 1:5))
+      data$b <- seq_along(data$a)
+      table_name <- random_table_name()
+      dbWriteTable(con, table_name, data, temporary = TRUE)
+
+      value_names <- letters[seq_along(values)]
+      statement <- paste0(
+        "DELETE FROM ", dbQuoteIdentifier(con, table_name), "WHERE ",
+        paste(value_names, " = ", placeholder, collapse = " AND "))
+
+      dbSendStatement(con, query)
     },
 
     bind = function(res, bind_values) {

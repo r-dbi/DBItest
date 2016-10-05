@@ -256,6 +256,13 @@ spec_meta_bind <- list(
     })
   },
 
+  #' Binding of statements.
+  bind_statement = function(ctx) {
+    with_connection({
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1, query = FALSE)
+    })
+  },
+
   #' }
   NULL
 )
