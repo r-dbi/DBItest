@@ -180,12 +180,17 @@ BindTester <- R6::R6Class(
     placeholder = NULL,
     values = NULL,
     type = "character(10)",
+    query = TRUE,
     transform = list(input = as.character, output = function(x) trimws(x, "right")),
     expect = list(fun = expect_identical),
     extra_obj = NULL
   ),
 
   private = list(
+    is_query = function() {
+      query
+    },
+
     send_query = function() {
       value_names <- letters[seq_along(values)]
       if (is.null(type)) {

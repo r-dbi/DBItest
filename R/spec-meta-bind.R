@@ -39,7 +39,10 @@ run_bind_tester <- function() {
   #'    store the returned \code{\linkS4class{DBIResult}} object in a variable.
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
-  res <- send_query()
+  if (is_query())
+    res <- send_query()
+  else
+    res <- send_statement()
   #'    It is good practice to register a call to [DBI::dbClearResult()] via
   #'    [on.exit()] right after calling `dbSendQuery()`, see the last
   #'    enumeration item.
@@ -68,12 +71,18 @@ run_bind_tester <- function() {
   #' 1. Retrieve the data or the number of affected rows from the  `DBIResult` object.
   #'     - For queries issued by `dbSendQuery()`,
   #'       call [DBI::dbFetch()].
-  rows <- dbFetch(res)
-  compare(rows, values)
+  if (is_query()) {
+    rows <- dbFetch(res)
+    compare(rows, values)
   #'     - For statements issued by `dbSendStatements()`,
   #'       call [DBI::dbGetRowsAffected()].
-  #'       (Execution begins immediately after the `dbBind()` call.
+  #'       (Execution begins immediately after the `dbBind()` call,
+  #'       the statement is processed entirely before the function returns.
   #'       Calls to `dbFetch()` are ignored.)
+  } else {
+    rows_affected <- dbGetRowsAffected(res)
+    compare_affected(rows_affected, values)
+  }
   # FIXME
 
   #' 1. Repeat 2. and 3. as necessary.
