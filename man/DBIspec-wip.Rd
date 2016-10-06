@@ -310,6 +310,8 @@ Binding of date values.
 Binding of \link{POSIXct} timestamp values.
 Binding of \link{POSIXlt} timestamp values.
 Binding of raw values.
+Binding of statements.
+Repeated binding of statements.
 }
 
 
@@ -317,10 +319,7 @@ Binding of raw values.
 Binding of multi-row integer values.
 Binding of multi-row integer values with zero rows.
 Binding of multi-row integer values with unequal length.
-Binding of multi-row integer values with group column.
-Binding of multi-row integer values with group column and zero rows.
-Binding of multi-row integer values, groupwise fetching.
-Binding of multi-row integer values, groupwise fetching, with group column.
+Binding of multi-row statements.
 }
 }
 
@@ -340,6 +339,7 @@ Filler
 
 \subsection{All of DBI}{
 The package defines three classes that implement the required methods.
+All methods have an ellipsis \code{...} in their formals.
 }
 
 
