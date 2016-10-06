@@ -214,7 +214,7 @@ BindTester <- R6::R6Class(
 
       value_names <- letters[seq_along(values)]
       statement <- paste0(
-        "DELETE FROM ", dbQuoteIdentifier(con, table_name), "WHERE ",
+        "UPDATE ", dbQuoteIdentifier(con, table_name), "SET b = b + 1 WHERE ",
         paste(value_names, " = ", placeholder, collapse = " AND "))
 
       dbSendStatement(con, statement)
