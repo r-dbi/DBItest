@@ -1,3 +1,19 @@
+# http://stackoverflow.com/a/39880324/946850
+s4_methods <- function(env) {
+  generics <- methods::getGenerics(env)
+
+  res <- Map(
+    generics@.Data, generics@package, USE.NAMES = TRUE,
+    f = function(name, package) {
+      what <- methods::methodsPackageMetaName("T", paste(name, package, sep = ":"))
+
+      table <- get(what, envir = env)
+
+      mget(ls(table, all.names = TRUE), envir = table)
+    })
+  unlist(res, recursive = FALSE)
+}
+
 s4_real_argument_names <- function(s4_method) {
   expect_is(s4_method, c("function", "MethodDefinition", "derivedDefaultMethod"))
   unwrapped <- s4_unwrap(s4_method)
