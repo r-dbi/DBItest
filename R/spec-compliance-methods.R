@@ -32,7 +32,7 @@ spec_compliance_methods <- list(
 
     where <- asNamespace(pkg)
 
-    methods <- S4_methods(where)
+    methods <- s4_methods(where, function(x) x == "DBI")
     Map(expect_ellipsis_in_formals, methods, names(methods))
   },
 
@@ -94,19 +94,3 @@ key_methods <- list(
     "dbBind" = NULL
   )
 )
-
-# http://stackoverflow.com/a/39880324/946850
-S4_methods <- function(env) {
-  generics <- methods::getGenerics(env)
-
-  res <- Map(
-    generics@.Data, generics@package, USE.NAMES = TRUE,
-    f = function(name, package) {
-      what <- methods::methodsPackageMetaName("T", paste(name, package, sep = ":"))
-
-      table <- get(what, envir = env)
-
-      mget(ls(table, all.names = TRUE), envir = table)
-    })
-  unlist(res, recursive = FALSE)
-}
