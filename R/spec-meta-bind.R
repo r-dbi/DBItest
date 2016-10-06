@@ -69,28 +69,28 @@ run_bind_tester <- function() {
     return()
 
   #' 1. Retrieve the data or the number of affected rows from the  `DBIResult` object.
-  #'     - For queries issued by `dbSendQuery()`,
-  #'       call [DBI::dbFetch()].
-  if (is_query()) {
-    rows <- dbFetch(res)
-    compare(rows, values)
-  #'     - For statements issued by `dbSendStatements()`,
-  #'       call [DBI::dbGetRowsAffected()].
-  #'       (Execution begins immediately after the `dbBind()` call,
-  #'       the statement is processed entirely before the function returns.
-  #'       Calls to `dbFetch()` are ignored.)
-  } else {
-    rows_affected <- dbGetRowsAffected(res)
-    compare_affected(rows_affected, values)
+  retrieve <- function() {
+    #'     - For queries issued by `dbSendQuery()`,
+    #'       call [DBI::dbFetch()].
+    if (is_query()) {
+      rows <- dbFetch(res)
+      compare(rows, values)
+    } else {
+    #'     - For statements issued by `dbSendStatements()`,
+    #'       call [DBI::dbGetRowsAffected()].
+    #'       (Execution begins immediately after the `dbBind()` call,
+    #'       the statement is processed entirely before the function returns.
+    #'       Calls to `dbFetch()` are ignored.)
+      rows_affected <- dbGetRowsAffected(res)
+      compare_affected(rows_affected, values)
+    }
   }
-  # FIXME
+  retrieve()
 
   #' 1. Repeat 2. and 3. as necessary.
   if (extra_obj$is_repeated()) {
-    dbBind(res, as.list(bind_values))
-
-    rows <- dbFetch(res)
-    compare(rows, values)
+    bind(res, bind_values)
+    retrieve()
   }
 
   #' 1. Close the result set via [DBI::dbClearResult()].
