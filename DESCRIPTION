@@ -34,6 +34,7 @@ Collate:
     'import-dbi.R'
     'import-testthat.R'
     'run.R'
+    's4.R'
     'spec.R'
     'spec-getting-started.R'
     'spec-driver-class.R'
