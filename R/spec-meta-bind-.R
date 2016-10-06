@@ -217,7 +217,7 @@ BindTester <- R6::R6Class(
         "DELETE FROM ", dbQuoteIdentifier(con, table_name), "WHERE ",
         paste(value_names, " = ", placeholder, collapse = " AND "))
 
-      dbSendStatement(con, query)
+      dbSendStatement(con, statement)
     },
 
     bind = function(res, bind_values) {
