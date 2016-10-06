@@ -1,9 +1,16 @@
 # http://stackoverflow.com/a/39880324/946850
-s4_methods <- function(env) {
+s4_methods <- function(env, pkg_fun = NULL) {
   generics <- methods::getGenerics(env)
 
+  if (is.null(pkg_fun)) {
+    ok <- TRUE
+  } else {
+    ok <- pkg_fun(generics@package)
+  }
+
+
   res <- Map(
-    generics@.Data, generics@package, USE.NAMES = TRUE,
+    generics@.Data[ok], generics@package[ok], USE.NAMES = TRUE,
     f = function(name, package) {
       what <- methods::methodsPackageMetaName("T", paste(name, package, sep = ":"))
 

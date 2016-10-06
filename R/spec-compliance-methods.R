@@ -32,7 +32,7 @@ spec_compliance_methods <- list(
 
     where <- asNamespace(pkg)
 
-    methods <- s4_methods(where)
+    methods <- s4_methods(where, function(x) x == "DBI")
     Map(expect_ellipsis_in_formals, methods, names(methods))
   },
 
