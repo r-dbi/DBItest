@@ -263,6 +263,13 @@ spec_meta_bind <- list(
     })
   },
 
+  #' Repeated binding of statements.
+  bind_statement_repeated = function(ctx) {
+    with_connection({
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, list(1), query = FALSE, extra = "repeated")
+    })
+  },
+
   #' }
   NULL
 )
