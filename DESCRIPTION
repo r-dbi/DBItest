@@ -7,15 +7,15 @@ Authors@R: c( person(given = "Kirill", family = "Müller", role =
         person("RStudio", role = "cph") )
 Description: A helper that tests 'DBI' back ends for conformity
     to the interface, currently work in progress.
-Depends:
+Depends: 
     R (>= 3.0.0)
-Imports:
+Imports: 
     methods,
     R6,
     testthat (>= 1.0.2),
     withr,
     DBI (>= 0.4-9)
-Suggests:
+Suggests: 
     devtools,
     lintr,
     knitr,
@@ -27,7 +27,7 @@ BugReports: https://github.com/rstats-db/DBItest/issues
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 5.0.1.9000
 VignetteBuilder: knitr
-Collate:
+Collate: 
     'DBItest.R'
     'context.R'
     'expectations.R'
@@ -67,6 +67,8 @@ Collate:
     'spec-meta-get-rows-affected.R'
     'spec-meta-get-info-result.R'
     'spec-meta-bind.R'
+    'spec-meta-bind-multi-row.R'
+    'spec-meta-bind-.R'
     'spec-meta.R'
     'spec-transaction-begin-commit.R'
     'spec-transaction-begin-rollback.R'
