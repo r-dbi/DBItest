@@ -1,3 +1,10 @@
+## DBItest 1.3-10 (2016-10-06)
+
+- Test multi-row binding for queries and statements (#96).
+- New `ellipsis` check that verifies that all implemented DBI methods contain `...` in their formals. This excludes `show()` and all methods defined in this or other packages.
+- Align description of binding with code.
+
+
 ## DBItest 1.3-9 (2016-10-01)
 
 - Description of parametrized queries and statements (#88).
