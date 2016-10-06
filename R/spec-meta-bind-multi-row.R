@@ -24,6 +24,13 @@ spec_meta_bind_multi_row <- list(
     })
   },
 
+  #' Binding of multi-row statements.
+  bind_multi_row_statement = function(ctx) {
+    with_connection({
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, list(1:3), query = FALSE)
+    })
+  },
+
   #' }
   NULL
 )

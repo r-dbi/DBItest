@@ -237,6 +237,10 @@ BindTester <- R6::R6Class(
     compare = function(rows, values) {
       expect$fun(lapply(unname(rows), transform$output),
                  lapply(unname(values), transform$input))
+    },
+
+    compare_affected = function(rows_affected, values) {
+      expect_equal(rows_affected, sum(values[[1]]))
     }
   )
 )
