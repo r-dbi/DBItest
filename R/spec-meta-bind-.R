@@ -224,11 +224,11 @@ BindTester <- R6::R6Class(
       error_bind_values <- extra_obj$patch_bind_values(bind_values)
 
       if (!identical(bind_values, error_bind_values)) {
-        expect_error(dbBind(res, as.list(error_bind_values)))
+        expect_error(dbBind(res, error_bind_values))
         return(FALSE)
       }
 
-      bind_res <- withVisible(dbBind(res, as.list(bind_values)))
+      bind_res <- withVisible(dbBind(res, bind_values))
       extra_obj$check_return_value(bind_res, res)
 
       TRUE
