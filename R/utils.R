@@ -45,3 +45,7 @@ unrowname <- function(x) {
   rownames(x) <- NULL
   x
 }
+
+random_table_name <- function(n = 10) {
+  paste0(sample(letters, n, replace = TRUE), collapse = "")
+}

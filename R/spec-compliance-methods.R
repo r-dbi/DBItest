@@ -26,6 +26,16 @@ spec_compliance_methods <- list(
     })
   },
 
+  #' All methods have an ellipsis `...` in their formals.
+  ellipsis = function(ctx) {
+    pkg <- package_name(ctx)
+
+    where <- asNamespace(pkg)
+
+    methods <- s4_methods(where, function(x) x == "DBI")
+    Map(expect_ellipsis_in_formals, methods, names(methods))
+  },
+
   #' }
   NULL
 )
@@ -39,6 +49,14 @@ expect_has_class_method <- function(name, class, args, driver_package) {
   eval(bquote(
     expect_true(hasMethod(.(name), .(full_args), driver_package))
   ))
+}
+
+expect_ellipsis_in_formals <- function(method, name) {
+  sym <- as.name(name)
+  eval(bquote({
+    .(sym) <- method
+    expect_true("..." %in% s4_real_argument_names(.(sym)))
+  }))
 }
 
 key_methods <- list(

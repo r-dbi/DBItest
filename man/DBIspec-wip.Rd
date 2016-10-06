@@ -11,9 +11,10 @@
 %   R/spec-meta-get-statement.R, R/spec-meta-column-info.R,
 %   R/spec-meta-get-row-count.R, R/spec-meta-get-rows-affected.R,
 %   R/spec-meta-get-info-result.R, R/spec-meta-bind.R,
-%   R/spec-transaction-begin-rollback.R, R/spec-transaction-with-transaction.R,
-%   R/spec-compliance-methods.R, R/spec-compliance-read-only.R,
-%   R/spec-stress-driver.R, R/spec-stress-connection.R
+%   R/spec-meta-bind-multi-row.R, R/spec-transaction-begin-rollback.R,
+%   R/spec-transaction-with-transaction.R, R/spec-compliance-methods.R,
+%   R/spec-compliance-read-only.R, R/spec-stress-driver.R,
+%   R/spec-stress-connection.R
 \docType{data}
 \name{DBIspec-wip}
 \alias{DBIspec-wip}
@@ -309,6 +310,16 @@ Binding of date values.
 Binding of \link{POSIXct} timestamp values.
 Binding of \link{POSIXlt} timestamp values.
 Binding of raw values.
+Binding of statements.
+Repeated binding of statements.
+}
+
+
+\subsection{\code{dbBind("DBIResult")}}{
+Binding of multi-row integer values.
+Binding of multi-row integer values with zero rows.
+Binding of multi-row integer values with unequal length.
+Binding of multi-row statements.
 }
 }
 
@@ -328,6 +339,7 @@ Filler
 
 \subsection{All of DBI}{
 The package defines three classes that implement the required methods.
+All methods have an ellipsis \code{...} in their formals.
 }
 
 
