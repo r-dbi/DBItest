@@ -460,7 +460,7 @@ spec_sql_write_table <- list(
       skip("tweak: !date_typed")
     }
 
-    tbl_in <- data.frame(a = as_integer_date(c(Sys.Date() + 1:5, NA)))
+    tbl_in <- data.frame(a = as_numeric_date(c(Sys.Date() + 1:5, NA)))
 
     with_connection({
       with_remove_test_table({

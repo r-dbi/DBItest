@@ -139,7 +139,7 @@ spec_result_roundtrip <- list(
 
     with_connection({
       char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
-      values <- lapply(char_values, as_integer_date)
+      values <- lapply(char_values, as_numeric_date)
       sql_names <- ctx$tweaks$date_cast(char_values)
 
       test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
@@ -408,7 +408,7 @@ is_roughly_current_timestamp_typed <- function(x) {
   is_timestamp(x) && (Sys.time() - x <= hms::hms(2))
 }
 
-as_integer_date <- function(d) {
+as_numeric_date <- function(d) {
   d <- as.Date(d)
-  structure(as.integer(unclass(d)), class = class(d))
+  structure(as.numeric(unclass(d)), class = class(d))
 }
