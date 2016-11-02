@@ -234,19 +234,19 @@ spec_result_roundtrip <- list(
   data_date = function(ctx) {
     with_connection({
       test_select(.ctx = ctx, con,
-                  "date('2015-01-01')" = as_integer_date("2015-01-01"),
-                  "date('2015-02-02')" = as_integer_date("2015-02-02"),
-                  "date('2015-03-03')" = as_integer_date("2015-03-03"),
-                  "date('2015-04-04')" = as_integer_date("2015-04-04"),
-                  "date('2015-05-05')" = as_integer_date("2015-05-05"),
-                  "date('2015-06-06')" = as_integer_date("2015-06-06"),
-                  "date('2015-07-07')" = as_integer_date("2015-07-07"),
-                  "date('2015-08-08')" = as_integer_date("2015-08-08"),
-                  "date('2015-09-09')" = as_integer_date("2015-09-09"),
-                  "date('2015-10-10')" = as_integer_date("2015-10-10"),
-                  "date('2015-11-11')" = as_integer_date("2015-11-11"),
-                  "date('2015-12-12')" = as_integer_date("2015-12-12"),
-                  "current_date" ~ as_integer_date(Sys.time()))
+                  "date('2015-01-01')" = as_numeric_date("2015-01-01"),
+                  "date('2015-02-02')" = as_numeric_date("2015-02-02"),
+                  "date('2015-03-03')" = as_numeric_date("2015-03-03"),
+                  "date('2015-04-04')" = as_numeric_date("2015-04-04"),
+                  "date('2015-05-05')" = as_numeric_date("2015-05-05"),
+                  "date('2015-06-06')" = as_numeric_date("2015-06-06"),
+                  "date('2015-07-07')" = as_numeric_date("2015-07-07"),
+                  "date('2015-08-08')" = as_numeric_date("2015-08-08"),
+                  "date('2015-09-09')" = as_numeric_date("2015-09-09"),
+                  "date('2015-10-10')" = as_numeric_date("2015-10-10"),
+                  "date('2015-11-11')" = as_numeric_date("2015-11-11"),
+                  "date('2015-12-12')" = as_numeric_date("2015-12-12"),
+                  "current_date" ~ as_numeric_date(Sys.time()))
     })
   },
 
@@ -254,19 +254,19 @@ spec_result_roundtrip <- list(
   data_date_null_below = function(ctx) {
     with_connection({
       test_select(.ctx = ctx, con,
-                  "date('2015-01-01')" = as_integer_date("2015-01-01"),
-                  "date('2015-02-02')" = as_integer_date("2015-02-02"),
-                  "date('2015-03-03')" = as_integer_date("2015-03-03"),
-                  "date('2015-04-04')" = as_integer_date("2015-04-04"),
-                  "date('2015-05-05')" = as_integer_date("2015-05-05"),
-                  "date('2015-06-06')" = as_integer_date("2015-06-06"),
-                  "date('2015-07-07')" = as_integer_date("2015-07-07"),
-                  "date('2015-08-08')" = as_integer_date("2015-08-08"),
-                  "date('2015-09-09')" = as_integer_date("2015-09-09"),
-                  "date('2015-10-10')" = as_integer_date("2015-10-10"),
-                  "date('2015-11-11')" = as_integer_date("2015-11-11"),
-                  "date('2015-12-12')" = as_integer_date("2015-12-12"),
-                  "current_date" ~ as_integer_date(Sys.time()),
+                  "date('2015-01-01')" = as_numeric_date("2015-01-01"),
+                  "date('2015-02-02')" = as_numeric_date("2015-02-02"),
+                  "date('2015-03-03')" = as_numeric_date("2015-03-03"),
+                  "date('2015-04-04')" = as_numeric_date("2015-04-04"),
+                  "date('2015-05-05')" = as_numeric_date("2015-05-05"),
+                  "date('2015-06-06')" = as_numeric_date("2015-06-06"),
+                  "date('2015-07-07')" = as_numeric_date("2015-07-07"),
+                  "date('2015-08-08')" = as_numeric_date("2015-08-08"),
+                  "date('2015-09-09')" = as_numeric_date("2015-09-09"),
+                  "date('2015-10-10')" = as_numeric_date("2015-10-10"),
+                  "date('2015-11-11')" = as_numeric_date("2015-11-11"),
+                  "date('2015-12-12')" = as_numeric_date("2015-12-12"),
+                  "current_date" ~ as_numeric_date(Sys.time()),
                   .add_null = "below")
     })
   },
@@ -276,19 +276,19 @@ spec_result_roundtrip <- list(
   data_date_null_above = function(ctx) {
     with_connection({
       test_select(.ctx = ctx, con,
-                  "date('2015-01-01')" = as_integer_date("2015-01-01"),
-                  "date('2015-02-02')" = as_integer_date("2015-02-02"),
-                  "date('2015-03-03')" = as_integer_date("2015-03-03"),
-                  "date('2015-04-04')" = as_integer_date("2015-04-04"),
-                  "date('2015-05-05')" = as_integer_date("2015-05-05"),
-                  "date('2015-06-06')" = as_integer_date("2015-06-06"),
-                  "date('2015-07-07')" = as_integer_date("2015-07-07"),
-                  "date('2015-08-08')" = as_integer_date("2015-08-08"),
-                  "date('2015-09-09')" = as_integer_date("2015-09-09"),
-                  "date('2015-10-10')" = as_integer_date("2015-10-10"),
-                  "date('2015-11-11')" = as_integer_date("2015-11-11"),
-                  "date('2015-12-12')" = as_integer_date("2015-12-12"),
-                  "current_date" ~ as_integer_date(Sys.time()),
+                  "date('2015-01-01')" = as_numeric_date("2015-01-01"),
+                  "date('2015-02-02')" = as_numeric_date("2015-02-02"),
+                  "date('2015-03-03')" = as_numeric_date("2015-03-03"),
+                  "date('2015-04-04')" = as_numeric_date("2015-04-04"),
+                  "date('2015-05-05')" = as_numeric_date("2015-05-05"),
+                  "date('2015-06-06')" = as_numeric_date("2015-06-06"),
+                  "date('2015-07-07')" = as_numeric_date("2015-07-07"),
+                  "date('2015-08-08')" = as_numeric_date("2015-08-08"),
+                  "date('2015-09-09')" = as_numeric_date("2015-09-09"),
+                  "date('2015-10-10')" = as_numeric_date("2015-10-10"),
+                  "date('2015-11-11')" = as_numeric_date("2015-11-11"),
+                  "date('2015-12-12')" = as_numeric_date("2015-12-12"),
+                  "current_date" ~ as_numeric_date(Sys.time()),
                   .add_null = "above")
     })
   },
@@ -594,7 +594,7 @@ is_roughly_current_time <- function(x) {
   is_time(x) && (Sys.time() - x <= 2)
 }
 
-as_integer_date <- function(d) {
+as_numeric_date <- function(d) {
   d <- as.Date(d)
-  structure(as.integer(unclass(d)), class = class(d))
+  structure(as.numeric(unclass(d)), class = class(d))
 }
