@@ -210,8 +210,8 @@ spec_sql_read_write_roundtrip <- list(
     with_connection({
       tbl_in <- data.frame(id = 1:5)
       tbl_in$a <- round(Sys.time()) + c(1, 60, 3600, 86400, NA)
-      tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
-      tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST")
+      tbl_in$b <- as.POSIXct(tbl_in$a, tz = "GMT")
+      tbl_in$c <- as.POSIXct(tbl_in$a, tz = "US/Pacific")
 
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
