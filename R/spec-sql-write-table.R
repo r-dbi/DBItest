@@ -506,11 +506,11 @@ spec_sql_write_table <- list(
     with_connection({
       tbl_in <- data.frame(id = 1:5)
       tbl_in$a <- round(Sys.time()) + c(1, 60, 3600, 86400, NA)
-      #'   returned as `POSIXlt`
+      #'   returned as `POSIXct`
       #'   with time zone support)
-      tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
-      tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST8PDT")
-      tbl_in$d <- as.POSIXlt(tbl_in$a, tz = "UTC")
+      tbl_in$b <- as.POSIXct(tbl_in$a, tz = "GMT")
+      tbl_in$c <- as.POSIXct(tbl_in$a, tz = "PST8PDT")
+      tbl_in$d <- as.POSIXct(tbl_in$a, tz = "UTC")
 
       with_remove_test_table({
         dbWriteTable(con, "test", tbl_in)

@@ -86,7 +86,7 @@ At least the following data types are accepted:
 \item \link{character}
 \item \link{Date}
 \item \link{POSIXct} timestamps
-\item \link{POSIXlt} timestamps
+\item \link{POSIXct} timestamps
 \item lists of \link{raw} for blobs (with \code{NULL} entries for SQL NULL values)
 \item objects of type \link{blob}
 }

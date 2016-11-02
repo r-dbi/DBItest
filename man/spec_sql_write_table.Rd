@@ -95,7 +95,7 @@ returned as \code{Date})
 returned as objects that inherit from \code{difftime})
 \item timestamp
 (if supported by the database;
-returned as \code{POSIXlt}
+returned as \code{POSIXct}
 with time zone support)
 }
 
