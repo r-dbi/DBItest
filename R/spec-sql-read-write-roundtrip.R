@@ -201,7 +201,7 @@ spec_sql_read_write_roundtrip <- list(
 
       tbl_out <- dbReadTable(con, "test")
       expect_equal(tbl_in, tbl_out[order(tbl_out$id), ])
-      expect_is(unclass(tbl_out$a), "integer")
+      expect_is(unclass(tbl_out$a), "numeric")
     })
   },
 
