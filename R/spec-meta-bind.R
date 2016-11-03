@@ -249,7 +249,7 @@ spec_meta_bind <- list(
 
     with_connection({
       test_select_bind(
-        con, ctx$tweaks$placeholder_pattern, list(list(as.raw(1:10))),
+        con, ctx$tweaks$placeholder_pattern, list(blob::as.blob(as.raw(1:10))),
         type = NULL,
         transform_input = identity,
         transform_output = identity)

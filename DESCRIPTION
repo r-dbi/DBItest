@@ -14,12 +14,15 @@ Imports:
     R6,
     testthat (>= 1.0.2),
     withr,
+    blob,
     DBI (>= 0.4-9)
-Suggests: 
+Suggests:
     devtools,
     lintr,
     knitr,
     rmarkdown
+Remotes:
+  hadley/blob
 License: LGPL (>= 2)
 LazyData: true
 Encoding: UTF-8

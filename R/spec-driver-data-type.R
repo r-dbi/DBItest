@@ -50,7 +50,7 @@ spec_driver_data_type <- list(
     #' It also must accept lists of `raw` vectors
     #' and map them to the BLOB (binary large object) data type.
     if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
-      expect_driver_has_data_type(list(raw(1)))
+      expect_driver_has_data_type(blob::as.blob(raw(1)))
     }
     #' The behavior for other object types is not specified.
   },
