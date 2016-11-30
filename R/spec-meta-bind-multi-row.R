@@ -36,6 +36,7 @@ spec_meta_bind_multi_row <- list(
 )
 
 #' @noRd
+#' @details
 list(
   #' Binding of multi-row integer values with group column.
   bind_multi_row_group_column = function(ctx) {
