@@ -1,4 +1,5 @@
 #' @name test_all
+#' @aliases NULL
 #' @section Tests:
 #' [test_result()]:
 #' Test the "Result" class
