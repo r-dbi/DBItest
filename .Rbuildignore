@@ -6,3 +6,4 @@
 ^revdep-dev$
 ^appveyor\.yml$
 ^man-roxygen$
+^tic\.R$
