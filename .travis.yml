@@ -63,6 +63,7 @@ r_github_packages:
 
 #r_packages
 r_packages:
+- roxygen2
 
 #services
 services:
