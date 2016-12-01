@@ -92,6 +92,5 @@ Collate:
     'test-compliance.R'
     'test-stress.R'
     'tweaks.R'
-    'update-dbi.R'
     'utf8.R'
     'utils.R'
