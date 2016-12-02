@@ -1,3 +1,8 @@
+## DBItest 1.3-11 (2016-12-02)
+
+- Not testing for presence of `max.connections` element in `dbGetInfo(Driver)` (rstats-db/DBI#56).
+
+
 ## DBItest 1.3-10 (2016-10-06)
 
 - Test multi-row binding for queries and statements (#96).
