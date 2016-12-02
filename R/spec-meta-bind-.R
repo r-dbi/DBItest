@@ -39,7 +39,8 @@ new_extra_imp <- function(extra) {
   else if (length(extra) == 1)
     new_extra_imp_one(extra)
   else {
-    BindTesterExtraMulti$new(lapply(extra, new_extra_imp_one))
+    stop("need BindTesterExtraMulti")
+    # BindTesterExtraMulti$new(lapply(extra, new_extra_imp_one))
   }
 }
 
@@ -176,7 +177,7 @@ BindTester <- R6::R6Class(
     initialize = function(con) {
       self$con <- con
     },
-    run = run_bind_tester,
+    run = run_bind_tester$fun,
 
     con = NULL,
     placeholder = NULL,

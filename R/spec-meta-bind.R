@@ -1,3 +1,5 @@
+run_bind_tester <- list()
+
 #' @template dbispec-sub
 #' @format NULL
 #' @section Parametrized queries and statements:
@@ -27,7 +29,7 @@
 #'
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'
-run_bind_tester <- function() {
+run_bind_tester$fun <- function() {
   if (extra_obj$requires_names() && is.null(names(placeholder))) {
     # wrong_name test only valid for named placeholders
     return()
