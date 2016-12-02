@@ -10,15 +10,15 @@ Description: A helper that tests 'DBI' back ends for conformity
 Depends: 
     R (>= 3.0.0)
 Imports: 
+    DBI (>= 0.4-9),
     methods,
     R6,
     testthat (>= 1.0.2),
-    withr,
-    DBI (>= 0.4-9)
+    withr
 Suggests: 
     devtools,
-    lintr,
     knitr,
+    lintr,
     rmarkdown
 License: LGPL (>= 2)
 LazyData: true
