@@ -192,8 +192,8 @@ spec_result_roundtrip <- list(
     }
 
     with_connection({
-      values <- list(is_raw_list)
-      sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
+      values <- list(is_blob)
+      sql_names <- paste0("cast(1 as ", dbDataType(con, blob::as.blob(raw())), ")")
 
       test_select(.ctx = ctx, con, .dots = setNames(values, sql_names))
     })
@@ -206,8 +206,8 @@ spec_result_roundtrip <- list(
     }
 
     with_connection({
-      values <- list(is_raw_list)
-      sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
+      values <- list(is_blob)
+      sql_names <- paste0("cast(1 as ", dbDataType(con, blob::as.blob(raw())), ")")
 
       test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
                   .add_null = "below")
@@ -222,8 +222,8 @@ spec_result_roundtrip <- list(
     }
 
     with_connection({
-      values <- list(is_raw_list)
-      sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
+      values <- list(is_blob)
+      sql_names <- paste0("cast(1 as ", dbDataType(con, blob::as.blob(raw())), ")")
 
       test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
                   .add_null = "above")
@@ -582,8 +582,8 @@ has_utf8_or_ascii_encoding <- function(x) {
     FALSE
 }
 
-is_raw_list <- function(x) {
-  is.list(x) && is.raw(x[[1L]])
+is_blob <- function(x) {
+  inherits(x, "blob")
 }
 
 is_time <- function(x) {

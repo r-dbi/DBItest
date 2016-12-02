@@ -27,7 +27,7 @@ spec_connection_data_type <- list(
     expect_conn_has_data_type(Sys.Date())
     expect_conn_has_data_type(Sys.time())
     if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
-      expect_conn_has_data_type(list(raw(1)))
+      expect_conn_has_data_type(blob::as.blob(raw(1)))
     }
   },
 

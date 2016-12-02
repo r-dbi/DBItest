@@ -178,7 +178,7 @@ spec_sql_read_write_roundtrip <- list(
     }
 
     with_connection({
-      tbl_in <- list(a = list(as.raw(1:10), NA), id = 1:2)
+      tbl_in <- list(a = blob::as.blob(list(as.raw(1:10), NULL)), id = 1:2)
       tbl_in <- structure(tbl_in, class = "data.frame",
                           row.names = c(NA, -2L))
 
