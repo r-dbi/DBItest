@@ -2,6 +2,7 @@
 #'
 #' TBD.
 #' @name tweaks
+#' @aliases NULL
 { # nolint
   tweak_names <- c(
     #' @param ... `[any]`\cr
