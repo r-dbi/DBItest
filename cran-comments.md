@@ -1,13 +1,16 @@
 ## Test environments
-* ubuntu 16.04, R 3.3.1
-* ubuntu 12.04 (on travis-ci), R 3.3.1
+* local ubuntu 16.10, R 3.3.2
+* ubuntu 12.04 (on travis-ci), R release, devel, and oldrel
 * win-builder (devel and release)
 
 ## R CMD check results
 
-There were no ERRORs, WARNINGs or NOTEs. 
+There were no ERRORs, WARNINGs or NOTEs.
 
 ## Reverse dependencies
 
-* I checked the single reverse dependency, `bigrquery`, locally.
+* I checked the two reverse dependencies `bigrquery` and `RSQLite`.
   There were no ERRORs, WARNINGs or NOTEs.
+
+* RSQLite 1.1 on OS X seems to depend on this release, could you please trigger
+  a rebuild of RSQLite 1.1 once DBItest 1.4 has been built for OS X?
