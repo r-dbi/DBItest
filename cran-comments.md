@@ -5,7 +5,7 @@
 
 ## R CMD check results
 
-There were no ERRORs, WARNINGs or NOTEs.
+Changes to the package's description as requested by Uwe Ligges. I hope a same-version update is okay here.
 
 ## Reverse dependencies
 
