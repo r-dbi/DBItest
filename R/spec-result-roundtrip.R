@@ -2,6 +2,7 @@
 #' @format NULL
 #' @section Result:
 #' \subsection{Data roundtrip}{
+library(hms)
 spec_result_roundtrip <- list(
   #' Data conversion from SQL to R: integer
   data_integer = function(ctx) {
@@ -297,9 +298,9 @@ spec_result_roundtrip <- list(
   data_time = function(ctx) {
     with_connection({
       test_select(.ctx = ctx, con,
-                  "time '00:00:00'" = "00:00:00",
-                  "time '12:34:56'" = "12:34:56",
-                  "current_time" ~ is.character)
+                  "time '00:00:00'" = as.hms("00:00:00"),
+                  "time '12:34:56'" = as.hms("12:34:56"),
+                  "current_time" ~ is_roughly_current_hms)
     })
   },
 
@@ -307,9 +308,9 @@ spec_result_roundtrip <- list(
   data_time_null_below = function(ctx) {
     with_connection({
       test_select(.ctx = ctx, con,
-                  "time '00:00:00'" = "00:00:00",
-                  "time '12:34:56'" = "12:34:56",
-                  "current_time" ~ is.character,
+                  "time '00:00:00'" = as.hms("00:00:00"),
+                  "time '12:34:56'" = as.hms("12:34:56"),
+                  "current_time" ~ is_roughly_current_hms,
                   .add_null = "below")
     })
   },
@@ -319,9 +320,9 @@ spec_result_roundtrip <- list(
   data_time_null_above = function(ctx) {
     with_connection({
       test_select(.ctx = ctx, con,
-                  "time '00:00:00'" = "00:00:00",
-                  "time '12:34:56'" = "12:34:56",
-                  "current_time" ~ is.character,
+                  "time '00:00:00'" = as.hms("00:00:00"),
+                  "time '12:34:56'" = as.hms("12:34:56"),
+                  "current_time" ~ is_roughly_current_hms,
                   .add_null = "above")
     })
   },
@@ -331,9 +332,9 @@ spec_result_roundtrip <- list(
   data_time_parens = function(ctx) {
     with_connection({
       test_select(.ctx = ctx, con,
-                  "time('00:00:00')" = "00:00:00",
-                  "time('12:34:56')" = "12:34:56",
-                  "current_time" ~ is.character)
+                  "time('00:00:00')" = as.hms("00:00:00"),
+                  "time('12:34:56')" = as.hms("12:34:56"),
+                  "current_time" ~ is_roughly_current_hms)
     })
   },
 
@@ -592,6 +593,10 @@ is_time <- function(x) {
 
 is_roughly_current_time <- function(x) {
   is_time(x) && (Sys.time() - x <= 2)
+}
+
+is_roughly_current_hms <- function(x) {
+    is.hms(x) && (as.hms(Sys.time()-trunc(Sys.time(), "days"))-x < 1)
 }
 
 as_integer_date <- function(d) {

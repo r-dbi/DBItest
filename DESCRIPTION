@@ -14,7 +14,8 @@ Imports:
     methods,
     R6,
     testthat (>= 1.0.2),
-    withr
+    withr,
+    hms
 Suggests: 
     devtools,
     knitr,
