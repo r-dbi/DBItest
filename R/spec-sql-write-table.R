@@ -509,7 +509,7 @@ spec_sql_write_table <- list(
       #'   returned as `POSIXlt`
       #'   with time zone support)
       tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
-      tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST")
+      tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST8PDT")
       tbl_in$d <- as.POSIXlt(tbl_in$a, tz = "UTC")
 
       with_remove_test_table({
