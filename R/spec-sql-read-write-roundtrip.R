@@ -211,13 +211,12 @@ spec_sql_read_write_roundtrip <- list(
       tbl_in <- data.frame(id = 1:5)
       tbl_in$a <- round(Sys.time()) + c(1, 60, 3600, 86400, NA)
       tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
-      tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST")
+      tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST8PDT")
 
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
-
       tbl_out <- dbReadTable(con, "test")
-      expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
+      expect_equivalent(tbl_in, tbl_out[order(tbl_out$id), ])
     })
   },
 
