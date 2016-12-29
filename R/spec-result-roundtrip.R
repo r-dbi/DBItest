@@ -1,8 +1,8 @@
 #' @template dbispec-sub-wip
 #' @format NULL
+#' @importFrom hms as.hms is.hms
 #' @section Result:
 #' \subsection{Data roundtrip}{
-library(hms)
 spec_result_roundtrip <- list(
   #' Data conversion from SQL to R: integer
   data_integer = function(ctx) {
