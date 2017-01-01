@@ -24,4 +24,3 @@ Other tests: \code{\link{test_compliance}},
   \code{\link{test_sql}}, \code{\link{test_stress}},
   \code{\link{test_transaction}}
 }
-

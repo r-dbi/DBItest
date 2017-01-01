@@ -4,10 +4,10 @@
 \name{DBItest-package}
 \alias{DBItest}
 \alias{DBItest-package}
-\title{Testing 'DBI' Back Ends}
+\title{DBItest: Testing 'DBI' Back Ends}
 \description{
 A helper that tests 'DBI' back ends for conformity
-to the interface, currently work in progress.
+to the interface.
 }
 \details{
 The two most important functions are \code{\link[=make_context]{make_context()}} and
@@ -17,7 +17,13 @@ fine-grained test functions (all with prefix \code{test_}) are available.
 
 See the package's vignette for more details.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item Report bugs at \url{https://github.com/rstats-db/DBItest/issues}
+}
+
+}
 \author{
 Kirill Müller
 }
-

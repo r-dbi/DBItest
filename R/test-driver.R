@@ -1,4 +1,5 @@
 #' @name test_all
+#' @aliases NULL
 #' @section Tests:
 #' [test_driver()]:
 #' Test the "Driver" class

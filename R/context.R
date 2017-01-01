@@ -4,14 +4,13 @@
 #'
 #' @param drv `[DBIDriver]`\cr An expression that constructs a DBI driver,
 #'   like `SQLite()`.
-#' @param connect_args `[named list]`\cr Connection arguments (names and
-#'   values).
+#' @param connect_args `[named list]`\cr Connection arguments (names and values).
 #' @param set_as_default `[logical(1)]`\cr Should the created context be
 #'   set as default context?
 #' @param tweaks `[DBItest_tweaks]`\cr Tweaks as constructed by the
 #'   [tweaks()] function.
 #' @param ctx `[DBItest_context]`\cr A test context.
-#' @param name `[character]`\cr An optional name of the context which will 
+#' @param name `[character]`\cr An optional name of the context which will
 #'   be used in test messages.
 #' @return `[DBItest_context]`\cr A test context, for
 #'   `set_default_context` the previous default context (invisibly) or

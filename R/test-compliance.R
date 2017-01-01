@@ -1,4 +1,5 @@
 #' @name test_all
+#' @aliases NULL
 #' @section Tests:
 #' [test_compliance()]:
 #' Test full compliance to DBI

@@ -1,4 +1,5 @@
 #' @name test_all
+#' @aliases NULL
 #' @section Tests:
 #' [test_connection()]:
 #' Test the "Connection" class

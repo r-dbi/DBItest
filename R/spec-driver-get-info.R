@@ -10,7 +10,7 @@ spec_driver_get_info <- list(
     info_names <- names(info)
 
     necessary_names <-
-      c("driver.version", "client.version", "max.connections")
+      c("driver.version", "client.version")
 
     for (name in necessary_names) {
       eval(bquote(
