@@ -1,7 +1,13 @@
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section Connection:
-#' \subsection{Construction: `dbConnect("DBIDriver")` and `dbDisconnect("DBIConnection", "ANY")`}{
+#' @inheritSection spec_connection_connect Specification
+NULL
+
+#' spec_connection_connect
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
+#' @section Specification:
 spec_connection_connect <- list(
   #' Can connect and disconnect, connection object inherits from
   #'   "DBIConnection".
@@ -18,6 +24,5 @@ spec_connection_connect <- list(
     expect_warning(dbDisconnect(con))
   },
 
-  #' }
   NULL
 )
