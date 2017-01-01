@@ -1,25 +1,21 @@
 #' @template dbispec-sub
 #' @format NULL
-#' @inheritSection spec_connection_connect Specification
+#' @inheritSection spec_connection_disconnect Specification
 NULL
 
-#' spec_connection_connect
+#' spec_connection_disconnect
 #' @usage NULL
 #' @format NULL
 #' @keywords NULL
-spec_connection_connect <- list(
-  connect_and_disconnect_formals = function(ctx) {
+spec_connection_disconnect <- list(
+  disconnect_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbConnect)), c("drv", "..."))
     expect_equal(names(formals(DBI::dbDisconnect)), c("conn", "..."))
   },
 
   #' @return
-  can_connect_and_disconnect = function(ctx) {
+  can_disconnect = function(ctx) {
     con <- connect(ctx)
-    #' `dbConnect()` returns an S4 object that inherits from [DBIConnection-class].
-    expect_s4_class(con, "DBIConnection")
-    #'
     #' `dbDisconnect()` returns `TRUE`, invisibly.
     expect_true(expect_invisible(dbDisconnect(con)))
   },

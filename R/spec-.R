@@ -46,8 +46,9 @@
 #' @include spec-connection.R
 #' @include spec-connection-get-info.R
 #' @include spec-connection-data-type.R
-#' @include spec-connection-connect.R
+#' @include spec-connection-disconnect.R
 #' @include spec-driver.R
+#' @include spec-driver-connect.R
 #' @include spec-driver-get-info.R
 #' @include spec-driver-data-type.R
 #' @include spec-driver-constructor.R
