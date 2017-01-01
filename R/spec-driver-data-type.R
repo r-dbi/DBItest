@@ -1,7 +1,13 @@
 #' @template dbispec-sub
 #' @format NULL
-#' @section Driver:
-#' \subsection{`dbDataType("DBIDriver", "ANY")`}{
+#' @inheritSection spec_driver_data_type Specification
+NULL
+
+#' spec_driver_data_type
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
+#' @section Specification:
 spec_driver_data_type <- list(
   #' The backend can override the [DBI::dbDataType()] generic
   #' for its driver class.
@@ -55,6 +61,5 @@ spec_driver_data_type <- list(
     #' The behavior for other object types is not specified.
   },
 
-  #' }
   NULL
 )
