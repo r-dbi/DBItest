@@ -7,7 +7,7 @@
 \title{DBItest: Testing 'DBI' Back Ends}
 \description{
 A helper that tests 'DBI' back ends for conformity
-to the interface, currently work in progress.
+to the interface.
 }
 \details{
 The two most important functions are \code{\link[=make_context]{make_context()}} and
@@ -27,4 +27,3 @@ Useful links:
 \author{
 Kirill Müller
 }
-

@@ -18,4 +18,3 @@ Examples: \code{?, ?, ?, ...}, \code{$1, $2, $3, ...}, \code{:a, :b, :c}
 For internal use by the \code{placeholder_format} tweak.
 }
 \keyword{internal}
-

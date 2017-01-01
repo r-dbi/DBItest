@@ -45,4 +45,3 @@ A pattern for placeholders used in \code{\link[DBI:dbBind]{DBI::dbBind()}}, e.g.
 \description{
 TBD.
 }
-
