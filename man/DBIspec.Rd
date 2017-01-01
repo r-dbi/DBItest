@@ -188,9 +188,9 @@ supported and return the same results as their unwrapped counterparts.
 The behavior for other object types is not specified.
 
 
-Can connect and disconnect, connection object inherits from
-"DBIConnection".
-Repeated disconnect throws warning.
+A warning is issued when releasing a connection without calling
+\code{dbDisconnect()},
+or when calling \code{dbDisconnect()} on an already disconnected connection.
 }
 
 \keyword{datasets}

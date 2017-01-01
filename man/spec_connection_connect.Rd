@@ -4,13 +4,18 @@
 \name{spec_connection_connect}
 \alias{spec_connection_connect}
 \title{spec_connection_connect}
+\value{
+\code{dbConnect()} returns an S4 object that inherits from \link{DBIConnection-class}.
+
+\code{dbDisconnect()} returns \code{TRUE}, invisibly.
+}
 \description{
 spec_connection_connect
 }
 \section{Specification}{
 
-Can connect and disconnect, connection object inherits from
-"DBIConnection".
-Repeated disconnect throws warning.
+A warning is issued when releasing a connection without calling
+\code{dbDisconnect()},
+or when calling \code{dbDisconnect()} on an already disconnected connection.
 }
 
