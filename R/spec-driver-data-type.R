@@ -32,6 +32,7 @@ test_data_type <- function(ctx, dbObj) {
       #' character string.
       expect_equal(length(dbDataType(dbObj, .(value))), 1L)
       expect_is(dbDataType(dbObj, .(value)), "character")
+      expect_visible(dbDataType(dbObj, .(value)))
     }))
   }
 
