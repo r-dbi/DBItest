@@ -8,4 +8,5 @@ NULL
 #' @format NULL
 #' @keywords NULL
 spec_meta_has_completed <- list(
+  # Test for queries and statements
 )
