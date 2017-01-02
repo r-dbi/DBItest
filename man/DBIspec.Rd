@@ -2,10 +2,11 @@
 % Please edit documentation in R/spec.R, R/spec-getting-started.R,
 %   R/spec-driver-constructor.R, R/spec-driver-class.R,
 %   R/spec-driver-data-type.R, R/spec-driver-connect.R,
-%   R/spec-connection-disconnect.R, R/spec-result-send-query.R, R/spec-driver.R,
-%   R/spec-connection.R, R/spec-result-fetch.R, R/spec-result.R,
-%   R/spec-sql.R, R/spec-meta-has-completed.R, R/spec-meta-bind.R,
-%   R/spec-meta.R, R/spec-transaction-begin-commit.R, R/spec-transaction.R,
+%   R/spec-connection-disconnect.R, R/spec-result-send-query.R,
+%   R/spec-result-fetch.R, R/spec-result-clear-result.R,
+%   R/spec-driver.R, R/spec-connection.R, R/spec-result.R, R/spec-sql.R,
+%   R/spec-meta-has-completed.R, R/spec-meta-bind.R, R/spec-meta.R,
+%   R/spec-transaction-begin-commit.R, R/spec-transaction.R,
 %   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
 \name{DBIspec}
@@ -227,6 +228,12 @@ If zero rows are fetched, the columns of the data frame are still fully
 typed.
 Fetching fewer rows than available is permitted,
 no warning is issued when clearing the result set.
+
+
+\code{dbClearResult()} frees all resources associated with retrieving
+the result of a query or update operation.
+The DBI backend can expect a call to \code{dbClearResult()} for each
+\code{\link[DBI:dbSendQuery]{DBI::dbSendQuery()}} or \code{\link[DBI:dbSendStatement]{DBI::dbSendStatement()}} call.
 
 
 Fetching multi-row queries with one

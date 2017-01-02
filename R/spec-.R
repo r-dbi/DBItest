@@ -42,10 +42,8 @@
 #' @include spec-result-roundtrip.R
 #' @include spec-result-create-table-with-data-type.R
 #' @include spec-result-execute.R
-#' @include spec-result-clear-result-statement.R
 #' @include spec-result-send-statement.R
 #' @include spec-result-get-query.R
-#' @include spec-result-clear-result-query.R
 ##### Aggregators
 #' @include spec-connection.R
 #' @include spec-driver.R
@@ -53,6 +51,7 @@
 #' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
 ##### Method specs
+#' @include spec-result-clear-result.R
 #' @include spec-result-fetch.R
 #' @include spec-result-send-query.R
 #' @include spec-connection-disconnect.R
