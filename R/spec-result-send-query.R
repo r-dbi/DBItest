@@ -72,14 +72,22 @@ spec_result_send_query <- list(
     })
   },
 
-  send_query_warning_without_clearing = function(ctx) {
+  send_query_stale_warning_disconnect = function(ctx) {
     #' Failure to clear the result set leads to a warning
-    #' when the connection is closed.
+    #' when the connection is closed
     expect_warning(
       with_connection({
         expect_warning(dbSendQuery(con, "SELECT 1"), NA)
       })
     )
+  },
+
+  send_query_stale_warning_gc = function(ctx) {
+    #' or when garbage collection occurs.
+    with_connection({
+      expect_warning(dbSendQuery(con, "SELECT 1"), NA)
+      expect_warning(gc())
+    })
   },
 
   #'
