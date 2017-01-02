@@ -5,7 +5,7 @@
 \alias{spec_driver_connect}
 \title{spec_driver_connect}
 \value{
-\code{dbConnect()} returns an S4 object that inherits from \link{DBIConnection-class}.
+\code{dbConnect()} returns an S4 object that inherits from \link[DBI:DBIConnection-class]{DBI::DBIConnection-class}.
 }
 \description{
 spec_driver_connect
