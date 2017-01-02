@@ -1,42 +1,161 @@
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section Result:
-#' \subsection{`dbFetch("DBIResult")` and `dbHasCompleted("DBIResult")`}{
+#' @inheritSection spec_result_fetch Specification
+NULL
+
+#' spec_result_fetch
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_result_fetch <- list(
-  #' Single-value queries can be fetched.
-  fetch_single = function(ctx) {
+  fetch_formals = function(ctx) {
+    # <establish formals of described functions>
+    expect_equal(names(formals(DBI::dbSendQuery)), c("res", "n", "..."))
+  },
+
+  #' @return
+  #' `dbFetch()` always returns a [data.frame]
+  #' with as many rows as records were fetched and as many
+  #' columns as fields in the result set,
+  #' even if the result is a single value
+  fetch_atomic = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a"
-
-      res <- dbSendQuery(con, query)
-      on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
-
-      expect_false(dbHasCompleted(res))
-
-      rows <- dbFetch(res)
-      expect_identical(rows, data.frame(a=1L))
-      expect_true(dbHasCompleted(res))
+      with_result(
+        dbSendQuery(con, query),
+        {
+          rows <- dbFetch(res)
+          expect_identical(rows, data.frame(a = 1L))
+        }
+      )
     })
   },
 
-  #' Multi-row single-column queries can be fetched.
+  #' or has one
+  fetch_one_row = function(ctx) {
+    with_connection({
+      query <- "SELECT 1 as a, 2 as b, 3 as c"
+      with_result(
+        dbSendQuery(con, query),
+        {
+          rows <- dbFetch(res)
+          expect_identical(rows, data.frame(a = 1L, b = 2L, c = 3L))
+        }
+      )
+    })
+  },
+
+  #' or zero rows.
+  fetch_zero_rows = function(ctx) {
+    with_connection({
+      query <- "SELECT 1 as a, 2 as b, 3 as c WHERE 1 = 0"
+      with_result(
+        dbSendQuery(con, query),
+        {
+          rows <- dbFetch(res)
+          expect_identical(class(rows), "data.frame")
+        }
+      )
+    })
+  },
+
+  #' An attempt to fetch from a closed result set raises an error.
+  fetch_closed = function(ctx) {
+    with_connection({
+      query <- "SELECT 1"
+
+      res <- dbSendQuery(con, query)
+      dbClearResult(res)
+
+      expect_error(dbFetch(res))
+    })
+  },
+
+  #' If the `n` argument is not an atomic whole number
+  #' greater or equal to -1, an error is raised,
+  fetch_bad_n = function(ctx) {
+    with_connection({
+      query <- "SELECT 1 as a"
+      with_result(
+        dbSendQuery(con, query),
+        {
+          expect_error(dbFetch(res, -2))
+          expect_error(dbFetch(res, 1.5))
+          expect_error(dbFetch(res, integer()))
+          expect_error(dbFetch(res, 1:3))
+          expect_error(dbFetch(res, NA_integer_))
+        }
+      )
+    })
+  },
+
+  #' but a subsequent call to `dbFetch()` with proper `n` argument succeeds.
+  fetch_good_after_bad_n = function(ctx) {
+    with_connection({
+      query <- "SELECT 1 as a"
+      with_result(
+        dbSendQuery(con, query),
+        {
+          expect_error(dbFetch(res, NA_integer_))
+          rows <- dbFetch(res)
+          expect_identical(rows, data.frame(a = 1L))
+        }
+      )
+    })
+  },
+
+  #' Calling `dbFetch()` on a result set from a data manipulation query
+  #' created by [DBI::dbSendStatement()]
+  #' can be fetched and return an empty data frame, with a warning.
+  fetch_no_return_value = function(ctx) {
+    with_connection({
+      query <- "CREATE TABLE test (a integer)"
+      on.exit(dbClearResult(dbSendStatement(con, "DROP TABLE test")), add = TRUE)
+
+      with_result(
+        dbSendStatement(con, query),
+        {
+          expect_warning(rows <- dbFetch(res))
+          expect_identical(rows, data.frame())
+        }
+      )
+    })
+  },
+
+  #' @section Specification:
+  #' Fetching multi-row queries with one
   fetch_multi_row_single_column = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      res <- dbSendQuery(con, query)
-      on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
-
-      expect_false(dbHasCompleted(res))
-
-      rows <- dbFetch(res)
-      expect_identical(rows, data.frame(a=1L:3L))
-      expect_true(dbHasCompleted(res))
+      with_result(
+        dbSendQuery(con, query),
+        {
+          rows <- dbFetch(res)
+          expect_identical(rows, data.frame(a = 1:3))
+        }
+      )
     })
   },
 
-  #' Multi-row queries can be fetched progressively.
+  #' or more columns be default returns the entire result.
+  fetch_multi_row_multi_column = function(ctx) {
+    with_connection({
+      query <- union(
+        .ctx = ctx, paste("SELECT", 1:5, "AS a", 4:0, "AS b"), .order_by = "a")
+
+      with_result(
+        dbSendQuery(con, query),
+        {
+          rows <- dbFetch(res)
+          expect_identical(rows, data.frame(a = 1:5, b = 4:0))
+        }
+      )
+    })
+  },
+
+  #' Multi-row queries can also be fetched progressively
   fetch_progressive = function(ctx) {
     with_connection({
       query <- union(
@@ -45,41 +164,56 @@ spec_result_fetch <- list(
       res <- dbSendQuery(con, query)
       on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
-      expect_false(dbHasCompleted(res))
+      #' by passing a whole number ([integer]
+      rows <- dbFetch(res, 10L)
+      expect_identical(rows, data.frame(a = 1L:10L))
 
+      #' or [numeric])
       rows <- dbFetch(res, 10)
-      expect_identical(rows, data.frame(a=1L:10L))
-      expect_false(dbHasCompleted(res))
+      expect_identical(rows, data.frame(a = 11L:20L))
 
-      rows <- dbFetch(res, 10)
-      expect_identical(rows, data.frame(a=11L:20L))
-      expect_false(dbHasCompleted(res))
+      #' as the `n` argument.
+      rows <- dbFetch(res, n = 5)
+      expect_identical(rows, data.frame(a = 21L:25L))
+    })
+  },
 
-      rows <- dbFetch(res, 10)
-      expect_identical(rows, data.frame(a=21L:25L))
-      expect_true(dbHasCompleted(res))
+  #' A value of [Inf] for the `n` argument is supported
+  #' and also returns the full result.
+  fetch_multi_row_inf = function(ctx) {
+    with_connection({
+      query <- union(
+        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+
+      with_result(
+        dbSendQuery(con, query),
+        {
+          rows <- dbFetch(res, n = Inf)
+          expect_identical(rows, data.frame(a = 1:3))
+        }
+      )
     })
   },
 
   #' If more rows than available are fetched, the result is returned in full
-  #'   but no warning is issued.
+  #' without warning.
   fetch_more_rows = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      res <- dbSendQuery(con, query)
-      on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
-
-      expect_false(dbHasCompleted(res))
-
-      expect_warning(rows <- dbFetch(res, 5L), NA)
-      expect_identical(rows, data.frame(a=1L:3L))
-      expect_true(dbHasCompleted(res))
+      with_result(
+        dbSendQuery(con, query),
+        {
+          expect_warning(rows <- dbFetch(res, 5L), NA)
+          expect_identical(rows, data.frame(a = 1:3))
+        }
+      )
     })
   },
 
-  #' If zero rows are fetched, the result is still fully typed.
+  #' If zero rows are fetched, the columns of the data frame are still fully
+  #' typed.
   fetch_zero_rows = function(ctx) {
     with_connection({
       query <- union(
@@ -96,67 +230,22 @@ spec_result_fetch <- list(
     })
   },
 
-  #' If less rows than available are fetched, the result is returned in full
-  #'   but no warning is issued.
+  #' Fetching fewer rows than available is permitted,
+  #' no warning is issued when clearing the result set.
   fetch_premature_close = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      res <- dbSendQuery(con, query)
-      on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
-
-      expect_warning(rows <- dbFetch(res, 2L), NA)
-      expect_identical(rows, data.frame(a=1L:2L))
-
-      expect_warning(dbClearResult(res), NA)
-      on.exit(NULL, add = FALSE)
+      with_result(
+        dbSendQuery(con, query),
+        {
+          rows <- dbFetch(res, 2L)
+          expect_identical(rows, data.frame(a = 1:2))
+        }
+      )
     })
   },
 
-  #' Side-effect-only queries (without return value) can be fetched.
-  fetch_no_return_value = function(ctx) {
-    with_connection({
-      query <- "CREATE TABLE test (a integer)"
-
-      res <- dbSendStatement(con, query)
-      on.exit({
-        expect_error(dbClearResult(res), NA)
-        expect_error(dbClearResult(dbSendStatement(con, "DROP TABLE test")), NA)
-      }
-      , add = TRUE)
-
-      expect_true(dbHasCompleted(res))
-
-      rows <- dbFetch(res)
-      expect_identical(rows, data.frame())
-
-      expect_true(dbHasCompleted(res))
-    })
-  },
-
-  #' Fetching from a closed result set raises an error.
-  fetch_closed = function(ctx) {
-    with_connection({
-      query <- "SELECT 1"
-
-      res <- dbSendQuery(con, query)
-      dbClearResult(res)
-
-      expect_error(dbHasCompleted(res))
-
-      expect_error(dbFetch(res))
-    })
-  },
-
-  #' Querying a disconnected connection throws error.
-  cannot_query_disconnected = function(ctx) {
-    # TODO: Rename to fetch_disconnected
-    con <- connect(ctx)
-    dbDisconnect(con)
-    expect_error(dbGetQuery(con, "SELECT 1"))
-  },
-
-  #' }
   NULL
 )

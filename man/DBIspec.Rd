@@ -3,7 +3,8 @@
 %   R/spec-driver-constructor.R, R/spec-driver-class.R,
 %   R/spec-driver-data-type.R, R/spec-driver-connect.R,
 %   R/spec-connection-disconnect.R, R/spec-result-send-query.R, R/spec-driver.R,
-%   R/spec-connection.R, R/spec-result.R, R/spec-sql.R, R/spec-meta-bind.R,
+%   R/spec-connection.R, R/spec-result-fetch.R, R/spec-result.R,
+%   R/spec-sql.R, R/spec-meta-has-completed.R, R/spec-meta-bind.R,
 %   R/spec-meta.R, R/spec-transaction-begin-commit.R, R/spec-transaction.R,
 %   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
@@ -210,6 +211,38 @@ raises a warning
 and invalidates the open result set.
 The newly opened result set is valid
 and must be cleared with \code{dbClearResult()}.
+
+
+Fetching multi-row queries with one
+or more columns be default returns the entire result.
+Multi-row queries can also be fetched progressively
+by passing a whole number (\link{integer}
+or \link{numeric})
+as the \code{n} argument.
+A value of \link{Inf} for the \code{n} argument is supported
+and also returns the full result.
+If more rows than available are fetched, the result is returned in full
+without warning.
+If zero rows are fetched, the columns of the data frame are still fully
+typed.
+Fetching fewer rows than available is permitted,
+no warning is issued when clearing the result set.
+
+
+Fetching multi-row queries with one
+or more columns be default returns the entire result.
+Multi-row queries can also be fetched progressively
+by passing a whole number (\link{integer}
+or \link{numeric})
+as the \code{n} argument.
+A value of \link{Inf} for the \code{n} argument is supported
+and also returns the full result.
+If more rows than available are fetched, the result is returned in full
+without warning.
+If zero rows are fetched, the columns of the data frame are still fully
+typed.
+Fetching fewer rows than available is permitted,
+no warning is issued when clearing the result set.
 }
 
 \keyword{datasets}
