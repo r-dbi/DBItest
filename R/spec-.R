@@ -47,16 +47,21 @@
 #' @include spec-result-clear-result-query.R
 #' @include spec-result-fetch.R
 #' @include spec-result-send-query.R
+##### Aggregators
 #' @include spec-connection.R
-#' @include spec-connection-get-info.R
-#' @include spec-connection-data-type.R
-#' @include spec-connection-disconnect.R
 #' @include spec-driver.R
-#' @include spec-driver-connect.R
+##### Later
+#' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
+##### Method specs
+#' @include spec-connection-disconnect.R
+#' @include spec-driver-connect.R
+#' @include spec-connection-data-type.R
 #' @include spec-driver-data-type.R
-#' @include spec-driver-constructor.R
+##### Class specs
 #' @include spec-driver-class.R
+##### Soft specs
+#' @include spec-driver-constructor.R
 #' @include spec-getting-started.R
 #' @include spec.R
 NULL
