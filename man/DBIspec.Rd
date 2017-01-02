@@ -2,9 +2,9 @@
 % Please edit documentation in R/spec.R, R/spec-getting-started.R,
 %   R/spec-driver-constructor.R, R/spec-driver-class.R,
 %   R/spec-driver-data-type.R, R/spec-driver-connect.R,
-%   R/spec-connection-disconnect.R, R/spec-driver.R, R/spec-connection.R,
-%   R/spec-result.R, R/spec-sql.R, R/spec-meta-bind.R, R/spec-meta.R,
-%   R/spec-transaction-begin-commit.R, R/spec-transaction.R,
+%   R/spec-connection-disconnect.R, R/spec-result-send-query.R, R/spec-driver.R,
+%   R/spec-connection.R, R/spec-result.R, R/spec-sql.R, R/spec-meta-bind.R,
+%   R/spec-meta.R, R/spec-transaction-begin-commit.R, R/spec-transaction.R,
 %   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
 \name{DBIspec}
@@ -195,6 +195,21 @@ DBI specifies only the return type for \code{dbConnect()}.
 A warning is issued when releasing a connection without calling
 \code{dbDisconnect()},
 or when calling \code{dbDisconnect()} on an already disconnected connection.
+
+
+No warnings occur under normal conditions.
+The DBIResult object returned by \code{dbSendQuery()} must be valid, i.e.,
+\code{dbValid()} returns \code{TRUE}.
+When done, the DBIResult object must be cleared with a call to
+\code{\link[DBI:dbClearResult]{DBI::dbClearResult()}}.
+Failure to clear the result set leads to a warning
+when the connection is closed.
+
+If a result set is open, issuing a second query
+raises a warning
+and invalidates the open result set.
+The newly opened result set is valid
+and must be cleared with \code{dbClearResult()}.
 }
 
 \keyword{datasets}

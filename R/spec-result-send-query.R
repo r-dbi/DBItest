@@ -1,53 +1,102 @@
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section Result:
-#' \subsection{Construction: `dbSendQuery("DBIConnection")`}{
+#' @inheritSection spec_result_send_query Specification
+NULL
+
+#' spec_result_send_query
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_result_send_query <- list(
-  #' Can issue trivial query, result object inherits from "DBIResult".
-  trivial_query = function(ctx) {
+  send_query_formals = function(ctx) {
+    # <establish formals of described functions>
+    expect_equal(names(formals(DBI::dbSendQuery)), c("conn", "statement", "..."))
+  },
+
+  #' @return
+  #' `dbSendQuery()` returns
+  send_query_trivial = function(ctx) {
     with_connection({
       res <- expect_visible(dbSendQuery(con, "SELECT 1"))
-      on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
+      #' an S4 object that inherits from [DBI::DBIResult-class].
       expect_s4_class(res, "DBIResult")
+      #' The result set can be used with [DBI::dbFetch()] to extract records.
+      expect_equal(dbFetch(res)[[1]], 1)
+      #' Once you have finished using a result, make sure to disconnect it
+      #' with [DBI::dbClearResult()].
+      dbClearResult(res)
     })
   },
 
-  #' Error is given when issuing a query over an invalid connection.
+  #' An error is raised when issuing a query over a closed
+  send_query_closed_connection = function(ctx) {
+    with_closed_connection({
+      expect_error(dbSendQuery(con, "SELECT 1"))
+    })
+  },
+
+  #' or invalid connection,
   send_query_invalid_connection = function(ctx) {
+    with_invalid_connection({
+      expect_error(dbSendQuery(con, "SELECT 1"))
+    })
+  },
+
+  #' if the syntax of the query is invalid,
+  send_query_syntax_error = function(ctx) {
+    with_connection({
+      expect_error(dbSendQuery(con, "SELECT"))
+    })
+  },
+
+  #' or if the query is not a non-`NA` string.
+  send_query_non_string = function(ctx) {
+    with_connection({
+      expect_error(dbSendStatement(con, character()))
+      expect_error(dbSendStatement(con, letters))
+      expect_error(dbSendStatement(con, NA_character_))
+    })
+  },
+
+  #' @section Specification:
+  send_query_result_valid = function(ctx) {
+    with_connection({
+      #' No warnings occur under normal conditions.
+      expect_warning(res <- dbSendQuery(con, "SELECT 1"), NA)
+      #' The DBIResult object returned by `dbSendQuery()` must be valid, i.e.,
+      #' `dbValid()` returns `TRUE`.
+      expect_true(dbIsValid(res))
+      #' When done, the DBIResult object must be cleared with a call to
+      #' [DBI::dbClearResult()].
+      dbClearResult(res)
+    })
+  },
+
+  send_query_warning_without_clearing = function(ctx) {
+    #' Failure to clear the result set leads to a warning
+    #' when the connection is closed.
     expect_warning(
-      with_invalid_connection({
-        expect_error(dbSendQuery(con, "SELECT 1"))
-      }),
-      NA
+      with_connection({
+        expect_warning(dbSendQuery(con, "SELECT 1"), NA)
+      })
     )
   },
 
-  #' Issuing a second query without clearing invalidates an open result set,
-  #' with warning.
-  only_one_result_set = function(ctx) {
+  #'
+  send_query_only_one_result_set = function(ctx) {
     with_connection({
-      expect_warning(res1 <- dbSendQuery(con, "SELECT 1"), NA)
-      expect_true(dbIsValid(res1))
+      res1 <- dbSendQuery(con, "SELECT 1")
+      #' If a result set is open, issuing a second query
+      #' raises a warning
       expect_warning(res2 <- dbSendQuery(con, "SELECT 2"))
-      expect_true(dbIsValid(res2))
+      #' and invalidates the open result set.
       expect_false(dbIsValid(res1))
+      #' The newly opened result set is valid
+      expect_true(dbIsValid(res2))
+      #' and must be cleared with `dbClearResult()`.
       dbClearResult(res2)
     })
   },
 
-  #' Issuing an invalid query throws error (but no warnings, e.g. related to
-  #'   pending results, are thrown).
-  invalid_query = function(ctx) {
-    expect_warning(gc(), NA)
-    expect_warning(
-      with_connection({
-        expect_error(dbSendStatement(con, "SELECT"))
-        gc()
-      }),
-      NA
-    )
-  },
-
-  #' }
   NULL
 )
