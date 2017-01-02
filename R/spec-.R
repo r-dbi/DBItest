@@ -28,6 +28,7 @@
 #' @include spec-meta-get-row-count.R
 #' @include spec-meta-column-info.R
 #' @include spec-meta-get-statement.R
+#' @include spec-meta-has-completed.R
 #' @include spec-meta-is-valid-result.R
 #' @include spec-meta-is-valid-connection.R
 #' @include spec-sql.R

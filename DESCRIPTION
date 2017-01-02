@@ -66,6 +66,7 @@ Collate:
     'spec-sql.R'
     'spec-meta-is-valid-connection.R'
     'spec-meta-is-valid-result.R'
+    'spec-meta-has-completed.R'
     'spec-meta-get-statement.R'
     'spec-meta-column-info.R'
     'spec-meta-get-row-count.R'
