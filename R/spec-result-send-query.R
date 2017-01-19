@@ -52,9 +52,9 @@ spec_result_send_query <- list(
   #' or if the query is not a non-`NA` string.
   send_query_non_string = function(ctx) {
     with_connection({
-      expect_error(dbSendStatement(con, character()))
-      expect_error(dbSendStatement(con, letters))
-      expect_error(dbSendStatement(con, NA_character_))
+      expect_error(dbSendQuery(con, character()))
+      expect_error(dbSendQuery(con, letters))
+      expect_error(dbSendQuery(con, NA_character_))
     })
   },
 
