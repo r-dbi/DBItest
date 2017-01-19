@@ -49,13 +49,15 @@ spec_result_clear_result <- list(
   #' in both cases.
   cannot_clear_result_twice_statement = function(ctx) {
     table_name <- random_table_name()
-    with_remove_test_table(
-      name = table_name,
-      {
-        res <- dbSendStatement(con, paste0("CREATE TABLE ", table_name , " AS SELECT 1"))
-        dbClearResult(res)
-        expect_warning(expect_invisible_true(dbClearResult(res)))
-      })
+    with_connection({
+      with_remove_test_table(
+        name = table_name,
+        {
+          res <- dbSendStatement(con, paste0("CREATE TABLE ", table_name , " AS SELECT 1"))
+          dbClearResult(res)
+          expect_warning(expect_invisible_true(dbClearResult(res)))
+        })
+    })
   },
 
   #' @section Specification:
