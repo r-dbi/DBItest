@@ -17,13 +17,16 @@ spec_result_execute <- list(
   #' `dbExecute()` always returns a
   execute_atomic = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a"
+      with_remove_test_table({
+        query <- "CREATE TABLE test AS SELECT 1 AS a"
 
-      rows <- dbExecute(con, query)
-      #' scalar numeric
-      expect_identical(rows, data.frame(a=1L))
-      #' that specifies the number of rows affected
-      #' by the statement.
+        ret <- dbExecute(con, query)
+        #' scalar
+        expect_equal(length(rows), 1)
+        #' numeric
+        expect_equal(rows, 1)
+        #' that specifies the number of rows affected
+        #' by the statement.
       })
     })
   },
@@ -63,13 +66,7 @@ spec_result_execute <- list(
     with_connection({
       with_remove_test_table({
         #' No warnings occur under normal conditions.
-        expect_warning(res <- dbExecute(con, "CREATE TABLE test AS SELECT 1 AS a"), NA)
-        #' The DBIResult object returned by `dbExecute()` must be valid, i.e.,
-        #' [dbIsValid()] returns `TRUE`.
-        expect_true(dbIsValid(res))
-        #' When done, the DBIResult object must be cleared with a call to
-        #' [DBI::dbClearResult()].
-        dbClearResult(res)
+        expect_warning(dbExecute(con, "CREATE TABLE test AS SELECT 1 AS a"), NA)
       })
     })
   },
