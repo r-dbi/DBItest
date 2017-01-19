@@ -21,8 +21,9 @@ spec_result_send_statement <- list(
         res <- expect_visible(dbSendStatement(con, "CREATE TABLE test AS SELECT 1 AS a"))
         #' an S4 object that inherits from [DBI::DBIResult-class].
         expect_s4_class(res, "DBIResult")
-        #' The result set can be used with [DBI::dbFetch()] to extract records.
-        expect_equal(dbFetch(res)[[1]], 1)
+        #' The result set can be used with [DBI::dbGetRowsAffected()] to
+        #' determine the number of rows affected by the query.
+        expect_error(dbGetRowsAffected(res), NA)
         #' Once you have finished using a result, make sure to disconnect it
         #' with [DBI::dbClearResult()].
         dbClearResult(res)

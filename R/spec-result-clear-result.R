@@ -19,7 +19,7 @@ spec_result_clear_result <- list(
   clear_result_return_query = function(ctx) {
     with_connection({
       res <- dbSendQuery(con, "SELECT 1")
-      expect_true(expect_invisible(dbClearResult(res)))
+      expect_invisible_true(dbClearResult(res))
     })
   },
 
@@ -33,7 +33,7 @@ spec_result_clear_result <- list(
       })
 
       res <- dbSendStatement(con, paste0("CREATE TABLE ", table_name , " AS SELECT 1"))
-      expect_true(expect_invisible(dbClearResult(res)))
+      expect_invisible_true(dbClearResult(res))
     })
   },
 
@@ -42,21 +42,20 @@ spec_result_clear_result <- list(
     with_connection({
       res <- dbSendQuery(con, "SELECT 1")
       dbClearResult(res)
-      expect_warning(expect_true(expect_invisible(dbClearResult(res))))
+      expect_warning(expect_invisible_true(dbClearResult(res)))
     })
   },
 
   #' in both cases.
   cannot_clear_result_twice_statement = function(ctx) {
     table_name <- random_table_name()
-    on.exit({
-      res <- dbSendStatement(con, paste0("DROP TABLE ", table_name))
-      dbClearResult(res)
-    })
-
-    res <- dbSendStatement(con, paste0("CREATE TABLE ", table_name , " AS SELECT 1"))
-    dbClearResult(res)
-    expect_warning(expect_true(expect_invisible(dbClearResult(res))))
+    with_remove_test_table(
+      name = table_name,
+      {
+        res <- dbSendStatement(con, paste0("CREATE TABLE ", table_name , " AS SELECT 1"))
+        dbClearResult(res)
+        expect_warning(expect_invisible_true(dbClearResult(res)))
+      })
   },
 
   #' @section Specification:

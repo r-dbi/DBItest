@@ -74,7 +74,7 @@ spec_result_fetch <- list(
 
   #' If the `n` argument is not an atomic whole number
   #' greater or equal to -1, an error is raised,
-  fetch_bad_n = function(ctx) {
+  fetch_n_bad = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a"
       with_result(
@@ -91,7 +91,7 @@ spec_result_fetch <- list(
   },
 
   #' but a subsequent call to `dbFetch()` with proper `n` argument succeeds.
-  fetch_good_after_bad_n = function(ctx) {
+  fetch_n_good_after_bad = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a"
       with_result(
@@ -144,7 +144,7 @@ spec_result_fetch <- list(
   fetch_multi_row_multi_column = function(ctx) {
     with_connection({
       query <- union(
-        .ctx = ctx, paste("SELECT", 1:5, "AS a", 4:0, "AS b"), .order_by = "a")
+        .ctx = ctx, paste("SELECT", 1:5, "AS a,", 4:0, "AS b"), .order_by = "a")
 
       with_result(
         dbSendQuery(con, query),
@@ -157,7 +157,7 @@ spec_result_fetch <- list(
   },
 
   #' Multi-row queries can also be fetched progressively
-  fetch_progressive = function(ctx) {
+  fetch_n_progressive = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:25, "AS a"), .order_by = "a")
@@ -181,7 +181,7 @@ spec_result_fetch <- list(
 
   #' A value of [Inf] for the `n` argument is supported
   #' and also returns the full result.
-  fetch_multi_row_inf = function(ctx) {
+  fetch_n_multi_row_inf = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
@@ -198,7 +198,7 @@ spec_result_fetch <- list(
 
   #' If more rows than available are fetched, the result is returned in full
   #' without warning.
-  fetch_more_rows = function(ctx) {
+  fetch_n_more_rows = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
@@ -215,7 +215,7 @@ spec_result_fetch <- list(
 
   #' If zero rows are fetched, the columns of the data frame are still fully
   #' typed.
-  fetch_zero_rows = function(ctx) {
+  fetch_n_zero_rows = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
@@ -233,7 +233,7 @@ spec_result_fetch <- list(
 
   #' Fetching fewer rows than available is permitted,
   #' no warning is issued when clearing the result set.
-  fetch_premature_close = function(ctx) {
+  fetch_n_premature_close = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")

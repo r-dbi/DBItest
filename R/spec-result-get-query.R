@@ -83,14 +83,14 @@ spec_result_get_query <- list(
 
   #' If the `n` argument is not an atomic whole number
   #' greater or equal to -1, an error is raised,
-  get_query_bad_n = function(ctx) {
+  get_query_n_bad = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a"
-      expect_error(dbGetQuery(query, -2))
-      expect_error(dbGetQuery(query, 1.5))
-      expect_error(dbGetQuery(query, integer()))
-      expect_error(dbGetQuery(query, 1:3))
-      expect_error(dbGetQuery(query, NA_integer_))
+      expect_error(dbGetQuery(con, query, -2))
+      expect_error(dbGetQuery(con, query, 1.5))
+      expect_error(dbGetQuery(con, query, integer()))
+      expect_error(dbGetQuery(con, query, 1:3))
+      expect_error(dbGetQuery(con, query, NA_integer_))
     })
   },
 
@@ -98,8 +98,8 @@ spec_result_get_query <- list(
   get_query_good_after_bad_n = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a"
-      expect_error(dbGetQuery(query, NA_integer_))
-      rows <- dbGetQuery(query)
+      expect_error(dbGetQuery(con, query, NA_integer_))
+      rows <- dbGetQuery(con, query)
       expect_identical(rows, data.frame(a = 1L))
     })
   },
@@ -120,7 +120,7 @@ spec_result_get_query <- list(
   get_query_multi_row_multi_column = function(ctx) {
     with_connection({
       query <- union(
-        .ctx = ctx, paste("SELECT", 1:5, "AS a", 4:0, "AS b"), .order_by = "a")
+        .ctx = ctx, paste("SELECT", 1:5, "AS a,", 4:0, "AS b"), .order_by = "a")
 
       rows <- dbGetQuery(con, query)
       expect_identical(rows, data.frame(a = 1:5, b = 4:0))
@@ -129,48 +129,48 @@ spec_result_get_query <- list(
 
   #' A value of [Inf] for the `n` argument is supported
   #' and also returns the full result.
-  get_query_multi_row_inf = function(ctx) {
+  get_query_n_multi_row_inf = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      rows <- dbGetQuery(query, n = Inf)
+      rows <- dbGetQuery(con, query, n = Inf)
       expect_identical(rows, data.frame(a = 1:3))
     })
   },
 
   #' If more rows than available are fetched, the result is returned in full
   #' without warning.
-  get_query_more_rows = function(ctx) {
+  get_query_n_more_rows = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      expect_warning(rows <- dbGetQuery(query, 5L), NA)
+      expect_warning(rows <- dbGetQuery(con, query, n = 5L), NA)
       expect_identical(rows, data.frame(a = 1:3))
     })
   },
 
   #' If zero rows are fetched, the columns of the data frame are still fully
   #' typed.
-  get_query_zero_rows = function(ctx) {
+  get_query_n_zero_rows = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      expect_warning(rows <- dbGetQuery(query, 0L), NA)
+      expect_warning(rows <- dbGetQuery(con, query, n = 0L), NA)
       expect_identical(rows, data.frame(a=integer()))
     })
   },
 
   #' Fetching fewer rows than available is permitted,
   #' no warning is issued.
-  get_query_incomplete = function(ctx) {
+  get_query_n_incomplete = function(ctx) {
     with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      rows <- dbGetQuery(query, 2L)
+      rows <- dbGetQuery(con, query, n = 2L)
       expect_identical(rows, data.frame(a = 1:2))
     })
   },

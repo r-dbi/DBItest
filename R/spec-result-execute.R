@@ -22,9 +22,9 @@ spec_result_execute <- list(
 
         ret <- dbExecute(con, query)
         #' scalar
-        expect_equal(length(rows), 1)
+        expect_equal(length(ret), 1)
         #' numeric
-        expect_equal(rows, 1)
+        expect_true(is.numeric(ret))
         #' that specifies the number of rows affected
         #' by the statement.
       })

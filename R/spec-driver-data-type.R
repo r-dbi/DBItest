@@ -36,10 +36,9 @@ test_data_type <- function(ctx, dbObj) {
     }))
   }
 
-  #' An error is raised for invalid values for the `obj` argument.
-  eval(bquote(
-    expect_error(dbDataType(
-      dbObj, structure(NULL, class = .(random_table_name(20)))))))
+  #' An error is raised for invalid values for the `obj` argument such as a
+  #' `NULL` value.
+  expect_error(dbDataType(dbObj, NULL))
 
   #' @section Specification:
   #' The backend can override the [DBI::dbDataType()] generic

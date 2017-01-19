@@ -25,11 +25,20 @@ has_method <- function(method_name) {
   }
 }
 
+expect_visible <- function(code) {
+  ret <- withVisible(code)
+  expect_true(ret$visible)
+  ret$value
+}
+
 expect_invisible_true <- function(code) {
   ret <- withVisible(code)
   expect_true(ret$value)
 
-  # Cannot test for visibility of return value yet (#89)
-  return()
-  expect_false(ret$visible)
+  test_that("Visibility", {
+    skip("Cannot test for visibility of return value yet (#89)")
+    expect_false(ret$visible)
+  })
+
+  invisible(ret$value)
 }

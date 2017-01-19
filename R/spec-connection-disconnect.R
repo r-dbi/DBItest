@@ -17,7 +17,7 @@ spec_connection_disconnect <- list(
   can_disconnect = function(ctx) {
     con <- connect(ctx)
     #' `dbDisconnect()` returns `TRUE`, invisibly.
-    expect_true(expect_invisible(dbDisconnect(con)))
+    expect_invisible_true(dbDisconnect(con))
   },
 
   #' @section Specification:
