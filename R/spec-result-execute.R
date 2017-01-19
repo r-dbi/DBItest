@@ -14,110 +14,63 @@ spec_result_execute <- list(
   },
 
   #' @return
-  #' `dbExecute()` always returns a [data.frame]
-  #' with as many rows as records were fetched and as many
-  #' columns as fields in the result set,
-  #' even if the result is a single value
+  #' `dbExecute()` always returns a
   execute_atomic = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a"
 
       rows <- dbExecute(con, query)
+      #' scalar numeric
       expect_identical(rows, data.frame(a=1L))
+      #' that specifies the number of rows affected
+      #' by the statement.
+      })
     })
   },
 
-  #' or has one
-  execute_one_row = function(ctx) {
-    with_connection({
-      query <- "SELECT 1 as a, 2 as b, 3 as c"
-
-      rows <- dbExecute(con, query)
-      expect_identical(rows, data.frame(a=1L, b=2L, c=3L))
+  #' An error is raised when issuing a statement over a closed
+  execute_closed_connection = function(ctx) {
+    with_closed_connection({
+      expect_error(dbExecute(con, "CREATE TABLE test AS SELECT 1 AS a"))
     })
   },
 
-  #' or zero rows.
-  execute_zero_rows = function(ctx) {
-    with_connection({
-      # Not all SQL dialects seem to support the query used here.
-      query <-
-        "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
+  #' or invalid connection,
+  execute_invalid_connection = function(ctx) {
+    with_invalid_connection({
+      expect_error(dbExecute(con, "CREATE TABLE test AS SELECT 1 AS a"))
+    })
+  },
 
-      rows <- dbExecute(con, query)
-      expect_identical(names(rows), letters[1:3])
-      expect_identical(dim(rows), c(0L, 3L))
+  #' if the syntax of the statement is invalid,
+  execute_syntax_error = function(ctx) {
+    with_connection({
+      expect_error(dbExecute(con, "CREATE"))
+    })
+  },
+
+  #' or if the statement is not a non-`NA` string.
+  execute_non_string = function(ctx) {
+    with_connection({
+      expect_error(dbExecute(con, character()))
+      expect_error(dbExecute(con, letters))
+      expect_error(dbExecute(con, NA_character_))
     })
   },
 
   #' @section Specification:
-  #' Fetching multi-row queries with one
-  execute_multi_row_single_column = function(ctx) {
+  execute_result_valid = function(ctx) {
     with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
-
-      rows <- dbExecute(con, query)
-      expect_identical(rows, data.frame(a = 1:3))
-    })
-  },
-
-  #' or more columns be default returns the entire result.
-  execute_multi_row_multi_column = function(ctx) {
-    with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:5, "AS a", 4:0, "AS b"), .order_by = "a")
-
-      rows <- dbExecute(con, query)
-      expect_identical(rows, data.frame(a = 1:5, b = 4:0))
-    })
-  },
-
-  #' A value of [Inf] for the `n` argument is supported
-  #' and also returns the full result.
-  execute_multi_row_inf = function(ctx) {
-    with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
-
-      rows <- dbExecute(query, n = Inf)
-      expect_identical(rows, data.frame(a = 1:3))
-    })
-  },
-
-  #' If more rows than available are fetched, the result is returned in full
-  #' without warning.
-  execute_more_rows = function(ctx) {
-    with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
-
-      expect_warning(rows <- dbExecute(query, 5L), NA)
-      expect_identical(rows, data.frame(a = 1:3))
-    })
-  },
-
-  #' If zero rows are fetched, the columns of the data frame are still fully
-  #' typed.
-  execute_zero_rows = function(ctx) {
-    with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
-
-      expect_warning(rows <- dbExecute(query, 0L), NA)
-      expect_identical(rows, data.frame(a=integer()))
-    })
-  },
-
-  #' Fetching fewer rows than available is permitted,
-  #' no warning is issued.
-  execute_incomplete = function(ctx) {
-    with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
-
-      rows <- dbExecute(query, 2L)
-      expect_identical(rows, data.frame(a = 1:2))
+      with_remove_test_table({
+        #' No warnings occur under normal conditions.
+        expect_warning(res <- dbExecute(con, "CREATE TABLE test AS SELECT 1 AS a"), NA)
+        #' The DBIResult object returned by `dbExecute()` must be valid, i.e.,
+        #' [dbIsValid()] returns `TRUE`.
+        expect_true(dbIsValid(res))
+        #' When done, the DBIResult object must be cleared with a call to
+        #' [DBI::dbClearResult()].
+        dbClearResult(res)
+      })
     })
   },
 
