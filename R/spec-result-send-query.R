@@ -64,7 +64,7 @@ spec_result_send_query <- list(
       #' No warnings occur under normal conditions.
       expect_warning(res <- dbSendQuery(con, "SELECT 1"), NA)
       #' The DBIResult object returned by `dbSendQuery()` must be valid, i.e.,
-      #' `dbValid()` returns `TRUE`.
+      #' [dbIsValid()] returns `TRUE`.
       expect_true(dbIsValid(res))
       #' When done, the DBIResult object must be cleared with a call to
       #' [DBI::dbClearResult()].
