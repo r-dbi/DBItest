@@ -10,7 +10,7 @@ NULL
 spec_result_fetch <- list(
   fetch_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbSendQuery)), c("res", "n", "..."))
+    expect_equal(names(formals(DBI::dbFetch)), c("res", "n", "..."))
   },
 
   #' @return
