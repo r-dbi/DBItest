@@ -50,6 +50,60 @@ spec_result_get_query <- list(
     })
   },
 
+
+  #' An error is raised when issuing a query over a closed
+  get_query_closed_connection = function(ctx) {
+    with_closed_connection({
+      expect_error(dbGetQuery(con, "SELECT 1"))
+    })
+  },
+
+  #' or invalid connection,
+  get_query_invalid_connection = function(ctx) {
+    with_invalid_connection({
+      expect_error(dbGetQuery(con, "SELECT 1"))
+    })
+  },
+
+  #' if the syntax of the query is invalid,
+  get_query_syntax_error = function(ctx) {
+    with_connection({
+      expect_error(dbGetQuery(con, "SELECT"))
+    })
+  },
+
+  #' or if the query is not a non-`NA` string.
+  get_query_non_string = function(ctx) {
+    with_connection({
+      expect_error(dbGetQuery(con, character()))
+      expect_error(dbGetQuery(con, letters))
+      expect_error(dbGetQuery(con, NA_character_))
+    })
+  },
+
+  #' If the `n` argument is not an atomic whole number
+  #' greater or equal to -1, an error is raised,
+  get_query_bad_n = function(ctx) {
+    with_connection({
+      query <- "SELECT 1 as a"
+      expect_error(dbGetQuery(query, -2))
+      expect_error(dbGetQuery(query, 1.5))
+      expect_error(dbGetQuery(query, integer()))
+      expect_error(dbGetQuery(query, 1:3))
+      expect_error(dbGetQuery(query, NA_integer_))
+    })
+  },
+
+  #' but a subsequent call to `dbGetQuery()` with proper `n` argument succeeds.
+  get_query_good_after_bad_n = function(ctx) {
+    with_connection({
+      query <- "SELECT 1 as a"
+      expect_error(dbGetQuery(query, NA_integer_))
+      rows <- dbGetQuery(query)
+      expect_identical(rows, data.frame(a = 1L))
+    })
+  },
+
   #' @section Specification:
   #' Fetching multi-row queries with one
   get_query_multi_row_single_column = function(ctx) {
