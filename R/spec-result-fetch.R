@@ -48,7 +48,8 @@ spec_result_fetch <- list(
   #' or zero rows.
   fetch_zero_rows = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a, 2 as b, 3 as c WHERE 1 = 0"
+      query <-
+        "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
       with_result(
         dbSendQuery(con, query),
         {
@@ -223,7 +224,7 @@ spec_result_fetch <- list(
       on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
 
       expect_warning(rows <- dbFetch(res, 0L), NA)
-      expect_identical(rows, data.frame(a=integer()))
+      expect_identical(rows, data.frame(a = integer()))
 
       expect_warning(dbClearResult(res), NA)
       on.exit(NULL, add = FALSE)
