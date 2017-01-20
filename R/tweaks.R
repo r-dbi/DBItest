@@ -47,9 +47,24 @@
     "placeholder_pattern" = NULL,
 
     #' @param logical_return `[function(logical)]`\cr
-    #'   A function that converts logical values to the data type returned
-    #'   by the DBI backend.
+    #'   A vectorized function that converts logical values to the data type
+    #'   returned by the DBI backend.
     "logical_return" = identity,
+
+    #' @param date_cast `[function(character)]`\cr
+    #'   A vectorized function that creates an SQL expression for coercing a
+    #'   string to a date value.
+    "date_cast" = function(x) paste0("date('", x, "')"),
+
+    #' @param time_cast `[function(character)]`\cr
+    #'   A vectorized function that creates an SQL expression for coercing a
+    #'   string to a time value.
+    "time_cast" = function(x) paste0("time('", x, "')"),
+
+    #' @param timestamp_cast `[function(character)]`\cr
+    #'   A vectorized function that creates an SQL expression for coercing a
+    #'   string to a timestamp value.
+    "timestamp_cast" = function(x) paste0("timestamp('", x, "')"),
 
     # Dummy argument
     NULL

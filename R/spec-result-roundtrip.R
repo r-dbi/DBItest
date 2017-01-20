@@ -79,81 +79,70 @@ spec_result_roundtrip <- list(
   #' Data conversion from SQL to R: date, returned as integer with class.
   data_date = function(ctx) {
     with_connection({
+      char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
+      values <- as_integer_date(int_values)
+      sql_names <- ctx$tweaks$date_cast(char_values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
+    })
+  },
+
+  #' Data conversion from SQL to R: current_date, returned as integer with class.
+  data_date_current = function(ctx) {
+    with_connection({
       test_select_with_null(
         .ctx = ctx, con,
-        "date('2015-01-01')" = as_integer_date("2015-01-01"),
-        "date('2015-02-02')" = as_integer_date("2015-02-02"),
-        "date('2015-03-03')" = as_integer_date("2015-03-03"),
-        "date('2015-04-04')" = as_integer_date("2015-04-04"),
-        "date('2015-05-05')" = as_integer_date("2015-05-05"),
-        "date('2015-06-06')" = as_integer_date("2015-06-06"),
-        "date('2015-07-07')" = as_integer_date("2015-07-07"),
-        "date('2015-08-08')" = as_integer_date("2015-08-08"),
-        "date('2015-09-09')" = as_integer_date("2015-09-09"),
-        "date('2015-10-10')" = as_integer_date("2015-10-10"),
-        "date('2015-11-11')" = as_integer_date("2015-11-11"),
-        "date('2015-12-12')" = as_integer_date("2015-12-12"),
-        "current_date" ~ as_integer_date(Sys.time()))
+        "current_date" ~ is_rougly_current_date)
     })
   },
 
   #' Data conversion from SQL to R: time.
   data_time = function(ctx) {
     with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "time '00:00:00'" = "00:00:00",
-        "time '12:34:56'" = "12:34:56",
-        "current_time" ~ is.character)
+      char_values <- c("00:00:00", "12:34:56")
+      time_values <- as_hms_equals_to(hms::as.hms(char_values))
+      sql_names <- ctx$tweaks$time_cast(values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
     })
   },
 
-  #' Data conversion from SQL to R: time (using alternative syntax with
-  #' parentheses for specifying time literals).
-  data_time_parens = function(ctx) {
+  #' Data conversion from SQL to R: current_time.
+  data_time_current = function(ctx) {
     with_connection({
       test_select_with_null(
         .ctx = ctx, con,
-        "time('00:00:00')" = "00:00:00",
-        "time('12:34:56')" = "12:34:56",
-        "current_time" ~ is.character)
+        "current_time" ~ coercible_to_time)
     })
   },
 
   #' Data conversion from SQL to R: timestamp.
   data_timestamp = function(ctx) {
     with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "timestamp '2015-10-11 00:00:00'" = is_time,
-        "timestamp '2015-10-11 12:34:56'" = is_time,
-        "current_timestamp" ~ is_roughly_current_time)
+      char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
+      time_values <- list(is_time, is_time)
+      sql_names <- ctx$tweaks$time_cast(values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
     })
   },
 
   #' Data conversion from SQL to R: timestamp with time zone.
   data_timestamp_utc = function(ctx) {
     with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "timestamp '2015-10-11 00:00:00+02:00'" =
-          as.POSIXct("2015-10-11 00:00:00+02:00"),
-        "timestamp '2015-10-11 12:34:56-05:00'" =
-          as.POSIXct("2015-10-11 12:34:56-05:00"),
-        "current_timestamp" ~ is_roughly_current_time)
+      char_values <- c("2015-10-11 00:00:00+02:00", "2015-10-11 12:34:56-05:00")
+      time_values <- as.POSIXct(char_values)
+      sql_names <- ctx$tweaks$time_cast(values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
     })
   },
 
-  #' Data conversion: timestamp (alternative syntax with parentheses
-  #' for specifying timestamp literals).
-  data_timestamp_parens = function(ctx) {
+  #' Data conversion from SQL to R: current_timestamp.
+  data_timestamp_current = function(ctx) {
     with_connection({
       test_select_with_null(
         .ctx = ctx, con,
-        "datetime('2015-10-11 00:00:00')" =
-          as.POSIXct("2015-10-11 00:00:00Z"),
-        "datetime('2015-10-11 12:34:56')" =
-          as.POSIXct("2015-10-11 12:34:56Z"),
         "current_timestamp" ~ is_roughly_current_time)
     })
   },

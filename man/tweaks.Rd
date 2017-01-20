@@ -7,7 +7,10 @@
 tweaks(..., constructor_name = NULL, constructor_relax_args = FALSE,
   strict_identifier = FALSE, omit_blob_tests = FALSE,
   current_needs_parens = FALSE, union = function(x) paste(x, collapse =
-  " UNION "), placeholder_pattern = NULL, logical_return = identity)
+  " UNION "), placeholder_pattern = NULL, logical_return = identity,
+  date_cast = function(x) paste0("date('", x, "')"), time_cast = function(x)
+  paste0("time('", x, "')"), timestamp_cast = function(x)
+  paste0("timestamp('", x, "')"))
 }
 \arguments{
 \item{...}{\code{[any]}\cr
@@ -44,8 +47,20 @@ A pattern for placeholders used in \code{\link[DBI:dbBind]{DBI::dbBind()}}, e.g.
 \code{\link[=make_placeholder_fun]{make_placeholder_fun()}} for details.}
 
 \item{logical_return}{\code{[function(logical)]}\cr
-A function that converts logical values to the data type returned
-by the DBI backend.}
+A vectorized function that converts logical values to the data type
+returned by the DBI backend.}
+
+\item{date_cast}{\code{[function(character)]}\cr
+A vectorized function that creates an SQL expression for coercing a
+string to a date value.}
+
+\item{time_cast}{\code{[function(character)]}\cr
+A vectorized function that creates an SQL expression for coercing a
+string to a time value.}
+
+\item{timestamp_cast}{\code{[function(character)]}\cr
+A vectorized function that creates an SQL expression for coercing a
+string to a timestamp value.}
 }
 \description{
 TBD.

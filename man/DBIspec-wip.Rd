@@ -58,13 +58,12 @@ Data conversion from SQL to R: character.
 Data conversion from SQL to R: raw. Not all SQL dialects support the
 syntax of the query used here.
 Data conversion from SQL to R: date, returned as integer with class.
+Data conversion from SQL to R: current_date, returned as integer with class.
 Data conversion from SQL to R: time.
-Data conversion from SQL to R: time (using alternative syntax with
-parentheses for specifying time literals).
+Data conversion from SQL to R: current_time.
 Data conversion from SQL to R: timestamp.
 Data conversion from SQL to R: timestamp with time zone.
-Data conversion: timestamp (alternative syntax with parentheses
-for specifying timestamp literals).
+Data conversion from SQL to R: current_timestamp.
 }
 }
 
