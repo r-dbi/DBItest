@@ -16,8 +16,8 @@ spec_result_create_table_with_data_type <- list(
       check_connection_data_type <- function(value) {
         with_remove_test_table({
           #' `"CREATE TABLE test (a ...)"`.
-          query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)), ")")
-          dbExecute(con, .(query))
+          query <- paste0("CREATE TABLE test (a ", dbDataType(con, value), ")")
+          eval(bquote(dbExecute(con, .(query))))
         })
       }
 
