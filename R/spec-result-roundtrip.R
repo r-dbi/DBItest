@@ -92,7 +92,7 @@ spec_result_roundtrip <- list(
     with_connection({
       test_select_with_null(
         .ctx = ctx, con,
-        "current_date" ~ is_rougly_current_date)
+        "current_date" ~ is_roughly_current_date)
     })
   },
 
