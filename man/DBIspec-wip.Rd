@@ -51,10 +51,7 @@ package in a new R session.
 \subsection{Data roundtrip}{
 Data conversion from SQL to R: integer
 Data conversion from SQL to R: numeric.
-Data conversion from SQL to R: logical. Optional, conflict with the
-\code{data_logical_int} test.
-Data conversion from SQL to R: logical (as integers). Optional,
-conflict with the \code{data_logical} test.
+Data conversion from SQL to R: logical.
 Data conversion from SQL to R: A NULL value is returned as NA.
 Data conversion from SQL to R: 64-bit integers.
 Data conversion from SQL to R: character.

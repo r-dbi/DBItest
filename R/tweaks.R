@@ -46,6 +46,11 @@
     #'   [make_placeholder_fun()] for details.
     "placeholder_pattern",
 
+    #' @param logical_return `[function(logical)]`\cr
+    #'   A function that converts logical values to the data type returned
+    #'   by the DBI backend.
+    "logical_return",
+
     # Dummy argument
     NULL
   )

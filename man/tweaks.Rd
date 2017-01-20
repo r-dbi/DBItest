@@ -41,6 +41,10 @@ resulting query returns the concatenated results of the subqueries}
 A pattern for placeholders used in \code{\link[DBI:dbBind]{DBI::dbBind()}}, e.g.,
 \code{"?"}, \code{"$1"}, or \code{":name"}. See
 \code{\link[=make_placeholder_fun]{make_placeholder_fun()}} for details.}
+
+\item{logical_return}{\code{[function(logical)]}\cr
+A function that converts logical values to the data type returned
+by the DBI backend.}
 }
 \description{
 TBD.

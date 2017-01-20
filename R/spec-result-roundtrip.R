@@ -17,23 +17,18 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' Data conversion from SQL to R: logical. Optional, conflict with the
-  #' `data_logical_int` test.
+  #' Data conversion from SQL to R: logical.
   data_logical = function(ctx) {
     with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE)
-    })
-  },
+      int_values <- 1:0
+      values <- as.logical(int_values)
+      if (!is.null(ctx$tweaks$logical_return)) {
+        values <- ctx$tweaks$logical_return(values)
+      }
 
-  #' Data conversion from SQL to R: logical (as integers). Optional,
-  #' conflict with the `data_logical` test.
-  data_logical_int = function(ctx) {
-    with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L)
+      sql_names <- paste0("CAST(", int_values, " AS ", dbDataType(con, logical()), ")")
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
     })
   },
 
