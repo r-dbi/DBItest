@@ -55,13 +55,13 @@ test_data_type <- function(ctx, dbObj) {
   }
 
   expected_data_types <- list(
-    #' [logical()],
+    #' [logical],
     logical(1),
-    #' [integer()],
+    #' [integer],
     integer(1),
-    #' [numeric()],
+    #' [numeric],
     numeric(1),
-    #' [character()],
+    #' [character],
     character(1),
     #' dates (see [Dates]),
     Sys.Date(),
@@ -82,7 +82,7 @@ test_data_type <- function(ctx, dbObj) {
     expect_has_data_type
   )
 
-  #' As-is objects (i.e., wrapped by [base::I()]) must be
+  #' As-is objects (i.e., wrapped by [I()]) must be
   #' supported and return the same results as their unwrapped counterparts.
   lapply(
     compact(expected_data_types),
