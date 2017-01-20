@@ -1,8 +1,14 @@
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section Result:
-#' \subsection{Data roundtrip}{
+#' @inheritSection spec_result_roundtrip Specification
+NULL
+
+#' spec_result_roundtrip
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_result_roundtrip <- list(
+  #' @section Specification:
   #' Data conversion from SQL to R: integer
   data_integer = function(ctx) {
     with_connection({
@@ -147,7 +153,6 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' }
   NULL
 )
 

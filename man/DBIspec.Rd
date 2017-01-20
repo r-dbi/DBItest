@@ -5,10 +5,10 @@
 %   R/spec-driver-connect.R, R/spec-connection-disconnect.R,
 %   R/spec-result-send-query.R, R/spec-result-fetch.R,
 %   R/spec-result-clear-result.R, R/spec-result-get-query.R,
-%   R/spec-result-send-statement.R, R/spec-result-execute.R,
-%   R/spec-driver.R, R/spec-connection.R, R/spec-result.R, R/spec-sql.R,
-%   R/spec-meta-has-completed.R, R/spec-meta-bind.R, R/spec-meta.R,
-%   R/spec-transaction-begin-commit.R, R/spec-transaction.R,
+%   R/spec-result-send-statement.R, R/spec-result-execute.R, R/spec-driver.R,
+%   R/spec-connection.R, R/spec-result-roundtrip.R, R/spec-result.R,
+%   R/spec-sql.R, R/spec-meta-has-completed.R, R/spec-meta-bind.R,
+%   R/spec-meta.R, R/spec-transaction-begin-commit.R, R/spec-transaction.R,
 %   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
 \name{DBIspec}
@@ -273,6 +273,23 @@ and must be cleared with \code{dbClearResult()}.
 
 
 No warnings occur under normal conditions.
+
+
+Data conversion from SQL to R: integer
+Data conversion from SQL to R: numeric.
+Data conversion from SQL to R: logical.
+Data conversion from SQL to R: A NULL value is returned as NA.
+Data conversion from SQL to R: 64-bit integers.
+Data conversion from SQL to R: character.
+Data conversion from SQL to R: raw. Not all SQL dialects support the
+syntax of the query used here.
+Data conversion from SQL to R: date, returned as integer with class.
+Data conversion from SQL to R: current_date, returned as integer with class.
+Data conversion from SQL to R: time.
+Data conversion from SQL to R: current_time.
+Data conversion from SQL to R: timestamp.
+Data conversion from SQL to R: timestamp with time zone.
+Data conversion from SQL to R: current_timestamp.
 
 
 Fetching multi-row queries with one
