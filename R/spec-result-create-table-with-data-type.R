@@ -9,34 +9,16 @@ NULL
 #' @keywords NULL
 spec_result_create_table_with_data_type <- list(
   #' @section Specification:
-  #' SQL Data types exist for all basic R data types, and the engine can
-  #' process them.
+  #' All data types returned by `dbDataType()` are usable in an SQL statement
+  #' of the form
   data_type_create_table = function(ctx) {
     with_connection({
       check_connection_data_type <- function(value) {
-        eval(bquote({
-          expect_is(dbDataType(con, .(value)), "character")
-          expect_equal(length(dbDataType(con, .(value))), 1L)
-          expect_error({
-            as_is_type <- dbDataType(con, I(.(value)))
-            expect_identical(dbDataType(con, .(value)), as_is_type)
-          }
-          , NA)
-          expect_error({
-            unknown_type <- dbDataType(con, structure(.(value),
-                                                      class = "unknown1"))
-            expect_identical(dbDataType(con, unclass(.(value))), unknown_type)
-          }
-          , NA)
-          query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)),
-                          ")")
-        }))
-
-        eval(bquote({
-          expect_error(dbExecute(con, .(query)), NA)
-          on.exit(expect_error(dbExecute(con, "DROP TABLE test"), NA),
-                  add = TRUE)
-        }))
+        with_remove_test_table({
+          #' `"CREATE TABLE test (a ...)"`.
+          query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)), ")")
+          dbExecute(con, .(query))
+        })
       }
 
       expect_conn_has_data_type <- function(value) {

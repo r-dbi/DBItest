@@ -9,7 +9,8 @@ spec_result_create_table_with_data_type
 }
 \section{Specification}{
 
-SQL Data types exist for all basic R data types, and the engine can
-process them.
+All data types returned by \code{dbDataType()} are usable in an SQL statement
+of the form
+\code{"CREATE TABLE test (a ...)"}.
 }
 

@@ -40,7 +40,6 @@
 #' @include spec-sql-quote-string.R
 #' @include spec-result.R
 #' @include spec-result-roundtrip.R
-#' @include spec-result-create-table-with-data-type.R
 ##### Aggregators
 #' @include spec-connection.R
 #' @include spec-driver.R
@@ -56,6 +55,7 @@
 #' @include spec-result-send-query.R
 #' @include spec-connection-disconnect.R
 #' @include spec-driver-connect.R
+#' @include spec-result-create-table-with-data-type.R
 #' @include spec-connection-data-type.R
 #' @include spec-driver-data-type.R
 ##### Class specs
