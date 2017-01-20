@@ -95,7 +95,9 @@ with_remove_test_table <- function(code, name = "test", con = "con", env = paren
   con <- as.name(con)
 
   eval(bquote({
-    on.exit(dbClearResult(dbSendStatement(.(con), paste0("DROP TABLE ", .(name)))), add = TRUE)
+    on.exit(
+      try_silent(
+        dbClearResult(dbSendStatement(.(con), paste0("DROP TABLE ", .(name))))), add = TRUE)
     local(.(code_sub))
   }
   ), envir = env)
@@ -120,4 +122,10 @@ random_table_name <- function(n = 10) {
 
 compact <- function(x) {
   x[!vapply(x, is.null, logical(1L))]
+}
+
+try_silent <- function(code) {
+  tryCatch(
+    code,
+    error = function(e) NULL)
 }
