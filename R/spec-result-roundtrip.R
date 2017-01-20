@@ -230,9 +230,9 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
   }
 
   if (.add_null != "none") {
-    rows <- rows[order(rows$id), -(length(sql_names) + 1L)]
+    rows <- rows[order(rows$id), -(length(sql_names) + 1L), drop = FALSE]
     if (.add_null == "above") {
-      rows <- rows[2:1, ]
+      rows <- rows[2:1, , drop = FALSE]
     }
   }
 
