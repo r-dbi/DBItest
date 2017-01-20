@@ -10,7 +10,8 @@ test_data_type(ctx, dbObj)
 \code{dbDataType()} returns the SQL type that corresponds to the \code{obj} argument
 as a non-empty
 character string.
-An error is raised for invalid values for the \code{obj} argument.
+An error is raised for invalid values for the \code{obj} argument such as a
+\code{NULL} value.
 }
 \description{
 test_data_type
