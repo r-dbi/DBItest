@@ -50,71 +50,24 @@ package in a new R session.
 
 \subsection{Data roundtrip}{
 Data conversion from SQL to R: integer
-Data conversion from SQL to R: integer with typed NULL values.
-Data conversion from SQL to R: integer with typed NULL values
-in the first row.
 Data conversion from SQL to R: numeric.
-Data conversion from SQL to R: numeric with typed NULL values.
-Data conversion from SQL to R: numeric with typed NULL values
-in the first row.
 Data conversion from SQL to R: logical. Optional, conflict with the
 \code{data_logical_int} test.
-Data conversion from SQL to R: logical with typed NULL values.
-Data conversion from SQL to R: logical with typed NULL values
-in the first row
 Data conversion from SQL to R: logical (as integers). Optional,
 conflict with the \code{data_logical} test.
-Data conversion from SQL to R: logical (as integers) with typed NULL
-values.
-Data conversion from SQL to R: logical (as integers) with typed NULL
-values
-in the first row.
 Data conversion from SQL to R: A NULL value is returned as NA.
 Data conversion from SQL to R: 64-bit integers.
-Data conversion from SQL to R: 64-bit integers with typed NULL values.
-Data conversion from SQL to R: 64-bit integers with typed NULL values
-in the first row.
 Data conversion from SQL to R: character.
-Data conversion from SQL to R: character with typed NULL values.
-Data conversion from SQL to R: character with typed NULL values
-in the first row.
 Data conversion from SQL to R: raw. Not all SQL dialects support the
 syntax of the query used here.
-Data conversion from SQL to R: raw with typed NULL values.
-Data conversion from SQL to R: raw with typed NULL values
-in the first row.
 Data conversion from SQL to R: date, returned as integer with class.
-Data conversion from SQL to R: date with typed NULL values.
-Data conversion from SQL to R: date with typed NULL values
-in the first row.
 Data conversion from SQL to R: time.
-Data conversion from SQL to R: time with typed NULL values.
-Data conversion from SQL to R: time with typed NULL values
-in the first row.
 Data conversion from SQL to R: time (using alternative syntax with
 parentheses for specifying time literals).
-Data conversion from SQL to R: time (using alternative syntax with
-parentheses for specifying time literals) with typed NULL values.
-Data conversion from SQL to R: time (using alternative syntax with
-parentheses for specifying time literals) with typed NULL values
-in the first row.
 Data conversion from SQL to R: timestamp.
-Data conversion from SQL to R: timestamp with typed NULL values.
-Data conversion from SQL to R: timestamp with typed NULL values
-in the first row.
 Data conversion from SQL to R: timestamp with time zone.
-Data conversion from SQL to R: timestamp with time zone with typed NULL
-values.
-Data conversion from SQL to R: timestamp with time zone with typed NULL
-values
-in the first row.
 Data conversion: timestamp (alternative syntax with parentheses
 for specifying timestamp literals).
-Data conversion: timestamp (alternative syntax with parentheses
-for specifying timestamp literals) with typed NULL values.
-Data conversion: timestamp (alternative syntax with parentheses
-for specifying timestamp literals) with typed NULL values
-in the first row.
 }
 }
 
