@@ -73,7 +73,7 @@ test_data_type <- function(ctx, dbObj) {
     #' and map them to the BLOB (binary large object) data type,
     #' unless the `omit_blob_tests` tweak is set to `TRUE`.
     if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
-      list(raw(1))
+      list(as.raw(1:10))
     }
   )
 
