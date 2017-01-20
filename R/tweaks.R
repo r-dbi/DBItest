@@ -123,3 +123,11 @@ format.DBItest_tweaks <- function(x, ...) {
 print.DBItest_tweaks <- function(x, ...) {
   cat(format(x), sep = "\n")
 }
+
+#' @export
+`$.DBItest_tweaks` <- function(x, tweak) {
+  if (!(tweak %in% names(x))) {
+    stop("Tweak not found: ", tweak, call. = FALSE)
+  }
+  NextMethod()
+}
