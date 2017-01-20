@@ -56,15 +56,5 @@ spec_result_create_table_with_data_type <- list(
     })
   },
 
-  #' SQL data type for factor is the same as for character.
-  data_type_factor = function(ctx) {
-    with_connection({
-      expect_identical(dbDataType(con, letters),
-                       dbDataType(con, factor(letters)))
-      expect_identical(dbDataType(con, letters),
-                       dbDataType(con, ordered(letters)))
-    })
-  },
-
   NULL
 )

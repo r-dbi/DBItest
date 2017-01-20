@@ -11,6 +11,5 @@ spec_result_create_table_with_data_type
 
 SQL Data types exist for all basic R data types, and the engine can
 process them.
-SQL data type for factor is the same as for character.
 }
 

@@ -38,6 +38,8 @@ and map them to the BLOB (binary large object) data type,
 unless the \code{omit_blob_tests} tweak is set to \code{TRUE}.
 As-is objects (i.e., wrapped by \code{\link[=I]{I()}}) must be
 supported and return the same results as their unwrapped counterparts.
+The SQL data type for \link{factor}
+and \link{ordered} is the same as for character.
 The behavior for other object types is not specified.
 }
 
