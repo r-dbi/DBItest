@@ -1,11 +1,17 @@
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section Result:
-#' \subsection{Create table with data type}{
+#' @inheritSection spec_result_create_table_with_data_type Specification
+NULL
+
+#' spec_result_create_table_with_data_type
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_result_create_table_with_data_type <- list(
+  #' @section Specification:
   #' SQL Data types exist for all basic R data types, and the engine can
   #' process them.
-  data_type_connection = function(ctx) {
+  data_type_create_table = function(ctx) {
     with_connection({
       check_connection_data_type <- function(value) {
         eval(bquote({
@@ -60,6 +66,5 @@ spec_result_create_table_with_data_type <- list(
     })
   },
 
-  #' }
   NULL
 )

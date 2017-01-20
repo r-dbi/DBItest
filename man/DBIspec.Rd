@@ -6,9 +6,10 @@
 %   R/spec-result-fetch.R, R/spec-result-clear-result.R,
 %   R/spec-result-get-query.R, R/spec-result-send-statement.R,
 %   R/spec-result-execute.R, R/spec-driver.R, R/spec-connection.R,
-%   R/spec-result.R, R/spec-sql.R, R/spec-meta-has-completed.R,
-%   R/spec-meta-bind.R, R/spec-meta.R, R/spec-transaction-begin-commit.R,
-%   R/spec-transaction.R, R/spec-compliance.R, R/spec-stress.R
+%   R/spec-result-create-table-with-data-type.R, R/spec-result.R,
+%   R/spec-sql.R, R/spec-meta-has-completed.R, R/spec-meta-bind.R,
+%   R/spec-meta.R, R/spec-transaction-begin-commit.R, R/spec-transaction.R,
+%   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
 \name{DBIspec}
 \alias{DBIspec}
@@ -265,6 +266,11 @@ and must be cleared with \code{dbClearResult()}.
 
 
 No warnings occur under normal conditions.
+
+
+SQL Data types exist for all basic R data types, and the engine can
+process them.
+SQL data type for factor is the same as for character.
 
 
 Fetching multi-row queries with one
