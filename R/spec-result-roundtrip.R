@@ -21,10 +21,7 @@ spec_result_roundtrip <- list(
   data_logical = function(ctx) {
     with_connection({
       int_values <- 1:0
-      values <- as.logical(int_values)
-      if (!is.null(ctx$tweaks$logical_return)) {
-        values <- ctx$tweaks$logical_return(values)
-      }
+      values <- ctx$tweaks$logical_return(as.logical(int_values))
 
       sql_names <- paste0("CAST(", int_values, " AS ", dbDataType(con, logical()), ")")
 

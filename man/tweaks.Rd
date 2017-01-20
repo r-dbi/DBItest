@@ -4,9 +4,10 @@
 \alias{tweaks}
 \title{Tweaks for DBI tests}
 \usage{
-tweaks(..., constructor_name = NULL, constructor_relax_args = NULL,
-  strict_identifier = NULL, omit_blob_tests = NULL,
-  current_needs_parens = NULL, union = NULL, placeholder_pattern = NULL)
+tweaks(..., constructor_name = NULL, constructor_relax_args = FALSE,
+  strict_identifier = FALSE, omit_blob_tests = FALSE,
+  current_needs_parens = FALSE, union = function(x) paste(x, collapse =
+  " UNION "), placeholder_pattern = NULL, logical_return = identity)
 }
 \arguments{
 \item{...}{\code{[any]}\cr
