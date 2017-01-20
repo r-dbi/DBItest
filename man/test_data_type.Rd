@@ -6,6 +6,9 @@
 \usage{
 test_data_type(ctx, dbObj)
 }
+\arguments{
+\item{ctx, dbObj}{Arguments to internal test function}
+}
 \value{
 \code{dbDataType()} returns the SQL type that corresponds to the \code{obj} argument
 as a non-empty

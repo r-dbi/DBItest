@@ -22,6 +22,7 @@ spec_driver_data_type <- list(
 )
 
 #' test_data_type
+#' @param ctx,dbObj Arguments to internal test function
 test_data_type <- function(ctx, dbObj) {
   #' @return
   #' `dbDataType()` returns the SQL type that corresponds to the `obj` argument
