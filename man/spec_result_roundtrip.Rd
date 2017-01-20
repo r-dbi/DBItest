@@ -9,20 +9,34 @@ spec_result_roundtrip
 }
 \section{Specification}{
 
-Data conversion from SQL to R: integer
-Data conversion from SQL to R: numeric.
-Data conversion from SQL to R: logical.
-Data conversion from SQL to R: A NULL value is returned as NA.
-Data conversion from SQL to R: 64-bit integers.
-Data conversion from SQL to R: character.
-Data conversion from SQL to R: raw. Not all SQL dialects support the
-syntax of the query used here.
-Data conversion from SQL to R: date, returned as integer with class.
-Data conversion from SQL to R: current_date, returned as integer with class.
-Data conversion from SQL to R: time.
-Data conversion from SQL to R: current_time.
-Data conversion from SQL to R: timestamp.
-Data conversion from SQL to R: timestamp with time zone.
-Data conversion from SQL to R: current_timestamp.
+The column type of the returned data frame depend on the data returned:
+\itemize{
+\item \link{integer} for integer values between -2^31 and 2^31 - 1
+\item \link{numeric} for numbers with a fractional component
+\item \link{logical} for Boolean values (some backends may return an integer)
+\item \link{character} for text
+\item lists of \link{raw} for blobs
+\item \link{NA} for SQL \code{NULL} values
+}
+
+If dates and types are supported by the backend, the following R types are
+used:
+\itemize{
+\item \link{Date} for dates
+(including the return value of the SQL function \code{current_date})
+\item a type coercible to \link[hms:hms]{hms::hms} for times
+(including the return value of the SQL function \code{current_time})
+\item \link{POSIXct} for timestamps
+(including the return value of the SQL function \code{current_timestamp},
+with time zone information set if supported by the backend)
+}
+
+R has no built-in type with lossless support for the full range of 64-bit
+or larger integers. Here, the following rules apply:
+\itemize{
+\item Values are returned as numeric
+\item Conversion to character always returns a lossless decimal representation
+of the data
+}
 }
 

@@ -38,9 +38,8 @@
 #' @include spec-sql-read-write-table.R
 #' @include spec-sql-quote-identifier.R
 #' @include spec-sql-quote-string.R
-#' @include spec-result.R
-#' @include spec-result-roundtrip.R
 ##### Aggregators
+#' @include spec-result.R
 #' @include spec-connection.R
 #' @include spec-driver.R
 ##### Later
@@ -51,6 +50,7 @@
 #' @include spec-result-send-statement.R
 #' @include spec-result-get-query.R
 #' @include spec-result-clear-result.R
+#' @include spec-result-roundtrip.R
 #' @include spec-result-fetch.R
 #' @include spec-result-send-query.R
 #' @include spec-connection-disconnect.R

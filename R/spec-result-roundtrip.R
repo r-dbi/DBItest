@@ -9,21 +9,22 @@ NULL
 #' @keywords NULL
 spec_result_roundtrip <- list(
   #' @section Specification:
-  #' Data conversion from SQL to R: integer
+  #' The column type of the returned data frame depend on the data returned:
+  #' - [integer] for integer values between -2^31 and 2^31 - 1
   data_integer = function(ctx) {
     with_connection({
       test_select_with_null(.ctx = ctx, con, 1L, -100L)
     })
   },
 
-  #' Data conversion from SQL to R: numeric.
+  #' - [numeric] for numbers with a fractional component
   data_numeric = function(ctx) {
     with_connection({
       test_select_with_null(.ctx = ctx, con, 1.5, -100.5)
     })
   },
 
-  #' Data conversion from SQL to R: logical.
+  #' - [logical] for Boolean values (some backends may return an integer)
   data_logical = function(ctx) {
     with_connection({
       int_values <- 1:0
@@ -35,27 +36,7 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' Data conversion from SQL to R: A NULL value is returned as NA.
-  data_null = function(ctx) {
-    with_connection({
-      check_result <- function(rows) {
-        expect_true(is.na(rows$a))
-      }
-
-      test_select(.ctx = ctx, con, "NULL" = is.na)
-    })
-  },
-
-  #' Data conversion from SQL to R: 64-bit integers.
-  data_64_bit = function(ctx) {
-    with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "10000000000" = 10000000000, "-10000000000" = -10000000000)
-    })
-  },
-
-  #' Data conversion from SQL to R: character.
+  #' - [character] for text
   data_character = function(ctx) {
     with_connection({
       values <- texts
@@ -67,8 +48,7 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' Data conversion from SQL to R: raw. Not all SQL dialects support the
-  #' syntax of the query used here.
+  #' - lists of [raw] for blobs
   data_raw = function(ctx) {
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
@@ -82,7 +62,21 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' Data conversion from SQL to R: date, returned as integer with class.
+  #' - [NA] for SQL `NULL` values
+  data_null = function(ctx) {
+    with_connection({
+      check_result <- function(rows) {
+        expect_true(is.na(rows$a))
+      }
+
+      test_select(.ctx = ctx, con, "NULL" = is.na)
+    })
+  },
+
+  #'
+  #' If dates and types are supported by the backend, the following R types are
+  #' used:
+  #' - [Date] for dates
   data_date = function(ctx) {
     with_connection({
       char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
@@ -93,7 +87,7 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' Data conversion from SQL to R: current_date, returned as integer with class.
+  #'   (including the return value of the SQL function `current_date`)
   data_date_current = function(ctx) {
     with_connection({
       test_select_with_null(
@@ -102,7 +96,7 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' Data conversion from SQL to R: time.
+  #' - a type coercible to [hms::hms] for times
   data_time = function(ctx) {
     with_connection({
       char_values <- c("00:00:00", "12:34:56")
@@ -113,7 +107,7 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' Data conversion from SQL to R: current_time.
+  #'   (including the return value of the SQL function `current_time`)
   data_time_current = function(ctx) {
     with_connection({
       test_select_with_null(
@@ -122,18 +116,27 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' Data conversion from SQL to R: timestamp.
+  #' - [POSIXct] for timestamps
   data_timestamp = function(ctx) {
     with_connection({
       char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
       time_values <- list(is_time, is_time)
-      sql_names <- ctx$tweaks$time_cast(values)
+      sql_names <- ctx$tweaks$time_cast(char_values)
 
       test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
     })
   },
 
-  #' Data conversion from SQL to R: timestamp with time zone.
+  #'   (including the return value of the SQL function `current_timestamp`,
+  data_timestamp_current = function(ctx) {
+    with_connection({
+      test_select_with_null(
+        .ctx = ctx, con,
+        "current_timestamp" ~ is_roughly_current_time)
+    })
+  },
+
+  #'   with time zone information set if supported by the backend)
   data_timestamp_utc = function(ctx) {
     with_connection({
       char_values <- c("2015-10-11 00:00:00+02:00", "2015-10-11 12:34:56-05:00")
@@ -144,12 +147,26 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' Data conversion from SQL to R: current_timestamp.
-  data_timestamp_current = function(ctx) {
+  #'
+  #' R has no built-in type with lossless support for the full range of 64-bit
+  #' or larger integers. Here, the following rules apply:
+  #' - Values are returned as numeric
+  data_64_bit_numeric = function(ctx) {
     with_connection({
       test_select_with_null(
         .ctx = ctx, con,
-        "current_timestamp" ~ is_roughly_current_time)
+        "10000000000" = 10000000000, "-10000000000" = -10000000000)
+    })
+  },
+
+  #' - Conversion to character always returns a lossless decimal representation
+  #'   of the data
+  data_64_bit_lossless = function(ctx) {
+    with_connection({
+      char_values <- c("1234567890123456789", "-1234567890123456789")
+      test_values <- as_character_equals_to(char_values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
     })
   },
 
