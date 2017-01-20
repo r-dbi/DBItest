@@ -10,7 +10,7 @@ tweaks(..., constructor_name = NULL, constructor_relax_args = FALSE,
   " UNION "), placeholder_pattern = NULL, logical_return = identity,
   date_cast = function(x) paste0("date('", x, "')"), time_cast = function(x)
   paste0("time('", x, "')"), timestamp_cast = function(x)
-  paste0("timestamp('", x, "')"))
+  paste0("timestamp('", x, "')"), date_typed = TRUE, timestamp_typed = TRUE)
 }
 \arguments{
 \item{...}{\code{[any]}\cr
@@ -61,6 +61,13 @@ string to a time value.}
 \item{timestamp_cast}{\code{[function(character)]}\cr
 A vectorized function that creates an SQL expression for coercing a
 string to a timestamp value.}
+
+\item{date_typed}{\code{[logical(1L)]}\cr
+Set to \code{FALSE} if the DBMS doesn't support a dedicated type for dates.}
+
+\item{timestamp_typed}{\code{[logical(1L)]}\cr
+Set to \code{FALSE} if the DBMS doesn't support a dedicated type for
+timestamps.}
 }
 \description{
 TBD.

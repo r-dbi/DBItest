@@ -9,7 +9,7 @@ NULL
 #' @keywords NULL
 spec_result_roundtrip <- list(
   #' @section Specification:
-  #' The column type of the returned data frame depend on the data returned:
+  #' The column types of the returned data frame depend on the data returned:
   #' - [integer] for integer values between -2^31 and 2^31 - 1
   data_integer = function(ctx) {
     with_connection({
@@ -62,6 +62,77 @@ spec_result_roundtrip <- list(
     })
   },
 
+  #' - coercible using [as.Date()] for dates
+  data_date = function(ctx) {
+    with_connection({
+      char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
+      values <- as_date_equals_to(as.Date(char_values))
+      sql_names <- ctx$tweaks$date_cast(char_values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
+    })
+  },
+
+  #'   (also applies to the return value of the SQL function `current_date`)
+  data_date_current = function(ctx) {
+    with_connection({
+      test_select_with_null(
+        .ctx = ctx, con,
+        "current_date" ~ is_roughly_current_date)
+    })
+  },
+
+  #' - coercible using [hms::as.hms()] for times
+  data_time = function(ctx) {
+    with_connection({
+      char_values <- c("00:00:00", "12:34:56")
+      time_values <- as_hms_equals_to(hms::as.hms(char_values))
+      sql_names <- ctx$tweaks$time_cast(values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
+    })
+  },
+
+  #'   (also applies to the return value of the SQL function `current_time`)
+  data_time_current = function(ctx) {
+    with_connection({
+      test_select_with_null(
+        .ctx = ctx, con,
+        "current_time" ~ coercible_to_time)
+    })
+  },
+
+  #' - coercible using [as.POSIXct()] for timestamps
+  data_timestamp = function(ctx) {
+    with_connection({
+      char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
+      time_values <- rep(coercible_to_timestamp, 2L)
+      sql_names <- ctx$tweaks$time_cast(char_values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
+    })
+  },
+
+  #'   (also applies to the return value of the SQL function `current_timestamp`,
+  data_timestamp_current = function(ctx) {
+    with_connection({
+      test_select_with_null(
+        .ctx = ctx, con,
+        "current_timestamp" ~ is_roughly_current_timestamp)
+    })
+  },
+
+  #'   with time zone information set if supported by the backend)
+  data_timestamp_utc = function(ctx) {
+    with_connection({
+      char_values <- c("2015-10-11 00:00:00+02:00", "2015-10-11 12:34:56-05:00")
+      time_values <- as_timestamp_equals_to(char_values)
+      sql_names <- ctx$tweaks$timestamp_cast(values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
+    })
+  },
+
   #' - [NA] for SQL `NULL` values
   data_null = function(ctx) {
     with_connection({
@@ -74,76 +145,76 @@ spec_result_roundtrip <- list(
   },
 
   #'
-  #' If dates and types are supported by the backend, the following R types are
+  #' If dates and timestamps are supported by the backend, the following R types are
   #' used:
   #' - [Date] for dates
-  data_date = function(ctx) {
+  data_date_typed = function(ctx) {
+    if (!isTRUE(ctx$tweaks$date_typed)) {
+      skip("tweak: !date_typed")
+    }
+
     with_connection({
       char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
-      values <- as_integer_date(int_values)
+      values <- as.Date(char_values)
       sql_names <- ctx$tweaks$date_cast(char_values)
 
       test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
     })
   },
 
-  #'   (including the return value of the SQL function `current_date`)
-  data_date_current = function(ctx) {
+  #'   (also applies to the return value of the SQL function `current_date`)
+  data_date_current_typed = function(ctx) {
+    if (!isTRUE(ctx$tweaks$date_typed)) {
+      skip("tweak: !date_typed")
+    }
+
     with_connection({
       test_select_with_null(
         .ctx = ctx, con,
-        "current_date" ~ is_roughly_current_date)
-    })
-  },
-
-  #' - a type coercible to [hms::hms] for times
-  data_time = function(ctx) {
-    with_connection({
-      char_values <- c("00:00:00", "12:34:56")
-      time_values <- as_hms_equals_to(hms::as.hms(char_values))
-      sql_names <- ctx$tweaks$time_cast(values)
-
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
-    })
-  },
-
-  #'   (including the return value of the SQL function `current_time`)
-  data_time_current = function(ctx) {
-    with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "current_time" ~ coercible_to_time)
+        "current_date" ~ is_roughly_current_date_typed)
     })
   },
 
   #' - [POSIXct] for timestamps
-  data_timestamp = function(ctx) {
+  data_timestamp_typed = function(ctx) {
+    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+      skip("tweak: !timestamp_typed")
+    }
+
     with_connection({
       char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
-      time_values <- list(is_time, is_time)
+      timestamp_values <- rep(is_timestamp, 2L)
       sql_names <- ctx$tweaks$time_cast(char_values)
 
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
     })
   },
 
-  #'   (including the return value of the SQL function `current_timestamp`,
-  data_timestamp_current = function(ctx) {
+  #'   (also applies to the return value of the SQL function `current_timestamp`,
+  data_timestamp_current_typed = function(ctx) {
+    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+      skip("tweak: !timestamp_typed")
+    }
+
     with_connection({
       test_select_with_null(
         .ctx = ctx, con,
-        "current_timestamp" ~ is_roughly_current_time)
+        "current_timestamp" ~ is_roughly_current_timestamp_typed)
     })
   },
 
   #'   with time zone information set if supported by the backend)
-  data_timestamp_utc = function(ctx) {
+  data_timestamp_utc_typed = function(ctx) {
+    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+      skip("tweak: !timestamp_typed")
+    }
+
     with_connection({
       char_values <- c("2015-10-11 00:00:00+02:00", "2015-10-11 12:34:56-05:00")
-      time_values <- as.POSIXct(char_values)
-      sql_names <- ctx$tweaks$time_cast(values)
+      timestamp_values <- as.POSIXct(char_values)
+      sql_names <- ctx$tweaks$timestamp_cast(values)
 
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
     })
   },
 
@@ -277,12 +348,43 @@ is_raw_list <- function(x) {
   is.list(x) && is.raw(x[[1L]])
 }
 
-is_time <- function(x) {
+coercible_to_date <- function(x) {
+  x_date <- try_silent(as.Date(x))
+  !is.null(x_date) && all(is.na(x) == is.na(x_date))
+}
+
+is_roughly_current_date <- function(x) {
+  coercible_to_date(x) && (abs(Sys.Date() - as.Date(x)) <= 1)
+}
+
+coercible_to_time <- function(x) {
+  x_hms <- try_silent(hms::as.hms(x))
+  !is.null(x_hms) && all(is.na(x) == is.na(x_hms))
+}
+
+coercible_to_timestamp <- function(x) {
+  x_timestamp <- try_silent(as.POSIXct(x))
+  !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
+}
+
+is_roughly_current_timestamp <- function(x) {
+  coercible_to_timestamp(x) && (Sys.time() - as.POSIXct(x) <= 2)
+}
+
+is_date <- function(x) {
   inherits(x, "POSIXct")
 }
 
-is_roughly_current_time <- function(x) {
-  is_time(x) && (Sys.time() - x <= 2)
+is_roughly_current_date_typed <- function(x) {
+  is_date(x) && (abs(Sys.Date() - x) <= 1)
+}
+
+is_timestamp <- function(x) {
+  inherits(x, "POSIXct")
+}
+
+is_roughly_current_timestamp_typed <- function(x) {
+  is_timestamp(x) && (Sys.time() - x <= 2)
 }
 
 as_integer_date <- function(d) {

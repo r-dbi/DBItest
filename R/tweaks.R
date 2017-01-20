@@ -66,6 +66,15 @@
     #'   string to a timestamp value.
     "timestamp_cast" = function(x) paste0("timestamp('", x, "')"),
 
+    #' @param date_typed `[logical(1L)]`\cr
+    #'   Set to `FALSE` if the DBMS doesn't support a dedicated type for dates.
+    "date_typed" = TRUE,
+
+    #' @param timestamp_typed `[logical(1L)]`\cr
+    #'   Set to `FALSE` if the DBMS doesn't support a dedicated type for
+    #'   timestamps.
+    "timestamp_typed" = TRUE,
+
     # Dummy argument
     NULL
   )
@@ -126,7 +135,7 @@ print.DBItest_tweaks <- function(x, ...) {
 
 #' @export
 `$.DBItest_tweaks` <- function(x, tweak) {
-  if (!(tweak %in% names(x))) {
+  if (!(tweak %in% names(tweak_names))) {
     stop("Tweak not found: ", tweak, call. = FALSE)
   }
   NextMethod()
