@@ -88,9 +88,9 @@ spec_result_send_query <- list(
     with_connection({
       res1 <- dbSendQuery(con, "SELECT 1")
       #' issuing a second query invalidates an already open result set
-      expect_false(dbIsValid(res1))
       #' and raises a warning.
       expect_warning(res2 <- dbSendQuery(con, "SELECT 2"))
+      expect_false(dbIsValid(res1))
       #' The newly opened result set is valid
       expect_true(dbIsValid(res2))
       #' and must be cleared with `dbClearResult()`.

@@ -94,9 +94,9 @@ spec_result_send_statement <- list(
         res1 <- dbSendStatement(con, "CREATE TABLE test AS SELECT 1 AS a")
         with_remove_test_table(name = "test2", {
           #' issuing a second query invalidates an already open result set
-          expect_false(dbIsValid(res1))
           #' and raises a warning.
           expect_warning(res2 <- dbSendStatement(con, "CREATE TABLE test2 AS SELECT 1 AS a"))
+          expect_false(dbIsValid(res1))
           #' The newly opened result set is valid
           expect_true(dbIsValid(res2))
           #' and must be cleared with `dbClearResult()`.
