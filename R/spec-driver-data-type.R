@@ -55,21 +55,21 @@ test_data_type <- function(ctx, dbObj) {
   }
 
   expected_data_types <- list(
-    #' [base::logical()],
+    #' [logical()],
     logical(1),
-    #' [base::integer()],
+    #' [integer()],
     integer(1),
-    #' [base::numeric()],
+    #' [numeric()],
     numeric(1),
-    #' [base::character()],
+    #' [character()],
     character(1),
-    #' dates (see [base::Dates]),
+    #' dates (see [Dates]),
     Sys.Date(),
-    #' date-time (see [base::DateTimeClasses]),
+    #' date-time (see [DateTimeClasses]),
     Sys.time(),
-    #' and [base::difftime].
+    #' and [difftime].
     Sys.time() - Sys.time(),
-    #' It also must accept lists of `raw` vectors
+    #' It also must accept lists of [raw] vectors
     #' and map them to the BLOB (binary large object) data type,
     #' unless the `omit_blob_tests` tweak is set to `TRUE`.
     if (!isTRUE(ctx$tweaks$omit_blob_tests)) {

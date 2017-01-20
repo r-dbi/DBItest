@@ -25,14 +25,14 @@ To query the values returned by the default implementation,
 run \code{example(dbDataType, package = "DBI")}.
 If the backend needs to override this generic,
 it must accept all basic R data types as its second argument, namely
-\code{\link[base:logical]{base::logical()}},
-\code{\link[base:integer]{base::integer()}},
-\code{\link[base:numeric]{base::numeric()}},
-\code{\link[base:character]{base::character()}},
-dates (see \link[base:Dates]{base::Dates}),
-date-time (see \link[base:DateTimeClasses]{base::DateTimeClasses}),
-and \link[base:difftime]{base::difftime}.
-It also must accept lists of \code{raw} vectors
+\code{\link[=logical]{logical()}},
+\code{\link[=integer]{integer()}},
+\code{\link[=numeric]{numeric()}},
+\code{\link[=character]{character()}},
+dates (see \link{Dates}),
+date-time (see \link{DateTimeClasses}),
+and \link{difftime}.
+It also must accept lists of \link{raw} vectors
 and map them to the BLOB (binary large object) data type,
 unless the \code{omit_blob_tests} tweak is set to \code{TRUE}.
 As-is objects (i.e., wrapped by \code{\link[base:I]{base::I()}}) must be
