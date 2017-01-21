@@ -212,6 +212,7 @@ spec_sql_read_write_roundtrip <- list(
       tbl_in$a <- round(Sys.time()) + c(1, 60, 3600, 86400, NA)
       tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
       tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST")
+      tbl_in$d <- as.POSIXlt(tbl_in$a, tz = "UTC")
 
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
