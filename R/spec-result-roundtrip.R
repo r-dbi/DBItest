@@ -87,7 +87,7 @@ spec_result_roundtrip <- list(
     with_connection({
       char_values <- c("00:00:00", "12:34:56")
       time_values <- as_hms_equals_to(hms::as.hms(char_values))
-      sql_names <- ctx$tweaks$time_cast(values)
+      sql_names <- ctx$tweaks$time_cast(char_values)
 
       test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
     })
@@ -106,7 +106,7 @@ spec_result_roundtrip <- list(
   data_timestamp = function(ctx) {
     with_connection({
       char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
-      time_values <- rep(coercible_to_timestamp, 2L)
+      time_values <- rep(list(coercible_to_timestamp), 2L)
       sql_names <- ctx$tweaks$time_cast(char_values)
 
       test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
@@ -126,10 +126,10 @@ spec_result_roundtrip <- list(
   data_timestamp_utc = function(ctx) {
     with_connection({
       char_values <- c("2015-10-11 00:00:00+02:00", "2015-10-11 12:34:56-05:00")
-      time_values <- as_timestamp_equals_to(char_values)
-      sql_names <- ctx$tweaks$timestamp_cast(values)
+      timestamp_values <- as_timestamp_equals_to(char_values)
+      sql_names <- ctx$tweaks$timestamp_cast(char_values)
 
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
     })
   },
 
@@ -353,6 +353,12 @@ coercible_to_date <- function(x) {
   !is.null(x_date) && all(is.na(x) == is.na(x_date))
 }
 
+as_date_equals_to <- function(x) {
+  lapply(x, function(xx) {
+    function(value) as.Date(value) == xx
+  })
+}
+
 is_roughly_current_date <- function(x) {
   coercible_to_date(x) && (abs(Sys.Date() - as.Date(x)) <= 1)
 }
@@ -362,9 +368,21 @@ coercible_to_time <- function(x) {
   !is.null(x_hms) && all(is.na(x) == is.na(x_hms))
 }
 
+as_hms_equals_to <- function(x) {
+  lapply(x, function(xx) {
+    function(value) hms::as.hms(value) == xx
+  })
+}
+
 coercible_to_timestamp <- function(x) {
   x_timestamp <- try_silent(as.POSIXct(x))
   !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
+}
+
+as_timestamp_equals_to <- function(x) {
+  lapply(x, function(xx) {
+    function(value) as.POSIXct(value) == xx
+  })
 }
 
 is_roughly_current_timestamp <- function(x) {
