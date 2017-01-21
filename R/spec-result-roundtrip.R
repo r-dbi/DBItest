@@ -155,7 +155,7 @@ spec_result_roundtrip <- list(
 
     with_connection({
       char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
-      values <- as.Date(char_values)
+      values <- lapply(char_values, as_integer_date)
       sql_names <- ctx$tweaks$date_cast(char_values)
 
       test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
@@ -183,8 +183,8 @@ spec_result_roundtrip <- list(
 
     with_connection({
       char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
-      timestamp_values <- rep(is_timestamp, 2L)
-      sql_names <- ctx$tweaks$time_cast(char_values)
+      timestamp_values <- rep(list(is_timestamp), 2L)
+      sql_names <- ctx$tweaks$timestamp_cast(char_values)
 
       test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
     })
@@ -212,7 +212,7 @@ spec_result_roundtrip <- list(
     with_connection({
       char_values <- c("2015-10-11 00:00:00+02:00", "2015-10-11 12:34:56-05:00")
       timestamp_values <- as.POSIXct(char_values)
-      sql_names <- ctx$tweaks$timestamp_cast(values)
+      sql_names <- ctx$tweaks$timestamp_cast(char_values)
 
       test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
     })
@@ -390,7 +390,7 @@ is_roughly_current_timestamp <- function(x) {
 }
 
 is_date <- function(x) {
-  inherits(x, "POSIXct")
+  inherits(x, "Date")
 }
 
 is_roughly_current_date_typed <- function(x) {
