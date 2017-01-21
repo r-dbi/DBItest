@@ -21,8 +21,7 @@ The column types of the returned data frame depend on the data returned:
 \item coercible using \code{\link[hms:as.hms]{hms::as.hms()}} for times
 (also applies to the return value of the SQL function \code{current_time})
 \item coercible using \code{\link[=as.POSIXct]{as.POSIXct()}} for timestamps
-(also applies to the return value of the SQL function \code{current_timestamp},
-with time zone information set if supported by the backend)
+(also applies to the return value of the SQL function \code{current_timestamp})
 \item \link{NA} for SQL \code{NULL} values
 }
 
@@ -32,8 +31,7 @@ used:
 \item \link{Date} for dates
 (also applies to the return value of the SQL function \code{current_date})
 \item \link{POSIXct} for timestamps
-(also applies to the return value of the SQL function \code{current_timestamp},
-with time zone information set if supported by the backend)
+(also applies to the return value of the SQL function \code{current_timestamp})
 }
 
 R has no built-in type with lossless support for the full range of 64-bit

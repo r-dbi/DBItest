@@ -113,23 +113,12 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #'   (also applies to the return value of the SQL function `current_timestamp`,
+  #'   (also applies to the return value of the SQL function `current_timestamp`)
   data_timestamp_current = function(ctx) {
     with_connection({
       test_select_with_null(
         .ctx = ctx, con,
         "current_timestamp" ~ is_roughly_current_timestamp)
-    })
-  },
-
-  #'   with time zone information set if supported by the backend)
-  data_timestamp_utc = function(ctx) {
-    with_connection({
-      char_values <- c("2015-10-11 00:00:00+02:00", "2015-10-11 12:34:56-05:00")
-      timestamp_values <- as_timestamp_equals_to(char_values)
-      sql_names <- ctx$tweaks$timestamp_cast(char_values)
-
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
     })
   },
 
@@ -190,7 +179,7 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #'   (also applies to the return value of the SQL function `current_timestamp`,
+  #'   (also applies to the return value of the SQL function `current_timestamp`)
   data_timestamp_current_typed = function(ctx) {
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
@@ -200,21 +189,6 @@ spec_result_roundtrip <- list(
       test_select_with_null(
         .ctx = ctx, con,
         "current_timestamp" ~ is_roughly_current_timestamp_typed)
-    })
-  },
-
-  #'   with time zone information set if supported by the backend)
-  data_timestamp_utc_typed = function(ctx) {
-    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
-      skip("tweak: !timestamp_typed")
-    }
-
-    with_connection({
-      char_values <- c("2015-10-11 00:00:00+02:00", "2015-10-11 12:34:56-05:00")
-      timestamp_values <- as.POSIXct(char_values)
-      sql_names <- ctx$tweaks$timestamp_cast(char_values)
-
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
     })
   },
 
