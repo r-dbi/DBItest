@@ -127,8 +127,8 @@ spec_sql_quote_string <- list(
       #'
       #' `NA` should be translated to an unquoted SQL `NULL`,
       null <- dbQuoteString(con, NA_character_)
-      #' so that the query `SELECT 1 AS a WHERE ... IS NULL`
-      rows <- dbGetQuery(con, paste0("SELECT 1 AS a WHERE ", null, " IS NULL"))
+      #' so that the query `SELECT * FROM (SELECT 1) a WHERE ... IS NULL`
+      rows <- dbGetQuery(con, paste0("SELECT * FROM (SELECT 1) a WHERE ", null, " IS NULL"))
       #' returns one row.
       expect_equal(nrow(rows), 1L)
     })
