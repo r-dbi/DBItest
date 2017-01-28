@@ -34,8 +34,8 @@
 #' @include spec-sql.R
 #' @include spec-sql-list-fields.R
 #' @include spec-sql-list-tables.R
-#' @include spec-sql-read-write-roundtrip.R
-#' @include spec-sql-read-write-table.R
+#' @include spec-sql-write-table.R
+#' @include spec-sql-read-table.R
 ##### Aggregators
 #' @include spec-result.R
 #' @include spec-connection.R
