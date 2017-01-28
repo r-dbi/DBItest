@@ -1,8 +1,20 @@
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section SQL:
-#' \subsection{`dbReadTable("DBIConnection")` and `dbWriteTable("DBIConnection")`}{
+#' @inheritSection spec_sql_write_table Specification
+NULL
+
+#' spec_sql_write_table
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_sql_write_table <- list(
+  write_table_formals = function(ctx) {
+    # <establish formals of described functions>
+    expect_equal(names(formals(DBI::dbWriteTable)), c("conn", "name", "...", "row.names", "check.names"))
+  },
+
+  #' @return
+
   #' Can write the [datasets::iris] data as a table to the
   #' database, but won't overwrite by default.
   write_table = function(ctx) {
@@ -38,7 +50,7 @@ spec_sql_write_table <- list(
       dbWriteTable(con, "iris", iris)
       expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
                    NA)
-      iris_out <- dbReadTable(con, "iris")
+      iris_out <- dbWriteTable(con, "iris")
       expect_identical(nrow(iris_out), 10L)
     })
   },
@@ -54,7 +66,7 @@ spec_sql_write_table <- list(
       iris <- get_iris(ctx)
       dbWriteTable(con, "iris", iris)
       expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
-      iris_out <- dbReadTable(con, "iris")
+      iris_out <- dbWriteTable(con, "iris")
       expect_identical(nrow(iris_out), nrow(iris) + 10L)
     })
   },
@@ -79,7 +91,7 @@ spec_sql_write_table <- list(
 
       iris <- get_iris(ctx)
       dbWriteTable(con, "iris", iris[1:30, ], temporary = TRUE)
-      iris_out <- dbReadTable(con, "iris")
+      iris_out <- dbWriteTable(con, "iris")
       expect_identical(nrow(iris_out), 30L)
 
       with_connection({
@@ -122,7 +134,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "EXISTS"), NA), add = TRUE)
       dbWriteTable(con, "EXISTS", tbl_in)
 
-      tbl_out <- dbReadTable(con, "EXISTS")
+      tbl_out <- dbWriteTable(con, "EXISTS")
       expect_identical(tbl_in, tbl_out)
     })
   },
@@ -148,7 +160,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_identical(tbl_in, tbl_out)
     })
   },
@@ -161,7 +173,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
     })
   },
@@ -174,7 +186,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
     })
   },
@@ -189,7 +201,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_equal(tbl_in$a, tbl_out$a[order(tbl_out$id)])
     })
   },
@@ -202,7 +214,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
     })
   },
@@ -215,7 +227,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_identical(as.integer(tbl_in$a), tbl_out$a[order(tbl_out$id)])
     })
   },
@@ -228,7 +240,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_true(is.na(tbl_out$a))
     })
   },
@@ -242,7 +254,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in, field.types = "bigint")
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_identical(tbl_in_trunc, tbl_out[order(tbl_out$id), ])
     })
   },
@@ -257,7 +269,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
 
       expect_true(all_have_utf8_or_ascii_encoding(tbl_out$a))
@@ -274,7 +286,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_identical(as.character(tbl_in$a), tbl_out$a[order(tbl_out$id)])
 
       expect_true(all_have_utf8_or_ascii_encoding(tbl_out$a))
@@ -295,7 +307,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
     })
   },
@@ -309,7 +321,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_equal(tbl_in, tbl_out[order(tbl_out$id), ])
       expect_is(unclass(tbl_out$a), "integer")
     })
@@ -327,7 +339,7 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_identical(tbl_in, tbl_out[order(tbl_out$id), ])
     })
   },
@@ -342,11 +354,56 @@ spec_sql_write_table <- list(
       on.exit(expect_error(dbRemoveTable(con, "test"), NA), add = TRUE)
       dbWriteTable(con, "test", tbl_in)
 
-      tbl_out <- dbReadTable(con, "test")
+      tbl_out <- dbWriteTable(con, "test")
       expect_identical(rownames(tbl_in), rownames(tbl_out)[order(tbl_out$id)])
     })
   },
 
-  #' }
+
+  #' @section Additional arguments:
+  #' The following arguments are not part of the generic
+  #' (to improve compatibility across backends)
+  #' but are part of the DBI specification:
+  #' - `row.names`
+  #' - `check.names`
+  #'
+  #' They must be provided as named arguments.
+  #' See the "Value" section for details on their usage.
+
+  #' @section Specification:
+  #' The `name` argument is processed as follows,
+  write_table_name <- function(ctx) {
+    with_connection({
+      #' to support databases that allow non-syntactic names for their objects:
+      if (isTRUE(ctx$tweaks$strict_identifier)) {
+        table_names <- "a"
+      } else {
+        table_names <- c("a", "with spaces", "with,comma")
+      }
+
+      for (table_name in table_names) {
+        with_remove_test_table({
+          test_in <- data.frame(a = 1)
+          dbWriteTable(con, table_name, test_in)
+
+          #' - An unquoted table name as string, `dbWriteTable()` will do the quoting
+          test_out <- dbWriteTable(con, table_name)
+          expect_equal_df(test_in, test_out)
+          #' - The result of a call to [dbQuoteIdentifier()], no more quoting is done
+          test_out <- dbWriteTable(con, dbQuoteIdentifier(con, table_name))
+          expect_equal_df(test_in, test_out)
+          #' - A list (named or
+          test_out <- dbWriteTable(con, dbQuoteIdentifier(con, list(x = table_name)))
+          expect_equal_df(test_in, test_out)
+          #'   unnamed),
+          test_out <- dbWriteTable(con, dbQuoteIdentifier(con, list(table_name)))
+          expect_equal_df(test_in, test_out)
+          #'  the components will be passed as arguments to
+          #'  `dbQuoteIdentifier()` in addition to the `conn` argument
+        })
+      }
+    })
+  },
+
   NULL
 )
