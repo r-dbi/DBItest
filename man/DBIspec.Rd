@@ -7,10 +7,11 @@
 %   R/spec-result-roundtrip.R, R/spec-result-clear-result.R,
 %   R/spec-result-get-query.R, R/spec-result-send-statement.R,
 %   R/spec-result-execute.R, R/spec-sql-quote-string.R,
-%   R/spec-sql-quote-identifier.R, R/spec-driver.R, R/spec-connection.R,
-%   R/spec-result.R, R/spec-sql.R, R/spec-meta-has-completed.R,
-%   R/spec-meta-bind.R, R/spec-meta.R, R/spec-transaction-begin-commit.R,
-%   R/spec-transaction.R, R/spec-compliance.R, R/spec-stress.R
+%   R/spec-sql-quote-identifier.R, R/spec-sql-read-table.R,
+%   R/spec-driver.R, R/spec-connection.R, R/spec-result.R, R/spec-sql.R,
+%   R/spec-meta-has-completed.R, R/spec-meta-bind.R, R/spec-meta.R,
+%   R/spec-transaction-begin-commit.R, R/spec-transaction.R,
+%   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
 \name{DBIspec}
 \alias{DBIspec}
@@ -345,6 +346,18 @@ if the database supports this.
 In any case, checking the validity of the identifier
 should be performed only when executing a query,
 and not by \code{dbQuoteIdentifier()}.
+
+
+The \code{name} argument is processed as follows,
+to support databases that allow non-syntactic names for their objects:
+\itemize{
+\item An unquoted table name as string, \code{dbReadTable()} will do the quoting
+\item The result of a call to \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}, no more quoting is done
+\item A list (named or
+unnamed),
+the components will be passed as arguments to
+\code{dbQuoteIdentifier()} in addition to the \code{conn} argument
+}
 
 
 Fetching multi-row queries with one
