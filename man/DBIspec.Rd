@@ -6,10 +6,11 @@
 %   R/spec-result-send-query.R, R/spec-result-fetch.R,
 %   R/spec-result-roundtrip.R, R/spec-result-clear-result.R,
 %   R/spec-result-get-query.R, R/spec-result-send-statement.R,
-%   R/spec-result-execute.R, R/spec-driver.R, R/spec-connection.R,
-%   R/spec-result.R, R/spec-sql.R, R/spec-meta-has-completed.R,
-%   R/spec-meta-bind.R, R/spec-meta.R, R/spec-transaction-begin-commit.R,
-%   R/spec-transaction.R, R/spec-compliance.R, R/spec-stress.R
+%   R/spec-result-execute.R, R/spec-sql-quote-string.R,
+%   R/spec-driver.R, R/spec-connection.R, R/spec-result.R, R/spec-sql.R,
+%   R/spec-meta-has-completed.R, R/spec-meta-bind.R, R/spec-meta.R,
+%   R/spec-transaction-begin-commit.R, R/spec-transaction.R,
+%   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
 \name{DBIspec}
 \alias{DBIspec}
@@ -306,6 +307,27 @@ and must be cleared with \code{dbClearResult()}.
 
 
 No warnings occur under normal conditions.
+
+
+The returned expression can be used in a \code{SELECT ...} query,
+and for any scalar character \code{x} the value of
+\code{dbGetQuery(paste0("SELECT ", dbQuoteString(x)))[[1]]}
+must be identical to \code{x},
+even if \code{x} contains
+spaces,
+quotes (single
+or double),
+backticks,
+or newlines
+(in any combination)
+or is itself the result of a \code{dbQuoteString()} call coerced back to
+character (even repeatedly).
+If \code{x} is \code{NA}, the result must merely satisfy \code{\link[=is.na]{is.na()}}.
+The strings \code{"NA"} or \code{"NULL"} are not treated specially.
+
+\code{NA} should be translated to an unquoted SQL \code{NULL},
+so that the query \code{SELECT 1 AS a WHERE ... IS NULL}
+returns one row.
 
 
 Fetching multi-row queries with one

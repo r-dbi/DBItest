@@ -37,7 +37,6 @@
 #' @include spec-sql-read-write-roundtrip.R
 #' @include spec-sql-read-write-table.R
 #' @include spec-sql-quote-identifier.R
-#' @include spec-sql-quote-string.R
 ##### Aggregators
 #' @include spec-result.R
 #' @include spec-connection.R
@@ -46,6 +45,7 @@
 #' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
 ##### Method specs
+#' @include spec-sql-quote-string.R
 #' @include spec-result-execute.R
 #' @include spec-result-send-statement.R
 #' @include spec-result-get-query.R
