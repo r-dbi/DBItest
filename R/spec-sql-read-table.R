@@ -1,5 +1,6 @@
 #' @template dbispec-sub
 #' @format NULL
+#' @inheritSection spec_sql_read_table Additional arguments
 #' @inheritSection spec_sql_read_table Specification
 NULL
 
@@ -197,9 +198,6 @@ spec_sql_read_table <- list(
         dbWriteTable(con, "test", data.frame(a = 1L))
         #' if `name` cannot be processed with [dbQuoteIdentifier()]
         expect_error(dbReadTable(con, NA))
-        #' (or with `do.call(dbQuoteIdentifier, c(list(conn), name))` if `name` is a
-        #' list),
-        expect_error(dbReadTable(con, list(NA)))
         #' or if this results in a non-scalar.
         expect_error(dbReadTable(con, c("test", "test")))
 
@@ -217,7 +215,7 @@ spec_sql_read_table <- list(
   },
 
   #' @section Additional arguments:
-  #' The following arguments are not part of the generic
+  #' The following arguments are not part of the `dbReadTable()` generic
   #' (to improve compatibility across backends)
   #' but are part of the DBI specification:
   #' - `row.names`
@@ -242,20 +240,16 @@ spec_sql_read_table <- list(
           test_in <- data.frame(a = 1L)
           dbWriteTable(con, table_name, test_in)
 
-          #' - An unquoted table name as string, `dbReadTable()` will do the quoting
+          #' - If an unquoted table name as string: `dbReadTable()` will do the
+          #'   quoting,
           test_out <- dbReadTable(con, table_name)
           expect_equal_df(test_in, test_out)
-          #' - The result of a call to [dbQuoteIdentifier()], no more quoting is done
+          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name, ...)`
+          #'   so that all optional arguments are passed along
+          # TODO: test
+          #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
           test_out <- dbReadTable(con, dbQuoteIdentifier(con, table_name))
           expect_equal_df(test_in, test_out)
-          #' - A list (named or
-          test_out <- dbReadTable(con, dbQuoteIdentifier(con, list(x = table_name)))
-          expect_equal_df(test_in, test_out)
-          #'   unnamed),
-          test_out <- dbReadTable(con, dbQuoteIdentifier(con, list(table_name)))
-          expect_equal_df(test_in, test_out)
-          #'  the components will be passed as arguments to
-          #'  `dbQuoteIdentifier()` in addition to the `conn` argument
         })
       }
     })

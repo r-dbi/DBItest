@@ -34,7 +34,6 @@
 #' @include spec-sql.R
 #' @include spec-sql-list-fields.R
 #' @include spec-sql-list-tables.R
-#' @include spec-sql-write-table.R
 ##### Aggregators
 #' @include spec-result.R
 #' @include spec-connection.R
@@ -43,6 +42,7 @@
 #' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
 ##### Method specs
+#' @include spec-sql-write-table.R
 #' @include spec-sql-read-table.R
 #' @include spec-sql-quote-identifier.R
 #' @include spec-sql-quote-string.R
