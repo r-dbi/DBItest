@@ -57,6 +57,7 @@ Collate:
     'spec-sql-read-table.R'
     'spec-sql-write-table.R'
     'spec-sql-list-tables.R'
+    'spec-sql-exists-table.R'
     'spec-driver-get-info.R'
     'spec-connection-get-info.R'
     'spec-driver.R'
