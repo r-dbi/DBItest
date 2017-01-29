@@ -8,10 +8,11 @@
 %   R/spec-result-get-query.R, R/spec-result-send-statement.R,
 %   R/spec-result-execute.R, R/spec-sql-quote-string.R,
 %   R/spec-sql-quote-identifier.R, R/spec-sql-read-table.R,
-%   R/spec-sql-write-table.R, R/spec-driver.R, R/spec-connection.R,
-%   R/spec-result.R, R/spec-sql.R, R/spec-meta-has-completed.R,
-%   R/spec-meta-bind.R, R/spec-meta.R, R/spec-transaction-begin-commit.R,
-%   R/spec-transaction.R, R/spec-compliance.R, R/spec-stress.R
+%   R/spec-sql-write-table.R, R/spec-sql-list-tables.R,
+%   R/spec-driver.R, R/spec-connection.R, R/spec-result.R, R/spec-sql.R,
+%   R/spec-meta-has-completed.R, R/spec-meta-bind.R, R/spec-meta.R,
+%   R/spec-transaction-begin-commit.R, R/spec-transaction.R,
+%   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
 \name{DBIspec}
 \alias{DBIspec}
@@ -426,6 +427,9 @@ even if the input data frame only has natural row names.
 }
 
 
+TBD (schema support).
+
+
 Fetching multi-row queries with one
 or more columns be default returns the entire result.
 Multi-row queries can also be fetched progressively
@@ -469,6 +473,9 @@ but are part of the DBI specification:
 
 They must be provided as named arguments.
 See the "Specification" and "Value" sections for details on their usage.
+
+
+TBD (schema support).
 }
 
 \keyword{datasets}
