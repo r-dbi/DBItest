@@ -44,5 +44,20 @@ expect_invisible_true <- function(code) {
 }
 
 expect_equal_df <- function(actual, expected) {
-  expect_equal(actual, expected)
+  factor_cols <- vapply(expected, is.factor, logical(1L))
+  expected[factor_cols] <- lapply(expected[factor_cols], as.character)
+
+  order_actual <- do.call(order, actual)
+  order_expected <- do.call(order, expected)
+
+  has_rownames_actual <- is.character(attr(actual, "row.names"))
+  has_rownames_expected <- is.character(attr(expected, "row.names"))
+  expect_equal(has_rownames_actual, has_rownames_expected)
+
+  if (has_rownames_actual) {
+    order_actual <- unrowname(order_actual)
+    order_expected <- unrowname(order_expected)
+  }
+
+  expect_identical(unrowname(actual[order_actual, ]), unrowname(expected[order_expected, ]))
 }

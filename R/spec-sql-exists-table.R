@@ -20,22 +20,22 @@ spec_sql_exists_table <- list(
   exists_table = function(ctx) {
     with_connection({
       with_remove_test_table(name = "iris", {
-        expect_visible_false(dbExistsTable(con, "iris"))
+        expect_false(expect_visible(dbExistsTable(con, "iris")))
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
 
-        expect_visible_true(dbExistsTable(con, "iris"))
+        expect_true(expect_visible(dbExistsTable(con, "iris")))
 
-        expect_visible_false(dbExistsTable(con, "test"))
+        expect_false(expect_visible(dbExistsTable(con, "test")))
 
         #' This includes temporary tables if supported by the database.
         if (isTRUE(ctx$tweaks$temporary_tables)) {
           dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
-          expect_visible_true(dbExistsTable(con, "test"))
+          expect_true(expect_visible(dbExistsTable(con, "test")))
         }
       })
 
-      expect_visible_false(dbExistsTable(con, "iris"))
+      expect_false(expect_visible(dbExistsTable(con, "iris")))
     })
   },
 

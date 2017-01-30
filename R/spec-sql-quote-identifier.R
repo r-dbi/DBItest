@@ -20,18 +20,22 @@ spec_sql_quote_identifier <- list(
       simple_out <- dbQuoteIdentifier(con, "simple")
       expect_error(as.character(simple_out), NA)
       expect_is(as.character(simple_out), "character")
-      expect_equal(length(simple_out), 1L)
     })
   },
 
   quote_identifier_vectorized = function(ctx) {
     with_connection({
       #' of the same length as the input.
-      letters_out <- dbQuoteIdentifier(con, "letters")
+      simple <- "simple"
+      simple_out <- dbQuoteIdentifier(con, simple)
+      expect_equal(length(simple_out), 1L)
+
+      letters_out <- dbQuoteIdentifier(con, letters)
       expect_equal(length(letters_out), length(letters))
 
       #' For an empty character vector this function returns a length-0 object.
-      empty_out <- dbQuoteIdentifier(con, character())
+      empty <- character()
+      empty_out <- dbQuoteIdentifier(con, empty)
       expect_equal(length(empty_out), 0L)
 
       #' An error is raised if the input contains `NA`,
@@ -80,37 +84,37 @@ spec_sql_quote_identifier <- list(
   },
 
   quote_identifier_special = function(ctx) {
-    #' This is also true for column names that are empty strings
-    empty_in <- ""
-    empty <- dbQuoteIdentifier(con, empty_in)
-    #' or contain special characters such as a space,
-    with_space_in <- "with space"
-    with_space <- dbQuoteIdentifier(con, with_space_in)
-    #' a dot,
-    with_dot_in <- "with.dot"
-    with_dot <- dbQuoteIdentifier(con, with_dot_in)
-    #' a comma,
-    with_comma_in <- "with,comma"
-    with_comma <- dbQuoteIdentifier(con, with_comma_in)
-    #' or quotes used to mark strings
-    with_quote_in <- as.character(dbQuoteString(con, "a"))
-    with_quote <- dbQuoteIdentifier(con, with_quote_in)
-    #' or identifiers,
-    quoted_empty <- dbQuoteIdentifier(con, as.character(empty))
-    quoted_with_space <- dbQuoteIdentifier(con, as.character(with_space))
-    quoted_with_dot <- dbQuoteIdentifier(con, as.character(with_dot))
-    quoted_with_comma <- dbQuoteIdentifier(con, as.character(with_comma))
-    quoted_with_quote <- dbQuoteIdentifier(con, as.character(with_quote))
-
-    #' if the database supports this.
-    if (isTRUE(ctx$tweaks$strict_identifier)) {
-      skip("tweak: strict_identifier")
-    }
-
-    #' In any case, checking the validity of the identifier
-    #' should be performed only when executing a query,
-    #' and not by `dbQuoteIdentifier()`.
     with_connection({
+        #' This is also true for column names that are empty strings
+      empty_in <- ""
+      empty <- dbQuoteIdentifier(con, empty_in)
+      #' or contain special characters such as a space,
+      with_space_in <- "with space"
+      with_space <- dbQuoteIdentifier(con, with_space_in)
+      #' a dot,
+      with_dot_in <- "with.dot"
+      with_dot <- dbQuoteIdentifier(con, with_dot_in)
+      #' a comma,
+      with_comma_in <- "with,comma"
+      with_comma <- dbQuoteIdentifier(con, with_comma_in)
+      #' or quotes used to mark strings
+      with_quote_in <- as.character(dbQuoteString(con, "a"))
+      with_quote <- dbQuoteIdentifier(con, with_quote_in)
+      #' or identifiers,
+      quoted_empty <- dbQuoteIdentifier(con, as.character(empty))
+      quoted_with_space <- dbQuoteIdentifier(con, as.character(with_space))
+      quoted_with_dot <- dbQuoteIdentifier(con, as.character(with_dot))
+      quoted_with_comma <- dbQuoteIdentifier(con, as.character(with_comma))
+      quoted_with_quote <- dbQuoteIdentifier(con, as.character(with_quote))
+
+      #' if the database supports this.
+      if (isTRUE(ctx$tweaks$strict_identifier)) {
+        skip("tweak: strict_identifier")
+      }
+
+      #' In any case, checking the validity of the identifier
+      #' should be performed only when executing a query,
+      #' and not by `dbQuoteIdentifier()`.
       query <- paste0("SELECT ",
                       "1 as", empty, ",",
                       "2 as", with_space, ",",

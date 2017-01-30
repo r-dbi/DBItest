@@ -10,7 +10,8 @@ tweaks(..., constructor_name = NULL, constructor_relax_args = FALSE,
   " UNION "), placeholder_pattern = NULL, logical_return = identity,
   date_cast = function(x) paste0("date('", x, "')"), time_cast = function(x)
   paste0("time('", x, "')"), timestamp_cast = function(x)
-  paste0("timestamp('", x, "')"), date_typed = TRUE, timestamp_typed = TRUE)
+  paste0("timestamp('", x, "')"), date_typed = TRUE, time_typed = TRUE,
+  timestamp_typed = TRUE, temporary_tables = TRUE)
 }
 \arguments{
 \item{...}{\code{[any]}\cr
@@ -65,9 +66,15 @@ string to a timestamp value.}
 \item{date_typed}{\code{[logical(1L)]}\cr
 Set to \code{FALSE} if the DBMS doesn't support a dedicated type for dates.}
 
+\item{time_typed}{\code{[logical(1L)]}\cr
+Set to \code{FALSE} if the DBMS doesn't support a dedicated type for times.}
+
 \item{timestamp_typed}{\code{[logical(1L)]}\cr
 Set to \code{FALSE} if the DBMS doesn't support a dedicated type for
 timestamps.}
+
+\item{temporary_tables}{\code{[logical(1L)]}\cr
+Set to \code{FALSE} if the DBMS doesn't support temporary tables.}
 }
 \description{
 TBD.

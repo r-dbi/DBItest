@@ -70,10 +70,18 @@
     #'   Set to `FALSE` if the DBMS doesn't support a dedicated type for dates.
     "date_typed" = TRUE,
 
+    #' @param time_typed `[logical(1L)]`\cr
+    #'   Set to `FALSE` if the DBMS doesn't support a dedicated type for times.
+    "time_typed" = TRUE,
+
     #' @param timestamp_typed `[logical(1L)]`\cr
     #'   Set to `FALSE` if the DBMS doesn't support a dedicated type for
     #'   timestamps.
     "timestamp_typed" = TRUE,
+
+    #' @param temporary_tables `[logical(1L)]`\cr
+    #'   Set to `FALSE` if the DBMS doesn't support temporary tables.
+    "temporary_tables" = TRUE,
 
     # Dummy argument
     NULL

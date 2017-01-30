@@ -17,7 +17,8 @@ spec_sql_quote_string <- list(
   quote_string_return = function(ctx) {
     with_connection({
       #' `dbQuoteString()` returns an object that can be coerced to [character],
-      simple_out <- dbQuoteString(con, "simple")
+      simple <- "simple"
+      simple_out <- dbQuoteString(con, simple)
       expect_error(as.character(simple_out), NA)
       expect_is(as.character(simple_out), "character")
       expect_equal(length(simple_out), 1L)
@@ -33,6 +34,18 @@ spec_sql_quote_string <- list(
       #' For an empty character vector this function returns a length-0 object.
       empty_out <- dbQuoteString(con, character())
       expect_equal(length(empty_out), 0L)
+    })
+  },
+
+  quote_string_double = function(ctx) {
+    with_connection({
+      simple <- "simple"
+      simple_out <- dbQuoteString(con, simple)
+
+      letters_out <- dbQuoteString(con, letters)
+
+      empty <- character()
+      empty_out <- dbQuoteString(con, character())
 
       #'
       #' When passing the returned object again to `dbQuoteString()`
@@ -54,14 +67,15 @@ spec_sql_quote_string <- list(
   #' @section Specification:
   quote_string_roundtrip = function(ctx) {
     with_connection({
-      test_string <- function(x) {
+      do_test_string <- function(x) {
         #' The returned expression can be used in a `SELECT ...` query,
-        query <- paste0("SELECT ", dbQuoteString(x))
+        query <- paste0("SELECT ", paste(dbQuoteString(con, x), collapse = ", "))
         #' and for any scalar character `x` the value of
         #' \code{dbGetQuery(paste0("SELECT ", dbQuoteString(x)))[[1]]}
         #' must be identical to `x`,
-        x_out <- dbGetQuery(con, x_out)[[1]]
-        expect_identical(x_out, x)
+        x_out <- dbGetQuery(con, query)
+        expect_equal(nrow(x_out), 1L)
+        expect_identical(unlist(unname(x_out)), x)
       }
 
       test_chars <- c(
@@ -88,14 +102,7 @@ spec_sql_quote_string <- list(
       test_strings_2 <- as.character(dbQuoteString(con, test_strings_1))
 
       test_strings <- c(test_strings_0, test_strings_1, test_strings_2)
-      test_strings_quoted <- dbQuoteStrings(test_strings)
-
-      query <- union(paste0("SELECT ", test_strings_quoted, " AS c, ",
-                            seq_along(test_strings_quoted), " AS id"),
-                     .order_by = "id", .ctx = .ctx)
-
-      rows <- dbGetQuery(con, query)
-      expect_equal(rows$c, test_strings)
+      do_test_string(test_strings)
     })
   },
 
@@ -106,7 +113,7 @@ spec_sql_quote_string <- list(
       na <- dbQuoteString(con, "NA")
       quoted_na <- dbQuoteString(con, as.character(na))
 
-      query <- paste0("SELECT",
+      query <- paste0("SELECT ",
                       null, " as null_return,",
                       na, "as na_return,",
                       quoted_null, "as quoted_null,",

@@ -26,11 +26,6 @@ spec_sql_read_table <- list(
         iris_out <- dbReadTable(con, "iris")
 
         expect_equal_df(iris_out, iris_in)
-
-        stopifnot(use_the_code_below)
-        order_in <- do.call(order, iris_in)
-        order_out <- do.call(order, iris_out)
-        expect_identical(unrowname(iris_in[order_in, ]), unrowname(iris_out[order_out, ]))
       })
     })
   },
@@ -61,13 +56,15 @@ spec_sql_read_table <- list(
   #'
   #' The presence of [rownames] depends on the `row.names` argument,
   #' see [DBI::sqlColumnToRownames()] for details:
-  #' - If `FALSE`, the returned data frame doesn't have row names.
   read_table_row_names_false = function(ctx) {
+    #' - If `FALSE`, the returned data frame doesn't have row names.
+    row.names <- FALSE
+
     with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in)
-        mtcars_out <- dbReadTable(con, "mtcars", row.names = FALSE)
+        mtcars_out <- dbReadTable(con, "mtcars", row.names = row.names)
 
         expect_true("row_names" %in% names(mtcars_out))
         expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
@@ -77,59 +74,69 @@ spec_sql_read_table <- list(
     })
   },
 
-  #' - If `TRUE`, a column named "row_names" is converted to row names,
   read_table_row_names_true_exists = function(ctx) {
+    #' - If `TRUE`, a column named "row_names" is converted to row names,
+    row.names <- TRUE
+
     with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in)
-        mtcars_out <- dbReadTable(con, "mtcars", row.names = TRUE)
+        mtcars_out <- dbReadTable(con, "mtcars", row.names = row.names)
 
         expect_equal_df(mtcars_out, mtcars_in)
       })
     })
   },
 
-  #'   an error is raised if no such column exists.
   read_table_row_names_true_missing = function(ctx) {
+    #'   an error is raised if no such column exists.
+    row.names <- TRUE
+
     with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in)
-        expect_error(dbReadTable(con, "iris", row.names = TRUE))
+        expect_error(dbReadTable(con, "iris", row.names = row.names))
       })
     })
   },
 
-  #' - If `NA`, a column named "row_names" is converted to row names if it exists,
   read_table_row_names_na_exists = function(ctx) {
+    #' - If `NA`, a column named "row_names" is converted to row names if it exists,
+    row.names <- NA
+
     with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in)
-        mtcars_out <- dbReadTable(con, "mtcars", row.names = NA)
+        mtcars_out <- dbReadTable(con, "mtcars", row.names = row.names)
 
         expect_equal_df(mtcars_out, mtcars_in)
       })
     })
   },
 
-  #'   otherwise no translation occurs.
   read_table_row_names_na_missing = function(ctx) {
+    #'   otherwise no translation occurs.
+    row.names <- NA
+
     with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in)
-        iris_out <- dbReadTable(con, "iris")
+        iris_out <- dbReadTable(con, "iris", row.names = row.names)
 
         expect_equal_df(iris_out, iris_in)
       })
     })
   },
 
-  #' - If a string, this specifies the name of the column in the remote table
-  #'   that contains the row names,
   read_table_row_names_string_exists = function(ctx) {
+    #' - If a string, this specifies the name of the column in the remote table
+    #'   that contains the row names,
+    row.names <- "make_model"
+
     with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
@@ -137,7 +144,7 @@ spec_sql_read_table <- list(
         mtcars_in <- unrowname(mtcars_in)
 
         dbWriteTable(con, "mtcars", mtcars_in)
-        mtcars_out <- dbReadTable(con, "mtcars", row.names = "make_model")
+        mtcars_out <- dbReadTable(con, "mtcars", row.names = row.names)
 
         expect_false("make_model" %in% names(mtcars_out))
         expect_true(all(mtcars_in$make_model %in% rownames(mtcars_out)))
@@ -147,13 +154,15 @@ spec_sql_read_table <- list(
     })
   },
 
-  #'   an error is raised if no such column exists.
   read_table_row_names_string_missing = function(ctx) {
+    #'   an error is raised if no such column exists.
+    row.names <- "missing"
+
     with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in)
-        expect_error(dbReadTable(con, "iris", row.names = "missing"))
+        expect_error(dbReadTable(con, "iris", row.names = row.names))
       })
     })
   },
@@ -169,7 +178,7 @@ spec_sql_read_table <- list(
       #' the columns in the returned data frame are converted to valid R
       #' identifiers if the `make.names` argument is `TRUE`,
       with_remove_test_table({
-        test_in <- data_frame(a = 1:3, b = 4:6)
+        test_in <- data.frame(a = 1:3, b = 4:6)
         names(test_in) <- c("with spaces", "with,comma")
         dbWriteTable(con, "test", test_in)
         test_out <- dbReadTable(con, "test", check.names = TRUE)
@@ -180,7 +189,7 @@ spec_sql_read_table <- list(
 
       #' otherwise non-syntactic column names can be returned unquoted.
       with_remove_test_table({
-        test_in <- data_frame(a = 1:3, b = 4:6)
+        test_in <- data.frame(a = 1:3, b = 4:6)
         names(test_in) <- c("with spaces", "with,comma")
         dbWriteTable(con, "test", test_in)
         test_out <- dbReadTable(con, "test", check.names = FALSE)

@@ -55,10 +55,10 @@ spec_sql_list_tables <- list(
 
         for (table_name in table_names) {
           with_remove_test_table(name = table_name, {
-            dbWriteTable(con, dbQuoteIdentifier(table_name), data.frame(a = 2L))
+            dbWriteTable(con, dbQuoteIdentifier(con, table_name), data.frame(a = 2L))
             tables <- dbListTables(con)
             expect_true(table_name %in% tables)
-            expect_true(dbQuoteIdentifier(table_name) %in% dbQuoteIdentifier(tables))
+            expect_true(dbQuoteIdentifier(con, table_name) %in% dbQuoteIdentifier(con, tables))
           })
         }
       })
