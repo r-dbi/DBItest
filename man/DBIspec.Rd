@@ -9,10 +9,11 @@
 %   R/spec-result-execute.R, R/spec-sql-quote-string.R,
 %   R/spec-sql-quote-identifier.R, R/spec-sql-read-table.R,
 %   R/spec-sql-write-table.R, R/spec-sql-list-tables.R,
-%   R/spec-sql-exists-table.R, R/spec-driver.R, R/spec-connection.R,
-%   R/spec-result.R, R/spec-sql.R, R/spec-meta-has-completed.R,
-%   R/spec-meta-bind.R, R/spec-meta.R, R/spec-transaction-begin-commit.R,
-%   R/spec-transaction.R, R/spec-compliance.R, R/spec-stress.R
+%   R/spec-sql-exists-table.R, R/spec-sql-remove-table.R,
+%   R/spec-driver.R, R/spec-connection.R, R/spec-result.R, R/spec-sql.R,
+%   R/spec-meta-has-completed.R, R/spec-meta-bind.R, R/spec-meta.R,
+%   R/spec-transaction-begin-commit.R, R/spec-transaction.R,
+%   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
 \name{DBIspec}
 \alias{DBIspec}
@@ -443,6 +444,23 @@ so that all optional arguments are passed along
 For all tables listed by \code{\link[=dbListTables]{dbListTables()}}, \code{dbExistsTable()} returns \code{TRUE}.
 
 
+A table removed by \code{dbRemoveTable()} doesn't appear in the list of tables
+returned by \code{\link[=dbListTables]{dbListTables()}},
+and \code{\link[=dbExistsTable]{dbExistsTable()}} returns \code{FALSE}.
+The removal propagates immediately to other connections to the same database.
+This function can also be used to remove a temporary table.
+
+The \code{name} argument is processed as follows,
+to support databases that allow non-syntactic names for their objects:
+\itemize{
+\item If an unquoted table name as string: \code{dbRemoveTable()} will do the
+quoting,
+perhaps by calling \code{dbQuoteIdentifier(conn, x = name, ...)}
+so that all optional arguments are passed along
+\item If the result of a call to \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}: no more quoting is done
+}
+
+
 Fetching multi-row queries with one
 or more columns be default returns the entire result.
 Multi-row queries can also be fetched progressively
@@ -489,6 +507,12 @@ See the "Specification" and "Value" sections for details on their usage.
 
 
 TBD (schema support).
+
+
+TBD: Schema support.
+
+They must be provided as named arguments.
+See the "Specification" section for details on their usage.
 
 
 TBD: Schema support.

@@ -41,6 +41,7 @@
 #' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
 ##### Method specs
+#' @include spec-sql-remove-table.R
 #' @include spec-sql-exists-table.R
 #' @include spec-sql-list-tables.R
 #' @include spec-sql-write-table.R
