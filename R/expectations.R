@@ -42,3 +42,7 @@ expect_invisible_true <- function(code) {
 
   invisible(ret$value)
 }
+
+expect_equal_df <- function(actual, expected) {
+  expect_equal(actual, expected)
+}

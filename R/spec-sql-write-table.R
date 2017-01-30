@@ -34,7 +34,7 @@ spec_sql_write_table <- list(
         expect_error(dbWriteTable(con, "test", data.frame(a = 2L)))
 
         test_out <- dbReadTable(con, "test")
-        expect_equal_df(test_in, test_out)
+        expect_equal_df(test_out, test_in)
       })
     })
   },
@@ -112,7 +112,8 @@ spec_sql_write_table <- list(
         with_remove_test_table({
           #' - If an unquoted table name as string: `dbWriteTable()` will do the quoting,
           dbWriteTable(con, table_name, test_in)
-          expect_equal_df(test_in, dbReadTable(con, table_name))
+          test_out <- dbReadTable(con, table_name)
+          expect_equal_df(test_out, test_in)
           #'   perhaps by calling `dbQuoteIdentifier(conn, x = name, ...)`
           #'   so that all optional arguments are passed along
           # TODO: test
@@ -120,8 +121,9 @@ spec_sql_write_table <- list(
 
         with_remove_test_table({
           #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
-          test_out <- dbWriteTable(con, dbQuoteIdentifier(con, table_name))
-          expect_equal_df(test_in, dbReadTable(con, table_name))
+          dbWriteTable(con, dbQuoteIdentifier(con, table_name))
+          test_out <- dbReadTable(con, table_name)
+          expect_equal_df(test_out, test_in)
         })
       }
     })
@@ -138,7 +140,7 @@ spec_sql_write_table <- list(
         expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
                      NA)
         iris_out <- dbWriteTable(con, "iris")
-        expect_equal_df(iris_in[1:10, ], iris_out)
+        expect_equal_df(iris_out, iris_in[1:10, ])
       })
     })
   },
@@ -151,7 +153,7 @@ spec_sql_write_table <- list(
         expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
                      NA)
         iris_out <- dbWriteTable(con, "iris")
-        expect_equal_df(iris_in[1:10, ], iris_out)
+        expect_equal_df(iris_out, iris_in[1:10, ])
       })
     })
   },
@@ -166,7 +168,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
         iris_out <- dbReadTable(con, "iris")
-        expect_equal_df(rbind(iris, iris[1:10,]), iris_out)
+        expect_equal_df(iris_out, rbind(iris, iris[1:10,]))
       })
     })
   },
@@ -177,7 +179,7 @@ spec_sql_write_table <- list(
       iris <- get_iris(ctx)
       expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
       iris_out <- dbWriteTable(con, "iris")
-      expect_equal_df(iris[1:10,], iris_out)
+      expect_equal_df(iris_out, iris[1:10,])
     })
   },
 
@@ -195,7 +197,7 @@ spec_sql_write_table <- list(
         iris <- get_iris(ctx)[1:30, ]
         dbWriteTable(con, "iris", iris, temporary = TRUE)
         iris_out <- dbReadTable(con, "iris")
-        expect_equal_df(iris, iris_out)
+        expect_equal_df(iris_out, iris)
 
         with_connection(
           expect_error(dbReadTable(con2, "iris")),
@@ -217,16 +219,16 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "iris", {
         dbWriteTable(con, "iris", iris, temporary = TRUE)
         iris_out <- dbWriteTable(con, "iris")
-        expect_equal_df(iris, iris_out)
+        expect_equal_df(iris_out, iris)
 
         with_connection(
-          expect_equal_df(iris, dbReadTable(con2, "iris")),
+          expect_equal_df(dbReadTable(con2, "iris"), iris),
           con = "con2")
       })
     })
 
     with_connection({
-      expect_equal_df(iris, dbReadTable(con2, "iris"))
+      expect_equal_df(dbReadTable(con2, "iris"), iris)
     })
   },
 
@@ -241,7 +243,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "EXISTS", tbl_in)
 
         tbl_out <- dbReadTable(con, "EXISTS")
-        expect_equal_df(tbl_in, tbl_out)
+        expect_equal_df(tbl_out, tbl_in)
       })
     })
   },
@@ -280,7 +282,7 @@ spec_sql_write_table <- list(
           dbWriteTable(con, "test", tbl_in)
 
           tbl_out <- dbReadTable(con, "test")
-          expect_equal_df(tbl_in, tbl_out)
+          expect_equal_df(tbl_out, tbl_in)
         })
       }
     })
@@ -297,7 +299,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal_df(tbl_in, tbl_out)
+        expect_equal_df(tbl_out, tbl_in)
       })
     })
   },
@@ -310,7 +312,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal_df(tbl_in, tbl_out)
+        expect_equal_df(tbl_out, tbl_in)
       })
     })
   },
@@ -323,7 +325,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal_df(tbl_in, tbl_out)
+        expect_equal_df(tbl_out, tbl_in)
       })
     })
   },
@@ -339,7 +341,7 @@ spec_sql_write_table <- list(
 
         tbl_out <- dbReadTable(con, "test")
         tbl_out$a <- ctx$tweaks$logical_return(tbl_out$a)
-        expect_equal_df(tbl_in, tbl_out)
+        expect_equal_df(tbl_out, tbl_in)
       })
     })
   },
@@ -365,7 +367,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", tbl_in, field.types = "bigint")
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal_df(tbl_in, tbl_out)
+        expect_equal_df(tbl_out, tbl_in)
       })
     })
   },
@@ -379,7 +381,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal_df(tbl_in, tbl_out)
+        expect_equal_df(tbl_out, tbl_in)
       })
     })
   },
@@ -393,7 +395,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal_df(tbl_in, tbl_out)
+        expect_equal_df(tbl_out, tbl_in)
       })
     })
   },
@@ -408,7 +410,7 @@ spec_sql_write_table <- list(
         tbl_exp <- tbl_in
         tbl_exp$a <- as.character(tbl_exp$a)
         tbl_out <- dbReadTable(con, "test")
-        expect_equal_df(tbl_exp, tbl_out)
+        expect_equal_df(tbl_out, tbl_exp)
       })
     })
   },
@@ -426,7 +428,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal_df(tbl_in, tbl_out)
+        expect_equal_df(tbl_out, tbl_in)
       })
     })
   },
@@ -445,7 +447,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal_df(tbl_in, tbl_out)
+        expect_equal_df(tbl_out, tbl_in)
         #'   returned as integers with class `Date`)
         expect_is(unclass(tbl_out$a), "integer")
       })
@@ -467,7 +469,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal_df(tbl_in, tbl_out)
+        expect_equal_df(tbl_out, tbl_in)
         #'   returned as objects that inherit from `difftime`)
         expect_is(tbl_out$a, "difftime")
       })
@@ -493,7 +495,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal_df(tbl_in, tbl_out)
+        expect_equal_df(tbl_out, tbl_in)
       })
     })
   },
@@ -512,7 +514,7 @@ spec_sql_write_table <- list(
         expect_true("row_names" %in% names(mtcars_out))
         expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
         expect_true(all(rownames(mtcars_in) %in% mtcars_out$row_names))
-        expect_equal_df(unrowname(mtcars_in), mtcars_out[names(mtcars_out) != "row_names"])
+        expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
       })
     })
   },
@@ -525,7 +527,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)
         mtcars_out <- dbReadTable(con, "mtcars", row.names = FALSE)
 
-        expect_equal_df(mtcars_in, mtcars_out)
+        expect_equal_df(mtcars_out, mtcars_in)
       })
     })
   },
@@ -549,7 +551,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "mtcars", mtcars_in, row.names = NA)
         mtcars_out <- dbReadTable(con, "mtcars", row.names = FALSE)
 
-        expect_equal_df(mtcars_in, mtcars_out)
+        expect_equal_df(mtcars_out, mtcars_in)
       })
     })
   },
@@ -562,7 +564,7 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "iris", iris_in)
         iris_out <- dbReadTable(con, "iris")
 
-        expect_equal_df(iris_in, iris_out)
+        expect_equal_df(iris_out, iris_in)
       })
     })
   },
@@ -582,7 +584,7 @@ spec_sql_write_table <- list(
         expect_false("make_model" %in% names(mtcars_out))
         expect_true(all(mtcars_in$make_model %in% rownames(mtcars_out)))
         expect_true(all(rownames(mtcars_out) %in% mtcars_in$make_model))
-        expect_equal_df(mtcars_in[names(mtcars_in) != "make_model"], unrowname(mtcars_out))
+        expect_equal_df(unrowname(mtcars_out), mtcars_in[names(mtcars_in) != "make_model"])
       })
     })
   },

@@ -25,7 +25,7 @@ spec_sql_read_table <- list(
         dbWriteTable(con, "iris", iris_in)
         iris_out <- dbReadTable(con, "iris")
 
-        expect_equal_df(iris_in, iris_out)
+        expect_equal_df(iris_out, iris_in)
 
         stopifnot(use_the_code_below)
         order_in <- do.call(order, iris_in)
@@ -53,7 +53,7 @@ spec_sql_read_table <- list(
         iris_out <- dbReadTable(con, "iris")
 
         expect_equal(nrow(iris_out), 0L)
-        expect_equal_df(iris_in, iris_out)
+        expect_equal_df(iris_out, iris_in)
       })
     })
   },
@@ -72,7 +72,7 @@ spec_sql_read_table <- list(
         expect_true("row_names" %in% names(mtcars_out))
         expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
         expect_true(all(rownames(mtcars_in) %in% mtcars_out$row_names))
-        expect_equal_df(unrowname(mtcars_in), mtcars_out[names(mtcars_out) != "row_names"])
+        expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
       })
     })
   },
@@ -85,7 +85,7 @@ spec_sql_read_table <- list(
         dbWriteTable(con, "mtcars", mtcars_in)
         mtcars_out <- dbReadTable(con, "mtcars", row.names = TRUE)
 
-        expect_equal_df(mtcars_in, mtcars_out)
+        expect_equal_df(mtcars_out, mtcars_in)
       })
     })
   },
@@ -109,7 +109,7 @@ spec_sql_read_table <- list(
         dbWriteTable(con, "mtcars", mtcars_in)
         mtcars_out <- dbReadTable(con, "mtcars", row.names = NA)
 
-        expect_equal_df(mtcars_in, mtcars_out)
+        expect_equal_df(mtcars_out, mtcars_in)
       })
     })
   },
@@ -122,7 +122,7 @@ spec_sql_read_table <- list(
         dbWriteTable(con, "iris", iris_in)
         iris_out <- dbReadTable(con, "iris")
 
-        expect_equal_df(iris_in, iris_out)
+        expect_equal_df(iris_out, iris_in)
       })
     })
   },
@@ -142,7 +142,7 @@ spec_sql_read_table <- list(
         expect_false("make_model" %in% names(mtcars_out))
         expect_true(all(mtcars_in$make_model %in% rownames(mtcars_out)))
         expect_true(all(rownames(mtcars_out) %in% mtcars_in$make_model))
-        expect_equal_df(mtcars_in[names(mtcars_in) != "make_model"], unrowname(mtcars_out))
+        expect_equal_df(unrowname(mtcars_out), mtcars_in[names(mtcars_in) != "make_model"])
       })
     })
   },
@@ -175,7 +175,7 @@ spec_sql_read_table <- list(
         test_out <- dbReadTable(con, "test", check.names = TRUE)
 
         expect_identical(names(test_out), make.names(names(test_out), unique = TRUE))
-        expect_equal_df(setNames(test_in, names(test_out)), test_out)
+        expect_equal_df(test_out, setNames(test_in, names(test_out)))
       })
 
       #' otherwise non-syntactic column names can be returned unquoted.
@@ -185,7 +185,7 @@ spec_sql_read_table <- list(
         dbWriteTable(con, "test", test_in)
         test_out <- dbReadTable(con, "test", check.names = FALSE)
 
-        expect_equal_df(test_in, test_out)
+        expect_equal_df(test_out, test_in)
       })
     })
   },
@@ -243,13 +243,13 @@ spec_sql_read_table <- list(
           #' - If an unquoted table name as string: `dbReadTable()` will do the
           #'   quoting,
           test_out <- dbReadTable(con, table_name)
-          expect_equal_df(test_in, test_out)
+          expect_equal_df(test_out, test_in)
           #'   perhaps by calling `dbQuoteIdentifier(conn, x = name, ...)`
           #'   so that all optional arguments are passed along
           # TODO: test
           #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
           test_out <- dbReadTable(con, dbQuoteIdentifier(con, table_name))
-          expect_equal_df(test_in, test_out)
+          expect_equal_df(test_out, test_in)
         })
       }
     })
