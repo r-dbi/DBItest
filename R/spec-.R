@@ -32,12 +32,12 @@
 #' @include spec-meta-is-valid-result.R
 #' @include spec-meta-is-valid-connection.R
 #' @include spec-sql.R
-#' @include spec-sql-list-fields.R
 ##### Aggregators
 #' @include spec-result.R
 #' @include spec-connection.R
 #' @include spec-driver.R
 ##### Later
+#' @include spec-sql-list-fields.R
 #' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
 ##### Method specs
