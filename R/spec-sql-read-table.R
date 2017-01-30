@@ -245,7 +245,7 @@ spec_sql_read_table <- list(
       }
 
       for (table_name in table_names) {
-        with_remove_test_table({
+        with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
           test_in <- data.frame(a = 1L)
           dbWriteTable(con, table_name, test_in)
 

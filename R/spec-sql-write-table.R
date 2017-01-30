@@ -109,19 +109,19 @@ spec_sql_write_table <- list(
 
       for (table_name in table_names) {
         test_in <- data.frame(a = 1)
-        with_remove_test_table({
+        with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
           #' - If an unquoted table name as string: `dbWriteTable()` will do the quoting,
           dbWriteTable(con, table_name, test_in)
-          test_out <- dbReadTable(con, table_name)
+          test_out <- dbReadTable(con, dbQuoteIdentifier(con, table_name))
           expect_equal_df(test_out, test_in)
           #'   perhaps by calling `dbQuoteIdentifier(conn, x = name, ...)`
           #'   so that all optional arguments are passed along
           # TODO: test
         })
 
-        with_remove_test_table({
+        with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
           #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
-          dbWriteTable(con, dbQuoteIdentifier(con, table_name))
+          dbWriteTable(con, dbQuoteIdentifier(con, table_name), test_in)
           test_out <- dbReadTable(con, table_name)
           expect_equal_df(test_out, test_in)
         })
@@ -238,7 +238,7 @@ spec_sql_write_table <- list(
   #' SQL keywords can be used freely in table names, column names, and data.
   roundtrip_keywords = function(ctx) {
     with_connection({
-      with_remove_test_table(name = "EXISTS", {
+      with_remove_test_table(name = dbQuoteIdentifier(con, "EXISTS"), {
         tbl_in <- data.frame(SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
                              stringsAsFactors = FALSE)
 
@@ -266,7 +266,7 @@ spec_sql_write_table <- list(
       }
 
       for (table_name in table_names) {
-        with_remove_test_table(name = table_name, {
+        with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
           tbl_in <- data.frame(a = as.character(dbQuoteString(con, "")),
                                b = as.character(dbQuoteIdentifier(con, "")),
                                c = "with space",
@@ -445,7 +445,7 @@ spec_sql_write_table <- list(
       skip("tweak: !date_typed")
     }
 
-    tbl_in <- data.frame(a = c(Sys.Date() + 1:5, NA))
+    tbl_in <- data.frame(a = as_integer_date(c(Sys.Date() + 1:5, NA)))
 
     with_connection({
       with_remove_test_table({

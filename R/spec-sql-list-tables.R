@@ -36,30 +36,14 @@ spec_sql_list_tables <- list(
         #' are part of the list,
         tables <- dbListTables(con)
         expect_true("iris" %in% tables)
+      })
 
+      with_remove_test_table({
         #' including temporary tables if supported by the database.
         if (isTRUE(ctx$tweaks$temporary_tables)) {
           dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
           tables <- dbListTables(con)
           expect_true("test" %in% tables)
-        }
-
-        #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
-        if (!isTRUE(ctx$tweaks$strict_identifier)) {
-          if (isTRUE(ctx$tweaks$strict_identifier)) {
-            table_names <- "a"
-          } else {
-            table_names <- c("a", "with spaces", "with,comma")
-          }
-        }
-
-        for (table_name in table_names) {
-          with_remove_test_table(name = table_name, {
-            dbWriteTable(con, dbQuoteIdentifier(con, table_name), data.frame(a = 2L))
-            tables <- dbListTables(con)
-            expect_true(table_name %in% tables)
-            expect_true(dbQuoteIdentifier(con, table_name) %in% dbQuoteIdentifier(con, tables))
-          })
         }
       })
 
@@ -67,6 +51,23 @@ spec_sql_list_tables <- list(
       #' it is also removed from the list of database tables.
       tables <- dbListTables(con)
       expect_false("iris" %in% tables)
+
+      #'
+      #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
+      if (isTRUE(ctx$tweaks$strict_identifier)) {
+        table_names <- "a"
+      } else {
+        table_names <- c("a", "with spaces", "with,comma")
+      }
+
+      for (table_name in table_names) {
+        with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
+          dbWriteTable(con, dbQuoteIdentifier(con, table_name), data.frame(a = 2L))
+          tables <- dbListTables(con)
+          expect_true(table_name %in% tables)
+          expect_true(dbQuoteIdentifier(con, table_name) %in% dbQuoteIdentifier(con, tables))
+        })
+      }
     })
   },
 
