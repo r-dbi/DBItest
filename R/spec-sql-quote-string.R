@@ -27,7 +27,7 @@ spec_sql_quote_string <- list(
   quote_string_vectorized = function(ctx) {
     with_connection({
       #' of the same length as the input.
-      letters_out <- dbQuoteString(con, "letters")
+      letters_out <- dbQuoteString(con, letters)
       expect_equal(length(letters_out), length(letters))
 
       #' For an empty character vector this function returns a length-0 object.
