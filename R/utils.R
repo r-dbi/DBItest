@@ -27,7 +27,7 @@ with_connection <- function(code, con = "con", env = parent.frame()) {
 
   eval(bquote({
     .(con) <- connect(ctx)
-    on.exit(dbDisconnect(.(con)), add = TRUE)
+    on.exit(try_silent(dbDisconnect(.(con))), add = TRUE)
     local(.(code_sub))
   }
   ), envir = env)
