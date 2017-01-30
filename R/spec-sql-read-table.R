@@ -201,7 +201,7 @@ spec_sql_read_table <- list(
 
   #'
   #' An error is raised
-  read_table_error <- function(ctx) {
+  read_table_error = function(ctx) {
     with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L))
@@ -235,7 +235,7 @@ spec_sql_read_table <- list(
 
   #' @section Specification:
   #' The `name` argument is processed as follows,
-  read_table_name <- function(ctx) {
+  read_table_name = function(ctx) {
     with_connection({
       #' to support databases that allow non-syntactic names for their objects:
       if (isTRUE(ctx$tweaks$strict_identifier)) {

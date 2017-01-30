@@ -39,7 +39,7 @@ spec_sql_remove_table <- list(
   #' An attempt to remove a view with this function may result in an error.
   #'
   #' An error is raised
-  remove_table_error <- function(ctx) {
+  remove_table_error = function(ctx) {
     with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L))
@@ -61,7 +61,7 @@ spec_sql_remove_table <- list(
   #' A table removed by `dbRemoveTable()` doesn't appear in the list of tables
   #' returned by [dbListTables()],
   #' and [dbExistsTable()] returns `FALSE`.
-  remove_table_list <- function(ctx) {
+  remove_table_list = function(ctx) {
     with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L))
@@ -76,7 +76,7 @@ spec_sql_remove_table <- list(
   },
 
   #' The removal propagates immediately to other connections to the same database.
-  remove_table_other_con <- function(ctx) {
+  remove_table_other_con = function(ctx) {
     with_connection({
       with_connection(con = "con2", {
         with_remove_test_table({
@@ -93,7 +93,7 @@ spec_sql_remove_table <- list(
   },
 
   #' This function can also be used to remove a temporary table.
-  remove_table_temporary <- function(ctx) {
+  remove_table_temporary = function(ctx) {
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
     }
@@ -113,7 +113,7 @@ spec_sql_remove_table <- list(
 
   #'
   #' The `name` argument is processed as follows,
-  remove_table_name <- function(ctx) {
+  remove_table_name = function(ctx) {
     with_connection({
       #' to support databases that allow non-syntactic names for their objects:
       if (isTRUE(ctx$tweaks$strict_identifier)) {

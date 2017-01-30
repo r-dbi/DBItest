@@ -41,7 +41,7 @@ spec_sql_write_table <- list(
 
   #'
   #' An error is also raised
-  write_table_error <- function(ctx) {
+  write_table_error = function(ctx) {
     with_connection({
       test_in <- data.frame(a = 1L)
       with_remove_test_table({
@@ -98,7 +98,7 @@ spec_sql_write_table <- list(
 
   #' @section Specification:
   #' The `name` argument is processed as follows,
-  write_table_name <- function(ctx) {
+  write_table_name = function(ctx) {
     with_connection({
       #' to support databases that allow non-syntactic names for their objects:
       if (isTRUE(ctx$tweaks$strict_identifier)) {
