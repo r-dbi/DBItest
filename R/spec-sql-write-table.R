@@ -178,7 +178,7 @@ spec_sql_write_table <- list(
     with_connection({
       iris <- get_iris(ctx)
       expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
-      iris_out <- dbWriteTable(con, "iris")
+      iris_out <- dbReadTable(con, "iris")
       expect_equal_df(iris_out, iris[1:10,])
     })
   },
