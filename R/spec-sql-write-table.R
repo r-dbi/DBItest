@@ -467,7 +467,7 @@ spec_sql_write_table <- list(
     }
 
     now <- Sys.time()
-    tbl_in <- data.frame(a = c(now + 1:5, NA) - now())
+    tbl_in <- data.frame(a = c(now + 1:5, NA) - now)
 
     with_connection({
       with_remove_test_table({
