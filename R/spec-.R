@@ -31,8 +31,8 @@
 #' @include spec-meta-has-completed.R
 #' @include spec-meta-is-valid-result.R
 #' @include spec-meta-is-valid-connection.R
-#' @include spec-sql.R
 ##### Aggregators
+#' @include spec-sql.R
 #' @include spec-result.R
 #' @include spec-connection.R
 #' @include spec-driver.R
