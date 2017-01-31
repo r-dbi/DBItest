@@ -1,41 +1,80 @@
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section SQL:
-#' \subsection{`dbListTables("DBIConnection")`}{
+#' @inheritSection spec_sql_list_tables Additional arguments
+#' @inheritSection spec_sql_list_tables Specification
+NULL
+
+#' spec_sql_list_tables
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_sql_list_tables <- list(
-  #' Can list the tables in the database, adding and removing tables affects
-  #' the list. Can also check existence of a table.
+  list_tables_formals = function(ctx) {
+    # <establish formals of described functions>
+    expect_equal(names(formals(DBI::dbListTables)), c("conn", "..."))
+  },
+
+  #' @return
+  #' `dbListTables()`
   list_tables = function(ctx) {
     with_connection({
-      expect_error(dbGetQuery(con, "SELECT * FROM iris"))
+      with_remove_test_table(name = "iris", {
+        tables <- dbListTables(con)
+        #' returns a character vector
+        expect_is(tables, "character")
+        #' that enumerates all tables
+        expect_false("iris" %in% tables)
 
+        #' and views
+        # TODO
+        #' in the database.
+
+        #' Tables added with [dbWriteTable()]
+        iris <- get_iris(ctx)
+        dbWriteTable(con, "iris", iris)
+
+        #' are part of the list,
+        tables <- dbListTables(con)
+        expect_true("iris" %in% tables)
+      })
+
+      with_remove_test_table({
+        #' including temporary tables if supported by the database.
+        if (isTRUE(ctx$tweaks$temporary_tables)) {
+          dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
+          tables <- dbListTables(con)
+          expect_true("test" %in% tables)
+        }
+      })
+
+      #' As soon a table is removed from the database,
+      #' it is also removed from the list of database tables.
       tables <- dbListTables(con)
-      expect_is(tables, "character")
       expect_false("iris" %in% tables)
 
-      expect_false(dbExistsTable(con, "iris"))
+      #'
+      #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
+      if (isTRUE(ctx$tweaks$strict_identifier)) {
+        table_names <- "a"
+      } else {
+        table_names <- c("a", "with spaces", "with,comma")
+      }
 
-      on.exit(expect_error(dbRemoveTable(con, "iris"), NA),
-              add = TRUE)
-
-      iris <- get_iris(ctx)
-      dbWriteTable(con, "iris", iris)
-
-      tables <- dbListTables(con)
-      expect_true("iris" %in% tables)
-
-      expect_true(dbExistsTable(con, "iris"))
-
-      dbRemoveTable(con, "iris")
-      on.exit(NULL, add = FALSE)
-
-      tables <- dbListTables(con)
-      expect_false("iris" %in% tables)
-
-      expect_false(dbExistsTable(con, "iris"))
+      for (table_name in table_names) {
+        with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
+          dbWriteTable(con, dbQuoteIdentifier(con, table_name), data.frame(a = 2L))
+          tables <- dbListTables(con)
+          expect_true(table_name %in% tables)
+          expect_true(dbQuoteIdentifier(con, table_name) %in% dbQuoteIdentifier(con, tables))
+        })
+      }
     })
   },
 
-  #' }
+  #' @section Additional arguments:
+  #' TBD (schema support).
+  #' @section Specification:
+  #' TBD (schema support).
+
   NULL
 )

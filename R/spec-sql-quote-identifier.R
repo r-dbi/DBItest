@@ -1,67 +1,142 @@
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section SQL:
-#' \subsection{`dbQuoteIdentifier("DBIConnection")`}{
+#' @inheritSection spec_sql_quote_identifier Specification
+NULL
+
+#' spec_sql_quote_identifier
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_sql_quote_identifier <- list(
-  #' Can quote identifiers that consist of letters only.
+  quote_identifier_formals = function(ctx) {
+    # <establish formals of described functions>
+    expect_equal(names(formals(DBI::dbQuoteIdentifier)), c("conn", "x", "..."))
+  },
+
+  #' @return
+  quote_identifier_return = function(ctx) {
+    with_connection({
+      #' `dbQuoteIdentifier()` returns an object that can be coerced to [character],
+      simple_out <- dbQuoteIdentifier(con, "simple")
+      expect_error(as.character(simple_out), NA)
+      expect_is(as.character(simple_out), "character")
+    })
+  },
+
+  quote_identifier_vectorized = function(ctx) {
+    with_connection({
+      #' of the same length as the input.
+      simple <- "simple"
+      simple_out <- dbQuoteIdentifier(con, simple)
+      expect_equal(length(simple_out), 1L)
+
+      letters_out <- dbQuoteIdentifier(con, letters)
+      expect_equal(length(letters_out), length(letters))
+
+      #' For an empty character vector this function returns a length-0 object.
+      empty <- character()
+      empty_out <- dbQuoteIdentifier(con, empty)
+      expect_equal(length(empty_out), 0L)
+
+      #' An error is raised if the input contains `NA`,
+      expect_error(dbQuoteIdentifier(con, NA))
+      expect_error(dbQuoteIdentifier(con, NA_character_))
+      expect_error(dbQuoteIdentifier(con, c("a", NA_character_)))
+      #' but not for an empty string.
+      expect_error(dbQuoteIdentifier(con, ""), NA)
+
+      #'
+      #' When passing the returned object again to `dbQuoteIdentifier()`
+      #' as `x`
+      #' argument, it is returned unchanged.
+      expect_identical(dbQuoteIdentifier(con, simple_out), simple_out)
+      expect_identical(dbQuoteIdentifier(con, letters_out), letters_out)
+      expect_identical(dbQuoteIdentifier(con, empty_out), empty_out)
+      #' Passing objects of class [DBI::SQL] should also return them unchanged.
+      expect_identical(dbQuoteIdentifier(con, SQL(simple)), SQL(simple))
+      expect_identical(dbQuoteIdentifier(con, SQL(letters)), SQL(letters))
+      expect_identical(dbQuoteIdentifier(con, SQL(empty)), SQL(empty))
+
+      #' (For backends it may be most convenient to return [DBI::SQL] objects
+      #' to achieve this behavior, but this is not required.)
+    })
+  },
+
+  #' @section Specification:
+  #' Calling [DBI::dbGetQuery()] for a query of the format `SELECT 1 AS ...`
+  #' returns a data frame with the identifier, unquoted, as column name.
   quote_identifier = function(ctx) {
     with_connection({
+      #' Quoted identifiers can be used as table and column names in SQL queries,
       simple <- dbQuoteIdentifier(con, "simple")
 
-      query <- paste0("SELECT 1 as", simple)
-
-      expect_warning(rows <- dbGetQuery(con, query), NA)
+      #' in particular in queries like `SELECT 1 AS ...`
+      query <- paste0("SELECT 1 AS", simple)
+      rows <- dbGetQuery(con, query)
       expect_identical(names(rows), "simple")
+      expect_identical(unlist(unname(rows)), 1L)
+
+      #' and `SELECT * FROM (SELECT 1) ...`.
+      query <- paste0("SELECT * FROM (SELECT 1) ", simple)
+      rows <- dbGetQuery(con, query)
       expect_identical(unlist(unname(rows)), 1L)
     })
   },
 
-  #' Can quote identifiers with special characters, and create identifiers
-  #' that contain quotes and spaces.
   quote_identifier_special = function(ctx) {
-    if (isTRUE(ctx$tweaks$strict_identifier)) {
-      skip("tweak: strict_identifier")
-    }
-
     with_connection({
-      simple <- dbQuoteIdentifier(con, "simple")
-      with_space <- dbQuoteIdentifier(con, "with space")
-      with_dot <- dbQuoteIdentifier(con, "with.dot")
-      with_comma <- dbQuoteIdentifier(con, "with,comma")
-      quoted_simple <- dbQuoteIdentifier(con, as.character(simple))
+        #' This is also true for column names that are empty strings
+      empty_in <- ""
+      empty <- dbQuoteIdentifier(con, empty_in)
+      #' or contain special characters such as a space,
+      with_space_in <- "with space"
+      with_space <- dbQuoteIdentifier(con, with_space_in)
+      #' a dot,
+      with_dot_in <- "with.dot"
+      with_dot <- dbQuoteIdentifier(con, with_dot_in)
+      #' a comma,
+      with_comma_in <- "with,comma"
+      with_comma <- dbQuoteIdentifier(con, with_comma_in)
+      #' or quotes used to mark strings
+      with_quote_in <- as.character(dbQuoteString(con, "a"))
+      with_quote <- dbQuoteIdentifier(con, with_quote_in)
+      #' or identifiers,
+      quoted_empty <- dbQuoteIdentifier(con, as.character(empty))
       quoted_with_space <- dbQuoteIdentifier(con, as.character(with_space))
       quoted_with_dot <- dbQuoteIdentifier(con, as.character(with_dot))
       quoted_with_comma <- dbQuoteIdentifier(con, as.character(with_comma))
+      quoted_with_quote <- dbQuoteIdentifier(con, as.character(with_quote))
 
+      #' if the database supports this.
+      if (isTRUE(ctx$tweaks$strict_identifier)) {
+        skip("tweak: strict_identifier")
+      }
+
+      #' In any case, checking the validity of the identifier
+      #' should be performed only when executing a query,
+      #' and not by `dbQuoteIdentifier()`.
       query <- paste0("SELECT ",
-                      "1 as", simple, ",",
+                      "1 as", empty, ",",
                       "2 as", with_space, ",",
                       "3 as", with_dot, ",",
                       "4 as", with_comma, ",",
-                      "5 as", quoted_simple, ",",
-                      "6 as", quoted_with_space, ",",
-                      "7 as", quoted_with_dot, ",",
-                      "8 as", quoted_with_comma)
+                      "5 as", with_quote, ",",
+                      "6 as", quoted_empty, ",",
+                      "7 as", quoted_with_space, ",",
+                      "8 as", quoted_with_dot, ",",
+                      "9 as", quoted_with_comma, ",",
+                      "10 as", quoted_with_quote)
 
-      expect_warning(rows <- dbGetQuery(con, query), NA)
+      rows <- dbGetQuery(con, query)
       expect_identical(names(rows),
-                       c("simple", "with space", "with.dot", "with,comma",
-                         as.character(simple), as.character(with_space),
-                         as.character(with_dot), as.character(with_comma)))
-      expect_identical(unlist(unname(rows)), 1:8)
+                       c(empty_in, with_space_in, with_dot_in, with_comma_in,
+                         with_quote_in,
+                         as.character(empty), as.character(with_space),
+                         as.character(with_dot), as.character(with_comma),
+                         as.character(with_quote)))
+      expect_identical(unlist(unname(rows)), 1:10)
     })
   },
 
-  #' Character vectors are treated as a single qualified identifier.
-  quote_identifier_not_vectorized = function(ctx) {
-    with_connection({
-      simple_out <- dbQuoteIdentifier(con, "simple")
-      expect_equal(length(simple_out), 1L)
-      letters_out <- dbQuoteIdentifier(con, letters[1:3])
-      expect_equal(length(letters_out), 1L)
-    })
-  },
-
-  #' }
   NULL
 )

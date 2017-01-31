@@ -4,9 +4,14 @@
 \alias{tweaks}
 \title{Tweaks for DBI tests}
 \usage{
-tweaks(..., constructor_name = NULL, constructor_relax_args = NULL,
-  strict_identifier = NULL, omit_blob_tests = NULL,
-  current_needs_parens = NULL, union = NULL, placeholder_pattern = NULL)
+tweaks(..., constructor_name = NULL, constructor_relax_args = FALSE,
+  strict_identifier = FALSE, omit_blob_tests = FALSE,
+  current_needs_parens = FALSE, union = function(x) paste(x, collapse =
+  " UNION "), placeholder_pattern = NULL, logical_return = identity,
+  date_cast = function(x) paste0("date('", x, "')"), time_cast = function(x)
+  paste0("time('", x, "')"), timestamp_cast = function(x)
+  paste0("timestamp('", x, "')"), date_typed = TRUE, time_typed = TRUE,
+  timestamp_typed = TRUE, temporary_tables = TRUE)
 }
 \arguments{
 \item{...}{\code{[any]}\cr
@@ -41,6 +46,35 @@ resulting query returns the concatenated results of the subqueries}
 A pattern for placeholders used in \code{\link[DBI:dbBind]{DBI::dbBind()}}, e.g.,
 \code{"?"}, \code{"$1"}, or \code{":name"}. See
 \code{\link[=make_placeholder_fun]{make_placeholder_fun()}} for details.}
+
+\item{logical_return}{\code{[function(logical)]}\cr
+A vectorized function that converts logical values to the data type
+returned by the DBI backend.}
+
+\item{date_cast}{\code{[function(character)]}\cr
+A vectorized function that creates an SQL expression for coercing a
+string to a date value.}
+
+\item{time_cast}{\code{[function(character)]}\cr
+A vectorized function that creates an SQL expression for coercing a
+string to a time value.}
+
+\item{timestamp_cast}{\code{[function(character)]}\cr
+A vectorized function that creates an SQL expression for coercing a
+string to a timestamp value.}
+
+\item{date_typed}{\code{[logical(1L)]}\cr
+Set to \code{FALSE} if the DBMS doesn't support a dedicated type for dates.}
+
+\item{time_typed}{\code{[logical(1L)]}\cr
+Set to \code{FALSE} if the DBMS doesn't support a dedicated type for times.}
+
+\item{timestamp_typed}{\code{[logical(1L)]}\cr
+Set to \code{FALSE} if the DBMS doesn't support a dedicated type for
+timestamps.}
+
+\item{temporary_tables}{\code{[logical(1L)]}\cr
+Set to \code{FALSE} if the DBMS doesn't support temporary tables.}
 }
 \description{
 TBD.

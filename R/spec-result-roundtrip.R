@@ -1,111 +1,128 @@
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section Result:
-#' \subsection{Data roundtrip}{
+#' @inheritSection spec_result_roundtrip Specification
+NULL
+
+#' spec_result_roundtrip
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_result_roundtrip <- list(
-  #' Data conversion from SQL to R: integer
+  #' @section Specification:
+  #' The column types of the returned data frame depend on the data returned:
+  #' - [integer] for integer values between -2^31 and 2^31 - 1
   data_integer = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con, 1L, -100L)
+      test_select_with_null(.ctx = ctx, con, 1L, -100L)
     })
   },
 
-  #' Data conversion from SQL to R: integer with typed NULL values.
-  data_integer_null_below = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con, 1L, -100L, .add_null = "below")
-    })
-  },
-
-  #' Data conversion from SQL to R: integer with typed NULL values
-  #' in the first row.
-  data_integer_null_above = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con, 1L, -100L, .add_null = "above")
-    })
-  },
-
-  #' Data conversion from SQL to R: numeric.
+  #' - [numeric] for numbers with a fractional component
   data_numeric = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con, 1.5, -100.5)
+      test_select_with_null(.ctx = ctx, con, 1.5, -100.5)
     })
   },
 
-  #' Data conversion from SQL to R: numeric with typed NULL values.
-  data_numeric_null_below = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con, 1.5, -100.5, .add_null = "below")
-    })
-  },
-
-  #' Data conversion from SQL to R: numeric with typed NULL values
-  #' in the first row.
-  data_numeric_null_above = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con, 1.5, -100.5, .add_null = "above")
-    })
-  },
-
-  #' Data conversion from SQL to R: logical. Optional, conflict with the
-  #' `data_logical_int` test.
+  #' - [logical] for Boolean values (some backends may return an integer)
   data_logical = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con,
-                  "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE)
+      int_values <- 1:0
+      values <- ctx$tweaks$logical_return(as.logical(int_values))
+
+      sql_names <- paste0("CAST(", int_values, " AS ", dbDataType(con, logical()), ")")
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
     })
   },
 
-  #' Data conversion from SQL to R: logical with typed NULL values.
-  data_logical_null_below = function(ctx) {
+  #' - [character] for text
+  data_character = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con,
-                  "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE,
-                  .add_null = "below")
+      values <- texts
+      test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
+      sql_names <- as.character(dbQuoteString(con, texts))
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(test_funs, sql_names))
     })
   },
 
-  #' Data conversion from SQL to R: logical with typed NULL values
-  #' in the first row
-  data_logical_null_above = function(ctx) {
+  #' - lists of [raw] for blobs
+  data_raw = function(ctx) {
+    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+      skip("tweak: omit_blob_tests")
+    }
+
     with_connection({
-      test_select(.ctx = ctx, con,
-                  "CAST(1 AS boolean)" = TRUE, "cast(0 AS boolean)" = FALSE,
-                  .add_null = "above")
+      values <- list(is_raw_list)
+      sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
     })
   },
 
-  #' Data conversion from SQL to R: logical (as integers). Optional,
-  #' conflict with the `data_logical` test.
-  data_logical_int = function(ctx) {
+  #' - coercible using [as.Date()] for dates
+  data_date = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con,
-                  "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L)
+      char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
+      values <- as_date_equals_to(as.Date(char_values))
+      sql_names <- ctx$tweaks$date_cast(char_values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
     })
   },
 
-  #' Data conversion from SQL to R: logical (as integers) with typed NULL
-  #' values.
-  data_logical_int_null_below = function(ctx) {
+  #'   (also applies to the return value of the SQL function `current_date`)
+  data_date_current = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con,
-                  "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L,
-                  .add_null = "below")
+      test_select_with_null(
+        .ctx = ctx, con,
+        "current_date" ~ is_roughly_current_date)
     })
   },
 
-  #' Data conversion from SQL to R: logical (as integers) with typed NULL
-  #' values
-  #' in the first row.
-  data_logical_int_null_above = function(ctx) {
+  #' - coercible using [hms::as.hms()] for times
+  data_time = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con,
-                  "CAST(1 AS boolean)" = 1L, "cast(0 AS boolean)" = 0L,
-                  .add_null = "above")
+      char_values <- c("00:00:00", "12:34:56")
+      time_values <- as_hms_equals_to(hms::as.hms(char_values))
+      sql_names <- ctx$tweaks$time_cast(char_values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
     })
   },
 
-  #' Data conversion from SQL to R: A NULL value is returned as NA.
+  #'   (also applies to the return value of the SQL function `current_time`)
+  data_time_current = function(ctx) {
+    with_connection({
+      test_select_with_null(
+        .ctx = ctx, con,
+        "current_time" ~ coercible_to_time)
+    })
+  },
+
+  #' - coercible using [as.POSIXct()] for timestamps
+  data_timestamp = function(ctx) {
+    with_connection({
+      char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
+      time_values <- rep(list(coercible_to_timestamp), 2L)
+      sql_names <- ctx$tweaks$time_cast(char_values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
+    })
+  },
+
+  #'   (also applies to the return value of the SQL function `current_timestamp`)
+  data_timestamp_current = function(ctx) {
+    with_connection({
+      test_select_with_null(
+        .ctx = ctx, con,
+        "current_timestamp" ~ is_roughly_current_timestamp)
+    })
+  },
+
+  #' - [NA] for SQL `NULL` values
   data_null = function(ctx) {
     with_connection({
       check_result <- function(rows) {
@@ -116,378 +133,97 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' Data conversion from SQL to R: 64-bit integers.
-  data_64_bit = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con,
-                  "10000000000" = 10000000000, "-10000000000" = -10000000000)
-    })
-  },
-
-  #' Data conversion from SQL to R: 64-bit integers with typed NULL values.
-  data_64_bit_null_below = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con,
-                  "10000000000" = 10000000000, "-10000000000" = -10000000000,
-                  .add_null = "below")
-    })
-  },
-
-  #' Data conversion from SQL to R: 64-bit integers with typed NULL values
-  #' in the first row.
-  data_64_bit_null_above = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con,
-                  "10000000000" = 10000000000, "-10000000000" = -10000000000,
-                  .add_null = "above")
-    })
-  },
-
-  #' Data conversion from SQL to R: character.
-  data_character = function(ctx) {
-    with_connection({
-      values <- texts
-      test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
-      sql_names <- as.character(dbQuoteString(con, texts))
-
-      test_select(.ctx = ctx, con, .dots = setNames(values, sql_names))
-      test_select(.ctx = ctx, con, .dots = setNames(test_funs, sql_names))
-    })
-  },
-
-  #' Data conversion from SQL to R: character with typed NULL values.
-  data_character_null_below = function(ctx) {
-    with_connection({
-      values <- texts
-      test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
-      sql_names <- as.character(dbQuoteString(con, texts))
-
-      test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
-                  .add_null = "below")
-      test_select(.ctx = ctx, con, .dots = setNames(test_funs, sql_names),
-                  .add_null = "below")
-    })
-  },
-
-  #' Data conversion from SQL to R: character with typed NULL values
-  #' in the first row.
-  data_character_null_above = function(ctx) {
-    with_connection({
-      values <- texts
-      test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
-      sql_names <- as.character(dbQuoteString(con, texts))
-
-      test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
-                  .add_null = "above")
-      test_select(.ctx = ctx, con, .dots = setNames(test_funs, sql_names),
-                  .add_null = "above")
-    })
-  },
-
-  #' Data conversion from SQL to R: raw. Not all SQL dialects support the
-  #' syntax of the query used here.
-  data_raw = function(ctx) {
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
+  #'
+  #' If dates and timestamps are supported by the backend, the following R types are
+  #' used:
+  #' - [Date] for dates
+  data_date_typed = function(ctx) {
+    if (!isTRUE(ctx$tweaks$date_typed)) {
+      skip("tweak: !date_typed")
     }
 
     with_connection({
-      values <- list(is_raw_list)
-      sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
+      char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
+      values <- lapply(char_values, as_integer_date)
+      sql_names <- ctx$tweaks$date_cast(char_values)
 
-      test_select(.ctx = ctx, con, .dots = setNames(values, sql_names))
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
     })
   },
 
-  #' Data conversion from SQL to R: raw with typed NULL values.
-  data_raw_null_below = function(ctx) {
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
+  #'   (also applies to the return value of the SQL function `current_date`)
+  data_date_current_typed = function(ctx) {
+    if (!isTRUE(ctx$tweaks$date_typed)) {
+      skip("tweak: !date_typed")
     }
 
     with_connection({
-      values <- list(is_raw_list)
-      sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
-
-      test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
-                  .add_null = "below")
+      test_select_with_null(
+        .ctx = ctx, con,
+        "current_date" ~ is_roughly_current_date_typed)
     })
   },
 
-  #' Data conversion from SQL to R: raw with typed NULL values
-  #' in the first row.
-  data_raw_null_above = function(ctx) {
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
+  #' - [POSIXct] for timestamps
+  data_timestamp_typed = function(ctx) {
+    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+      skip("tweak: !timestamp_typed")
     }
 
     with_connection({
-      values <- list(is_raw_list)
-      sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
+      char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
+      timestamp_values <- rep(list(is_timestamp), 2L)
+      sql_names <- ctx$tweaks$timestamp_cast(char_values)
 
-      test_select(.ctx = ctx, con, .dots = setNames(values, sql_names),
-                  .add_null = "above")
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
     })
   },
 
-  #' Data conversion from SQL to R: date, returned as integer with class.
-  data_date = function(ctx) {
+  #'   (also applies to the return value of the SQL function `current_timestamp`)
+  data_timestamp_current_typed = function(ctx) {
+    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+      skip("tweak: !timestamp_typed")
+    }
+
     with_connection({
-      test_select(.ctx = ctx, con,
-                  "date('2015-01-01')" = as_integer_date("2015-01-01"),
-                  "date('2015-02-02')" = as_integer_date("2015-02-02"),
-                  "date('2015-03-03')" = as_integer_date("2015-03-03"),
-                  "date('2015-04-04')" = as_integer_date("2015-04-04"),
-                  "date('2015-05-05')" = as_integer_date("2015-05-05"),
-                  "date('2015-06-06')" = as_integer_date("2015-06-06"),
-                  "date('2015-07-07')" = as_integer_date("2015-07-07"),
-                  "date('2015-08-08')" = as_integer_date("2015-08-08"),
-                  "date('2015-09-09')" = as_integer_date("2015-09-09"),
-                  "date('2015-10-10')" = as_integer_date("2015-10-10"),
-                  "date('2015-11-11')" = as_integer_date("2015-11-11"),
-                  "date('2015-12-12')" = as_integer_date("2015-12-12"),
-                  "current_date" ~ as_integer_date(Sys.time()))
+      test_select_with_null(
+        .ctx = ctx, con,
+        "current_timestamp" ~ is_roughly_current_timestamp_typed)
     })
   },
 
-  #' Data conversion from SQL to R: date with typed NULL values.
-  data_date_null_below = function(ctx) {
+  #'
+  #' R has no built-in type with lossless support for the full range of 64-bit
+  #' or larger integers. Here, the following rules apply:
+  #' - Values are returned as numeric
+  data_64_bit_numeric = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con,
-                  "date('2015-01-01')" = as_integer_date("2015-01-01"),
-                  "date('2015-02-02')" = as_integer_date("2015-02-02"),
-                  "date('2015-03-03')" = as_integer_date("2015-03-03"),
-                  "date('2015-04-04')" = as_integer_date("2015-04-04"),
-                  "date('2015-05-05')" = as_integer_date("2015-05-05"),
-                  "date('2015-06-06')" = as_integer_date("2015-06-06"),
-                  "date('2015-07-07')" = as_integer_date("2015-07-07"),
-                  "date('2015-08-08')" = as_integer_date("2015-08-08"),
-                  "date('2015-09-09')" = as_integer_date("2015-09-09"),
-                  "date('2015-10-10')" = as_integer_date("2015-10-10"),
-                  "date('2015-11-11')" = as_integer_date("2015-11-11"),
-                  "date('2015-12-12')" = as_integer_date("2015-12-12"),
-                  "current_date" ~ as_integer_date(Sys.time()),
-                  .add_null = "below")
+      test_select_with_null(
+        .ctx = ctx, con,
+        "10000000000" = 10000000000, "-10000000000" = -10000000000)
     })
   },
 
-  #' Data conversion from SQL to R: date with typed NULL values
-  #' in the first row.
-  data_date_null_above = function(ctx) {
+  #' - Conversion to character always returns a lossless decimal representation
+  #'   of the data
+  data_64_bit_lossless = function(ctx) {
     with_connection({
-      test_select(.ctx = ctx, con,
-                  "date('2015-01-01')" = as_integer_date("2015-01-01"),
-                  "date('2015-02-02')" = as_integer_date("2015-02-02"),
-                  "date('2015-03-03')" = as_integer_date("2015-03-03"),
-                  "date('2015-04-04')" = as_integer_date("2015-04-04"),
-                  "date('2015-05-05')" = as_integer_date("2015-05-05"),
-                  "date('2015-06-06')" = as_integer_date("2015-06-06"),
-                  "date('2015-07-07')" = as_integer_date("2015-07-07"),
-                  "date('2015-08-08')" = as_integer_date("2015-08-08"),
-                  "date('2015-09-09')" = as_integer_date("2015-09-09"),
-                  "date('2015-10-10')" = as_integer_date("2015-10-10"),
-                  "date('2015-11-11')" = as_integer_date("2015-11-11"),
-                  "date('2015-12-12')" = as_integer_date("2015-12-12"),
-                  "current_date" ~ as_integer_date(Sys.time()),
-                  .add_null = "above")
+      char_values <- c("1234567890123456789", "-1234567890123456789")
+      test_values <- as_character_equals_to(char_values)
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
     })
   },
 
-  #' Data conversion from SQL to R: time.
-  data_time = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con,
-                  "time '00:00:00'" = "00:00:00",
-                  "time '12:34:56'" = "12:34:56",
-                  "current_time" ~ is.character)
-    })
-  },
-
-  #' Data conversion from SQL to R: time with typed NULL values.
-  data_time_null_below = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con,
-                  "time '00:00:00'" = "00:00:00",
-                  "time '12:34:56'" = "12:34:56",
-                  "current_time" ~ is.character,
-                  .add_null = "below")
-    })
-  },
-
-  #' Data conversion from SQL to R: time with typed NULL values
-  #' in the first row.
-  data_time_null_above = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con,
-                  "time '00:00:00'" = "00:00:00",
-                  "time '12:34:56'" = "12:34:56",
-                  "current_time" ~ is.character,
-                  .add_null = "above")
-    })
-  },
-
-  #' Data conversion from SQL to R: time (using alternative syntax with
-  #' parentheses for specifying time literals).
-  data_time_parens = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con,
-                  "time('00:00:00')" = "00:00:00",
-                  "time('12:34:56')" = "12:34:56",
-                  "current_time" ~ is.character)
-    })
-  },
-
-  #' Data conversion from SQL to R: time (using alternative syntax with
-  #' parentheses for specifying time literals) with typed NULL values.
-  data_time_parens_null_below = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con,
-                  "time('00:00:00')" = "00:00:00",
-                  "time('12:34:56')" = "12:34:56",
-                  "current_time" ~ is.character,
-                  .add_null = "below")
-    })
-  },
-
-  #' Data conversion from SQL to R: time (using alternative syntax with
-  #' parentheses for specifying time literals) with typed NULL values
-  #' in the first row.
-  data_time_parens_null_above = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con,
-                  "time('00:00:00')" = "00:00:00",
-                  "time('12:34:56')" = "12:34:56",
-                  "current_time" ~ is.character,
-                  .add_null = "above")
-    })
-  },
-
-  #' Data conversion from SQL to R: timestamp.
-  data_timestamp = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con,
-                  "timestamp '2015-10-11 00:00:00'" = is_time,
-                  "timestamp '2015-10-11 12:34:56'" = is_time,
-                  "current_timestamp" ~ is_roughly_current_time)
-    })
-  },
-
-  #' Data conversion from SQL to R: timestamp with typed NULL values.
-  data_timestamp_null_below = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con,
-                  "timestamp '2015-10-11 00:00:00'" = is_time,
-                  "timestamp '2015-10-11 12:34:56'" = is_time,
-                  "current_timestamp" ~ is_roughly_current_time,
-                  .add_null = "below")
-    })
-  },
-
-  #' Data conversion from SQL to R: timestamp with typed NULL values
-  #' in the first row.
-  data_timestamp_null_above = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx, con,
-                  "timestamp '2015-10-11 00:00:00'" = is_time,
-                  "timestamp '2015-10-11 12:34:56'" = is_time,
-                  "current_timestamp" ~ is_roughly_current_time,
-                  .add_null = "above")
-    })
-  },
-
-  #' Data conversion from SQL to R: timestamp with time zone.
-  data_timestamp_utc = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx,
-                  con,
-                  "timestamp '2015-10-11 00:00:00+02:00'" =
-                    as.POSIXct("2015-10-11 00:00:00+02:00"),
-                  "timestamp '2015-10-11 12:34:56-05:00'" =
-                    as.POSIXct("2015-10-11 12:34:56-05:00"),
-                  "current_timestamp" ~ is_roughly_current_time)
-    })
-  },
-
-  #' Data conversion from SQL to R: timestamp with time zone with typed NULL
-  #' values.
-  data_timestamp_utc_null_below = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx,
-                  con,
-                  "timestamp '2015-10-11 00:00:00+02:00'" =
-                    as.POSIXct("2015-10-11 00:00:00+02:00"),
-                  "timestamp '2015-10-11 12:34:56-05:00'" =
-                    as.POSIXct("2015-10-11 12:34:56-05:00"),
-                  "current_timestamp" ~ is_roughly_current_time,
-                  .add_null = "below")
-    })
-  },
-
-  #' Data conversion from SQL to R: timestamp with time zone with typed NULL
-  #' values
-  #' in the first row.
-  data_timestamp_utc_null_above = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx,
-                  con,
-                  "timestamp '2015-10-11 00:00:00+02:00'" =
-                    as.POSIXct("2015-10-11 00:00:00+02:00"),
-                  "timestamp '2015-10-11 12:34:56-05:00'" =
-                    as.POSIXct("2015-10-11 12:34:56-05:00"),
-                  "current_timestamp" ~ is_roughly_current_time,
-                  .add_null = "above")
-    })
-  },
-
-  #' Data conversion: timestamp (alternative syntax with parentheses
-  #' for specifying timestamp literals).
-  data_timestamp_parens = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx,
-                  con,
-                  "datetime('2015-10-11 00:00:00')" =
-                    as.POSIXct("2015-10-11 00:00:00Z"),
-                  "datetime('2015-10-11 12:34:56')" =
-                    as.POSIXct("2015-10-11 12:34:56Z"),
-                  "current_timestamp" ~ is_roughly_current_time)
-    })
-  },
-
-  #' Data conversion: timestamp (alternative syntax with parentheses
-  #' for specifying timestamp literals) with typed NULL values.
-  data_timestamp_parens_null_below = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx,
-                  con,
-                  "datetime('2015-10-11 00:00:00')" =
-                    as.POSIXct("2015-10-11 00:00:00Z"),
-                  "datetime('2015-10-11 12:34:56')" =
-                    as.POSIXct("2015-10-11 12:34:56Z"),
-                  "current_timestamp" ~ is_roughly_current_time,
-                  .add_null = "below")
-    })
-  },
-
-  #' Data conversion: timestamp (alternative syntax with parentheses
-  #' for specifying timestamp literals) with typed NULL values
-  #' in the first row.
-  data_timestamp_parens_null_above = function(ctx) {
-    with_connection({
-      test_select(.ctx = ctx,
-                  con,
-                  "datetime('2015-10-11 00:00:00')" =
-                    as.POSIXct("2015-10-11 00:00:00Z"),
-                  "datetime('2015-10-11 12:34:56')" =
-                    as.POSIXct("2015-10-11 12:34:56Z"),
-                  "current_timestamp" ~ is_roughly_current_time,
-                  .add_null = "above")
-    })
-  },
-
-  #' }
   NULL
 )
 
+
+test_select_with_null <- function(...) {
+  test_select(..., .add_null = "none")
+  test_select(..., .add_null = "above")
+  test_select(..., .add_null = "below")
+}
 
 # NB: .table = TRUE will not work in bigrquery
 test_select <- function(con, ..., .dots = NULL, .add_null = "none",
@@ -539,9 +275,9 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
   }
 
   if (.add_null != "none") {
-    rows <- rows[order(rows$id), -(length(sql_names) + 1L)]
+    rows <- rows[order(rows$id), -(length(sql_names) + 1L), drop = FALSE]
     if (.add_null == "above") {
-      rows <- rows[2:1, ]
+      rows <- rows[2:1, , drop = FALSE]
     }
   }
 
@@ -586,12 +322,61 @@ is_raw_list <- function(x) {
   is.list(x) && is.raw(x[[1L]])
 }
 
-is_time <- function(x) {
+coercible_to_date <- function(x) {
+  x_date <- try_silent(as.Date(x))
+  !is.null(x_date) && all(is.na(x) == is.na(x_date))
+}
+
+as_date_equals_to <- function(x) {
+  lapply(x, function(xx) {
+    function(value) as.Date(value) == xx
+  })
+}
+
+is_roughly_current_date <- function(x) {
+  coercible_to_date(x) && (abs(Sys.Date() - as.Date(x)) <= 1)
+}
+
+coercible_to_time <- function(x) {
+  x_hms <- try_silent(hms::as.hms(x))
+  !is.null(x_hms) && all(is.na(x) == is.na(x_hms))
+}
+
+as_hms_equals_to <- function(x) {
+  lapply(x, function(xx) {
+    function(value) hms::as.hms(value) == xx
+  })
+}
+
+coercible_to_timestamp <- function(x) {
+  x_timestamp <- try_silent(as.POSIXct(x))
+  !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
+}
+
+as_timestamp_equals_to <- function(x) {
+  lapply(x, function(xx) {
+    function(value) as.POSIXct(value) == xx
+  })
+}
+
+is_roughly_current_timestamp <- function(x) {
+  coercible_to_timestamp(x) && (Sys.time() - as.POSIXct(x) <= 2)
+}
+
+is_date <- function(x) {
+  inherits(x, "Date")
+}
+
+is_roughly_current_date_typed <- function(x) {
+  is_date(x) && (abs(Sys.Date() - x) <= 1)
+}
+
+is_timestamp <- function(x) {
   inherits(x, "POSIXct")
 }
 
-is_roughly_current_time <- function(x) {
-  is_time(x) && (Sys.time() - x <= 2)
+is_roughly_current_timestamp_typed <- function(x) {
+  is_timestamp(x) && (Sys.time() - x <= 2)
 }
 
 as_integer_date <- function(d) {

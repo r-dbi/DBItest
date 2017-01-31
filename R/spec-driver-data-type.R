@@ -1,60 +1,109 @@
 #' @template dbispec-sub
 #' @format NULL
-#' @section Driver:
-#' \subsection{`dbDataType("DBIDriver", "ANY")`}{
+#' @inheritSection test_data_type Specification
+NULL
+
+#' spec_driver_data_type
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
+#' @inherit test_data_type
 spec_driver_data_type <- list(
-  #' The backend can override the [DBI::dbDataType()] generic
-  #' for its driver class.
-  data_type_driver = function(ctx) {
-    #' This generic expects an arbitrary object as second argument
-    #' and returns a corresponding SQL type
-    check_driver_data_type <- function(value) {
-      eval(bquote({
-        #' as atomic
-        expect_equal(length(dbDataType(ctx$drv, .(value))), 1L)
-        #' character value
-        expect_is(dbDataType(ctx$drv, .(value)), "character")
-        #' with at least one character.
-        expect_match(dbDataType(ctx$drv, .(value)), ".")
-        #' As-is objects (i.e., wrapped by [base::I()]) must be
-        #' supported and return the same results as their unwrapped counterparts.
-        expect_identical(dbDataType(ctx$drv, I(.(value))),
-                         dbDataType(ctx$drv, .(value)))
-      }))
-    }
-
-    #'
-    #' To query the values returned by the default implementation,
-    #' run `example(dbDataType, package = "DBI")`.
-    #' If the backend needs to override this generic,
-    #' it must accept all basic R data types as its second argument, namely
-    expect_driver_has_data_type <- function(value) {
-      eval(bquote(
-        expect_error(check_driver_data_type(.(value)), NA)))
-    }
-
-    #' [base::logical()],
-    expect_driver_has_data_type(logical(1))
-    #' [base::integer()],
-    expect_driver_has_data_type(integer(1))
-    #' [base::numeric()],
-    expect_driver_has_data_type(numeric(1))
-    #' [base::character()],
-    expect_driver_has_data_type(character(1))
-    #' dates (see [base::Dates()]),
-    expect_driver_has_data_type(Sys.Date())
-    #' date-time (see [base::DateTimeClasses()]),
-    expect_driver_has_data_type(Sys.time())
-    #' and [base::difftime()].
-    expect_driver_has_data_type(Sys.time() - Sys.time())
-    #' It also must accept lists of `raw` vectors
-    #' and map them to the BLOB (binary large object) data type.
-    if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
-      expect_driver_has_data_type(list(raw(1)))
-    }
-    #' The behavior for other object types is not specified.
+  data_type_formals = function(ctx) {
+    # <establish formals of described function>
+    expect_equal(names(formals(DBI::dbDataType)), c("dbObj", "obj", "..."))
   },
 
-  #' }
+  data_type_driver = function(ctx) {
+    test_data_type(ctx, ctx$drv)
+  },
+
   NULL
 )
+
+#' test_data_type
+#' @param ctx,dbObj Arguments to internal test function
+test_data_type <- function(ctx, dbObj) {
+  #' @return
+  #' `dbDataType()` returns the SQL type that corresponds to the `obj` argument
+  check_data_type <- function(value) {
+    eval(bquote({
+      #' as a non-empty
+      expect_match(dbDataType(dbObj, .(value)), ".")
+      #' character string.
+      expect_equal(length(dbDataType(dbObj, .(value))), 1L)
+      expect_is(dbDataType(dbObj, .(value)), "character")
+      expect_visible(dbDataType(dbObj, .(value)))
+    }))
+  }
+
+  #' An error is raised for invalid values for the `obj` argument such as a
+  #' `NULL` value.
+  expect_error(dbDataType(dbObj, NULL))
+
+  #' @section Specification:
+  #' The backend can override the [DBI::dbDataType()] generic
+  #' for its driver class.
+  #'
+  #' This generic expects an arbitrary object as second argument.
+  #' To query the values returned by the default implementation,
+  #' run `example(dbDataType, package = "DBI")`.
+  #' If the backend needs to override this generic,
+  #' it must accept all basic R data types as its second argument, namely
+  expect_has_data_type <- function(value) {
+    eval(bquote(
+      expect_error(check_data_type(.(value)), NA)))
+  }
+
+  expected_data_types <- list(
+    #' [logical],
+    logical(1),
+    #' [integer],
+    integer(1),
+    #' [numeric],
+    numeric(1),
+    #' [character],
+    character(1),
+    #' dates (see [Dates]),
+    Sys.Date(),
+    #' date-time (see [DateTimeClasses]),
+    Sys.time(),
+    #' and [difftime].
+    Sys.time() - Sys.time(),
+    #' It also must accept lists of [raw] vectors
+    #' and map them to the BLOB (binary large object) data type,
+    #' unless the `omit_blob_tests` tweak is set to `TRUE`.
+    if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
+      list(as.raw(1:10))
+    }
+  )
+
+  lapply(
+    compact(expected_data_types),
+    expect_has_data_type
+  )
+
+  #' As-is objects (i.e., wrapped by [I()]) must be
+  #' supported and return the same results as their unwrapped counterparts.
+  lapply(
+    compact(expected_data_types),
+    function(value) {
+      if (!is.null(value)) {
+        eval(bquote(
+          expect_error(
+            expect_identical(dbDataType(dbObj, I(.(value))),
+                             dbDataType(dbObj, .(value))),
+            NA)))
+      }
+    }
+  )
+
+  #' The SQL data type for [factor]
+  expect_identical(dbDataType(dbObj, letters),
+                   dbDataType(dbObj, factor(letters)))
+  #' and [ordered] is the same as for character.
+  expect_identical(dbDataType(dbObj, letters),
+                   dbDataType(dbObj, ordered(letters)))
+
+  #' The behavior for other object types is not specified.
+}

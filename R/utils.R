@@ -27,7 +27,77 @@ with_connection <- function(code, con = "con", env = parent.frame()) {
 
   eval(bquote({
     .(con) <- connect(ctx)
-    on.exit(expect_error(dbDisconnect(.(con)), NA), add = TRUE)
+    on.exit(try_silent(dbDisconnect(.(con))), add = TRUE)
+    local(.(code_sub))
+  }
+  ), envir = env)
+}
+
+# Expects a variable "ctx" in the environment env,
+# evaluates the code inside local() after defining a variable "con"
+# (can be overridden by specifying con argument)
+# that points to a newly opened and then closed connection. Disconnects on exit.
+with_closed_connection <- function(code, con = "con", env = parent.frame()) {
+  code_sub <- substitute(code)
+
+  con <- as.name(con)
+
+  eval(bquote({
+    .(con) <- connect(ctx)
+    dbDisconnect(.(con))
+    local(.(code_sub))
+  }
+  ), envir = env)
+}
+
+# Expects a variable "ctx" in the environment env,
+# evaluates the code inside local() after defining a variable "con"
+# (can be overridden by specifying con argument)
+# that points to a newly opened but invalidated connection. Disconnects on exit.
+with_invalid_connection <- function(code, con = "con", env = parent.frame()) {
+  code_sub <- substitute(code)
+
+  stopifnot(con != "..con")
+  con <- as.name(con)
+
+  eval(bquote({
+    ..con <- connect(ctx)
+    on.exit(dbDisconnect(..con), add = TRUE)
+    .(con) <- unserialize(serialize(..con, NULL))
+    local(.(code_sub))
+  }
+  ), envir = env)
+}
+
+# Evaluates the code inside local() after defining a variable "res"
+# (can be overridden by specifying con argument)
+# that points to a result set created by query. Clears on exit.
+with_result <- function(query, code, res = "res", env = parent.frame()) {
+  code_sub <- substitute(code)
+  query_sub <- substitute(query)
+
+  res <- as.name(res)
+
+  eval(bquote({
+    .(res) <- .(query_sub)
+    on.exit(dbClearResult(.(res)), add = TRUE)
+    local(.(code_sub))
+  }
+  ), envir = env)
+}
+
+# Evaluates the code inside local() after defining a variable "res"
+# (can be overridden by specifying con argument)
+# that points to a result set created by query. Clears on exit.
+with_remove_test_table <- function(code, name = "test", con = "con", env = parent.frame()) {
+  code_sub <- substitute(code)
+
+  con <- as.name(con)
+
+  eval(bquote({
+    on.exit(
+      try_silent(
+        dbClearResult(dbSendStatement(.(con), paste0("DROP TABLE ", .(name))))), add = TRUE)
     local(.(code_sub))
   }
   ), envir = env)
@@ -48,4 +118,19 @@ unrowname <- function(x) {
 
 random_table_name <- function(n = 10) {
   paste0(sample(letters, n, replace = TRUE), collapse = "")
+}
+
+compact <- function(x) {
+  x[!vapply(x, is.null, logical(1L))]
+}
+
+expand_char <- function(...) {
+  df <- expand.grid(..., stringsAsFactors = FALSE)
+  do.call(paste0, df)
+}
+
+try_silent <- function(code) {
+  tryCatch(
+    code,
+    error = function(e) NULL)
 }

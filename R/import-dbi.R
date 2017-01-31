@@ -9,4 +9,5 @@
 #' @importFrom DBI dbQuoteIdentifier dbQuoteString dbReadTable dbRemoveTable
 #' @importFrom DBI dbRollback dbSendQuery dbSendStatement dbSetDataMappings
 #' @importFrom DBI dbUnloadDriver dbWriteTable
+#' @importFrom DBI SQL
 NULL
