@@ -1,36 +1,24 @@
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section Result:
-#' \subsection{Create table with data type}{
+#' @inheritSection spec_result_create_table_with_data_type Specification
+NULL
+
+#' spec_result_create_table_with_data_type
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_result_create_table_with_data_type <- list(
-  #' SQL Data types exist for all basic R data types, and the engine can
-  #' process them.
-  data_type_connection = function(ctx) {
+  #' @section Specification:
+  #' All data types returned by `dbDataType()` are usable in an SQL statement
+  #' of the form
+  data_type_create_table = function(ctx) {
     with_connection({
       check_connection_data_type <- function(value) {
-        eval(bquote({
-          expect_is(dbDataType(con, .(value)), "character")
-          expect_equal(length(dbDataType(con, .(value))), 1L)
-          expect_error({
-            as_is_type <- dbDataType(con, I(.(value)))
-            expect_identical(dbDataType(con, .(value)), as_is_type)
-          }
-          , NA)
-          expect_error({
-            unknown_type <- dbDataType(con, structure(.(value),
-                                                      class = "unknown1"))
-            expect_identical(dbDataType(con, unclass(.(value))), unknown_type)
-          }
-          , NA)
-          query <- paste0("CREATE TABLE test (a ", dbDataType(con, .(value)),
-                          ")")
-        }))
-
-        eval(bquote({
-          expect_error(dbExecute(con, .(query)), NA)
-          on.exit(expect_error(dbExecute(con, "DROP TABLE test"), NA),
-                  add = TRUE)
-        }))
+        with_remove_test_table({
+          #' `"CREATE TABLE test (a ...)"`.
+          query <- paste0("CREATE TABLE test (a ", dbDataType(con, value), ")")
+          eval(bquote(dbExecute(con, .(query))))
+        })
       }
 
       expect_conn_has_data_type <- function(value) {
@@ -45,21 +33,10 @@ spec_result_create_table_with_data_type <- list(
       expect_conn_has_data_type(Sys.Date())
       expect_conn_has_data_type(Sys.time())
       if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
-        expect_conn_has_data_type(list(raw(1)))
+        expect_conn_has_data_type(list(as.raw(1:10)))
       }
     })
   },
 
-  #' SQL data type for factor is the same as for character.
-  data_type_factor = function(ctx) {
-    with_connection({
-      expect_identical(dbDataType(con, letters),
-                       dbDataType(con, factor(letters)))
-      expect_identical(dbDataType(con, letters),
-                       dbDataType(con, ordered(letters)))
-    })
-  },
-
-  #' }
   NULL
 )

@@ -67,7 +67,10 @@ package_name <- function(ctx) {
 }
 
 connect <- function(ctx) {
-  do.call(dbConnect, c(list(ctx$drv), ctx$connect_args))
+  connect_call <- as.call(c(list(quote(dbConnect), ctx$drv), ctx$connect_args))
+  connect_fun <- function() {}
+  body(connect_fun) <- connect_call
+  connect_fun()
 }
 
 .ctx_env <- new.env(parent = emptyenv())

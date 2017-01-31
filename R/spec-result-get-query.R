@@ -1,12 +1,24 @@
-# TODO: Decide where to put this, it's a connection method but requires result methods to be implemented
-
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section Result:
-#' \subsection{`dbGetQuery("DBIConnection", "ANY")`}{
+#' @inheritSection spec_result_get_query Specification
+NULL
+
+#' spec_result_get_query
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_result_get_query <- list(
-  #' Single-value queries can be read with dbGetQuery
-  get_query_single = function(ctx) {
+  get_query_formals = function(ctx) {
+    # <establish formals of described functions>
+    expect_equal(names(formals(DBI::dbGetQuery)), c("conn", "statement", "..."))
+  },
+
+  #' @return
+  #' `dbGetQuery()` always returns a [data.frame]
+  #' with as many rows as records were fetched and as many
+  #' columns as fields in the result set,
+  #' even if the result is a single value
+  get_query_atomic = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a"
 
@@ -15,32 +27,8 @@ spec_result_get_query <- list(
     })
   },
 
-  #' Multi-row single-column queries can be read with dbGetQuery.
-  get_query_multi_row_single_column = function(ctx) {
-    with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
-
-      rows <- dbGetQuery(con, query)
-      expect_identical(rows, data.frame(a=1L:3L))
-    })
-  },
-
-  #' Empty single-column queries can be read with
-  #' [DBI::dbGetQuery()]. Not all SQL dialects support the query
-  #' used here.
-  get_query_empty_single_column = function(ctx) {
-    with_connection({
-      query <- "SELECT * FROM (SELECT 1 as a) AS x WHERE (1 = 0)"
-
-      rows <- dbGetQuery(con, query)
-      expect_identical(names(rows), "a")
-      expect_identical(dim(rows), c(0L, 1L))
-    })
-  },
-
-  #' Single-row multi-column queries can be read with dbGetQuery.
-  get_query_single_row_multi_column = function(ctx) {
+  #' or has one
+  get_query_one_row = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a, 2 as b, 3 as c"
 
@@ -49,22 +37,10 @@ spec_result_get_query <- list(
     })
   },
 
-  #' Multi-row multi-column queries can be read with dbGetQuery.
-  get_query_multi = function(ctx) {
+  #' or zero rows.
+  get_query_zero_rows = function(ctx) {
     with_connection({
-      query <- union(.ctx = ctx, paste("SELECT", 1:2, "AS a,", 2:3, "AS b"),
-                     .order_by = "a")
-
-      rows <- dbGetQuery(con, query)
-      expect_identical(rows, data.frame(a=1L:2L, b=2L:3L))
-    })
-  },
-
-  #' Empty multi-column queries can be read with
-  #' [DBI::dbGetQuery()]. Not all SQL dialects support the query
-  #' used here.
-  get_query_empty_multi_column = function(ctx) {
-    with_connection({
+      # Not all SQL dialects seem to support the query used here.
       query <-
         "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
 
@@ -74,6 +50,130 @@ spec_result_get_query <- list(
     })
   },
 
-  #' }
+
+  #' An error is raised when issuing a query over a closed
+  get_query_closed_connection = function(ctx) {
+    with_closed_connection({
+      expect_error(dbGetQuery(con, "SELECT 1"))
+    })
+  },
+
+  #' or invalid connection,
+  get_query_invalid_connection = function(ctx) {
+    with_invalid_connection({
+      expect_error(dbGetQuery(con, "SELECT 1"))
+    })
+  },
+
+  #' if the syntax of the query is invalid,
+  get_query_syntax_error = function(ctx) {
+    with_connection({
+      expect_error(dbGetQuery(con, "SELECT"))
+    })
+  },
+
+  #' or if the query is not a non-`NA` string.
+  get_query_non_string = function(ctx) {
+    with_connection({
+      expect_error(dbGetQuery(con, character()))
+      expect_error(dbGetQuery(con, letters))
+      expect_error(dbGetQuery(con, NA_character_))
+    })
+  },
+
+  #' If the `n` argument is not an atomic whole number
+  #' greater or equal to -1, an error is raised,
+  get_query_n_bad = function(ctx) {
+    with_connection({
+      query <- "SELECT 1 as a"
+      expect_error(dbGetQuery(con, query, -2))
+      expect_error(dbGetQuery(con, query, 1.5))
+      expect_error(dbGetQuery(con, query, integer()))
+      expect_error(dbGetQuery(con, query, 1:3))
+      expect_error(dbGetQuery(con, query, NA_integer_))
+    })
+  },
+
+  #' but a subsequent call to `dbGetQuery()` with proper `n` argument succeeds.
+  get_query_good_after_bad_n = function(ctx) {
+    with_connection({
+      query <- "SELECT 1 as a"
+      expect_error(dbGetQuery(con, query, NA_integer_))
+      rows <- dbGetQuery(con, query)
+      expect_identical(rows, data.frame(a = 1L))
+    })
+  },
+
+  #' @section Specification:
+  #' Fetching multi-row queries with one
+  get_query_multi_row_single_column = function(ctx) {
+    with_connection({
+      query <- union(
+        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+
+      rows <- dbGetQuery(con, query)
+      expect_identical(rows, data.frame(a = 1:3))
+    })
+  },
+
+  #' or more columns be default returns the entire result.
+  get_query_multi_row_multi_column = function(ctx) {
+    with_connection({
+      query <- union(
+        .ctx = ctx, paste("SELECT", 1:5, "AS a,", 4:0, "AS b"), .order_by = "a")
+
+      rows <- dbGetQuery(con, query)
+      expect_identical(rows, data.frame(a = 1:5, b = 4:0))
+    })
+  },
+
+  #' A value of [Inf] for the `n` argument is supported
+  #' and also returns the full result.
+  get_query_n_multi_row_inf = function(ctx) {
+    with_connection({
+      query <- union(
+        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+
+      rows <- dbGetQuery(con, query, n = Inf)
+      expect_identical(rows, data.frame(a = 1:3))
+    })
+  },
+
+  #' If more rows than available are fetched, the result is returned in full
+  #' without warning.
+  get_query_n_more_rows = function(ctx) {
+    with_connection({
+      query <- union(
+        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+
+      expect_warning(rows <- dbGetQuery(con, query, n = 5L), NA)
+      expect_identical(rows, data.frame(a = 1:3))
+    })
+  },
+
+  #' If zero rows are fetched, the columns of the data frame are still fully
+  #' typed.
+  get_query_n_zero_rows = function(ctx) {
+    with_connection({
+      query <- union(
+        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+
+      expect_warning(rows <- dbGetQuery(con, query, n = 0L), NA)
+      expect_identical(rows, data.frame(a=integer()))
+    })
+  },
+
+  #' Fetching fewer rows than available is permitted,
+  #' no warning is issued.
+  get_query_n_incomplete = function(ctx) {
+    with_connection({
+      query <- union(
+        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+
+      rows <- dbGetQuery(con, query, n = 2L)
+      expect_identical(rows, data.frame(a = 1:2))
+    })
+  },
+
   NULL
 )
