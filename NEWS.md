@@ -1,3 +1,9 @@
+## DBItest 1.4-11 (2017-01-31)
+
+- Fix roundtrip tests for raw columns: now expecting `NULL` and not `NA` entries for SQL NULL values.
+- Fix `expect_equal_df()` for list columns.
+
+
 ## DBItest 1.4-10 (2017-01-31)
 
 - `DBItest_tweaks` class gains a `$` method, accessing an undefined tweak now raises an error.
