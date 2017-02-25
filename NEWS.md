@@ -1,3 +1,8 @@
+## DBItest 1.4-12 (2017-02-26)
+
+- Added prose specifications, and enhanced/modified/renamed tests for `dbIsValid()`, `dbHasCompleted()`, `dbGetStatement()`, `dbGetRowCount()`, `dbGetRowsAffected()`, and `dbBind()` (#88).
+
+
 ## DBItest 1.4-11 (2017-01-31)
 
 - Fix roundtrip tests for raw columns: now expecting `NULL` and not `NA` entries for SQL NULL values.
