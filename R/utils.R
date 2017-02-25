@@ -97,7 +97,10 @@ with_remove_test_table <- function(code, name = "test", con = "con", env = paren
   eval(bquote({
     on.exit(
       try_silent(
-        dbClearResult(dbSendStatement(.(con), paste0("DROP TABLE ", .(name))))), add = TRUE)
+        dbExecute(.(con), paste0("DROP TABLE ", dbQuoteIdentifier(.(con), .(name))))
+      ),
+      add = TRUE
+    )
     local(.(code_sub))
   }
   ), envir = env)
