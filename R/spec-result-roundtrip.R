@@ -48,7 +48,7 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' - lists of [raw] for blobs
+  #' - lists of [raw] for blobs (with `NULL` entries for SQL NULL values)
   data_raw = function(ctx) {
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
@@ -294,7 +294,11 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
 
   if (.add_null != "none") {
     expect_equal(nrow(rows), 2L)
-    expect_true(all(is.na(unname(unlist(rows[2L, ])))))
+    if (is.list(rows[[1L]])) {
+      expect_true(is.null(rows[2L, 1L][[1L]]))
+    } else {
+      expect_true(is.na(rows[2L, 1L]))
+    }
   } else {
     expect_equal(nrow(rows), 1L)
   }

@@ -1,3 +1,22 @@
+## DBItest 1.4-11 (2017-01-31)
+
+- Fix roundtrip tests for raw columns: now expecting `NULL` and not `NA` entries for SQL NULL values.
+- Fix `expect_equal_df()` for list columns.
+
+
+## DBItest 1.4-10 (2017-01-31)
+
+- `DBItest_tweaks` class gains a `$` method, accessing an undefined tweak now raises an error.
+- The arguments of the `tweaks()` function now have default values that further describe their intended usage.
+- New `with_closed_connection()`, `with_invalid_connection()`, `with_result()` and `with_remove_test_table()` helpers, and `expect_visible()`, `expect_inbisible_true()`, and `expect_equal_df()` expectations for more concise tests.
+- Added prose specifications, and enhanced/modified/renamed tests for `dbConnect()`, `dbDisconnect()`, `dbDataType()`, `dbSendQuery()`, `dbFetch()`, `dbClearResult()`, `dbGetQuery()`, `dbSendStatement()`, `dbExecute()`, `dbQuoteIdentifier()`, `dbQuoteString()`, `dbReadTable()`, `dbWriteTable()`, `dbRemoveTable()`, `dbExistsTable()`, and `dbListTables()` (#88).
+- Testing that a warning is given if the user forgets to call `dbDisconnect()` or `dbClearResult()` (#103).
+- Added roundtrip test for time values (#14).
+- Added tweaks for handling date, time, timestamp, ... (#53, #76).
+- Test that `dbFetch()` on update-only query returns warning (#66).
+- Numeric roundtrip accepts conversion of `NaN` to `NA` (#79).
+
+
 # DBItest 1.4 (2016-12-02)
 
 ## DBI specification

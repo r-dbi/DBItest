@@ -429,7 +429,7 @@ spec_sql_write_table <- list(
 
     with_connection({
       with_remove_test_table({
-        tbl_in <- data.frame(a = I(list(as.raw(1:10), NULL)))
+        tbl_in <- data.frame(id = 1:2, a = I(list(as.raw(1:10), NULL)))
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
