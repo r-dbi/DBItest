@@ -14,6 +14,27 @@ spec_meta_bind <- list(
   },
 
   #' @return
+  bind_return_value = function(ctx) {
+    ReturnValue <- R6::R6Class(
+      "ReturnValue",
+      inherit = BindTesterExtra,
+      portable = TRUE,
+
+      public = list(
+        check_return_value = function(bind_res, res) {
+          #' `dbBind()` returns the result set,
+          expect_identical(res, bind_res$value)
+          #' invisibly.
+          expect_false(bind_res$visible)
+        }
+      )
+    )
+
+    with_connection({
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = ReturnValue)
+    })
+  },
+
   #' Empty binding.
   bind_empty = function(ctx) {
     with_connection({
@@ -30,14 +51,6 @@ spec_meta_bind <- list(
     con <- connect(ctx)
     dbDisconnect(con)
     expect_error(test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L))
-  },
-
-  #' Binding of integer values with check of
-  #' return value.
-  bind_return_value = function(ctx) {
-    with_connection({
-      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = "return_value")
-    })
   },
 
   #' Binding of integer values with too many

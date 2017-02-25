@@ -34,7 +34,9 @@ test_select_bind_one <- function(con, placeholder_fun, values,
 }
 
 new_extra_imp <- function(extra) {
-  if (length(extra) == 0)
+  if (is.environment(extra))
+    extra$new()
+  else if (length(extra) == 0)
     new_extra_imp_one("none")
   else if (length(extra) == 1)
     new_extra_imp_one(extra)
@@ -47,7 +49,6 @@ new_extra_imp <- function(extra) {
 new_extra_imp_one <- function(extra) {
   extra_imp <- switch(
     extra,
-    return_value = BindTesterExtraReturnValue,
     too_many = BindTesterExtraTooMany,
     not_enough = BindTesterExtraNotEnough,
     wrong_name = BindTesterExtraWrongName,
@@ -59,37 +60,6 @@ new_extra_imp_one <- function(extra) {
 
   extra_imp$new()
 }
-
-# BindTesterExtra ---------------------------------------------------------
-
-BindTesterExtra <- R6::R6Class(
-  "BindTesterExtra",
-  portable = TRUE,
-
-  public = list(
-    check_return_value = function(bind_res, res) invisible(NULL),
-    patch_bind_values = identity,
-    requires_names = function() FALSE,
-    is_repeated = function() FALSE
-  )
-)
-
-
-# BindTesterExtraReturnValue ----------------------------------------------
-
-BindTesterExtraReturnValue <- R6::R6Class(
-  "BindTesterExtraReturnValue",
-  inherit = BindTesterExtra,
-  portable = TRUE,
-
-  public = list(
-    check_return_value = function(bind_res, res) {
-      expect_false(bind_res$visible)
-      expect_identical(res, bind_res$value)
-    }
-  )
-)
-
 
 # BindTesterExtraTooMany --------------------------------------------------
 

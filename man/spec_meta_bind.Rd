@@ -6,12 +6,11 @@
 \alias{spec_meta_bind}
 \title{spec_meta_bind}
 \value{
-Empty binding with check of
-return value.
+\code{dbBind()} returns the result set,
+invisibly.
+Empty binding.
 Binding of integer values raises an
 error if connection is closed.
-Binding of integer values with check of
-return value.
 Binding of integer values with too many
 values.
 Binding of integer values with too few
