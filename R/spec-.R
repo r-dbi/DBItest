@@ -19,10 +19,8 @@
 #' @include spec-transaction-with-transaction.R
 #' @include spec-transaction-begin-rollback.R
 #' @include spec-transaction-begin-commit.R
-#' @include spec-meta.R
-#' @include spec-meta-bind-.R
-#' @include spec-meta-bind.R
 ##### Aggregators
+#' @include spec-meta.R
 #' @include spec-sql.R
 #' @include spec-result.R
 #' @include spec-connection.R
@@ -34,6 +32,8 @@
 #' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
 ##### Method specs
+#' @include spec-meta-bind-.R
+#' @include spec-meta-bind.R
 #' @include spec-meta-bind-tester-extra.R
 #' @include spec-meta-bind-runner.R
 #' @include spec-meta-get-rows-affected.R
