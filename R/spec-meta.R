@@ -9,7 +9,6 @@ spec_meta <- c(
   spec_meta_get_rows_affected,
   spec_meta_get_info_result,
   spec_meta_bind,
-  spec_meta_bind_multi_row,
 
   # no 64-bit or time input data type yet
 

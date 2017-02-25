@@ -2,10 +2,9 @@
 % Please edit documentation in R/spec.R, R/spec-driver-get-info.R,
 %   R/spec-connection-get-info.R, R/spec-sql-list-fields.R,
 %   R/spec-meta-column-info.R, R/spec-meta-get-info-result.R,
-%   R/spec-meta-bind-multi-row.R, R/spec-transaction-begin-rollback.R,
-%   R/spec-transaction-with-transaction.R, R/spec-compliance-methods.R,
-%   R/spec-compliance-read-only.R, R/spec-stress-driver.R,
-%   R/spec-stress-connection.R
+%   R/spec-transaction-begin-rollback.R, R/spec-transaction-with-transaction.R,
+%   R/spec-compliance-methods.R, R/spec-compliance-read-only.R,
+%   R/spec-stress-driver.R, R/spec-stress-connection.R
 \docType{data}
 \name{DBIspec-wip}
 \alias{DBIspec-wip}
@@ -56,15 +55,6 @@ Column information is correct.
 
 \subsection{\code{dbGetInfo("DBIResult")} (deprecated)}{
 Return value of dbGetInfo has necessary elements
-}
-}
-
-\section{Parametrised queries and statements}{
-
-\subsection{\code{dbBind("DBIResult")}}{
-Binding of multi-row integer values.
-Binding of multi-row integer values with zero rows.
-Binding of multi-row statements.
 }
 }
 

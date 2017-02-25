@@ -124,9 +124,39 @@ spec_meta_bind <- list(
   },
 
   #' @section Specification:
+  #' The elements of the `params` argument do not need to be scalars,
+  bind_multi_row = function(ctx) {
+    with_connection({
+      #' vectors of arbitrary length
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, list(1:3))
+    })
+  },
+
+  bind_multi_row_zero_length = function(ctx) {
+    with_connection({
+      #' (including length 0)
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, list(integer(), integer()))
+    })
+
+    #' are supported.
+    # This behavior is tested as part of run_bind_tester$fun
+    #' For queries, calling `dbFetch()` binding such parameters returns
+    #' concatenated results, equivalent to binding and fetching for each set
+    #' of values and connecting via [rbind()].
+  },
+
+  bind_multi_row_statement = function(ctx) {
+    with_connection({
+      # This behavior is tested as part of run_bind_tester$fun
+      #' For data manipulation statements, `dbGetRowsAffected()` returns the
+      #' total number of rows affected if binding non-scalar parameters.
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, list(1:3), query = FALSE)
+    })
+  },
+
   bind_repeated = function(ctx) {
     extra <- new_bind_tester_extra(
-      #' `dbBind()` accepts repeated calls on the same result set
+      #' `dbBind()` also accepts repeated calls on the same result set
       is_repeated = function() TRUE
     )
 

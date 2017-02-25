@@ -76,7 +76,6 @@ Collate:
     'spec-result.R'
     'spec-sql.R'
     'spec-meta-bind.R'
-    'spec-meta-bind-multi-row.R'
     'spec-meta-bind-.R'
     'spec-meta.R'
     'spec-transaction-begin-commit.R'

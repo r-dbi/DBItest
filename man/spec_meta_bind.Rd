@@ -63,7 +63,16 @@ the statement is processed entirely before the function returns.)
 }
 
 
-\code{dbBind()} accepts repeated calls on the same result set
+The elements of the \code{params} argument do not need to be scalars,
+vectors of arbitrary length
+(including length 0)
+are supported.
+For queries, calling \code{dbFetch()} binding such parameters returns
+concatenated results, equivalent to binding and fetching for each set
+of values and connecting via \code{\link[=rbind]{rbind()}}.
+For data manipulation statements, \code{dbGetRowsAffected()} returns the
+total number of rows affected if binding non-scalar parameters.
+\code{dbBind()} also accepts repeated calls on the same result set
 for both queries
 and data manipulation statements,
 even if no results are fetched between calls to \code{dbBind()}.

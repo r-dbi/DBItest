@@ -21,7 +21,6 @@
 #' @include spec-transaction-begin-commit.R
 #' @include spec-meta.R
 #' @include spec-meta-bind-.R
-#' @include spec-meta-bind-multi-row.R
 #' @include spec-meta-bind.R
 ##### Aggregators
 #' @include spec-sql.R
