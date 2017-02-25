@@ -7,7 +7,8 @@ BindTesterExtra <- R6::R6Class(
     patch_bind_values = identity,
     requires_names = function() FALSE,
     is_repeated = function() FALSE,
-    is_premature_clear = function() FALSE
+    is_premature_clear = function() FALSE,
+    is_untouched = function() FALSE
   )
 )
 

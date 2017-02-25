@@ -63,7 +63,11 @@ the statement is processed entirely before the function returns.)
 }
 
 
-Binding of integer values, repeated.
+\code{dbBind()} should accept repeated calls on the same result set
+for both queries
+and data manipulation statements,
+even if no results are fetched between calls to \code{dbBind()}.
+
 Binding of integer values.
 Binding of numeric values.
 Binding of logical values.
@@ -74,7 +78,5 @@ Binding of date values.
 Binding of \link{POSIXct} timestamp values.
 Binding of \link{POSIXlt} timestamp values.
 Binding of raw values.
-Binding of statements.
-Repeated binding of statements.
 }
 

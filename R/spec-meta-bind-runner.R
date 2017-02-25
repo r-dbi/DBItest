@@ -70,7 +70,8 @@ run_bind_tester$fun <- function() {
       compare_affected(rows_affected, values)
     }
   }
-  retrieve()
+
+  if (!extra_obj$is_untouched()) retrieve()
 
   #' 1. Repeat 2. and 3. as necessary.
   if (extra_obj$is_repeated()) {

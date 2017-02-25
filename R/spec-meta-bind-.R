@@ -49,26 +49,12 @@ new_extra_imp <- function(extra) {
 new_extra_imp_one <- function(extra) {
   extra_imp <- switch(
     extra,
-    repeated = BindTesterExtraRepeated,
     none = BindTesterExtra,
     stop("Unknown extra: ", extra, call. = FALSE)
   )
 
   extra_imp$new()
 }
-
-
-# BindTesterExtraRepeated -------------------------------------------------
-
-BindTesterExtraRepeated <- R6::R6Class(
-  "BindTesterExtraRepeated",
-  inherit = BindTesterExtra,
-  portable = TRUE,
-
-  public = list(
-    is_repeated = function() TRUE
-  )
-)
 
 
 # BindTester --------------------------------------------------------------

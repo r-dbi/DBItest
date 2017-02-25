@@ -124,13 +124,40 @@ spec_meta_bind <- list(
   },
 
   #' @section Specification:
-  #' Binding of integer values, repeated.
   bind_repeated = function(ctx) {
+    extra <- new_bind_tester_extra(
+      #' `dbBind()` should accept repeated calls on the same result set
+      is_repeated = function() TRUE
+    )
+
     with_connection({
-      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = "repeated")
+      #' for both queries
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
+    })
+
+    with_connection({
+      #' and data manipulation statements,
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra, query = FALSE)
     })
   },
 
+  bind_repeated_untouched = function(ctx) {
+    extra <- new_bind_tester_extra(
+      #' even if no results are fetched between calls to `dbBind()`.
+      is_repeated = function() TRUE,
+      is_untouched = function() TRUE
+    )
+
+    with_connection({
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
+    })
+
+    with_connection({
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra, query = FALSE)
+    })
+  },
+
+  #'
   #' Binding of integer values.
   bind_integer = function(ctx) {
     with_connection({
@@ -222,20 +249,6 @@ spec_meta_bind <- list(
         type = NULL,
         transform_input = identity,
         transform_output = identity)
-    })
-  },
-
-  #' Binding of statements.
-  bind_statement = function(ctx) {
-    with_connection({
-      test_select_bind(con, ctx$tweaks$placeholder_pattern, list(1), query = FALSE)
-    })
-  },
-
-  #' Repeated binding of statements.
-  bind_statement_repeated = function(ctx) {
-    with_connection({
-      test_select_bind(con, ctx$tweaks$placeholder_pattern, list(1), query = FALSE, extra = "repeated")
     })
   },
 
