@@ -24,7 +24,6 @@
 #' @include spec-meta-bind-multi-row.R
 #' @include spec-meta-bind.R
 #' @include spec-meta-get-info-result.R
-#' @include spec-meta-get-rows-affected.R
 ##### Aggregators
 #' @include spec-sql.R
 #' @include spec-result.R
@@ -36,6 +35,7 @@
 #' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
 ##### Method specs
+#' @include spec-meta-get-rows-affected.R
 #' @include spec-meta-get-row-count.R
 #' @include spec-meta-get-statement.R
 #' @include spec-meta-has-completed.R

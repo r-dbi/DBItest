@@ -1,42 +1,79 @@
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section Meta:
-#' \subsection{`dbGetRowsAffected("DBIResult")`}{
+NULL
+
+#' spec_meta_get_rows_affected
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_meta_get_rows_affected <- list(
-  #' Information on affected rows is correct.
-  rows_affected = function(ctx) {
+  get_rows_affected_formals = function(ctx) {
+    # <establish formals of described functions>
+    expect_equal(names(formals(DBI::dbGetRowsAffected)), c("res", "..."))
+  },
+
+  #' @return
+  #' `dbGetRowsAffected()` returns a scalar number string (integer or numeric),
+  #' the number of rows affected by a data manipulation statement
+  rows_affected_statement = function(ctx) {
     with_connection({
-      expect_error(dbGetQuery(con, "SELECT * FROM iris"))
-      on.exit(expect_error(dbExecute(con, "DROP TABLE iris"), NA),
-              add = TRUE)
+      with_remove_test_table({
+        dbWriteTable(con, "test", data.frame(a = 1:10))
 
-      iris <- get_iris(ctx)
-      dbWriteTable(con, "iris", iris)
-
-      local({
         query <- paste0(
-          "DELETE FROM iris WHERE (",
-          dbQuoteIdentifier(con, "Species"),
-          " = ", dbQuoteString(con, "versicolor"),
-          ")")
-        res <- dbSendStatement(con, query)
-        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
-        ra <- dbGetRowsAffected(res)
-
-        expect_identical(ra, sum(iris$Species == "versicolor"))
-      })
-
-      local({
-        query <- "DELETE FROM iris WHERE (0 = 1)"
-        res <- dbSendStatement(con, query)
-        on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
-        ra <- dbGetRowsAffected(res)
-
-        expect_identical(ra, 0L)
+          "DELETE FROM ", dbQuoteIdentifier(con, "test"), " ",
+          "WHERE a < 6"
+        )
+        with_result(
+          #' issued with [DBI::dbSendStatement()].
+          dbSendStatement(con, query),
+          {
+            rc <- dbGetRowsAffected(res)
+            #' The value is available directly after the call
+            expect_equal(rc, 5L)
+            dbFetch(res)
+            rc <- dbGetRowsAffected(res)
+            #' and does not change after calling [DBI::dbFetch()].
+            expect_equal(rc, 5L)
+          }
+        )
       })
     })
   },
 
-  #' }
+  rows_affected_query = function(ctx) {
+    with_connection({
+      query <- "SELECT 1 as a"
+      with_result(
+        #' For queries issued with [DBI::dbSendQuery()],
+        dbSendQuery(con, query),
+        {
+          rc <- dbGetRowsAffected(res)
+          #' zero is returned before
+          expect_equal(rc, 0L)
+          dbFetch(res)
+          rc <- dbGetRowsAffected(res)
+          #' and after the call to `dbFetch()`.
+          expect_equal(rc, 0L)
+        }
+      )
+    })
+  },
+
+  get_rows_affected_error = function(ctx) {
+    with_connection({
+      query <- paste0(
+        "CREATE TABLE ", dbQuoteIdentifier(con, "test"), " (a integer)"
+      )
+      with_remove_test_table({
+        res <- dbSendStatement(con, query)
+        dbClearResult(res)
+        #' Attempting to get the rows affected for a result set cleared with
+        #' [DBI::dbClearResult()] gives an error.
+        expect_error(dbGetRowsAffected(res))
+      })
+    })
+  },
+
   NULL
 )
