@@ -1,8 +1,19 @@
-#' @template dbispec-sub-wip
+#' @template dbispec-sub
 #' @format NULL
-#' @section Parametrised queries and statements:
-#' \subsection{`dbBind("DBIResult")`}{
+#' @inheritSection spec_meta_bind Specification
+NULL
+
+#' spec_meta_bind
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_meta_bind <- list(
+  bind_formals = function(ctx) {
+    # <establish formals of described functions>
+    expect_equal(names(formals(DBI::dbBind)), c("res", "params", "..."))
+  },
+
+  #' @return
   #' Empty binding with check of
   #' return value.
   bind_empty = function(ctx) {
@@ -163,6 +174,7 @@ spec_meta_bind <- list(
     })
   },
 
+  #' @section Specification:
   #' Repeated binding of statements.
   bind_statement_repeated = function(ctx) {
     with_connection({
@@ -170,6 +182,5 @@ spec_meta_bind <- list(
     })
   },
 
-  #' }
   NULL
 )

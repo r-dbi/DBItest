@@ -12,8 +12,8 @@
 %   R/spec-sql-exists-table.R, R/spec-sql-remove-table.R,
 %   R/spec-meta-is-valid.R, R/spec-meta-has-completed.R,
 %   R/spec-meta-get-statement.R, R/spec-meta-get-row-count.R,
-%   R/spec-meta-get-rows-affected.R, R/spec-driver.R,
-%   R/spec-connection.R, R/spec-result.R, R/spec-sql.R, R/spec-meta.R,
+%   R/spec-meta-get-rows-affected.R, R/spec-driver.R, R/spec-connection.R,
+%   R/spec-result.R, R/spec-sql.R, R/spec-meta-bind.R, R/spec-meta.R,
 %   R/spec-transaction-begin-commit.R, R/spec-transaction.R,
 %   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
@@ -409,6 +409,44 @@ Similarly, for a query with a result set of length n,
 the return value is unspecified after fetching n rows,
 but the result value is \code{TRUE} after trying to fetch only one more
 row.
+
+
+\pkg{DBI} clients execute parametrized statements as follows:
+\enumerate{
+\item Call \code{\link[DBI:dbSendQuery]{DBI::dbSendQuery()}} or \code{\link[DBI:dbSendStatement]{DBI::dbSendStatement()}} with a query or statement
+that contains placeholders,
+store the returned \link[DBI:DBIResult-class]{DBI::DBIResult} object in a variable.
+Mixing placeholders (in particular, named and unnamed ones) is not
+recommended.
+It is good practice to register a call to \code{\link[DBI:dbClearResult]{DBI::dbClearResult()}} via
+\code{\link[=on.exit]{on.exit()}} right after calling \code{dbSendQuery()} or \code{dbSendStatement()}
+(see the last enumeration item).
+\item Construct a list with parameters
+that specify actual values for the placeholders.
+The list must be named or unnamed,
+depending on the kind of placeholders used.
+Named values are matched to named parameters, unnamed values
+are matched by position.
+All elements in this list must have the same lengths and contain values
+supported by the backend; a \link{data.frame} is internally stored as such
+a list.
+The parameter list is passed to a call to \code{dbBind()} on the \code{DBIResult}
+object.
+\item Retrieve the data or the number of affected rows from the \code{DBIResult} object.
+\itemize{
+\item For queries issued by \code{dbSendQuery()},
+call \code{\link[DBI:dbFetch]{DBI::dbFetch()}}.
+\item For statements issued by \code{dbSendStatements()},
+call \code{\link[DBI:dbGetRowsAffected]{DBI::dbGetRowsAffected()}}.
+(Execution begins immediately after the \code{dbBind()} call,
+the statement is processed entirely before the function returns.)
+}
+\item Repeat 2. and 3. as necessary.
+\item Close the result set via \code{\link[DBI:dbClearResult]{DBI::dbClearResult()}}.
+}
+
+
+Repeated binding of statements.
 }
 
 \section{Additional arguments}{

@@ -2,10 +2,10 @@
 % Please edit documentation in R/spec.R, R/spec-driver-get-info.R,
 %   R/spec-connection-get-info.R, R/spec-sql-list-fields.R,
 %   R/spec-meta-column-info.R, R/spec-meta-get-info-result.R,
-%   R/spec-meta-bind.R, R/spec-meta-bind-multi-row.R,
-%   R/spec-transaction-begin-rollback.R, R/spec-transaction-with-transaction.R,
-%   R/spec-compliance-methods.R, R/spec-compliance-read-only.R,
-%   R/spec-stress-driver.R, R/spec-stress-connection.R
+%   R/spec-meta-bind-multi-row.R, R/spec-transaction-begin-rollback.R,
+%   R/spec-transaction-with-transaction.R, R/spec-compliance-methods.R,
+%   R/spec-compliance-read-only.R, R/spec-stress-driver.R,
+%   R/spec-stress-connection.R
 \docType{data}
 \name{DBIspec-wip}
 \alias{DBIspec-wip}
@@ -60,34 +60,6 @@ Return value of dbGetInfo has necessary elements
 }
 
 \section{Parametrised queries and statements}{
-
-\subsection{\code{dbBind("DBIResult")}}{
-Empty binding with check of
-return value.
-Binding of integer values raises an
-error if connection is closed.
-Binding of integer values with check of
-return value.
-Binding of integer values with too many
-values.
-Binding of integer values with too few
-values.
-Binding of integer values, repeated.
-Binding of integer values with wrong names.
-Binding of integer values.
-Binding of numeric values.
-Binding of logical values.
-Binding of logical values (coerced to integer).
-Binding of \code{NULL} values.
-Binding of character values.
-Binding of date values.
-Binding of \link{POSIXct} timestamp values.
-Binding of \link{POSIXlt} timestamp values.
-Binding of raw values.
-Binding of statements.
-Repeated binding of statements.
-}
-
 
 \subsection{\code{dbBind("DBIResult")}}{
 Binding of multi-row integer values.
