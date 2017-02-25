@@ -26,7 +26,7 @@ LazyData: true
 Encoding: UTF-8
 BugReports: https://github.com/rstats-db/DBItest/issues
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 5.0.1.9000
+RoxygenNote: 6.0.1.9000
 VignetteBuilder: knitr
 Collate: 
     'DBItest.R'
@@ -59,24 +59,24 @@ Collate:
     'spec-sql-list-tables.R'
     'spec-sql-exists-table.R'
     'spec-sql-remove-table.R'
+    'spec-meta-is-valid.R'
+    'spec-meta-has-completed.R'
+    'spec-meta-get-statement.R'
+    'spec-meta-get-row-count.R'
+    'spec-meta-get-rows-affected.R'
+    'spec-meta-bind-runner.R'
+    'spec-meta-bind-tester-extra.R'
+    'spec-meta-bind.R'
+    'spec-meta-bind-.R'
     'spec-driver-get-info.R'
     'spec-connection-get-info.R'
     'spec-sql-list-fields.R'
+    'spec-meta-column-info.R'
+    'spec-meta-get-info-result.R'
     'spec-driver.R'
     'spec-connection.R'
     'spec-result.R'
     'spec-sql.R'
-    'spec-meta-is-valid-connection.R'
-    'spec-meta-is-valid-result.R'
-    'spec-meta-has-completed.R'
-    'spec-meta-get-statement.R'
-    'spec-meta-column-info.R'
-    'spec-meta-get-row-count.R'
-    'spec-meta-get-rows-affected.R'
-    'spec-meta-get-info-result.R'
-    'spec-meta-bind.R'
-    'spec-meta-bind-multi-row.R'
-    'spec-meta-bind-.R'
     'spec-meta.R'
     'spec-transaction-begin-commit.R'
     'spec-transaction-begin-rollback.R'
