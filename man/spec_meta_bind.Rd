@@ -7,27 +7,19 @@
 \title{spec_meta_bind}
 \value{
 \code{dbBind()} returns the result set,
-invisibly.
-Empty binding.
-Binding of integer values raises an
-error if connection is closed.
-Binding of integer values with too many
-values.
-Binding of integer values with too few
-values.
-Binding of integer values, repeated.
-Binding of integer values with wrong names.
-Binding of integer values.
-Binding of numeric values.
-Binding of logical values.
-Binding of logical values (coerced to integer).
-Binding of \code{NULL} values.
-Binding of character values.
-Binding of date values.
-Binding of \link{POSIXct} timestamp values.
-Binding of \link{POSIXlt} timestamp values.
-Binding of raw values.
-Binding of statements.
+invisibly,
+for queries issued by \code{\link[DBI:dbSendQuery]{DBI::dbSendQuery()}}
+and also for data manipulation statements issued by
+\code{\link[DBI:dbSendStatement]{DBI::dbSendStatement()}}.
+Calling \code{dbBind()} for a query without parameters
+raises an error.
+Binding too many
+or not enough values,
+or parameters with wrong names
+or unequal length,
+also raises an error.
+Calling \code{dbBind()} on a result set already cleared by \code{\link[=dbClearResult]{dbClearResult()}}
+also raises an error.
 }
 \description{
 spec_meta_bind
@@ -51,7 +43,7 @@ that specify actual values for the placeholders.
 The list must be named or unnamed,
 depending on the kind of placeholders used.
 Named values are matched to named parameters, unnamed values
-are matched by position.
+are matched by position in the list of parameters.
 All elements in this list must have the same lengths and contain values
 supported by the backend; a \link{data.frame} is internally stored as such
 a list.
@@ -71,6 +63,18 @@ the statement is processed entirely before the function returns.)
 }
 
 
+Binding of integer values, repeated.
+Binding of integer values.
+Binding of numeric values.
+Binding of logical values.
+Binding of logical values (coerced to integer).
+Binding of \code{NULL} values.
+Binding of character values.
+Binding of date values.
+Binding of \link{POSIXct} timestamp values.
+Binding of \link{POSIXlt} timestamp values.
+Binding of raw values.
+Binding of statements.
 Repeated binding of statements.
 }
 

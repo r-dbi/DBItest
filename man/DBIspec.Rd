@@ -426,7 +426,7 @@ that specify actual values for the placeholders.
 The list must be named or unnamed,
 depending on the kind of placeholders used.
 Named values are matched to named parameters, unnamed values
-are matched by position.
+are matched by position in the list of parameters.
 All elements in this list must have the same lengths and contain values
 supported by the backend; a \link{data.frame} is internally stored as such
 a list.
@@ -446,6 +446,18 @@ the statement is processed entirely before the function returns.)
 }
 
 
+Binding of integer values, repeated.
+Binding of integer values.
+Binding of numeric values.
+Binding of logical values.
+Binding of logical values (coerced to integer).
+Binding of \code{NULL} values.
+Binding of character values.
+Binding of date values.
+Binding of \link{POSIXct} timestamp values.
+Binding of \link{POSIXlt} timestamp values.
+Binding of raw values.
+Binding of statements.
 Repeated binding of statements.
 }
 

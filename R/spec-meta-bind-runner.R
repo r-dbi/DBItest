@@ -27,7 +27,8 @@ run_bind_tester$fun <- function() {
   #'    It is good practice to register a call to [DBI::dbClearResult()] via
   #'    [on.exit()] right after calling `dbSendQuery()` or `dbSendStatement()`
   #'    (see the last enumeration item).
-  on.exit(expect_error(dbClearResult(res), NA))
+  if (extra_obj$is_premature_clear()) dbClearResult(res)
+  else on.exit(expect_error(dbClearResult(res), NA))
 
   #' 1. Construct a list with parameters
   #'    that specify actual values for the placeholders.
@@ -35,7 +36,7 @@ run_bind_tester$fun <- function() {
   #'    The list must be named or unnamed,
   #'    depending on the kind of placeholders used.
   #'    Named values are matched to named parameters, unnamed values
-  #'    are matched by position.
+  #'    are matched by position in the list of parameters.
   if (!is.null(names(placeholder))) {
     names(bind_values) <- names(placeholder)
   }
@@ -44,7 +45,13 @@ run_bind_tester$fun <- function() {
   #'    a list.
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
-  if (!bind(res, bind_values))
+  bind(res, bind_values)
+
+  # Safety net: returning early if dbBind() should have thrown an error but
+  # didn't
+  if (!identical(bind_values, extra_obj$patch_bind_values(bind_values)))
+    return()
+  if (extra_obj$is_premature_clear())
     return()
 
   #' 1. Retrieve the data or the number of affected rows from the `DBIResult` object.

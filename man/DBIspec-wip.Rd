@@ -64,7 +64,6 @@ Return value of dbGetInfo has necessary elements
 \subsection{\code{dbBind("DBIResult")}}{
 Binding of multi-row integer values.
 Binding of multi-row integer values with zero rows.
-Binding of multi-row integer values with unequal length.
 Binding of multi-row statements.
 }
 }
