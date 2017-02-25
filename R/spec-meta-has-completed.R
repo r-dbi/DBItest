@@ -42,7 +42,7 @@ spec_meta_has_completed <- list(
         dbSendQuery(con, paste0("CREATE TABLE ", name, " (a integer)")),
         {
           #' `dbHasCompleted()` always returns `TRUE`.
-          expect_rue(expect_visible(dbHasCompleted(res)))
+          expect_true(expect_visible(dbHasCompleted(res)))
         }
       )
     })
