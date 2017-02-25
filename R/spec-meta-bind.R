@@ -14,16 +14,13 @@ spec_meta_bind <- list(
   },
 
   #' @return
-  #' Empty binding with check of
-  #' return value.
+  #' Empty binding.
   bind_empty = function(ctx) {
     with_connection({
-      res <- dbSendQuery(con, "SELECT 1")
-      on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
-
-      bind_res <- withVisible(dbBind(res, list()))
-      expect_false(bind_res$visible)
-      expect_identical(res, bind_res$value)
+      with_result(
+        dbSendQuery(con, "SELECT 1"),
+        expect_error(dbBind(res, list()))
+      )
     })
   },
 
