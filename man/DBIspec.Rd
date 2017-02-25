@@ -10,10 +10,10 @@
 %   R/spec-sql-quote-identifier.R, R/spec-sql-read-table.R,
 %   R/spec-sql-write-table.R, R/spec-sql-list-tables.R,
 %   R/spec-sql-exists-table.R, R/spec-sql-remove-table.R,
-%   R/spec-meta-is-valid.R, R/spec-driver.R, R/spec-connection.R,
-%   R/spec-result.R, R/spec-sql.R, R/spec-meta-has-completed.R,
-%   R/spec-meta-bind.R, R/spec-meta.R, R/spec-transaction-begin-commit.R,
-%   R/spec-transaction.R, R/spec-compliance.R, R/spec-stress.R
+%   R/spec-meta-is-valid.R, R/spec-meta-has-completed.R, R/spec-driver.R,
+%   R/spec-connection.R, R/spec-result.R, R/spec-sql.R, R/spec-meta-bind.R,
+%   R/spec-meta.R, R/spec-transaction-begin-commit.R, R/spec-transaction.R,
+%   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
 \name{DBIspec}
 \alias{DBIspec}
@@ -462,20 +462,15 @@ so that all optional arguments are passed along
 }
 
 
-Fetching multi-row queries with one
-or more columns be default returns the entire result.
-Multi-row queries can also be fetched progressively
-by passing a whole number (\link{integer}
-or \link{numeric})
-as the \code{n} argument.
-A value of \link{Inf} for the \code{n} argument is supported
-and also returns the full result.
-If more rows than available are fetched, the result is returned in full
-without warning.
-If zero rows are fetched, the columns of the data frame are still fully
-typed.
-Fetching fewer rows than available is permitted,
-no warning is issued when clearing the result set.
+The completion status for a query is only guaranteed to be set to
+\code{FALSE} after attempting to fetch past the end of the entire result.
+Therefore, for a query with an empty result set,
+the initial return value is unspecified,
+but the result value is \code{TRUE} after trying to fetch only one row.
+Similarly, for a query with a result set of length n,
+the return value is unspecified after fetching n rows,
+but the result value is \code{TRUE} after trying to fetch only one more
+row.
 }
 
 \section{Additional arguments}{
