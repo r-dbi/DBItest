@@ -35,6 +35,7 @@
 #' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
 ##### Method specs
+#' @include spec-meta-bind-runner.R
 #' @include spec-meta-get-rows-affected.R
 #' @include spec-meta-get-row-count.R
 #' @include spec-meta-get-statement.R
