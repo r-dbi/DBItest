@@ -23,13 +23,13 @@
 #' @include spec-meta-bind-.R
 #' @include spec-meta-bind-multi-row.R
 #' @include spec-meta-bind.R
-#' @include spec-meta-get-info-result.R
 ##### Aggregators
 #' @include spec-sql.R
 #' @include spec-result.R
 #' @include spec-connection.R
 #' @include spec-driver.R
 ##### Later
+#' @include spec-meta-get-info-result.R
 #' @include spec-meta-column-info.R
 #' @include spec-sql-list-fields.R
 #' @include spec-connection-get-info.R
