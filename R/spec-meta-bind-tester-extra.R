@@ -9,3 +9,11 @@ BindTesterExtra <- R6::R6Class(
     is_repeated = function() FALSE
   )
 )
+
+new_extra <- function(...) {
+  R6::R6Class(
+    inherit = BindTesterExtra,
+    portable = TRUE,
+    public = list(...)
+  )
+}

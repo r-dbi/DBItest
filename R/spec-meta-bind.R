@@ -15,23 +15,17 @@ spec_meta_bind <- list(
 
   #' @return
   bind_return_value = function(ctx) {
-    ReturnValue <- R6::R6Class(
-      "ReturnValue",
-      inherit = BindTesterExtra,
-      portable = TRUE,
-
-      public = list(
-        check_return_value = function(bind_res, res) {
-          #' `dbBind()` returns the result set,
-          expect_identical(res, bind_res$value)
-          #' invisibly.
-          expect_false(bind_res$visible)
-        }
-      )
+    extra <- new_extra(
+      check_return_value = function(bind_res, res) {
+        #' `dbBind()` returns the result set,
+        expect_identical(res, bind_res$value)
+        #' invisibly.
+        expect_false(bind_res$visible)
+      }
     )
 
     with_connection({
-      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = ReturnValue)
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
     })
   },
 
