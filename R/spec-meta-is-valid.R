@@ -1,8 +1,16 @@
 #' @template dbispec-sub-wip
 #' @format NULL
 #' @section Meta:
-#' \subsection{`dbIsValid("DBIResult")`}{
-spec_meta_is_valid_result <- list(
+#' \subsection{`dbIsValid()`}{
+spec_meta_is_valid <- list(
+  #' Only an open connection is valid.
+  is_valid_connection = function(ctx) {
+    con <- connect(ctx)
+    expect_true(dbIsValid(con))
+    expect_error(dbDisconnect(con), NA)
+    expect_false(dbIsValid(con))
+  },
+
   #' Only an open result set is valid.
   is_valid_result = function(ctx) {
     with_connection({
