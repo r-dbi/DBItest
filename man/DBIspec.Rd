@@ -10,10 +10,10 @@
 %   R/spec-sql-quote-identifier.R, R/spec-sql-read-table.R,
 %   R/spec-sql-write-table.R, R/spec-sql-list-tables.R,
 %   R/spec-sql-exists-table.R, R/spec-sql-remove-table.R,
-%   R/spec-driver.R, R/spec-connection.R, R/spec-result.R, R/spec-sql.R,
-%   R/spec-meta-has-completed.R, R/spec-meta-bind.R, R/spec-meta.R,
-%   R/spec-transaction-begin-commit.R, R/spec-transaction.R,
-%   R/spec-compliance.R, R/spec-stress.R
+%   R/spec-meta-is-valid.R, R/spec-driver.R, R/spec-connection.R,
+%   R/spec-result.R, R/spec-sql.R, R/spec-meta-has-completed.R,
+%   R/spec-meta-bind.R, R/spec-meta.R, R/spec-transaction-begin-commit.R,
+%   R/spec-transaction.R, R/spec-compliance.R, R/spec-stress.R
 \docType{data}
 \name{DBIspec}
 \alias{DBIspec}

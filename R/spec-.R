@@ -29,7 +29,6 @@
 #' @include spec-meta-column-info.R
 #' @include spec-meta-get-statement.R
 #' @include spec-meta-has-completed.R
-#' @include spec-meta-is-valid.R
 ##### Aggregators
 #' @include spec-sql.R
 #' @include spec-result.R
@@ -40,6 +39,7 @@
 #' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
 ##### Method specs
+#' @include spec-meta-is-valid.R
 #' @include spec-sql-remove-table.R
 #' @include spec-sql-exists-table.R
 #' @include spec-sql-list-tables.R
