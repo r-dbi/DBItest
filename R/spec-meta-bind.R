@@ -35,8 +35,6 @@ run_bind_tester$fun <- function() {
     return()
   }
 
-  # TODO: `dbHasCompleted()` et al. for parametrized queries
-
   # FIXME
   #' 1. Call [DBI::dbSendQuery()] or [DBI::dbSendStatement()] with a query or statement
   #'    that contains placeholders,
