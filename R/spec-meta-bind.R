@@ -126,7 +126,7 @@ spec_meta_bind <- list(
   #' @section Specification:
   bind_repeated = function(ctx) {
     extra <- new_bind_tester_extra(
-      #' `dbBind()` should accept repeated calls on the same result set
+      #' `dbBind()` accepts repeated calls on the same result set
       is_repeated = function() TRUE
     )
 
@@ -158,37 +158,32 @@ spec_meta_bind <- list(
   },
 
   #'
-  #' Binding of integer values.
+  #' At least the following data types are accepted:
+  #' - [integer]
   bind_integer = function(ctx) {
     with_connection({
       test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L)
     })
   },
 
-  #' Binding of numeric values.
+  #' - [numeric]
   bind_numeric = function(ctx) {
     with_connection({
       test_select_bind(con, ctx$tweaks$placeholder_pattern, 1.5)
     })
   },
 
-  #' Binding of logical values.
+  #' - [logical] for Boolean values (some backends may return an integer)
   bind_logical = function(ctx) {
-    with_connection({
-      test_select_bind(con, ctx$tweaks$placeholder_pattern, TRUE)
-    })
-  },
-
-  #' Binding of logical values (coerced to integer).
-  bind_logical_int = function(ctx) {
     with_connection({
       test_select_bind(
         con, ctx$tweaks$placeholder_pattern, TRUE,
-        transform_input = function(x) as.character(as.integer(x)))
+        transform_output = function(x) as.character(ctx$tweaks$logical_return(x))
+      )
     })
   },
 
-  #' Binding of `NULL` values.
+  #' - [NA]
   bind_null = function(ctx) {
     with_connection({
       test_select_bind(
@@ -198,21 +193,25 @@ spec_meta_bind <- list(
     })
   },
 
-  #' Binding of character values.
+  #' - [character]
   bind_character = function(ctx) {
     with_connection({
-      test_select_bind(con, ctx$tweaks$placeholder_pattern, texts)
+      test_select_bind(
+        con,
+        ctx$tweaks$placeholder_pattern,
+        texts
+      )
     })
   },
 
-  #' Binding of date values.
+  #' - [Date]
   bind_date = function(ctx) {
     with_connection({
       test_select_bind(con, ctx$tweaks$placeholder_pattern, Sys.Date())
     })
   },
 
-  #' Binding of [POSIXct] timestamp values.
+  #' - [POSIXct] timestamps
   bind_timestamp = function(ctx) {
     with_connection({
       data_in <- as.POSIXct(round(Sys.time()))
@@ -225,7 +224,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' Binding of [POSIXlt] timestamp values.
+  #' - [POSIXlt] timestamps
   bind_timestamp_lt = function(ctx) {
     with_connection({
       data_in <- as.POSIXlt(round(Sys.time()))
@@ -237,7 +236,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' Binding of raw values.
+  #' - lists of [raw] for blobs (with `NULL` entries for SQL NULL values)
   bind_raw = function(ctx) {
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")

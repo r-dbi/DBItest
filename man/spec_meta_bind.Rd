@@ -63,20 +63,22 @@ the statement is processed entirely before the function returns.)
 }
 
 
-\code{dbBind()} should accept repeated calls on the same result set
+\code{dbBind()} accepts repeated calls on the same result set
 for both queries
 and data manipulation statements,
 even if no results are fetched between calls to \code{dbBind()}.
 
-Binding of integer values.
-Binding of numeric values.
-Binding of logical values.
-Binding of logical values (coerced to integer).
-Binding of \code{NULL} values.
-Binding of character values.
-Binding of date values.
-Binding of \link{POSIXct} timestamp values.
-Binding of \link{POSIXlt} timestamp values.
-Binding of raw values.
+At least the following data types are accepted:
+\itemize{
+\item \link{integer}
+\item \link{numeric}
+\item \link{logical} for Boolean values (some backends may return an integer)
+\item \link{NA}
+\item \link{character}
+\item \link{Date}
+\item \link{POSIXct} timestamps
+\item \link{POSIXlt} timestamps
+\item lists of \link{raw} for blobs (with \code{NULL} entries for SQL NULL values)
+}
 }
 
