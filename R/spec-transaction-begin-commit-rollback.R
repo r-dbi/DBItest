@@ -1,23 +1,32 @@
 #' @template dbispec-sub
 #' @format NULL
-#' @section Transactions:
-#' \subsection{`dbBegin("DBIConnection")` and `dbCommit("DBIConnection")`}{
+#' @inheritSection spec_transaction_begin_commit_rollback Specification
+NULL
+
+#' spec_transaction_begin_commit_rollback
+#' @usage NULL
+#' @format NULL
+#' @keywords NULL
 spec_transaction_begin_commit_rollback <- list(
-  #' Transactions are available in DBI, but actual support may vary between backends.
-  begin_commit = function(ctx) {
-    with_connection({
-      #' A transaction is initiated by a call to [dbBegin()]
-      dbBegin(con)
-      on.exit(dbRollback(con), add = FALSE)
-      #' and committed by a call to [dbCommit()].
-      expect_error({dbCommit(con); on.exit(NULL, add = FALSE)}, NA)
-    })
+  begin_formals = function(ctx) {
+    # <establish formals of described functions>
+    expect_equal(names(formals(dbBegin)), c("conn", "..."))
   },
 
+  commit_formals = function(ctx) {
+    # <establish formals of described functions>
+    expect_equal(names(formals(dbCommit)), c("conn", "..."))
+  },
+
+  rollback_formals = function(ctx) {
+    # <establish formals of described functions>
+    expect_equal(names(formals(dbRollback)), c("conn", "..."))
+  },
+
+  #' @return
+  #' `dbBegin()`, `dbCommit()` and `dbRollback()` return `TRUE`, invisibly.
   begin_commit_return_value = function(ctx) {
     with_connection({
-      #' Both generics expect an object of class [DBIConnection-class]
-      #' and return `TRUE` (invisibly) upon success.
       expect_invisible_true(dbBegin(con))
       on.exit(dbRollback(con), add = FALSE)
       expect_invisible_true(dbCommit(con))
@@ -25,40 +34,64 @@ spec_transaction_begin_commit_rollback <- list(
     })
   },
 
-  #'
+  begin_rollback_return_value = function(ctx) {
+    with_connection({
+      expect_invisible_true(dbBegin(con))
+      expect_invisible_true(dbRollback(con))
+    })
+  },
+
   #' The implementations are expected to raise an error in case of failure,
   #' but this is difficult to test in an automated way.
   begin_commit_closed = function(ctx) {
-    con <- connect(ctx)
-    dbDisconnect(con)
-
-    #' In any way, both generics should throw an error with a closed connection.
-    expect_error(dbBegin(con))
-    expect_error(dbCommit(con))
+    with_closed_connection({
+      #' In any way, all generics throw an error with a closed connection.
+      expect_error(dbBegin(con))
+      expect_error(dbCommit(con))
+      expect_error(dbRollback(con))
+    })
   },
 
   commit_without_begin = function(ctx) {
-    #' In addition, a call to [dbCommit()] without
-    #' a call to [dbBegin()] should raise an error.
+    #' In addition, a call to `dbCommit()`
     with_connection({
       expect_error(dbCommit(con))
+    })
+  },
+
+  rollback_without_begin = function(ctx) {
+    #' or `dbRollback()`
+    with_connection({
+      #' without a prior call to `dbBegin()` raises an error.
+      expect_error(dbRollback(con))
     })
   },
 
   begin_begin = function(ctx) {
     #' Nested transactions are not supported by DBI,
     with_connection({
-      #' an attempt to call [dbBegin()] twice
+      #' an attempt to call `dbBegin()` twice
       dbBegin(con)
       on.exit(dbRollback(con), add = FALSE)
-      #' should yield an error.
+      #' yields an error.
       expect_error(dbBegin(con))
       dbCommit(con)
       on.exit(NULL, add = FALSE)
     })
   },
 
-  #'
+  #' @section Specification:
+  #' Actual support for transactions may vary between backends.
+  begin_commit = function(ctx) {
+    with_connection({
+      #' A transaction is initiated by a call to `dbBegin()`
+      dbBegin(con)
+      on.exit(dbRollback(con), add = FALSE)
+      #' and committed by a call to `dbCommit()`.
+      expect_error({dbCommit(con); on.exit(NULL, add = FALSE)}, NA)
+    })
+  },
+
   #' Data written in a transaction must persist after the transaction is committed.
   begin_write_commit = function(ctx) {
     with_connection({
@@ -81,8 +114,71 @@ spec_transaction_begin_commit_rollback <- list(
       dbCommit(con)
       on.exit(dbRemoveTable(con, "test"), add = FALSE)
 
-      #' and after the transaction.
+      #' and after the transaction,
       expect_equal(dbReadTable(con, "test"), data.frame(a = 1))
+      on.exit(NULL, add = FALSE)
+    })
+
+    with_connection({
+      on.exit(dbRemoveTable(con, "test"), add = FALSE)
+
+      #' and also in a new connection.
+      expect_true(dbExistsTable(con, "test"))
+      expect_equal(dbReadTable(con, "test"), data.frame(a = 1))
+    })
+  },
+
+  begin_rollback = function(ctx) {
+    with_connection({
+      #'
+      #' A transaction
+      dbBegin(con)
+      #' can also be aborted with `dbRollback()`.
+      expect_error(dbRollback(con), NA)
+    })
+  },
+
+  #' All data written in such a transaction must be removed after the
+  #' transaction is rolled back.
+  begin_write_rollback = function(ctx) {
+    with_connection({
+      #' For example, a table that is missing when the transaction is started
+      with_remove_test_table({
+        dbBegin(con)
+        on.exit(dbRollback(con), add = FALSE)
+
+        #' but is created during the transaction
+        dbExecute(con, paste0("CREATE TABLE test (a ", dbDataType(con, 0L), ")"))
+
+        #' must not exist anymore after the rollback.
+        dbRollback(con)
+        on.exit(NULL, add = FALSE)
+        expect_false(dbExistsTable(con, "test"))
+      })
+    })
+  },
+
+  begin_write_disconnect = function(ctx) {
+    local({
+      con <- connect(ctx)
+
+      dbBegin(con)
+
+      dbExecute(con, paste0("CREATE TABLE test (a ", dbDataType(con, 0L), ")"))
+
+      #'
+      #' Disconnection from a connection with an open transaction
+      #' gives a warning
+      expect_warning(dbDisconnect(con))
+    })
+
+    with_connection({
+      #' and effectively rolls back the transaction.
+      #' All data written in such a transaction must be removed after the
+      #' transaction is rolled back.
+      with_remove_test_table({
+        expect_false(dbExistsTable(con, "test"))
+      })
     })
   },
 
@@ -92,7 +188,5 @@ spec_transaction_begin_commit_rollback <- list(
   #' if the `name` argument is set.
   #'
   #' The transaction isolation level is not specified by DBI.
-  #'
-  #' }
   NULL
 )

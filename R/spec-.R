@@ -17,7 +17,6 @@
 #' @include spec-compliance-methods.R
 #' @include spec-transaction.R
 #' @include spec-transaction-with-transaction.R
-#' @include spec-transaction-begin-commit-rollback.R
 ##### Aggregators
 #' @include spec-meta.R
 #' @include spec-sql.R
@@ -31,6 +30,7 @@
 #' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
 ##### Method specs
+#' @include spec-transaction-begin-commit-rollback.R
 #' @include spec-meta-bind-.R
 #' @include spec-meta-bind.R
 #' @include spec-meta-bind-tester-extra.R

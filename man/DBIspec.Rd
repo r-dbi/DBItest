@@ -12,10 +12,10 @@
 %   R/spec-sql-exists-table.R, R/spec-sql-remove-table.R,
 %   R/spec-meta-is-valid.R, R/spec-meta-has-completed.R,
 %   R/spec-meta-get-statement.R, R/spec-meta-get-row-count.R,
-%   R/spec-meta-get-rows-affected.R, R/spec-meta-bind.R, R/spec-driver.R,
+%   R/spec-meta-get-rows-affected.R, R/spec-meta-bind.R,
+%   R/spec-transaction-begin-commit-rollback.R, R/spec-driver.R,
 %   R/spec-connection.R, R/spec-result.R, R/spec-sql.R, R/spec-meta.R,
-%   R/spec-transaction-begin-commit-rollback.R, R/spec-transaction.R,
-%   R/spec-compliance.R, R/spec-stress.R
+%   R/spec-transaction.R, R/spec-compliance.R, R/spec-stress.R
 \docType{data}
 \name{DBIspec}
 \alias{DBIspec}
@@ -73,41 +73,6 @@ Each DBI backend implements a \dfn{driver class},
 which must be an S4 class and inherit from the \code{DBIDriver} class.
 This section describes the construction of, and the methods defined for,
 this driver class.
-}
-
-\section{Transactions}{
-
-\subsection{\code{dbBegin("DBIConnection")} and \code{dbCommit("DBIConnection")}}{
-Transactions are available in DBI, but actual support may vary between backends.
-A transaction is initiated by a call to \code{\link[=dbBegin]{dbBegin()}}
-and committed by a call to \code{\link[=dbCommit]{dbCommit()}}.
-Both generics expect an object of class \linkS4class{DBIConnection}
-and return \code{TRUE} (invisibly) upon success.
-
-The implementations are expected to raise an error in case of failure,
-but this is difficult to test in an automated way.
-In any way, both generics should throw an error with a closed connection.
-In addition, a call to \code{\link[=dbCommit]{dbCommit()}} without
-a call to \code{\link[=dbBegin]{dbBegin()}} should raise an error.
-Nested transactions are not supported by DBI,
-an attempt to call \code{\link[=dbBegin]{dbBegin()}} twice
-should yield an error.
-
-Data written in a transaction must persist after the transaction is committed.
-For example, a table that is missing when the transaction is started
-but is created
-and populated during the transaction
-must exist and contain the data added there
-both during
-and after the transaction.
-
-The behavior is not specified if other arguments are passed to these
-functions. In particular, \pkg{RSQLite} issues named transactions
-if the \code{name} argument is set.
-
-The transaction isolation level is not specified by DBI.
-
-}
 }
 
 \section{Specification}{
@@ -472,6 +437,39 @@ At least the following data types are accepted:
 \item \link{POSIXlt} timestamps
 \item lists of \link{raw} for blobs (with \code{NULL} entries for SQL NULL values)
 }
+
+
+Actual support for transactions may vary between backends.
+A transaction is initiated by a call to \code{dbBegin()}
+and committed by a call to \code{dbCommit()}.
+Data written in a transaction must persist after the transaction is committed.
+For example, a table that is missing when the transaction is started
+but is created
+and populated during the transaction
+must exist and contain the data added there
+both during
+and after the transaction,
+and also in a new connection.
+
+A transaction
+can also be aborted with \code{dbRollback()}.
+All data written in such a transaction must be removed after the
+transaction is rolled back.
+For example, a table that is missing when the transaction is started
+but is created during the transaction
+must not exist anymore after the rollback.
+
+Disconnection from a connection with an open transaction
+gives a warning
+and effectively rolls back the transaction.
+All data written in such a transaction must be removed after the
+transaction is rolled back.
+
+The behavior is not specified if other arguments are passed to these
+functions. In particular, \pkg{RSQLite} issues named transactions
+if the \code{name} argument is set.
+
+The transaction isolation level is not specified by DBI.
 }
 
 \section{Additional arguments}{
