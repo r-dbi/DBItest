@@ -1,3 +1,8 @@
+## DBItest 1.4-13 (2017-02-26)
+
+- Added prose specifications, and enhanced/modified/renamed tests for `dbBegin()`, `dbCommit()`, `dbRollback()`, and `dbWithTransaction()`. Most tests now come with a corresponding prose, only those where the behavior is not finally decided don't have a prose version yet (#88).
+
+
 ## DBItest 1.4-12 (2017-02-26)
 
 - Added prose specifications, and enhanced/modified/renamed tests for `dbIsValid()`, `dbHasCompleted()`, `dbGetStatement()`, `dbGetRowCount()`, `dbGetRowsAffected()`, and `dbBind()` (#88).
