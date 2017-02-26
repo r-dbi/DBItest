@@ -17,8 +17,7 @@
 #' @include spec-compliance-methods.R
 #' @include spec-transaction.R
 #' @include spec-transaction-with-transaction.R
-#' @include spec-transaction-begin-rollback.R
-#' @include spec-transaction-begin-commit.R
+#' @include spec-transaction-begin-commit-rollback.R
 ##### Aggregators
 #' @include spec-meta.R
 #' @include spec-sql.R

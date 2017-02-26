@@ -2,7 +2,7 @@
 #' @format NULL
 #' @section Transactions:
 #' \subsection{`dbBegin("DBIConnection")` and `dbCommit("DBIConnection")`}{
-spec_transaction_begin_commit <- list(
+spec_transaction_begin_commit_rollback <- list(
   #' Transactions are available in DBI, but actual support may vary between backends.
   begin_commit = function(ctx) {
     with_connection({

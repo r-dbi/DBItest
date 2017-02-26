@@ -14,7 +14,7 @@
 %   R/spec-meta-get-statement.R, R/spec-meta-get-row-count.R,
 %   R/spec-meta-get-rows-affected.R, R/spec-meta-bind.R, R/spec-driver.R,
 %   R/spec-connection.R, R/spec-result.R, R/spec-sql.R, R/spec-meta.R,
-%   R/spec-transaction-begin-commit.R, R/spec-transaction.R,
+%   R/spec-transaction-begin-commit-rollback.R, R/spec-transaction.R,
 %   R/spec-compliance.R, R/spec-stress.R
 \docType{data}
 \name{DBIspec}
