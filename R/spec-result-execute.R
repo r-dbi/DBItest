@@ -10,7 +10,7 @@ NULL
 spec_result_execute <- list(
   execute_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbExecute)), c("conn", "statement", "..."))
+    expect_equal(names(formals(dbExecute)), c("conn", "statement", "..."))
   },
 
   #' @return

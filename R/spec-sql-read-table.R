@@ -11,7 +11,7 @@ NULL
 spec_sql_read_table <- list(
   read_table_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbReadTable)), c("conn", "name", "..."))
+    expect_equal(names(formals(dbReadTable)), c("conn", "name", "..."))
   },
 
   #' @return
@@ -55,7 +55,7 @@ spec_sql_read_table <- list(
 
   #'
   #' The presence of [rownames] depends on the `row.names` argument,
-  #' see [DBI::sqlColumnToRownames()] for details:
+  #' see [sqlColumnToRownames()] for details:
   read_table_row_names_false = function(ctx) {
     #' - If `FALSE`, the returned data frame doesn't have row names.
     row.names <- FALSE

@@ -19,6 +19,6 @@ spec_result_clear_result
 \code{dbClearResult()} frees all resources associated with retrieving
 the result of a query or update operation.
 The DBI backend can expect a call to \code{dbClearResult()} for each
-\code{\link[DBI:dbSendQuery]{DBI::dbSendQuery()}} or \code{\link[DBI:dbSendStatement]{DBI::dbSendStatement()}} call.
+\code{\link[=dbSendQuery]{dbSendQuery()}} or \code{\link[=dbSendStatement]{dbSendStatement()}} call.
 }
 

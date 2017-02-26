@@ -43,7 +43,7 @@ Function that combines several subqueries into one so that the
 resulting query returns the concatenated results of the subqueries}
 
 \item{placeholder_pattern}{\code{[character]}\cr
-A pattern for placeholders used in \code{\link[DBI:dbBind]{DBI::dbBind()}}, e.g.,
+A pattern for placeholders used in \code{\link[=dbBind]{dbBind()}}, e.g.,
 \code{"?"}, \code{"$1"}, or \code{":name"}. See
 \code{\link[=make_placeholder_fun]{make_placeholder_fun()}} for details.}
 

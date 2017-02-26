@@ -11,7 +11,7 @@ NULL
 spec_sql_list_tables <- list(
   list_tables_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbListTables)), c("conn", "..."))
+    expect_equal(names(formals(dbListTables)), c("conn", "..."))
   },
 
   #' @return

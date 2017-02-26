@@ -14,9 +14,9 @@ run_bind_tester$fun <- function() {
     return()
   }
 
-  #' 1. Call [DBI::dbSendQuery()] or [DBI::dbSendStatement()] with a query or statement
+  #' 1. Call [dbSendQuery()] or [dbSendStatement()] with a query or statement
   #'    that contains placeholders,
-  #'    store the returned [DBI::DBIResult-class] object in a variable.
+  #'    store the returned [DBIResult-class] object in a variable.
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
   if (is_query())
@@ -24,7 +24,7 @@ run_bind_tester$fun <- function() {
   else
     res <- send_statement()
 
-  #'    It is good practice to register a call to [DBI::dbClearResult()] via
+  #'    It is good practice to register a call to [dbClearResult()] via
   #'    [on.exit()] right after calling `dbSendQuery()` or `dbSendStatement()`
   #'    (see the last enumeration item).
   if (extra_obj$is_premature_clear()) dbClearResult(res)
@@ -57,13 +57,13 @@ run_bind_tester$fun <- function() {
   #' 1. Retrieve the data or the number of affected rows from the `DBIResult` object.
   retrieve <- function() {
     #'     - For queries issued by `dbSendQuery()`,
-    #'       call [DBI::dbFetch()].
+    #'       call [dbFetch()].
     if (is_query()) {
       rows <- dbFetch(res)
       compare(rows, values)
     } else {
       #'     - For statements issued by `dbSendStatements()`,
-      #'       call [DBI::dbGetRowsAffected()].
+      #'       call [dbGetRowsAffected()].
       #'       (Execution begins immediately after the `dbBind()` call,
       #'       the statement is processed entirely before the function returns.)
       rows_affected <- dbGetRowsAffected(res)
@@ -79,5 +79,5 @@ run_bind_tester$fun <- function() {
     retrieve()
   }
 
-  #' 1. Close the result set via [DBI::dbClearResult()].
+  #' 1. Close the result set via [dbClearResult()].
 }

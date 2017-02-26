@@ -1,6 +1,6 @@
 Package: DBItest
 Title: Testing 'DBI' Back Ends
-Version: 1.4-12
+Version: 1.4-13
 Date: 2017-02-26
 Authors@R: c( person(given = "Kirill", family = "Müller", role =
         c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
@@ -38,6 +38,7 @@ Collate:
     's4.R'
     'spec.R'
     'spec-getting-started.R'
+    'spec-compliance-methods.R'
     'spec-driver-constructor.R'
     'spec-driver-class.R'
     'spec-driver-data-type.R'
@@ -68,6 +69,8 @@ Collate:
     'spec-meta-bind-tester-extra.R'
     'spec-meta-bind.R'
     'spec-meta-bind-.R'
+    'spec-transaction-begin-commit-rollback.R'
+    'spec-transaction-with-transaction.R'
     'spec-driver-get-info.R'
     'spec-connection-get-info.R'
     'spec-sql-list-fields.R'
@@ -78,12 +81,7 @@ Collate:
     'spec-result.R'
     'spec-sql.R'
     'spec-meta.R'
-    'spec-transaction-begin-commit.R'
-    'spec-transaction-begin-rollback.R'
-    'spec-transaction-with-transaction.R'
     'spec-transaction.R'
-    'spec-compliance-methods.R'
-    'spec-compliance-read-only.R'
     'spec-compliance.R'
     'spec-stress-driver.R'
     'spec-stress-connection.R'

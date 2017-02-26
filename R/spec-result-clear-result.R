@@ -10,7 +10,7 @@ NULL
 spec_result_clear_result <- list(
   clear_result_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbClearResult)), c("res", "..."))
+    expect_equal(names(formals(dbClearResult)), c("res", "..."))
   },
 
   #' @return
@@ -64,6 +64,6 @@ spec_result_clear_result <- list(
   #' `dbClearResult()` frees all resources associated with retrieving
   #' the result of a query or update operation.
   #' The DBI backend can expect a call to `dbClearResult()` for each
-  #' [DBI::dbSendQuery()] or [DBI::dbSendStatement()] call.
+  #' [dbSendQuery()] or [dbSendStatement()] call.
   NULL
 )

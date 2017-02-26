@@ -10,7 +10,7 @@ NULL
 spec_connection_disconnect <- list(
   disconnect_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbDisconnect)), c("conn", "..."))
+    expect_equal(names(formals(dbDisconnect)), c("conn", "..."))
   },
 
   #' @return

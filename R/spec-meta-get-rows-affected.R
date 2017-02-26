@@ -9,7 +9,7 @@ NULL
 spec_meta_get_rows_affected <- list(
   get_rows_affected_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbGetRowsAffected)), c("res", "..."))
+    expect_equal(names(formals(dbGetRowsAffected)), c("res", "..."))
   },
 
   #' @return
@@ -25,7 +25,7 @@ spec_meta_get_rows_affected <- list(
           "WHERE a < 6"
         )
         with_result(
-          #' issued with [DBI::dbSendStatement()].
+          #' issued with [dbSendStatement()].
           dbSendStatement(con, query),
           {
             rc <- dbGetRowsAffected(res)
@@ -33,7 +33,7 @@ spec_meta_get_rows_affected <- list(
             expect_equal(rc, 5L)
             dbFetch(res)
             rc <- dbGetRowsAffected(res)
-            #' and does not change after calling [DBI::dbFetch()].
+            #' and does not change after calling [dbFetch()].
             expect_equal(rc, 5L)
           }
         )
@@ -45,7 +45,7 @@ spec_meta_get_rows_affected <- list(
     with_connection({
       query <- "SELECT 1 as a"
       with_result(
-        #' For queries issued with [DBI::dbSendQuery()],
+        #' For queries issued with [dbSendQuery()],
         dbSendQuery(con, query),
         {
           rc <- dbGetRowsAffected(res)
@@ -69,7 +69,7 @@ spec_meta_get_rows_affected <- list(
         res <- dbSendStatement(con, query)
         dbClearResult(res)
         #' Attempting to get the rows affected for a result set cleared with
-        #' [DBI::dbClearResult()] gives an error.
+        #' [dbClearResult()] gives an error.
         expect_error(dbGetRowsAffected(res))
       })
     })

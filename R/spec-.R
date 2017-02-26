@@ -9,17 +9,13 @@
 #
 # Output: Files R/test-xxx-1.R and R/test-xxx-2.R, and @include directives to stdout
 
+##### Stress
 #' @include spec-stress.R
 #' @include spec-stress-connection.R
 #' @include spec-stress-driver.R
-#' @include spec-compliance.R
-#' @include spec-compliance-read-only.R
-#' @include spec-compliance-methods.R
-#' @include spec-transaction.R
-#' @include spec-transaction-with-transaction.R
-#' @include spec-transaction-begin-rollback.R
-#' @include spec-transaction-begin-commit.R
 ##### Aggregators
+#' @include spec-compliance.R
+#' @include spec-transaction.R
 #' @include spec-meta.R
 #' @include spec-sql.R
 #' @include spec-result.R
@@ -32,6 +28,8 @@
 #' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
 ##### Method specs
+#' @include spec-transaction-with-transaction.R
+#' @include spec-transaction-begin-commit-rollback.R
 #' @include spec-meta-bind-.R
 #' @include spec-meta-bind.R
 #' @include spec-meta-bind-tester-extra.R
@@ -64,6 +62,7 @@
 #' @include spec-driver-class.R
 ##### Soft specs
 #' @include spec-driver-constructor.R
+#' @include spec-compliance-methods.R
 #' @include spec-getting-started.R
 #' @include spec.R
 NULL

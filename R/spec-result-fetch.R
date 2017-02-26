@@ -10,7 +10,7 @@ NULL
 spec_result_fetch <- list(
   fetch_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbFetch)), c("res", "n", "..."))
+    expect_equal(names(formals(dbFetch)), c("res", "n", "..."))
   },
 
   #' @return
@@ -106,7 +106,7 @@ spec_result_fetch <- list(
   },
 
   #' Calling `dbFetch()` on a result set from a data manipulation query
-  #' created by [DBI::dbSendStatement()]
+  #' created by [dbSendStatement()]
   #' can be fetched and return an empty data frame, with a warning.
   fetch_no_return_value = function(ctx) {
     with_connection({

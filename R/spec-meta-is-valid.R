@@ -9,7 +9,7 @@ NULL
 spec_meta_is_valid <- list(
   is_valid_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbIsValid)), c("dbObj", "..."))
+    expect_equal(names(formals(dbIsValid)), c("dbObj", "..."))
   },
 
   #' @return
