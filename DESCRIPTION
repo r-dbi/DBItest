@@ -82,7 +82,6 @@ Collate:
     'spec-sql.R'
     'spec-meta.R'
     'spec-transaction.R'
-    'spec-compliance-read-only.R'
     'spec-compliance.R'
     'spec-stress-driver.R'
     'spec-stress-connection.R'

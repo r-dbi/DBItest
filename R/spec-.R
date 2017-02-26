@@ -12,9 +12,8 @@
 #' @include spec-stress.R
 #' @include spec-stress-connection.R
 #' @include spec-stress-driver.R
-#' @include spec-compliance.R
-#' @include spec-compliance-read-only.R
 ##### Aggregators
+#' @include spec-compliance.R
 #' @include spec-transaction.R
 #' @include spec-meta.R
 #' @include spec-sql.R

@@ -2,8 +2,7 @@
 % Please edit documentation in R/spec.R, R/spec-driver-get-info.R,
 %   R/spec-connection-get-info.R, R/spec-sql-list-fields.R,
 %   R/spec-meta-column-info.R, R/spec-meta-get-info-result.R,
-%   R/spec-compliance-read-only.R, R/spec-stress-driver.R,
-%   R/spec-stress-connection.R
+%   R/spec-stress-driver.R, R/spec-stress-connection.R
 \docType{data}
 \name{DBIspec-wip}
 \alias{DBIspec-wip}
@@ -54,14 +53,6 @@ Column information is correct.
 
 \subsection{\code{dbGetInfo("DBIResult")} (deprecated)}{
 Return value of dbGetInfo has necessary elements
-}
-}
-
-\section{Full compliance}{
-
-\subsection{Read-only access}{
-Writing to the database fails.  (You might need to set up a separate
-test context just for this test.)
 }
 }
 
