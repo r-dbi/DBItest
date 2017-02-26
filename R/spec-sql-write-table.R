@@ -11,7 +11,7 @@ NULL
 spec_sql_write_table <- list(
   write_table_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbWriteTable)), c("conn", "name", "value", "..."))
+    expect_equal(names(formals(dbWriteTable)), c("conn", "name", "value", "..."))
   },
 
   #' @return
@@ -507,7 +507,7 @@ spec_sql_write_table <- list(
 
   #'
   #' The interpretation of [rownames] depends on the `row.names` argument,
-  #' see [DBI::sqlRownamesToColumn()] for details:
+  #' see [sqlRownamesToColumn()] for details:
   write_table_row_names_false = function(ctx) {
     #' - If `FALSE`, row names are ignored.
     row.names <- FALSE

@@ -10,20 +10,20 @@ NULL
 spec_meta_has_completed <- list(
   has_completed_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbHasCompleted)), c("res", "..."))
+    expect_equal(names(formals(dbHasCompleted)), c("res", "..."))
   },
 
   #' @return
   #' `dbHasCompleted()` returns a logical scalar.
   has_completed_query = function(ctx) {
     with_connection({
-      #' For a query initiated by [DBI::dbSendQuery()] with non-empty result set,
+      #' For a query initiated by [dbSendQuery()] with non-empty result set,
       with_result(
         dbSendQuery(con, "SELECT 1"),
         {
           #' `dbHasCompleted()` returns `FALSE` initially
           expect_false(expect_visible(dbHasCompleted(res)))
-          #' and `TRUE` after calling [DBI::dbFetch()] without limit.
+          #' and `TRUE` after calling [dbFetch()] without limit.
           dbFetch(res)
           expect_true(expect_visible(dbHasCompleted(res)))
         }
@@ -37,7 +37,7 @@ spec_meta_has_completed <- list(
 
       on.exit(try_silent(dbExecute(paste0("DROP TABLE ", name))), add = TRUE)
 
-      #' For a query initiated by [DBI::dbSendStatement()],
+      #' For a query initiated by [dbSendStatement()],
       with_result(
         dbSendQuery(con, paste0("CREATE TABLE ", name, " (a integer)")),
         {
@@ -53,7 +53,7 @@ spec_meta_has_completed <- list(
       res <- dbSendQuery(con, "SELECT 1")
       dbClearResult(res)
       #' Attempting to query completion status for a result set cleared with
-      #' [DBI::dbClearResult()] gives an error.
+      #' [dbClearResult()] gives an error.
       expect_error(dbHasCompleted(res))
     })
   },

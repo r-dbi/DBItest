@@ -10,7 +10,7 @@ NULL
 spec_result_get_query <- list(
   get_query_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbGetQuery)), c("conn", "statement", "..."))
+    expect_equal(names(formals(dbGetQuery)), c("conn", "statement", "..."))
   },
 
   #' @return

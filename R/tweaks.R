@@ -41,7 +41,7 @@
     "union" = function(x) paste(x, collapse = " UNION "),
 
     #' @param placeholder_pattern `[character]`\cr
-    #'   A pattern for placeholders used in [DBI::dbBind()], e.g.,
+    #'   A pattern for placeholders used in [dbBind()], e.g.,
     #'   `"?"`, `"$1"`, or `":name"`. See
     #'   [make_placeholder_fun()] for details.
     "placeholder_pattern" = NULL,

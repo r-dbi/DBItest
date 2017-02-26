@@ -6,10 +6,10 @@ spec_transaction_begin_commit_rollback <- list(
   #' Transactions are available in DBI, but actual support may vary between backends.
   begin_commit = function(ctx) {
     with_connection({
-      #' A transaction is initiated by a call to [DBI::dbBegin()]
+      #' A transaction is initiated by a call to [dbBegin()]
       dbBegin(con)
       on.exit(dbRollback(con), add = FALSE)
-      #' and committed by a call to [DBI::dbCommit()].
+      #' and committed by a call to [dbCommit()].
       expect_error({dbCommit(con); on.exit(NULL, add = FALSE)}, NA)
     })
   },
@@ -38,8 +38,8 @@ spec_transaction_begin_commit_rollback <- list(
   },
 
   commit_without_begin = function(ctx) {
-    #' In addition, a call to [DBI::dbCommit()] without
-    #' a call to [DBI::dbBegin()] should raise an error.
+    #' In addition, a call to [dbCommit()] without
+    #' a call to [dbBegin()] should raise an error.
     with_connection({
       expect_error(dbCommit(con))
     })
@@ -48,7 +48,7 @@ spec_transaction_begin_commit_rollback <- list(
   begin_begin = function(ctx) {
     #' Nested transactions are not supported by DBI,
     with_connection({
-      #' an attempt to call [DBI::dbBegin()] twice
+      #' an attempt to call [dbBegin()] twice
       dbBegin(con)
       on.exit(dbRollback(con), add = FALSE)
       #' should yield an error.
