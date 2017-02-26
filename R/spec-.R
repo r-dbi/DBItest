@@ -14,7 +14,6 @@
 #' @include spec-stress-driver.R
 #' @include spec-compliance.R
 #' @include spec-compliance-read-only.R
-#' @include spec-compliance-methods.R
 ##### Aggregators
 #' @include spec-transaction.R
 #' @include spec-meta.R
@@ -63,6 +62,7 @@
 #' @include spec-driver-class.R
 ##### Soft specs
 #' @include spec-driver-constructor.R
+#' @include spec-compliance-methods.R
 #' @include spec-getting-started.R
 #' @include spec.R
 NULL
