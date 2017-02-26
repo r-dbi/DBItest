@@ -11,7 +11,7 @@ NULL
 spec_sql_exists_table <- list(
   exists_table_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbExistsTable)), c("conn", "name", "..."))
+    expect_equal(names(formals(dbExistsTable)), c("conn", "name", "..."))
   },
 
   #' @return

@@ -6,13 +6,13 @@
 \title{spec_meta_has_completed}
 \value{
 \code{dbHasCompleted()} returns a logical scalar.
-For a query initiated by \code{\link[DBI:dbSendQuery]{DBI::dbSendQuery()}} with non-empty result set,
+For a query initiated by \code{\link[=dbSendQuery]{dbSendQuery()}} with non-empty result set,
 \code{dbHasCompleted()} returns \code{FALSE} initially
-and \code{TRUE} after calling \code{\link[DBI:dbFetch]{DBI::dbFetch()}} without limit.
-For a query initiated by \code{\link[DBI:dbSendStatement]{DBI::dbSendStatement()}},
+and \code{TRUE} after calling \code{\link[=dbFetch]{dbFetch()}} without limit.
+For a query initiated by \code{\link[=dbSendStatement]{dbSendStatement()}},
 \code{dbHasCompleted()} always returns \code{TRUE}.
 Attempting to query completion status for a result set cleared with
-\code{\link[DBI:dbClearResult]{DBI::dbClearResult()}} gives an error.
+\code{\link[=dbClearResult]{dbClearResult()}} gives an error.
 }
 \description{
 spec_meta_has_completed

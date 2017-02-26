@@ -10,7 +10,7 @@ NULL
 spec_sql_quote_identifier <- list(
   quote_identifier_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbQuoteIdentifier)), c("conn", "x", "..."))
+    expect_equal(names(formals(dbQuoteIdentifier)), c("conn", "x", "..."))
   },
 
   #' @return
@@ -52,18 +52,18 @@ spec_sql_quote_identifier <- list(
       expect_identical(dbQuoteIdentifier(con, simple_out), simple_out)
       expect_identical(dbQuoteIdentifier(con, letters_out), letters_out)
       expect_identical(dbQuoteIdentifier(con, empty_out), empty_out)
-      #' Passing objects of class [DBI::SQL] should also return them unchanged.
+      #' Passing objects of class [SQL] should also return them unchanged.
       expect_identical(dbQuoteIdentifier(con, SQL(simple)), SQL(simple))
       expect_identical(dbQuoteIdentifier(con, SQL(letters)), SQL(letters))
       expect_identical(dbQuoteIdentifier(con, SQL(empty)), SQL(empty))
 
-      #' (For backends it may be most convenient to return [DBI::SQL] objects
+      #' (For backends it may be most convenient to return [SQL] objects
       #' to achieve this behavior, but this is not required.)
     })
   },
 
   #' @section Specification:
-  #' Calling [DBI::dbGetQuery()] for a query of the format `SELECT 1 AS ...`
+  #' Calling [dbGetQuery()] for a query of the format `SELECT 1 AS ...`
   #' returns a data frame with the identifier, unquoted, as column name.
   quote_identifier = function(ctx) {
     with_connection({

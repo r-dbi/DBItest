@@ -10,7 +10,7 @@ NULL
 spec_sql_quote_string <- list(
   quote_string_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbQuoteString)), c("conn", "x", "..."))
+    expect_equal(names(formals(dbQuoteString)), c("conn", "x", "..."))
   },
 
   #' @return
@@ -54,12 +54,12 @@ spec_sql_quote_string <- list(
       expect_identical(dbQuoteString(con, simple_out), simple_out)
       expect_identical(dbQuoteString(con, letters_out), letters_out)
       expect_identical(dbQuoteString(con, empty_out), empty_out)
-      #' Passing objects of class [DBI::SQL] should also return them unchanged.
+      #' Passing objects of class [SQL] should also return them unchanged.
       expect_identical(dbQuoteString(con, SQL(simple)), SQL(simple))
       expect_identical(dbQuoteString(con, SQL(letters)), SQL(letters))
       expect_identical(dbQuoteString(con, SQL(empty)), SQL(empty))
 
-      #' (For backends it may be most convenient to return [DBI::SQL] objects
+      #' (For backends it may be most convenient to return [SQL] objects
       #' to achieve this behavior, but this is not required.)
     })
   },

@@ -9,7 +9,7 @@ NULL
 spec_meta_get_statement <- list(
   get_statement_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbGetStatement)), c("res", "..."))
+    expect_equal(names(formals(dbGetStatement)), c("res", "..."))
   },
 
   #' @return
@@ -18,7 +18,7 @@ spec_meta_get_statement <- list(
     with_connection({
       query <- "SELECT 1 as a"
       with_result(
-        #' either [DBI::dbSendQuery()]
+        #' either [dbSendQuery()]
         dbSendQuery(con, query),
         {
           s <- dbGetStatement(res)
@@ -38,7 +38,7 @@ spec_meta_get_statement <- list(
       with_connection({
         query <- paste0("CREATE TABLE ", name, " (a integer)")
         with_result(
-          #' or [DBI::dbSendStatement()].
+          #' or [dbSendStatement()].
           dbSendQuery(con, query),
           {
             s <- dbGetStatement(res)
@@ -55,7 +55,7 @@ spec_meta_get_statement <- list(
       res <- dbSendQuery(con, "SELECT 1")
       dbClearResult(res)
       #' Attempting to query the statement for a result set cleared with
-      #' [DBI::dbClearResult()] gives an error.
+      #' [dbClearResult()] gives an error.
       expect_error(dbGetStatement(res))
     })
   },

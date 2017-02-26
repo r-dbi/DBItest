@@ -10,7 +10,7 @@ NULL
 spec_meta_bind <- list(
   bind_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbBind)), c("res", "params", "..."))
+    expect_equal(names(formals(dbBind)), c("res", "params", "..."))
   },
 
   #' @return
@@ -25,13 +25,13 @@ spec_meta_bind <- list(
     )
 
     with_connection({
-      #' for queries issued by [DBI::dbSendQuery()]
+      #' for queries issued by [dbSendQuery()]
       test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
     })
 
     with_connection({
       #' and also for data manipulation statements issued by
-      #' [DBI::dbSendStatement()].
+      #' [dbSendStatement()].
       test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra, query = FALSE)
     })
   },

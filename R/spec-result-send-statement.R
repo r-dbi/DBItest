@@ -10,7 +10,7 @@ NULL
 spec_result_send_statement <- list(
   send_statement_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbSendStatement)), c("conn", "statement", "..."))
+    expect_equal(names(formals(dbSendStatement)), c("conn", "statement", "..."))
   },
 
   #' @return
@@ -19,13 +19,13 @@ spec_result_send_statement <- list(
     with_connection({
       with_remove_test_table({
         res <- expect_visible(dbSendStatement(con, "CREATE TABLE test AS SELECT 1 AS a"))
-        #' an S4 object that inherits from [DBI::DBIResult-class].
+        #' an S4 object that inherits from [DBIResult-class].
         expect_s4_class(res, "DBIResult")
-        #' The result set can be used with [DBI::dbGetRowsAffected()] to
+        #' The result set can be used with [dbGetRowsAffected()] to
         #' determine the number of rows affected by the query.
         expect_error(dbGetRowsAffected(res), NA)
         #' Once you have finished using a result, make sure to disconnect it
-        #' with [DBI::dbClearResult()].
+        #' with [dbClearResult()].
         dbClearResult(res)
       })
     })
@@ -71,7 +71,7 @@ spec_result_send_statement <- list(
         #' [dbIsValid()] returns `TRUE`.
         expect_true(dbIsValid(res))
         #' When done, the DBIResult object must be cleared with a call to
-        #' [DBI::dbClearResult()].
+        #' [dbClearResult()].
         dbClearResult(res)
       })
     })

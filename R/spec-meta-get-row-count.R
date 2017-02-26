@@ -9,7 +9,7 @@ NULL
 spec_meta_get_row_count <- list(
   get_row_count_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbGetRowCount)), c("res", "..."))
+    expect_equal(names(formals(dbGetRowCount)), c("res", "..."))
   },
 
   #' @return
@@ -19,13 +19,13 @@ spec_meta_get_row_count <- list(
     with_connection({
       query <- "SELECT 1 as a"
       with_result(
-        #' After calling [DBI::dbSendQuery()],
+        #' After calling [dbSendQuery()],
         dbSendQuery(con, query),
         {
           rc <- dbGetRowCount(res)
           #' the row count is initially zero.
           expect_equal(rc, 0L)
-          #' After a call to [DBI::dbFetch()] without limit,
+          #' After a call to [dbFetch()] without limit,
           dbFetch(res)
           rc <- dbGetRowCount(res)
           #' the row count matches the total number of rows returned.
@@ -83,7 +83,7 @@ spec_meta_get_row_count <- list(
       query <- paste0("CREATE TABLE ", name, " (a integer)")
       with_result(
         #' For data manipulation statements issued with
-        #' [DBI::dbSendStatement()],
+        #' [dbSendStatement()],
         dbSendStatement(con, query),
         {
           rc <- dbGetRowCount(res)
@@ -103,7 +103,7 @@ spec_meta_get_row_count <- list(
       res <- dbSendQuery(con, "SELECT 1")
       dbClearResult(res)
       #' Attempting to get the row count for a result set cleared with
-      #' [DBI::dbClearResult()] gives an error.
+      #' [dbClearResult()] gives an error.
       expect_error(dbGetRowCount(res))
     })
   },

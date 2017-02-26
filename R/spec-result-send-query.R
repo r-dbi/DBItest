@@ -10,7 +10,7 @@ NULL
 spec_result_send_query <- list(
   send_query_formals = function(ctx) {
     # <establish formals of described functions>
-    expect_equal(names(formals(DBI::dbSendQuery)), c("conn", "statement", "..."))
+    expect_equal(names(formals(dbSendQuery)), c("conn", "statement", "..."))
   },
 
   #' @return
@@ -18,12 +18,12 @@ spec_result_send_query <- list(
   send_query_trivial = function(ctx) {
     with_connection({
       res <- expect_visible(dbSendQuery(con, "SELECT 1"))
-      #' an S4 object that inherits from [DBI::DBIResult-class].
+      #' an S4 object that inherits from [DBIResult-class].
       expect_s4_class(res, "DBIResult")
-      #' The result set can be used with [DBI::dbFetch()] to extract records.
+      #' The result set can be used with [dbFetch()] to extract records.
       expect_equal(dbFetch(res)[[1]], 1)
       #' Once you have finished using a result, make sure to disconnect it
-      #' with [DBI::dbClearResult()].
+      #' with [dbClearResult()].
       dbClearResult(res)
     })
   },
@@ -67,7 +67,7 @@ spec_result_send_query <- list(
       #' [dbIsValid()] returns `TRUE`.
       expect_true(dbIsValid(res))
       #' When done, the DBIResult object must be cleared with a call to
-      #' [DBI::dbClearResult()].
+      #' [dbClearResult()].
       dbClearResult(res)
     })
   },

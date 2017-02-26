@@ -11,7 +11,7 @@ NULL
 spec_driver_data_type <- list(
   data_type_formals = function(ctx) {
     # <establish formals of described function>
-    expect_equal(names(formals(DBI::dbDataType)), c("dbObj", "obj", "..."))
+    expect_equal(names(formals(dbDataType)), c("dbObj", "obj", "..."))
   },
 
   data_type_driver = function(ctx) {
@@ -42,7 +42,7 @@ test_data_type <- function(ctx, dbObj) {
   expect_error(dbDataType(dbObj, NULL))
 
   #' @section Specification:
-  #' The backend can override the [DBI::dbDataType()] generic
+  #' The backend can override the [dbDataType()] generic
   #' for its driver class.
   #'
   #' This generic expects an arbitrary object as second argument.
