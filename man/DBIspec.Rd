@@ -81,7 +81,7 @@ this driver class.
 Transactions are available in DBI, but actual support may vary between backends.
 A transaction is initiated by a call to \code{\link[DBI:dbBegin]{DBI::dbBegin()}}
 and committed by a call to \code{\link[DBI:dbCommit]{DBI::dbCommit()}}.
-Both generics expect an object of class \code{\linkS4class{DBIConnection}}
+Both generics expect an object of class \linkS4class{DBIConnection}
 and return \code{TRUE} (invisibly) upon success.
 
 The implementations are expected to raise an error in case of failure,

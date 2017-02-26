@@ -16,7 +16,7 @@ spec_transaction_begin_commit_rollback <- list(
 
   begin_commit_return_value = function(ctx) {
     with_connection({
-      #' Both generics expect an object of class \code{\linkS4class{DBIConnection}}
+      #' Both generics expect an object of class [DBIConnection-class]
       #' and return `TRUE` (invisibly) upon success.
       expect_invisible_true(dbBegin(con))
       on.exit(dbRollback(con), add = FALSE)
