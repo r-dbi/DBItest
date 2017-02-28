@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_result_send_statement Specification
-NULL
-
 #' spec_result_send_statement
 #' @usage NULL
 #' @format NULL

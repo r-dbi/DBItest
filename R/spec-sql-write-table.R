@@ -1,9 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_sql_write_table Additional arguments
-#' @inheritSection spec_sql_write_table Specification
-NULL
-
 #' spec_sql_write_table
 #' @usage NULL
 #' @format NULL

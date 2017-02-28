@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection test_data_type Specification
-NULL
-
 #' spec_driver_data_type
 #' @usage NULL
 #' @format NULL

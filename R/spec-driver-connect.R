@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_driver_connect Specification
-NULL
-
 #' spec_driver_connect
 #' @usage NULL
 #' @format NULL

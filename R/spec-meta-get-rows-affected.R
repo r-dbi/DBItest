@@ -1,7 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-NULL
-
 #' spec_meta_get_rows_affected
 #' @usage NULL
 #' @format NULL

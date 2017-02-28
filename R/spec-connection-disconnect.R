@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_connection_disconnect Specification
-NULL
-
 #' spec_connection_disconnect
 #' @usage NULL
 #' @format NULL

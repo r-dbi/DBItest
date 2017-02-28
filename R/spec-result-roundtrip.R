@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_result_roundtrip Specification
-NULL
-
 #' spec_result_roundtrip
 #' @usage NULL
 #' @format NULL

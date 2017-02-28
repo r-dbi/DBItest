@@ -1,9 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_sql_read_table Additional arguments
-#' @inheritSection spec_sql_read_table Specification
-NULL
-
 #' spec_sql_read_table
 #' @usage NULL
 #' @format NULL

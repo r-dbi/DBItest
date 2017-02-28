@@ -1,7 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-NULL
-
 #' spec_meta_is_valid
 #' @usage NULL
 #' @format NULL

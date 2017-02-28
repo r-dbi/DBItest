@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_transaction_begin_commit_rollback Specification
-NULL
-
 #' spec_transaction_begin_commit_rollback
 #' @usage NULL
 #' @format NULL

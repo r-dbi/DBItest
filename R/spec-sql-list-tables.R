@@ -1,9 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_sql_list_tables Additional arguments
-#' @inheritSection spec_sql_list_tables Specification
-NULL
-
 #' spec_sql_list_tables
 #' @usage NULL
 #' @format NULL

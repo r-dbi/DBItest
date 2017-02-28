@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_result_create_table_with_data_type Specification
-NULL
-
 #' spec_result_create_table_with_data_type
 #' @usage NULL
 #' @format NULL
