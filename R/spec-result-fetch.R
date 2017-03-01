@@ -68,7 +68,7 @@ spec_result_fetch <- list(
   },
 
   #' If the `n` argument is not an atomic whole number
-  #' greater or equal to -1, an error is raised,
+  #' greater or equal to -1 or Inf, an error is raised,
   fetch_n_bad = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a"
@@ -203,6 +203,10 @@ spec_result_fetch <- list(
         {
           expect_warning(rows <- dbFetch(res, 5L), NA)
           expect_identical(rows, data.frame(a = 1:3))
+          #' If fewer rows than requested are returned, further fetches will
+          #' return a data frame with zero rows.
+          rows <- dbFetch(res)
+          expect_identical(rows, data.frame(a = integer()))
         }
       )
     })

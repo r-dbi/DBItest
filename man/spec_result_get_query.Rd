@@ -16,12 +16,26 @@ or invalid connection,
 if the syntax of the query is invalid,
 or if the query is not a non-\code{NA} string.
 If the \code{n} argument is not an atomic whole number
-greater or equal to -1, an error is raised,
+greater or equal to -1 or Inf, an error is raised,
 but a subsequent call to \code{dbGetQuery()} with proper \code{n} argument succeeds.
 }
 \description{
 spec_result_get_query
 }
+\section{Additional arguments}{
+
+The following arguments are not part of the \code{dbGetQuery()} generic
+(to improve compatibility across backends)
+but are part of the DBI specification:
+\itemize{
+\item \code{n} (default: -1)
+\item \code{params} (TBD)
+}
+
+They must be provided as named arguments.
+See the "Specification" and "Value" sections for details on their usage.
+}
+
 \section{Specification}{
 
 Fetching multi-row queries with one

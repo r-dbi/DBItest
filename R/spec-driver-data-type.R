@@ -26,7 +26,13 @@ test_data_type <- function(ctx, dbObj) {
       #' as a non-empty
       expect_match(dbDataType(dbObj, .(value)), ".")
       #' character string.
-      expect_equal(length(dbDataType(dbObj, .(value))), 1L)
+      if (!is.data.frame(value)) {
+        expect_equal(length(dbDataType(dbObj, .(value))), 1L)
+      } else {
+        #' For data frames, a character vector with one element per column
+        #' is returned.
+        expect_equal(length(dbDataType(dbObj, value)), .(ncol(value)))
+      }
       expect_is(dbDataType(dbObj, .(value)), "character")
       expect_visible(dbDataType(dbObj, .(value)))
     }))
@@ -77,6 +83,8 @@ test_data_type <- function(ctx, dbObj) {
     compact(expected_data_types),
     expect_has_data_type
   )
+
+  expect_has_data_type(data.frame(a = 1, b = "2", stringsAsFactors = FALSE))
 
   #' As-is objects (i.e., wrapped by [I()]) must be
   #' supported and return the same results as their unwrapped counterparts.

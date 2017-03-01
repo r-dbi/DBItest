@@ -49,6 +49,7 @@ spec_sql_exists_table <- list(
 
   #' @section Additional arguments:
   #' TBD: Schema support.
+  #' TBD: `temporary = NA`
   #'
   #' They must be provided as named arguments.
   #' See the "Specification" section for details on their usage.

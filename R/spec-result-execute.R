@@ -56,15 +56,14 @@ spec_result_execute <- list(
     })
   },
 
-  #' @section Specification:
-  execute_result_valid = function(ctx) {
-    with_connection({
-      with_remove_test_table({
-        #' No warnings occur under normal conditions.
-        expect_warning(dbExecute(con, "CREATE TABLE test AS SELECT 1 AS a"), NA)
-      })
-    })
-  },
+  #' @section Additional arguments:
+  #' The following argument is not part of the `dbExecute()` generic
+  #' (to improve compatibility across backends)
+  #' but is part of the DBI specification:
+  #' - `params` (TBD)
+  #'
+  #' They must be provided as named arguments.
+  #' See the "Specification" section for details on its usage.
 
   NULL
 )

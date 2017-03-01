@@ -9,7 +9,7 @@ spec_meta_get_row_count <- list(
   },
 
   #' @return
-  #' `dbGetRowCount()` returns a scalar number string (integer or numeric),
+  #' `dbGetRowCount()` returns a scalar number (integer or numeric),
   #' the number of rows fetched so far.
   row_count_query = function(ctx) {
     with_connection({

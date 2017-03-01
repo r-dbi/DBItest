@@ -447,8 +447,8 @@ spec_sql_write_table <- list(
 
         tbl_out <- dbReadTable(con, "test")
         expect_equal_df(tbl_out, tbl_in)
-        #'   returned as integers with class `Date`)
-        expect_is(unclass(tbl_out$a), "integer")
+        #'   returned as `Date`)
+        expect_is(unclass(tbl_out$a), "numeric")
       })
     })
   },
@@ -485,6 +485,7 @@ spec_sql_write_table <- list(
     with_connection({
       tbl_in <- data.frame(id = 1:5)
       tbl_in$a <- round(Sys.time()) + c(1, 60, 3600, 86400, NA)
+      #'   returned as `POSIXlt`
       #'   with time zone support)
       tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
       tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST")

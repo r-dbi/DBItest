@@ -77,7 +77,7 @@ spec_result_get_query <- list(
   },
 
   #' If the `n` argument is not an atomic whole number
-  #' greater or equal to -1, an error is raised,
+  #' greater or equal to -1 or Inf, an error is raised,
   get_query_n_bad = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a"
@@ -98,6 +98,16 @@ spec_result_get_query <- list(
       expect_identical(rows, data.frame(a = 1L))
     })
   },
+
+  #' @section Additional arguments:
+  #' The following arguments are not part of the `dbGetQuery()` generic
+  #' (to improve compatibility across backends)
+  #' but are part of the DBI specification:
+  #' - `n` (default: -1)
+  #' - `params` (TBD)
+  #'
+  #' They must be provided as named arguments.
+  #' See the "Specification" and "Value" sections for details on their usage.
 
   #' @section Specification:
   #' Fetching multi-row queries with one

@@ -17,7 +17,7 @@ spec_result_send_query <- list(
       expect_s4_class(res, "DBIResult")
       #' The result set can be used with [dbFetch()] to extract records.
       expect_equal(dbFetch(res)[[1]], 1)
-      #' Once you have finished using a result, make sure to disconnect it
+      #' Once you have finished using a result, make sure to clear it
       #' with [dbClearResult()].
       dbClearResult(res)
     })
@@ -58,9 +58,6 @@ spec_result_send_query <- list(
     with_connection({
       #' No warnings occur under normal conditions.
       expect_warning(res <- dbSendQuery(con, "SELECT 1"), NA)
-      #' The DBIResult object returned by `dbSendQuery()` must be valid, i.e.,
-      #' [dbIsValid()] returns `TRUE`.
-      expect_true(dbIsValid(res))
       #' When done, the DBIResult object must be cleared with a call to
       #' [dbClearResult()].
       dbClearResult(res)

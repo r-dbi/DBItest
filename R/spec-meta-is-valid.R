@@ -21,11 +21,11 @@ spec_meta_is_valid <- list(
     expect_false(expect_visible(dbIsValid(con)))
   },
 
-  is_valid_result = function(ctx) {
+  is_valid_result_query = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a"
       res <- dbSendQuery(con, query)
-      #' A [DBIResult-class] object is initially valid,
+      #' A [DBIResult-class] object is valid after a call to [dbSendQuery()],
       expect_true(expect_visible(dbIsValid(res)))
       expect_error(dbFetch(res), NA)
       #' and stays valid even after all rows have been fetched;
@@ -33,6 +33,23 @@ spec_meta_is_valid <- list(
       dbClearResult(res)
       #' only clearing it with [dbClearResult()] invalidates it.
       expect_false(dbIsValid(res))
+    })
+  },
+
+  is_valid_result_statement = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        query <- paste0("CREATE TABLE test (a ", dbDataType(con, 1L), ")")
+        res <- dbSendStatement(con, query)
+        #' A [DBIResult-class] object is also valid after a call to [dbSendStatement()],
+        expect_true(expect_visible(dbIsValid(res)))
+        #' and stays valid after querying the number of rows affected;
+        expect_error(dbGetRowsAffected(res), NA)
+        expect_true(expect_visible(dbIsValid(res)))
+        dbClearResult(res)
+        #' only clearing it with [dbClearResult()] invalidates it.
+        expect_false(dbIsValid(res))
+      })
     })
   },
 
