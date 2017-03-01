@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_connection_disconnect Specification
-NULL
-
 #' spec_connection_disconnect
 #' @usage NULL
 #' @format NULL
@@ -24,15 +19,16 @@ spec_connection_disconnect <- list(
   cannot_disconnect_twice = function(ctx) {
     expect_warning(gc(), NA)
     connect(ctx)
-    #' A warning is issued when releasing a connection without calling
-    #' `dbDisconnect()`,
+    #' A warning is issued on garbage collection when a connection has been
+    #' released without calling `dbDisconnect()`.
     expect_warning(gc())
   },
 
   cannot_disconnect_twice = function(ctx) {
     con <- connect(ctx)
     dbDisconnect(con)
-    #' or when calling `dbDisconnect()` on an already disconnected connection.
+    #' A warning is issued immediately when calling `dbDisconnect()` on an
+    #' already disconnected connection.
     expect_warning(dbDisconnect(con))
   },
 

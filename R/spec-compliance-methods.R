@@ -32,8 +32,9 @@ spec_compliance_methods <- list(
 
       class <- classes[[1]]
 
-      #' The backend provides implementation for all methods defined for these
-      #' base classes, but not provided by DBI.
+      #' The backend provides implementation for all methods
+      #' of these base classes
+      #' that are defined but not implemented by DBI.
       mapply(function(method, args) {
         expect_has_class_method(method, class, args, where)
       }, names(key_methods[[name]]), key_methods[[name]])

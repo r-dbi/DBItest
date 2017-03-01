@@ -7,7 +7,7 @@
 \value{
 \code{dbBegin()}, \code{dbCommit()} and \code{dbRollback()} return \code{TRUE}, invisibly.
 The implementations are expected to raise an error in case of failure,
-but this is difficult to test in an automated way.
+but this is not tested.
 In any way, all generics throw an error with a closed connection.
 In addition, a call to \code{dbCommit()}
 or \code{dbRollback()}
@@ -49,6 +49,7 @@ transaction is rolled back.
 
 The behavior is not specified if other arguments are passed to these
 functions. In particular, \pkg{RSQLite} issues named transactions
+with support for nesting
 if the \code{name} argument is set.
 
 The transaction isolation level is not specified by DBI.

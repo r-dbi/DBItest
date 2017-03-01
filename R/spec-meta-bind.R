@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_meta_bind Specification
-NULL
-
 #' spec_meta_bind
 #' @usage NULL
 #' @format NULL

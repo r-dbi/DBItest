@@ -1,9 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_sql_exists_table Additional arguments
-#' @inheritSection spec_sql_exists_table Specification
-NULL
-
 #' spec_sql_exists_table
 #' @usage NULL
 #' @format NULL
@@ -55,6 +49,7 @@ spec_sql_exists_table <- list(
 
   #' @section Additional arguments:
   #' TBD: Schema support.
+  #' TBD: `temporary = NA`
   #'
   #' They must be provided as named arguments.
   #' See the "Specification" section for details on their usage.

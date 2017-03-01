@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_sql_quote_identifier Specification
-NULL
-
 #' spec_sql_quote_identifier
 #' @usage NULL
 #' @format NULL

@@ -1,6 +1,6 @@
 #' @template dbispec
 #' @format NULL
-#' @section Getting started:
+#' @section Definition:
 spec_getting_started <- list(
   package_dependencies = function(ctx) {
     #' A DBI backend is an R package,

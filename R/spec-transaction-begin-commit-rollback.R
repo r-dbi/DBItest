@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_transaction_begin_commit_rollback Specification
-NULL
-
 #' spec_transaction_begin_commit_rollback
 #' @usage NULL
 #' @format NULL
@@ -42,7 +37,7 @@ spec_transaction_begin_commit_rollback <- list(
   },
 
   #' The implementations are expected to raise an error in case of failure,
-  #' but this is difficult to test in an automated way.
+  #' but this is not tested.
   begin_commit_closed = function(ctx) {
     with_closed_connection({
       #' In any way, all generics throw an error with a closed connection.
@@ -185,6 +180,7 @@ spec_transaction_begin_commit_rollback <- list(
   #'
   #' The behavior is not specified if other arguments are passed to these
   #' functions. In particular, \pkg{RSQLite} issues named transactions
+  #' with support for nesting
   #' if the `name` argument is set.
   #'
   #' The transaction isolation level is not specified by DBI.

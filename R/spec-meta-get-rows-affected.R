@@ -1,7 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-NULL
-
 #' spec_meta_get_rows_affected
 #' @usage NULL
 #' @format NULL
@@ -13,7 +9,7 @@ spec_meta_get_rows_affected <- list(
   },
 
   #' @return
-  #' `dbGetRowsAffected()` returns a scalar number string (integer or numeric),
+  #' `dbGetRowsAffected()` returns a scalar number (integer or numeric),
   #' the number of rows affected by a data manipulation statement
   rows_affected_statement = function(ctx) {
     with_connection({

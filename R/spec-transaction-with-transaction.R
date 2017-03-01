@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_transaction_with_transaction Specification
-NULL
-
 #' spec_transaction_with_transaction
 #' @usage NULL
 #' @format NULL
