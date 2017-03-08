@@ -1,3 +1,8 @@
+## DBItest 1.4-14 (2017-03-08)
+
+- Finalize first draft of specification.
+
+
 ## DBItest 1.4-13 (2017-02-26)
 
 - Added prose specifications, and enhanced/modified/renamed tests for `dbBegin()`, `dbCommit()`, `dbRollback()`, and `dbWithTransaction()`. Most tests now come with a corresponding prose, only those where the behavior is not finally decided don't have a prose version yet (#88).
