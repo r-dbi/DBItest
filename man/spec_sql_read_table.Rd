@@ -26,7 +26,8 @@ an error is raised if no such column exists.
 
 If the database supports identifiers with special characters,
 the columns in the returned data frame are converted to valid R
-identifiers if the \code{make.names} argument is \code{TRUE},
+identifiers
+if the \code{check.names} argument is \code{TRUE},
 otherwise non-syntactic column names can be returned unquoted.
 
 An error is raised
@@ -62,8 +63,7 @@ to support databases that allow non-syntactic names for their objects:
 \itemize{
 \item If an unquoted table name as string: \code{dbReadTable()} will do the
 quoting,
-perhaps by calling \code{dbQuoteIdentifier(conn, x = name, ...)}
-so that all optional arguments are passed along
+perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 \item If the result of a call to \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}: no more quoting is done
 }
 }

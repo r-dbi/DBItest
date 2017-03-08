@@ -1,9 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_sql_write_table Additional arguments
-#' @inheritSection spec_sql_write_table Specification
-NULL
-
 #' spec_sql_write_table
 #' @usage NULL
 #' @format NULL
@@ -114,9 +108,7 @@ spec_sql_write_table <- list(
           dbWriteTable(con, table_name, test_in)
           test_out <- dbReadTable(con, dbQuoteIdentifier(con, table_name))
           expect_equal_df(test_out, test_in)
-          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name, ...)`
-          #'   so that all optional arguments are passed along
-          # TODO: test
+          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
         })
 
         with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
@@ -453,8 +445,8 @@ spec_sql_write_table <- list(
 
         tbl_out <- dbReadTable(con, "test")
         expect_equal_df(tbl_out, tbl_in)
-        #'   returned as integers with class `Date`)
-        expect_is(unclass(tbl_out$a), "integer")
+        #'   returned as `Date`)
+        expect_is(unclass(tbl_out$a), "numeric")
       })
     })
   },
@@ -491,6 +483,7 @@ spec_sql_write_table <- list(
     with_connection({
       tbl_in <- data.frame(id = 1:5)
       tbl_in$a <- round(Sys.time()) + c(1, 60, 3600, 86400, NA)
+      #'   returned as `POSIXlt`
       #'   with time zone support)
       tbl_in$b <- as.POSIXlt(tbl_in$a, tz = "GMT")
       tbl_in$c <- as.POSIXlt(tbl_in$a, tz = "PST")

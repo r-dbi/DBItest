@@ -18,8 +18,16 @@ or if the statement is not a non-\code{NA} string.
 \description{
 spec_result_execute
 }
-\section{Specification}{
+\section{Additional arguments}{
 
-No warnings occur under normal conditions.
+The following argument is not part of the \code{dbExecute()} generic
+(to improve compatibility across backends)
+but is part of the DBI specification:
+\itemize{
+\item \code{params} (TBD)
+}
+
+They must be provided as named arguments.
+See the "Specification" section for details on its usage.
 }
 

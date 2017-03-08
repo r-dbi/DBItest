@@ -1,9 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_sql_read_table Additional arguments
-#' @inheritSection spec_sql_read_table Specification
-NULL
-
 #' spec_sql_read_table
 #' @usage NULL
 #' @format NULL
@@ -176,11 +170,12 @@ spec_sql_read_table <- list(
       }
 
       #' the columns in the returned data frame are converted to valid R
-      #' identifiers if the `make.names` argument is `TRUE`,
+      #' identifiers
       with_remove_test_table({
         test_in <- data.frame(a = 1:3, b = 4:6)
         names(test_in) <- c("with spaces", "with,comma")
         dbWriteTable(con, "test", test_in)
+        #' if the `check.names` argument is `TRUE`,
         test_out <- dbReadTable(con, "test", check.names = TRUE)
 
         expect_identical(names(test_out), make.names(names(test_out), unique = TRUE))
@@ -253,9 +248,7 @@ spec_sql_read_table <- list(
           #'   quoting,
           test_out <- dbReadTable(con, table_name)
           expect_equal_df(test_out, test_in)
-          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name, ...)`
-          #'   so that all optional arguments are passed along
-          # TODO: test
+          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
           #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
           test_out <- dbReadTable(con, dbQuoteIdentifier(con, table_name))
           expect_equal_df(test_out, test_in)

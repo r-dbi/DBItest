@@ -1,9 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_sql_remove_table Additional arguments
-#' @inheritSection spec_sql_remove_table Specification
-NULL
-
 #' spec_sql_remove_table
 #' @usage NULL
 #' @format NULL
@@ -50,12 +44,6 @@ spec_sql_remove_table <- list(
       })
     })
   },
-
-  #' @section Additional arguments:
-  #' TBD: Schema support.
-  #'
-  #' They must be provided as named arguments.
-  #' See the "Specification" section for details on their usage.
 
   #' @section Specification:
   #' A table removed by `dbRemoveTable()` doesn't appear in the list of tables
@@ -130,9 +118,7 @@ spec_sql_remove_table <- list(
           #'   quoting,
           dbWriteTable(con, table_name, test_in)
           expect_true(dbRemoveTable(con, table_name))
-          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name, ...)`
-          #'   so that all optional arguments are passed along
-          # TODO: test
+          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
           #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
           dbWriteTable(con, table_name, test_in)
           expect_true(dbRemoveTable(con, dbQuoteIdentifier(con, table_name)))

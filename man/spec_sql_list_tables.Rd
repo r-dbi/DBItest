@@ -23,11 +23,9 @@ spec_sql_list_tables
 }
 \section{Additional arguments}{
 
-TBD (schema support).
-}
+TBD: \code{temporary = NA}
 
-\section{Specification}{
-
-TBD (schema support).
+This must be provided as named argument.
+See the "Specification" section for details on their usage.
 }
 

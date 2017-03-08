@@ -1,9 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_sql_list_tables Additional arguments
-#' @inheritSection spec_sql_list_tables Specification
-NULL
-
 #' spec_sql_list_tables
 #' @usage NULL
 #' @format NULL
@@ -72,9 +66,10 @@ spec_sql_list_tables <- list(
   },
 
   #' @section Additional arguments:
-  #' TBD (schema support).
-  #' @section Specification:
-  #' TBD (schema support).
+  #' TBD: `temporary = NA`
+  #'
+  #' This must be provided as named argument.
+  #' See the "Specification" section for details on their usage.
 
   NULL
 )

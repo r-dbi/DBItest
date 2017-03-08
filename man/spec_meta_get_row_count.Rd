@@ -5,7 +5,7 @@
 \alias{spec_meta_get_row_count}
 \title{spec_meta_get_row_count}
 \value{
-\code{dbGetRowCount()} returns a scalar number string (integer or numeric),
+\code{dbGetRowCount()} returns a scalar number (integer or numeric),
 the number of rows fetched so far.
 After calling \code{\link[=dbSendQuery]{dbSendQuery()}},
 the row count is initially zero.

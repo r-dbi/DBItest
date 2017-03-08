@@ -1,8 +1,3 @@
-#' @template dbispec-sub
-#' @format NULL
-#' @inheritSection spec_result_send_statement Specification
-NULL
-
 #' spec_result_send_statement
 #' @usage NULL
 #' @format NULL
@@ -24,7 +19,7 @@ spec_result_send_statement <- list(
         #' The result set can be used with [dbGetRowsAffected()] to
         #' determine the number of rows affected by the query.
         expect_error(dbGetRowsAffected(res), NA)
-        #' Once you have finished using a result, make sure to disconnect it
+        #' Once you have finished using a result, make sure to clear it
         #' with [dbClearResult()].
         dbClearResult(res)
       })
@@ -67,9 +62,6 @@ spec_result_send_statement <- list(
       with_remove_test_table({
         #' No warnings occur under normal conditions.
         expect_warning(res <- dbSendStatement(con, "CREATE TABLE test AS SELECT 1 AS a"), NA)
-        #' The DBIResult object returned by `dbSendStatement()` must be valid, i.e.,
-        #' [dbIsValid()] returns `TRUE`.
-        expect_true(dbIsValid(res))
         #' When done, the DBIResult object must be cleared with a call to
         #' [dbClearResult()].
         dbClearResult(res)
