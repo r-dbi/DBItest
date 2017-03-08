@@ -8,20 +8,7 @@
 \alias{DBIspec}
 \title{DBI specification}
 \description{
-The \pkg{DBI} package defines the generic DataBase Interface for R.
-The connection to individual DBMS is provided by other packages that import \pkg{DBI}
-(so-called \emph{DBI backends}).
-This document formalizes the behavior expected by the methods declared in
-\pkg{DBI} and implemented by the individual backends.
-
-To ensure maximum portability and exchangeability, and to reduce the effort
-for implementing a new DBI backend, the \pkg{DBItest} package defines
-a comprehensive set of test cases that test conformance to the DBI
-specification.
-This document is derived from comments in the test definitions of
-the \pkg{DBItest} package.
-Any extensions or updates to the tests will be reflected in
-this document.
+Placeholder page.
 }
 \section{Definition}{
 
@@ -31,7 +18,7 @@ and \pkg{methods}
 packages.
 For better or worse, the names of many existing backends start with
 \sQuote{R}, e.g., \pkg{RSQLite}, \pkg{RMySQL}, \pkg{RSQLServer}; it is up
-to the package author to adopt this convention or not.
+to the backend author to adopt this convention or not.
 }
 
 \section{DBI classes and methods}{
@@ -47,24 +34,18 @@ that are defined but not implemented by DBI.
 All methods have an ellipsis \code{...} in their formals.
 }
 
-\section{Construction of the \code{DBIDriver} object}{
+\section{Construction of the DBIDriver object}{
 
 The backend must support creation of an instance of its \linkS4class{DBIDriver}
 subclass
 with a \dfn{constructor function}.
 By default, its name is the package name without the leading \sQuote{R}
 (if it exists), e.g., \code{SQLite} for the \pkg{RSQLite} package.
-For the automated tests, the constructor name can be tweaked using the
-\code{constructor_name} tweak.
-
+However, backend authors may choose a different name.
 The constructor must be exported, and
 it must be a function
 that is callable without arguments.
-For the automated tests, unless the
-\code{constructor_relax_args} tweak is set to \code{TRUE},
-an empty argument list is expected.
-Otherwise, an argument list where all arguments have default values
-is also accepted.
+DBI recommends to define a constructor with an empty argument list.
 }
 
 \keyword{datasets}
