@@ -66,14 +66,10 @@ spec_sql_list_tables <- list(
   },
 
   #' @section Additional arguments:
-  #' TBD (schema support).
   #' TBD: `temporary = NA`
   #'
-  #' They must be provided as named arguments.
+  #' This must be provided as named argument.
   #' See the "Specification" section for details on their usage.
-  #'
-  #' @section Specification:
-  #' TBD (schema support).
 
   NULL
 )

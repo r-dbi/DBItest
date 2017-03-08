@@ -108,9 +108,7 @@ spec_sql_write_table <- list(
           dbWriteTable(con, table_name, test_in)
           test_out <- dbReadTable(con, dbQuoteIdentifier(con, table_name))
           expect_equal_df(test_out, test_in)
-          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name, ...)`
-          #'   so that all optional arguments are passed along
-          # TODO: test
+          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
         })
 
         with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {

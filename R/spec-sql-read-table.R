@@ -248,9 +248,7 @@ spec_sql_read_table <- list(
           #'   quoting,
           test_out <- dbReadTable(con, table_name)
           expect_equal_df(test_out, test_in)
-          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name, ...)`
-          #'   so that all optional arguments are passed along
-          # TODO: test
+          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
           #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
           test_out <- dbReadTable(con, dbQuoteIdentifier(con, table_name))
           expect_equal_df(test_out, test_in)

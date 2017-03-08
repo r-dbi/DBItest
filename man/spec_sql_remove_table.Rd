@@ -16,14 +16,6 @@ or if this results in a non-scalar.
 \description{
 spec_sql_remove_table
 }
-\section{Additional arguments}{
-
-TBD: Schema support.
-
-They must be provided as named arguments.
-See the "Specification" section for details on their usage.
-}
-
 \section{Specification}{
 
 A table removed by \code{dbRemoveTable()} doesn't appear in the list of tables
@@ -37,8 +29,7 @@ to support databases that allow non-syntactic names for their objects:
 \itemize{
 \item If an unquoted table name as string: \code{dbRemoveTable()} will do the
 quoting,
-perhaps by calling \code{dbQuoteIdentifier(conn, x = name, ...)}
-so that all optional arguments are passed along
+perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 \item If the result of a call to \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}: no more quoting is done
 }
 }

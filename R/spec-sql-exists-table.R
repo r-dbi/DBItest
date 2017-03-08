@@ -48,10 +48,9 @@ spec_sql_exists_table <- list(
   },
 
   #' @section Additional arguments:
-  #' TBD: Schema support.
   #' TBD: `temporary = NA`
   #'
-  #' They must be provided as named arguments.
+  #' This must be provided as named argument.
   #' See the "Specification" section for details on their usage.
 
   #' @section Specification:
@@ -75,9 +74,7 @@ spec_sql_exists_table <- list(
           #' - If an unquoted table name as string: `dbExistsTable()` will do the
           #'   quoting,
           expect_true(dbExistsTable(con, table_name))
-          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name, ...)`
-          #'   so that all optional arguments are passed along
-          # TODO: test
+          #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
           #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
           expect_true(dbExistsTable(con, dbQuoteIdentifier(con, table_name)))
         })
