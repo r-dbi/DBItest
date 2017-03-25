@@ -36,7 +36,6 @@ expect_invisible_true <- function(code) {
   expect_true(ret$value)
 
   test_that("Visibility", {
-    skip("Cannot test for visibility of return value yet (#89)")
     expect_false(ret$visible)
   })
 

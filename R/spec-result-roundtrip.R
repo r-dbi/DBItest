@@ -189,13 +189,31 @@ spec_result_roundtrip <- list(
 
   #'
   #' R has no built-in type with lossless support for the full range of 64-bit
-  #' or larger integers. Here, the following rules apply:
-  #' - Values are returned as numeric
+  #' or larger integers. If 64-bit integers are returned from a query,
+  #' the following rules apply:
+  #' - Values are returned in a container with support for the full range of
+  #'   valid 64-bit values (such as the `integer64` class of the \pkg{bit64}
+  #'   package)
+  #' - Coercion to numeric always returns a number that is as close as possible
+  #'   to the true value
   data_64_bit_numeric = function(ctx) {
     with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "10000000000" = 10000000000, "-10000000000" = -10000000000)
+      char_values <- c("10000000000", "-10000000000")
+      test_values <- as_numeric_equals_to(as.numeric(char_values))
+
+      test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
+    })
+  },
+
+  #' - Loss of precision when converting to numeric gives a warning
+  data_64_bit_numeric_warning = function(ctx) {
+    with_connection({
+      char_values <- c("1234567890123456789", "-1234567890123456789")
+      test_values <- as_numeric_equals_to(as.numeric(char_values))
+
+      expect_warning(
+        test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
+      )
     })
   },
 
@@ -355,6 +373,18 @@ coercible_to_timestamp <- function(x) {
 as_timestamp_equals_to <- function(x) {
   lapply(x, function(xx) {
     function(value) as.POSIXct(value) == xx
+  })
+}
+
+as_numeric_equals_to <- function(x) {
+  lapply(x, function(xx) {
+    function(value) as.numeric(value) == xx
+  })
+}
+
+as_character_equals_to <- function(x) {
+  lapply(x, function(xx) {
+    function(value) as.character(value) == xx
   })
 }
 

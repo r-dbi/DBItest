@@ -356,14 +356,16 @@ spec_sql_write_table <- list(
     })
   },
 
-  #' - 64-bit values (using `"bigint"` as field type)
+  #' - 64-bit values (using `"bigint"` as field type, after conversion to
+  #'   numeric)
   roundtrip_64_bit = function(ctx) {
     with_connection({
       with_remove_test_table({
         tbl_in <- data.frame(a = c(-1e14, 1e15, NA))
-        dbWriteTable(con, "test", tbl_in, field.types = "bigint")
+        dbWriteTable(con, "test", tbl_in, field.types = c(a = "bigint"))
 
         tbl_out <- dbReadTable(con, "test")
+        tbl_out$a <- as.numeric(tbl_out$a)
         expect_equal_df(tbl_out, tbl_in)
       })
     })

@@ -1,3 +1,11 @@
+## DBItest 1.4-16 (2017-03-26)
+
+- Fix and specify 64-bit roundtrip test.
+- 64-bit integers only need to be coercible to `numeric` and `character` (#74).
+- Make sure at least one table exists in the `dbListTables()` test.
+- Reenable tests for visibility (#89).
+
+
 ## DBItest 1.4-15 (2017-03-26)
 
 - Last changes before CRAN release of DBI.
