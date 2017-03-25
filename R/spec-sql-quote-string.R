@@ -78,6 +78,8 @@ spec_sql_quote_string <- list(
         "",
         #' spaces,
         " ",
+        #' tabs,
+        "\t",
         #' quotes (single
         "'",
         #' or double),
