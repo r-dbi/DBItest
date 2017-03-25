@@ -1,3 +1,8 @@
+## DBItest 1.4-15 (2017-03-26)
+
+- Last changes before CRAN release of DBI.
+
+
 ## DBItest 1.4-14 (2017-03-08)
 
 - Finalize first draft of specification.
