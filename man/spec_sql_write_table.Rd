@@ -78,7 +78,8 @@ and be read identically with \code{\link[=dbReadTable]{dbReadTable()}}:
 the latter are translated to \code{NA})
 \item logical
 \item \code{NA} as NULL
-\item 64-bit values (using \code{"bigint"} as field type)
+\item 64-bit values (using \code{"bigint"} as field type, after conversion to
+numeric)
 \item character (in both UTF-8
 and native encodings)
 \item factor (returned as character)
