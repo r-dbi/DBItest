@@ -86,9 +86,16 @@ spec_sql_exists_table <- list(
   #' For all tables listed by [dbListTables()], `dbExistsTable()` returns `TRUE`.
   exists_table_list = function(ctx) {
     with_connection({
-      for (table_name in dbListTables(con)) {
-        expect_true(dbExistsTable(con, table_name))
-      }
+      name <- random_table_name()
+      with_remove_test_table(
+        name = name,
+        {
+          dbWriteTable(con, name, data.frame(a = 1))
+          for (table_name in dbListTables(con)) {
+            expect_true(dbExistsTable(con, table_name))
+          }
+        }
+      )
     })
   },
 
