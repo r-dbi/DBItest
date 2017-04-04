@@ -203,7 +203,9 @@ spec_meta_bind <- list(
     with_connection({
       test_select_bind(
         con, ctx$tweaks$placeholder_pattern, TRUE,
-        transform_output = function(x) as.character(ctx$tweaks$logical_return(x))
+        type = NULL,
+        transform_input = ctx$tweaks$logical_return,
+        transform_output = ctx$tweaks$logical_return
       )
     })
   },
@@ -231,6 +233,10 @@ spec_meta_bind <- list(
 
   #' - [Date]
   bind_date = function(ctx) {
+    if (!isTRUE(ctx$tweaks$date_typed)) {
+      skip("tweak: !date_typed")
+    }
+
     with_connection({
       test_select_bind(con, ctx$tweaks$placeholder_pattern, Sys.Date())
     })
@@ -238,6 +244,10 @@ spec_meta_bind <- list(
 
   #' - [POSIXct] timestamps
   bind_timestamp = function(ctx) {
+    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+      skip("tweak: !timestamp_typed")
+    }
+
     with_connection({
       data_in <- as.POSIXct(round(Sys.time()))
       test_select_bind(
@@ -251,6 +261,10 @@ spec_meta_bind <- list(
 
   #' - [POSIXlt] timestamps
   bind_timestamp_lt = function(ctx) {
+    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+      skip("tweak: !timestamp_typed")
+    }
+
     with_connection({
       data_in <- as.POSIXlt(round(Sys.time()))
       test_select_bind(
