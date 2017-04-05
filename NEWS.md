@@ -1,3 +1,8 @@
+## DBItest 1.4-18 (2017-04-05)
+
+- Added tests for support of `blob` objects (input and output), but backends are not required to return `blob` objects (#98).
+
+
 ## DBItest 1.4-17 (2017-04-05)
 
 - The `logical_return`, `date_typed` and `timestamp_typed` tweaks are respected by the bind tests.
