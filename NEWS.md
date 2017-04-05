@@ -1,3 +1,11 @@
+## DBItest 1.4-17 (2017-04-05)
+
+- The `logical_return`, `date_typed` and `timestamp_typed` tweaks are respected by the bind tests.
+- Add test for rstats-db/RSQLite#123.
+- Fixed tests involving time comparison; now uses UTC timezone and compares against a `difftime`.
+- Tests for roundtrip of character values now includes tabs, in addition to many other special characters (#85).
+
+
 ## DBItest 1.4-16 (2017-03-26)
 
 - Fix and specify 64-bit roundtrip test.
