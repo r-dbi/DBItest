@@ -85,6 +85,8 @@ and native encodings)
 \item factor (returned as character)
 \item list of raw
 (if supported by the database)
+\item objects of type \link{blob}
+(if supported by the database)
 \item date
 (if supported by the database;
 returned as \code{Date})

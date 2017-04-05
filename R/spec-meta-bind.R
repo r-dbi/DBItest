@@ -285,8 +285,23 @@ spec_meta_bind <- list(
       test_select_bind(
         con, ctx$tweaks$placeholder_pattern, list(list(as.raw(1:10))),
         type = NULL,
+        transform_input = blob::as.blob,
+        transform_output = blob::as.blob)
+    })
+  },
+
+  #' - objects of type [blob]
+  bind_raw = function(ctx) {
+    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+      skip("tweak: omit_blob_tests")
+    }
+
+    with_connection({
+      test_select_bind(
+        con, ctx$tweaks$placeholder_pattern, blob::blob(as.raw(1:10)),
+        type = NULL,
         transform_input = identity,
-        transform_output = identity)
+        transform_output = blob::as.blob)
     })
   },
 

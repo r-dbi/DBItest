@@ -427,6 +427,27 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
+        tbl_in$a <- blob::as.blob(unclass(tbl_in$a))
+        tbl_out$a <- blob::as.blob(tbl_out$a)
+        expect_equal_df(tbl_out, tbl_in)
+      })
+    })
+  },
+
+  #' - objects of type [blob]
+  roundtrip_blob = function(ctx) {
+    #'   (if supported by the database)
+    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+      skip("tweak: omit_blob_tests")
+    }
+
+    with_connection({
+      with_remove_test_table({
+        tbl_in <- data.frame(id = 1:2, a = blob(as.raw(1:10), NULL))
+        dbWriteTable(con, "test", tbl_in)
+
+        tbl_out <- dbReadTable(con, "test")
+        tbl_out$a <- blob::as.blob(tbl_out$a)
         expect_equal_df(tbl_out, tbl_in)
       })
     })
