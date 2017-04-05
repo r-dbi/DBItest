@@ -71,11 +71,14 @@ test_data_type <- function(ctx, dbObj) {
     Sys.time(),
     #' and [difftime].
     Sys.time() - Sys.time(),
-    #' It also must accept lists of [raw] vectors
-    #' and map them to the BLOB (binary large object) data type,
-    #' unless the `omit_blob_tests` tweak is set to `TRUE`.
+    #' If the database supports blobs,
     if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
+      #' this method also must accept lists of [raw] vectors,
       list(as.raw(1:10))
+    },
+    if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
+      #' and [blob] objects.
+      blob::blob(as.raw(1:10))
     }
   )
 

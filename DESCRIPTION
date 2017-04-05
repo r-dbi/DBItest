@@ -10,6 +10,7 @@ Description: A helper that tests 'DBI' back ends for conformity
 Depends: 
     R (>= 3.0.0)
 Imports: 
+    blob,
     DBI (>= 0.4-9),
     hms,
     methods,
