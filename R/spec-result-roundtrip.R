@@ -389,7 +389,7 @@ as_character_equals_to <- function(x) {
 }
 
 is_roughly_current_timestamp <- function(x) {
-  coercible_to_timestamp(x) && (Sys.time() - as.POSIXct(x) <= 2)
+  coercible_to_timestamp(x) && (Sys.time() - as.POSIXct(x, tz = "UTC") <= hms::hms(2))
 }
 
 is_date <- function(x) {
@@ -405,7 +405,7 @@ is_timestamp <- function(x) {
 }
 
 is_roughly_current_timestamp_typed <- function(x) {
-  is_timestamp(x) && (Sys.time() - x <= 2)
+  is_timestamp(x) && (Sys.time() - x <= hms::hms(2))
 }
 
 as_integer_date <- function(d) {

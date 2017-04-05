@@ -78,9 +78,25 @@ spec_sql_quote_identifier <- list(
     })
   },
 
+  #' The method must use a quoting mechanism that is unambiguously different
+  #' from the quoting mechanism used for strings, so that a query like
+  quote_identifier_string = function(ctx) {
+    with_connection({
+      #' `SELECT ... FROM (SELECT 1 AS ...)`
+      query <- paste0(
+        "SELECT ", dbQuoteIdentifier(con, "b"), " FROM (",
+        "SELECT 1 AS ", dbQuoteIdentifier(con, "a"), ")"
+      )
+
+      #' throws an error if the column names do not match.
+      eval(bquote(expect_error(dbGetQuery(con, .(query)))))
+    })
+  },
+
   quote_identifier_special = function(ctx) {
     with_connection({
-        #' This is also true for column names that are empty strings
+      #'
+      #' The method can quote column names that are empty strings
       empty_in <- ""
       empty <- dbQuoteIdentifier(con, empty_in)
       #' or contain special characters such as a space,
