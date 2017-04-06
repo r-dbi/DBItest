@@ -16,7 +16,7 @@ spec_connection_disconnect <- list(
   },
 
   #' @section Specification:
-  cannot_disconnect_twice = function(ctx) {
+  cannot_forget_disconnect = function(ctx) {
     expect_warning(gc(), NA)
     connect(ctx)
     #' A warning is issued on garbage collection when a connection has been
