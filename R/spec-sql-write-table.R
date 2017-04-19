@@ -489,9 +489,10 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", tbl_in)
 
         tbl_out <- dbReadTable(con, "test")
-        expect_equal_df(tbl_out, tbl_in)
+
         #'   returned as objects that inherit from `difftime`)
         expect_is(tbl_out$a, "difftime")
+        expect_identical(unclass(tbl_out$a), unclass(tbl_in$a))
       })
     })
   },
