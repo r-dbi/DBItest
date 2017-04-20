@@ -86,9 +86,10 @@ with_result <- function(query, code, res = "res", env = parent.frame()) {
   ), envir = env)
 }
 
-# Evaluates the code inside local() after defining a variable "res"
+# Evaluates the code inside local() after defining a variable "con"
 # (can be overridden by specifying con argument)
-# that points to a result set created by query. Clears on exit.
+# that points to a connection. Removes the table specified by name on exit,
+# if it exists.
 with_remove_test_table <- function(code, name = "test", con = "con", env = parent.frame()) {
   code_sub <- substitute(code)
 
@@ -102,6 +103,27 @@ with_remove_test_table <- function(code, name = "test", con = "con", env = paren
       add = TRUE
     )
     local(.(code_sub))
+  }
+  ), envir = env)
+}
+
+# Evaluates the code inside local() after defining a variable "con"
+# (can be overridden by specifying con argument)
+# that points to a result set created by query. Clears on exit.
+with_rollback_on_error <- function(code, con = "con", env = parent.frame()) {
+  code_sub <- substitute(code)
+
+  con <- as.name(con)
+
+  eval(bquote({
+    on.exit(
+      try_silent(
+        dbRollback(.(con))
+      ),
+      add = TRUE
+    )
+    local(.(code_sub))
+    on.exit(NULL, add = FALSE)
   }
   ), envir = env)
 }

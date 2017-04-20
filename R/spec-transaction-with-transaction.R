@@ -28,9 +28,9 @@ spec_transaction_with_transaction <- list(
   with_transaction_error_closed = function(ctx) {
     with_connection({
       dbBegin(con)
-      on.exit(dbRollback(con), add = TRUE)
       #' gives an error.
       expect_error(dbWithTransaction(con, NULL))
+      dbRollback(con)
     })
   },
 
