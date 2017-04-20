@@ -24,6 +24,14 @@ spec_transaction_with_transaction <- list(
       expect_error(dbWithTransaction(con, NULL))
     })
   },
+
+  #' or invalid
+  with_transaction_error_invalid = function(ctx) {
+    with_invalid_connection({
+      expect_error(dbWithTransaction(con, NULL))
+    })
+  },
+
   #' of if [dbBegin()] has been called already)
   with_transaction_error_closed = function(ctx) {
     with_connection({

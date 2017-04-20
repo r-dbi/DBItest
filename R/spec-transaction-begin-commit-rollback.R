@@ -40,7 +40,16 @@ spec_transaction_begin_commit_rollback <- list(
   #' but this is not tested.
   begin_commit_closed = function(ctx) {
     with_closed_connection({
-      #' In any way, all generics throw an error with a closed connection.
+      #' In any way, all generics throw an error with a closed
+      expect_error(dbBegin(con))
+      expect_error(dbCommit(con))
+      expect_error(dbRollback(con))
+    })
+  },
+
+  begin_commit_invalid = function(ctx) {
+    with_invalid_connection({
+      #' or invalid connection.
       expect_error(dbBegin(con))
       expect_error(dbCommit(con))
       expect_error(dbRollback(con))

@@ -24,7 +24,7 @@ spec_sql_read_table <- list(
     })
   },
 
-  #' An error is returned if the table does not exist.
+  #' An error is raised if the table does not exist.
   read_table_missing = function(ctx) {
     with_connection({
       with_remove_test_table({
@@ -195,6 +195,30 @@ spec_sql_read_table <- list(
   },
 
   #'
+  #' An error is raised when calling this method for a closed
+  read_table_closed_connection = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        dbWriteTable(con, "test", data.frame(a = 1))
+        with_closed_connection(con = "con2", {
+          expect_error(dbReadTable(con2, "test"))
+        })
+      })
+    })
+  },
+
+  #' or invalid connection.
+  read_table_invalid_connection = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        dbWriteTable(con, "test", data.frame(a = 1))
+        with_invalid_connection(con = "con2", {
+          expect_error(dbReadTable(con2, "test"))
+        })
+      })
+    })
+  },
+
   #' An error is raised
   read_table_error = function(ctx) {
     with_connection({
