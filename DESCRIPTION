@@ -87,6 +87,7 @@ Collate:
     'spec-stress-driver.R'
     'spec-stress-connection.R'
     'spec-stress.R'
+    'spec-all.R'
     'spec-.R'
     'test-all.R'
     'test-getting-started.R'

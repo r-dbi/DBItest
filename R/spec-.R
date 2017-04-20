@@ -9,6 +9,8 @@
 #
 # Output: Files R/test-xxx-1.R and R/test-xxx-2.R, and @include directives to stdout
 
+##### All
+#' @include spec-all.R
 ##### Stress
 #' @include spec-stress.R
 #' @include spec-stress-connection.R

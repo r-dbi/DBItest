@@ -12,16 +12,6 @@ run_tests <- function(ctx, tests, skip, test_suite) {
   context(test_context)
 
   tests <- tests[!vapply(tests, is.null, logical(1L))]
-  if (any(names(tests) == "")) {
-    vicinity <- sort(unique(unlist(
-      lapply(which(names(tests) == ""), "+", -1:1)
-    )))
-    vicinity <- vicinity[names(tests)[vicinity] != ""]
-
-    stop("Unnamed specs found, have you used <- instead of = ? Nearby named tests: ",
-         paste0(names(tests)[vicinity], collapse = ", "),
-         call. = FALSE)
-  }
 
   skip_rx <- paste0(paste0("(?:^", skip, "$)"), collapse = "|")
   skip_flag <- grepl(skip_rx, names(tests), perl = TRUE)
