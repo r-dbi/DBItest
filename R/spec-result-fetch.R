@@ -204,7 +204,7 @@ spec_result_fetch <- list(
       with_result(
         dbSendQuery(con, query),
         {
-          expect_warning(rows <- dbFetch(res, 5L), NA)
+          rows <- dbFetch(res, 5L)
           expect_identical(rows, data.frame(a = 1:3))
           #' If fewer rows than requested are returned, further fetches will
           #' return a data frame with zero rows.
@@ -225,7 +225,7 @@ spec_result_fetch <- list(
       with_result(
         dbSendQuery(con, query),
         {
-          expect_warning(rows <- dbFetch(res, 0L), NA)
+          rows <- dbFetch(res, 0L)
           expect_identical(rows, data.frame(a = integer()))
         }
       )

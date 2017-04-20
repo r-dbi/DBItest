@@ -117,7 +117,7 @@ spec_sql_quote_string <- list(
                       quoted_na, "as quoted_na")
 
       #' If `x` is `NA`, the result must merely satisfy [is.na()].
-      expect_warning(rows <- dbGetQuery(con, query), NA)
+      rows <- dbGetQuery(con, query)
       expect_true(is.na(rows$null_return))
       #' The strings `"NA"` or `"NULL"` are not treated specially.
       expect_identical(rows$na_return, "NA")

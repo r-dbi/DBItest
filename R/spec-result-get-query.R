@@ -151,7 +151,7 @@ spec_result_get_query <- list(
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      expect_warning(rows <- dbGetQuery(con, query, n = 5L), NA)
+      rows <- dbGetQuery(con, query, n = 5L)
       expect_identical(rows, data.frame(a = 1:3))
     })
   },
@@ -163,7 +163,7 @@ spec_result_get_query <- list(
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      expect_warning(rows <- dbGetQuery(con, query, n = 0L), NA)
+      rows <- dbGetQuery(con, query, n = 0L)
       expect_identical(rows, data.frame(a=integer()))
     })
   },

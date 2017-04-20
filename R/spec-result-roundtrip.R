@@ -281,11 +281,11 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
   if (.table) {
     with_remove_test_table({
       query <- paste("CREATE TABLE test AS", query)
-      expect_warning(dbExecute(con, query), NA)
-      expect_warning(rows <- dbReadTable(con, "test"), NA)
+      dbExecute(con, query)
+      rows <- dbReadTable(con, "test")
     })
   } else {
-    expect_warning(rows <- dbGetQuery(con, query), NA)
+    rows <- dbGetQuery(con, query)
   }
 
   if (.add_null != "none") {

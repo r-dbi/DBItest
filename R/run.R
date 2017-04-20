@@ -37,10 +37,17 @@ run_tests <- function(ctx, tests, skip, test_suite) {
 }
 
 patch_test_fun <- function(test_fun, desc) {
-  body_of_test_fun <- body(test_fun)
+  body_of_test_fun <- wrap_all_statements_with_expect_no_warning(body(test_fun))
+
   eval(bquote(
     function(ctx) {
       test_that(.(desc), .(body_of_test_fun))
     }
   ))
+}
+
+wrap_all_statements_with_expect_no_warning <- function(block) {
+  stopifnot(identical(block[[1]], quote(`{`)))
+  block[-1] <- lapply(block[-1], function(x) eval(bquote(quote(expect_warning(.(x), NA)))))
+  block
 }
