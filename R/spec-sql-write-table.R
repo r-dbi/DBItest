@@ -492,7 +492,7 @@ spec_sql_write_table <- list(
 
         #'   returned as objects that inherit from `difftime`)
         expect_is(tbl_out$a, "difftime")
-        expect_identical(unclass(tbl_out$a), unclass(tbl_in$a))
+        expect_identical(hms::as.hms(tbl_out$a), hms::as.hms(tbl_in$a))
       })
     })
   },
