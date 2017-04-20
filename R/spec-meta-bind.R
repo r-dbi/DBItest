@@ -291,7 +291,7 @@ spec_meta_bind <- list(
   },
 
   #' - objects of type [blob]
-  bind_raw = function(ctx) {
+  bind_blob = function(ctx) {
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }

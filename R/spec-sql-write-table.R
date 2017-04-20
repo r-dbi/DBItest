@@ -152,7 +152,7 @@ spec_sql_write_table <- list(
   },
 
   #' This argument doesn't change behavior if the table does not exist yet.
-  overwrite_table = function(ctx) {
+  overwrite_table_missing = function(ctx) {
     with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)

@@ -33,7 +33,7 @@ spec_transaction_with_transaction <- list(
   },
 
   #' of if [dbBegin()] has been called already)
-  with_transaction_error_closed = function(ctx) {
+  with_transaction_error_nested = function(ctx) {
     with_connection({
       dbBegin(con)
       #' gives an error.
