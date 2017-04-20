@@ -6,7 +6,7 @@ spec_stress_connection <- list(
   #' Open 50 simultaneous connections
   simultaneous_connections = function(ctx) {
     cons <- list()
-    on.exit(expect_error(lapply(cons, dbDisconnect), NA), add = TRUE)
+    on.exit(try_silent(lapply(cons, dbDisconnect)), add = TRUE)
     for (i in seq_len(50L)) {
       cons <- c(cons, connect(ctx))
     }
@@ -36,23 +36,26 @@ spec_stress_connection <- list(
 
     script_file <- tempfile("DBItest", fileext = ".R")
     local({
-      sink(script_file)
-      on.exit(sink(), add = TRUE)
-      cat(
-        "devtools::RCMD('INSTALL', ", shQuote(pkg$path), ")\n",
-        "library(DBI, quietly = TRUE)\n",
-        "connect_args <- ",
-        sep = ""
-      )
-      dput(ctx$connect_args)
-      cat(
-        "for (i in 1:50) {\n",
-        "  drv <- ", pkg$package, "::", deparse(ctx$drv_call), "\n",
-        "  con <- do.call(dbConnect, c(drv, connect_args))\n",
-        "  dbDisconnect(con)\n",
-        "  unloadNamespace(getNamespace(\"", pkg$package, "\"))\n",
-        "}\n",
-        sep = ""
+      with_output_sink(
+        script_file,
+        {
+          cat(
+            "devtools::RCMD('INSTALL', ", shQuote(pkg$path), ")\n",
+            "library(DBI, quietly = TRUE)\n",
+            "connect_args <- ",
+            sep = ""
+          )
+          dput(ctx$connect_args)
+          cat(
+            "for (i in 1:50) {\n",
+            "  drv <- ", pkg$package, "::", deparse(ctx$drv_call), "\n",
+            "  con <- do.call(dbConnect, c(drv, connect_args))\n",
+            "  dbDisconnect(con)\n",
+            "  unloadNamespace(getNamespace(\"", pkg$package, "\"))\n",
+            "}\n",
+            sep = ""
+          )
+        }
       )
     })
 

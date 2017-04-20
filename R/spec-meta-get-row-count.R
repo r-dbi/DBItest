@@ -74,23 +74,23 @@ spec_meta_get_row_count <- list(
     with_connection({
       name <- random_table_name()
 
-      on.exit(try_silent(dbExecute(paste0("DROP TABLE ", name))), add = TRUE)
-
-      query <- paste0("CREATE TABLE ", name, " (a integer)")
-      with_result(
-        #' For data manipulation statements issued with
-        #' [dbSendStatement()],
-        dbSendStatement(con, query),
-        {
-          rc <- dbGetRowCount(res)
-          #' zero is returned before
-          expect_equal(rc, 0L)
-          dbFetch(res)
-          rc <- dbGetRowCount(res)
-          #' and after calling `dbFetch()`.
-          expect_equal(rc, 0L)
-        }
-      )
+      with_remove_test_table(name = name, {
+        query <- paste0("CREATE TABLE ", name, " (a integer)")
+        with_result(
+          #' For data manipulation statements issued with
+          #' [dbSendStatement()],
+          dbSendStatement(con, query),
+          {
+            rc <- dbGetRowCount(res)
+            #' zero is returned before
+            expect_equal(rc, 0L)
+            dbFetch(res)
+            rc <- dbGetRowCount(res)
+            #' and after calling `dbFetch()`.
+            expect_equal(rc, 0L)
+          }
+        )
+      })
     })
   },
 

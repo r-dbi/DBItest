@@ -22,13 +22,11 @@ spec_result_clear_result <- list(
   clear_result_return_statement = function(ctx) {
     with_connection({
       table_name <- random_table_name()
-      on.exit({
-        res <- dbSendStatement(con, paste0("DROP TABLE ", table_name))
-        dbClearResult(res)
-      })
 
-      res <- dbSendStatement(con, paste0("CREATE TABLE ", table_name , " AS SELECT 1"))
-      expect_invisible_true(dbClearResult(res))
+      with_remove_test_table(name = table_name, {
+        res <- dbSendStatement(con, paste0("CREATE TABLE ", table_name , " AS SELECT 1"))
+        expect_invisible_true(dbClearResult(res))
+      })
     })
   },
 

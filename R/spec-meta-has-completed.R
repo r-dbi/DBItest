@@ -30,16 +30,16 @@ spec_meta_has_completed <- list(
     with_connection({
       name <- random_table_name()
 
-      on.exit(try_silent(dbExecute(paste0("DROP TABLE ", name))), add = TRUE)
-
-      #' For a query initiated by [dbSendStatement()],
-      with_result(
-        dbSendQuery(con, paste0("CREATE TABLE ", name, " (a integer)")),
-        {
-          #' `dbHasCompleted()` always returns `TRUE`.
-          expect_true(expect_visible(dbHasCompleted(res)))
-        }
-      )
+      with_remove_test_table(name = name, {
+        #' For a query initiated by [dbSendStatement()],
+        with_result(
+          dbSendQuery(con, paste0("CREATE TABLE ", name, " (a integer)")),
+          {
+            #' `dbHasCompleted()` always returns `TRUE`.
+            expect_true(expect_visible(dbHasCompleted(res)))
+          }
+        )
+      })
     })
   },
 

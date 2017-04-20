@@ -106,15 +106,16 @@ spec_result_fetch <- list(
   fetch_no_return_value = function(ctx) {
     with_connection({
       query <- "CREATE TABLE test (a integer)"
-      on.exit(dbClearResult(dbSendStatement(con, "DROP TABLE test")), add = TRUE)
 
-      with_result(
-        dbSendStatement(con, query),
-        {
-          expect_warning(rows <- dbFetch(res))
-          expect_identical(rows, data.frame())
-        }
-      )
+      with_remove_test_table({
+        with_result(
+          dbSendStatement(con, query),
+          {
+            expect_warning(rows <- dbFetch(res))
+            expect_identical(rows, data.frame())
+          }
+        )
+      })
     })
   },
 
@@ -157,20 +158,22 @@ spec_result_fetch <- list(
       query <- union(
         .ctx = ctx, paste("SELECT", 1:25, "AS a"), .order_by = "a")
 
-      res <- dbSendQuery(con, query)
-      on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
+      with_result(
+        dbSendQuery(con, query),
+        {
+          #' by passing a whole number ([integer]
+          rows <- dbFetch(res, 10L)
+          expect_identical(rows, data.frame(a = 1L:10L))
 
-      #' by passing a whole number ([integer]
-      rows <- dbFetch(res, 10L)
-      expect_identical(rows, data.frame(a = 1L:10L))
+          #' or [numeric])
+          rows <- dbFetch(res, 10)
+          expect_identical(rows, data.frame(a = 11L:20L))
 
-      #' or [numeric])
-      rows <- dbFetch(res, 10)
-      expect_identical(rows, data.frame(a = 11L:20L))
-
-      #' as the `n` argument.
-      rows <- dbFetch(res, n = 5)
-      expect_identical(rows, data.frame(a = 21L:25L))
+          #' as the `n` argument.
+          rows <- dbFetch(res, n = 5)
+          expect_identical(rows, data.frame(a = 21L:25L))
+        }
+      )
     })
   },
 
@@ -219,14 +222,13 @@ spec_result_fetch <- list(
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      res <- dbSendQuery(con, query)
-      on.exit(expect_error(dbClearResult(res), NA), add = TRUE)
-
-      expect_warning(rows <- dbFetch(res, 0L), NA)
-      expect_identical(rows, data.frame(a = integer()))
-
-      expect_warning(dbClearResult(res), NA)
-      on.exit(NULL, add = FALSE)
+      with_result(
+        dbSendQuery(con, query),
+        {
+          expect_warning(rows <- dbFetch(res, 0L), NA)
+          expect_identical(rows, data.frame(a = integer()))
+        }
+      )
     })
   },
 
