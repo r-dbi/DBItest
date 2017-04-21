@@ -4,9 +4,12 @@
 %   R/test-meta.R, R/test-transaction.R, R/test-compliance.R, R/test-stress.R
 \name{test_all}
 \alias{test_all}
+\alias{test_some}
 \title{Run all tests}
 \usage{
 test_all(skip = NULL, ctx = get_default_context())
+
+test_some(test, ctx = get_default_context())
 }
 \arguments{
 \item{skip}{\code{[character()]}\cr A vector of regular expressions to match
@@ -14,10 +17,16 @@ against test names; skip test if matching any.}
 
 \item{ctx}{\code{[DBItest_context]}\cr A test context as created by
 \code{\link[=make_context]{make_context()}}.}
+
+\item{test}{\code{[character]}\cr A character vector of regular expressions
+describing the tests to run.}
 }
 \description{
-This function calls all tests defined in this package (see the section
+\code{test_all()} calls all tests defined in this package (see the section
 "Tests" below).
+
+\code{test_some()} allows testing one or more tests, it works by
+constructing the \code{skip} argument using negative lookaheads.
 }
 \section{Tests}{
 

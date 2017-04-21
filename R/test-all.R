@@ -1,6 +1,6 @@
 #' Run all tests
 #'
-#' This function calls all tests defined in this package (see the section
+#' `test_all()` calls all tests defined in this package (see the section
 #' "Tests" below).
 #'
 #' @section Tests:
@@ -22,4 +22,14 @@ test_all <- function(skip = NULL, ctx = get_default_context()) {
   test_transaction(skip = skip, ctx = ctx)
   test_compliance(skip = skip, ctx = ctx)
   # stress tests are not tested by default (#92)
+}
+
+#' @rdname test_all
+#' @description `test_some()` allows testing one or more tests, it works by
+#'   constructing the `skip` argument using negative lookaheads.
+#' @param test `[character]`\cr A character vector of regular expressions
+#'   describing the tests to run.
+#' @export
+test_some <- function(test, ctx = get_default_context()) {
+  test_all(skip = paste0("(?!", paste(test, collapse = "|"), ").*$"), ctx = ctx)
 }

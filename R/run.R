@@ -39,7 +39,7 @@ run_tests <- function(ctx, tests, skip, test_suite) {
 get_skip_names <- function(skip) {
   names_all <- names(spec_all)
   names_all <- names_all[names_all != ""]
-  skip_flags_all <- lapply(skip, grepl, names_all)
+  skip_flags_all <- lapply(paste0("(?:^", skip, "$)"), grepl, names_all, perl = TRUE)
   skip_used <- vapply(skip_flags_all, any, logical(1L))
   if (!all(skip_used)) {
     warning("Unused skip expressions: ", paste(skip[!skip_used], collapse = ", "),
