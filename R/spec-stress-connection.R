@@ -1,5 +1,6 @@
 #' @template dbispec-sub-wip
 #' @format NULL
+#' @importFrom withr with_output_sink
 #' @section Connection:
 #' \subsection{Stress tests}{
 spec_stress_connection <- list(
