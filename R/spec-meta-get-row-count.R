@@ -22,7 +22,7 @@ spec_meta_get_row_count <- list(
           #' the row count is initially zero.
           expect_equal(rc, 0L)
           #' After a call to [dbFetch()] without limit,
-          dbFetch(res)
+          check_df(dbFetch(res))
           rc <- dbGetRowCount(res)
           #' the row count matches the total number of rows returned.
           expect_equal(rc, 1L)
@@ -38,12 +38,12 @@ spec_meta_get_row_count <- list(
           rc <- dbGetRowCount(res)
           expect_equal(rc, 0L)
           #' Fetching a limited number of rows
-          dbFetch(res, 2L)
+          check_df(dbFetch(res, 2L))
           #' increases the number of rows by the number of rows returned,
           rc <- dbGetRowCount(res)
           expect_equal(rc, 2L)
           #' even if fetching past the end of the result set.
-          dbFetch(res, 2L)
+          check_df(dbFetch(res, 2L))
           rc <- dbGetRowCount(res)
           expect_equal(rc, 3L)
         }
@@ -61,7 +61,7 @@ spec_meta_get_row_count <- list(
           rc <- dbGetRowCount(res)
           #' zero is returned
           expect_equal(rc, 0L)
-          dbFetch(res)
+          check_df(dbFetch(res))
           rc <- dbGetRowCount(res)
           #' even after fetching.
           expect_equal(rc, 0L)
@@ -84,7 +84,7 @@ spec_meta_get_row_count <- list(
             rc <- dbGetRowCount(res)
             #' zero is returned before
             expect_equal(rc, 0L)
-            dbFetch(res)
+            check_df(dbFetch(res))
             rc <- dbGetRowCount(res)
             #' and after calling `dbFetch()`.
             expect_equal(rc, 0L)

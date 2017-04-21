@@ -67,13 +67,13 @@ spec_sql_quote_identifier <- list(
 
       #' in particular in queries like `SELECT 1 AS ...`
       query <- paste0("SELECT 1 AS", simple)
-      rows <- dbGetQuery(con, query)
+      rows <- check_df(dbGetQuery(con, query))
       expect_identical(names(rows), "simple")
       expect_identical(unlist(unname(rows)), 1L)
 
       #' and `SELECT * FROM (SELECT 1) ...`.
       query <- paste0("SELECT * FROM (SELECT 1) ", simple)
-      rows <- dbGetQuery(con, query)
+      rows <- check_df(dbGetQuery(con, query))
       expect_identical(unlist(unname(rows)), 1L)
     })
   },
@@ -138,7 +138,7 @@ spec_sql_quote_identifier <- list(
                       "9 as", quoted_with_comma, ",",
                       "10 as", quoted_with_quote)
 
-      rows <- dbGetQuery(con, query)
+      rows <- check_df(dbGetQuery(con, query))
       expect_identical(names(rows),
                        c(empty_in, with_space_in, with_dot_in, with_comma_in,
                          with_quote_in,

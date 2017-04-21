@@ -282,10 +282,10 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
     with_remove_test_table({
       query <- paste("CREATE TABLE test AS", query)
       dbExecute(con, query)
-      rows <- dbReadTable(con, "test")
+      rows <- check_df(dbReadTable(con, "test"))
     })
   } else {
-    rows <- dbGetQuery(con, query)
+    rows <- check_df(dbGetQuery(con, query))
   }
 
   if (.add_null != "none") {

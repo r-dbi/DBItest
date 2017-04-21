@@ -19,7 +19,7 @@ spec_result_fetch <- list(
       with_result(
         dbSendQuery(con, query),
         {
-          rows <- dbFetch(res)
+          rows <- check_df(dbFetch(res))
           expect_identical(rows, data.frame(a = 1L))
         }
       )
@@ -33,7 +33,7 @@ spec_result_fetch <- list(
       with_result(
         dbSendQuery(con, query),
         {
-          rows <- dbFetch(res)
+          rows <- check_df(dbFetch(res))
           expect_identical(rows, data.frame(a = 1L, b = 2L, c = 3L))
         }
       )
@@ -48,7 +48,7 @@ spec_result_fetch <- list(
       with_result(
         dbSendQuery(con, query),
         {
-          rows <- dbFetch(res)
+          rows <- check_df(dbFetch(res))
           expect_identical(class(rows), "data.frame")
         }
       )
@@ -93,7 +93,7 @@ spec_result_fetch <- list(
         dbSendQuery(con, query),
         {
           expect_error(dbFetch(res, NA_integer_))
-          rows <- dbFetch(res)
+          rows <- check_df(dbFetch(res))
           expect_identical(rows, data.frame(a = 1L))
         }
       )
@@ -111,7 +111,7 @@ spec_result_fetch <- list(
         with_result(
           dbSendStatement(con, query),
           {
-            expect_warning(rows <- dbFetch(res))
+            expect_warning(rows <- check_df(dbFetch(res)))
             expect_identical(rows, data.frame())
           }
         )
@@ -129,7 +129,7 @@ spec_result_fetch <- list(
       with_result(
         dbSendQuery(con, query),
         {
-          rows <- dbFetch(res)
+          rows <- check_df(dbFetch(res))
           expect_identical(rows, data.frame(a = 1:3))
         }
       )
@@ -145,7 +145,7 @@ spec_result_fetch <- list(
       with_result(
         dbSendQuery(con, query),
         {
-          rows <- dbFetch(res)
+          rows <- check_df(dbFetch(res))
           expect_identical(rows, data.frame(a = 1:5, b = 4:0))
         }
       )
@@ -162,15 +162,15 @@ spec_result_fetch <- list(
         dbSendQuery(con, query),
         {
           #' by passing a whole number ([integer]
-          rows <- dbFetch(res, 10L)
+          rows <- check_df(dbFetch(res, 10L))
           expect_identical(rows, data.frame(a = 1L:10L))
 
           #' or [numeric])
-          rows <- dbFetch(res, 10)
+          rows <- check_df(dbFetch(res, 10))
           expect_identical(rows, data.frame(a = 11L:20L))
 
           #' as the `n` argument.
-          rows <- dbFetch(res, n = 5)
+          rows <- check_df(dbFetch(res, n = 5))
           expect_identical(rows, data.frame(a = 21L:25L))
         }
       )
@@ -187,7 +187,7 @@ spec_result_fetch <- list(
       with_result(
         dbSendQuery(con, query),
         {
-          rows <- dbFetch(res, n = Inf)
+          rows <- check_df(dbFetch(res, n = Inf))
           expect_identical(rows, data.frame(a = 1:3))
         }
       )
@@ -204,11 +204,11 @@ spec_result_fetch <- list(
       with_result(
         dbSendQuery(con, query),
         {
-          rows <- dbFetch(res, 5L)
+          rows <- check_df(dbFetch(res, 5L))
           expect_identical(rows, data.frame(a = 1:3))
           #' If fewer rows than requested are returned, further fetches will
           #' return a data frame with zero rows.
-          rows <- dbFetch(res)
+          rows <- check_df(dbFetch(res))
           expect_identical(rows, data.frame(a = integer()))
         }
       )
@@ -225,7 +225,7 @@ spec_result_fetch <- list(
       with_result(
         dbSendQuery(con, query),
         {
-          rows <- dbFetch(res, 0L)
+          rows <- check_df(dbFetch(res, 0L))
           expect_identical(rows, data.frame(a = integer()))
         }
       )
@@ -242,7 +242,7 @@ spec_result_fetch <- list(
       with_result(
         dbSendQuery(con, query),
         {
-          rows <- dbFetch(res, 2L)
+          rows <- check_df(dbFetch(res, 2L))
           expect_identical(rows, data.frame(a = 1:2))
         }
       )

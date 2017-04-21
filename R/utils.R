@@ -154,3 +154,14 @@ try_silent <- function(code) {
     code,
     error = function(e) NULL)
 }
+
+check_df <- function(df) {
+  expect_is(df, "data.frame")
+  if (length(df) >= 1L) {
+    lengths <- vapply(df, length, integer(1L), USE.NAMES = FALSE)
+    expect_equal(diff(lengths), rep(0L, length(lengths) - 1L))
+    expect_equal(nrow(df), lengths[[1]])
+  }
+
+  df
+}

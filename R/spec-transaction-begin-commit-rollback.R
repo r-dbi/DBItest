@@ -112,21 +112,21 @@ spec_transaction_begin_commit_rollback <- list(
         dbExecute(con, paste0("INSERT INTO test (a) VALUES (1)"))
 
         #' must exist and contain the data added there
-        expect_equal(dbReadTable(con, "test"), data.frame(a = 1))
+        expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 1))
 
         #' both during
         dbCommit(con)
       })
 
       #' and after the transaction,
-      expect_equal(dbReadTable(con, "test"), data.frame(a = 1))
+      expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 1))
     })
 
     with_connection({
       with_remove_test_table({
         #' and also in a new connection.
         expect_true(dbExistsTable(con, "test"))
-        expect_equal(dbReadTable(con, "test"), data.frame(a = 1))
+        expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 1))
       })
     })
   },

@@ -56,11 +56,11 @@ spec_transaction_with_transaction <- list(
           {
             dbExecute(con, paste0("CREATE TABLE test (a ", dbDataType(con, 0L), ")"))
             dbExecute(con, paste0("INSERT INTO test (a) VALUES (1)"))
-            expect_equal(dbReadTable(con, "test"), data.frame(a = 1))
+            expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 1))
           }
         )
 
-        expect_equal(dbReadTable(con, "test"), data.frame(a = 1))
+        expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 1))
       })
     })
   },
