@@ -8,6 +8,7 @@
 \code{dbWithTransaction()} returns the value of the executed code.
 Failure to initiate the transaction
 (e.g., if the connection is closed
+or invalid
 of if \code{\link[=dbBegin]{dbBegin()}} has been called already)
 gives an error.
 }
