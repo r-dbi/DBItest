@@ -13,8 +13,7 @@ run_tests <- function(ctx, tests, skip, test_suite) {
 
   tests <- tests[!vapply(tests, is.null, logical(1L))]
 
-  skip_rx <- paste0(paste0("(?:^", skip, "$)"), collapse = "|")
-  skipped <- grep(skip_rx, names(tests), perl = TRUE, value = TRUE)
+  skipped <- get_skip_names(skip)
   skip_flag <- names(tests) %in% skipped
 
   ok <- vapply(seq_along(tests), function(test_idx) {
@@ -35,6 +34,22 @@ run_tests <- function(ctx, tests, skip, test_suite) {
   }
 
   ok
+}
+
+get_skip_names <- function(skip) {
+  names_all <- names(spec_all)
+  names_all <- names_all[names_all != ""]
+  skip_flags_all <- lapply(skip, grepl, names_all)
+  skip_used <- vapply(skip_flags_all, any, logical(1L))
+  if (!all(skip_used)) {
+    warning("Unused skip expressions: ", paste(skip[!skip_used], collapse = ", "),
+            call. = FALSE)
+  }
+
+  skip_flag_all <- Reduce(`|`, skip_flags_all)
+  skip_tests <- names_all[skip_flag_all]
+
+  skip_tests
 }
 
 patch_test_fun <- function(test_fun, desc) {
