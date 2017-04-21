@@ -12,13 +12,13 @@ Depends:
 Imports: 
     blob,
     DBI (>= 0.4-9),
+    desc,
     hms,
     methods,
     R6,
     testthat (>= 1.0.2),
     withr
 Suggests: 
-    devtools,
     knitr,
     lintr,
     rmarkdown
