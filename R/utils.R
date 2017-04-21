@@ -163,5 +163,9 @@ check_df <- function(df) {
     expect_equal(nrow(df), lengths[[1]])
   }
 
+  df_names <- names(df)
+  expect_true(all(df_names != ""))
+  expect_false(anyNA(df_names))
+
   df
 }
