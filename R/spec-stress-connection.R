@@ -26,47 +26,6 @@ spec_stress_connection <- list(
     }
   },
 
-  #' Repeated load, instantiation, connection, disconnection, and unload of
-  #' package in a new R session.
-  stress_load_connect_unload = function(ctx) {
-    skip_on_travis()
-    skip_on_appveyor()
-    skip_if_not(getRversion() != "3.3.0")
-
-    pkg <- get_pkg(ctx)
-
-    script_file <- tempfile("DBItest", fileext = ".R")
-    local({
-      with_output_sink(
-        script_file,
-        {
-          cat(
-            "devtools::RCMD('INSTALL', ", shQuote(pkg$path), ")\n",
-            "library(DBI, quietly = TRUE)\n",
-            "connect_args <- ",
-            sep = ""
-          )
-          dput(ctx$connect_args)
-          cat(
-            "for (i in 1:50) {\n",
-            "  drv <- ", pkg$package, "::", deparse(ctx$drv_call), "\n",
-            "  con <- do.call(dbConnect, c(drv, connect_args))\n",
-            "  dbDisconnect(con)\n",
-            "  unloadNamespace(getNamespace(\"", pkg$package, "\"))\n",
-            "}\n",
-            sep = ""
-          )
-        }
-      )
-    })
-
-    with_temp_libpaths({
-      expect_equal(system(paste0("R -q --vanilla -f ", shQuote(script_file)),
-                          ignore.stdout = TRUE, ignore.stderr = TRUE),
-                   0L)
-    })
-  },
-
   #' }
   NULL
 )

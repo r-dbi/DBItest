@@ -14,7 +14,6 @@
 ##### Stress
 #' @include spec-stress.R
 #' @include spec-stress-connection.R
-#' @include spec-stress-driver.R
 ##### Aggregators
 #' @include spec-compliance.R
 #' @include spec-transaction.R
