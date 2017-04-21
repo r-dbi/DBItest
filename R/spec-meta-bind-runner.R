@@ -59,7 +59,7 @@ run_bind_tester$fun <- function() {
     #'     - For queries issued by `dbSendQuery()`,
     #'       call [dbFetch()].
     if (is_query()) {
-      rows <- dbFetch(res)
+      rows <- check_df(dbFetch(res))
       compare(rows, values)
     } else {
       #'     - For statements issued by `dbSendStatements()`,

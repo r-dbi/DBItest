@@ -2,7 +2,7 @@
 % Please edit documentation in R/spec.R, R/spec-driver-get-info.R,
 %   R/spec-connection-get-info.R, R/spec-sql-list-fields.R,
 %   R/spec-meta-column-info.R, R/spec-meta-get-info-result.R,
-%   R/spec-stress-driver.R, R/spec-stress-connection.R
+%   R/spec-stress-connection.R
 \docType{data}
 \name{DBIspec-wip}
 \alias{DBIspec-wip}
@@ -14,11 +14,6 @@ Placeholder page.
 
 \subsection{\code{dbGetInfo("DBIDriver")} (deprecated)}{
 Return value of dbGetInfo has necessary elements.
-}
-
-
-\subsection{Repeated loading, instantiation, and unloading}{
-Repeated load, instantiation, and unload of package in a new R session.
 }
 }
 
@@ -32,8 +27,6 @@ Return value of dbGetInfo has necessary elements
 \subsection{Stress tests}{
 Open 50 simultaneous connections
 Open and close 50 connections
-Repeated load, instantiation, connection, disconnection, and unload of
-package in a new R session.
 }
 }
 

@@ -16,7 +16,7 @@ spec_result_send_query <- list(
       #' an S4 object that inherits from [DBIResult-class].
       expect_s4_class(res, "DBIResult")
       #' The result set can be used with [dbFetch()] to extract records.
-      expect_equal(dbFetch(res)[[1]], 1)
+      expect_equal(check_df(dbFetch(res))[[1]], 1)
       #' Once you have finished using a result, make sure to clear it
       #' with [dbClearResult()].
       dbClearResult(res)
@@ -69,7 +69,7 @@ spec_result_send_query <- list(
     #' when the connection is closed.
     expect_warning(
       with_connection({
-        expect_warning(dbSendQuery(con, "SELECT 1"), NA)
+        dbSendQuery(con, "SELECT 1")
       })
     )
   },

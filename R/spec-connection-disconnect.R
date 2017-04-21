@@ -15,6 +15,20 @@ spec_connection_disconnect <- list(
     expect_invisible_true(dbDisconnect(con))
   },
 
+  #' An error is raised when attempting to disconnect from an already closed
+  disconnect_closed_connection = function(ctx) {
+    with_closed_connection({
+      expect_error(dbDisconnect(con))
+    })
+  },
+
+  #' or invalid connection.
+  disconnect_invalid_connection = function(ctx) {
+    with_invalid_connection({
+      expect_error(dbDisconnect(con))
+    })
+  },
+
   #' @section Specification:
   cannot_forget_disconnect = function(ctx) {
     expect_warning(gc(), NA)

@@ -29,19 +29,19 @@ spec_meta_get_statement <- list(
     with_connection({
       name <- random_table_name()
 
-      on.exit(try_silent(dbExecute(paste0("DROP TABLE ", name))), add = TRUE)
-
       with_connection({
-        query <- paste0("CREATE TABLE ", name, " (a integer)")
-        with_result(
-          #' or [dbSendStatement()].
-          dbSendQuery(con, query),
-          {
-            s <- dbGetStatement(res)
-            expect_is(s, "character")
-            expect_identical(s, query)
-          }
-        )
+        with_remove_test_table(name = name, {
+          query <- paste0("CREATE TABLE ", name, " (a integer)")
+          with_result(
+            #' or [dbSendStatement()].
+            dbSendQuery(con, query),
+            {
+              s <- dbGetStatement(res)
+              expect_is(s, "character")
+              expect_identical(s, query)
+            }
+          )
+        })
       })
     })
   },

@@ -12,13 +12,13 @@ Depends:
 Imports: 
     blob,
     DBI (>= 0.4-9),
+    desc,
     hms,
     methods,
     R6,
     testthat (>= 1.0.2),
     withr
 Suggests: 
-    devtools,
     knitr,
     lintr,
     rmarkdown
@@ -84,9 +84,9 @@ Collate:
     'spec-meta.R'
     'spec-transaction.R'
     'spec-compliance.R'
-    'spec-stress-driver.R'
     'spec-stress-connection.R'
     'spec-stress.R'
+    'spec-all.R'
     'spec-.R'
     'test-all.R'
     'test-getting-started.R'

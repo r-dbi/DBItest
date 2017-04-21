@@ -8,7 +8,8 @@
 \code{dbBegin()}, \code{dbCommit()} and \code{dbRollback()} return \code{TRUE}, invisibly.
 The implementations are expected to raise an error in case of failure,
 but this is not tested.
-In any way, all generics throw an error with a closed connection.
+In any way, all generics throw an error with a closed
+or invalid connection.
 In addition, a call to \code{dbCommit()}
 or \code{dbRollback()}
 without a prior call to \code{dbBegin()} raises an error.

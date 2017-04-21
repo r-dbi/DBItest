@@ -32,7 +32,32 @@ spec_sql_remove_table <- list(
 
   #' An attempt to remove a view with this function may result in an error.
   #'
-  #' An error is raised
+  #'
+  #' An error is raised when calling this method for a closed
+  remove_table_closed_connection = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        dbWriteTable(con, "test", data.frame(a = 1))
+        with_closed_connection(con = "con2", {
+          expect_error(dbRemoveTable(con2, "test"))
+        })
+      })
+    })
+  },
+
+  #' or invalid connection.
+  remove_table_invalid_connection = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        dbWriteTable(con, "test", data.frame(a = 1))
+        with_invalid_connection(con = "con2", {
+          expect_error(dbRemoveTable(con2, "test"))
+        })
+      })
+    })
+  },
+
+  #' An error is also raised
   remove_table_error = function(ctx) {
     with_connection({
       with_remove_test_table({

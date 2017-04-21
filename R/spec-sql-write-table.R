@@ -27,13 +27,27 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "test", test_in)
         expect_error(dbWriteTable(con, "test", data.frame(a = 2L)))
 
-        test_out <- dbReadTable(con, "test")
+        test_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(test_out, test_in)
       })
     })
   },
 
   #'
+  #' An error is raised when calling this method for a closed
+  write_table_closed_connection = function(ctx) {
+    with_closed_connection({
+      expect_error(dbWriteTable(con, "test", data.frame(a = 1)))
+    })
+  },
+
+  #' or invalid connection.
+  write_table_invalid_connection = function(ctx) {
+    with_invalid_connection({
+      expect_error(dbListTables(con, "test", data.frame(a = 1)))
+    })
+  },
+
   #' An error is also raised
   write_table_error = function(ctx) {
     with_connection({
@@ -106,7 +120,7 @@ spec_sql_write_table <- list(
         with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
           #' - If an unquoted table name as string: `dbWriteTable()` will do the quoting,
           dbWriteTable(con, table_name, test_in)
-          test_out <- dbReadTable(con, dbQuoteIdentifier(con, table_name))
+          test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
           expect_equal_df(test_out, test_in)
           #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
         })
@@ -114,7 +128,7 @@ spec_sql_write_table <- list(
         with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
           #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
           dbWriteTable(con, dbQuoteIdentifier(con, table_name), test_in)
-          test_out <- dbReadTable(con, table_name)
+          test_out <- check_df(dbReadTable(con, table_name))
           expect_equal_df(test_out, test_in)
         })
       }
@@ -131,20 +145,20 @@ spec_sql_write_table <- list(
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
                      NA)
-        iris_out <- dbReadTable(con, "iris")
+        iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris[1:10, ])
       })
     })
   },
 
   #' This argument doesn't change behavior if the table does not exist yet.
-  overwrite_table = function(ctx) {
+  overwrite_table_missing = function(ctx) {
     with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
                      NA)
-        iris_out <- dbReadTable(con, "iris")
+        iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris_in[1:10, ])
       })
     })
@@ -159,7 +173,7 @@ spec_sql_write_table <- list(
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
-        iris_out <- dbReadTable(con, "iris")
+        iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, rbind(iris, iris[1:10,]))
       })
     })
@@ -171,7 +185,7 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
-        iris_out <- dbReadTable(con, "iris")
+        iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris[1:10,])
       })
     })
@@ -190,7 +204,7 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)[1:30, ]
         dbWriteTable(con, "iris", iris, temporary = TRUE)
-        iris_out <- dbReadTable(con, "iris")
+        iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris)
 
         with_connection(
@@ -210,7 +224,7 @@ spec_sql_write_table <- list(
 
     with_connection({
       dbWriteTable(con, "iris", iris)
-      iris_out <- dbReadTable(con, "iris")
+      iris_out <- check_df(dbReadTable(con, "iris"))
       expect_equal_df(iris_out, iris)
 
       with_connection(
@@ -221,7 +235,7 @@ spec_sql_write_table <- list(
     #' and after reconnecting to the database.
     with_connection({
       with_remove_test_table(name = "iris", {
-        expect_equal_df(dbReadTable(con, "iris"), iris)
+        expect_equal_df(check_df(dbReadTable(con, "iris")), iris)
       })
     })
   },
@@ -236,7 +250,7 @@ spec_sql_write_table <- list(
 
         dbWriteTable(con, "EXISTS", tbl_in)
 
-        tbl_out <- dbReadTable(con, "EXISTS")
+        tbl_out <- check_df(dbReadTable(con, "EXISTS"))
         expect_equal_df(tbl_out, tbl_in)
       })
     })
@@ -275,7 +289,7 @@ spec_sql_write_table <- list(
 
           dbWriteTable(con, table_name, tbl_in)
 
-          tbl_out <- dbReadTable(con, table_name, check.names = FALSE)
+          tbl_out <- check_df(dbReadTable(con, table_name, check.names = FALSE))
           expect_equal_df(tbl_out, tbl_in)
         })
       }
@@ -292,7 +306,7 @@ spec_sql_write_table <- list(
         tbl_in <- data.frame(a = c(1:5, NA))
         dbWriteTable(con, "test", tbl_in)
 
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(tbl_out, tbl_in)
       })
     })
@@ -305,7 +319,7 @@ spec_sql_write_table <- list(
         tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA))
         dbWriteTable(con, "test", tbl_in)
 
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(tbl_out, tbl_in)
       })
     })
@@ -318,7 +332,7 @@ spec_sql_write_table <- list(
         tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA, -Inf, Inf, NaN))
         dbWriteTable(con, "test", tbl_in)
 
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
 
         #' the latter are translated to `NA`)
         tbl_in$a[is.nan(tbl_in$a)] <- NA_real_
@@ -336,7 +350,7 @@ spec_sql_write_table <- list(
         tbl_in <- data.frame(a = c(1:5, NA))
         dbWriteTable(con, "test", tbl_in)
 
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
         tbl_out$a <- ctx$tweaks$logical_return(tbl_out$a)
         expect_equal_df(tbl_out, tbl_in)
       })
@@ -350,7 +364,7 @@ spec_sql_write_table <- list(
         tbl_in <- data.frame(a = NA)
         dbWriteTable(con, "test", tbl_in)
 
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
         expect_true(is.na(tbl_out$a))
       })
     })
@@ -364,7 +378,7 @@ spec_sql_write_table <- list(
         tbl_in <- data.frame(a = c(-1e14, 1e15, NA))
         dbWriteTable(con, "test", tbl_in, field.types = c(a = "bigint"))
 
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
         tbl_out$a <- as.numeric(tbl_out$a)
         expect_equal_df(tbl_out, tbl_in)
       })
@@ -379,7 +393,7 @@ spec_sql_write_table <- list(
                              stringsAsFactors = FALSE)
         dbWriteTable(con, "test", tbl_in)
 
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(tbl_out, tbl_in)
       })
     })
@@ -393,7 +407,7 @@ spec_sql_write_table <- list(
                              stringsAsFactors = FALSE)
         dbWriteTable(con, "test", tbl_in)
 
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(tbl_out, tbl_in)
       })
     })
@@ -408,7 +422,7 @@ spec_sql_write_table <- list(
 
         tbl_exp <- tbl_in
         tbl_exp$a <- as.character(tbl_exp$a)
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(tbl_out, tbl_exp)
       })
     })
@@ -426,7 +440,7 @@ spec_sql_write_table <- list(
         tbl_in <- data.frame(id = 1:2, a = I(list(as.raw(1:10), NULL)))
         dbWriteTable(con, "test", tbl_in)
 
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
         tbl_in$a <- blob::as.blob(unclass(tbl_in$a))
         tbl_out$a <- blob::as.blob(tbl_out$a)
         expect_equal_df(tbl_out, tbl_in)
@@ -446,7 +460,7 @@ spec_sql_write_table <- list(
         tbl_in <- data.frame(id = 1:2, a = blob::blob(as.raw(1:10), NULL))
         dbWriteTable(con, "test", tbl_in)
 
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
         tbl_out$a <- blob::as.blob(tbl_out$a)
         expect_equal_df(tbl_out, tbl_in)
       })
@@ -466,7 +480,7 @@ spec_sql_write_table <- list(
       with_remove_test_table({
         dbWriteTable(con, "test", tbl_in)
 
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(tbl_out, tbl_in)
         #'   returned as `Date`)
         expect_is(unclass(tbl_out$a), "numeric")
@@ -488,8 +502,7 @@ spec_sql_write_table <- list(
       with_remove_test_table({
         dbWriteTable(con, "test", tbl_in)
 
-        tbl_out <- dbReadTable(con, "test")
-
+        tbl_out <- check_df(dbReadTable(con, "test"))
         #'   returned as objects that inherit from `difftime`)
         expect_is(tbl_out$a, "difftime")
         expect_identical(hms::as.hms(tbl_out$a), hms::as.hms(tbl_in$a))
@@ -516,7 +529,7 @@ spec_sql_write_table <- list(
       with_remove_test_table({
         dbWriteTable(con, "test", tbl_in)
 
-        tbl_out <- dbReadTable(con, "test")
+        tbl_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(tbl_out, tbl_in)
       })
     })
@@ -533,7 +546,7 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
-        mtcars_out <- dbReadTable(con, "mtcars", row.names = FALSE)
+        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
 
         expect_false("row_names" %in% names(mtcars_out))
         expect_equal_df(mtcars_out, unrowname(mtcars_in))
@@ -549,7 +562,7 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
-        mtcars_out <- dbReadTable(con, "mtcars", row.names = FALSE)
+        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
 
         expect_true("row_names" %in% names(mtcars_out))
         expect_true(all(rownames(mtcars_in) %in% mtcars_out$row_names))
@@ -567,7 +580,7 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in, row.names = row.names)
-        iris_out <- dbReadTable(con, "iris", row.names = FALSE)
+        iris_out <- check_df(dbReadTable(con, "iris", row.names = FALSE))
 
         expect_true("row_names" %in% names(iris_out))
         expect_true(all(rownames(iris_in) %in% iris_out$row_names))
@@ -585,7 +598,7 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
-        mtcars_out <- dbReadTable(con, "mtcars", row.names = FALSE)
+        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
 
         expect_true("row_names" %in% names(mtcars_out))
         expect_true(all(rownames(mtcars_in) %in% mtcars_out$row_names))
@@ -603,7 +616,7 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in, row.names = row.names)
-        iris_out <- dbReadTable(con, "iris", row.names = FALSE)
+        iris_out <- check_df(dbReadTable(con, "iris", row.names = FALSE))
 
         expect_equal_df(iris_out, iris_in)
       })
@@ -620,7 +633,7 @@ spec_sql_write_table <- list(
         mtcars_in <- datasets::mtcars
 
         dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
-        mtcars_out <- dbReadTable(con, "mtcars", row.names = FALSE)
+        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
 
         expect_true("make_model" %in% names(mtcars_out))
         expect_true(all(mtcars_out$make_model %in% rownames(mtcars_in)))
@@ -638,7 +651,7 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in, row.names = row.names)
-        iris_out <- dbReadTable(con, "iris", row.names = FALSE)
+        iris_out <- check_df(dbReadTable(con, "iris", row.names = FALSE))
 
         expect_true("seq" %in% names(iris_out))
         expect_true(all(iris_out$seq %in% rownames(iris_in)))

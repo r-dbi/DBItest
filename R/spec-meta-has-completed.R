@@ -19,7 +19,7 @@ spec_meta_has_completed <- list(
           #' `dbHasCompleted()` returns `FALSE` initially
           expect_false(expect_visible(dbHasCompleted(res)))
           #' and `TRUE` after calling [dbFetch()] without limit.
-          dbFetch(res)
+          check_df(dbFetch(res))
           expect_true(expect_visible(dbHasCompleted(res)))
         }
       )
@@ -30,16 +30,16 @@ spec_meta_has_completed <- list(
     with_connection({
       name <- random_table_name()
 
-      on.exit(try_silent(dbExecute(paste0("DROP TABLE ", name))), add = TRUE)
-
-      #' For a query initiated by [dbSendStatement()],
-      with_result(
-        dbSendQuery(con, paste0("CREATE TABLE ", name, " (a integer)")),
-        {
-          #' `dbHasCompleted()` always returns `TRUE`.
-          expect_true(expect_visible(dbHasCompleted(res)))
-        }
-      )
+      with_remove_test_table(name = name, {
+        #' For a query initiated by [dbSendStatement()],
+        with_result(
+          dbSendQuery(con, paste0("CREATE TABLE ", name, " (a integer)")),
+          {
+            #' `dbHasCompleted()` always returns `TRUE`.
+            expect_true(expect_visible(dbHasCompleted(res)))
+          }
+        )
+      })
     })
   },
 
@@ -64,7 +64,7 @@ spec_meta_has_completed <- list(
         {
           #' the initial return value is unspecified,
           #' but the result value is `TRUE` after trying to fetch only one row.
-          dbFetch(res, 1)
+          check_df(dbFetch(res, 1))
           expect_true(expect_visible(dbHasCompleted(res)))
         }
       )
@@ -74,10 +74,10 @@ spec_meta_has_completed <- list(
         dbSendQuery(con, "SELECT 1"),
         {
           #' the return value is unspecified after fetching n rows,
-          dbFetch(res, 1)
+          check_df(dbFetch(res, 1))
           #' but the result value is `TRUE` after trying to fetch only one more
           #' row.
-          dbFetch(res, 1)
+          check_df(dbFetch(res, 1))
           expect_true(expect_visible(dbHasCompleted(res)))
         }
       )

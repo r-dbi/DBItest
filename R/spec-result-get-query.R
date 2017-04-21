@@ -17,7 +17,7 @@ spec_result_get_query <- list(
     with_connection({
       query <- "SELECT 1 as a"
 
-      rows <- dbGetQuery(con, query)
+      rows <- check_df(dbGetQuery(con, query))
       expect_identical(rows, data.frame(a=1L))
     })
   },
@@ -27,7 +27,7 @@ spec_result_get_query <- list(
     with_connection({
       query <- "SELECT 1 as a, 2 as b, 3 as c"
 
-      rows <- dbGetQuery(con, query)
+      rows <- check_df(dbGetQuery(con, query))
       expect_identical(rows, data.frame(a=1L, b=2L, c=3L))
     })
   },
@@ -39,7 +39,7 @@ spec_result_get_query <- list(
       query <-
         "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
 
-      rows <- dbGetQuery(con, query)
+      rows <- check_df(dbGetQuery(con, query))
       expect_identical(names(rows), letters[1:3])
       expect_identical(dim(rows), c(0L, 3L))
     })
@@ -94,7 +94,7 @@ spec_result_get_query <- list(
     with_connection({
       query <- "SELECT 1 as a"
       expect_error(dbGetQuery(con, query, NA_integer_))
-      rows <- dbGetQuery(con, query)
+      rows <- check_df(dbGetQuery(con, query))
       expect_identical(rows, data.frame(a = 1L))
     })
   },
@@ -116,7 +116,7 @@ spec_result_get_query <- list(
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      rows <- dbGetQuery(con, query)
+      rows <- check_df(dbGetQuery(con, query))
       expect_identical(rows, data.frame(a = 1:3))
     })
   },
@@ -127,7 +127,7 @@ spec_result_get_query <- list(
       query <- union(
         .ctx = ctx, paste("SELECT", 1:5, "AS a,", 4:0, "AS b"), .order_by = "a")
 
-      rows <- dbGetQuery(con, query)
+      rows <- check_df(dbGetQuery(con, query))
       expect_identical(rows, data.frame(a = 1:5, b = 4:0))
     })
   },
@@ -139,7 +139,7 @@ spec_result_get_query <- list(
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      rows <- dbGetQuery(con, query, n = Inf)
+      rows <- check_df(dbGetQuery(con, query, n = Inf))
       expect_identical(rows, data.frame(a = 1:3))
     })
   },
@@ -151,7 +151,7 @@ spec_result_get_query <- list(
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      expect_warning(rows <- dbGetQuery(con, query, n = 5L), NA)
+      rows <- check_df(dbGetQuery(con, query, n = 5L))
       expect_identical(rows, data.frame(a = 1:3))
     })
   },
@@ -163,7 +163,7 @@ spec_result_get_query <- list(
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      expect_warning(rows <- dbGetQuery(con, query, n = 0L), NA)
+      rows <- check_df(dbGetQuery(con, query, n = 0L))
       expect_identical(rows, data.frame(a=integer()))
     })
   },
@@ -175,7 +175,7 @@ spec_result_get_query <- list(
       query <- union(
         .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
 
-      rows <- dbGetQuery(con, query, n = 2L)
+      rows <- check_df(dbGetQuery(con, query, n = 2L))
       expect_identical(rows, data.frame(a = 1:2))
     })
   },

@@ -27,7 +27,7 @@ spec_meta_get_rows_affected <- list(
             rc <- dbGetRowsAffected(res)
             #' The value is available directly after the call
             expect_equal(rc, 5L)
-            dbFetch(res)
+            check_df(dbFetch(res))
             rc <- dbGetRowsAffected(res)
             #' and does not change after calling [dbFetch()].
             expect_equal(rc, 5L)
@@ -47,7 +47,7 @@ spec_meta_get_rows_affected <- list(
           rc <- dbGetRowsAffected(res)
           #' zero is returned before
           expect_equal(rc, 0L)
-          dbFetch(res)
+          check_df(dbFetch(res))
           rc <- dbGetRowsAffected(res)
           #' and after the call to `dbFetch()`.
           expect_equal(rc, 0L)
