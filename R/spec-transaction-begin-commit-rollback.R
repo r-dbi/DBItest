@@ -23,9 +23,9 @@ spec_transaction_begin_commit_rollback <- list(
   begin_commit_return_value = function(ctx) {
     with_connection({
       expect_invisible_true(dbBegin(con))
-      on.exit(dbRollback(con), add = FALSE)
-      expect_invisible_true(dbCommit(con))
-      on.exit(NULL, add = FALSE)
+      with_rollback_on_error({
+        expect_invisible_true(dbCommit(con))
+      })
     })
   },
 
@@ -40,7 +40,16 @@ spec_transaction_begin_commit_rollback <- list(
   #' but this is not tested.
   begin_commit_closed = function(ctx) {
     with_closed_connection({
-      #' In any way, all generics throw an error with a closed connection.
+      #' In any way, all generics throw an error with a closed
+      expect_error(dbBegin(con))
+      expect_error(dbCommit(con))
+      expect_error(dbRollback(con))
+    })
+  },
+
+  begin_commit_invalid = function(ctx) {
+    with_invalid_connection({
+      #' or invalid connection.
       expect_error(dbBegin(con))
       expect_error(dbCommit(con))
       expect_error(dbRollback(con))
@@ -67,11 +76,11 @@ spec_transaction_begin_commit_rollback <- list(
     with_connection({
       #' an attempt to call `dbBegin()` twice
       dbBegin(con)
-      on.exit(dbRollback(con), add = FALSE)
-      #' yields an error.
-      expect_error(dbBegin(con))
-      dbCommit(con)
-      on.exit(NULL, add = FALSE)
+      with_rollback_on_error({
+        #' yields an error.
+        expect_error(dbBegin(con))
+        dbCommit(con)
+      })
     })
   },
 
@@ -81,9 +90,10 @@ spec_transaction_begin_commit_rollback <- list(
     with_connection({
       #' A transaction is initiated by a call to `dbBegin()`
       dbBegin(con)
-      on.exit(dbRollback(con), add = FALSE)
       #' and committed by a call to `dbCommit()`.
-      expect_error({dbCommit(con); on.exit(NULL, add = FALSE)}, NA)
+      success <- FALSE
+      expect_error({dbCommit(con); success <- TRUE}, NA)
+      if (!success) dbRollback(con)
     })
   },
 
@@ -94,32 +104,30 @@ spec_transaction_begin_commit_rollback <- list(
       expect_false(dbExistsTable(con, "test"))
 
       dbBegin(con)
-      on.exit(dbRollback(con), add = FALSE)
+      with_rollback_on_error({
+        #' but is created
+        dbExecute(con, paste0("CREATE TABLE test (a ", dbDataType(con, 0L), ")"))
 
-      #' but is created
-      dbExecute(con, paste0("CREATE TABLE test (a ", dbDataType(con, 0L), ")"))
+        #' and populated during the transaction
+        dbExecute(con, paste0("INSERT INTO test (a) VALUES (1)"))
 
-      #' and populated during the transaction
-      dbExecute(con, paste0("INSERT INTO test (a) VALUES (1)"))
+        #' must exist and contain the data added there
+        expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 1))
 
-      #' must exist and contain the data added there
-      expect_equal(dbReadTable(con, "test"), data.frame(a = 1))
-
-      #' both during
-      dbCommit(con)
-      on.exit(dbRemoveTable(con, "test"), add = FALSE)
+        #' both during
+        dbCommit(con)
+      })
 
       #' and after the transaction,
-      expect_equal(dbReadTable(con, "test"), data.frame(a = 1))
-      on.exit(NULL, add = FALSE)
+      expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 1))
     })
 
     with_connection({
-      on.exit(dbRemoveTable(con, "test"), add = FALSE)
-
-      #' and also in a new connection.
-      expect_true(dbExistsTable(con, "test"))
-      expect_equal(dbReadTable(con, "test"), data.frame(a = 1))
+      with_remove_test_table({
+        #' and also in a new connection.
+        expect_true(dbExistsTable(con, "test"))
+        expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 1))
+      })
     })
   },
 
@@ -140,14 +148,15 @@ spec_transaction_begin_commit_rollback <- list(
       #' For example, a table that is missing when the transaction is started
       with_remove_test_table({
         dbBegin(con)
-        on.exit(dbRollback(con), add = FALSE)
 
         #' but is created during the transaction
-        dbExecute(con, paste0("CREATE TABLE test (a ", dbDataType(con, 0L), ")"))
+        expect_error(
+          dbExecute(con, paste0("CREATE TABLE test (a ", dbDataType(con, 0L), ")")),
+          NA
+        )
 
         #' must not exist anymore after the rollback.
         dbRollback(con)
-        on.exit(NULL, add = FALSE)
         expect_false(dbExistsTable(con, "test"))
       })
     })

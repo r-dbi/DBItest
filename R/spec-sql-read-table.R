@@ -17,14 +17,14 @@ spec_sql_read_table <- list(
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in)
-        iris_out <- dbReadTable(con, "iris")
+        iris_out <- check_df(dbReadTable(con, "iris"))
 
         expect_equal_df(iris_out, iris_in)
       })
     })
   },
 
-  #' An error is returned if the table does not exist.
+  #' An error is raised if the table does not exist.
   read_table_missing = function(ctx) {
     with_connection({
       with_remove_test_table({
@@ -39,7 +39,7 @@ spec_sql_read_table <- list(
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)[integer(), ]
         dbWriteTable(con, "iris", iris_in)
-        iris_out <- dbReadTable(con, "iris")
+        iris_out <- check_df(dbReadTable(con, "iris"))
 
         expect_equal(nrow(iris_out), 0L)
         expect_equal_df(iris_out, iris_in)
@@ -58,7 +58,7 @@ spec_sql_read_table <- list(
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in)
-        mtcars_out <- dbReadTable(con, "mtcars", row.names = row.names)
+        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
 
         expect_true("row_names" %in% names(mtcars_out))
         expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
@@ -76,7 +76,7 @@ spec_sql_read_table <- list(
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in)
-        mtcars_out <- dbReadTable(con, "mtcars", row.names = row.names)
+        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
 
         expect_equal_df(mtcars_out, mtcars_in)
       })
@@ -104,7 +104,7 @@ spec_sql_read_table <- list(
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in)
-        mtcars_out <- dbReadTable(con, "mtcars", row.names = row.names)
+        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
 
         expect_equal_df(mtcars_out, mtcars_in)
       })
@@ -119,7 +119,7 @@ spec_sql_read_table <- list(
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in)
-        iris_out <- dbReadTable(con, "iris", row.names = row.names)
+        iris_out <- check_df(dbReadTable(con, "iris", row.names = row.names))
 
         expect_equal_df(iris_out, iris_in)
       })
@@ -138,7 +138,7 @@ spec_sql_read_table <- list(
         mtcars_in <- unrowname(mtcars_in)
 
         dbWriteTable(con, "mtcars", mtcars_in)
-        mtcars_out <- dbReadTable(con, "mtcars", row.names = row.names)
+        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
 
         expect_false("make_model" %in% names(mtcars_out))
         expect_true(all(mtcars_in$make_model %in% rownames(mtcars_out)))
@@ -176,7 +176,7 @@ spec_sql_read_table <- list(
         names(test_in) <- c("with spaces", "with,comma")
         dbWriteTable(con, "test", test_in)
         #' if the `check.names` argument is `TRUE`,
-        test_out <- dbReadTable(con, "test", check.names = TRUE)
+        test_out <- check_df(dbReadTable(con, "test", check.names = TRUE))
 
         expect_identical(names(test_out), make.names(names(test_out), unique = TRUE))
         expect_equal_df(test_out, setNames(test_in, names(test_out)))
@@ -187,7 +187,7 @@ spec_sql_read_table <- list(
         test_in <- data.frame(a = 1:3, b = 4:6)
         names(test_in) <- c("with spaces", "with,comma")
         dbWriteTable(con, "test", test_in)
-        test_out <- dbReadTable(con, "test", check.names = FALSE)
+        test_out <- check_df(dbReadTable(con, "test", check.names = FALSE))
 
         expect_equal_df(test_out, test_in)
       })
@@ -195,6 +195,30 @@ spec_sql_read_table <- list(
   },
 
   #'
+  #' An error is raised when calling this method for a closed
+  read_table_closed_connection = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        dbWriteTable(con, "test", data.frame(a = 1))
+        with_closed_connection(con = "con2", {
+          expect_error(dbReadTable(con2, "test"))
+        })
+      })
+    })
+  },
+
+  #' or invalid connection.
+  read_table_invalid_connection = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        dbWriteTable(con, "test", data.frame(a = 1))
+        with_invalid_connection(con = "con2", {
+          expect_error(dbReadTable(con2, "test"))
+        })
+      })
+    })
+  },
+
   #' An error is raised
   read_table_error = function(ctx) {
     with_connection({
@@ -246,11 +270,11 @@ spec_sql_read_table <- list(
 
           #' - If an unquoted table name as string: `dbReadTable()` will do the
           #'   quoting,
-          test_out <- dbReadTable(con, table_name)
+          test_out <- check_df(dbReadTable(con, table_name))
           expect_equal_df(test_out, test_in)
           #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
           #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
-          test_out <- dbReadTable(con, dbQuoteIdentifier(con, table_name))
+          test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
           expect_equal_df(test_out, test_in)
         })
       }

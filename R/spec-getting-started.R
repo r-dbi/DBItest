@@ -3,12 +3,13 @@
 #' @section Definition:
 spec_getting_started <- list(
   package_dependencies = function(ctx) {
-    #' A DBI backend is an R package,
-    pkg <- get_pkg(ctx)
+    #' A DBI backend is an R package
+    pkg_path <- get_pkg_path(ctx)
 
-    pkg_imports <- devtools::parse_deps(pkg$imports)$name
+    pkg_deps_df <- desc::desc_get_deps(pkg_path)
+    pkg_imports <- pkg_deps_df[pkg_deps_df[["type"]] == "Imports", ][["package"]]
 
-    #' which should import the \pkg{DBI}
+    #' which imports the \pkg{DBI}
     expect_true("DBI" %in% pkg_imports)
     #' and \pkg{methods}
     expect_true("methods" %in% pkg_imports)

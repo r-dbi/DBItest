@@ -1,7 +1,7 @@
 Package: DBItest
 Title: Testing 'DBI' Back Ends
-Version: 1.4-18
-Date: 2017-04-05
+Version: 1.4-19
+Date: 2017-04-22
 Authors@R: c( person(given = "Kirill", family = "Müller", role =
         c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
         person("RStudio", role = "cph") )
@@ -12,13 +12,13 @@ Depends:
 Imports: 
     blob,
     DBI (>= 0.4-9),
+    desc,
     hms,
     methods,
     R6,
     testthat (>= 1.0.2),
     withr
 Suggests: 
-    devtools,
     knitr,
     lintr,
     rmarkdown
@@ -84,9 +84,9 @@ Collate:
     'spec-meta.R'
     'spec-transaction.R'
     'spec-compliance.R'
-    'spec-stress-driver.R'
     'spec-stress-connection.R'
     'spec-stress.R'
+    'spec-all.R'
     'spec-.R'
     'test-all.R'
     'test-getting-started.R'

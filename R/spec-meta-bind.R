@@ -259,14 +259,14 @@ spec_meta_bind <- list(
     })
   },
 
-  #' - [POSIXlt] timestamps
+  #' - [POSIXct] timestamps
   bind_timestamp_lt = function(ctx) {
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
 
     with_connection({
-      data_in <- as.POSIXlt(round(Sys.time()))
+      data_in <- as.POSIXct(round(Sys.time()))
       test_select_bind(
         con, ctx$tweaks$placeholder_pattern, data_in,
         type = dbDataType(con, data_in),
@@ -291,7 +291,7 @@ spec_meta_bind <- list(
   },
 
   #' - objects of type [blob]
-  bind_raw = function(ctx) {
+  bind_blob = function(ctx) {
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }

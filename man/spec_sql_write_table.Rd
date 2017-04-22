@@ -9,6 +9,8 @@
 If the table exists (and both \code{append} and \code{overwrite} arguments are unset),
 an error is raised; the remote table remains unchanged.
 
+An error is raised when calling this method for a closed
+or invalid connection.
 An error is also raised
 if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}
 or if this results in a non-scalar.
@@ -95,7 +97,7 @@ returned as \code{Date})
 returned as objects that inherit from \code{difftime})
 \item timestamp
 (if supported by the database;
-returned as \code{POSIXlt}
+returned as \code{POSIXct}
 with time zone support)
 }
 

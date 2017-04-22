@@ -1,16 +1,11 @@
 `%||%` <- function(a, b) if (is.null(a)) b else a
 
-get_pkg <- function(ctx) {
-  if (!requireNamespace("devtools", quietly = TRUE)) {
-    skip("devtools not installed")
-  }
-
+get_pkg_path <- function(ctx) {
   pkg_name <- package_name(ctx)
   expect_is(pkg_name, "character")
 
   pkg_path <- find.package(pkg_name)
-
-  devtools::as.package(pkg_path)
+  pkg_path
 }
 
 utils::globalVariables("con")
@@ -86,9 +81,10 @@ with_result <- function(query, code, res = "res", env = parent.frame()) {
   ), envir = env)
 }
 
-# Evaluates the code inside local() after defining a variable "res"
+# Evaluates the code inside local() after defining a variable "con"
 # (can be overridden by specifying con argument)
-# that points to a result set created by query. Clears on exit.
+# that points to a connection. Removes the table specified by name on exit,
+# if it exists.
 with_remove_test_table <- function(code, name = "test", con = "con", env = parent.frame()) {
   code_sub <- substitute(code)
 
@@ -102,6 +98,27 @@ with_remove_test_table <- function(code, name = "test", con = "con", env = paren
       add = TRUE
     )
     local(.(code_sub))
+  }
+  ), envir = env)
+}
+
+# Evaluates the code inside local() after defining a variable "con"
+# (can be overridden by specifying con argument)
+# that points to a result set created by query. Clears on exit.
+with_rollback_on_error <- function(code, con = "con", env = parent.frame()) {
+  code_sub <- substitute(code)
+
+  con <- as.name(con)
+
+  eval(bquote({
+    on.exit(
+      try_silent(
+        dbRollback(.(con))
+      ),
+      add = TRUE
+    )
+    local(.(code_sub))
+    on.exit(NULL, add = FALSE)
   }
   ), envir = env)
 }
@@ -136,4 +153,19 @@ try_silent <- function(code) {
   tryCatch(
     code,
     error = function(e) NULL)
+}
+
+check_df <- function(df) {
+  expect_is(df, "data.frame")
+  if (length(df) >= 1L) {
+    lengths <- vapply(df, length, integer(1L), USE.NAMES = FALSE)
+    expect_equal(diff(lengths), rep(0L, length(lengths) - 1L))
+    expect_equal(nrow(df), lengths[[1]])
+  }
+
+  df_names <- names(df)
+  expect_true(all(df_names != ""))
+  expect_false(anyNA(df_names))
+
+  df
 }

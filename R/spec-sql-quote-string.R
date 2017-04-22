@@ -68,7 +68,7 @@ spec_sql_quote_string <- list(
         #' and for any scalar character `x` the value of
         #' \code{dbGetQuery(paste0("SELECT ", dbQuoteString(x)))[[1]]}
         #' must be identical to `x`,
-        x_out <- dbGetQuery(con, query)
+        x_out <- check_df(dbGetQuery(con, query))
         expect_equal(nrow(x_out), 1L)
         expect_identical(unlist(unname(x_out)), x)
       }
@@ -117,7 +117,7 @@ spec_sql_quote_string <- list(
                       quoted_na, "as quoted_na")
 
       #' If `x` is `NA`, the result must merely satisfy [is.na()].
-      expect_warning(rows <- dbGetQuery(con, query), NA)
+      rows <- check_df(dbGetQuery(con, query))
       expect_true(is.na(rows$null_return))
       #' The strings `"NA"` or `"NULL"` are not treated specially.
       expect_identical(rows$na_return, "NA")
@@ -132,7 +132,7 @@ spec_sql_quote_string <- list(
       #' `NA` should be translated to an unquoted SQL `NULL`,
       null <- dbQuoteString(con, NA_character_)
       #' so that the query `SELECT * FROM (SELECT 1) a WHERE ... IS NULL`
-      rows <- dbGetQuery(con, paste0("SELECT * FROM (SELECT 1) a WHERE ", null, " IS NULL"))
+      rows <- check_df(dbGetQuery(con, paste0("SELECT * FROM (SELECT 1) a WHERE ", null, " IS NULL")))
       #' returns one row.
       expect_equal(nrow(rows), 1L)
     })
