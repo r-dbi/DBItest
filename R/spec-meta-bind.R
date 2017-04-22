@@ -231,6 +231,20 @@ spec_meta_bind <- list(
     })
   },
 
+  #' - [factor] (bound as character,
+  bind_factor = function(ctx) {
+    with_connection({
+      #' with warning)
+      expect_warning(
+        test_select_bind(
+          con,
+          ctx$tweaks$placeholder_pattern,
+          factor(texts)
+        )
+      )
+    })
+  },
+
   #' - [Date]
   bind_date = function(ctx) {
     if (!isTRUE(ctx$tweaks$date_typed)) {

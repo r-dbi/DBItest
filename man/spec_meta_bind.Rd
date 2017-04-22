@@ -84,6 +84,8 @@ At least the following data types are accepted:
 \item \link{logical} for Boolean values (some backends may return an integer)
 \item \link{NA}
 \item \link{character}
+\item \link{factor} (bound as character,
+with warning)
 \item \link{Date}
 \item \link{POSIXct} timestamps
 \item \link{POSIXct} timestamps
