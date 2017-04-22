@@ -1,3 +1,21 @@
+## DBItest 1.4-19 (2017-04-22)
+
+- Also check names of all returned data frames.
+- Internal consistency checks (#114).
+- Added tests for invalid or closed connection argument to all methods that expect a connection as first argument (#117).
+- Skip patterns that don't match any of the tests now raise a warning (#84).
+- New `test_some()` to test individual tests (#136).
+- Use desc instead of devtools (#40).
+- All unexpected warnings are now reported as test failures (#113).
+- The return value for all calls to `dbGetQuery()`, `dbFetch()`, and `dbReadTable()` is now checked for consistency (all columns have the same length, length matches number of rows) (#126).
+- Removed stress tests that start a new session.
+- Allow `hms` (or other subclasses of `difftime`) to be returned as time class (#135, @jimhester).
+- Test that dates are of type `numeric` (#99, @jimhester).
+- Enabled test that tests a missing `dbDisconnect()`.
+- Replace `POSIXlt` by `POSIXct` (#100, @jimhester).
+- Use `"PST8PDT"` instead of `"PST"` as time zone (#110, @thrasibule).
+
+
 ## DBItest 1.4-18 (2017-04-05)
 
 - Added tests for support of `blob` objects (input and output), but backends are not required to return `blob` objects (#98).
