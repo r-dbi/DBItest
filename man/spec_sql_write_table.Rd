@@ -6,7 +6,9 @@
 \title{spec_sql_write_table}
 \value{
 \code{dbWriteTable()} returns \code{TRUE}, invisibly.
-If the table exists (and both \code{append} and \code{overwrite} arguments are unset),
+If the table exists, and both \code{append} and \code{overwrite} arguments are unset,
+or \code{append = TRUE} and the data frame with the new data has different
+column names,
 an error is raised; the remote table remains unchanged.
 
 An error is raised when calling this method for a closed

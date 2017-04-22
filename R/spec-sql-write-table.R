@@ -18,14 +18,29 @@ spec_sql_write_table <- list(
     })
   },
 
-  #' If the table exists (and both `append` and `overwrite` arguments are unset),
-  #' an error is raised; the remote table remains unchanged.
+  #' If the table exists, and both `append` and `overwrite` arguments are unset,
   write_table_overwrite = function(ctx) {
     with_connection({
       with_remove_test_table({
         test_in <- data.frame(a = 1L)
         dbWriteTable(con, "test", test_in)
         expect_error(dbWriteTable(con, "test", data.frame(a = 2L)))
+
+        test_out <- check_df(dbReadTable(con, "test"))
+        expect_equal_df(test_out, test_in)
+      })
+    })
+  },
+
+  #' or `append = TRUE` and the data frame with the new data has different
+  #' column names,
+  #' an error is raised; the remote table remains unchanged.
+  write_table_append_incompatible = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        test_in <- data.frame(a = 1L)
+        dbWriteTable(con, "test", test_in)
+        expect_error(dbWriteTable(con, "test", data.frame(b = 2L), append = TRUE))
 
         test_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(test_out, test_in)
