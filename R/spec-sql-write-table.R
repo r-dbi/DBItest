@@ -310,7 +310,7 @@ spec_sql_write_table <- list(
   #' - integer
   roundtrip_integer = function(ctx) {
     with_connection({
-      tbl_in <- data.frame(a = c(1:5, NA))
+      tbl_in <- data.frame(a = c(1:5))
       test_table_roundtrip(con, tbl_in)
     })
   },
@@ -318,7 +318,7 @@ spec_sql_write_table <- list(
   #' - numeric
   roundtrip_numeric = function(ctx) {
     with_connection({
-      tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA))
+      tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
       test_table_roundtrip(con, tbl_in)
     })
   },
@@ -326,7 +326,7 @@ spec_sql_write_table <- list(
   #'   (also with `Inf` and `NaN` values,
   roundtrip_numeric_special = function(ctx) {
     with_connection({
-      tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), NA, -Inf, Inf, NaN))
+      tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), -Inf, Inf, NaN))
       tbl_exp <- tbl_in
       #' the latter are translated to `NA`)
       tbl_exp$a[is.nan(tbl_exp$a)] <- NA_real_
@@ -338,9 +338,9 @@ spec_sql_write_table <- list(
   roundtrip_logical = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
-      tbl_out <- tbl_in
-      tbl_out$a <- ctx$tweaks$logical_return(tbl_out$a)
-      test_table_roundtrip(con, tbl_in, tbl_out)
+      tbl_exp <- tbl_in
+      tbl_exp$a <- ctx$tweaks$logical_return(tbl_exp$a)
+      test_table_roundtrip(con, tbl_in, tbl_exp)
     })
   },
 
@@ -362,7 +362,7 @@ spec_sql_write_table <- list(
   #'   numeric)
   roundtrip_64_bit = function(ctx) {
     with_connection({
-      tbl_in <- data.frame(a = c(-1e14, 1e15, NA))
+      tbl_in <- data.frame(a = c(-1e14, 1e15))
       test_table_roundtrip(
         con, tbl_in,
         transform = function(tbl_out) {
@@ -378,7 +378,7 @@ spec_sql_write_table <- list(
   roundtrip_character = function(ctx) {
     with_connection({
       tbl_in <- data.frame(
-        a = c(texts, NA),
+        a = c(texts),
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in)
@@ -389,7 +389,7 @@ spec_sql_write_table <- list(
   roundtrip_character_native = function(ctx) {
     with_connection({
       tbl_in <- data.frame(
-        a = c(enc2native(texts), NA),
+        a = c(enc2native(texts)),
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in)
@@ -400,7 +400,7 @@ spec_sql_write_table <- list(
   roundtrip_factor = function(ctx) {
     with_connection({
       tbl_in <- data.frame(
-        a = factor(c(texts, NA))
+        a = factor(c(texts))
       )
       tbl_exp <- tbl_in
       tbl_exp$a <- as.character(tbl_exp$a)
@@ -416,7 +416,7 @@ spec_sql_write_table <- list(
     }
 
     with_connection({
-      tbl_in <- data.frame(id = 1:2, a = I(list(as.raw(1:10), NULL)))
+      tbl_in <- data.frame(id = 1L, a = I(list(as.raw(1:10))))
       tbl_exp <- tbl_in
       tbl_exp$a <- blob::as.blob(unclass(tbl_in$a))
       test_table_roundtrip(
@@ -437,7 +437,7 @@ spec_sql_write_table <- list(
     }
 
     with_connection({
-      tbl_in <- data.frame(id = 1:2, a = blob::blob(as.raw(1:10), NULL))
+      tbl_in <- data.frame(id = 1L, a = blob::blob(as.raw(1:10)))
       test_table_roundtrip(
         con, tbl_in,
         transform = function(tbl_out) {
@@ -457,7 +457,7 @@ spec_sql_write_table <- list(
 
     with_connection({
       #'   returned as `Date`)
-      tbl_in <- data.frame(a = as_numeric_date(c(Sys.Date() + 1:5, NA)))
+      tbl_in <- data.frame(a = as_numeric_date(c(Sys.Date() + 1:5)))
       test_table_roundtrip(
         con, tbl_in,
         transform = function(tbl_out) {
@@ -478,7 +478,7 @@ spec_sql_write_table <- list(
 
     with_connection({
       now <- Sys.time()
-      tbl_in <- data.frame(a = c(now + 1:5, NA) - now)
+      tbl_in <- data.frame(a = c(now + 1:5) - now)
 
       tbl_exp <- tbl_in
       tbl_exp$a <- hms::as.hms(tbl_exp$a)
@@ -644,7 +644,22 @@ spec_sql_write_table <- list(
   NULL
 )
 
-test_table_roundtrip <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity, name = "test", field.types = NULL) {
+test_table_roundtrip <- function(...) {
+  test_table_roundtrip_one(..., .add_na = "none")
+  test_table_roundtrip_one(..., .add_na = "above")
+  test_table_roundtrip_one(..., .add_na = "below")
+}
+
+test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity, name = "test", field.types = NULL, .add_na = "none") {
+  force(tbl_expected)
+  if (.add_na == "above") {
+    tbl_in <- add_na_above(tbl_in)
+    tbl_expected <- add_na_above(tbl_expected)
+  } else if (.add_na == "below") {
+    tbl_in <- add_na_below(tbl_in)
+    tbl_expected <- add_na_below(tbl_expected)
+  }
+
   with_remove_test_table(name = dbQuoteIdentifier(con, name), {
     dbWriteTable(con, name, tbl_in, field.types = field.types)
 
@@ -652,4 +667,14 @@ test_table_roundtrip <- function(con, tbl_in, tbl_expected = tbl_in, transform =
     tbl_out <- transform(tbl_out)
     expect_equal_df(tbl_out, tbl_expected)
   })
+}
+
+add_na_above <- function(tbl) {
+  tbl <- rbind(tbl, tbl[nrow(tbl) + 1L, , drop = FALSE])
+  unrowname(tbl)
+}
+
+add_na_below <- function(tbl) {
+  tbl <- rbind(tbl[nrow(tbl) + 1L, , drop = FALSE], tbl)
+  unrowname(tbl)
 }
