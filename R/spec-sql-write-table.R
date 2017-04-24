@@ -358,15 +358,33 @@ spec_sql_write_table <- list(
     })
   },
 
-  #' - 64-bit values (using `"bigint"` as field type, after conversion to
-  #'   numeric)
-  roundtrip_64_bit = function(ctx) {
+  #' - 64-bit values (using `"bigint"` as field type);
+  roundtrip_64_bit_numeric = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
       test_table_roundtrip(
         con, tbl_in,
         transform = function(tbl_out) {
+          # ' the result can be converted to a numeric, which may lose precision,
           tbl_out$a <- as.numeric(tbl_out$a)
+          tbl_out
+        },
+        field.types = c(a = "bigint")
+      )
+    })
+  },
+
+  roundtrip_64_bit_character = function(ctx) {
+    with_connection({
+      tbl_in <- data.frame(a = c(-1e14, 1e15))
+      tbl_exp <- tbl_in
+      tbl_exp$a <- format(tbl_exp$a, scientific = FALSE)
+      test_table_roundtrip(
+        con, tbl_in, tbl_exp,
+        transform = function(tbl_out) {
+          # ' or to character, which gives the full decimal representation as a
+          # ' character vector
+          tbl_out$a <- as.character(tbl_out$a)
           tbl_out
         },
         field.types = c(a = "bigint")
