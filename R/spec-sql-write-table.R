@@ -535,6 +535,24 @@ spec_sql_write_table <- list(
   },
 
   #'
+  #' Mixing column types in the same table is supported.
+  roundtrip_mixed = function(ctx) {
+    with_connection({
+      data <- list("a", 1L, 1.5)
+      data <- lapply(data, c, NA)
+      expanded <- expand.grid(a = data, b = data, c = data)
+      tbl_in_list <- lapply(
+        seq_len(nrow(expanded)),
+        function(i) {
+          as.data.frame(lapply(expanded[i, ], unlist, recursive = FALSE))
+        }
+      )
+
+      lapply(tbl_in_list, test_table_roundtrip, con = con)
+    })
+  },
+
+  #'
   #' The interpretation of [rownames] depends on the `row.names` argument,
   #' see [sqlRownamesToColumn()] for details:
   write_table_row_names_false = function(ctx) {
