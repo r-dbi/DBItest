@@ -92,14 +92,20 @@ spec_sql_write_table <- list(
         expect_error(dbWriteTable(con, "test", test_in, append = NA))
         expect_error(dbWriteTable(con, "test", test_in, field.types = NA))
         expect_error(dbWriteTable(con, "test", test_in, temporary = NA))
-        #' incompatible values)
+        #' incompatible values,
         expect_error(dbWriteTable(con, "test", test_in, field.types = letters))
         expect_error(dbWriteTable(con, "test", test_in, field.types = c(b = "INTEGER")))
         expect_error(dbWriteTable(con, "test", test_in, overwrite = TRUE, append = TRUE))
+        expect_error(dbWriteTable(con, "test", test_in, append = TRUE, field.types = c(a = "INTEGER")))
+        #' duplicate
+        expect_error(dbWriteTable(con, "test", test_in, field.types = c(a = "INTEGER", a = "INTEGER")))
+        #' or missing names,
+        expect_error(dbWriteTable(con, "test", test_in, field.types = c("INTEGER")))
       })
 
       with_remove_test_table({
         dbWriteTable(con, "test", test_in)
+        #' incompatible columns)
         expect_error(dbWriteTable(con, "test", data.frame(b = 2L, c = 3L), append = TRUE))
       })
       #' also raise an error.
@@ -369,7 +375,7 @@ spec_sql_write_table <- list(
           tbl_out$a <- as.numeric(tbl_out$a)
           tbl_out
         },
-        field.types = c(a = "bigint")
+        field.types = c(a = "BIGINT")
       )
     })
   },
@@ -387,7 +393,7 @@ spec_sql_write_table <- list(
           tbl_out$a <- as.character(tbl_out$a)
           tbl_out
         },
-        field.types = c(a = "bigint")
+        field.types = c(a = "BIGINT")
       )
     })
   },
@@ -567,6 +573,21 @@ spec_sql_write_table <- list(
       )
 
       lapply(tbl_in_list, test_table_roundtrip, con = con)
+    })
+  },
+
+  #'
+  #' The `field.types` argument must be a named character vector with at most
+  #' one entry for each column.
+  #' It indicates the SQL data type to be used for a new column.
+  roundtrip_field_types = function(ctx) {
+    with_connection({
+      tbl_in <- data.frame(a = numeric())
+      tbl_exp <- data.frame(a = integer())
+      test_table_roundtrip(
+        con, tbl_in, tbl_exp,
+        field.types = c(a = "INTEGER")
+      )
     })
   },
 
