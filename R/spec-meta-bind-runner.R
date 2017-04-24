@@ -9,8 +9,13 @@ run_bind_tester <- list()
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'
 run_bind_tester$fun <- function() {
-  if (extra_obj$requires_names() && is.null(names(placeholder))) {
-    # wrong_name test only valid for named placeholders
+  if ((extra_obj$requires_names() %in% TRUE) && is.null(names(placeholder))) {
+    # test only valid for named placeholders
+    return()
+  }
+
+  if ((extra_obj$requires_names() %in% FALSE) && !is.null(names(placeholder))) {
+    # test only valid for unnamed placeholders
     return()
   }
 
