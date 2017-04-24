@@ -385,11 +385,30 @@ spec_sql_write_table <- list(
     })
   },
 
-  #'   and native encodings)
+  #'   and native encodings),
   roundtrip_character_native = function(ctx) {
     with_connection({
       tbl_in <- data.frame(
         a = c(enc2native(texts)),
+        stringsAsFactors = FALSE
+      )
+      test_table_roundtrip(con, tbl_in)
+    })
+  },
+
+  #'   supporting empty strings
+  roundtrip_character_empty = function(ctx) {
+    with_connection({
+      tbl_in <- data.frame(
+        a = c("", "a"),
+        stringsAsFactors = FALSE
+      )
+      test_table_roundtrip(con, tbl_in)
+    })
+
+    with_connection({
+      tbl_in <- data.frame(
+        a = c("a", ""),
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in)
