@@ -18,6 +18,15 @@ or not enough values,
 or parameters with wrong names
 or unequal length,
 also raises an error.
+If the placeholders in the query are named,
+all parameter values must have names
+(which must not be empty
+or \code{NA}),
+and vice versa.
+The behavior for mixing placeholders of different types
+(in particular mixing positional and named placeholders)
+is not specified.
+
 Calling \code{dbBind()} on a result set already cleared by \code{\link[=dbClearResult]{dbClearResult()}}
 also raises an error.
 }
@@ -38,6 +47,15 @@ recommended.
 It is good practice to register a call to \code{\link[=dbClearResult]{dbClearResult()}} via
 \code{\link[=on.exit]{on.exit()}} right after calling \code{dbSendQuery()} or \code{dbSendStatement()}
 (see the last enumeration item).
+Until \code{dbBind()} has been called, the returned result set object has the
+following behavior:
+\itemize{
+\item \code{\link[=dbFetch]{dbFetch()}} raises an error (for \code{dbSendQuery()})
+\item \code{\link[=dbGetRowCount]{dbGetRowCount()}} returns zero (for \code{dbSendQuery()})
+\item \code{\link[=dbGetRowsAffected]{dbGetRowsAffected()}} returns an integer \code{NA} (for \code{dbSendStatement()})
+\item \code{\link[=dbIsValid]{dbIsValid()}} returns \code{TRUE}
+\item \code{\link[=dbHasCompleted]{dbHasCompleted()}} returns \code{FALSE}
+}
 \item Construct a list with parameters
 that specify actual values for the placeholders.
 The list must be named or unnamed,
@@ -84,6 +102,8 @@ At least the following data types are accepted:
 \item \link{logical} for Boolean values (some backends may return an integer)
 \item \link{NA}
 \item \link{character}
+\item \link{factor} (bound as character,
+with warning)
 \item \link{Date}
 \item \link{POSIXct} timestamps
 \item \link{POSIXct} timestamps

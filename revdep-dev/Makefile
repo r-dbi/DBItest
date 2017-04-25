@@ -2,7 +2,7 @@ all: test
 
 TESTTHAT_REPORTER ?= 'check'
 
-REVDEP := RPostgres RMySQL RSQLite RKazam
+REVDEP := RSQLite RKazam
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
 
 LIB_DIR := $(shell Rscript -e "cat(.libPaths()[1])")

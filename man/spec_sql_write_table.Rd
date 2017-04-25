@@ -6,7 +6,9 @@
 \title{spec_sql_write_table}
 \value{
 \code{dbWriteTable()} returns \code{TRUE}, invisibly.
-If the table exists (and both \code{append} and \code{overwrite} arguments are unset),
+If the table exists, and both \code{append} and \code{overwrite} arguments are unset,
+or \code{append = TRUE} and the data frame with the new data has different
+column names,
 an error is raised; the remote table remains unchanged.
 
 An error is raised when calling this method for a closed
@@ -19,7 +21,10 @@ Invalid values for the additional arguments \code{row.names},
 (non-scalars,
 unsupported data types,
 \code{NA},
-incompatible values)
+incompatible values,
+duplicate
+or missing names,
+incompatible columns)
 also raise an error.
 }
 \description{
@@ -80,10 +85,11 @@ and be read identically with \code{\link[=dbReadTable]{dbReadTable()}}:
 the latter are translated to \code{NA})
 \item logical
 \item \code{NA} as NULL
-\item 64-bit values (using \code{"bigint"} as field type, after conversion to
-numeric)
+\item 64-bit values (using \code{"bigint"} as field type);
+the result can be converted to a numeric, which may lose precision,
 \item character (in both UTF-8
-and native encodings)
+and native encodings),
+supporting empty strings
 \item factor (returned as character)
 \item list of raw
 (if supported by the database)
@@ -100,6 +106,12 @@ returned as objects that inherit from \code{difftime})
 returned as \code{POSIXct}
 with time zone support)
 }
+
+Mixing column types in the same table is supported.
+
+The \code{field.types} argument must be a named character vector with at most
+one entry for each column.
+It indicates the SQL data type to be used for a new column.
 
 The interpretation of \link{rownames} depends on the \code{row.names} argument,
 see \code{\link[=sqlRownamesToColumn]{sqlRownamesToColumn()}} for details:
