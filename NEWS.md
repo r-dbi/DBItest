@@ -1,3 +1,15 @@
+## DBItest 1.4-20 (2017-04-25)
+
+- Test behavior of methods in presence of placeholders (#120).
+- Test column name mismatch behavior for appending tables (#93).
+- Test that `dbBind()` against factor works but raises a warning (#91).
+- Test roundtrip of alternating empty and non-empty strings (#42).
+- Test multiple columns of different types in one statement or table (#35).
+- Add `NA` to beginning and end of columns in table roundtrip tests (#24).
+- Test `field.types` argument to `dbWriteTable()` (#12).
+- Stricter tests for confusion of named and unnamed SQL parameters and placeholders (#107).
+
+
 ## DBItest 1.4-19 (2017-04-22)
 
 - Also check names of all returned data frames.
