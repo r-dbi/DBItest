@@ -105,7 +105,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' If the parameters in the query are named,
+  #' If the placeholders in the query are named,
   bind_named_param_unnamed_placeholders = function(ctx) {
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {

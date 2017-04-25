@@ -371,7 +371,7 @@ spec_sql_write_table <- list(
       test_table_roundtrip(
         con, tbl_in,
         transform = function(tbl_out) {
-          # ' the result can be converted to a numeric, which may lose precision,
+          #' the result can be converted to a numeric, which may lose precision,
           tbl_out$a <- as.numeric(tbl_out$a)
           tbl_out
         },

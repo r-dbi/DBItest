@@ -18,6 +18,15 @@ or not enough values,
 or parameters with wrong names
 or unequal length,
 also raises an error.
+If the placeholders in the query are named,
+all parameter values must have names
+(which must not be empty
+or \code{NA}),
+and vice versa.
+The behavior for mixing placeholders of different types
+(in particular mixing positional and named placeholders)
+is not specified.
+
 Calling \code{dbBind()} on a result set already cleared by \code{\link[=dbClearResult]{dbClearResult()}}
 also raises an error.
 }
