@@ -47,6 +47,15 @@ recommended.
 It is good practice to register a call to \code{\link[=dbClearResult]{dbClearResult()}} via
 \code{\link[=on.exit]{on.exit()}} right after calling \code{dbSendQuery()} or \code{dbSendStatement()}
 (see the last enumeration item).
+Until \code{dbBind()} has been called, the returned result set object has the
+following behavior:
+\itemize{
+\item \code{\link[=dbFetch]{dbFetch()}} raises an error (for \code{dbSendQuery()})
+\item \code{\link[=dbGetRowCount]{dbGetRowCount()}} returns zero (for \code{dbSendQuery()})
+\item \code{\link[=dbGetRowsAffected]{dbGetRowsAffected()}} returns an integer \code{NA} (for \code{dbSendStatement()})
+\item \code{\link[=dbIsValid]{dbIsValid()}} returns \code{TRUE}
+\item \code{\link[=dbHasCompleted]{dbHasCompleted()}} returns \code{FALSE}
+}
 \item Construct a list with parameters
 that specify actual values for the placeholders.
 The list must be named or unnamed,
