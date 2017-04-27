@@ -1,6 +1,7 @@
 #' @template dbispec
 #' @format NULL
 spec_meta <- c(
+  spec_meta_bind,
   spec_meta_is_valid,
   spec_meta_has_completed,
   spec_meta_get_statement,
@@ -8,7 +9,6 @@ spec_meta <- c(
   spec_meta_get_row_count,
   spec_meta_get_rows_affected,
   spec_meta_get_info_result,
-  spec_meta_bind,
 
   # no 64-bit or time input data type yet
 

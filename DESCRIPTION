@@ -1,7 +1,7 @@
 Package: DBItest
 Title: Testing 'DBI' Back Ends
-Version: 1.4-19
-Date: 2017-04-22
+Version: 1.4-20
+Date: 2017-04-25
 Authors@R: c( person(given = "Kirill", family = "Müller", role =
         c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
         person("RStudio", role = "cph") )
@@ -61,15 +61,15 @@ Collate:
     'spec-sql-list-tables.R'
     'spec-sql-exists-table.R'
     'spec-sql-remove-table.R'
+    'spec-meta-bind-runner.R'
+    'spec-meta-bind-tester-extra.R'
+    'spec-meta-bind.R'
+    'spec-meta-bind-.R'
     'spec-meta-is-valid.R'
     'spec-meta-has-completed.R'
     'spec-meta-get-statement.R'
     'spec-meta-get-row-count.R'
     'spec-meta-get-rows-affected.R'
-    'spec-meta-bind-runner.R'
-    'spec-meta-bind-tester-extra.R'
-    'spec-meta-bind.R'
-    'spec-meta-bind-.R'
     'spec-transaction-begin-commit-rollback.R'
     'spec-transaction-with-transaction.R'
     'spec-driver-get-info.R'

@@ -105,6 +105,76 @@ spec_meta_bind <- list(
     })
   },
 
+  #' If the placeholders in the query are named,
+  bind_named_param_unnamed_placeholders = function(ctx) {
+    extra <- new_bind_tester_extra(
+      patch_bind_values = function(bind_values) {
+        #' all parameter values must have names
+        stats::setNames(bind_values, NULL)
+      },
+
+      requires_names = function() TRUE
+    )
+    with_connection({
+      expect_error(
+        test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
+      )
+    })
+  },
+
+  bind_named_param_empty_placeholders = function(ctx) {
+    extra <- new_bind_tester_extra(
+      patch_bind_values = function(bind_values) {
+        #' (which must not be empty
+        names(bind_values)[[1]] <- ""
+      },
+
+      requires_names = function() TRUE
+    )
+    with_connection({
+      expect_error(
+        test_select_bind(con, ctx$tweaks$placeholder_pattern, list(1L, 2L), extra = extra)
+      )
+    })
+  },
+
+  bind_named_param_na_placeholders = function(ctx) {
+    extra <- new_bind_tester_extra(
+      patch_bind_values = function(bind_values) {
+        #' or `NA`),
+        names(bind_values)[[1]] <- NA
+      },
+
+      requires_names = function() TRUE
+    )
+    with_connection({
+      expect_error(
+        test_select_bind(con, ctx$tweaks$placeholder_pattern, list(1L, 2L), extra = extra)
+      )
+    })
+  },
+
+  #' and vice versa.
+  bind_unnamed_param_named_placeholders = function(ctx) {
+    extra <- new_bind_tester_extra(
+      patch_bind_values = function(bind_values) {
+        stats::setNames(bind_values, letters[seq_along(bind_values)])
+      },
+
+      requires_names = function() FALSE
+    )
+    with_connection({
+      expect_error(
+        test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
+      )
+    })
+  },
+
+  #' The behavior for mixing placeholders of different types
+  #' (in particular mixing positional and named placeholders)
+  #' is not specified.
+  #'
+
   bind_premature_clear = function(ctx) {
     extra <- new_bind_tester_extra(
       #' Calling `dbBind()` on a result set already cleared by [dbClearResult()]
@@ -227,6 +297,20 @@ spec_meta_bind <- list(
         con,
         ctx$tweaks$placeholder_pattern,
         texts
+      )
+    })
+  },
+
+  #' - [factor] (bound as character,
+  bind_factor = function(ctx) {
+    with_connection({
+      #' with warning)
+      expect_warning(
+        test_select_bind(
+          con,
+          ctx$tweaks$placeholder_pattern,
+          factor(texts)
+        )
       )
     })
   },
