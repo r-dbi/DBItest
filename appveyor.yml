@@ -24,11 +24,10 @@ environment:
 
 build_script:
   - travis-tool.sh install_github rstats-db/DBI
-  - travis-tool.sh install_r roxygen2
+  - travis-tool.sh install_r roxygen2 devtools
   - travis-tool.sh install_deps
 
 test_script:
-  - make --keep-going --directory=revdep-dev test-RKazam test-RSQLite
   - travis-tool.sh run_tests
 
 on_failure:
