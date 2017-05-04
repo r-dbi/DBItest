@@ -38,13 +38,5 @@ spec_connection_disconnect <- list(
     expect_warning(gc())
   },
 
-  cannot_disconnect_twice = function(ctx) {
-    con <- connect(ctx)
-    dbDisconnect(con)
-    #' A warning is issued immediately when calling `dbDisconnect()` on an
-    #' already disconnected connection.
-    expect_warning(dbDisconnect(con))
-  },
-
   NULL
 )

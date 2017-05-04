@@ -16,7 +16,5 @@ spec_connection_disconnect
 
 A warning is issued on garbage collection when a connection has been
 released without calling \code{dbDisconnect()}.
-A warning is issued immediately when calling \code{dbDisconnect()} on an
-already disconnected connection.
 }
 
