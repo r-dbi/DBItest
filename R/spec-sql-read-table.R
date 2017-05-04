@@ -137,7 +137,7 @@ spec_sql_read_table <- list(
         mtcars_in$make_model <- rownames(mtcars_in)
         mtcars_in <- unrowname(mtcars_in)
 
-        dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)
+        dbWriteTable(con, "mtcars", mtcars_in, row.names = FALSE)
         mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
 
         expect_false("make_model" %in% names(mtcars_out))
