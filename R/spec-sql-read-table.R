@@ -163,8 +163,9 @@ spec_sql_read_table <- list(
   #'
 
   read_table_row_names_default = function(ctx) {
-    #' 
+    #'
     #' The default is `row.names = FALSE`.
+    #'
     with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
