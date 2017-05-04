@@ -310,7 +310,7 @@ spec_meta_bind <- list(
         test_select_bind(
           con,
           ctx$tweaks$placeholder_pattern,
-          factor(texts)
+          lapply(texts, factor)
         )
       )
     })
@@ -383,7 +383,7 @@ spec_meta_bind <- list(
 
     with_connection({
       test_select_bind(
-        con, ctx$tweaks$placeholder_pattern, blob::blob(as.raw(1:10)),
+        con, ctx$tweaks$placeholder_pattern, list(blob::blob(as.raw(1:10))),
         type = NULL,
         transform_input = identity,
         transform_output = blob::as.blob)
