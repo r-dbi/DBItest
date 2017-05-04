@@ -154,7 +154,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' and vice versa.
+  #' and vice versa,
   bind_unnamed_param_named_placeholders = function(ctx) {
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {
@@ -164,6 +164,7 @@ spec_meta_bind <- list(
       requires_names = function() FALSE
     )
     with_connection({
+      #' otherwise an error is raised.
       expect_error(
         test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
       )

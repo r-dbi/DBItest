@@ -22,7 +22,8 @@ If the placeholders in the query are named,
 all parameter values must have names
 (which must not be empty
 or \code{NA}),
-and vice versa.
+and vice versa,
+otherwise an error is raised.
 The behavior for mixing placeholders of different types
 (in particular mixing positional and named placeholders)
 is not specified.
