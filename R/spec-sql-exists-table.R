@@ -79,7 +79,7 @@ spec_sql_exists_table <- list(
       }
 
       for (table_name in table_names) {
-        with_remove_test_table({
+        with_remove_test_table(name = table_name, {
           expect_false(dbExistsTable(con, table_name))
 
           test_in <- data.frame(a = 1L)
