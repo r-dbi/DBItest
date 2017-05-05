@@ -135,15 +135,20 @@ spec_sql_remove_table <- list(
         table_names <- c("a", "with spaces", "with,comma")
       }
 
+      test_in <- data.frame(a = 1L)
+
       for (table_name in table_names) {
         with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
-          test_in <- data.frame(a = 1L)
-
           #' - If an unquoted table name as string: `dbRemoveTable()` will do the
           #'   quoting,
           dbWriteTable(con, table_name, test_in)
           expect_true(dbRemoveTable(con, table_name))
           #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
+        })
+      }
+
+      for (table_name in table_names) {
+        with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
           #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
           dbWriteTable(con, table_name, test_in)
           expect_true(dbRemoveTable(con, dbQuoteIdentifier(con, table_name)))
