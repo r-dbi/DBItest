@@ -81,13 +81,12 @@ spec_sql_write_table <- list(
         expect_error(dbWriteTable(con, "test", test_in, append = c(TRUE, FALSE)))
         expect_error(dbWriteTable(con, "test", test_in, temporary = c(TRUE, FALSE)))
         #' unsupported data types,
-        expect_error(dbWriteTable(con, "test", test_in, row.names = 1L))
+        expect_error(dbWriteTable(con, "test", test_in, row.names = list(1L)))
         expect_error(dbWriteTable(con, "test", test_in, overwrite = 1L))
         expect_error(dbWriteTable(con, "test", test_in, append = 1L))
         expect_error(dbWriteTable(con, "test", test_in, field.types = 1L))
         expect_error(dbWriteTable(con, "test", test_in, temporary = 1L))
         #' `NA`,
-        expect_error(dbWriteTable(con, "test", test_in, row.names = NA))
         expect_error(dbWriteTable(con, "test", test_in, overwrite = NA))
         expect_error(dbWriteTable(con, "test", test_in, append = NA))
         expect_error(dbWriteTable(con, "test", test_in, field.types = NA))

@@ -251,7 +251,7 @@ spec_sql_read_table <- list(
         #' (non-scalars,
         expect_error(dbReadTable(con, "test", row.names = letters))
         #' unsupported data types,
-        expect_error(dbReadTable(con, "test", row.names = 1L))
+        expect_error(dbReadTable(con, "test", row.names = list(1L)))
         expect_error(dbReadTable(con, "test", check.names = 1L))
         #' `NA` for `check.names`)
         expect_error(dbReadTable(con, "test", check.names = NA))
