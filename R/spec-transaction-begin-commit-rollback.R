@@ -163,21 +163,16 @@ spec_transaction_begin_commit_rollback <- list(
   },
 
   begin_write_disconnect = function(ctx) {
-    local({
-      con <- connect(ctx)
-
+    #'
+    #' Disconnection from a connection with an open transaction
+    with_connection({
       dbBegin(con)
 
       dbExecute(con, paste0("CREATE TABLE test (a ", dbDataType(con, 0L), ")"))
-
-      #'
-      #' Disconnection from a connection with an open transaction
-      #' gives a warning
-      expect_warning(dbDisconnect(con))
     })
 
     with_connection({
-      #' and effectively rolls back the transaction.
+      #' effectively rolls back the transaction.
       #' All data written in such a transaction must be removed after the
       #' transaction is rolled back.
       with_remove_test_table({

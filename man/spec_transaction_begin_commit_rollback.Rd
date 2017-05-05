@@ -43,8 +43,7 @@ but is created during the transaction
 must not exist anymore after the rollback.
 
 Disconnection from a connection with an open transaction
-gives a warning
-and effectively rolls back the transaction.
+effectively rolls back the transaction.
 All data written in such a transaction must be removed after the
 transaction is rolled back.
 
