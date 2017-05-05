@@ -6,8 +6,6 @@
 \title{spec_connection_disconnect}
 \value{
 \code{dbDisconnect()} returns \code{TRUE}, invisibly.
-An error is raised when attempting to disconnect from an already closed
-or invalid connection.
 }
 \description{
 spec_connection_disconnect
@@ -16,5 +14,8 @@ spec_connection_disconnect
 
 A warning is issued on garbage collection when a connection has been
 released without calling \code{dbDisconnect()}.
+A warning is issued immediately when calling \code{dbDisconnect()} on an
+already disconnected
+or invalid connection.
 }
 
