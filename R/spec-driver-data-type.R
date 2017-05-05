@@ -77,7 +77,7 @@ test_data_type <- function(ctx, dbObj) {
       list(as.raw(1:10))
     },
     if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
-      #' and [blob] objects.
+      #' and [blob::blob] objects.
       blob::blob(as.raw(1:10))
     }
   )

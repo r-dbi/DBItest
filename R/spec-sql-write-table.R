@@ -472,7 +472,7 @@ spec_sql_write_table <- list(
     })
   },
 
-  #' - objects of type [blob]
+  #' - objects of type [blob::blob]
   roundtrip_blob = function(ctx) {
     #'   (if supported by the database)
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {

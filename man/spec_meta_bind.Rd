@@ -109,7 +109,7 @@ with warning)
 \item \link{POSIXct} timestamps
 \item \link{POSIXct} timestamps
 \item lists of \link{raw} for blobs (with \code{NULL} entries for SQL NULL values)
-\item objects of type \link{blob}
+\item objects of type \link[blob:blob]{blob::blob}
 }
 }
 
