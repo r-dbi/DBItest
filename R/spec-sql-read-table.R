@@ -57,7 +57,7 @@ spec_sql_read_table <- list(
     with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
-        dbWriteTable(con, "mtcars", mtcars_in)
+        dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)
         mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
 
         expect_true("row_names" %in% names(mtcars_out))
@@ -75,7 +75,7 @@ spec_sql_read_table <- list(
     with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
-        dbWriteTable(con, "mtcars", mtcars_in)
+        dbWriteTable(con, "mtcars", mtcars_in, row.names = NA)
         mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
 
         expect_equal_df(mtcars_out, mtcars_in)
@@ -90,7 +90,7 @@ spec_sql_read_table <- list(
     with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
-        dbWriteTable(con, "iris", iris_in)
+        dbWriteTable(con, "iris", iris_in, row.names = NA)
         expect_error(dbReadTable(con, "iris", row.names = row.names))
       })
     })
@@ -103,7 +103,7 @@ spec_sql_read_table <- list(
     with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
-        dbWriteTable(con, "mtcars", mtcars_in)
+        dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)
         mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
 
         expect_equal_df(mtcars_out, mtcars_in)
@@ -118,7 +118,7 @@ spec_sql_read_table <- list(
     with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
-        dbWriteTable(con, "iris", iris_in)
+        dbWriteTable(con, "iris", iris_in, row.names = FALSE)
         iris_out <- check_df(dbReadTable(con, "iris", row.names = row.names))
 
         expect_equal_df(iris_out, iris_in)
@@ -137,7 +137,7 @@ spec_sql_read_table <- list(
         mtcars_in$make_model <- rownames(mtcars_in)
         mtcars_in <- unrowname(mtcars_in)
 
-        dbWriteTable(con, "mtcars", mtcars_in)
+        dbWriteTable(con, "mtcars", mtcars_in, row.names = FALSE)
         mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
 
         expect_false("make_model" %in% names(mtcars_out))
@@ -155,12 +155,30 @@ spec_sql_read_table <- list(
     with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
-        dbWriteTable(con, "iris", iris_in)
+        dbWriteTable(con, "iris", iris_in, row.names = FALSE)
         expect_error(dbReadTable(con, "iris", row.names = row.names))
       })
     })
   },
   #'
+
+  read_table_row_names_default = function(ctx) {
+    #'
+    #' The default is `row.names = FALSE`.
+    #'
+    with_connection({
+      with_remove_test_table(name = "mtcars", {
+        mtcars_in <- datasets::mtcars
+        dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)
+        mtcars_out <- check_df(dbReadTable(con, "mtcars"))
+
+        expect_true("row_names" %in% names(mtcars_out))
+        expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
+        expect_true(all(rownames(mtcars_in) %in% mtcars_out$row_names))
+        expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
+      })
+    })
+  },
 
   read_table_check_names = function(ctx) {
     with_connection({
@@ -233,7 +251,7 @@ spec_sql_read_table <- list(
         #' (non-scalars,
         expect_error(dbReadTable(con, "test", row.names = letters))
         #' unsupported data types,
-        expect_error(dbReadTable(con, "test", row.names = 1L))
+        expect_error(dbReadTable(con, "test", row.names = list(1L)))
         expect_error(dbReadTable(con, "test", check.names = 1L))
         #' `NA` for `check.names`)
         expect_error(dbReadTable(con, "test", check.names = NA))

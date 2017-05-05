@@ -24,6 +24,8 @@ that contains the row names,
 an error is raised if no such column exists.
 }
 
+The default is \code{row.names = FALSE}.
+
 If the database supports identifiers with special characters,
 the columns in the returned data frame are converted to valid R
 identifiers

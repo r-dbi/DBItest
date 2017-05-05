@@ -93,7 +93,7 @@ supporting empty strings
 \item factor (returned as character)
 \item list of raw
 (if supported by the database)
-\item objects of type \link{blob}
+\item objects of type \link[blob:blob]{blob::blob}
 (if supported by the database)
 \item date
 (if supported by the database;

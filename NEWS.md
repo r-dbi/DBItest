@@ -1,3 +1,10 @@
+## DBItest 1.4-21 (2017-05-05)
+
+- A warning (not an error anymore) is expected when calling `dbDisconnect()` on a closed or invalid connection.
+- `row.names = FALSE` is now the default for methods that read or write tables.
+- Fix R CMD check errors.
+
+
 ## DBItest 1.4-20 (2017-04-25)
 
 - Test behavior of methods in presence of placeholders (#120).

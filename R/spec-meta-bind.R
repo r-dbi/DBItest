@@ -154,7 +154,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' and vice versa.
+  #' and vice versa,
   bind_unnamed_param_named_placeholders = function(ctx) {
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {
@@ -164,6 +164,7 @@ spec_meta_bind <- list(
       requires_names = function() FALSE
     )
     with_connection({
+      #' otherwise an error is raised.
       expect_error(
         test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
       )
@@ -309,7 +310,7 @@ spec_meta_bind <- list(
         test_select_bind(
           con,
           ctx$tweaks$placeholder_pattern,
-          factor(texts)
+          lapply(texts, factor)
         )
       )
     })
@@ -343,19 +344,19 @@ spec_meta_bind <- list(
     })
   },
 
-  #' - [POSIXct] timestamps
+  #' - [POSIXlt] timestamps
   bind_timestamp_lt = function(ctx) {
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
 
     with_connection({
-      data_in <- as.POSIXct(round(Sys.time()))
+      data_in <- as.POSIXlt(round(Sys.time()))
       test_select_bind(
         con, ctx$tweaks$placeholder_pattern, data_in,
         type = dbDataType(con, data_in),
         transform_input = as.POSIXct,
-        transform_output = identity)
+        transform_output = as.POSIXct)
     })
   },
 
@@ -374,7 +375,7 @@ spec_meta_bind <- list(
     })
   },
 
-  #' - objects of type [blob]
+  #' - objects of type [blob::blob]
   bind_blob = function(ctx) {
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
@@ -382,7 +383,7 @@ spec_meta_bind <- list(
 
     with_connection({
       test_select_bind(
-        con, ctx$tweaks$placeholder_pattern, blob::blob(as.raw(1:10)),
+        con, ctx$tweaks$placeholder_pattern, list(blob::blob(as.raw(1:10))),
         type = NULL,
         transform_input = identity,
         transform_output = blob::as.blob)

@@ -96,10 +96,8 @@ spec_sql_quote_identifier <- list(
   quote_identifier_special = function(ctx) {
     with_connection({
       #'
-      #' The method can quote column names that are empty strings
-      empty_in <- ""
-      empty <- dbQuoteIdentifier(con, empty_in)
-      #' or contain special characters such as a space,
+      #' The method can quote column names that
+      #' contain special characters such as a space,
       with_space_in <- "with space"
       with_space <- dbQuoteIdentifier(con, with_space_in)
       #' a dot,
@@ -112,6 +110,8 @@ spec_sql_quote_identifier <- list(
       with_quote_in <- as.character(dbQuoteString(con, "a"))
       with_quote <- dbQuoteIdentifier(con, with_quote_in)
       #' or identifiers,
+      empty_in <- ""
+      empty <- dbQuoteIdentifier(con, empty_in)
       quoted_empty <- dbQuoteIdentifier(con, as.character(empty))
       quoted_with_space <- dbQuoteIdentifier(con, as.character(with_space))
       quoted_with_dot <- dbQuoteIdentifier(con, as.character(with_dot))
@@ -127,7 +127,6 @@ spec_sql_quote_identifier <- list(
       #' should be performed only when executing a query,
       #' and not by `dbQuoteIdentifier()`.
       query <- paste0("SELECT ",
-                      "1 as", empty, ",",
                       "2 as", with_space, ",",
                       "3 as", with_dot, ",",
                       "4 as", with_comma, ",",
@@ -140,12 +139,12 @@ spec_sql_quote_identifier <- list(
 
       rows <- check_df(dbGetQuery(con, query))
       expect_identical(names(rows),
-                       c(empty_in, with_space_in, with_dot_in, with_comma_in,
+                       c(with_space_in, with_dot_in, with_comma_in,
                          with_quote_in,
                          as.character(empty), as.character(with_space),
                          as.character(with_dot), as.character(with_comma),
                          as.character(with_quote)))
-      expect_identical(unlist(unname(rows)), 1:10)
+      expect_identical(unlist(unname(rows)), 2:10)
     })
   },
 

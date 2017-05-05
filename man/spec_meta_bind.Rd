@@ -22,7 +22,8 @@ If the placeholders in the query are named,
 all parameter values must have names
 (which must not be empty
 or \code{NA}),
-and vice versa.
+and vice versa,
+otherwise an error is raised.
 The behavior for mixing placeholders of different types
 (in particular mixing positional and named placeholders)
 is not specified.
@@ -106,9 +107,9 @@ At least the following data types are accepted:
 with warning)
 \item \link{Date}
 \item \link{POSIXct} timestamps
-\item \link{POSIXct} timestamps
+\item \link{POSIXlt} timestamps
 \item lists of \link{raw} for blobs (with \code{NULL} entries for SQL NULL values)
-\item objects of type \link{blob}
+\item objects of type \link[blob:blob]{blob::blob}
 }
 }
 
