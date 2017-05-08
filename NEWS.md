@@ -1,3 +1,8 @@
+## DBItest 1.4-22 (2017-05-08)
+
+- A column named `row_names` receives no special handling (#54).
+
+
 ## DBItest 1.4-21 (2017-05-05)
 
 - A warning (not an error anymore) is expected when calling `dbDisconnect()` on a closed or invalid connection.
