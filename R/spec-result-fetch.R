@@ -249,5 +249,22 @@ spec_result_fetch <- list(
     })
   },
 
+  #'
+  #' A column named `row_names` is treated like any other column.
+  fetch_row_names = function(ctx) {
+    with_connection({
+      query <- "SELECT 1 AS row_names"
+
+      with_result(
+        dbSendQuery(con, query),
+        {
+          rows <- check_df(dbFetch(res))
+          expect_identical(rows, data.frame(row_names = 1L))
+          expect_identical(.row_names_info(rows), -1L)
+        }
+      )
+    })
+  },
+
   NULL
 )

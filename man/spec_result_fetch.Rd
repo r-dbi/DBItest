@@ -40,5 +40,7 @@ If zero rows are fetched, the columns of the data frame are still fully
 typed.
 Fetching fewer rows than available is permitted,
 no warning is issued when clearing the result set.
+
+A column named \code{row_names} is treated like any other column.
 }
 

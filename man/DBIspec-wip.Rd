@@ -34,6 +34,8 @@ Open and close 50 connections
 
 \subsection{\code{dbListFields("DBIConnection")}}{
 Can list the fields for a table in the database.
+
+A column named \code{row_names} is treated like any other column.
 }
 }
 

@@ -37,6 +37,7 @@ run_tests <- function(ctx, tests, skip, test_suite) {
 }
 
 get_skip_names <- function(skip) {
+  if (length(skip) == 0L) return(character())
   names_all <- names(spec_all)
   names_all <- names_all[names_all != ""]
   skip_flags_all <- lapply(paste0("(?:^", skip, "$)"), grepl, names_all, perl = TRUE)

@@ -180,5 +180,17 @@ spec_result_get_query <- list(
     })
   },
 
+  #'
+  #' A column named `row_names` is treated like any other column.
+  get_query_row_names = function(ctx) {
+    with_connection({
+      query <- "SELECT 1 AS row_names"
+
+      rows <- check_df(dbGetQuery(con, query))
+      expect_identical(rows, data.frame(row_names = 1L))
+      expect_identical(.row_names_info(rows), -1L)
+    })
+  },
+
   NULL
 )

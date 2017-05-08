@@ -16,6 +16,18 @@ spec_sql_list_fields <- list(
     })
   },
 
+
+  #'
+  #' A column named `row_names` is treated like any other column.
+  list_fields_row_names = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        dbWriteTable(con, "test", data.frame(a = 1L, row_names = 2L))
+        expect_identical(dbListFields(con, "test"), c("a", "row_names"))
+      })
+    })
+  },
+
   #' }
   NULL
 )
