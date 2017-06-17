@@ -1,3 +1,8 @@
+## DBItest 1.4-23 (2017-06-17)
+
+- `NULL` is a valid value for the `row.names` argument, same as `FALSE`.
+
+
 ## DBItest 1.4-22 (2017-05-08)
 
 - A column named `row_names` receives no special handling (#54).
