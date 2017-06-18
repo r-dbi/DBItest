@@ -2,8 +2,8 @@
 
 Finalize specification. Most tests now come with a corresponding prose, only those where the behavior is not finally decided don't have a prose version yet (#88).
 
-
-## New tests
+New tests
+---------
 
 - Test behavior of methods in presence of placeholders (#120).
 - Test column name mismatch behavior for appending tables (#93).
@@ -21,7 +21,8 @@ Finalize specification. Most tests now come with a corresponding prose, only tho
 - Added tweaks for handling date, time, timestamp, ... (#53, #76).
 - Test that `dbFetch()` on update-only query returns warning (#66).
 
-## Adapted tests
+Adapted tests
+-------------
 
 - `NULL` is a valid value for the `row.names` argument, same as `FALSE`.
 - A column named `row_names` receives no special handling (#54).
@@ -46,7 +47,8 @@ Finalize specification. Most tests now come with a corresponding prose, only tho
 - Testing that a warning is given if the user forgets to call `dbDisconnect()` or `dbClearResult()` (#103).
 - Numeric roundtrip accepts conversion of `NaN` to `NA` (#79).
 
-## Internal
+Internal
+--------
 
 - Fix R CMD check errors.
 - Internal consistency checks (#114).
