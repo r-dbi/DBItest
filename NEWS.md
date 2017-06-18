@@ -1,108 +1,62 @@
-## DBItest 1.4-23 (2017-06-17)
+# DBItest 1.5 (2017-06-18)
 
-- `NULL` is a valid value for the `row.names` argument, same as `FALSE`.
-
-
-## DBItest 1.4-22 (2017-05-08)
-
-- A column named `row_names` receives no special handling (#54).
+Finalize specification. Most tests now come with a corresponding prose, only those where the behavior is not finally decided don't have a prose version yet (#88).
 
 
-## DBItest 1.4-21 (2017-05-05)
-
-- A warning (not an error anymore) is expected when calling `dbDisconnect()` on a closed or invalid connection.
-- `row.names = FALSE` is now the default for methods that read or write tables.
-- Fix R CMD check errors.
-
-
-## DBItest 1.4-20 (2017-04-25)
+## New tests
 
 - Test behavior of methods in presence of placeholders (#120).
 - Test column name mismatch behavior for appending tables (#93).
 - Test that `dbBind()` against factor works but raises a warning (#91).
 - Test roundtrip of alternating empty and non-empty strings (#42).
 - Test multiple columns of different types in one statement or table (#35).
-- Add `NA` to beginning and end of columns in table roundtrip tests (#24).
 - Test `field.types` argument to `dbWriteTable()` (#12).
-- Stricter tests for confusion of named and unnamed SQL parameters and placeholders (#107).
-
-
-## DBItest 1.4-19 (2017-04-22)
-
-- Also check names of all returned data frames.
-- Internal consistency checks (#114).
 - Added tests for invalid or closed connection argument to all methods that expect a connection as first argument (#117).
-- Skip patterns that don't match any of the tests now raise a warning (#84).
-- New `test_some()` to test individual tests (#136).
-- Use desc instead of devtools (#40).
-- All unexpected warnings are now reported as test failures (#113).
+- Enabled test that tests a missing `dbDisconnect()`.
+- Add test for unambiguous escaping of identifiers (rstats-db/RSQLite#123).
+- Reenable tests for visibility (#89).
+- Fix and specify 64-bit roundtrip test.
+- 64-bit integers only need to be coercible to `numeric` and `character` (#74).
+- Added roundtrip test for time values (#14).
+- Added tweaks for handling date, time, timestamp, ... (#53, #76).
+- Test that `dbFetch()` on update-only query returns warning (#66).
+
+## Adapted tests
+
+- `NULL` is a valid value for the `row.names` argument, same as `FALSE`.
+- A column named `row_names` receives no special handling (#54).
+- A warning (not an error anymore) is expected when calling `dbDisconnect()` on a closed or invalid connection.
+- `row.names = FALSE` is now the default for methods that read or write tables.
+- Add `NA` to beginning and end of columns in table roundtrip tests (#24).
+- Stricter tests for confusion of named and unnamed SQL parameters and placeholders (#107).
+- Also check names of all returned data frames.
 - The return value for all calls to `dbGetQuery()`, `dbFetch()`, and `dbReadTable()` is now checked for consistency (all columns have the same length, length matches number of rows) (#126).
 - Removed stress tests that start a new session.
 - Allow `hms` (or other subclasses of `difftime`) to be returned as time class (#135, @jimhester).
 - Test that dates are of type `numeric` (#99, @jimhester).
-- Enabled test that tests a missing `dbDisconnect()`.
 - Replace `POSIXlt` by `POSIXct` (#100, @jimhester).
 - Use `"PST8PDT"` instead of `"PST"` as time zone (#110, @thrasibule).
-
-
-## DBItest 1.4-18 (2017-04-05)
-
 - Added tests for support of `blob` objects (input and output), but backends are not required to return `blob` objects (#98).
-
-
-## DBItest 1.4-17 (2017-04-05)
-
 - The `logical_return`, `date_typed` and `timestamp_typed` tweaks are respected by the bind tests.
-- Add test for rstats-db/RSQLite#123.
 - Fixed tests involving time comparison; now uses UTC timezone and compares against a `difftime`.
 - Tests for roundtrip of character values now includes tabs, in addition to many other special characters (#85).
-
-
-## DBItest 1.4-16 (2017-03-26)
-
-- Fix and specify 64-bit roundtrip test.
-- 64-bit integers only need to be coercible to `numeric` and `character` (#74).
 - Make sure at least one table exists in the `dbListTables()` test.
-- Reenable tests for visibility (#89).
-
-
-## DBItest 1.4-15 (2017-03-26)
-
-- Last changes before CRAN release of DBI.
-
-
-## DBItest 1.4-14 (2017-03-08)
-
-- Finalize first draft of specification.
-
-
-## DBItest 1.4-13 (2017-02-26)
-
-- Added prose specifications, and enhanced/modified/renamed tests for `dbBegin()`, `dbCommit()`, `dbRollback()`, and `dbWithTransaction()`. Most tests now come with a corresponding prose, only those where the behavior is not finally decided don't have a prose version yet (#88).
-
-
-## DBItest 1.4-12 (2017-02-26)
-
-- Added prose specifications, and enhanced/modified/renamed tests for `dbIsValid()`, `dbHasCompleted()`, `dbGetStatement()`, `dbGetRowCount()`, `dbGetRowsAffected()`, and `dbBind()` (#88).
-
-
-## DBItest 1.4-11 (2017-01-31)
-
 - Fix roundtrip tests for raw columns: now expecting `NULL` and not `NA` entries for SQL NULL values.
 - Fix `expect_equal_df()` for list columns.
+- Testing that a warning is given if the user forgets to call `dbDisconnect()` or `dbClearResult()` (#103).
+- Numeric roundtrip accepts conversion of `NaN` to `NA` (#79).
 
+## Internal
 
-## DBItest 1.4-10 (2017-01-31)
-
+- Fix R CMD check errors.
+- Internal consistency checks (#114).
+- Skip patterns that don't match any of the tests now raise a warning (#84).
+- New `test_some()` to test individual tests (#136).
+- Use desc instead of devtools (#40).
+- All unexpected warnings are now reported as test failures (#113).
 - `DBItest_tweaks` class gains a `$` method, accessing an undefined tweak now raises an error.
 - The arguments of the `tweaks()` function now have default values that further describe their intended usage.
 - New `with_closed_connection()`, `with_invalid_connection()`, `with_result()` and `with_remove_test_table()` helpers, and `expect_visible()`, `expect_inbisible_true()`, and `expect_equal_df()` expectations for more concise tests.
-- Added prose specifications, and enhanced/modified/renamed tests for `dbConnect()`, `dbDisconnect()`, `dbDataType()`, `dbSendQuery()`, `dbFetch()`, `dbClearResult()`, `dbGetQuery()`, `dbSendStatement()`, `dbExecute()`, `dbQuoteIdentifier()`, `dbQuoteString()`, `dbReadTable()`, `dbWriteTable()`, `dbRemoveTable()`, `dbExistsTable()`, and `dbListTables()` (#88).
-- Testing that a warning is given if the user forgets to call `dbDisconnect()` or `dbClearResult()` (#103).
-- Added roundtrip test for time values (#14).
-- Added tweaks for handling date, time, timestamp, ... (#53, #76).
-- Test that `dbFetch()` on update-only query returns warning (#66).
-- Numeric roundtrip accepts conversion of `NaN` to `NA` (#79).
 
 
 # DBItest 1.4 (2016-12-02)
