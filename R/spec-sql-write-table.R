@@ -594,19 +594,19 @@ spec_sql_write_table <- list(
   #' The interpretation of [rownames] depends on the `row.names` argument,
   #' see [sqlRownamesToColumn()] for details:
   write_table_row_names_false = function(ctx) {
-    #' - If `FALSE`, row names are ignored.
-    row.names <- FALSE
+    #' - If `FALSE` or `NULL`, row names are ignored.
+    for (row.names in list(FALSE, NULL)) {
+      with_connection({
+        with_remove_test_table(name = "mtcars", {
+          mtcars_in <- datasets::mtcars
+          dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
+          mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
 
-    with_connection({
-      with_remove_test_table(name = "mtcars", {
-        mtcars_in <- datasets::mtcars
-        dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
-        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
-
-        expect_false("row_names" %in% names(mtcars_out))
-        expect_equal_df(mtcars_out, unrowname(mtcars_in))
+          expect_false("row_names" %in% names(mtcars_out))
+          expect_equal_df(mtcars_out, unrowname(mtcars_in))
+        })
       })
-    })
+    }
   },
 
   write_table_row_names_true_exists = function(ctx) {

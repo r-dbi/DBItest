@@ -51,21 +51,21 @@ spec_sql_read_table <- list(
   #' The presence of [rownames] depends on the `row.names` argument,
   #' see [sqlColumnToRownames()] for details:
   read_table_row_names_false = function(ctx) {
-    #' - If `FALSE`, the returned data frame doesn't have row names.
-    row.names <- FALSE
+    #' - If `FALSE` or `NULL`, the returned data frame doesn't have row names.
+    for (row.names in list(FALSE, NULL)) {
+      with_connection({
+        with_remove_test_table(name = "mtcars", {
+          mtcars_in <- datasets::mtcars
+          dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)
+          mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
 
-    with_connection({
-      with_remove_test_table(name = "mtcars", {
-        mtcars_in <- datasets::mtcars
-        dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)
-        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
-
-        expect_true("row_names" %in% names(mtcars_out))
-        expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
-        expect_true(all(rownames(mtcars_in) %in% mtcars_out$row_names))
-        expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
+          expect_true("row_names" %in% names(mtcars_out))
+          expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
+          expect_true(all(rownames(mtcars_in) %in% mtcars_out$row_names))
+          expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
+        })
       })
-    })
+    }
   },
 
   read_table_row_names_true_exists = function(ctx) {
