@@ -10,23 +10,23 @@
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |Zulu                         |
-|date     |2017-05-08                   |
+|date     |2017-06-18                   |
 
 ## Packages
 
-|package   |*  |version    |date       |source                             |
-|:---------|:--|:----------|:----------|:----------------------------------|
-|blob      |   |1.0.0.9002 |2017-04-24 |Github (tidyverse/blob@615057a)    |
-|DBI       |   |0.6-13     |2017-05-08 |Github (rstats-db/DBI@f6500a5)     |
-|DBItest   |   |1.4-22     |2017-05-08 |Github (rstats-db/DBItest@1f344a3) |
-|desc      |   |1.1.0      |2017-01-27 |cran (@1.1.0)                      |
-|hms       |   |0.3        |2016-11-22 |cran (@0.3)                        |
-|knitr     |   |1.15.1     |2016-11-22 |cran (@1.15.1)                     |
-|lintr     |   |1.0.0      |2016-04-16 |cran (@1.0.0)                      |
-|R6        |   |2.2.0      |2016-10-05 |CRAN (R 3.4.0)                     |
-|rmarkdown |   |1.5        |2017-04-26 |cran (@1.5)                        |
-|testthat  |   |1.0.2      |2016-04-23 |cran (@1.0.2)                      |
-|withr     |   |1.0.2      |2016-06-20 |CRAN (R 3.4.0)                     |
+|package   |*  |version |date       |source                          |
+|:---------|:--|:-------|:----------|:-------------------------------|
+|blob      |   |1.1.0   |2017-06-17 |Github (tidyverse/blob@9dd54d9) |
+|DBI       |   |0.6-14  |2017-06-17 |Github (rstats-db/DBI@0f390df)  |
+|DBItest   |   |1.4     |2016-12-03 |CRAN (R 3.4.0)                  |
+|desc      |   |1.1.0   |2017-01-27 |cran (@1.1.0)                   |
+|hms       |   |0.3     |2016-11-22 |cran (@0.3)                     |
+|knitr     |   |1.16    |2017-05-18 |cran (@1.16)                    |
+|lintr     |   |1.0.0   |2016-04-16 |cran (@1.0.0)                   |
+|R6        |   |2.2.2   |2017-06-17 |cran (@2.2.2)                   |
+|rmarkdown |   |1.6     |2017-06-15 |cran (@1.6)                     |
+|testthat  |   |1.0.2   |2016-04-23 |cran (@1.0.2)                   |
+|withr     |   |1.0.2   |2016-06-20 |CRAN (R 3.4.0)                  |
 
 # Check results
 
@@ -57,7 +57,7 @@ Bug reports: https://github.com/rstats-db/RSQLite/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [11s/11s]
+  Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   8. Failure: DBItest[RSQLite]: Result: fetch_n_bad (@spec-result-fetch.R#73) 
@@ -77,9 +77,9 @@ Last 13 lines of output:
   Execution halted
 
 checking installed package size ... NOTE
-  installed size is  7.8Mb
+  installed size is  8.0Mb
   sub-directories of 1Mb or more:
-    libs   7.2Mb
+    libs   7.4Mb
 
 checking compiled code ... NOTE
 File ‘RSQLite/libs/RSQLite.so’:
