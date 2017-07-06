@@ -102,7 +102,7 @@ spec_result_roundtrip <- list(
     with_connection({
       char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
       time_values <- rep(list(coercible_to_timestamp), 2L)
-      sql_names <- ctx$tweaks$time_cast(char_values)
+      sql_names <- ctx$tweaks$timestamp_cast(char_values)
 
       test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
     })
