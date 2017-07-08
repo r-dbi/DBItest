@@ -326,17 +326,7 @@ spec_sql_write_table <- list(
       tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
       test_table_roundtrip(con, tbl_in)
     })
-  },
-
-  #'   (also with `Inf` and `NaN` values,
-  roundtrip_numeric_special = function(ctx) {
-    with_connection({
-      tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5), -Inf, Inf, NaN))
-      tbl_exp <- tbl_in
-      #' the latter are translated to `NA`)
-      tbl_exp$a[is.nan(tbl_exp$a)] <- NA_real_
-      test_table_roundtrip(con, tbl_in, tbl_exp)
-    })
+  #'   (the behavior for `Inf` and `NaN` is not specified)
   },
 
   #' - logical
