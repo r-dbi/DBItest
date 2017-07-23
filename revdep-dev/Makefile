@@ -23,7 +23,7 @@ bigrquery:
 test: ${TEST_TARGETS}
 
 safe-load-%:
-	R CMD INSTALL '$*' && Rscript --vanilla -e "devtools::load_all('$*')"
+	Rscript --vanilla -e "devtools::load_all('$*')"
 
 # Necessary because of https://github.com/hadley/devtools/issues/1070
 load-%:
