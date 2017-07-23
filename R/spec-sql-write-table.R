@@ -725,7 +725,7 @@ test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transfo
     tbl_expected <- add_na_below(tbl_expected)
   }
 
-  with_remove_test_table(name = dbQuoteIdentifier(con, name), {
+  with_remove_test_table(name = name, {
     dbWriteTable(con, name, tbl_in, field.types = field.types)
 
     tbl_out <- check_df(dbReadTable(con, name, check.names = FALSE))
