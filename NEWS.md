@@ -1,3 +1,14 @@
+## DBItest 1.5-11 (2017-07-23)
+
+- Added test for `dbIsValid()` on stale connections.
+- `test_all()` and `test_some()` return `NULL` invisibly.
+- Convert factor to character for iris data (#141).
+- Don't specify `Inf` and `NaN` for lack of consistent support (#142).
+- Clear result in `spec_meta_get_info_result` (#143).
+- Use named argument for `n` in `dbGetQuery()` call.
+- Minor fixes.
+
+
 # DBItest 1.5 (2017-06-18)
 
 Finalize specification. Most tests now come with a corresponding prose, only those where the behavior is not finally decided don't have a prose version yet (#88).

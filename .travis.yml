@@ -5,6 +5,7 @@
 language: r
 cache: packages
 sudo: false
+dist: trusty
 
 services:
   - MySQL

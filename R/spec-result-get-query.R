@@ -81,11 +81,11 @@ spec_result_get_query <- list(
   get_query_n_bad = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a"
-      expect_error(dbGetQuery(con, query, -2))
-      expect_error(dbGetQuery(con, query, 1.5))
-      expect_error(dbGetQuery(con, query, integer()))
-      expect_error(dbGetQuery(con, query, 1:3))
-      expect_error(dbGetQuery(con, query, NA_integer_))
+      expect_error(dbGetQuery(con, query, n = -2))
+      expect_error(dbGetQuery(con, query, n = 1.5))
+      expect_error(dbGetQuery(con, query, n = integer()))
+      expect_error(dbGetQuery(con, query, n = 1:3))
+      expect_error(dbGetQuery(con, query, n = NA_integer_))
     })
   },
 
@@ -93,7 +93,7 @@ spec_result_get_query <- list(
   get_query_good_after_bad_n = function(ctx) {
     with_connection({
       query <- "SELECT 1 as a"
-      expect_error(dbGetQuery(con, query, NA_integer_))
+      expect_error(dbGetQuery(con, query, n = NA_integer_))
       rows <- check_df(dbGetQuery(con, query))
       expect_identical(rows, data.frame(a = 1L))
     })

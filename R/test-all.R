@@ -22,6 +22,7 @@ test_all <- function(skip = NULL, ctx = get_default_context()) {
   test_transaction(skip = skip, ctx = ctx)
   test_compliance(skip = skip, ctx = ctx)
   # stress tests are not tested by default (#92)
+  invisible()
 }
 
 #' @rdname test_all
