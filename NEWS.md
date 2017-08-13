@@ -1,3 +1,8 @@
+## DBItest 1.5-12 (2017-08-13)
+
+- Methods without `db` prefix are not checked for ellipsis in the signature anymore.
+
+
 ## DBItest 1.5-11 (2017-07-23)
 
 - Added test for `dbIsValid()` on stale connections.
