@@ -3,7 +3,7 @@ text_cyrillic <- iconv(list(as.raw(
 
 text_latin <- iconv(list(as.raw(c(0x4d, 0xc3, 0xbc, 0x6c, 0x6c, 0x65, 0x72))), from = "UTF-8", to = "UTF-8")
 
-text_latin_encoded <- iconv(text_latin, to = "latin1")
+text_latin_encoded <- iconv(text_latin, from = "UTF-8", to = "latin1")
 
 text_chinese <- iconv(list(as.raw(c(0xe6, 0x88, 0x91, 0xe6, 0x98, 0xaf, 0xe8,
                                     0xb0, 0x81))), from = "UTF-8", to = "UTF-8")
