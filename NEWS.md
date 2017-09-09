@@ -1,3 +1,8 @@
+## DBItest 1.5-14 (2017-09-09)
+
+- Fix string constants.
+
+
 ## DBItest 1.5-13 (2017-09-09)
 
 - The `"roundtrip_timestamp"` test now correctly handles timezone information. The output timezone is ignored.
