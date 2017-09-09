@@ -1,3 +1,8 @@
+## DBItest 1.5-15 (2017-09-09)
+
+- New `list_temporary_tables` tweak that can be enabled independently of `temporary_tables` to indicate that the DBMS does not support listing temporary tables.
+
+
 ## DBItest 1.5-14 (2017-09-09)
 
 - Fix string constants.
