@@ -1,11 +1,11 @@
-text_cyrillic <- iconv(list(as.raw(
-  c(0xd0, 0x9a, 0xd0, 0xb8, 0xd1, 0x80, 0xd0, 0xb8, 0xd0, 0xbb, 0xd0, 0xbb))), from = "UTF-8", to = "UTF-8")
+text_cyrillic <- "\\u041a\\u0438\\u0440\\u0438\\u043b\\u043b"
 
-text_latin <- iconv(list(as.raw(c(0x4d, 0xc3, 0xbc, 0x6c, 0x6c, 0x65, 0x72))), from = "UTF-8", to = "UTF-8")
+text_latin <- "M\\u00fcller"
 
-text_chinese <- iconv(list(as.raw(c(0xe6, 0x88, 0x91, 0xe6, 0x98, 0xaf, 0xe8,
-                                    0xb0, 0x81))), from = "UTF-8", to = "UTF-8")
+text_latin_encoded <- iconv(text_latin, from = "UTF-8", to = "latin1")
+
+text_chinese <- "\u6211\u662f\u8c01"
 
 text_ascii <- iconv("ASCII", to = "ASCII")
 
-texts <- c(text_cyrillic, text_latin, text_chinese, text_ascii)
+texts <- c(text_cyrillic, text_latin, text_latin_encoded, text_chinese, text_ascii)

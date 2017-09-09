@@ -1,3 +1,9 @@
+## DBItest 1.5-13 (2017-09-09)
+
+- The `"roundtrip_timestamp"` test now correctly handles timezone information. The output timezone is ignored.
+- Add string encoded in Latin-1 to the character tests.
+
+
 ## DBItest 1.5-12 (2017-08-13)
 
 - Methods without `db` prefix are not checked for ellipsis in the signature anymore.
