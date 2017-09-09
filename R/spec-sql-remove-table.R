@@ -114,11 +114,15 @@ spec_sql_remove_table <- list(
     with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
-        expect_true("test" %in% dbListTables(con))
+        if (isTRUE(ctx$tweaks$list_temporary_tables)) {
+          expect_true("test" %in% dbListTables(con))
+        }
         expect_true(dbExistsTable(con, "test"))
 
         dbRemoveTable(con, "test")
-        expect_false("test" %in% dbListTables(con))
+        if (isTRUE(ctx$tweaks$list_temporary_tables)) {
+          expect_false("test" %in% dbListTables(con))
+        }
         expect_false(dbExistsTable(con, "test"))
       })
     })

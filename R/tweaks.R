@@ -83,6 +83,10 @@
     #'   Set to `FALSE` if the DBMS doesn't support temporary tables.
     "temporary_tables" = TRUE,
 
+    #' @param list_temporary_tables `[logical(1L)]`\cr
+    #'   Set to `FALSE` if the DBMS doesn't support listing temporary tables.
+    "list_temporary_tables" = TRUE,
+
     # Dummy argument
     NULL
   )

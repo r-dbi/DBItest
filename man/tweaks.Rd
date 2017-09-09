@@ -11,7 +11,8 @@ tweaks(..., constructor_name = NULL, constructor_relax_args = FALSE,
   date_cast = function(x) paste0("date('", x, "')"), time_cast = function(x)
   paste0("time('", x, "')"), timestamp_cast = function(x)
   paste0("timestamp('", x, "')"), date_typed = TRUE, time_typed = TRUE,
-  timestamp_typed = TRUE, temporary_tables = TRUE)
+  timestamp_typed = TRUE, temporary_tables = TRUE,
+  list_temporary_tables = TRUE)
 }
 \arguments{
 \item{...}{\code{[any]}\cr
@@ -75,6 +76,9 @@ timestamps.}
 
 \item{temporary_tables}{\code{[logical(1L)]}\cr
 Set to \code{FALSE} if the DBMS doesn't support temporary tables.}
+
+\item{list_temporary_tables}{\code{[logical(1L)]}\cr
+Set to \code{FALSE} if the DBMS doesn't support listing temporary tables.}
 }
 \description{
 TBD.

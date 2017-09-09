@@ -34,7 +34,7 @@ spec_sql_list_tables <- list(
 
       with_remove_test_table({
         #' including temporary tables if supported by the database.
-        if (isTRUE(ctx$tweaks$temporary_tables)) {
+        if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
           dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
           tables <- dbListTables(con)
           expect_true("test" %in% tables)
