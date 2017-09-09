@@ -1,6 +1,6 @@
-text_cyrillic <- "\\u041a\\u0438\\u0440\\u0438\\u043b\\u043b"
+text_cyrillic <- "\u041a\u0438\u0440\u0438\u043b\u043b"
 
-text_latin <- "M\\u00fcller"
+text_latin <- "M\u00fcller"
 
 text_latin_encoded <- iconv(text_latin, from = "UTF-8", to = "latin1")
 
