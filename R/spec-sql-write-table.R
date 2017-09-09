@@ -536,14 +536,23 @@ spec_sql_write_table <- list(
 
     with_connection({
       #'   returned as `POSIXct`
-      #'   with time zone support)
       tbl_in <- data.frame(id = 1:5)
-      tbl_in$a <- round(Sys.time()) + c(1, 60, 3600, 86400, NA)
-      tbl_in$b <- as.POSIXct(tbl_in$a, tz = "GMT")
-      tbl_in$c <- as.POSIXct(tbl_in$a, tz = "PST8PDT")
-      tbl_in$d <- as.POSIXct(tbl_in$a, tz = "UTC")
+      tbl_in$local <- round(Sys.time()) + c(1, 60, 3600, 86400, NA)
+      tbl_in$GMT <- lubridate::with_tz(tbl_in$local, tzone = "GMT")
+      tbl_in$PST8PDT <- lubridate::with_tz(tbl_in$local, tzone = "PST8PDT")
+      tbl_in$UTC <- lubridate::with_tz(tbl_in$local, tzone = "UTC")
 
-      test_table_roundtrip(con, tbl_in)
+      #'   respecting the time zone but not necessarily preserving the
+      #'   input time zone)
+      test_table_roundtrip(
+        con, tbl_in,
+        transform = function(out) {
+          dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
+          zoned <- dates & (names(out) != "local")
+          out[zoned] <- Map(lubridate::with_tz, out[zoned], names(out)[zoned])
+          out
+        }
+      )
     })
   },
 
