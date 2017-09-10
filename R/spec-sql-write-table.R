@@ -536,8 +536,8 @@ spec_sql_write_table <- list(
 
     with_connection({
       #'   returned as `POSIXct`
-      tbl_in <- data.frame(id = 1:5)
-      tbl_in$local <- round(Sys.time()) + c(1, 60, 3600, 86400, NA)
+      tbl_in <- data.frame(id = 1:4)
+      tbl_in$local <- round(Sys.time()) + c(1, 60, 3600, 86400)
       tbl_in$GMT <- lubridate::with_tz(tbl_in$local, tzone = "GMT")
       tbl_in$PST8PDT <- lubridate::with_tz(tbl_in$local, tzone = "PST8PDT")
       tbl_in$UTC <- lubridate::with_tz(tbl_in$local, tzone = "UTC")
@@ -744,11 +744,13 @@ test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transfo
 }
 
 add_na_above <- function(tbl) {
-  tbl <- rbind(tbl, tbl[nrow(tbl) + 1L, , drop = FALSE])
+  idx <- c(nrow(tbl) + 1L, seq_len(nrow(tbl)))
+  tbl <- tbl[idx, , drop = FALSE]
   unrowname(tbl)
 }
 
 add_na_below <- function(tbl) {
-  tbl <- rbind(tbl[nrow(tbl) + 1L, , drop = FALSE], tbl)
+  idx <- seq_len(nrow(tbl) + 1L)
+  tbl <- tbl[idx, , drop = FALSE]
   unrowname(tbl)
 }
