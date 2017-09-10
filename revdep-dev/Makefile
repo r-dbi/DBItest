@@ -27,7 +27,7 @@ safe-load-%:
 	Rscript --vanilla -e "devtools::load_all('$*')"
 
 # Necessary because of https://github.com/hadley/devtools/issues/1070
-load-%:
+load-%: %
 	make --quiet -j1 safe-load-$*
 
 test-%: install load-% %
