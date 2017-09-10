@@ -2,7 +2,7 @@ all: test
 
 TESTTHAT_REPORTER ?= 'check'
 
-REVDEP := RSQLite RKazam
+REVDEP := RMariaDB RSQLite RKazam
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
 
 LIB_DIR := $(shell Rscript -e "cat(.libPaths()[1])")
@@ -12,9 +12,9 @@ ${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION
 
 install: ${LIB_DIR}/DBItest/DESCRIPTION
 
-RKazam RSQLite RPostgres RMySQL:
+RKazam RSQLite RPostgres RMySQL RMariaDB:
 	# Use local checkout if available, otherwise clone from rstats-db GitHub
-	if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/rstats-db/$@.git; Rscript -e "devtools::install_deps('$@', dependencies = TRUE)"; fi
+	if [ -d ../../$@/$@-pkg ]; then ln -s $(realpath ../../$@/$@-pkg) $@; else if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/rstats-db/$@.git; Rscript -e "devtools::install_deps('$@', dependencies = TRUE)"; fi; fi
 
 bigrquery:
 	# Use local checkout if available, otherwise clone from GitHub

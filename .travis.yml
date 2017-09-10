@@ -7,6 +7,10 @@ cache: packages
 sudo: false
 dist: trusty
 
+env:
+  global:
+  - MAKEFLAGS="-j8"
+
 services:
   - MySQL
   - postgresql
