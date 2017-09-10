@@ -31,7 +31,7 @@ load-%:
 	make --quiet -j1 safe-load-$*
 
 test-%: install load-% %
-	Rscript --vanilla -e "options(crayon.enabled=TRUE, deparse.max.lines=2); devtools::test('$*', filter = 'DBItest', reporter = ${TESTTHAT_REPORTER})"
+	Rscript --vanilla -e "options(crayon.enabled=TRUE); devtools::test('$*', filter = 'DBItest', reporter = ${TESTTHAT_REPORTER})"
 
 clean:
 	rm -rf ${REVDEP}
