@@ -538,7 +538,7 @@ spec_sql_write_table <- list(
     with_connection({
       #'   returned as `POSIXct`
       tbl_in <- data.frame(id = 1:4)
-      tbl_in$local <- round(Sys.time()) + c(1, 60, 3600, 86400)
+      tbl_in$local <- lubridate::with_tz(round(Sys.time()) + c(1, 60, 3600, 86400), "")
       tbl_in$GMT <- lubridate::with_tz(tbl_in$local, tzone = "GMT")
       tbl_in$PST8PDT <- lubridate::with_tz(tbl_in$local, tzone = "PST8PDT")
       tbl_in$UTC <- lubridate::with_tz(tbl_in$local, tzone = "UTC")
