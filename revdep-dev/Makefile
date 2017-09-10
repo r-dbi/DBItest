@@ -3,11 +3,12 @@ all: test
 TESTTHAT_REPORTER ?= 'check'
 
 REVDEP := RMariaDB RSQLite RKazam
+LOAD_TARGETS := $(patsubst %,load-%,${REVDEP})
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
 
 LIB_DIR := $(shell Rscript -e "cat(.libPaths()[1])")
 
-${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION
+${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION ${LOAD_TARGETS}
 	R CMD INSTALL ..
 
 install: ${LIB_DIR}/DBItest/DESCRIPTION
