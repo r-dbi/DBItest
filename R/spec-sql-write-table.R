@@ -548,10 +548,10 @@ spec_sql_write_table <- list(
       test_table_roundtrip(
         con, tbl_in,
         transform = function(out) {
+          dput(out)
           dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
           zoned <- dates & (names(out) != "local")
           out[zoned] <- Map(lubridate::with_tz, out[zoned], names(out)[zoned])
-          dput(out)
           out
         }
       )
@@ -740,9 +740,7 @@ test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transfo
     dbWriteTable(con, name, tbl_in, field.types = field.types)
 
     tbl_out <- check_df(dbReadTable(con, name, check.names = FALSE))
-    dput(tbl_out)
     tbl_out <- transform(tbl_out)
-    dput(tbl_expected)
     expect_equal_df(tbl_out, tbl_expected)
   })
 }

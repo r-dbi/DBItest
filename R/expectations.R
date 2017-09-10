@@ -73,5 +73,9 @@ expect_equal_df <- function(actual, expected) {
   actual <- unrowname(actual[order_actual, ])
   expected <- unrowname(expected[order_expected, ])
 
+  if (!identical(actual, expected)) {
+    dput(actual)
+    dput(expected)
+  }
   expect_identical(actual, expected)
 }
