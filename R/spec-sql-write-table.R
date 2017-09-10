@@ -551,6 +551,7 @@ spec_sql_write_table <- list(
           dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
           zoned <- dates & (names(out) != "local")
           out[zoned] <- Map(lubridate::with_tz, out[zoned], names(out)[zoned])
+          dput(out)
           out
         }
       )
