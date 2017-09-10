@@ -391,6 +391,7 @@ spec_sql_write_table <- list(
   roundtrip_character = function(ctx) {
     with_connection({
       tbl_in <- data.frame(
+        id = seq_along(texts),
         a = c(texts),
         stringsAsFactors = FALSE
       )
