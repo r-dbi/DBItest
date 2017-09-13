@@ -12,7 +12,7 @@ spec_meta_get_statement <- list(
   #' `dbGetStatement()` returns a string, the query used in
   get_statement_query = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a"
+      query <- trivial_query()
       with_result(
         #' either [dbSendQuery()]
         dbSendQuery(con, query),
@@ -48,7 +48,7 @@ spec_meta_get_statement <- list(
 
   get_statement_error = function(ctx) {
     with_connection({
-      res <- dbSendQuery(con, "SELECT 1")
+      res <- dbSendQuery(con, trivial_query())
       dbClearResult(res)
       #' Attempting to query the statement for a result set cleared with
       #' [dbClearResult()] gives an error.

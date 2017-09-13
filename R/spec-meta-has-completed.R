@@ -14,7 +14,7 @@ spec_meta_has_completed <- list(
     with_connection({
       #' For a query initiated by [dbSendQuery()] with non-empty result set,
       with_result(
-        dbSendQuery(con, "SELECT 1"),
+        dbSendQuery(con, trivial_query()),
         {
           #' `dbHasCompleted()` returns `FALSE` initially
           expect_false(expect_visible(dbHasCompleted(res)))
@@ -45,7 +45,7 @@ spec_meta_has_completed <- list(
 
   has_completed_error = function(ctx) {
     with_connection({
-      res <- dbSendQuery(con, "SELECT 1")
+      res <- dbSendQuery(con, trivial_query())
       dbClearResult(res)
       #' Attempting to query completion status for a result set cleared with
       #' [dbClearResult()] gives an error.
@@ -71,7 +71,7 @@ spec_meta_has_completed <- list(
 
       #' Similarly, for a query with a result set of length n,
       with_result(
-        dbSendQuery(con, "SELECT 1"),
+        dbSendQuery(con, trivial_query()),
         {
           #' the return value is unspecified after fetching n rows,
           check_df(dbFetch(res, 1))

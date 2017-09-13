@@ -12,7 +12,7 @@ spec_result_send_query <- list(
   #' `dbSendQuery()` returns
   send_query_trivial = function(ctx) {
     with_connection({
-      res <- expect_visible(dbSendQuery(con, "SELECT 1"))
+      res <- expect_visible(dbSendQuery(con, trivial_query()))
       #' an S4 object that inherits from [DBIResult-class].
       expect_s4_class(res, "DBIResult")
       #' The result set can be used with [dbFetch()] to extract records.
@@ -26,14 +26,14 @@ spec_result_send_query <- list(
   #' An error is raised when issuing a query over a closed
   send_query_closed_connection = function(ctx) {
     with_closed_connection({
-      expect_error(dbSendQuery(con, "SELECT 1"))
+      expect_error(dbSendQuery(con, trivial_query()))
     })
   },
 
   #' or invalid connection,
   send_query_invalid_connection = function(ctx) {
     with_invalid_connection({
-      expect_error(dbSendQuery(con, "SELECT 1"))
+      expect_error(dbSendQuery(con, trivial_query()))
     })
   },
 
@@ -57,7 +57,7 @@ spec_result_send_query <- list(
   send_query_result_valid = function(ctx) {
     with_connection({
       #' No warnings occur under normal conditions.
-      expect_warning(res <- dbSendQuery(con, "SELECT 1"), NA)
+      expect_warning(res <- dbSendQuery(con, trivial_query()), NA)
       #' When done, the DBIResult object must be cleared with a call to
       #' [dbClearResult()].
       dbClearResult(res)
@@ -69,7 +69,7 @@ spec_result_send_query <- list(
     #' when the connection is closed.
     expect_warning(
       with_connection({
-        dbSendQuery(con, "SELECT 1")
+        dbSendQuery(con, trivial_query())
       })
     )
   },
@@ -78,7 +78,7 @@ spec_result_send_query <- list(
   #' If the backend supports only one open result set per connection,
   send_query_only_one_result_set = function(ctx) {
     with_connection({
-      res1 <- dbSendQuery(con, "SELECT 1")
+      res1 <- dbSendQuery(con, trivial_query())
       #' issuing a second query invalidates an already open result set
       #' and raises a warning.
       expect_warning(res2 <- dbSendQuery(con, "SELECT 2"))

@@ -74,7 +74,7 @@ spec_result_send_statement <- list(
     #' when the connection is closed.
     expect_warning(
       with_connection({
-        expect_warning(dbSendStatement(con, "SELECT 1"), NA)
+        expect_warning(dbSendStatement(con, trivial_query()), NA)
       })
     )
   },

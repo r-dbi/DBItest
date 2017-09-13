@@ -15,7 +15,7 @@ spec_result_get_query <- list(
   #' even if the result is a single value
   get_query_atomic = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a"
+      query <- trivial_query()
 
       rows <- check_df(dbGetQuery(con, query))
       expect_identical(rows, data.frame(a=1L))
@@ -49,14 +49,14 @@ spec_result_get_query <- list(
   #' An error is raised when issuing a query over a closed
   get_query_closed_connection = function(ctx) {
     with_closed_connection({
-      expect_error(dbGetQuery(con, "SELECT 1"))
+      expect_error(dbGetQuery(con, trivial_query()))
     })
   },
 
   #' or invalid connection,
   get_query_invalid_connection = function(ctx) {
     with_invalid_connection({
-      expect_error(dbGetQuery(con, "SELECT 1"))
+      expect_error(dbGetQuery(con, trivial_query()))
     })
   },
 
@@ -80,7 +80,7 @@ spec_result_get_query <- list(
   #' greater or equal to -1 or Inf, an error is raised,
   get_query_n_bad = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a"
+      query <- trivial_query()
       expect_error(dbGetQuery(con, query, n = -2))
       expect_error(dbGetQuery(con, query, n = 1.5))
       expect_error(dbGetQuery(con, query, n = integer()))
@@ -92,7 +92,7 @@ spec_result_get_query <- list(
   #' but a subsequent call to `dbGetQuery()` with proper `n` argument succeeds.
   get_query_good_after_bad_n = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a"
+      query <- trivial_query()
       expect_error(dbGetQuery(con, query, n = NA_integer_))
       rows <- check_df(dbGetQuery(con, query))
       expect_identical(rows, data.frame(a = 1L))

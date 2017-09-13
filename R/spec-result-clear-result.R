@@ -13,7 +13,7 @@ spec_result_clear_result <- list(
   #' both `dbSendQuery()`
   clear_result_return_query = function(ctx) {
     with_connection({
-      res <- dbSendQuery(con, "SELECT 1")
+      res <- dbSendQuery(con, trivial_query())
       expect_invisible_true(dbClearResult(res))
     })
   },
@@ -33,7 +33,7 @@ spec_result_clear_result <- list(
   #' An attempt to close an already closed result set issues a warning
   cannot_clear_result_twice_query = function(ctx) {
     with_connection({
-      res <- dbSendQuery(con, "SELECT 1")
+      res <- dbSendQuery(con, trivial_query())
       dbClearResult(res)
       expect_warning(expect_invisible_true(dbClearResult(res)))
     })

@@ -39,7 +39,7 @@ spec_meta_get_rows_affected <- list(
 
   rows_affected_query = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a"
+      query <- trivial_query()
       with_result(
         #' For queries issued with [dbSendQuery()],
         dbSendQuery(con, query),

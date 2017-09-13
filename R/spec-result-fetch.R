@@ -15,7 +15,7 @@ spec_result_fetch <- list(
   #' even if the result is a single value
   fetch_atomic = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a"
+      query <- trivial_query()
       with_result(
         dbSendQuery(con, query),
         {
@@ -58,7 +58,7 @@ spec_result_fetch <- list(
   #' An attempt to fetch from a closed result set raises an error.
   fetch_closed = function(ctx) {
     with_connection({
-      query <- "SELECT 1"
+      query <- trivial_query()
 
       res <- dbSendQuery(con, query)
       dbClearResult(res)
@@ -71,7 +71,7 @@ spec_result_fetch <- list(
   #' greater or equal to -1 or Inf, an error is raised,
   fetch_n_bad = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a"
+      query <- trivial_query()
       with_result(
         dbSendQuery(con, query),
         {
@@ -88,7 +88,7 @@ spec_result_fetch <- list(
   #' but a subsequent call to `dbFetch()` with proper `n` argument succeeds.
   fetch_n_good_after_bad = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a"
+      query <- trivial_query()
       with_result(
         dbSendQuery(con, query),
         {

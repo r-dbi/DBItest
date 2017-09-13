@@ -22,3 +22,7 @@ union <- function(..., .order_by = NULL, .ctx) {
   }
   query
 }
+
+trivial_query <- function() {
+  "SELECT 1 AS a"
+}

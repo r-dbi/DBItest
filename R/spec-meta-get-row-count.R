@@ -13,7 +13,7 @@ spec_meta_get_row_count <- list(
   #' the number of rows fetched so far.
   row_count_query = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a"
+      query <- trivial_query()
       with_result(
         #' After calling [dbSendQuery()],
         dbSendQuery(con, query),
@@ -31,7 +31,7 @@ spec_meta_get_row_count <- list(
     })
 
     with_connection({
-      query <- union(.ctx = ctx, "SELECT 1 as a", "SELECT 2", "SELECT 3")
+      query <- union(.ctx = ctx, trivial_query(), "SELECT 2", "SELECT 3")
       with_result(
         dbSendQuery(con, query),
         {
@@ -96,7 +96,7 @@ spec_meta_get_row_count <- list(
 
   get_row_count_error = function(ctx) {
     with_connection({
-      res <- dbSendQuery(con, "SELECT 1")
+      res <- dbSendQuery(con, trivial_query())
       dbClearResult(res)
       #' Attempting to get the row count for a result set cleared with
       #' [dbClearResult()] gives an error.
