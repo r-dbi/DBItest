@@ -66,15 +66,15 @@ spec_sql_quote_identifier <- list(
       simple <- dbQuoteIdentifier(con, "simple")
 
       #' in particular in queries like `SELECT 1 AS ...`
-      query <- paste0("SELECT 1 AS", simple)
+      query <- trivial_query(column = simple)
       rows <- check_df(dbGetQuery(con, query))
       expect_identical(names(rows), "simple")
-      expect_identical(unlist(unname(rows)), 1L)
+      expect_identical(unlist(unname(rows)), 1.5)
 
       #' and `SELECT * FROM (SELECT 1) ...`.
-      query <- paste0("SELECT * FROM (SELECT 1) ", simple)
+      query <- paste0("SELECT * FROM (", trivial_query(), ") ", simple)
       rows <- check_df(dbGetQuery(con, query))
-      expect_identical(unlist(unname(rows)), 1L)
+      expect_identical(unlist(unname(rows)), 1.5)
     })
   },
 

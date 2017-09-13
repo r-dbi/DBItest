@@ -18,7 +18,7 @@ spec_result_get_query <- list(
       query <- trivial_query()
 
       rows <- check_df(dbGetQuery(con, query))
-      expect_identical(rows, data.frame(a=1L))
+      expect_equal(rows, data.frame(a = 1.5))
     })
   },
 
@@ -95,7 +95,7 @@ spec_result_get_query <- list(
       query <- trivial_query()
       expect_error(dbGetQuery(con, query, n = NA_integer_))
       rows <- check_df(dbGetQuery(con, query))
-      expect_identical(rows, data.frame(a = 1L))
+      expect_equal(rows, data.frame(a = 1.5))
     })
   },
 

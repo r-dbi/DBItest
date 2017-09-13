@@ -28,5 +28,5 @@ trivial_statement <- function(table_name = "test") {
 }
 
 trivial_query <- function() {
-  "SELECT 1 AS a"
+  "SELECT 1.5 AS a"
 }

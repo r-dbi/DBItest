@@ -20,7 +20,7 @@ spec_result_fetch <- list(
         dbSendQuery(con, query),
         {
           rows <- check_df(dbFetch(res))
-          expect_identical(rows, data.frame(a = 1L))
+          expect_equal(rows, data.frame(a = 1.5))
         }
       )
     })
@@ -94,7 +94,7 @@ spec_result_fetch <- list(
         {
           expect_error(dbFetch(res, NA_integer_))
           rows <- check_df(dbFetch(res))
-          expect_identical(rows, data.frame(a = 1L))
+          expect_equal(rows, data.frame(a = 1.5))
         }
       )
     })
