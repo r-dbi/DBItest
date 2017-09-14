@@ -25,10 +25,11 @@ spec_result_get_query <- list(
   #' or has one
   get_query_one_row = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a, 2 as b, 3 as c"
+      query <- trivial_query(3, letters[1:3])
+      result <- trivial_df(3, letters[1:3])
 
       rows <- check_df(dbGetQuery(con, query))
-      expect_identical(rows, data.frame(a=1L, b=2L, c=3L))
+      expect_identical(rows, result)
     })
   },
 
@@ -113,11 +114,11 @@ spec_result_get_query <- list(
   #' Fetching multi-row queries with one
   get_query_multi_row_single_column = function(ctx) {
     with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+      query <- trivial_query(3, .ctx = ctx, .order_by = "a")
+      result <- trivial_df(3)
 
       rows <- check_df(dbGetQuery(con, query))
-      expect_identical(rows, data.frame(a = 1:3))
+      expect_identical(rows, result)
     })
   },
 
@@ -125,10 +126,10 @@ spec_result_get_query <- list(
   get_query_multi_row_multi_column = function(ctx) {
     with_connection({
       query <- union(
-        .ctx = ctx, paste("SELECT", 1:5, "AS a,", 4:0, "AS b"), .order_by = "a")
+        .ctx = ctx, paste("SELECT", 1:5 + 0.5, "AS a,", 4:0 + 0.5, "AS b"), .order_by = "a")
 
       rows <- check_df(dbGetQuery(con, query))
-      expect_identical(rows, data.frame(a = 1:5, b = 4:0))
+      expect_identical(rows, data.frame(a = 1:5 + 0.5, b = 4:0 + 0.5))
     })
   },
 
@@ -136,11 +137,11 @@ spec_result_get_query <- list(
   #' and also returns the full result.
   get_query_n_multi_row_inf = function(ctx) {
     with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+      query <- trivial_query(3, .ctx = ctx, .order_by = "a")
+      result <- trivial_df(3)
 
       rows <- check_df(dbGetQuery(con, query, n = Inf))
-      expect_identical(rows, data.frame(a = 1:3))
+      expect_identical(rows, result)
     })
   },
 
@@ -148,11 +149,11 @@ spec_result_get_query <- list(
   #' without warning.
   get_query_n_more_rows = function(ctx) {
     with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+      query <- trivial_query(3, .ctx = ctx, .order_by = "a")
+      result <- trivial_df(3)
 
       rows <- check_df(dbGetQuery(con, query, n = 5L))
-      expect_identical(rows, data.frame(a = 1:3))
+      expect_identical(rows, result)
     })
   },
 
@@ -160,11 +161,11 @@ spec_result_get_query <- list(
   #' typed.
   get_query_n_zero_rows = function(ctx) {
     with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+      query <- trivial_query(3, .ctx = ctx, .order_by = "a")
+      result <- trivial_df(0)
 
       rows <- check_df(dbGetQuery(con, query, n = 0L))
-      expect_identical(rows, data.frame(a=integer()))
+      expect_identical(rows, result)
     })
   },
 
@@ -172,11 +173,11 @@ spec_result_get_query <- list(
   #' no warning is issued.
   get_query_n_incomplete = function(ctx) {
     with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+      query <- trivial_query(3, .ctx = ctx, .order_by = "a")
+      result <- trivial_df(2)
 
       rows <- check_df(dbGetQuery(con, query, n = 2L))
-      expect_identical(rows, data.frame(a = 1:2))
+      expect_identical(rows, result)
     })
   },
 
@@ -184,10 +185,11 @@ spec_result_get_query <- list(
   #' A column named `row_names` is treated like any other column.
   get_query_row_names = function(ctx) {
     with_connection({
-      query <- "SELECT 1 AS row_names"
+      query <- trivial_query(column = "row_names")
+      result <- trivial_df(column = "row_names")
 
       rows <- check_df(dbGetQuery(con, query))
-      expect_identical(rows, data.frame(row_names = 1L))
+      expect_identical(rows, result)
       expect_identical(.row_names_info(rows), -1L)
     })
   },

@@ -29,12 +29,13 @@ spec_result_fetch <- list(
   #' or has one
   fetch_one_row = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a, 2 as b, 3 as c"
+      query <- trivial_query(3, letters[1:3])
+      result <- trivial_df(3, letters[1:3])
       with_result(
         dbSendQuery(con, query),
         {
           rows <- check_df(dbFetch(res))
-          expect_identical(rows, data.frame(a = 1L, b = 2L, c = 3L))
+          expect_identical(rows, result)
         }
       )
     })
@@ -123,14 +124,14 @@ spec_result_fetch <- list(
   #' Fetching multi-row queries with one
   fetch_multi_row_single_column = function(ctx) {
     with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+      query <- trivial_query(3, .ctx = ctx, .order_by = "a")
+      result <- trivial_df(3)
 
       with_result(
         dbSendQuery(con, query),
         {
           rows <- check_df(dbFetch(res))
-          expect_identical(rows, data.frame(a = 1:3))
+          expect_identical(rows, result)
         }
       )
     })
@@ -140,13 +141,13 @@ spec_result_fetch <- list(
   fetch_multi_row_multi_column = function(ctx) {
     with_connection({
       query <- union(
-        .ctx = ctx, paste("SELECT", 1:5, "AS a,", 4:0, "AS b"), .order_by = "a")
+        .ctx = ctx, paste("SELECT", 1:5 + 0.5, "AS a,", 4:0 + 0.5, "AS b"), .order_by = "a")
 
       with_result(
         dbSendQuery(con, query),
         {
           rows <- check_df(dbFetch(res))
-          expect_identical(rows, data.frame(a = 1:5, b = 4:0))
+          expect_identical(rows, data.frame(a = 1:5 + 0.5, b = 4:0 + 0.5))
         }
       )
     })
@@ -155,23 +156,23 @@ spec_result_fetch <- list(
   #' Multi-row queries can also be fetched progressively
   fetch_n_progressive = function(ctx) {
     with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:25, "AS a"), .order_by = "a")
+      query <- trivial_query(25, .ctx = ctx, .order_by = "a")
+      result <- trivial_df(25)
 
       with_result(
         dbSendQuery(con, query),
         {
           #' by passing a whole number ([integer]
           rows <- check_df(dbFetch(res, 10L))
-          expect_identical(rows, data.frame(a = 1L:10L))
+          expect_identical(rows, unrowname(result[1:10, , drop = FALSE]))
 
           #' or [numeric])
           rows <- check_df(dbFetch(res, 10))
-          expect_identical(rows, data.frame(a = 11L:20L))
+          expect_identical(rows, unrowname(result[11:20, , drop = FALSE]))
 
           #' as the `n` argument.
           rows <- check_df(dbFetch(res, n = 5))
-          expect_identical(rows, data.frame(a = 21L:25L))
+          expect_identical(rows, unrowname(result[21:25, , drop = FALSE]))
         }
       )
     })
@@ -181,14 +182,14 @@ spec_result_fetch <- list(
   #' and also returns the full result.
   fetch_n_multi_row_inf = function(ctx) {
     with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+      query <- trivial_query(3, .ctx = ctx, .order_by = "a")
+      result <- trivial_df(3)
 
       with_result(
         dbSendQuery(con, query),
         {
           rows <- check_df(dbFetch(res, n = Inf))
-          expect_identical(rows, data.frame(a = 1:3))
+          expect_identical(rows, result)
         }
       )
     })
@@ -198,18 +199,18 @@ spec_result_fetch <- list(
   #' without warning.
   fetch_n_more_rows = function(ctx) {
     with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+      query <- trivial_query(3, .ctx = ctx, .order_by = "a")
+      result <- trivial_df(3)
 
       with_result(
         dbSendQuery(con, query),
         {
           rows <- check_df(dbFetch(res, 5L))
-          expect_identical(rows, data.frame(a = 1:3))
+          expect_identical(rows, result)
           #' If fewer rows than requested are returned, further fetches will
           #' return a data frame with zero rows.
           rows <- check_df(dbFetch(res))
-          expect_identical(rows, data.frame(a = integer()))
+          expect_identical(rows, result[0, , drop = FALSE])
         }
       )
     })
@@ -219,14 +220,14 @@ spec_result_fetch <- list(
   #' typed.
   fetch_n_zero_rows = function(ctx) {
     with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+      query <- trivial_query(3, .ctx = ctx, .order_by = "a")
+      result <- trivial_df(0)
 
       with_result(
         dbSendQuery(con, query),
         {
           rows <- check_df(dbFetch(res, 0L))
-          expect_identical(rows, data.frame(a = integer()))
+          expect_identical(rows, result)
         }
       )
     })
@@ -236,14 +237,14 @@ spec_result_fetch <- list(
   #' no warning is issued when clearing the result set.
   fetch_n_premature_close = function(ctx) {
     with_connection({
-      query <- union(
-        .ctx = ctx, paste("SELECT", 1:3, "AS a"), .order_by = "a")
+      query <- trivial_query(3, .ctx = ctx, .order_by = "a")
+      result <- trivial_df(2)
 
       with_result(
         dbSendQuery(con, query),
         {
           rows <- check_df(dbFetch(res, 2L))
-          expect_identical(rows, data.frame(a = 1:2))
+          expect_identical(rows, result)
         }
       )
     })
@@ -253,13 +254,14 @@ spec_result_fetch <- list(
   #' A column named `row_names` is treated like any other column.
   fetch_row_names = function(ctx) {
     with_connection({
-      query <- "SELECT 1 AS row_names"
+      query <- trivial_query(column = "row_names")
+      result <- trivial_df(column = "row_names")
 
       with_result(
         dbSendQuery(con, query),
         {
           rows <- check_df(dbFetch(res))
-          expect_identical(rows, data.frame(row_names = 1L))
+          expect_identical(rows, result)
           expect_identical(.row_names_info(rows), -1L)
         }
       )
