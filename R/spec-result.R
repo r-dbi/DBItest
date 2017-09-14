@@ -27,6 +27,6 @@ trivial_statement <- function(table_name = "test") {
   paste0("CREATE TABLE ", table_name, " AS ", trivial_query())
 }
 
-trivial_query <- function() {
-  "SELECT 1.5 AS a"
+trivial_query <- function(column = "a") {
+  paste0("SELECT 1.5 AS ", column)
 }
