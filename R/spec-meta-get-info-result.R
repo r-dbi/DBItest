@@ -7,7 +7,7 @@ spec_meta_get_info_result <- list(
   get_info_result = function(ctx) {
     with_connection({
       with_result(
-        dbSendQuery(con, "SELECT 1 as a"),
+        dbSendQuery(con, trivial_query()),
         info <- dbGetInfo(res)
       )
       expect_is(info, "list")

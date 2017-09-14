@@ -13,7 +13,7 @@ spec_result_send_statement <- list(
   send_statement_trivial = function(ctx) {
     with_connection({
       with_remove_test_table({
-        res <- expect_visible(dbSendStatement(con, "CREATE TABLE test AS SELECT 1 AS a"))
+        res <- expect_visible(dbSendStatement(con, trivial_statement()))
         #' an S4 object that inherits from [DBIResult-class].
         expect_s4_class(res, "DBIResult")
         #' The result set can be used with [dbGetRowsAffected()] to
@@ -29,14 +29,14 @@ spec_result_send_statement <- list(
   #' An error is raised when issuing a statement over a closed
   send_statement_closed_connection = function(ctx) {
     with_closed_connection({
-      expect_error(dbSendStatement(con, "CREATE TABLE test AS SELECT 1 AS a"))
+      expect_error(dbSendStatement(con, trivial_statement()))
     })
   },
 
   #' or invalid connection,
   send_statement_invalid_connection = function(ctx) {
     with_invalid_connection({
-      expect_error(dbSendStatement(con, "CREATE TABLE test AS SELECT 1 AS a"))
+      expect_error(dbSendStatement(con, trivial_statement()))
     })
   },
 
@@ -61,7 +61,7 @@ spec_result_send_statement <- list(
     with_connection({
       with_remove_test_table({
         #' No warnings occur under normal conditions.
-        expect_warning(res <- dbSendStatement(con, "CREATE TABLE test AS SELECT 1 AS a"), NA)
+        expect_warning(res <- dbSendStatement(con, trivial_statement()), NA)
         #' When done, the DBIResult object must be cleared with a call to
         #' [dbClearResult()].
         dbClearResult(res)
@@ -74,7 +74,7 @@ spec_result_send_statement <- list(
     #' when the connection is closed.
     expect_warning(
       with_connection({
-        expect_warning(dbSendStatement(con, "SELECT 1"), NA)
+        expect_warning(dbSendStatement(con, trivial_query()), NA)
       })
     )
   },
@@ -83,7 +83,7 @@ spec_result_send_statement <- list(
   send_statement_only_one_result_set = function(ctx) {
     with_connection({
       with_remove_test_table({
-        res1 <- dbSendStatement(con, "CREATE TABLE test AS SELECT 1 AS a")
+        res1 <- dbSendStatement(con, trivial_statement())
         with_remove_test_table(name = "test2", {
           #' issuing a second query invalidates an already open result set
           #' and raises a warning.

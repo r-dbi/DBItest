@@ -35,7 +35,7 @@ spec_meta_bind <- list(
     with_connection({
       with_result(
         #' Calling `dbBind()` for a query without parameters
-        dbSendQuery(con, "SELECT 1"),
+        dbSendQuery(con, trivial_query()),
         #' raises an error.
         expect_error(dbBind(res, list()))
       )

@@ -22,3 +22,37 @@ union <- function(..., .order_by = NULL, .ctx) {
   }
   query
 }
+
+trivial_statement <- function(table_name = "test") {
+  paste0("CREATE TABLE ", table_name, " AS ", trivial_query())
+}
+
+trivial_query <- function(n = 1L, column = "a", .order_by = NULL, .ctx = NULL) {
+  value <- trivial_values(n)
+  if (length(column) == n) {
+    query <- paste0("SELECT ", paste0(value, " AS ", column, collapse = ", "))
+  } else {
+    query <- union(
+      paste0("SELECT ", value, " AS ", column),
+      .order_by = .order_by,
+      .ctx = .ctx
+    )
+  }
+
+  query
+}
+
+trivial_values <- function(n = 1L) {
+  seq_len(n) + 0.5
+}
+
+trivial_df <- function(n = 1L, column = "a") {
+  values <- trivial_values(n)
+  if (length(column) == 1) {
+    df <- data.frame(a = values)
+  } else {
+    df <- as.data.frame(as.list(values))
+  }
+  names(df) <- column
+  df
+}

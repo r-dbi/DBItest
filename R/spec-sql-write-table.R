@@ -537,9 +537,9 @@ spec_sql_write_table <- list(
 
     with_connection({
       #'   returned as `POSIXct`
-      tbl_in <- data.frame(id = 1:4)
-      local <- round(Sys.time()) + c(1, 60, 3600, 86400)
+      local <- round(Sys.time()) + c(1, 60, 3600, 86400, 1e9, 5e9)
       attr(local, "tzone") <- NULL
+      tbl_in <- data.frame(id = seq_along(local))
       tbl_in$local <- local
       tbl_in$GMT <- lubridate::with_tz(local, tzone = "GMT")
       tbl_in$PST8PDT <- lubridate::with_tz(local, tzone = "PST8PDT")

@@ -31,7 +31,7 @@ spec_meta_is_valid <- list(
 
   is_valid_result_query = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a"
+      query <- trivial_query()
       res <- dbSendQuery(con, query)
       #' A [DBIResult-class] object is valid after a call to [dbSendQuery()],
       expect_true(expect_visible(dbIsValid(res)))

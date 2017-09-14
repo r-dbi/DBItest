@@ -13,7 +13,7 @@ spec_result_execute <- list(
   execute_atomic = function(ctx) {
     with_connection({
       with_remove_test_table({
-        query <- "CREATE TABLE test AS SELECT 1 AS a"
+        query <- trivial_statement()
 
         ret <- dbExecute(con, query)
         #' scalar
@@ -29,14 +29,14 @@ spec_result_execute <- list(
   #' An error is raised when issuing a statement over a closed
   execute_closed_connection = function(ctx) {
     with_closed_connection({
-      expect_error(dbExecute(con, "CREATE TABLE test AS SELECT 1 AS a"))
+      expect_error(dbExecute(con, trivial_statement()))
     })
   },
 
   #' or invalid connection,
   execute_invalid_connection = function(ctx) {
     with_invalid_connection({
-      expect_error(dbExecute(con, "CREATE TABLE test AS SELECT 1 AS a"))
+      expect_error(dbExecute(con, trivial_statement()))
     })
   },
 
