@@ -1,3 +1,9 @@
+## DBItest 1.5-16 (2017-09-15)
+
+- New `trivial_query()` replaces many hard-coded queries and uses non-integer values for better compatibility with RMariaDB.
+- Fix timestamp tests for RMariaDB.
+
+
 ## DBItest 1.5-15 (2017-09-09)
 
 - New `list_temporary_tables` tweak that can be enabled independently of `temporary_tables` to indicate that the DBMS does not support listing temporary tables.

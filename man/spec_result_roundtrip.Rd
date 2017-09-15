@@ -11,7 +11,7 @@ spec_result_roundtrip
 
 The column types of the returned data frame depend on the data returned:
 \itemize{
-\item \link{integer} for integer values between -2^31 and 2^31 - 1
+\item \link{integer} (or coercible to an integer) for integer values between -2^31 and 2^31 - 1
 \item \link{numeric} for numbers with a fractional component
 \item \link{logical} for Boolean values (some backends may return an integer)
 \item \link{character} for text
