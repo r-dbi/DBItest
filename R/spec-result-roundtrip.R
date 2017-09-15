@@ -5,10 +5,10 @@
 spec_result_roundtrip <- list(
   #' @section Specification:
   #' The column types of the returned data frame depend on the data returned:
-  #' - [integer] for integer values between -2^31 and 2^31 - 1
+  #' - [integer] (or coercible to an integer) for integer values between -2^31 and 2^31 - 1
   data_integer = function(ctx) {
     with_connection({
-      test_select_with_null(.ctx = ctx, con, 1L, -100L)
+      test_select_with_null(.ctx = ctx, con, 1L ~ equals_one, -100L ~ equals_minus_100)
     })
   },
 
@@ -316,6 +316,14 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
   } else {
     expect_equal(nrow(rows), 1L)
   }
+}
+
+equals_one <- function(x) {
+  identical(as.integer(x), 1L) && identical(as.numeric(x), 1)
+}
+
+equals_minus_100 <- function(x) {
+  identical(as.integer(x), -100L) && identical(as.numeric(x), -100)
 }
 
 all_have_utf8_or_ascii_encoding <- function(x) {

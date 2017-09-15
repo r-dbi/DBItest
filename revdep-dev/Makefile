@@ -2,19 +2,20 @@ all: test
 
 TESTTHAT_REPORTER ?= 'check'
 
-REVDEP := RSQLite RKazam
+REVDEP := RMariaDB RSQLite RKazam
+LOAD_TARGETS := $(patsubst %,load-%,${REVDEP})
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
 
 LIB_DIR := $(shell Rscript -e "cat(.libPaths()[1])")
 
-${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION
+${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION ${LOAD_TARGETS}
 	R CMD INSTALL ..
 
 install: ${LIB_DIR}/DBItest/DESCRIPTION
 
-RKazam RSQLite RPostgres RMySQL:
+RKazam RSQLite RPostgres RMySQL RMariaDB:
 	# Use local checkout if available, otherwise clone from rstats-db GitHub
-	if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/rstats-db/$@.git; Rscript -e "devtools::install_deps('$@', dependencies = TRUE)"; fi
+	if [ -d ../../$@/$@-pkg ]; then ln -s $(realpath ../../$@/$@-pkg) $@; else if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/rstats-db/$@.git; Rscript -e "devtools::install_deps('$@', dependencies = TRUE)"; fi; fi
 
 bigrquery:
 	# Use local checkout if available, otherwise clone from GitHub
@@ -26,11 +27,11 @@ safe-load-%:
 	Rscript --vanilla -e "devtools::load_all('$*')"
 
 # Necessary because of https://github.com/hadley/devtools/issues/1070
-load-%:
+load-%: %
 	make --quiet -j1 safe-load-$*
 
 test-%: install load-% %
-	Rscript --vanilla -e "options(crayon.enabled=TRUE, deparse.max.lines=2); devtools::test('$*', filter = 'DBItest', reporter = ${TESTTHAT_REPORTER})"
+	Rscript --vanilla -e "options(crayon.enabled=TRUE); devtools::test('$*', filter = 'DBItest', reporter = ${TESTTHAT_REPORTER})"
 
 clean:
 	rm -rf ${REVDEP}

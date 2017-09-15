@@ -66,15 +66,15 @@ spec_sql_quote_identifier <- list(
       simple <- dbQuoteIdentifier(con, "simple")
 
       #' in particular in queries like `SELECT 1 AS ...`
-      query <- paste0("SELECT 1 AS", simple)
+      query <- trivial_query(column = simple)
       rows <- check_df(dbGetQuery(con, query))
       expect_identical(names(rows), "simple")
-      expect_identical(unlist(unname(rows)), 1L)
+      expect_identical(unlist(unname(rows)), 1.5)
 
       #' and `SELECT * FROM (SELECT 1) ...`.
-      query <- paste0("SELECT * FROM (SELECT 1) ", simple)
+      query <- paste0("SELECT * FROM (", trivial_query(), ") ", simple)
       rows <- check_df(dbGetQuery(con, query))
-      expect_identical(unlist(unname(rows)), 1L)
+      expect_identical(unlist(unname(rows)), 1.5)
     })
   },
 
@@ -127,15 +127,15 @@ spec_sql_quote_identifier <- list(
       #' should be performed only when executing a query,
       #' and not by `dbQuoteIdentifier()`.
       query <- paste0("SELECT ",
-                      "2 as", with_space, ",",
-                      "3 as", with_dot, ",",
-                      "4 as", with_comma, ",",
-                      "5 as", with_quote, ",",
-                      "6 as", quoted_empty, ",",
-                      "7 as", quoted_with_space, ",",
-                      "8 as", quoted_with_dot, ",",
-                      "9 as", quoted_with_comma, ",",
-                      "10 as", quoted_with_quote)
+                      "2.5 as", with_space, ",",
+                      "3.5 as", with_dot, ",",
+                      "4.5 as", with_comma, ",",
+                      "5.5 as", with_quote, ",",
+                      "6.5 as", quoted_empty, ",",
+                      "7.5 as", quoted_with_space, ",",
+                      "8.5 as", quoted_with_dot, ",",
+                      "9.5 as", quoted_with_comma, ",",
+                      "10.5 as", quoted_with_quote)
 
       rows <- check_df(dbGetQuery(con, query))
       expect_identical(names(rows),
@@ -144,7 +144,7 @@ spec_sql_quote_identifier <- list(
                          as.character(empty), as.character(with_space),
                          as.character(with_dot), as.character(with_comma),
                          as.character(with_quote)))
-      expect_identical(unlist(unname(rows)), 2:10)
+      expect_identical(unlist(unname(rows)), 2:10 + 0.5)
     })
   },
 
