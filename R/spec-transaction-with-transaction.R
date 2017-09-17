@@ -49,18 +49,17 @@ spec_transaction_with_transaction <- list(
   with_transaction_success = function(ctx) {
     with_connection({
       with_remove_test_table({
-        expect_false(dbExistsTable(con, "test"))
+        dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
 
         dbWithTransaction(
           con,
           {
-            dbExecute(con, paste0("CREATE TABLE test (a ", dbDataType(con, 0L), ")"))
-            dbExecute(con, paste0("INSERT INTO test (a) VALUES (1)"))
-            expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 1))
+            dbWriteTable(con, "test", data.frame(a = 1L), append = TRUE)
+            expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0:1))
           }
         )
 
-        expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 1))
+        expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0:1))
       })
     })
   },
@@ -72,14 +71,13 @@ spec_transaction_with_transaction <- list(
 
     with_connection({
       with_remove_test_table({
-        expect_false(dbExistsTable(con, "test"))
+        dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
 
         expect_error(
           dbWithTransaction(
             con,
             {
-              dbExecute(con, paste0("CREATE TABLE test (a ", dbDataType(con, 0L), ")"))
-              dbExecute(con, paste0("INSERT INTO test (a) VALUES (1)"))
+              dbWriteTable(con, "test", data.frame(a = 1L), append = TRUE)
               stop(name)
             }
           ),
@@ -87,7 +85,7 @@ spec_transaction_with_transaction <- list(
           fixed = TRUE
         )
 
-        expect_false(dbExistsTable(con, "test"))
+        expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0L))
       })
     })
   },
@@ -99,21 +97,20 @@ spec_transaction_with_transaction <- list(
 
     with_connection({
       with_remove_test_table({
-        expect_false(dbExistsTable(con, "test"))
+        dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
 
         expect_error(
           dbWithTransaction(
             con,
             {
-              dbExecute(con, paste0("CREATE TABLE test (a ", dbDataType(con, 0L), ")"))
-              dbExecute(con, paste0("INSERT INTO test (a) VALUES (1)"))
+              dbWriteTable(con, "test", data.frame(a = 1L), append = TRUE)
               dbBreak()
             }
           ),
           NA
         )
 
-        expect_false(dbExistsTable(con, "test"))
+        expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0L))
       })
     })
   },
