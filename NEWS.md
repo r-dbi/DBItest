@@ -1,3 +1,8 @@
+## DBItest 1.5-17 (2017-09-17)
+
+- Transaction tests now use `dbWriteTable()` instead of `dbCreateTable()`, because some DBMS don't support transactions for DML.
+
+
 ## DBItest 1.5-16 (2017-09-15)
 
 - New `trivial_query()` replaces many hard-coded queries and uses non-integer values for better compatibility with RMariaDB.
