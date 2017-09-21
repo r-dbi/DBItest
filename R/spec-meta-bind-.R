@@ -15,17 +15,11 @@ test_select_bind <- function(con, placeholder_fun, ...) {
 
 test_select_bind_one <- function(con, placeholder_fun, values,
                                  query = TRUE,
-                                 transform_input = as.character,
-                                 transform_output = function(x) trimws(x, "right"),
-                                 expect = expect_identical,
                                  extra = "none") {
   bind_tester <- BindTester$new(con)
   bind_tester$placeholder_fun <- placeholder_fun
   bind_tester$values <- values
   bind_tester$query <- query
-  bind_tester$transform$input <- transform_input
-  bind_tester$transform$output <- transform_output
-  bind_tester$expect$fun <- expect
   bind_tester$extra_obj <- new_extra_imp(extra)
 
   bind_tester$run()
@@ -71,8 +65,6 @@ BindTester <- R6::R6Class(
     placeholder_fun = NULL,
     values = NULL,
     query = TRUE,
-    transform = list(input = as.character, output = function(x) trimws(x, "right")),
-    expect = list(fun = expect_identical),
     extra_obj = NULL
   ),
 
@@ -190,5 +182,5 @@ make_placeholder_fun <- function(pattern) {
 }
 
 is_na_or_null <- function(x) {
-  is.null(x) || any(is.na(x))
+  identical(x, list(NULL)) || any(is.na(x))
 }

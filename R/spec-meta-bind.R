@@ -254,41 +254,28 @@ spec_meta_bind <- list(
   },
 
   #'
-  #' At least the following data types are accepted:
+  #' At least the following data types are accepted on input (including [NA]):
   #' - [integer]
   bind_integer = function(ctx) {
     with_connection({
-      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L)
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, c(1:3, NA))
     })
   },
 
   #' - [numeric]
   bind_numeric = function(ctx) {
     with_connection({
-      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1.5)
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, c(1:3 + 0.5, NA))
     })
   },
 
-  #' - [logical] for Boolean values (some backends may return an integer)
+  #' - [logical] for Boolean values
   bind_logical = function(ctx) {
     with_connection({
       test_select_bind(
         con, ctx$tweaks$placeholder_pattern,
-        TRUE,
-        transform_input = ctx$tweaks$logical_return,
-        transform_output = ctx$tweaks$logical_return
+        c(TRUE, FALSE, NA)
       )
-    })
-  },
-
-  #' - [NA]
-  bind_null = function(ctx) {
-    with_connection({
-      test_select_bind(
-        con, ctx$tweaks$placeholder_pattern,
-        NA,
-        transform_input = function(x) TRUE,
-        transform_output = is.na)
     })
   },
 
@@ -298,7 +285,7 @@ spec_meta_bind <- list(
       test_select_bind(
         con,
         ctx$tweaks$placeholder_pattern,
-        texts
+        c(texts, NA)
       )
     })
   },
@@ -311,7 +298,7 @@ spec_meta_bind <- list(
         test_select_bind(
           con,
           ctx$tweaks$placeholder_pattern,
-          lapply(texts, factor)
+          lapply(c(texts, NA_character_), factor)
         )
       )
     })
@@ -324,7 +311,7 @@ spec_meta_bind <- list(
     }
 
     with_connection({
-      test_select_bind(con, ctx$tweaks$placeholder_pattern, Sys.Date())
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, c(Sys.Date() + 0:2, NA))
     })
   },
 
@@ -335,13 +322,11 @@ spec_meta_bind <- list(
     }
 
     with_connection({
-      data_in <- as.POSIXct(round(Sys.time()))
+      data_in <- as.POSIXct(c(round(Sys.time()) + 0:2, NA))
       test_select_bind(
         con, ctx$tweaks$placeholder_pattern,
-        data_in,
-        transform_input = identity,
-        transform_output = identity,
-        expect = expect_equal)
+        data_in
+      )
     })
   },
 
@@ -352,12 +337,11 @@ spec_meta_bind <- list(
     }
 
     with_connection({
-      data_in <- as.POSIXlt(round(Sys.time()))
+      data_in <- as.POSIXlt(c(round(Sys.time()) + 0:2, NA))
       test_select_bind(
         con, ctx$tweaks$placeholder_pattern,
-        data_in,
-        transform_input = as.POSIXct,
-        transform_output = as.POSIXct)
+        data_in
+      )
     })
   },
 
@@ -370,9 +354,8 @@ spec_meta_bind <- list(
     with_connection({
       test_select_bind(
         con, ctx$tweaks$placeholder_pattern,
-        list(list(as.raw(1:10))),
-        transform_input = blob::as.blob,
-        transform_output = blob::as.blob)
+        list(list(as.raw(1:10)), list(raw(3)), list(NULL))
+      )
     })
   },
 
@@ -385,9 +368,8 @@ spec_meta_bind <- list(
     with_connection({
       test_select_bind(
         con, ctx$tweaks$placeholder_pattern,
-        list(blob::blob(as.raw(1:10))),
-        transform_input = identity,
-        transform_output = blob::as.blob)
+        list(blob::blob(as.raw(1:10)), blob::blob(raw(3)), blob::blob(NULL))
+      )
     })
   },
 
