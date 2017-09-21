@@ -1,3 +1,8 @@
+## DBItest 1.5-18 (2017-09-21)
+
+- Redesign tests for `dbBind()`, now queries of the form `SELECT CASE WHEN (? = ?) AND (? IS NULL) THEN 1.5 ELSE 2.5` are issued. The original tests were inappropriate for RMariaDB, because an untyped placeholder is returned as a blob.
+
+
 ## DBItest 1.5-17 (2017-09-17)
 
 - Transaction tests now use `dbWriteTable()` instead of `dbCreateTable()`, because some DBMS don't support transactions for DML.
