@@ -14,7 +14,6 @@ test_select_bind <- function(con, placeholder_fun, ...) {
 }
 
 test_select_bind_one <- function(con, placeholder_fun, values,
-                                 type = "character(10)",
                                  query = TRUE,
                                  transform_input = as.character,
                                  transform_output = function(x) trimws(x, "right"),
@@ -23,7 +22,6 @@ test_select_bind_one <- function(con, placeholder_fun, values,
   bind_tester <- BindTester$new(con)
   bind_tester$placeholder <- placeholder_fun(length(values))
   bind_tester$values <- values
-  bind_tester$type <- type
   bind_tester$query <- query
   bind_tester$transform$input <- transform_input
   bind_tester$transform$output <- transform_output
@@ -72,7 +70,6 @@ BindTester <- R6::R6Class(
     con = NULL,
     placeholder = NULL,
     values = NULL,
-    type = "character(10)",
     query = TRUE,
     transform = list(input = as.character, output = function(x) trimws(x, "right")),
     expect = list(fun = expect_identical),
@@ -86,13 +83,8 @@ BindTester <- R6::R6Class(
 
     send_query = function() {
       value_names <- letters[seq_along(values)]
-      if (is.null(type)) {
-        typed_placeholder <- placeholder
-      } else {
-        typed_placeholder <- paste0("cast(", placeholder, " as ", type, ")")
-      }
       query <- paste0("SELECT ", paste0(
-        typed_placeholder, " as ", value_names, collapse = ", "))
+        placeholder, " as ", value_names, collapse = ", "))
 
       dbSendQuery(con, query)
     },

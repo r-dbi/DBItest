@@ -273,8 +273,8 @@ spec_meta_bind <- list(
   bind_logical = function(ctx) {
     with_connection({
       test_select_bind(
-        con, ctx$tweaks$placeholder_pattern, TRUE,
-        type = NULL,
+        con, ctx$tweaks$placeholder_pattern,
+        TRUE,
         transform_input = ctx$tweaks$logical_return,
         transform_output = ctx$tweaks$logical_return
       )
@@ -285,7 +285,8 @@ spec_meta_bind <- list(
   bind_null = function(ctx) {
     with_connection({
       test_select_bind(
-        con, ctx$tweaks$placeholder_pattern, NA,
+        con, ctx$tweaks$placeholder_pattern,
+        NA,
         transform_input = function(x) TRUE,
         transform_output = is.na)
     })
@@ -336,8 +337,8 @@ spec_meta_bind <- list(
     with_connection({
       data_in <- as.POSIXct(round(Sys.time()))
       test_select_bind(
-        con, ctx$tweaks$placeholder_pattern, data_in,
-        type = dbDataType(con, data_in),
+        con, ctx$tweaks$placeholder_pattern,
+        data_in,
         transform_input = identity,
         transform_output = identity,
         expect = expect_equal)
@@ -353,8 +354,8 @@ spec_meta_bind <- list(
     with_connection({
       data_in <- as.POSIXlt(round(Sys.time()))
       test_select_bind(
-        con, ctx$tweaks$placeholder_pattern, data_in,
-        type = dbDataType(con, data_in),
+        con, ctx$tweaks$placeholder_pattern,
+        data_in,
         transform_input = as.POSIXct,
         transform_output = as.POSIXct)
     })
@@ -368,8 +369,8 @@ spec_meta_bind <- list(
 
     with_connection({
       test_select_bind(
-        con, ctx$tweaks$placeholder_pattern, list(list(as.raw(1:10))),
-        type = NULL,
+        con, ctx$tweaks$placeholder_pattern,
+        list(list(as.raw(1:10))),
         transform_input = blob::as.blob,
         transform_output = blob::as.blob)
     })
@@ -383,8 +384,8 @@ spec_meta_bind <- list(
 
     with_connection({
       test_select_bind(
-        con, ctx$tweaks$placeholder_pattern, list(blob::blob(as.raw(1:10))),
-        type = NULL,
+        con, ctx$tweaks$placeholder_pattern,
+        list(blob::blob(as.raw(1:10))),
         transform_input = identity,
         transform_output = blob::as.blob)
     })
