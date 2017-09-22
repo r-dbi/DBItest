@@ -1,3 +1,8 @@
+## DBItest 1.5-19 (2017-09-22)
+
+- Improve error detection for `dbBind()`.
+
+
 ## DBItest 1.5-18 (2017-09-21)
 
 - Redesign tests for `dbBind()`, now queries of the form `SELECT CASE WHEN (? = ?) AND (? IS NULL) THEN 1.5 ELSE 2.5` are issued. The original tests were inappropriate for RMariaDB, because an untyped placeholder is returned as a blob.
