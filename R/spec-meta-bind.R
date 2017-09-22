@@ -46,13 +46,16 @@ spec_meta_bind <- list(
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {
         #' Binding too many
-        c(bind_values, bind_values[[1L]])
-      }
+        if (is.null(names(bind_values))) {
+          c(bind_values, bind_values[[1L]])
+        } else {
+          c(bind_values, bogus = bind_values[[1L]])
+        }
+      },
+      bind_error = function() ".*"
     )
     with_connection({
-      expect_error(
-        test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
-      )
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
     })
   },
 
@@ -61,12 +64,11 @@ spec_meta_bind <- list(
       patch_bind_values = function(bind_values) {
         #' or not enough values,
         bind_values[-1L]
-      }
+      },
+      bind_error = function() ".*"
     )
     with_connection({
-      expect_error(
-        test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
-      )
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
     })
   },
 
@@ -77,12 +79,11 @@ spec_meta_bind <- list(
         stats::setNames(bind_values, paste0("bogus", names(bind_values)))
       },
 
-      requires_names = function() TRUE
+      requires_names = function() TRUE,
+      bind_error = function() ".*"
     )
     with_connection({
-      expect_error(
-        test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
-      )
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
     })
   },
 
@@ -92,15 +93,14 @@ spec_meta_bind <- list(
         #' or unequal length,
         bind_values[[2]] <- bind_values[[2]][-1]
         bind_values
-      }
+      },
+      bind_error = function() ".*"
     )
     with_connection({
       #' also raises an error.
-      expect_error(
-        test_select_bind(
-          con, ctx$tweaks$placeholder_pattern, list(1:3, 2:4),
-          extra = extra, query = FALSE
-        )
+      test_select_bind(
+        con, ctx$tweaks$placeholder_pattern, list(1:3, 2:4),
+        extra = extra, query = FALSE
       )
     })
   },
@@ -112,13 +112,12 @@ spec_meta_bind <- list(
         #' all parameter values must have names
         stats::setNames(bind_values, NULL)
       },
+      bind_error = function() ".*",
 
       requires_names = function() TRUE
     )
     with_connection({
-      expect_error(
-        test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
-      )
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
     })
   },
 
@@ -128,13 +127,12 @@ spec_meta_bind <- list(
         #' (which must not be empty
         names(bind_values)[[1]] <- ""
       },
+      bind_error = function() ".*",
 
       requires_names = function() TRUE
     )
     with_connection({
-      expect_error(
-        test_select_bind(con, ctx$tweaks$placeholder_pattern, list(1L, 2L), extra = extra)
-      )
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, list(1L, 2L), extra = extra)
     })
   },
 
@@ -144,13 +142,12 @@ spec_meta_bind <- list(
         #' or `NA`),
         names(bind_values)[[1]] <- NA
       },
+      bind_error = function() ".*",
 
       requires_names = function() TRUE
     )
     with_connection({
-      expect_error(
-        test_select_bind(con, ctx$tweaks$placeholder_pattern, list(1L, 2L), extra = extra)
-      )
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, list(1L, 2L), extra = extra)
     })
   },
 
@@ -160,14 +157,13 @@ spec_meta_bind <- list(
       patch_bind_values = function(bind_values) {
         stats::setNames(bind_values, letters[seq_along(bind_values)])
       },
+      bind_error = function() ".*",
 
       requires_names = function() FALSE
     )
     with_connection({
       #' otherwise an error is raised.
-      expect_error(
-        test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
-      )
+      test_select_bind(con, ctx$tweaks$placeholder_pattern, 1L, extra = extra)
     })
   },
 

@@ -118,9 +118,10 @@ BindTester <- R6::R6Class(
 
     bind = function(res, bind_values) {
       bind_values <- extra_obj$patch_bind_values(bind_values)
+      bind_error <- extra_obj$bind_error()
+      expect_error(bind_res <- withVisible(dbBind(res, bind_values)), bind_error)
 
-      bind_res <- withVisible(dbBind(res, bind_values))
-      extra_obj$check_return_value(bind_res, res)
+      if (is.na(bind_error)) extra_obj$check_return_value(bind_res, res)
       invisible()
     },
 

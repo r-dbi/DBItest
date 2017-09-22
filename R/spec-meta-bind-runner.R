@@ -70,6 +70,7 @@ run_bind_tester$fun <- function() {
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
   bind(res, bind_values)
+  if (!is.na(extra_obj$bind_error())) return()
 
   # Safety net: returning early if dbBind() should have thrown an error but
   # didn't
