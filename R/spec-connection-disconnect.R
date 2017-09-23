@@ -16,13 +16,9 @@ spec_connection_disconnect <- list(
   },
 
   #' @section Specification:
-  cannot_forget_disconnect = function(ctx) {
-    expect_warning(gc(), NA)
-    connect(ctx)
-    #' A warning is issued on garbage collection when a connection has been
-    #' released without calling `dbDisconnect()`.
-    expect_warning(gc())
-  },
+  #' A warning is issued on garbage collection when a connection has been
+  #' released without calling `dbDisconnect()`,
+  #' but this cannot be tested automatically.
 
   #' A warning is issued immediately when calling `dbDisconnect()` on an
   #' already disconnected
