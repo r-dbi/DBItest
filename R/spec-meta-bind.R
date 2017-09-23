@@ -333,7 +333,10 @@ spec_meta_bind <- list(
     }
 
     with_connection({
-      data_in <- as.POSIXlt(c(round(Sys.time()) + 0:2, NA))
+      data_in <- lapply(
+        c(0:2, NA),
+        function(x) as.POSIXlt(c(round(Sys.time()) + x))
+      )
       test_select_bind(
         con, ctx$tweaks$placeholder_pattern,
         data_in

@@ -35,17 +35,17 @@ spec_meta_get_row_count <- list(
       with_result(
         dbSendQuery(con, query),
         {
-          rc <- dbGetRowCount(res)
-          expect_equal(rc, 0L)
+          rc1 <- dbGetRowCount(res)
+          expect_equal(rc1, 0L)
           #' Fetching a limited number of rows
           check_df(dbFetch(res, 2L))
           #' increases the number of rows by the number of rows returned,
-          rc <- dbGetRowCount(res)
-          expect_equal(rc, 2L)
+          rc2 <- dbGetRowCount(res)
+          expect_equal(rc2, 2L)
           #' even if fetching past the end of the result set.
           check_df(dbFetch(res, 2L))
-          rc <- dbGetRowCount(res)
-          expect_equal(rc, 3L)
+          rc3 <- dbGetRowCount(res)
+          expect_equal(rc3, 3L)
         }
       )
     })

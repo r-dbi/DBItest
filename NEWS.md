@@ -1,3 +1,8 @@
+## DBItest 1.5-20 (2017-09-23)
+
+- Implement `POSIXlt` bind test correctly.
+
+
 ## DBItest 1.5-19 (2017-09-22)
 
 - Improve error detection for `dbBind()`.
