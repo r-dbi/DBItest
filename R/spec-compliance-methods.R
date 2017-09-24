@@ -76,7 +76,6 @@ expect_ellipsis_in_formals <- function(method, name) {
 
 key_methods <- list(
   Driver = list(
-    "dbGetInfo" = NULL,
     "dbConnect" = NULL,
     "dbDataType" = NULL
   ),
