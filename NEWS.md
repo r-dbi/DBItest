@@ -1,3 +1,9 @@
+## DBItest 1.5-21 (2017-09-24)
+
+- Full interface compliance doesn't require a method fo `dbGetInfo(DBIDriver)` for now.
+- Remove `"cannot_forget_disconnect"` test that fails on R-devel (#150).
+
+
 ## DBItest 1.5-20 (2017-09-23)
 
 - Implement `POSIXlt` bind test correctly.
