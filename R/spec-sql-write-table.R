@@ -449,7 +449,7 @@ spec_sql_write_table <- list(
     }
 
     with_connection({
-      tbl_in <- data.frame(id = 1L, a = I(list(as.raw(1:10))))
+      tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
       tbl_exp <- tbl_in
       tbl_exp$a <- blob::as.blob(unclass(tbl_in$a))
       test_table_roundtrip(
@@ -470,7 +470,7 @@ spec_sql_write_table <- list(
     }
 
     with_connection({
-      tbl_in <- data.frame(id = 1L, a = blob::blob(as.raw(1:10)))
+      tbl_in <- data.frame(id = 1L, a = blob::blob(as.raw(0:10)))
       test_table_roundtrip(
         con, tbl_in,
         transform = function(tbl_out) {

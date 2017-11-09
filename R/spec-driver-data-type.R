@@ -74,11 +74,11 @@ test_data_type <- function(ctx, dbObj) {
     #' If the database supports blobs,
     if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
       #' this method also must accept lists of [raw] vectors,
-      list(as.raw(1:10))
+      list(as.raw(0:10))
     },
     if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
       #' and [blob::blob] objects.
-      blob::blob(as.raw(1:10))
+      blob::blob(as.raw(0:10))
     }
   )
 
