@@ -40,7 +40,7 @@ spec_result_send_query <- list(
   #' if the syntax of the query is invalid,
   send_query_syntax_error = function(ctx) {
     with_connection({
-      expect_error(dbSendQuery(con, "SELECT"))
+      expect_error(dbSendQuery(con, "SELLECT"))
     })
   },
 

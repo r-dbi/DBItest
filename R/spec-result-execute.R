@@ -43,7 +43,7 @@ spec_result_execute <- list(
   #' if the syntax of the statement is invalid,
   execute_syntax_error = function(ctx) {
     with_connection({
-      expect_error(dbExecute(con, "CREATE"))
+      expect_error(dbExecute(con, "CREATTE"))
     })
   },
 
