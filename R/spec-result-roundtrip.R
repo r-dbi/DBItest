@@ -5,21 +5,23 @@
 spec_result_roundtrip <- list(
   #' @section Specification:
   #' The column types of the returned data frame depend on the data returned:
-  #' - [integer] (or coercible to an integer) for integer values between -2^31 and 2^31 - 1
+  #' - [integer] (or coercible to an integer) for integer values between -2^31 and 2^31 - 1,
   data_integer = function(ctx) {
     with_connection({
+      #' with [NA] for SQL `NULL` values
       test_select_with_null(.ctx = ctx, con, 1L ~ equals_one, -100L ~ equals_minus_100)
     })
   },
 
-  #' - [numeric] for numbers with a fractional component
+  #' - [numeric] for numbers with a fractional component,
   data_numeric = function(ctx) {
     with_connection({
+      #' with NA for SQL `NULL` values
       test_select_with_null(.ctx = ctx, con, 1.5, -100.5)
     })
   },
 
-  #' - [logical] for Boolean values (some backends may return an integer)
+  #' - [logical] for Boolean values (some backends may return an integer);
   data_logical = function(ctx) {
     with_connection({
       int_values <- 1:0
@@ -27,23 +29,25 @@ spec_result_roundtrip <- list(
 
       sql_names <- paste0("CAST(", int_values, " AS ", dbDataType(con, logical()), ")")
 
+      #' with NA for SQL `NULL` values
       test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
     })
   },
 
-  #' - [character] for text
+  #' - [character] for text,
   data_character = function(ctx) {
     with_connection({
       values <- texts
       test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
-      sql_names <- as.character(dbQuoteString(con, texts))
+      sql_names <- as.character(dbQuoteString(con, values))
 
+      #' with NA for SQL `NULL` values
       test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
       test_select_with_null(.ctx = ctx, con, .dots = setNames(test_funs, sql_names))
     })
   },
 
-  #' - lists of [raw] for blobs (with `NULL` entries for SQL NULL values)
+  #' - lists of [raw] for blobs
   data_raw = function(ctx) {
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
@@ -53,17 +57,19 @@ spec_result_roundtrip <- list(
       values <- list(is_raw_list)
       sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
 
+      #' with [NULL] entries for SQL NULL values
       test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
     })
   },
 
-  #' - coercible using [as.Date()] for dates
+  #' - coercible using [as.Date()] for dates,
   data_date = function(ctx) {
     with_connection({
       char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
       values <- as_date_equals_to(as.Date(char_values))
       sql_names <- ctx$tweaks$date_cast(char_values)
 
+      #' with NA for SQL `NULL` values
       test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
     })
   },
@@ -77,13 +83,14 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' - coercible using [hms::as.hms()] for times
+  #' - coercible using [hms::as.hms()] for times,
   data_time = function(ctx) {
     with_connection({
       char_values <- c("00:00:00", "12:34:56")
       time_values <- as_hms_equals_to(hms::as.hms(char_values))
       sql_names <- ctx$tweaks$time_cast(char_values)
 
+      #' with NA for SQL `NULL` values
       test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
     })
   },
@@ -97,13 +104,14 @@ spec_result_roundtrip <- list(
     })
   },
 
-  #' - coercible using [as.POSIXct()] for timestamps
+  #' - coercible using [as.POSIXct()] for timestamps,
   data_timestamp = function(ctx) {
     with_connection({
       char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
       time_values <- rep(list(coercible_to_timestamp), 2L)
       sql_names <- ctx$tweaks$timestamp_cast(char_values)
 
+      #' with NA for SQL `NULL` values
       test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
     })
   },
@@ -114,17 +122,6 @@ spec_result_roundtrip <- list(
       test_select_with_null(
         .ctx = ctx, con,
         "current_timestamp" ~ is_roughly_current_timestamp)
-    })
-  },
-
-  #' - [NA] for SQL `NULL` values
-  data_null = function(ctx) {
-    with_connection({
-      check_result <- function(rows) {
-        expect_true(is.na(rows$a))
-      }
-
-      test_select(.ctx = ctx, con, "NULL" = is.na)
     })
   },
 
