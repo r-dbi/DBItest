@@ -1,6 +1,7 @@
 # Helpers -----------------------------------------------------------------
 
-test_select_bind <- function(con, placeholder_fun, ...) {
+test_select_bind <- function(con, ctx, ...) {
+  placeholder_fun <- ctx$tweaks$placeholder_pattern
   if (is.character(placeholder_fun))
     placeholder_fun <- lapply(placeholder_fun, make_placeholder_fun)
   else if (is.function(placeholder_fun))
