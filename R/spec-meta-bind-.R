@@ -11,14 +11,21 @@ test_select_bind <- function(con, ctx, ...) {
     skip("Use the placeholder_pattern tweak, or skip all 'bind_.*' tests")
   }
 
-  lapply(placeholder_fun, test_select_bind_one, con = con, ...)
+  lapply(
+    placeholder_fun,
+    test_select_bind_one,
+    con = con,
+    is_null_check = ctx$tweaks$is_null_check,
+    ...
+  )
 }
 
-test_select_bind_one <- function(con, placeholder_fun, values,
+test_select_bind_one <- function(con, placeholder_fun, is_null_check, values,
                                  query = TRUE,
                                  extra = "none") {
   bind_tester <- BindTester$new(con)
   bind_tester$placeholder_fun <- placeholder_fun
+  bind_tester$is_null_check <- is_null_check
   bind_tester$values <- values
   bind_tester$query <- query
   bind_tester$extra_obj <- new_extra_imp(extra)
@@ -64,6 +71,7 @@ BindTester <- R6::R6Class(
 
     con = NULL,
     placeholder_fun = NULL,
+    is_null_check = NULL,
     values = NULL,
     query = TRUE,
     extra_obj = NULL
@@ -87,8 +95,11 @@ BindTester <- R6::R6Class(
           ifelse(
             is_na,
             paste0(
-              "(", placeholder[first], " IS NULL) AND (",
-              placeholder[second], " IS NULL)"
+              "(",
+              is_null_check(placeholder[first]),
+              " AND ",
+              is_null_check(placeholder[second]),
+              ")"
             ),
             paste0("(", placeholder[first], " = ", placeholder[second], ")")
           ),

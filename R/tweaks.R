@@ -87,6 +87,11 @@
     #'   Set to `FALSE` if the DBMS doesn't support listing temporary tables.
     "list_temporary_tables" = TRUE,
 
+    #' @param is_null_check `[function(character)]`\cr
+    #'   A vectorized function that creates an SQL expression for checking if a
+    #'   value is `NULL`.
+    "is_null_check" = function(x) paste0("(", x, " IS NULL)"),
+
     # Dummy argument
     NULL
   )
