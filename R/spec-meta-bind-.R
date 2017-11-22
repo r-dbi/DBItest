@@ -122,7 +122,7 @@ BindTester <- R6::R6Class(
       value_names <- letters[seq_along(values)]
       placeholder <- placeholder_fun(length(values))
       statement <- paste0(
-        "UPDATE ", dbQuoteIdentifier(con, table_name), "SET b = b + 1 WHERE ",
+        "UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ",
         paste(value_names, " = ", placeholder, collapse = " AND "))
 
       dbSendStatement(con, statement)
