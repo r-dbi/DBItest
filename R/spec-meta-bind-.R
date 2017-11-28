@@ -83,25 +83,18 @@ BindTester <- R6::R6Class(
     },
 
     send_query = function() {
-      is_na <- vapply(values, is_na_or_null, logical(1))
       ret_values <- trivial_values(2)
-      first <- seq(1, length(values) * 2, by = 2)
-      second <- first + 1
-      placeholder <- placeholder_fun(length(values) * 2)
+      placeholder <- placeholder_fun(length(values))
+      is_na <- vapply(values, is_na_or_null, logical(1))
+      placeholder_values <- vcapply(values, function(x) dbQuoteLiteral(con, x[1]))
 
       query <- paste0(
         "SELECT CASE WHEN ",
         paste0(
           ifelse(
             is_na,
-            paste0(
-              "(",
-              is_null_check(placeholder[first]),
-              " AND ",
-              is_null_check(placeholder[second]),
-              ")"
-            ),
-            paste0("(", placeholder[first], " = ", placeholder[second], ")")
+            paste0("(", is_null_check(placeholder), ")"),
+            paste0("(", placeholder, " = ", placeholder_values, ")")
           ),
           collapse = " AND "
         ),
@@ -140,7 +133,8 @@ BindTester <- R6::R6Class(
     compare = function(rows) {
       expect_equal(nrow(rows), length(values[[1]]))
       if (nrow(rows) > 0) {
-        expect_equal(rows, data.frame(a = rep(trivial_values(1), nrow(rows))))
+        expected <- c(trivial_values(1), rep(trivial_values(2)[[2]], nrow(rows) - 1))
+        expect_equal(rows, data.frame(a = expected))
       }
     },
 
