@@ -324,8 +324,8 @@ spec_meta_bind <- list(
 
     with_connection({
       data_in <- lapply(
-        c(0:2, NA),
-        function(x) as.POSIXlt(c(round(Sys.time()) + x))
+        round(Sys.time()) + c(0:2, NA),
+        as.POSIXlt
       )
       test_select_bind(con, ctx, data_in)
     })
