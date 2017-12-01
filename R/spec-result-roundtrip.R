@@ -55,7 +55,7 @@ spec_result_roundtrip <- list(
 
     with_connection({
       values <- list(is_raw_list)
-      sql_names <- paste0("cast(1 as ", dbDataType(con, list(raw())), ")")
+      sql_names <- ctx$tweaks$blob_cast(dbQuoteLiteral(con, list(raw(1))))
 
       #' with [NULL] entries for SQL NULL values
       test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))

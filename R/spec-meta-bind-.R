@@ -22,10 +22,12 @@ test_select_bind <- function(con, ctx, ...) {
 
 test_select_bind_one <- function(con, placeholder_fun, is_null_check, values,
                                  query = TRUE,
-                                 extra = "none") {
+                                 extra = "none",
+                                 cast_fun = identity) {
   bind_tester <- BindTester$new(con)
   bind_tester$placeholder_fun <- placeholder_fun
   bind_tester$is_null_check <- is_null_check
+  bind_tester$cast_fun <- cast_fun
   bind_tester$values <- values
   bind_tester$query <- query
   bind_tester$extra_obj <- new_extra_imp(extra)
@@ -72,6 +74,7 @@ BindTester <- R6::R6Class(
     con = NULL,
     placeholder_fun = NULL,
     is_null_check = NULL,
+    cast_fun = NULL,
     values = NULL,
     query = TRUE,
     extra_obj = NULL
@@ -93,8 +96,8 @@ BindTester <- R6::R6Class(
         paste0(
           ifelse(
             is_na,
-            paste0("(", is_null_check(placeholder), ")"),
-            paste0("(", placeholder, " = ", placeholder_values, ")")
+            paste0("(", is_null_check(cast_fun(placeholder)), ")"),
+            paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
           ),
           collapse = " AND "
         ),

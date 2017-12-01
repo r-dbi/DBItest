@@ -66,6 +66,11 @@
     #'   string to a timestamp value.
     "timestamp_cast" = function(x) paste0("timestamp('", x, "')"),
 
+    #' @param blob_cast `[function(character)]`\cr
+    #'   A vectorized function that creates an SQL expression for coercing a
+    #'   string to a blob value.
+    "blob_cast" = identity,
+
     #' @param date_typed `[logical(1L)]`\cr
     #'   Set to `FALSE` if the DBMS doesn't support a dedicated type for dates.
     "date_typed" = TRUE,

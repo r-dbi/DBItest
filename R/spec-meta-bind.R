@@ -340,7 +340,8 @@ spec_meta_bind <- list(
     with_connection({
       test_select_bind(
         con, ctx,
-        list(list(as.raw(1:10)), list(raw(3)), list(NULL))
+        list(list(as.raw(1:10)), list(raw(3)), list(NULL)),
+        cast_fun = ctx$tweaks$blob_cast
       )
     })
   },
@@ -354,7 +355,8 @@ spec_meta_bind <- list(
     with_connection({
       test_select_bind(
         con, ctx,
-        list(blob::blob(as.raw(1:10)), blob::blob(raw(3)), blob::blob(NULL))
+        list(blob::blob(as.raw(1:10)), blob::blob(raw(3)), blob::blob(NULL)),
+        cast_fun = ctx$tweaks$blob_cast
       )
     })
   },
