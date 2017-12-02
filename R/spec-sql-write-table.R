@@ -537,7 +537,14 @@ spec_sql_write_table <- list(
 
     with_connection({
       #'   returned as `POSIXct`
-      local <- round(Sys.time()) + c(1, 60, 3600, 86400, 1e9, 5e9)
+      local <- round(
+        Sys.time() +
+          c(
+            1, 60, 3600, 86400,
+            86400 * 90, 86400 * 180, 86400 * 270,
+            1e9, 5e9
+          )
+      )
       attr(local, "tzone") <- NULL
       tbl_in <- data.frame(id = seq_along(local))
       tbl_in$local <- local
