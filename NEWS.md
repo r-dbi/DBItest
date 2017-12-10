@@ -1,3 +1,8 @@
+# DBItest 1.5-1 (2017-12-10)
+
+- Remove `"cannot_forget_disconnect"` test that fails on R-devel (#150).
+
+
 # DBItest 1.5 (2017-06-18)
 
 Finalize specification. Most tests now come with a corresponding prose, only those where the behavior is not finally decided don't have a prose version yet (#88).

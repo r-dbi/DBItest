@@ -1,5 +1,7 @@
+Update that fixes RSQLite and other dependencies on R-devel.
+
 ## Test environments
-* local ubuntu 17.04, R 3.4.0
+* local ubuntu 17.04, R 3.4.3
 * ubuntu 12.04 (on travis-ci), R release, devel, and oldrel
 * win-builder (devel and release)
 
@@ -7,8 +9,9 @@
 
 OK
 
-## Reverse dependencies
+## revdepcheck results
 
-* I checked the four reverse dependencies. RSQLite requires an update which
-  I have submitted simultaneously, for the other three I haven't noticed any
-  regressions.
+We checked 8 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 0 new problems
+ * We failed to check MonetDBLite
