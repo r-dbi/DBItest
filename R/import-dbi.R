@@ -6,7 +6,7 @@
 #' @importFrom DBI dbGetInfo dbGetQuery dbGetRowCount dbGetRowsAffected
 #' @importFrom DBI dbGetStatement dbHasCompleted dbIsValid
 #' @importFrom DBI dbListConnections dbListFields dbListTables
-#' @importFrom DBI dbQuoteIdentifier dbQuoteLiteral dbQuoteString dbReadTable dbRemoveTable
+#' @importFrom DBI dbQuoteIdentifier dbQuoteString dbReadTable dbRemoveTable
 #' @importFrom DBI dbRollback dbSendQuery dbSendStatement dbSetDataMappings
 #' @importFrom DBI dbWithTransaction dbWriteTable
 #' @importFrom DBI SQL

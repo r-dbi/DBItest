@@ -89,7 +89,7 @@ BindTester <- R6::R6Class(
       ret_values <- trivial_values(2)
       placeholder <- placeholder_fun(length(values))
       is_na <- vapply(values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(values, function(x) dbQuoteLiteral(con, x[1]), character(1))
+      placeholder_values <- vapply(values, function(x) quote_literal(con, x[1]), character(1))
 
       query <- paste0(
         "SELECT CASE WHEN ",
