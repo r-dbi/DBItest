@@ -1,6 +1,6 @@
 Package: DBItest
 Title: Testing 'DBI' Back Ends
-Version: 1.5
+Version: 1.5-1
 Date: 2017-06-18
 Authors@R: c( person(given = "Kirill", family = "Müller", role =
         c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
