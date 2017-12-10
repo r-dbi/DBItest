@@ -1,3 +1,14 @@
+## DBItest 1.5-22 (2017-12-10)
+
+- Compatibility code if `DBI::dbQuoteLiteral()` is unavailable.
+- New tweak `blob_cast` allows specifying a conversion function to the BLOB data type.
+- New `is_null_check` tweak that allows specifying a function that is used when checking values for `NULL`. Required for RPostgres.
+- Blob tests now also read and write zero bytes (\x00).
+- Don't test selecting untyped `NULL` anymore.
+- Fix query that is supposed to generate a syntax error.
+- Fix typo (#147, @jonmcalder).
+
+
 ## DBItest 1.5-21 (2017-09-24)
 
 - Full interface compliance doesn't require a method fo `dbGetInfo(DBIDriver)` for now.
