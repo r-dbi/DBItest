@@ -137,7 +137,7 @@ spec_result_fetch <- list(
     })
   },
 
-  #' or more columns be default returns the entire result.
+  #' or more columns by default returns the entire result.
   fetch_multi_row_multi_column = function(ctx) {
     with_connection({
       query <- union(

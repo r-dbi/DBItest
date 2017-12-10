@@ -6,7 +6,7 @@ spec_meta_column_info <- list(
   #' Column information is correct.
   column_info = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a, 1.5 as b, NULL"
+      query <- "SELECT 1 as a, 1.5 as b, 0"
       with_result(
         dbSendQuery(con, query),
         {

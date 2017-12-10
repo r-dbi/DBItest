@@ -2,7 +2,7 @@ all: test
 
 TESTTHAT_REPORTER ?= 'check'
 
-REVDEP := RMariaDB RSQLite RKazam
+REVDEP := RMariaDB RSQLite RPostgres RKazam
 LOAD_TARGETS := $(patsubst %,load-%,${REVDEP})
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
 

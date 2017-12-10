@@ -64,7 +64,7 @@ spec_result_get_query <- list(
   #' if the syntax of the query is invalid,
   get_query_syntax_error = function(ctx) {
     with_connection({
-      expect_error(dbGetQuery(con, "SELECT"))
+      expect_error(dbGetQuery(con, "SELLECT"))
     })
   },
 

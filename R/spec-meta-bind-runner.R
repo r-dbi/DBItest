@@ -51,11 +51,6 @@ run_bind_tester$fun <- function() {
   #' 1. Construct a list with parameters
   #'    that specify actual values for the placeholders.
   bind_values <- values
-  if (is_query()) {
-    # For queries, values are passed twice for equality comparison
-    # with themselves (or for the double IS NULL test)
-    bind_values <- rep(bind_values, each = 2)
-  }
   #'    The list must be named or unnamed,
   #'    depending on the kind of placeholders used.
   #'    Named values are matched to named parameters, unnamed values

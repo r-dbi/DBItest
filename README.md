@@ -1,4 +1,4 @@
-# DBItest [![Travis-CI Build Status](https://travis-ci.org/rstats-db/DBItest.svg?branch=master)](https://travis-ci.org/rstats-db/DBItest) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rstats-db/DBItest?branch=master&svg=true)](https://ci.appveyor.com/project/rstats-db/DBItest) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DBItest)](https://cran.r-project.org/package=DBItest)
+# DBItest [![Travis-CI Build Status](https://travis-ci.org/r-dbi/DBItest.svg?branch=master)](https://travis-ci.org/r-dbi/DBItest) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/r-dbi/DBItest?branch=master&svg=true)](https://ci.appveyor.com/project/r-dbi/DBItest) [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/DBItest)](https://cran.r-project.org/package=DBItest)
 
 This package provides a considerable set of test cases which you can easily incorporate in your DBI driver package.
 
@@ -13,7 +13,7 @@ install.packages("DBItest")
 or the development version using
 
 ```r
-devtools::install_github("rstats-db/DBItest")
+devtools::install_github("r-dbi/DBItest")
 ```
 
 In your driver backage, add `DBItest` to the `Suggests:`. Then, enable the tests by running
@@ -34,4 +34,4 @@ DBItest::test_all()
 
 The `skip` argument to `test_all()` allows specifying skipped tests.
 
-See the package's documentation and the [feature list](https://github.com/rstats-db/DBItest/wiki/Proposal) for a description of the tests.
+See the package's documentation and the [feature list](https://github.com/r-dbi/DBItest/wiki/Proposal) for a description of the tests.

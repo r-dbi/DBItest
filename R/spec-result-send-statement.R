@@ -43,7 +43,7 @@ spec_result_send_statement <- list(
   #' if the syntax of the statement is invalid,
   send_statement_syntax_error = function(ctx) {
     with_connection({
-      expect_error(dbSendStatement(con, "CREATE"))
+      expect_error(dbSendStatement(con, "CREATTE"))
     })
   },
 
