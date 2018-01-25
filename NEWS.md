@@ -1,3 +1,8 @@
+# DBItest 1.5-2 (2018-01-26)
+
+- Fix test that fails with "noLD".
+
+
 # DBItest 1.5-1 (2017-12-10)
 
 - Remove `"cannot_forget_disconnect"` test that fails on R-devel (#150).
