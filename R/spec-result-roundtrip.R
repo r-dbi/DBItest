@@ -208,8 +208,11 @@ spec_result_roundtrip <- list(
   #' - Loss of precision when converting to numeric gives a warning
   data_64_bit_numeric_warning = function(ctx) {
     with_connection({
-      char_values <- c("1234567890123456789", "-1234567890123456789")
+      char_values <- c(" 1234567890123456789", "-1234567890123456789")
       test_values <- as_numeric_equals_to(as.numeric(char_values))
+      if (any(format(as.numeric(char_values), scientific = FALSE) != char_values)) {
+        skip("Long doubles not available, cannot detect loss of precision")
+      }
 
       expect_warning(
         test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
