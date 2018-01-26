@@ -1,3 +1,8 @@
+## DBItest 1.5-23 (2018-01-26)
+
+- Merge DBItest 1.5-2.
+
+
 ## DBItest 1.5-22 (2017-12-10)
 
 - Compatibility code if `DBI::dbQuoteLiteral()` is unavailable.
