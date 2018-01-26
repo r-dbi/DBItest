@@ -1,93 +1,207 @@
-# Setup
+# MonetDBLite
 
-## Platform
+Version: 0.5.0
 
-|setting  |value                        |
-|:--------|:----------------------------|
-|version  |R version 3.4.0 (2017-04-21) |
-|system   |x86_64, linux-gnu            |
-|ui       |X11                          |
-|language |(EN)                         |
-|collate  |en_US.UTF-8                  |
-|tz       |Zulu                         |
-|date     |2017-06-18                   |
+## In both
 
-## Packages
+*   checking whether package ‘MonetDBLite’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/home/muelleki/git/R/DBItest/revdep/checks/MonetDBLite/new/MonetDBLite.Rcheck/00install.out’ for details.
+    ```
 
-|package   |*  |version |date       |source                          |
-|:---------|:--|:-------|:----------|:-------------------------------|
-|blob      |   |1.1.0   |2017-06-17 |Github (tidyverse/blob@9dd54d9) |
-|DBI       |   |0.6-14  |2017-06-17 |Github (rstats-db/DBI@0f390df)  |
-|DBItest   |   |1.4     |2016-12-03 |CRAN (R 3.4.0)                  |
-|desc      |   |1.1.0   |2017-01-27 |cran (@1.1.0)                   |
-|hms       |   |0.3     |2016-11-22 |cran (@0.3)                     |
-|knitr     |   |1.16    |2017-05-18 |cran (@1.16)                    |
-|lintr     |   |1.0.0   |2016-04-16 |cran (@1.0.0)                   |
-|R6        |   |2.2.2   |2017-06-17 |cran (@2.2.2)                   |
-|rmarkdown |   |1.6     |2017-06-15 |cran (@1.6)                     |
-|testthat  |   |1.0.2   |2016-04-23 |cran (@1.0.2)                   |
-|withr     |   |1.0.2   |2016-06-20 |CRAN (R 3.4.0)                  |
+## Installation
 
-# Check results
-
-2 packages with problems
-
-|package   |version | errors| warnings| notes|
-|:---------|:-------|------:|--------:|-----:|
-|bigrquery |0.3.0   |      1|        0|     0|
-|RSQLite   |1.1-2   |      1|        0|     2|
-
-## bigrquery (0.3.0)
-Maintainer: Hadley Wickham <hadley@rstudio.com>  
-Bug reports: https://github.com/rstats-db/bigrquery/issues
-
-1 error  | 0 warnings | 0 notes
+### Devel
 
 ```
-checking whether package ‘bigrquery’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/DBItest/revdep/checks/bigrquery.Rcheck/00install.out’ for details.
+* installing *source* package ‘MonetDBLite’ ...
+** package ‘MonetDBLite’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/common/mutils.d -c monetdblite/src/common/mutils.c -o build/objects/monetdblite/common/mutils.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/common/mutils.o' failed
+make: *** [build/objects/monetdblite/common/mutils.o] Error 1
+make: *** Waiting for unfinished jobs....
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/gdk/gdk_align.d -c monetdblite/src/gdk/gdk_align.c -o build/objects/monetdblite/gdk/gdk_align.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/gdk/gdk_align.o' failed
+make: *** [build/objects/monetdblite/gdk/gdk_align.o] Error 1
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/gdk/gdk_atoms.d -c monetdblite/src/gdk/gdk_atoms.c -o build/objects/monetdblite/gdk/gdk_atoms.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/gdk/gdk_atoms.o' failed
+make: *** [build/objects/monetdblite/gdk/gdk_atoms.o] Error 1
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/common/stream.d -c monetdblite/src/common/stream.c -o build/objects/monetdblite/common/stream.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/common/stream.o' failed
+make: *** [build/objects/monetdblite/common/stream.o] Error 1
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/embedded/embedded.d -c monetdblite/src/embedded/embedded.c -o build/objects/monetdblite/embedded/embedded.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/embedded/embedded.o' failed
+make: *** [build/objects/monetdblite/embedded/embedded.o] Error 1
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/gdk/gdk_bat.d -c monetdblite/src/gdk/gdk_bat.c -o build/objects/monetdblite/gdk/gdk_bat.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/gdk/gdk_bat.o' failed
+make: *** [build/objects/monetdblite/gdk/gdk_bat.o] Error 1
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/gdk/gdk_batop.d -c monetdblite/src/gdk/gdk_batop.c -o build/objects/monetdblite/gdk/gdk_batop.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/gdk/gdk_batop.o' failed
+make: *** [build/objects/monetdblite/gdk/gdk_batop.o] Error 1
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/gdk/gdk_aggr.d -c monetdblite/src/gdk/gdk_aggr.c -o build/objects/monetdblite/gdk/gdk_aggr.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/gdk/gdk_aggr.o' failed
+make: *** [build/objects/monetdblite/gdk/gdk_aggr.o] Error 1
+ERROR: compilation failed for package ‘MonetDBLite’
+* removing ‘/home/muelleki/git/R/DBItest/revdep/checks/MonetDBLite/new/MonetDBLite.Rcheck/MonetDBLite’
+
 ```
-
-## RSQLite (1.1-2)
-Maintainer: Kirill Müller <krlmlr+r@mailbox.org>  
-Bug reports: https://github.com/rstats-db/RSQLite/issues
-
-1 error  | 0 warnings | 2 notes
+### CRAN
 
 ```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  8. Failure: DBItest[RSQLite]: Result: fetch_n_bad (@spec-result-fetch.R#73) 
-  9. Failure: DBItest[RSQLite]: Result: fetch_n_good_after_bad (@spec-result-fetch.R#90) 
-  1. ...
-  
-  Error: testthat unit tests failed
-  In addition: Warning messages:
-  1: Unused skip expressions: constructor_strict, cannot_disconnect_twice, clear_result_return, stale_result_warning, data_logical_null_.*, data_64_bit, data_64_bit_null_.*, data_raw_null_.*, data_date_null_.*, data_time_null_.*, data_timestamp_null_.*, data_timestamp_utc, data_timestamp_utc_null_.*, data_timestamp_parens, data_timestamp_parens_null_.*, append_table_error, quote_identifier_not_vectorized, roundtrip_64_bit, read_only 
-  2: Unused skip expressions: constructor_strict, cannot_disconnect_twice, clear_result_return, stale_result_warning, data_logical_null_.*, data_64_bit, data_64_bit_null_.*, data_raw_null_.*, data_date_null_.*, data_time_null_.*, data_timestamp_null_.*, data_timestamp_utc, data_timestamp_utc_null_.*, data_timestamp_parens, data_timestamp_parens_null_.*, append_table_error, quote_identifier_not_vectorized, roundtrip_64_bit, read_only 
-  3: Unused skip expressions: constructor_strict, cannot_disconnect_twice, clear_result_return, stale_result_warning, data_logical_null_.*, data_64_bit, data_64_bit_null_.*, data_raw_null_.*, data_date_null_.*, data_time_null_.*, data_timestamp_null_.*, data_timestamp_utc, data_timestamp_utc_null_.*, data_timestamp_parens, data_timestamp_parens_null_.*, append_table_error, quote_identifier_not_vectorized, roundtrip_64_bit, read_only 
-  4: Unused skip expressions: constructor_strict, cannot_disconnect_twice, clear_result_return, stale_result_warning, data_logical_null_.*, data_64_bit, data_64_bit_null_.*, data_raw_null_.*, data_date_null_.*, data_time_null_.*, data_timestamp_null_.*, data_timestamp_utc, data_timestamp_utc_null_.*, data_timestamp_parens, data_timestamp_parens_null_.*, append_table_error, quote_identifier_not_vectorized, roundtrip_64_bit, read_only 
-  5: Unused skip expressions: constructor_strict, cannot_disconnect_twice, clear_result_return, stale_result_warning, data_logical_null_.*, data_64_bit, data_64_bit_null_.*, data_raw_null_.*, data_date_null_.*, data_time_null_.*, data_timestamp_null_.*, data_timestamp_utc, data_timestamp_utc_null_.*, data_timestamp_parens, data_timestamp_parens_null_.*, append_table_error, quote_identifier_not_vectorized, roundtrip_64_bit, read_only 
-  6: Unused skip expressions: constructor_strict, cannot_disconnect_twice, clear_result_return, stale_result_warning, data_logical_null_.*, data_64_bit, data_64_bit_null_.*, data_raw_null_.*, data_date_null_.*, data_time_null_.*, data_timestamp_null_.*, data_timestamp_utc, data_timestamp_utc_null_.*, data_timestamp_parens, data_timestamp_parens_null_.*, append_table_error, quote_identifier_not_vectorized, roundtrip_64_bit, read_only 
-  7: Unused skip expressions: constructor_strict, cannot_disconnect_twice, clear_result_return, stale_result_warning, data_logical_null_.*, data_64_bit, data_64_bit_null_.*, data_raw_null_.*, data_date_null_.*, data_time_null_.*, data_timestamp_null_.*, data_timestamp_utc, data_timestamp_utc_null_.*, data_timestamp_parens, data_timestamp_parens_null_.*, append_table_error, quote_identifier_not_vectorized, roundtrip_64_bit, read_only 
-  8: Unused skip expressions: constructor_strict, cannot_disconnect_twice, clear_result_return, stale_result_warning, data_logical_null_.*, data_64_bit, data_64_bit_null_.*, data_raw_null_.*, data_date_null_.*, data_time_null_.*, data_timestamp_null_.*, data_timestamp_utc, data_timestamp_utc_null_.*, data_timestamp_parens, data_timestamp_parens_null_.*, append_table_error, quote_identifier_not_vectorized, roundtrip_64_bit, read_only 
-  Execution halted
+* installing *source* package ‘MonetDBLite’ ...
+** package ‘MonetDBLite’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/common/mutils.d -c monetdblite/src/common/mutils.c -o build/objects/monetdblite/common/mutils.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/common/mutils.o' failed
+make: *** [build/objects/monetdblite/common/mutils.o] Error 1
+make: *** Waiting for unfinished jobs....
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/gdk/gdk_align.d -c monetdblite/src/gdk/gdk_align.c -o build/objects/monetdblite/gdk/gdk_align.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/gdk/gdk_align.o' failed
+make: *** [build/objects/monetdblite/gdk/gdk_align.o] Error 1
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/gdk/gdk_atoms.d -c monetdblite/src/gdk/gdk_atoms.c -o build/objects/monetdblite/gdk/gdk_atoms.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/gdk/gdk_atoms.o' failed
+make: *** [build/objects/monetdblite/gdk/gdk_atoms.o] Error 1
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/common/stream.d -c monetdblite/src/common/stream.c -o build/objects/monetdblite/common/stream.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/common/stream.o' failed
+make: *** [build/objects/monetdblite/common/stream.o] Error 1
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/gdk/gdk_bat.d -c monetdblite/src/gdk/gdk_bat.c -o build/objects/monetdblite/gdk/gdk_bat.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/gdk/gdk_bat.o' failed
+make: *** [build/objects/monetdblite/gdk/gdk_bat.o] Error 1
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/embedded/embedded.d -c monetdblite/src/embedded/embedded.c -o build/objects/monetdblite/embedded/embedded.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/embedded/embedded.o' failed
+make: *** [build/objects/monetdblite/embedded/embedded.o] Error 1
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/gdk/gdk_batop.d -c monetdblite/src/gdk/gdk_batop.c -o build/objects/monetdblite/gdk/gdk_batop.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/gdk/gdk_batop.o' failed
+make: *** [build/objects/monetdblite/gdk/gdk_batop.o] Error 1
+gcc -std=gnu99  -Wall -pedantic -g -O2 -fdebug-prefix-map=/build/r-base-fCgT8l/r-base-3.4.2=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -I/usr/share/R/include -DNDEBUG -fpic -Wno-format -DLIBGDK -DLIBMAL -DLIBOPTIMIZER -DLIBSTREAM -DHAVE_EMBEDDED_R -DMONETDBLITE_COMPILE -Imonetdblite/src/ -Imonetdblite/src/common -Imonetdblite/src/embedded -Imonetdblite/src/gdk -Imonetdblite/src/mal/mal -Imonetdblite/src/mal/modules -Imonetdblite/src/mal/optimizer -Imonetdblite/src/mal/sqlbackend -Imonetdblite/src/sql/include -Imonetdblite/src/sql/common -Imonetdblite/src/sql/server -Imonetdblite/src/sql/storage -Imonetdblite/src/sql/storage/bat -MMD -MF build/deps/monetdblite/gdk/gdk_aggr.d -c monetdblite/src/gdk/gdk_aggr.c -o build/objects/monetdblite/gdk/gdk_aggr.o
+cc1: error: -Wformat-security ignored without -Wformat [-Werror=format-security]
+cc1: some warnings being treated as errors
+Makevars:194: recipe for target 'build/objects/monetdblite/gdk/gdk_aggr.o' failed
+make: *** [build/objects/monetdblite/gdk/gdk_aggr.o] Error 1
+ERROR: compilation failed for package ‘MonetDBLite’
+* removing ‘/home/muelleki/git/R/DBItest/revdep/checks/MonetDBLite/old/MonetDBLite.Rcheck/MonetDBLite’
 
-checking installed package size ... NOTE
-  installed size is  8.0Mb
-  sub-directories of 1Mb or more:
-    libs   7.4Mb
-
-checking compiled code ... NOTE
-File ‘RSQLite/libs/RSQLite.so’:
-  Found no calls to: ‘R_registerRoutines’, ‘R_useDynamicSymbols’
-
-It is good practice to register native routines and to disable symbol
-search.
-
-See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 ```
+# odbc
+
+Version: 1.1.3
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  6.2Mb
+      sub-directories of 1Mb or more:
+        libs   5.9Mb
+    ```
+
+# RPostgres
+
+Version: 1.0-3
+
+## Newly fixed
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.0Mb
+      sub-directories of 1Mb or more:
+        libs   4.7Mb
+    ```
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘withr’
+      All declared Imports should be used.
+    ```
+
+# RSQLite
+
+Version: 2.0
+
+## Newly fixed
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      > library(RSQLite)
+      > 
+      > test_check("RSQLite")
+      1. Failure: DBItest[RSQLite]: Connection: cannot_forget_disconnect (@spec-connection-disconnect.R#24) 
+      gc() showed 0 warnings
+      
+      
+      testthat results ================================================================
+      OK: 4255 SKIPPED: 15 FAILED: 1
+      1. Failure: DBItest[RSQLite]: Connection: cannot_forget_disconnect (@spec-connection-disconnect.R#24) 
+      
+      Error: testthat unit tests failed
+      In addition: Warning message:
+      call dbDisconnect() when finished working with a connection 
+      Execution halted
+    ```
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  9.4Mb
+      sub-directories of 1Mb or more:
+        libs   8.8Mb
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘pkgconfig’
+      All declared Imports should be used.
+    ```
+
+# RSQLServer
+
+Version: 0.3.0
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘rJava’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
 
