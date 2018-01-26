@@ -196,7 +196,7 @@ spec_result_roundtrip <- list(
   data_64_bit_numeric = function(ctx) {
     with_connection({
       char_values <- c("10000000000", "-10000000000")
-      test_values <- as_numeric_equals_to(as.numeric(char_values))
+      test_values <- as_numeric_identical_to(as.numeric(char_values))
 
       test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
     })
@@ -205,8 +205,9 @@ spec_result_roundtrip <- list(
   #' - Loss of precision when converting to numeric gives a warning
   data_64_bit_numeric_warning = function(ctx) {
     with_connection({
-      char_values <- c("1234567890123456789", "-1234567890123456789")
-      test_values <- as_numeric_equals_to(as.numeric(char_values))
+      char_values <- c(" 1234567890123456789", "-1234567890123456789")
+      num_values <- as.numeric(char_values)
+      test_values <- as_numeric_equals_to(num_values)
 
       expect_warning(
         test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
@@ -382,9 +383,15 @@ as_timestamp_equals_to <- function(x) {
   })
 }
 
-as_numeric_equals_to <- function(x) {
+as_numeric_identical_to <- function(x) {
   lapply(x, function(xx) {
     function(value) as.numeric(value) == xx
+  })
+}
+
+as_numeric_equals_to <- function(x) {
+  lapply(x, function(xx) {
+    function(value) isTRUE(all.equal(as.numeric(value), xx))
   })
 }
 

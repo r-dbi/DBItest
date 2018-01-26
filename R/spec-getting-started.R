@@ -1,12 +1,13 @@
 #' @template dbispec
 #' @format NULL
+#' @importFrom desc desc_get_deps
 #' @section Definition:
 spec_getting_started <- list(
   package_dependencies = function(ctx) {
     #' A DBI backend is an R package
     pkg_path <- get_pkg_path(ctx)
 
-    pkg_deps_df <- desc::desc_get_deps(pkg_path)
+    pkg_deps_df <- desc_get_deps(pkg_path)
     pkg_imports <- pkg_deps_df[pkg_deps_df[["type"]] == "Imports", ][["package"]]
 
     #' which imports the \pkg{DBI}
