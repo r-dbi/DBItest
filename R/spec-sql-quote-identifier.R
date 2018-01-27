@@ -33,6 +33,14 @@ spec_sql_quote_identifier <- list(
       empty_out <- dbQuoteIdentifier(con, empty)
       expect_equal(length(empty_out), 0L)
 
+      #' The names of the input argument are preserved in the output.
+      unnamed <- letters
+      unnamed_out <- dbQuoteIdentifier(con, unnamed)
+      expect_null(names(unnamed_out))
+      named <- stats::setNames(LETTERS[1:3], letters[1:3])
+      named_out <- dbQuoteIdentifier(con, named)
+      expect_equal(names(named_out), letters[1:3])
+
       #' An error is raised if the input contains `NA`,
       expect_error(dbQuoteIdentifier(con, NA))
       expect_error(dbQuoteIdentifier(con, NA_character_))

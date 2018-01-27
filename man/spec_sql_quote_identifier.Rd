@@ -8,6 +8,7 @@
 \code{dbQuoteIdentifier()} returns an object that can be coerced to \link{character},
 of the same length as the input.
 For an empty character vector this function returns a length-0 object.
+The names of the input argument are preserved in the output.
 An error is raised if the input contains \code{NA},
 but not for an empty string.
 
