@@ -55,6 +55,9 @@ spec_compliance_methods <- list(
     dbi_names <- .
 
     exported_names <- ls(where$.__NAMESPACE__.$exports)
+    if (length(intersect(dbi_names, exported_names)) == "") {
+      skip("reexports check only works from R CMD check")
+    }
 
     missing <- setdiff(dbi_names, exported_names)
     expect_equal(paste(missing, collapse = ", "), "")
