@@ -9,6 +9,8 @@ Authors@R: c(
     )
 Description: A helper that tests 'DBI' back ends for conformity
     to the interface.
+License: LGPL (>= 2)
+BugReports: https://github.com/r-dbi/DBItest/issues
 Depends: 
     R (>= 3.0.0)
 Imports: 
@@ -25,13 +27,11 @@ Suggests:
     knitr,
     lintr,
     rmarkdown
-License: LGPL (>= 2)
-LazyData: true
+VignetteBuilder: knitr
 Encoding: UTF-8
-BugReports: https://github.com/r-dbi/DBItest/issues
+LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.0.1
-VignetteBuilder: knitr
 Collate: 
     'DBItest.R'
     'context.R'
