@@ -8,3 +8,4 @@
 ^man-roxygen$
 ^revdep$
 ^_pkgdown\.yml$
+^docs$
