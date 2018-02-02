@@ -43,7 +43,6 @@ latex: false
 env:
   global:
   - _R_CHECK_FORCE_SUGGESTS_=false
-  - MAKEFLAGS="-j 2"
 
 #addons
 addons:
