@@ -25,6 +25,7 @@ Imports:
     testthat (>= 1.0.2),
     withr
 Suggests: 
+    devtools,
     knitr,
     lintr,
     rmarkdown
