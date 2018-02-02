@@ -58,7 +58,7 @@ spec_compliance_methods <- list(
       function(pkg) {
         tryCatch(
           getNamespaceExports(getNamespace(pkg)),
-          function(e) character()
+          error = function(e) character()
         )
       },
       args = list(pkg = pkg)
