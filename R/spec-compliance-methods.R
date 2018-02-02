@@ -54,9 +54,21 @@ spec_compliance_methods <- list(
     . <- setdiff(., c("dbListConnections", "dbSetDataMappings", "dbGetException", "dbCallProc"))
     dbi_names <- .
 
-    exported_names <- callr::r(eval(bquote(function() { getNamespaceExports(getNamespace(.(pkg))) })))
-    missing <- setdiff(dbi_names, exported_names)
-    expect_equal(paste(missing, collapse = ", "), "")
+    exported_names <- callr::r(
+      function(pkg) {
+        tryCatch(
+          getNamespaceExports(getNamespace(pkg)),
+          function(e) character()
+        )
+      },
+      args = list(pkg = pkg)
+    )
+
+    # Guard against scenarios where package is not installed
+    if (length(exported_names) > 0) {
+      missing <- setdiff(dbi_names, exported_names)
+      expect_equal(paste(missing, collapse = ", "), "")
+    }
   },
 
   #' and have an ellipsis `...` in their formals for extensibility.
