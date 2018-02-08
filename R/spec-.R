@@ -46,6 +46,7 @@
 #' @include spec-sql-write-table.R
 #' @include spec-sql-read-table.R
 #' @include spec-sql-quote-identifier.R
+#' @include spec-sql-quote-literal.R
 #' @include spec-sql-quote-string.R
 #' @include spec-result-execute.R
 #' @include spec-result-send-statement.R
