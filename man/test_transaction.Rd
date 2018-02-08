@@ -23,3 +23,4 @@ Other tests: \code{\link{test_compliance}},
   \code{\link{test_meta}}, \code{\link{test_result}},
   \code{\link{test_sql}}, \code{\link{test_stress}}
 }
+\concept{tests}

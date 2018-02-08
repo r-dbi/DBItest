@@ -3,7 +3,6 @@
 \docType{data}
 \name{spec_meta_bind}
 \alias{spec_meta_bind}
-\alias{spec_meta_bind}
 \title{spec_meta_bind}
 \value{
 \code{dbBind()} returns the result set,
