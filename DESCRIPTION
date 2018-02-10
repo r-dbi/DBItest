@@ -67,6 +67,7 @@ Collate:
     'spec-sql-list-tables.R'
     'spec-sql-exists-table.R'
     'spec-sql-remove-table.R'
+    'spec-sql-list-objects.R'
     'spec-meta-bind-runner.R'
     'spec-meta-bind-tester-extra.R'
     'spec-meta-bind.R'

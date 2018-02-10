@@ -40,6 +40,7 @@
 #' @include spec-meta-bind.R
 #' @include spec-meta-bind-tester-extra.R
 #' @include spec-meta-bind-runner.R
+#' @include spec-sql-list-objects.R
 #' @include spec-sql-remove-table.R
 #' @include spec-sql-exists-table.R
 #' @include spec-sql-list-tables.R
