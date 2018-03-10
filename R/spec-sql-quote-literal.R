@@ -74,6 +74,8 @@ spec_sql_quote_literal <- list(
 
         is_logical <- vapply(x, is.logical, FUN.VALUE = logical(1))
         x_out[is_logical] <- lapply(x_out[is_logical], as.logical)
+        is_numeric <- vapply(x, is.numeric, FUN.VALUE = logical(1))
+        x_out[is_numeric] <- lapply(x_out[is_numeric], as.numeric)
         expect_equal(as.list(unname(x_out)), x)
       }
 
