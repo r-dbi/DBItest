@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Test the "Connection" class — test_connection • DBItest</title>
+<title>spec_sql_quote_literal — spec_sql_quote_literal • DBItest</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -27,9 +27,9 @@
 <script src="../pkgdown.js"></script>
   
   
-<meta property="og:title" content="Test the "Connection" class — test_connection" />
+<meta property="og:title" content="spec_sql_quote_literal — spec_sql_quote_literal" />
 
-<meta property="og:description" content="Test the "Connection" class" />
+<meta property="og:description" content="spec_sql_quote_literal" />
 <meta name="twitter:card" content="summary" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
@@ -96,47 +96,53 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Test the "Connection" class</h1>
+    <h1>spec_sql_quote_literal</h1>
     </div>
 
     
-    <p>Test the "Connection" class</p>
+    <p>spec_sql_quote_literal</p>
     
 
-    <pre class="usage"><span class='fu'>test_connection</span>(<span class='kw'>skip</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ctx</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>get_default_context</a></span>())</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>skip</th>
-      <td><p><code>[character()]</code> A vector of regular expressions to match
-against test names; skip test if matching any.</p></td>
-    </tr>
-    <tr>
-      <th>ctx</th>
-      <td><p><code>[DBItest_context]</code> A test context as created by
-<code><a href='context.html'>make_context()</a></code>.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+        
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Other tests: <code><a href='test_compliance.html'>test_compliance</a></code>,
-  <code><a href='test_driver.html'>test_driver</a></code>,
-  <code><a href='test_getting_started.html'>test_getting_started</a></code>,
-  <code><a href='test_meta.html'>test_meta</a></code>, <code><a href='test_result.html'>test_result</a></code>,
-  <code><a href='test_sql.html'>test_sql</a></code>, <code><a href='test_stress.html'>test_stress</a></code>,
-  <code><a href='test_transaction.html'>test_transaction</a></code></p>
+    <p><code>dbQuoteLiteral()</code> returns an object that can be coerced to character,
+of the same length as the input.
+For an empty character vector this function returns a length-0 object.</p>
+<p>When passing the returned object again to <code>dbQuoteLiteral()</code>
+as <code>x</code>
+argument, it is returned unchanged.
+Passing objects of class SQL should also return them unchanged.
+(For backends it may be most convenient to return SQL objects
+to achieve this behavior, but this is not required.)</p>
+    
+    <h2 class="hasAnchor" id="specification"><a class="anchor" href="#specification"></a>Specification</h2>
+
+    
+    <p>The returned expression can be used in a <code>SELECT ...</code> query,
+and the value of
+<code>dbGetQuery(paste0("SELECT ", dbQuoteLiteral(x)))[[1]]</code>
+must be equal to <code>x</code>
+for any scalar
+integer,
+numeric,
+string,
+and logical.
+If <code>x</code> is <code>NA</code>, the result must merely satisfy <code>is.na()</code>.
+The literals <code>"NA"</code> or <code>"NULL"</code> are not treated specially.
+    <code>NA</code> should be translated to an unquoted SQL <code>NULL</code>,
+so that the query <code>SELECT * FROM (SELECT 1) a WHERE ... IS NULL</code>
+returns one row.</p>
     
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#specification">Specification</a></li>
           </ul>
 
   </div>

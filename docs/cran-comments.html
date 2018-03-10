@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Test the "Connection" class — test_connection • DBItest</title>
+<title>/home/travis/build/r-dbi/DBItest/cran-comments.md • DBItest</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -22,15 +22,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="../pkgdown.css" rel="stylesheet">
-<script src="../jquery.sticky-kit.min.js"></script>
-<script src="../pkgdown.js"></script>
+<link href="pkgdown.css" rel="stylesheet">
+<script src="jquery.sticky-kit.min.js"></script>
+<script src="pkgdown.js"></script>
   
   
-<meta property="og:title" content="Test the "Connection" class — test_connection" />
-
-<meta property="og:description" content="Test the "Connection" class" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:title" content="/home/travis/build/r-dbi/DBItest/cran-comments.md" />
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -43,7 +40,7 @@
   </head>
 
   <body>
-    <div class="container template-reference-topic">
+    <div class="container template-title-body">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -53,18 +50,18 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">DBItest</a>
+      <a class="navbar-brand" href="index.html">DBItest</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
+  <a href="index.html">
     <span class="fa fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">Reference</a>
+  <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -74,12 +71,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/test.html">Testing DBI backends</a>
+      <a href="articles/test.html">Testing DBI backends</a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="../news/index.html">News</a>
+  <a href="news/index.html">News</a>
 </li>
       </ul>
       
@@ -94,53 +91,38 @@
       </header>
 
       <div class="row">
-  <div class="col-md-9 contents">
+  <div class="contents col-md-12">
     <div class="page-header">
-    <h1>Test the "Connection" class</h1>
+      <h1>/home/travis/build/r-dbi/DBItest/cran-comments.md</h1>
     </div>
 
-    
-    <p>Test the "Connection" class</p>
-    
 
-    <pre class="usage"><span class='fu'>test_connection</span>(<span class='kw'>skip</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ctx</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>get_default_context</a></span>())</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>skip</th>
-      <td><p><code>[character()]</code> A vector of regular expressions to match
-against test names; skip test if matching any.</p></td>
-    </tr>
-    <tr>
-      <th>ctx</th>
-      <td><p><code>[DBItest_context]</code> A test context as created by
-<code><a href='context.html'>make_context()</a></code>.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <p>Other tests: <code><a href='test_compliance.html'>test_compliance</a></code>,
-  <code><a href='test_driver.html'>test_driver</a></code>,
-  <code><a href='test_getting_started.html'>test_getting_started</a></code>,
-  <code><a href='test_meta.html'>test_meta</a></code>, <code><a href='test_result.html'>test_result</a></code>,
-  <code><a href='test_sql.html'>test_sql</a></code>, <code><a href='test_stress.html'>test_stress</a></code>,
-  <code><a href='test_transaction.html'>test_transaction</a></code></p>
-    
-
-  </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#see-also">See also</a></li>
-          </ul>
-
-  </div>
+<p>Update that fixes RSQLite for “noLD” builds.</p>
+<div id="test-environments" class="section level2">
+<h2 class="hasAnchor">
+<a href="#test-environments" class="anchor"></a>Test environments</h2>
+<ul>
+<li>local ubuntu 17.10, R 3.4.3</li>
+<li>ubuntu 12.04 (on travis-ci)</li>
+<li>win-builder (devel and release)</li>
+</ul>
 </div>
+<div id="r-cmd-check-results" class="section level2">
+<h2 class="hasAnchor">
+<a href="#r-cmd-check-results" class="anchor"></a>R CMD check results</h2>
+<p>OK</p>
+</div>
+<div id="revdepcheck-results" class="section level2">
+<h2 class="hasAnchor">
+<a href="#revdepcheck-results" class="anchor"></a>revdepcheck results</h2>
+<p>Checked RSQLite, no regressions found. Comparing to the released 1.5-1, this version contains only a very minor change to address the RSQLite check problems (skipping a test if detecting low floating-point precision), this cannot affect the functionality of the downstream dependencies.</p>
+</div>
+
+
+  </div>
+
+</div>
+
 
       <footer>
       <div class="copyright">
