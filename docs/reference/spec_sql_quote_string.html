@@ -25,8 +25,6 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-  
-  
 <meta property="og:title" content="spec_sql_quote_string — spec_sql_quote_string" />
 
 <meta property="og:description" content="spec_sql_quote_string" />
@@ -134,8 +132,8 @@ or newlines
 or is itself the result of a <code>dbQuoteString()</code> call coerced back to
 character (even repeatedly).
 If <code>x</code> is <code>NA</code>, the result must merely satisfy <code>is.na()</code>.
-The strings <code>"NA"</code> or <code>"NULL"</code> are not treated specially.
-    <code>NA</code> should be translated to an unquoted SQL <code>NULL</code>,
+The strings <code>"NA"</code> or <code>"NULL"</code> are not treated specially.</p>
+<p><code>NA</code> should be translated to an unquoted SQL <code>NULL</code>,
 so that the query <code>SELECT * FROM (SELECT 1) a WHERE ... IS NULL</code>
 returns one row.</p>
     
@@ -155,7 +153,7 @@ returns one row.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Kirill Müller, R Consortium.</p>
+  <p>Developed by Kirill Müller, <a href='https://www.r-consortium.org'>R Consortium</a>.</p>
 </div>
 
 <div class="pkgdown">
