@@ -118,112 +118,112 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p><code>[any]</code>
+      <td><p><code>[any]</code><br />
 Unknown tweaks are accepted, with a warning.  The ellipsis
 also asserts that all arguments are named.</p></td>
     </tr>
     <tr>
       <th>constructor_name</th>
-      <td><p><code>[character(1)]</code>
+      <td><p><code>[character(1)]</code><br />
 Name of the function that constructs the <code>Driver</code> object.</p></td>
     </tr>
     <tr>
       <th>constructor_relax_args</th>
-      <td><p><code>[logical(1)]</code>
+      <td><p><code>[logical(1)]</code><br />
 If <code>TRUE</code>, allow a driver constructor with default values for all
 arguments; otherwise, require a constructor with empty argument list
 (default).</p></td>
     </tr>
     <tr>
       <th>strict_identifier</th>
-      <td><p><code>[logical(1)]</code>
+      <td><p><code>[logical(1)]</code><br />
 Set to <code>TRUE</code> if the DBMS does not support arbitrarily-named
 identifiers even when quoting is used.</p></td>
     </tr>
     <tr>
       <th>omit_blob_tests</th>
-      <td><p><code>[logical(1)]</code>
+      <td><p><code>[logical(1)]</code><br />
 Set to <code>TRUE</code> if the DBMS does not support a <code>BLOB</code> data
 type.</p></td>
     </tr>
     <tr>
       <th>current_needs_parens</th>
-      <td><p><code>[logical(1)]</code>
+      <td><p><code>[logical(1)]</code><br />
 Set to <code>TRUE</code> if the SQL functions <code>current_date</code>,
 <code>current_time</code>, and <code>current_timestamp</code> require parentheses.</p></td>
     </tr>
     <tr>
       <th>union</th>
-      <td><p><code>[function(character)]</code>
+      <td><p><code>[function(character)]</code><br />
 Function that combines several subqueries into one so that the
 resulting query returns the concatenated results of the subqueries</p></td>
     </tr>
     <tr>
       <th>placeholder_pattern</th>
-      <td><p><code>[character]</code>
+      <td><p><code>[character]</code><br />
 A pattern for placeholders used in <code>dbBind()</code>, e.g.,
 <code>"?"</code>, <code>"$1"</code>, or <code>":name"</code>. See
 <code><a href='make_placeholder_fun.html'>make_placeholder_fun()</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>logical_return</th>
-      <td><p><code>[function(logical)]</code>
+      <td><p><code>[function(logical)]</code><br />
 A vectorized function that converts logical values to the data type
 returned by the DBI backend.</p></td>
     </tr>
     <tr>
       <th>date_cast</th>
-      <td><p><code>[function(character)]</code>
+      <td><p><code>[function(character)]</code><br />
 A vectorized function that creates an SQL expression for coercing a
 string to a date value.</p></td>
     </tr>
     <tr>
       <th>time_cast</th>
-      <td><p><code>[function(character)]</code>
+      <td><p><code>[function(character)]</code><br />
 A vectorized function that creates an SQL expression for coercing a
 string to a time value.</p></td>
     </tr>
     <tr>
       <th>timestamp_cast</th>
-      <td><p><code>[function(character)]</code>
+      <td><p><code>[function(character)]</code><br />
 A vectorized function that creates an SQL expression for coercing a
 string to a timestamp value.</p></td>
     </tr>
     <tr>
       <th>blob_cast</th>
-      <td><p><code>[function(character)]</code>
+      <td><p><code>[function(character)]</code><br />
 A vectorized function that creates an SQL expression for coercing a
 string to a blob value.</p></td>
     </tr>
     <tr>
       <th>date_typed</th>
-      <td><p><code>[logical(1L)]</code>
+      <td><p><code>[logical(1L)]</code><br />
 Set to <code>FALSE</code> if the DBMS doesn't support a dedicated type for dates.</p></td>
     </tr>
     <tr>
       <th>time_typed</th>
-      <td><p><code>[logical(1L)]</code>
+      <td><p><code>[logical(1L)]</code><br />
 Set to <code>FALSE</code> if the DBMS doesn't support a dedicated type for times.</p></td>
     </tr>
     <tr>
       <th>timestamp_typed</th>
-      <td><p><code>[logical(1L)]</code>
+      <td><p><code>[logical(1L)]</code><br />
 Set to <code>FALSE</code> if the DBMS doesn't support a dedicated type for
 timestamps.</p></td>
     </tr>
     <tr>
       <th>temporary_tables</th>
-      <td><p><code>[logical(1L)]</code>
+      <td><p><code>[logical(1L)]</code><br />
 Set to <code>FALSE</code> if the DBMS doesn't support temporary tables.</p></td>
     </tr>
     <tr>
       <th>list_temporary_tables</th>
-      <td><p><code>[logical(1L)]</code>
+      <td><p><code>[logical(1L)]</code><br />
 Set to <code>FALSE</code> if the DBMS doesn't support listing temporary tables.</p></td>
     </tr>
     <tr>
       <th>is_null_check</th>
-      <td><p><code>[function(character)]</code>
+      <td><p><code>[function(character)]</code><br />
 A vectorized function that creates an SQL expression for checking if a
 value is <code>NULL</code>.</p></td>
     </tr>
