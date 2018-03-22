@@ -31,5 +31,22 @@ issuing a second query invalidates an already open result set
 and raises a warning.
 The newly opened result set is valid
 and must be cleared with \code{dbClearResult()}.
+
+
+
+The \code{param} argument allows passing query parameters, see \code{\link[=dbBind]{dbBind()}} for details.
+}
+
+\section{Additional arguments}{
+
+The following argument is not part of the \code{dbSendStatement()} generic
+(to improve compatibility across backends)
+but is part of the DBI specification:
+\itemize{
+\item \code{params} (default: \code{NULL})
+}
+
+It must be provided as named arguments.
+See the "Specification" sections for details on its usage.
 }
 

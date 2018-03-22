@@ -24,10 +24,16 @@ The following argument is not part of the \code{dbExecute()} generic
 (to improve compatibility across backends)
 but is part of the DBI specification:
 \itemize{
-\item \code{params} (TBD)
+\item \code{params} (default: \code{NULL})
 }
 
-They must be provided as named arguments.
-See the "Specification" section for details on its usage.
+It must be provided as named arguments.
+See the "Specification" sections for details on its usage.
+}
+
+\section{Specification}{
+
+
+The \code{param} argument allows passing query parameters, see \code{\link[=dbBind]{dbBind()}} for details.
 }
 

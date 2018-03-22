@@ -53,6 +53,15 @@ spec_result_send_query <- list(
     })
   },
 
+  #' @section Additional arguments:
+  #' The following argument is not part of the `dbSendQuery()` generic
+  #' (to improve compatibility across backends)
+  #' but is part of the DBI specification:
+  #' - `params` (default: `NULL`)
+  #'
+  #' It must be provided as named arguments.
+  #' See the "Specification" sections for details on its usage.
+
   #' @section Specification:
   send_query_result_valid = function(ctx) {
     with_connection({
@@ -87,6 +96,25 @@ spec_result_send_query <- list(
       expect_true(dbIsValid(res2))
       #' and must be cleared with `dbClearResult()`.
       dbClearResult(res2)
+    })
+  },
+
+  #'
+  #' The `param` argument allows passing query parameters, see [dbBind()] for details.
+  send_query_params = function(ctx) {
+    placeholder_funs <- get_placeholder_funs(ctx)
+
+    with_connection({
+      for (placeholder_fun in placeholder_funs) {
+        placeholder <- placeholder_fun(1)
+        query <- paste0("SELECT ", placeholder, " + 1.0 AS a")
+        values <- trivial_values(3) - 1
+        params <- stats::setNames(list(values), names(placeholder))
+        rs <- dbSendQuery(con, query, params = params)
+        ret <- dbFetch(rs)
+        expect_equal(ret, trivial_df(3), info = placeholder)
+        dbClearResult(rs)
+      }
     })
   },
 

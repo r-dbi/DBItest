@@ -1,6 +1,16 @@
 # Helpers -----------------------------------------------------------------
 
 test_select_bind <- function(con, ctx, ...) {
+  lapply(
+    get_placeholder_funs(ctx),
+    test_select_bind_one,
+    con = con,
+    is_null_check = ctx$tweaks$is_null_check,
+    ...
+  )
+}
+
+get_placeholder_funs <- function(ctx) {
   placeholder_fun <- ctx$tweaks$placeholder_pattern
   if (is.character(placeholder_fun))
     placeholder_fun <- lapply(placeholder_fun, make_placeholder_fun)
@@ -11,13 +21,7 @@ test_select_bind <- function(con, ctx, ...) {
     skip("Use the placeholder_pattern tweak, or skip all 'bind_.*' tests")
   }
 
-  lapply(
-    placeholder_fun,
-    test_select_bind_one,
-    con = con,
-    is_null_check = ctx$tweaks$is_null_check,
-    ...
-  )
+  placeholder_fun
 }
 
 test_select_bind_one <- function(con, placeholder_fun, is_null_check, values,

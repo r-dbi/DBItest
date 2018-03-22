@@ -105,13 +105,14 @@ spec_result_get_query <- list(
   #' (to improve compatibility across backends)
   #' but are part of the DBI specification:
   #' - `n` (default: -1)
-  #' - `params` (TBD)
+  #' - `params` (default: `NULL`)
   #'
   #' They must be provided as named arguments.
   #' See the "Specification" and "Value" sections for details on their usage.
 
   #' @section Specification:
-  #' Fetching multi-row queries with one
+  #' The `n` argument specifies the number of rows to be fetched.
+  #' If omitted, fetching multi-row queries with one
   get_query_multi_row_single_column = function(ctx) {
     with_connection({
       query <- trivial_query(3, .ctx = ctx, .order_by = "a")
@@ -122,7 +123,7 @@ spec_result_get_query <- list(
     })
   },
 
-  #' or more columns be default returns the entire result.
+  #' or more columns returns the entire result.
   get_query_multi_row_multi_column = function(ctx) {
     with_connection({
       query <- union(
@@ -145,8 +146,8 @@ spec_result_get_query <- list(
     })
   },
 
-  #' If more rows than available are fetched, the result is returned in full
-  #' without warning.
+  #' If more rows than available are fetched (by passing a too large value for
+  #' `n`), the result is returned in full without warning.
   get_query_n_more_rows = function(ctx) {
     with_connection({
       query <- trivial_query(3, .ctx = ctx, .order_by = "a")
@@ -157,7 +158,7 @@ spec_result_get_query <- list(
     })
   },
 
-  #' If zero rows are fetched, the columns of the data frame are still fully
+  #' If zero rows are requested, the columns of the data frame are still fully
   #' typed.
   get_query_n_zero_rows = function(ctx) {
     with_connection({
@@ -178,6 +179,23 @@ spec_result_get_query <- list(
 
       rows <- check_df(dbGetQuery(con, query, n = 2L))
       expect_identical(rows, result)
+    })
+  },
+
+  #'
+  #' The `param` argument allows passing query parameters, see [dbBind()] for details.
+  get_query_params = function(ctx) {
+    placeholder_funs <- get_placeholder_funs(ctx)
+
+    with_connection({
+      for (placeholder_fun in placeholder_funs) {
+        placeholder <- placeholder_fun(1)
+        query <- paste0("SELECT ", placeholder, " + 1.0 AS a")
+        values <- trivial_values(3) - 1
+        params <- stats::setNames(list(values), names(placeholder))
+        ret <- dbGetQuery(con, query, params = params)
+        expect_equal(ret, trivial_df(3), info = placeholder)
+      }
     })
   },
 

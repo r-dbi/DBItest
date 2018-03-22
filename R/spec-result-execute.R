@@ -60,10 +60,31 @@ spec_result_execute <- list(
   #' The following argument is not part of the `dbExecute()` generic
   #' (to improve compatibility across backends)
   #' but is part of the DBI specification:
-  #' - `params` (TBD)
+  #' - `params` (default: `NULL`)
   #'
-  #' They must be provided as named arguments.
-  #' See the "Specification" section for details on its usage.
+  #' It must be provided as named arguments.
+  #' See the "Specification" sections for details on its usage.
+
+  #' @section Specification:
+  #'
+  #' The `param` argument allows passing query parameters, see [dbBind()] for details.
+  execute_params = function(ctx) {
+    placeholder_funs <- get_placeholder_funs(ctx)
+
+    with_connection({
+      for (placeholder_fun in placeholder_funs) {
+        with_remove_test_table(name = "test", {
+          dbWriteTable(con, "test", data.frame(a = as.numeric(1:3)))
+          placeholder <- placeholder_fun(1)
+          query <- paste0("DELETE FROM test WHERE a > ", placeholder)
+          values <- 1.5
+          params <- stats::setNames(list(values), names(placeholder))
+          ret <- dbExecute(con, query, params = params)
+          expect_equal(ret, 2, info = placeholder)
+        })
+      }
+    })
+  },
 
   NULL
 )

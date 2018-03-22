@@ -98,5 +98,36 @@ spec_result_send_statement <- list(
     })
   },
 
+  #' @section Additional arguments:
+  #' The following argument is not part of the `dbSendStatement()` generic
+  #' (to improve compatibility across backends)
+  #' but is part of the DBI specification:
+  #' - `params` (default: `NULL`)
+  #'
+  #' It must be provided as named arguments.
+  #' See the "Specification" sections for details on its usage.
+
+  #' @section Specification:
+  #'
+  #' The `param` argument allows passing query parameters, see [dbBind()] for details.
+  send_statement_params = function(ctx) {
+    placeholder_funs <- get_placeholder_funs(ctx)
+
+    with_connection({
+      for (placeholder_fun in placeholder_funs) {
+        with_remove_test_table(name = "test", {
+          dbWriteTable(con, "test", data.frame(a = as.numeric(1:3)))
+          placeholder <- placeholder_fun(1)
+          query <- paste0("DELETE FROM test WHERE a > ", placeholder)
+          values <- 1.5
+          params <- stats::setNames(list(values), names(placeholder))
+          rs <- dbSendStatement(con, query, params = params)
+          expect_equal(dbGetRowsAffected(rs), 2, info = placeholder)
+          dbClearResult(rs)
+        })
+      }
+    })
+  },
+
   NULL
 )
