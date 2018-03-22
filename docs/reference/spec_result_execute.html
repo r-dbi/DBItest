@@ -127,10 +127,15 @@ or if the statement is not a non-<code>NA</code> string.</p>
     <p>The following argument is not part of the <code>dbExecute()</code> generic
 (to improve compatibility across backends)
 but is part of the DBI specification:</p><ul>
-<li><p><code>params</code> (TBD)</p></li>
+<li><p><code>params</code> (default: <code>NULL</code>)</p></li>
 </ul>
-    <p>They must be provided as named arguments.
-See the "Specification" section for details on its usage.</p>
+    <p>It must be provided as named arguments.
+See the "Specification" sections for details on its usage.</p>
+    
+    <h2 class="hasAnchor" id="specification"><a class="anchor" href="#specification"></a>Specification</h2>
+
+    
+    <p>The <code>param</code> argument allows passing query parameters, see <code>dbBind()</code> for details.</p>
     
 
   </div>
@@ -141,6 +146,8 @@ See the "Specification" section for details on its usage.</p>
       <li><a href="#value">Value</a></li>
 
       <li><a href="#additional-arguments">Additional arguments</a></li>
+
+      <li><a href="#specification">Specification</a></li>
           </ul>
 
   </div>

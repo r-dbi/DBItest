@@ -132,7 +132,7 @@ but a subsequent call to <code>dbGetQuery()</code> with proper <code>n</code> ar
 (to improve compatibility across backends)
 but are part of the DBI specification:</p><ul>
 <li><p><code>n</code> (default: -1)</p></li>
-<li><p><code>params</code> (TBD)</p></li>
+<li><p><code>params</code> (default: <code>NULL</code>)</p></li>
 </ul>
     <p>They must be provided as named arguments.
 See the "Specification" and "Value" sections for details on their usage.</p>
@@ -140,16 +140,18 @@ See the "Specification" and "Value" sections for details on their usage.</p>
     <h2 class="hasAnchor" id="specification"><a class="anchor" href="#specification"></a>Specification</h2>
 
     
-    <p>Fetching multi-row queries with one
-or more columns be default returns the entire result.
+    <p>The <code>n</code> argument specifies the number of rows to be fetched.
+If omitted, fetching multi-row queries with one
+or more columns returns the entire result.
 A value of Inf for the <code>n</code> argument is supported
 and also returns the full result.
-If more rows than available are fetched, the result is returned in full
-without warning.
-If zero rows are fetched, the columns of the data frame are still fully
+If more rows than available are fetched (by passing a too large value for
+<code>n</code>), the result is returned in full without warning.
+If zero rows are requested, the columns of the data frame are still fully
 typed.
 Fetching fewer rows than available is permitted,
 no warning is issued.</p>
+<p>The <code>param</code> argument allows passing query parameters, see <code>dbBind()</code> for details.</p>
 <p>A column named <code>row_names</code> is treated like any other column.</p>
     
 

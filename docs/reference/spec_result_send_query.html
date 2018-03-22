@@ -121,6 +121,17 @@ or invalid connection,
 if the syntax of the query is invalid,
 or if the query is not a non-<code>NA</code> string.</p>
     
+    <h2 class="hasAnchor" id="additional-arguments"><a class="anchor" href="#additional-arguments"></a>Additional arguments</h2>
+
+    
+    <p>The following argument is not part of the <code>dbSendQuery()</code> generic
+(to improve compatibility across backends)
+but is part of the DBI specification:</p><ul>
+<li><p><code>params</code> (default: <code>NULL</code>)</p></li>
+</ul>
+    <p>It must be provided as named arguments.
+See the "Specification" sections for details on its usage.</p>
+    
     <h2 class="hasAnchor" id="specification"><a class="anchor" href="#specification"></a>Specification</h2>
 
     
@@ -134,6 +145,7 @@ issuing a second query invalidates an already open result set
 and raises a warning.
 The newly opened result set is valid
 and must be cleared with <code>dbClearResult()</code>.</p>
+<p>The <code>param</code> argument allows passing query parameters, see <code>dbBind()</code> for details.</p>
     
 
   </div>
@@ -142,6 +154,8 @@ and must be cleared with <code>dbClearResult()</code>.</p>
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#additional-arguments">Additional arguments</a></li>
 
       <li><a href="#specification">Specification</a></li>
           </ul>

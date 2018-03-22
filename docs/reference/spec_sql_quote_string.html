@@ -143,6 +143,12 @@ The strings <code>"NA"</code> or <code>"NULL"</code> are not treated specially.<
 <p><code>NA</code> should be translated to an unquoted SQL <code>NULL</code>,
 so that the query <code>SELECT * FROM (SELECT 1) a WHERE ... IS NULL</code>
 returns one row.</p>
+<p>Passing a numeric,
+integer,
+logical,
+or raw vector,
+or a list
+for the <code>x</code> argument raises an error.</p>
     
 
   </div>
