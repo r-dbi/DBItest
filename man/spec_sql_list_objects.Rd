@@ -32,8 +32,9 @@ spec_sql_list_objects
 }
 \section{Specification}{
 
+The \code{table} object can be quoted with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}.
 The result of quoting can be passed to \code{\link[=dbUnquoteIdentifier]{dbUnquoteIdentifier()}}.
-The unquoted results are equal to the \code{table} object.
+The unquoted results are equal to the original \code{table} object.
 (For backends it may be convenient to use the \link{Id} class, but this is
 not required.)
 

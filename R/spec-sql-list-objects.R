@@ -103,11 +103,11 @@ spec_sql_list_objects <- list(
     with_connection({
       objects <- dbListObjects(con)
 
+      #' The `table` object can be quoted with [dbQuoteIdentifier()].
       sql <- lapply(objects$table, dbQuoteIdentifier, conn = con)
-
       #' The result of quoting can be passed to [dbUnquoteIdentifier()].
       unquoted <- vapply(sql, dbUnquoteIdentifier, conn = con, list(1))
-      #' The unquoted results are equal to the `table` object.
+      #' The unquoted results are equal to the original `table` object.
       expect_equal(unquoted, unclass(objects$table))
       #' (For backends it may be convenient to use the [Id] class, but this is
       #' not required.)
