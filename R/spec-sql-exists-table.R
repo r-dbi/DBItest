@@ -106,7 +106,7 @@ spec_sql_exists_table <- list(
         {
           dbWriteTable(con, name, data.frame(a = 1))
           for (table_name in dbListTables(con)) {
-            expect_true(dbExistsTable(con, table_name))
+            eval(bquote(expect_true(dbExistsTable(con, .(table_name)))))
           }
         }
       )

@@ -22,7 +22,7 @@ Imports:
     lubridate,
     methods,
     R6,
-    testthat (>= 1.0.2),
+    testthat (>= 2.0.0),
     withr
 Suggests: 
     devtools,
