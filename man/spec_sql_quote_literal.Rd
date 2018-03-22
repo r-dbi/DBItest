@@ -36,5 +36,8 @@ The literals \code{"NA"} or \code{"NULL"} are not treated specially.
 \code{NA} should be translated to an unquoted SQL \code{NULL},
 so that the query \code{SELECT * FROM (SELECT 1) a WHERE ... IS NULL}
 returns one row.
+
+Passing a list
+for the \code{x} argument raises an error.
 }
 
