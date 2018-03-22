@@ -41,14 +41,6 @@ spec_sql_quote_identifier <- list(
       named_out <- dbQuoteIdentifier(con, named)
       expect_equal(names(named_out), letters[1:3])
 
-      #' An error is raised if the input contains `NA`,
-      expect_error(dbQuoteIdentifier(con, NA))
-      expect_error(dbQuoteIdentifier(con, NA_character_))
-      expect_error(dbQuoteIdentifier(con, c("a", NA_character_)))
-      #' but not for an empty string.
-      expect_error(dbQuoteIdentifier(con, ""), NA)
-
-      #'
       #' When passing the returned object again to `dbQuoteIdentifier()`
       #' as `x`
       #' argument, it is returned unchanged.
@@ -62,6 +54,18 @@ spec_sql_quote_identifier <- list(
 
       #' (For backends it may be most convenient to return [SQL] objects
       #' to achieve this behavior, but this is not required.)
+    })
+  },
+
+  quote_identifier_error = function(ctx) {
+    with_connection({
+      #'
+      #' An error is raised if the input contains `NA`,
+      expect_error(dbQuoteIdentifier(con, NA))
+      expect_error(dbQuoteIdentifier(con, NA_character_))
+      expect_error(dbQuoteIdentifier(con, c("a", NA_character_)))
+      #' but not for an empty string.
+      expect_error(dbQuoteIdentifier(con, ""), NA)
     })
   },
 

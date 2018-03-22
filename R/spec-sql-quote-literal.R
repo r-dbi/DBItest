@@ -129,5 +129,14 @@ spec_sql_quote_literal <- list(
     })
   },
 
+  quote_string_error = function(ctx) {
+    with_connection({
+      #'
+      #' Passing a list
+      expect_error(dbQuoteString(con, as.list(1:3)))
+      #' for the `x` argument raises an error.
+    })
+  },
+
   NULL
 )

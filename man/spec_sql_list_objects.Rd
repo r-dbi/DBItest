@@ -32,17 +32,24 @@ spec_sql_list_objects
 }
 \section{Specification}{
 
+The \code{table} object can be quoted with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}.
 The result of quoting can be passed to \code{\link[=dbUnquoteIdentifier]{dbUnquoteIdentifier()}}.
-The unquoted results are equal to the \code{table} object.
+The unquoted results are equal to the original \code{table} object.
 (For backends it may be convenient to use the \link{Id} class, but this is
 not required.)
-indicating if the \code{table} value in this row can be passed as the
-\code{prefix} argument to another call to \code{dbListObjects()}.
+
+The \code{prefix} column indicates if the \code{table} value refers to a table
+or a prefix.
 For a call with the default \code{prefix = NULL}, the \code{table}
 values that have \code{is_prefix == FALSE} correspond to the tables
-returned from \code{\link[=dbListTables]{dbListTables()}}.
+returned from \code{\link[=dbListTables]{dbListTables()}},
 
-TBD: Enumeration of schemas.
+Values in \code{table} column that have \code{is_prefix == TRUE} can be
+passed as the \code{prefix} argument to another call to \code{dbListObjects()}.
+For the data frame returned from a \code{dbListObject()} call with the
+\code{prefix} argument set, all \code{table} values where \code{is_prefix} is
+\code{FALSE} can be used in a call to \code{\link[=dbExistsTable]{dbExistsTable()}} which returns
+\code{TRUE}.
 }
 
 \section{Additional arguments}{

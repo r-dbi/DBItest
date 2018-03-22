@@ -138,5 +138,22 @@ spec_sql_quote_string <- list(
     })
   },
 
+  quote_string_error = function(ctx) {
+    with_connection({
+      #'
+      #' Passing a numeric,
+      expect_error(dbQuoteString(con, c(1, 2, 3)))
+      #' integer,
+      expect_error(dbQuoteString(con, 1:3))
+      #' logical,
+      expect_error(dbQuoteString(con, c(TRUE, FALSE)))
+      #' or raw vector,
+      expect_error(dbQuoteString(con, as.raw(1:3)))
+      #' or a list
+      expect_error(dbQuoteString(con, as.list(1:3)))
+      #' for the `x` argument raises an error.
+    })
+  },
+
   NULL
 )
