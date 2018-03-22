@@ -9,5 +9,5 @@
 #' @importFrom DBI dbQuoteIdentifier dbQuoteLiteral dbQuoteString dbReadTable dbRemoveTable
 #' @importFrom DBI dbRollback dbSendQuery dbSendStatement dbSetDataMappings
 #' @importFrom DBI dbUnquoteIdentifier dbWithTransaction dbWriteTable
-#' @importFrom DBI SQL
+#' @importFrom DBI Id SQL
 NULL
