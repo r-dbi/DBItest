@@ -129,7 +129,7 @@ spec_sql_quote_literal <- list(
     })
   },
 
-  quote_string_error = function(ctx) {
+  quote_literal_error = function(ctx) {
     with_connection({
       #'
       #' Passing a list
