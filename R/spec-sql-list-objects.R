@@ -112,11 +112,12 @@ spec_sql_list_objects <- list(
       #' (For backends it may be convenient to use the [Id] class, but this is
       #' not required.)
 
-      #' indicating if the `table` value in this row can be passed as the
-      #' `prefix` argument to another call to `dbListObjects()`.
+      #'
+      #' The `prefix` column indicates if the `table` value refers to a table
+      #' or a prefix.
       #' For a call with the default `prefix = NULL`, the `table`
       #' values that have `is_prefix == FALSE` correspond to the tables
-      #' returned from [dbListTables()].
+      #' returned from [dbListTables()],
       non_prefix_objects <- vapply(
         objects$table[!objects$is_prefix],
         dbQuoteIdentifier, conn = con,
@@ -125,8 +126,25 @@ spec_sql_list_objects <- list(
       all_tables <- dbQuoteIdentifier(con, dbListTables(con))
       expect_equal(sort(non_prefix_objects), sort(as.character(all_tables)))
 
+      if (!any(objects$is_prefix)) {
+        skip("No schemas available")
+      }
+
       #'
-      #' TBD: Enumeration of schemas.
+      #' Values in `table` column that have `is_prefix == TRUE` can be
+      #' passed as the `prefix` argument to another call to `dbListObjects()`.
+      #' For the data frame returned from a `dbListObject()` call with the
+      #' `prefix` argument set, all `table` values where `is_prefix` is
+      #' `FALSE` can be used in a call to [dbExistsTable()] which returns
+      #' `TRUE`.
+      for (schema in objects$table[objects$is_prefix]) {
+        sub_objects <- dbListObjects(con, prefix = schema)
+        for (sub_table in sub_objects$table[!sub_objects$is_prefix]) {
+          # eval(bquote()) preserves the SQL class, even if it's not apparent
+          # in the output
+          eval(bquote(expect_true(dbExistsTable(con, .(sub_table)))))
+        }
+      }
     })
   },
 
