@@ -1,13 +1,21 @@
 #' Tweaks for DBI tests
 #'
-#' TBD.
+#' The tweaks are a way to control the behavior of certain tests. Currently,
+#' you need to search the \pkg{DBItest} source code to understand which tests
+#' are affected by which tweaks. This function is usually called to set the
+#' `tweaks` argument in a [make_context()] call.
+#'
 #' @name tweaks
 #' @aliases NULL
+#' @examples
+#' \dontrun{
+#' make_context(..., tweaks = tweaks(strict_identifier = TRUE))
+#' }
 { # nolint
   tweak_names <- alist(
     #' @param ... `[any]`\cr
     #'   Unknown tweaks are accepted, with a warning.  The ellipsis
-    #'   also asserts that all arguments are named.
+    #'   also makes sure that you only can pass named arguments.
     "..." = ,
 
     #' @param constructor_name `[character(1)]`\cr

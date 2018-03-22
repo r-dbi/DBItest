@@ -18,7 +18,7 @@ tweaks(..., constructor_name = NULL, constructor_relax_args = FALSE,
 \arguments{
 \item{...}{\code{[any]}\cr
 Unknown tweaks are accepted, with a warning.  The ellipsis
-also asserts that all arguments are named.}
+also makes sure that you only can pass named arguments.}
 
 \item{constructor_name}{\code{[character(1)]}\cr
 Name of the function that constructs the \code{Driver} object.}
@@ -90,5 +90,13 @@ A vectorized function that creates an SQL expression for checking if a
 value is \code{NULL}.}
 }
 \description{
-TBD.
+The tweaks are a way to control the behavior of certain tests. Currently,
+you need to search the \pkg{DBItest} source code to understand which tests
+are affected by which tweaks. This function is usually called to set the
+\code{tweaks} argument in a \code{\link[=make_context]{make_context()}} call.
+}
+\examples{
+\dontrun{
+make_context(..., tweaks = tweaks(strict_identifier = TRUE))
+}
 }
