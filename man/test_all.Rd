@@ -23,7 +23,9 @@ describing the tests to run.}
 }
 \description{
 \code{test_all()} calls all tests defined in this package (see the section
-"Tests" below).
+"Tests" below). This function supports running only one test by setting an
+environment variable, e.g., set the \code{DBITEST_ONLY_RESULT} to a nonempty
+value to run only \code{test_result()}.
 
 \code{test_some()} allows testing one or more tests, it works by
 constructing the \code{skip} argument using negative lookaheads.

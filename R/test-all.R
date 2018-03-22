@@ -1,7 +1,9 @@
 #' Run all tests
 #'
 #' `test_all()` calls all tests defined in this package (see the section
-#' "Tests" below).
+#' "Tests" below). This function supports running only one test by setting an
+#' environment variable, e.g., set the `DBITEST_ONLY_RESULT` to a nonempty
+#' value to run only `test_result()`.
 #'
 #' @section Tests:
 #' This function runs the following tests, except the stress tests:
@@ -13,14 +15,15 @@
 #'
 #' @export
 test_all <- function(skip = NULL, ctx = get_default_context()) {
-  test_getting_started(skip = skip, ctx = ctx)
-  test_driver(skip = skip, ctx = ctx)
-  test_connection(skip = skip, ctx = ctx)
-  test_result(skip = skip, ctx = ctx)
-  test_sql(skip = skip, ctx = ctx)
-  test_meta(skip = skip, ctx = ctx)
-  test_transaction(skip = skip, ctx = ctx)
-  test_compliance(skip = skip, ctx = ctx)
+  run_all <- length(grep("^DBITEST_ONLY_", names(Sys.getenv()))) == 0
+  if (run_all || Sys.getenv("DBITEST_ONLY_GETTING_STARTED") != "") test_getting_started(skip = skip, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_DRIVER") != "") test_driver(skip = skip, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_CONNECTION") != "") test_connection(skip = skip, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_RESULT") != "") test_result(skip = skip, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_SQL") != "") test_sql(skip = skip, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_META") != "") test_meta(skip = skip, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_TRANSACTION") != "") test_transaction(skip = skip, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_COMPLIANCE") != "") test_compliance(skip = skip, ctx = ctx)
   # stress tests are not tested by default (#92)
   invisible()
 }
