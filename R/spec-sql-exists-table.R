@@ -61,12 +61,6 @@ spec_sql_exists_table <- list(
     })
   },
 
-  #' @section Additional arguments:
-  #' TBD: `temporary = NA`
-  #'
-  #' This must be provided as named argument.
-  #' See the "Specification" section for details on their usage.
-
   #' @section Specification:
   #' The `name` argument is processed as follows,
   exists_table_name = function(ctx) {

@@ -52,11 +52,3 @@ For the data frame returned from a \code{dbListObject()} call with the
 \code{TRUE}.
 }
 
-\section{Additional arguments}{
-
-TBD: \code{temporary = NA}
-
-This must be provided as named argument.
-See the "Specification" section for details on their usage.
-}
-

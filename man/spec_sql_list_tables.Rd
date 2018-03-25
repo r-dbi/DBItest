@@ -23,11 +23,3 @@ or invalid connection.
 \description{
 spec_sql_list_tables
 }
-\section{Additional arguments}{
-
-TBD: \code{temporary = NA}
-
-This must be provided as named argument.
-See the "Specification" section for details on their usage.
-}
-

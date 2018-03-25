@@ -18,14 +18,6 @@ or if this results in a non-scalar.
 \description{
 spec_sql_exists_table
 }
-\section{Additional arguments}{
-
-TBD: \code{temporary = NA}
-
-This must be provided as named argument.
-See the "Specification" section for details on their usage.
-}
-
 \section{Specification}{
 
 The \code{name} argument is processed as follows,

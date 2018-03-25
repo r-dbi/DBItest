@@ -148,11 +148,5 @@ spec_sql_list_objects <- list(
     })
   },
 
-  #' @section Additional arguments:
-  #' TBD: `temporary = NA`
-  #'
-  #' This must be provided as named argument.
-  #' See the "Specification" section for details on their usage.
-
   NULL
 )
