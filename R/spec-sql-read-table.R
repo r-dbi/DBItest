@@ -264,7 +264,7 @@ spec_sql_read_table <- list(
   #' The following arguments are not part of the `dbReadTable()` generic
   #' (to improve compatibility across backends)
   #' but are part of the DBI specification:
-  #' - `row.names`
+  #' - `row.names` (default: `FALSE`)
   #' - `check.names`
   #'
   #' They must be provided as named arguments.

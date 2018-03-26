@@ -36,7 +36,7 @@ The following arguments are not part of the \code{dbWriteTable()} generic
 (to improve compatibility across backends)
 but are part of the DBI specification:
 \itemize{
-\item \code{row.names} (default: \code{NA})
+\item \code{row.names} (default: \code{FALSE})
 \item \code{overwrite} (default: \code{FALSE})
 \item \code{append} (default: \code{FALSE})
 \item \code{field.types} (default: \code{NULL})
@@ -130,5 +130,7 @@ no extra column is created in the case of natural row names.
 that contains the row names,
 even if the input data frame only has natural row names.
 }
+
+The default is \code{row.names = FALSE}.
 }
 

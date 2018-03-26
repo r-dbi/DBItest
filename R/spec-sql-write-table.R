@@ -115,7 +115,7 @@ spec_sql_write_table <- list(
   #' The following arguments are not part of the `dbWriteTable()` generic
   #' (to improve compatibility across backends)
   #' but are part of the DBI specification:
-  #' - `row.names` (default: `NA`)
+  #' - `row.names` (default: `FALSE`)
   #' - `overwrite` (default: `FALSE`)
   #' - `append` (default: `FALSE`)
   #' - `field.types` (default: `NULL`)
@@ -734,6 +734,21 @@ spec_sql_write_table <- list(
         expect_true(all(iris_out$seq %in% rownames(iris_in)))
         expect_true(all(rownames(iris_in) %in% iris_out$seq))
         expect_equal_df(iris_out[names(iris_out) != "seq"], iris_in)
+      })
+    })
+  },
+
+  write_table_row_names_default = function(ctx) {
+    #'
+    #' The default is `row.names = FALSE`.
+    with_connection({
+      with_remove_test_table(name = "mtcars", {
+        mtcars_in <- datasets::mtcars
+        dbWriteTable(con, "mtcars", mtcars_in)
+        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
+
+        expect_false("row_names" %in% names(mtcars_out))
+        expect_equal_df(mtcars_out, unrowname(mtcars_in))
       })
     })
   },

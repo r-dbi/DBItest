@@ -52,7 +52,7 @@ The following arguments are not part of the \code{dbReadTable()} generic
 (to improve compatibility across backends)
 but are part of the DBI specification:
 \itemize{
-\item \code{row.names}
+\item \code{row.names} (default: \code{FALSE})
 \item \code{check.names}
 }
 
