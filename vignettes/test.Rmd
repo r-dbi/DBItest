@@ -1,7 +1,6 @@
 ---
 title: "Testing DBI backends"
 author: "Kirill Müller"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Testing DBI backends}
