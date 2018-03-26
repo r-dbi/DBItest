@@ -192,6 +192,8 @@ total number of rows affected if binding non-scalar parameters.
 for both queries
 and data manipulation statements,
 even if no results are fetched between calls to <code>dbBind()</code>.</p>
+<p>If the placeholders in the query are named,
+their order in the <code>params</code> argument is not important.</p>
 <p>At least the following data types are accepted on input (including NA):</p><ul>
 <li><p>integer</p></li>
 <li><p>numeric</p></li>
