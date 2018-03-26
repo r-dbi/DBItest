@@ -138,7 +138,7 @@ also raise an error.</p>
     <p>The following arguments are not part of the <code>dbWriteTable()</code> generic
 (to improve compatibility across backends)
 but are part of the DBI specification:</p><ul>
-<li><p><code>row.names</code> (default: <code>NA</code>)</p></li>
+<li><p><code>row.names</code> (default: <code>FALSE</code>)</p></li>
 <li><p><code>overwrite</code> (default: <code>FALSE</code>)</p></li>
 <li><p><code>append</code> (default: <code>FALSE</code>)</p></li>
 <li><p><code>field.types</code> (default: <code>NULL</code>)</p></li>
@@ -219,6 +219,7 @@ no extra column is created in the case of natural row names.</p></li>
 that contains the row names,
 even if the input data frame only has natural row names.</p></li>
 </ul>
+    <p>The default is <code>row.names = FALSE</code>.</p>
     
 
   </div>
