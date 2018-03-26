@@ -178,8 +178,12 @@ and be read identically with <code>dbReadTable()</code>:</p><ul>
 (the behavior for <code>Inf</code> and <code>NaN</code> is not specified)</p></li>
 <li><p>logical</p></li>
 <li><p><code>NA</code> as NULL</p></li>
-<li><p>64-bit values (using <code>"bigint"</code> as field type);
-the result can be converted to a numeric, which may lose precision,</p></li>
+<li><p>64-bit values (using <code>"bigint"</code> as field type); the result can be</p><ul>
+<li><p>converted to a numeric, which may lose precision,</p></li>
+<li><p>converted a character vector, which gives the full decimal
+representation</p></li>
+<li><p>written to another table and read again unchanged</p></li>
+</ul></li>
 <li><p>character (in both UTF-8
 and native encodings),
 supporting empty strings</p></li>
