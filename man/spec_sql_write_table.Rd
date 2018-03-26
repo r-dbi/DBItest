@@ -84,8 +84,13 @@ and be read identically with \code{\link[=dbReadTable]{dbReadTable()}}:
 (the behavior for \code{Inf} and \code{NaN} is not specified)
 \item logical
 \item \code{NA} as NULL
-\item 64-bit values (using \code{"bigint"} as field type);
-the result can be converted to a numeric, which may lose precision,
+\item 64-bit values (using \code{"bigint"} as field type); the result can be
+\itemize{
+\item converted to a numeric, which may lose precision,
+\item converted a character vector, which gives the full decimal
+representation
+\item written to another table and read again unchanged
+}
 \item character (in both UTF-8
 and native encodings),
 supporting empty strings

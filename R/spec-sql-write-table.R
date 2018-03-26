@@ -353,14 +353,14 @@ spec_sql_write_table <- list(
     })
   },
 
-  #' - 64-bit values (using `"bigint"` as field type);
+  #' - 64-bit values (using `"bigint"` as field type); the result can be
   roundtrip_64_bit_numeric = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
       test_table_roundtrip(
         con, tbl_in,
         transform = function(tbl_out) {
-          #' the result can be converted to a numeric, which may lose precision,
+          #'     - converted to a numeric, which may lose precision,
           tbl_out$a <- as.numeric(tbl_out$a)
           tbl_out
         },
@@ -377,13 +377,28 @@ spec_sql_write_table <- list(
       test_table_roundtrip(
         con, tbl_in, tbl_exp,
         transform = function(tbl_out) {
-          # ' or to character, which gives the full decimal representation as a
-          # ' character vector
+          #'     - converted a character vector, which gives the full decimal
+          #'       representation
           tbl_out$a <- as.character(tbl_out$a)
           tbl_out
         },
         field.types = c(a = "BIGINT")
       )
+    })
+  },
+
+  roundtrip_64_bit_roundtrip = function(ctx) {
+    with_connection({
+      tbl_in <- data.frame(a = c(-1e14, 1e15))
+      tbl_out <- with_remove_test_table(
+        {
+          dbWriteTable(con, "test", tbl_in, field.types = c(a = "BIGINT"))
+          dbReadTable(con, "test")
+        }
+      )
+      tbl_exp <- tbl_out
+      #'     - written to another table and read again unchanged
+      test_table_roundtrip(con, tbl_out, tbl_exp)
     })
   },
 
