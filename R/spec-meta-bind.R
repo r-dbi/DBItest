@@ -250,6 +250,22 @@ spec_meta_bind <- list(
   },
 
   #'
+  #' If the placeholders in the query are named,
+  bind_named_param_shuffle = function(ctx) {
+    extra <- new_bind_tester_extra(
+      patch_bind_values = function(bind_values) {
+        #' their order in the `params` argument is not important.
+        bind_values[c(3, 1, 2, 4)]
+      },
+
+      requires_names = function() TRUE
+    )
+    with_connection({
+      test_select_bind(con, ctx, c(1:3 + 0.5, NA), extra = extra)
+    })
+  },
+
+  #'
   #' At least the following data types are accepted on input (including [NA]):
   #' - [integer]
   bind_integer = function(ctx) {
