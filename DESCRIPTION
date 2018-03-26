@@ -3,9 +3,9 @@ Title: Testing 'DBI' 'Backends'
 Version: 1.5-23
 Date: 2018-01-26
 Authors@R: c(
-      person(given = "Kirill", family = "Müller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org"),
-      person("RStudio", role = "cph"),
-      person("R Consortium", role = "fnd")
+    person("Kirill", "M\u00fcller", role = c("aut", "cre"), email = "krlmlr+r@mailbox.org", comment = c(ORCID = "0000-0002-1416-3412")),
+    person("RStudio", role = "cph"),
+    person("R Consortium", role = "fnd")
     )
 Description: A helper that tests 'DBI' back ends for conformity
     to the interface.
@@ -14,7 +14,7 @@ BugReports: https://github.com/r-dbi/DBItest/issues
 Depends: 
     R (>= 3.0.0)
 Imports: 
-    blob,
+    blob (>= 1.1.1),
     callr,
     DBI (>= 0.4-9),
     desc,
