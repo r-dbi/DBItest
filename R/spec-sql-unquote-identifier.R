@@ -131,5 +131,18 @@ spec_sql_unquote_identifier <- list(
     })
   },
 
+  #'
+  #' Unquoting simple strings (consisting of only letters) wrapped with [SQL()]
+  #' and then quoting gives the same result as just quoting.
+  unquote_identifier_simple = function(ctx) {
+    with_connection({
+      simple_in <- "simple"
+      simple_quoted <- dbQuoteIdentifier(con, simple_in)
+      simple_out <- dbUnquoteIdentifier(con, SQL(simple_in))
+      simple_roundtrip <- dbQuoteIdentifier(con, simple_out[[1]])
+      expect_identical(simple_roundtrip, simple_quoted)
+    })
+  },
+
   NULL
 )
