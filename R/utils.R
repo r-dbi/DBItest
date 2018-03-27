@@ -16,16 +16,14 @@ utils::globalVariables("con2")
 # (can be overridden by specifying con argument)
 # that points to a newly opened connection. Disconnects on exit.
 with_connection <- function(code, con = "con", env = parent.frame()) {
-  code_sub <- substitute(code)
+  quo <- enquo(code)
 
   con <- as.name(con)
 
-  eval(bquote({
-    .(con) <- connect(ctx)
-    on.exit(try_silent(dbDisconnect(.(con))), add = TRUE)
-    local(.(code_sub))
-  }
-  ), envir = env)
+  data <- list2(!!con := connect(get("ctx", env)))
+  on.exit(try_silent(dbDisconnect(data[[1]])), add = TRUE)
+
+  eval_tidy(quo, data)
 }
 
 # Expects a variable "ctx" in the environment env,

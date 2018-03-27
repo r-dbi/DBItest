@@ -65,6 +65,6 @@ patch_test_fun <- function(test_fun, desc) {
 
 wrap_all_statements_with_expect_no_warning <- function(block) {
   stopifnot(identical(block[[1]], quote(`{`)))
-  block[-1] <- lapply(block[-1], function(x) eval(bquote(quote(expect_warning(.(x), NA)))))
+  block[-1] <- lapply(block[-1], function(x) expr(expect_warning(!!x, NA)))
   block
 }
