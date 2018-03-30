@@ -18,7 +18,7 @@
 <![endif]-->
 </head>
 <body>
-    <div class="container template-vignette">
+    <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
@@ -70,7 +70,7 @@
 
       
       </header><div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>Testing DBI backends</h1>
                         <h4 class="author">Kirill Müller</h4>
@@ -82,7 +82,6 @@
 
     
     
-<div class="contents">
 <p>This document shows how to use the <code>DBItest</code> package when implementing a new <code>DBI</code> backend or when applying it to an existing backend. The <code>DBItest</code> package provides a large collection of automated tests.</p>
 <div id="testing-a-new-backend" class="section level2">
 <h2 class="hasAnchor">
@@ -121,7 +120,6 @@ devtools::<span class="kw">use_test</span>(<span class="st">"DBItest"</span>)</c
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DBItest::<span class="kw"><a href="../reference/context.html">make_context</a></span>(<span class="kw">Kazam</span>(), <span class="ot">NULL</span>)
 DBItest::<span class="kw"><a href="../reference/test_all.html">test_all</a></span>()</code></pre></div>
 <p>The notes about “Kazam” and skipping tests from the previous section apply here as well. The <code><a href="../reference/test_all.html">test_all()</a></code> function simply calls all test cases.</p>
-</div>
 </div>
   </div>
 
