@@ -12,7 +12,8 @@ spec_meta_column_info <- list(
         {
           ci <- dbColumnInfo(res)
           expect_is(ci, "data.frame")
-          expect_identical(colnames(ci), c("name", "type"))
+          expect_identical(colnames(ci)[1:2], c("name", "type"))
+          expect_true(all(grepl("^[.]", colnames(ci)[-1:-2])))
           expect_identical(ci$name[1:2], c("a", "b"))
           expect_is(ci$type, "character")
         }
