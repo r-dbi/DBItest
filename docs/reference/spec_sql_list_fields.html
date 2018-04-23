@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DBI specification (work in progress) — DBIspec-wip • DBItest</title>
+<title>spec_sql_list_fields — spec_sql_list_fields • DBItest</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -27,9 +27,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="DBI specification (work in progress) — DBIspec-wip" />
+<meta property="og:title" content="spec_sql_list_fields — spec_sql_list_fields" />
 
-<meta property="og:description" content="Placeholder page." />
+<meta property="og:description" content="spec_sql_list_fields" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,38 +105,44 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>DBI specification (work in progress)</h1>
+    <h1>spec_sql_list_fields</h1>
     
-    <div class="hidden name"><code>DBIspec-wip.Rd</code></div>
+    <div class="hidden name"><code>spec_sql_list_fields.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Placeholder page.</p>
+    <p>spec_sql_list_fields</p>
     
     </div>
 
         
-    <h2 class="hasAnchor" id="driver"><a class="anchor" href="#driver"></a>Driver</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>dbListFields()</code>
+returns a character vector
+that enumerates all fields
+in the table in the correct order.
+This also works for temporary tables if supported by the database.
+The returned names are suitable for quoting with <code>dbQuoteIdentifier()</code>.
+If the table does not exist, an error is raised.
+Invalid types for the <code>name</code> argument
+(e.g., <code>character</code> of length not equal to one,
+or numeric)
+lead to an error.
+An error is also raised when calling this method for a closed
+or invalid connection.</p>
+    
+    <h2 class="hasAnchor" id="specification"><a class="anchor" href="#specification"></a>Specification</h2>
 
     
-    <h3><code>dbGetInfo("DBIDriver")</code> (deprecated)</h3>
-    Return value of dbGetInfo has necessary elements.
-    
-    <h2 class="hasAnchor" id="connection"><a class="anchor" href="#connection"></a>Connection</h2>
-
-    
-    <h3><code>dbGetInfo("DBIConnection")</code> (deprecated)</h3>
-    Return value of dbGetInfo has necessary elements
-    <h3>Stress tests</h3>
-    Open 50 simultaneous connections
-Open and close 50 connections
-    
-    <h2 class="hasAnchor" id="meta"><a class="anchor" href="#meta"></a>Meta</h2>
-
-    
-    <h3><code>dbGetInfo("DBIResult")</code> (deprecated)</h3>
-    Return value of dbGetInfo has necessary elements
+    <p>The <code>name</code> argument can be</p><ul>
+<li><p>a string</p></li>
+<li><p>the return value of <code>dbQuoteIdentifier()</code></p></li>
+<li><p>a value from the <code>table</code> column from the return value of
+<code>dbListObjects()</code> where <code>is_prefix</code> is <code>FALSE</code></p></li>
+</ul>
+    <p>A column named <code>row_names</code> is treated like any other column.</p>
     
 
   </div>
@@ -144,11 +150,9 @@ Open and close 50 connections
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#driver">Driver</a></li>
+      <li><a href="#value">Value</a></li>
 
-      <li><a href="#connection">Connection</a></li>
-
-      <li><a href="#meta">Meta</a></li>
+      <li><a href="#specification">Specification</a></li>
           </ul>
 
   </div>

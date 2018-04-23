@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DBI specification (work in progress) — DBIspec-wip • DBItest</title>
+<title>spec_meta_column_info — spec_meta_column_info • DBItest</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -27,9 +27,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
-<meta property="og:title" content="DBI specification (work in progress) — DBIspec-wip" />
+<meta property="og:title" content="spec_meta_column_info — spec_meta_column_info" />
 
-<meta property="og:description" content="Placeholder page." />
+<meta property="og:description" content="spec_meta_column_info" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -105,38 +105,38 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>DBI specification (work in progress)</h1>
+    <h1>spec_meta_column_info</h1>
     
-    <div class="hidden name"><code>DBIspec-wip.Rd</code></div>
+    <div class="hidden name"><code>spec_meta_column_info.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Placeholder page.</p>
+    <p>spec_meta_column_info</p>
     
     </div>
 
         
-    <h2 class="hasAnchor" id="driver"><a class="anchor" href="#driver"></a>Driver</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>dbColumnInfo()</code>
+returns a data frame
+with at least two columns <code>"name"</code> and <code>"type"</code> (in that order)
+(and optional columns that start with a dot).
+The <code>"name"</code> and <code>"type"</code> columns contain the names and types
+of the R columns of the data frame that is returned from <code>dbFetch()</code>.
+The <code>"type"</code> column is of type <code>character</code> and only for information.
+Do not compute on the <code>"type"</code> column, instead use <code>dbFetch(res, n = 0)</code>
+to create a zero-row data frame initialized with the correct data types.</p>
+<p>An attempt to query columns for a closed result set raises an error.</p>
+    
+    <h2 class="hasAnchor" id="specification"><a class="anchor" href="#specification"></a>Specification</h2>
 
     
-    <h3><code>dbGetInfo("DBIDriver")</code> (deprecated)</h3>
-    Return value of dbGetInfo has necessary elements.
-    
-    <h2 class="hasAnchor" id="connection"><a class="anchor" href="#connection"></a>Connection</h2>
-
-    
-    <h3><code>dbGetInfo("DBIConnection")</code> (deprecated)</h3>
-    Return value of dbGetInfo has necessary elements
-    <h3>Stress tests</h3>
-    Open 50 simultaneous connections
-Open and close 50 connections
-    
-    <h2 class="hasAnchor" id="meta"><a class="anchor" href="#meta"></a>Meta</h2>
-
-    
-    <h3><code>dbGetInfo("DBIResult")</code> (deprecated)</h3>
-    Return value of dbGetInfo has necessary elements
+    <p>A column named <code>row_names</code> is treated like any other column.</p>
+<p>The column names are always consistent with the data returned by <code>dbFetch()</code>,
+even if the query returns unnamed
+or duplicate column names.</p>
     
 
   </div>
@@ -144,11 +144,9 @@ Open and close 50 connections
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#driver">Driver</a></li>
+      <li><a href="#value">Value</a></li>
 
-      <li><a href="#connection">Connection</a></li>
-
-      <li><a href="#meta">Meta</a></li>
+      <li><a href="#specification">Specification</a></li>
           </ul>
 
   </div>
