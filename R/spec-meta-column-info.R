@@ -74,7 +74,7 @@ spec_meta_column_info <- list(
 
   #'
   #' The column names are always consistent with the data returned by `dbFetch()`,
-  column_info_row_names = function(ctx) {
+  column_info_consistent = function(ctx) {
     with_connection({
       with_result(
         #' even if the query returns unnamed
