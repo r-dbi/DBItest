@@ -1,26 +1,101 @@
-#' @template dbispec-sub-wip
+#' spec_meta_column_info
+#' @usage NULL
 #' @format NULL
-#' @section Meta:
-#' \subsection{`dbColumnInfo("DBIResult")`}{
+#' @keywords NULL
 spec_meta_column_info <- list(
-  #' Column information is correct.
+  column_info_formals = function(ctx) {
+    # <establish formals of described functions>
+    expect_equal(names(formals(dbColumnInfo)), c("res", "..."))
+  },
+
+  #' @return
+  #' `dbColumnInfo()`
   column_info = function(ctx) {
     with_connection({
-      query <- "SELECT 1 as a, 1.5 as b, 0"
+      with_remove_test_table(name = "iris", {
+        iris <- get_iris(ctx)
+        dbWriteTable(con, "iris", iris)
+
+        with_result(
+          dbSendQuery(con, "SELECT * FROM iris"),
+          {
+            fields <- dbColumnInfo(res)
+            #' returns a data frame
+            expect_is(fields, "data.frame")
+            #' with at least two columns `"name"` and `"type"` (in that order)
+            expect_equal(names(fields)[1:2], c("name", "type"))
+            #' (and optional columns that start with a dot).
+            expect_true(all(grepl("^[.]", names(fields)[-1:-2])))
+
+            #' The `"name"` and `"type"` columns contain the names and types
+            #' of the R columns of the data frame that is returned from [`dbFetch()`].
+            iris_ret <- dbFetch(res)
+            expect_identical(fields$name, names(iris_ret))
+            #' The `"type"` column is of type `character` and only for information.
+            expect_is(fields$type, "character")
+            #' Do not compute on the `"type"` column, instead use `dbFetch(res, n = 0)`
+            #' to create a zero-row data frame initialized with the correct data types.
+          }
+        )
+      })
+    })
+  },
+
+
+  #'
+  #' An attempt to query columns for a closed result set raises an error.
+  column_info_closed = function(ctx) {
+    with_connection({
+      query <- trivial_query()
+
+      res <- dbSendQuery(con, query)
+      dbClearResult(res)
+
+      expect_error(dbColumnInfo(res))
+    })
+  },
+
+  #' @section Specification:
+  #'
+  #' A column named `row_names` is treated like any other column.
+  column_info_row_names = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        dbWriteTable(con, "test", data.frame(a = 1L, row_names = 2L))
+        with_result(
+          dbSendQuery(con, "SELECT * FROM test"),
+          {
+            expect_identical(dbColumnInfo(res)$name, c("a", "row_names"))
+          }
+        )
+      })
+    })
+  },
+
+  #'
+  #' The column names are always consistent with the data returned by `dbFetch()`,
+  column_info_row_names = function(ctx) {
+    with_connection({
       with_result(
-        dbSendQuery(con, query),
+        #' even if the query returns unnamed
+        dbSendQuery(con, "SELECT 1"),
         {
-          ci <- dbColumnInfo(res)
-          expect_is(ci, "data.frame")
-          expect_identical(colnames(ci)[1:2], c("name", "type"))
-          expect_true(all(grepl("^[.]", colnames(ci)[-1:-2])))
-          expect_identical(ci$name[1:2], c("a", "b"))
-          expect_is(ci$type, "character")
+          info <- dbColumnInfo(res)
+          data <- dbFetch(res)
+          expect_identical(info$name, names(data))
+        }
+      )
+      with_result(
+        #' or duplicate column names.
+        dbSendQuery(con, "SELECT 1 AS a, 1 AS a"),
+        {
+          info <- dbColumnInfo(res)
+          data <- dbFetch(res)
+          expect_identical(info$name, names(data))
         }
       )
     })
   },
 
-  #' }
   NULL
 )
