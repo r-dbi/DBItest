@@ -1,5 +1,6 @@
 #' @template dbispec-sub
 #' @format NULL
+#' @importFrom callr r
 #' @section DBI classes and methods:
 spec_compliance_methods <- list(
   #' A backend defines three classes,
