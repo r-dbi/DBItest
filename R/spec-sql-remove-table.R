@@ -25,7 +25,7 @@ spec_sql_remove_table <- list(
   remove_table_missing = function(ctx) {
     with_connection({
       with_remove_test_table({
-        expect_error(dbRemoveTable("test"))
+        expect_error(dbRemoveTable(con, "test"))
       })
     })
   },
@@ -66,6 +66,24 @@ spec_sql_remove_table <- list(
         expect_error(dbRemoveTable(con, NA))
         #' or if this results in a non-scalar.
         expect_error(dbRemoveTable(con, c("test", "test")))
+      })
+    })
+  },
+
+  #' @section Additional arguments:
+  #' The following argument is not part of the `dbRemoveTable()` generic
+  #' (to improve compatibility across backends)
+  #' but is part of the DBI specification:
+  #' - `fail_if_missing` (default: `TRUE`)
+  #'
+  #' This argument must be provided as named argument.
+
+
+  #' If `FALSE`, the call to `dbRemoveTable()` succeeds if the table does not exist.
+  remove_table_missing_succeed = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        expect_error(dbRemoveTable(con, "test", fail_if_missing = FALSE), NA)
       })
     })
   },
