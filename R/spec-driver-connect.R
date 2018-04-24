@@ -9,12 +9,24 @@ spec_driver_connect <- list(
   },
 
   #' @return
-  can_connect = function(ctx) {
+  connct_can_connect = function(ctx) {
     con <- expect_visible(connect(ctx))
     #' `dbConnect()` returns an S4 object that inherits from [DBIConnection-class].
     expect_s4_class(con, "DBIConnection")
     dbDisconnect(con)
     #' This object is used to communicate with the database engine.
+  },
+
+  connect_format = function(ctx) {
+    with_connection({
+      #'
+      #' A [format()] method is defined for the connection object.
+      desc <- format(con)
+      #' It returns a string that consists of a single line of text.
+      expect_is(desc, "character")
+      expect_length(desc, 1)
+      expect_false(grepl("\n", desc, fixed = TRUE))
+    })
   },
 
   #' @section Specification:
