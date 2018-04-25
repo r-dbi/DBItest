@@ -7,6 +7,9 @@
 \value{
 \code{dbConnect()} returns an S4 object that inherits from \linkS4class{DBIConnection}.
 This object is used to communicate with the database engine.
+
+A \code{\link[=format]{format()}} method is defined for the connection object.
+It returns a string that consists of a single line of text.
 }
 \description{
 spec_driver_connect

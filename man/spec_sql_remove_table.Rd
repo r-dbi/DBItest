@@ -18,6 +18,19 @@ or if this results in a non-scalar.
 \description{
 spec_sql_remove_table
 }
+\section{Additional arguments}{
+
+The following argument is not part of the \code{dbRemoveTable()} generic
+(to improve compatibility across backends)
+but is part of the DBI specification:
+\itemize{
+\item \code{fail_if_missing} (default: \code{TRUE})
+}
+
+This argument must be provided as named argument.
+If \code{FALSE}, the call to \code{dbRemoveTable()} succeeds if the table does not exist.
+}
+
 \section{Specification}{
 
 A table removed by \code{dbRemoveTable()} doesn't appear in the list of tables
