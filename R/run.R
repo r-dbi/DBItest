@@ -33,6 +33,9 @@ run_tests <- function(ctx, tests, skip, test_suite) {
     })
   }
 
+  # to isolate test topics
+  gc()
+
   ok
 }
 

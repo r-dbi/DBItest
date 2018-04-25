@@ -42,6 +42,53 @@ spec_driver_connect <- list(
   #' The defaults should provide reasonable behavior, in particular a
   #' local connection for `host = NULL`.  For some DBMS (e.g., PostgreSQL),
   #' this is different to a TCP/IP connection to `localhost`.
+  #'
+  #' In addition, DBI supports the `bigint` argument that governs how
+  #' 64-bit integer data is returned.  The following values are supported:
+  connect_bigint_integer = function(ctx) {
+    ctx$connect_args[["bigint"]] <- "integer"
+
+    #' - `"integer"`: always return as `integer`, silently overflow
+    with_connection({
+      res <- dbGetQuery(con, "SELECT 10000000000")
+      expect_is(res[[1]], "integer")
+    })
+  },
+
+  connect_bigint_numeric = function(ctx) {
+    ctx$connect_args[["bigint"]] <- "numeric"
+
+    #' - `"numeric"`: always return as `numeric`, silently round
+    with_connection({
+      res <- dbGetQuery(con, "SELECT 10000000000")
+      expect_is(res[[1]], "numeric")
+    })
+  },
+
+  connect_bigint_character = function(ctx) {
+    ctx$connect_args[["bigint"]] <- "character"
+
+    #' - `"character"`: always return the decimal representation as `character`
+    with_connection({
+      res <- dbGetQuery(con, "SELECT 10000000000")
+      expect_is(res[[1]], "character")
+      expect_equal(res[[1]], "10000000000")
+    })
+  },
+
+  connect_bigint_integer64 = function(ctx) {
+    ctx$connect_args[["bigint"]] <- "integer64"
+
+    #' - `"integer64"`: return as a data type that can be coerced using
+    #'   [as.integer()] (with warning on overflow), [as.numeric()]
+    #'   and [as.character()]
+    with_connection({
+      res <- dbGetQuery(con, "SELECT 10000000000")
+      expect_warning(expect_true(is.na(as.integer(res[[1]]))))
+      expect_equal(as.numeric(res[[1]]), 1e10)
+      expect_equal(as.character(res[[1]]), "10000000000")
+    })
+  },
 
   NULL
 )
