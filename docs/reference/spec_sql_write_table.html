@@ -58,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.23</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.24</span>
       </span>
     </div>
 
@@ -214,7 +214,9 @@ input time zone)</p></li>
     <p>Mixing column types in the same table is supported.</p>
 <p>The <code>field.types</code> argument must be a named character vector with at most
 one entry for each column.
-It indicates the SQL data type to be used for a new column.</p>
+It indicates the SQL data type to be used for a new column.
+If a column is missed from <code>field.types</code>, the type is inferred
+from the input data with <code>dbDataType()</code>.</p>
 <p>The interpretation of rownames depends on the <code>row.names</code> argument,
 see <code>sqlRownamesToColumn()</code> for details:</p><ul>
 <li><p>If <code>FALSE</code> or <code>NULL</code>, row names are ignored.</p></li>

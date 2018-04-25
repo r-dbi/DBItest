@@ -58,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.23</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.24</span>
       </span>
     </div>
 
@@ -127,6 +127,17 @@ An error is also raised
 if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>
 or if this results in a non-scalar.</p>
     
+    <h2 class="hasAnchor" id="additional-arguments"><a class="anchor" href="#additional-arguments"></a>Additional arguments</h2>
+
+    
+    <p>The following argument is not part of the <code>dbRemoveTable()</code> generic
+(to improve compatibility across backends)
+but is part of the DBI specification:</p><ul>
+<li><p><code>fail_if_missing</code> (default: <code>TRUE</code>)</p></li>
+</ul>
+    <p>This argument must be provided as named argument.
+If <code>FALSE</code>, the call to <code>dbRemoveTable()</code> succeeds if the table does not exist.</p>
+    
     <h2 class="hasAnchor" id="specification"><a class="anchor" href="#specification"></a>Specification</h2>
 
     
@@ -150,6 +161,8 @@ perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
     <ul class="nav nav-pills nav-stacked">
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#additional-arguments">Additional arguments</a></li>
 
       <li><a href="#specification">Specification</a></li>
           </ul>

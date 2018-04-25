@@ -55,7 +55,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.23</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.24</span>
       </span>
     </div>
 
@@ -105,14 +105,31 @@
       
     </div>
 
-    <div id="dbitest-1-5-23-2018-01-26" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dbitest-1-5-23-2018-01-26" class="anchor"></a>DBItest 1.5-23 (2018-01-26)</h2>
+    <div id="dbitest-1-5-24-2018-04-25" class="section level1">
+<h1 class="page-header">
+<a href="#dbitest-1-5-24-2018-04-25" class="anchor"></a>DBItest 1.5.24 (2018-04-25)<small> Unreleased </small>
+</h1>
+<ul>
+<li>Add specification for partially filled <code>field.types</code> argument.</li>
+<li>Specify <code>dbRemoveTable(fail_if_missing = FALSE)</code> (r-dbi/DBI#197).</li>
+<li>Add specification for <code>dbColumnInfo()</code> (r-dbi/DBI#75).</li>
+<li>Add specification for <code>dbListFields()</code> (r-dbi/DBI#75).</li>
+<li>Test that named parameters are actually matched by name in <code>dbBind()</code>, by shuffling them (#138).</li>
+<li>Explicitly specify default <code>row.names = FALSE</code> for <code>dbReadTable()</code> and <code>dbWriteTable()</code> (#139).</li>
+<li>Add specification for writing 64-bit values, backends must support roundtripping values returned from the database (#146).</li>
+<li>Add specification for the <code>params</code> argument to <code>dbGetQuery()</code>, <code>dbSendQuery()</code>, <code>dbExecute()</code> and <code>dbSendStatement()</code> (#159).</li>
+<li>Allow running only a subset of tests in <code><a href="../reference/test_all.html">test_all()</a></code> by specifying an environment variable.</li>
+<li>Add test for <code>dbQuoteIdentifier()</code>: “The names of the input argument are preserved in the output” (r-lib/DBI#173).</li>
+</ul>
+</div>
+    <div id="dbitest-1-5-23-2018-01-26" class="section level1">
+<h1 class="page-header">
+<a href="#dbitest-1-5-23-2018-01-26" class="anchor"></a>DBItest 1.5-23 (2018-01-26)<small> Unreleased </small>
+</h1>
 <ul>
 <li>Merge DBItest 1.5-2.</li>
 </ul>
-</div>
-    <div id="dbitest-1-5-22-2017-12-10" class="section level2">
+<div id="dbitest-1-5-22-2017-12-10" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dbitest-1-5-22-2017-12-10" class="anchor"></a>DBItest 1.5-22 (2017-12-10)</h2>
 <ul>
@@ -125,7 +142,7 @@
 <li>Fix typo (#147, <a href='http://github.com/jonmcalder'>@jonmcalder</a>).</li>
 </ul>
 </div>
-    <div id="dbitest-1-5-21-2017-09-24" class="section level2">
+<div id="dbitest-1-5-21-2017-09-24" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dbitest-1-5-21-2017-09-24" class="anchor"></a>DBItest 1.5-21 (2017-09-24)</h2>
 <ul>
@@ -133,35 +150,35 @@
 <li>Remove <code>"cannot_forget_disconnect"</code> test that fails on R-devel (#150).</li>
 </ul>
 </div>
-    <div id="dbitest-1-5-20-2017-09-23" class="section level2">
+<div id="dbitest-1-5-20-2017-09-23" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dbitest-1-5-20-2017-09-23" class="anchor"></a>DBItest 1.5-20 (2017-09-23)</h2>
 <ul>
 <li>Implement <code>POSIXlt</code> bind test correctly.</li>
 </ul>
 </div>
-    <div id="dbitest-1-5-19-2017-09-22" class="section level2">
+<div id="dbitest-1-5-19-2017-09-22" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dbitest-1-5-19-2017-09-22" class="anchor"></a>DBItest 1.5-19 (2017-09-22)</h2>
 <ul>
 <li>Improve error detection for <code>dbBind()</code>.</li>
 </ul>
 </div>
-    <div id="dbitest-1-5-18-2017-09-21" class="section level2">
+<div id="dbitest-1-5-18-2017-09-21" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dbitest-1-5-18-2017-09-21" class="anchor"></a>DBItest 1.5-18 (2017-09-21)</h2>
 <ul>
 <li>Redesign tests for <code>dbBind()</code>, now queries of the form <code>SELECT CASE WHEN (? = ?) AND (? IS NULL) THEN 1.5 ELSE 2.5</code> are issued. The original tests were inappropriate for RMariaDB, because an untyped placeholder is returned as a blob.</li>
 </ul>
 </div>
-    <div id="dbitest-1-5-17-2017-09-17" class="section level2">
+<div id="dbitest-1-5-17-2017-09-17" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dbitest-1-5-17-2017-09-17" class="anchor"></a>DBItest 1.5-17 (2017-09-17)</h2>
 <ul>
 <li>Transaction tests now use <code>dbWriteTable()</code> instead of <code>dbCreateTable()</code>, because some DBMS don’t support transactions for DML.</li>
 </ul>
 </div>
-    <div id="dbitest-1-5-16-2017-09-15" class="section level2">
+<div id="dbitest-1-5-16-2017-09-15" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dbitest-1-5-16-2017-09-15" class="anchor"></a>DBItest 1.5-16 (2017-09-15)</h2>
 <ul>
@@ -169,21 +186,21 @@
 <li>Fix timestamp tests for RMariaDB.</li>
 </ul>
 </div>
-    <div id="dbitest-1-5-15-2017-09-09" class="section level2">
+<div id="dbitest-1-5-15-2017-09-09" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dbitest-1-5-15-2017-09-09" class="anchor"></a>DBItest 1.5-15 (2017-09-09)</h2>
 <ul>
 <li>New <code>list_temporary_tables</code> tweak that can be enabled independently of <code>temporary_tables</code> to indicate that the DBMS does not support listing temporary tables.</li>
 </ul>
 </div>
-    <div id="dbitest-1-5-14-2017-09-09" class="section level2">
+<div id="dbitest-1-5-14-2017-09-09" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dbitest-1-5-14-2017-09-09" class="anchor"></a>DBItest 1.5-14 (2017-09-09)</h2>
 <ul>
 <li>Fix string constants.</li>
 </ul>
 </div>
-    <div id="dbitest-1-5-13-2017-09-09" class="section level2">
+<div id="dbitest-1-5-13-2017-09-09" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dbitest-1-5-13-2017-09-09" class="anchor"></a>DBItest 1.5-13 (2017-09-09)</h2>
 <ul>
@@ -191,14 +208,14 @@
 <li>Add string encoded in Latin-1 to the character tests.</li>
 </ul>
 </div>
-    <div id="dbitest-1-5-12-2017-08-13" class="section level2">
+<div id="dbitest-1-5-12-2017-08-13" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dbitest-1-5-12-2017-08-13" class="anchor"></a>DBItest 1.5-12 (2017-08-13)</h2>
 <ul>
 <li>Methods without <code>db</code> prefix are not checked for ellipsis in the signature anymore.</li>
 </ul>
 </div>
-    <div id="dbitest-1-5-11-2017-07-23" class="section level2">
+<div id="dbitest-1-5-11-2017-07-23" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dbitest-1-5-11-2017-07-23" class="anchor"></a>DBItest 1.5-11 (2017-07-23)</h2>
 <ul>
@@ -211,6 +228,7 @@
 <li>Use named argument for <code>n</code> in <code>dbGetQuery()</code> call.</li>
 <li>Minor fixes.</li>
 </ul>
+</div>
 </div>
     <div id="dbitest-1-5-2-2018-01-26" class="section level1">
 <h1 class="page-header">
@@ -626,19 +644,8 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#dbitest-1-5-24-2018-04-25">1.5.24</a></li>
         <li><a href="#dbitest-1-5-23-2018-01-26">1.5-23</a></li>
-        <li><a href="#dbitest-1-5-22-2017-12-10">1.5-22</a></li>
-        <li><a href="#dbitest-1-5-21-2017-09-24">1.5-21</a></li>
-        <li><a href="#dbitest-1-5-20-2017-09-23">1.5-20</a></li>
-        <li><a href="#dbitest-1-5-19-2017-09-22">1.5-19</a></li>
-        <li><a href="#dbitest-1-5-18-2017-09-21">1.5-18</a></li>
-        <li><a href="#dbitest-1-5-17-2017-09-17">1.5-17</a></li>
-        <li><a href="#dbitest-1-5-16-2017-09-15">1.5-16</a></li>
-        <li><a href="#dbitest-1-5-15-2017-09-09">1.5-15</a></li>
-        <li><a href="#dbitest-1-5-14-2017-09-09">1.5-14</a></li>
-        <li><a href="#dbitest-1-5-13-2017-09-09">1.5-13</a></li>
-        <li><a href="#dbitest-1-5-12-2017-08-13">1.5-12</a></li>
-        <li><a href="#dbitest-1-5-11-2017-07-23">1.5-11</a></li>
         <li><a href="#dbitest-1-5-2-2018-01-26">1.5-2</a></li>
         <li><a href="#dbitest-1-5-1-2017-12-10">1.5-1</a></li>
         <li><a href="#dbitest-1-5-2017-06-18">1.5</a></li>
