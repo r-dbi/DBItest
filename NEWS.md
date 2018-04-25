@@ -1,4 +1,18 @@
-## DBItest 1.5-23 (2018-01-26)
+# DBItest 1.5.24 (2018-04-25)
+
+- Add specification for partially filled `field.types` argument.
+- Specify `dbRemoveTable(fail_if_missing = FALSE)` (r-dbi/DBI#197).
+- Add specification for `dbColumnInfo()` (r-dbi/DBI#75).
+- Add specification for `dbListFields()` (r-dbi/DBI#75).
+- Test that named parameters are actually matched by name in `dbBind()`, by shuffling them (#138).
+- Explicitly specify default `row.names = FALSE` for `dbReadTable()` and `dbWriteTable()` (#139).
+- Add specification for writing 64-bit values, backends must support roundtripping values returned from the database (#146).
+- Add specification for the `params` argument to `dbGetQuery()`, `dbSendQuery()`, `dbExecute()` and `dbSendStatement()` (#159).
+- Allow running only a subset of tests in `test_all()` by specifying an environment variable.
+- Add test for `dbQuoteIdentifier()`: "The names of the input argument are preserved in the output" (r-lib/DBI#173).
+
+
+# DBItest 1.5-23 (2018-01-26)
 
 - Merge DBItest 1.5-2.
 
