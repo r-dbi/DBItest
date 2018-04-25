@@ -604,11 +604,20 @@ spec_sql_write_table <- list(
   #' It indicates the SQL data type to be used for a new column.
   roundtrip_field_types = function(ctx) {
     with_connection({
-      tbl_in <- data.frame(a = numeric())
-      tbl_exp <- data.frame(a = integer())
+      tbl_in <- data.frame(a = numeric(), b = character())
+      #' If a column is missed from `field.types`, the type is inferred
+      #' from the input data with [dbDataType()].
+      tbl_exp <- data.frame(a = integer(), b = character())
       test_table_roundtrip(
         con, tbl_in, tbl_exp,
         field.types = c(a = "INTEGER")
+      )
+
+      tbl_in <- data.frame(a = numeric(), b = integer())
+      tbl_exp <- data.frame(a = integer(), b = numeric())
+      test_table_roundtrip(
+        con, tbl_in, tbl_exp,
+        field.types = c(b = "REAL", a = "INTEGER")
       )
     })
   },
