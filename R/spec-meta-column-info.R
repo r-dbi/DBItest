@@ -73,25 +73,56 @@ spec_meta_column_info <- list(
   },
 
   #'
-  #' The column names are always consistent with the data returned by `dbFetch()`,
   column_info_consistent = function(ctx) {
     with_connection({
       with_result(
-        #' even if the query returns unnamed
-        dbSendQuery(con, "SELECT 1"),
+        dbSendQuery(con, "SELECT 1.5 AS a, 2.5 AS b"),
         {
+          #' The column names are always consistent
           info <- dbColumnInfo(res)
+          #' with the data returned by `dbFetch()`.
           data <- dbFetch(res)
           expect_identical(info$name, names(data))
         }
       )
       with_result(
-        #' or duplicate column names.
-        dbSendQuery(con, "SELECT 1 AS a, 1 AS a"),
+        #' If the query returns unnamed columns,
+        dbSendQuery(con, "SELECT 1.5, 2.5 AS a, 1.5, 3.5"),
         {
           info <- dbColumnInfo(res)
           data <- dbFetch(res)
           expect_identical(info$name, names(data))
+          expect_equal(data[["a"]], 2.5)
+          #' unique
+          expect_equal(anyDuplicated(names(data)), 0)
+          #' non-empty and non-`NA` names are assigned.
+          expect_false(anyNA(names(data)))
+          expect_true(all(names(data) != ""))
+        }
+      )
+      with_result(
+        #' In the case of a duplicate column name, the first occurrence
+        #' retains the original name, and unique names are assigned for
+        #' the other occurrences.
+        dbSendQuery(con, "SELECT 1.5 AS a, 2.5 AS a, 3.5 AS a"),
+        {
+          info <- dbColumnInfo(res)
+          data <- dbFetch(res)
+          expect_identical(info$name, names(data))
+          expect_equal(data[["a"]], 1.5)
+          expect_equal(anyDuplicated(names(data)), 0)
+          expect_false(anyNA(names(data)))
+          expect_true(all(names(data) != ""))
+        }
+      )
+      with_result(
+        #' Column names that correspond to SQL or R keywords are left unchanged.
+        dbSendQuery(con, paste0("SELECT 1.5 AS ", dbQuoteIdentifier(con, "for"))),
+        {
+          info <- dbColumnInfo(res)
+          data <- dbFetch(res)
+          expect_identical(info$name, names(data))
+          expect_equal(data[["for"]], 1.5)
         }
       )
     })
