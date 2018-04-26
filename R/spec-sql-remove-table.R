@@ -71,15 +71,40 @@ spec_sql_remove_table <- list(
   },
 
   #' @section Additional arguments:
-  #' The following argument is not part of the `dbRemoveTable()` generic
+  #' The following arguments are not part of the `dbRemoveTable()` generic
   #' (to improve compatibility across backends)
-  #' but is part of the DBI specification:
+  #' but are part of the DBI specification:
+  #' - `temporary` (default: `FALSE`)
   #' - `fail_if_missing` (default: `TRUE`)
   #'
-  #' This argument must be provided as named argument.
+  #' These arguments must be provided as named arguments.
 
 
-  #' If `FALSE`, the call to `dbRemoveTable()` succeeds if the table does not exist.
+  #'
+  #' If `temporary` is `TRUE`, the call to `dbRemoveTable()`
+  #' will consider only temporary tables.
+  remove_table_temporary = function(ctx) {
+    #' Not all backends support this argument.
+    if (!isTRUE(ctx$tweaks$temporary_tables)) {
+      skip("tweak: temporary_tables")
+    }
+
+    with_connection({
+      with_remove_test_table({
+        dbWriteTable(con, "test", data.frame(a = 1.5))
+        expect_equal(dbReadTable(con, "test"), data.frame(a = 1.5))
+        dbCreateTable(con, "test", data.frame(b = 2.5), temporary = TRUE)
+        dbRemoveTable(con, "test", temporary = TRUE)
+        #' In particular, permanent tables of the same name are left untouched.
+        expect_error(dbRemoveTable(con, "test", temporary = TRUE))
+        expect_equal(dbReadTable(con, "test"), data.frame(a = 1.5))
+      })
+    })
+  },
+
+  #'
+  #' If `fail_if_missing` is `FALSE`, the call to `dbRemoveTable()`
+  #' succeeds if the table does not exist.
   remove_table_missing_succeed = function(ctx) {
     with_connection({
       with_remove_test_table({
