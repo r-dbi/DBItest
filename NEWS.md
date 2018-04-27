@@ -1,3 +1,10 @@
+# DBItest 1.5.25 (2018-04-27)
+
+- Support `temporary` argument in `dbRemoveTable()` (default: `FALSE`) (r-dbi/DBI#141).
+- Added specification for the behavior in case of duplicate column names (#137).
+- The `bigint` argument to `dbConnect()` is now specified. Accepts `"integer64"`, `"integer"`, `"numeric"` and `"character"`, large integers are returned as values of that type (#133).
+
+
 # DBItest 1.5.24 (2018-04-25)
 
 - Add specification for partially filled `field.types` argument.
