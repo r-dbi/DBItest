@@ -1,3 +1,8 @@
+# DBItest 1.5.26 (2018-05-01)
+
+- Now checking that `Id()` is reexported.
+
+
 # DBItest 1.5.25 (2018-04-27)
 
 - Support `temporary` argument in `dbRemoveTable()` (default: `FALSE`) (r-dbi/DBI#141).
