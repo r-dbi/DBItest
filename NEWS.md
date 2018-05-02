@@ -1,17 +1,11 @@
-# DBItest 1.5.26 (2018-05-01)
+# DBItest 1.6.0 (2018-05-03)
+
+## New checks
 
 - Now checking that `Id()` is reexported.
-
-
-# DBItest 1.5.25 (2018-04-27)
-
 - Support `temporary` argument in `dbRemoveTable()` (default: `FALSE`) (r-dbi/DBI#141).
 - Added specification for the behavior in case of duplicate column names (#137).
 - The `bigint` argument to `dbConnect()` is now specified. Accepts `"integer64"`, `"integer"`, `"numeric"` and `"character"`, large integers are returned as values of that type (#133).
-
-
-# DBItest 1.5.24 (2018-04-25)
-
 - Add specification for partially filled `field.types` argument.
 - Specify `dbRemoveTable(fail_if_missing = FALSE)` (r-dbi/DBI#197).
 - Add specification for `dbColumnInfo()` (r-dbi/DBI#75).
@@ -20,89 +14,50 @@
 - Explicitly specify default `row.names = FALSE` for `dbReadTable()` and `dbWriteTable()` (#139).
 - Add specification for writing 64-bit values, backends must support roundtripping values returned from the database (#146).
 - Add specification for the `params` argument to `dbGetQuery()`, `dbSendQuery()`, `dbExecute()` and `dbSendStatement()` (#159).
-- Allow running only a subset of tests in `test_all()` by specifying an environment variable.
 - Add test for `dbQuoteIdentifier()`: "The names of the input argument are preserved in the output" (r-lib/DBI#173).
-
-
-# DBItest 1.5-23 (2018-01-26)
-
-- Merge DBItest 1.5-2.
-
-
-## DBItest 1.5-22 (2017-12-10)
-
-- Compatibility code if `DBI::dbQuoteLiteral()` is unavailable.
-- New tweak `blob_cast` allows specifying a conversion function to the BLOB data type.
-- New `is_null_check` tweak that allows specifying a function that is used when checking values for `NULL`. Required for RPostgres.
 - Blob tests now also read and write zero bytes (\x00).
+- Add string encoded in Latin-1 to the character tests.
+- Added test for `dbIsValid()` on stale connections.
+
+## Removed checks
+
 - Don't test selecting untyped `NULL` anymore.
-- Fix query that is supposed to generate a syntax error.
-- Fix typo (#147, @jonmcalder).
-
-
-## DBItest 1.5-21 (2017-09-24)
-
 - Full interface compliance doesn't require a method for `dbGetInfo(DBIDriver)` for now.
 - Remove `"cannot_forget_disconnect"` test that fails on R-devel (#150).
-
-
-## DBItest 1.5-20 (2017-09-23)
-
-- Implement `POSIXlt` bind test correctly.
-
-
-## DBItest 1.5-19 (2017-09-22)
-
-- Improve error detection for `dbBind()`.
-
-
-## DBItest 1.5-18 (2017-09-21)
-
-- Redesign tests for `dbBind()`, now queries of the form `SELECT CASE WHEN (? = ?) AND (? IS NULL) THEN 1.5 ELSE 2.5` are issued. The original tests were inappropriate for RMariaDB, because an untyped placeholder is returned as a blob.
-
-
-## DBItest 1.5-17 (2017-09-17)
-
-- Transaction tests now use `dbWriteTable()` instead of `dbCreateTable()`, because some DBMS don't support transactions for DML.
-
-
-## DBItest 1.5-16 (2017-09-15)
-
-- New `trivial_query()` replaces many hard-coded queries and uses non-integer values for better compatibility with RMariaDB.
-- Fix timestamp tests for RMariaDB.
-
-
-## DBItest 1.5-15 (2017-09-09)
-
-- New `list_temporary_tables` tweak that can be enabled independently of `temporary_tables` to indicate that the DBMS does not support listing temporary tables.
-
-
-## DBItest 1.5-14 (2017-09-09)
-
-- Fix string constants.
-
-
-## DBItest 1.5-13 (2017-09-09)
-
-- The `"roundtrip_timestamp"` test now correctly handles timezone information. The output timezone is ignored.
-- Add string encoded in Latin-1 to the character tests.
-
-
-## DBItest 1.5-12 (2017-08-13)
-
 - Methods without `db` prefix are not checked for ellipsis in the signature anymore.
+- Don't specify `Inf` and `NaN` for lack of consistent support across DBMS (#142).
 
+## Updated/corrected checks
 
-## DBItest 1.5-11 (2017-07-23)
-
-- Added test for `dbIsValid()` on stale connections.
-- `test_all()` and `test_some()` return `NULL` invisibly.
-- Convert factor to character for iris data (#141).
-- Don't specify `Inf` and `NaN` for lack of consistent support (#142).
+- Fix query that is supposed to generate a syntax error.
+- Fix typo (#147, @jonmcalder).
+- Implement `POSIXlt` bind test correctly.
+- Improve error detection for `dbBind()`.
+- Redesign tests for `dbBind()`, now queries of the form `SELECT CASE WHEN (? = ?) AND (? IS NULL) THEN 1.5 ELSE 2.5` are issued. The original tests were inappropriate for RMariaDB, because an untyped placeholder is returned as a blob.
+- Transaction tests now use `dbWriteTable()` instead of `dbCreateTable()`, because some DBMS don't support transactions for DML.
+- Fix timestamp tests for RMariaDB.
+- Fix string constants.
+- The `"roundtrip_timestamp"` test now correctly handles timezone information. The output timezone is ignored.
 - Clear result in `spec_meta_get_info_result` (#143).
 - Use named argument for `n` in `dbGetQuery()` call.
 - Minor fixes.
 
+## Tweaks
+
+- New tweak `blob_cast` allows specifying a conversion function to the BLOB data type.
+- New `is_null_check` tweak that allows specifying a function that is used when checking values for `NULL`. Required for RPostgres.
+- New `list_temporary_tables` tweak that can be enabled independently of `temporary_tables` to indicate that the DBMS does not support listing temporary tables.
+
+## Infrastructure
+
+- Allow running only a subset of tests in `test_all()` by specifying an environment variable.
+- `test_all()` and `test_some()` return `NULL` invisibly.
+
+## Internals
+
+- Compatibility code if `DBI::dbQuoteLiteral()` is unavailable.
+- New `trivial_query()` replaces many hard-coded queries and uses non-integer values for better compatibility with RMariaDB.
+- Convert factor to character for iris data (#141).
 
 # DBItest 1.5-2 (2018-01-26)
 
