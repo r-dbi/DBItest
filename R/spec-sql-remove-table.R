@@ -83,7 +83,7 @@ spec_sql_remove_table <- list(
   #'
   #' If `temporary` is `TRUE`, the call to `dbRemoveTable()`
   #' will consider only temporary tables.
-  remove_table_temporary = function(ctx) {
+  remove_table_temporary_arg = function(ctx) {
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
