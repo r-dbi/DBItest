@@ -58,7 +58,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.24</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.6.0</span>
       </span>
     </div>
 
@@ -130,13 +130,19 @@ or if this results in a non-scalar.</p>
     <h2 class="hasAnchor" id="additional-arguments"><a class="anchor" href="#additional-arguments"></a>Additional arguments</h2>
 
     
-    <p>The following argument is not part of the <code>dbRemoveTable()</code> generic
+    <p>The following arguments are not part of the <code>dbRemoveTable()</code> generic
 (to improve compatibility across backends)
-but is part of the DBI specification:</p><ul>
+but are part of the DBI specification:</p><ul>
+<li><p><code>temporary</code> (default: <code>FALSE</code>)</p></li>
 <li><p><code>fail_if_missing</code> (default: <code>TRUE</code>)</p></li>
 </ul>
-    <p>This argument must be provided as named argument.
-If <code>FALSE</code>, the call to <code>dbRemoveTable()</code> succeeds if the table does not exist.</p>
+    <p>These arguments must be provided as named arguments.</p>
+<p>If <code>temporary</code> is <code>TRUE</code>, the call to <code>dbRemoveTable()</code>
+will consider only temporary tables.
+Not all backends support this argument.
+In particular, permanent tables of the same name are left untouched.</p>
+<p>If <code>fail_if_missing</code> is <code>FALSE</code>, the call to <code>dbRemoveTable()</code>
+succeeds if the table does not exist.</p>
     
     <h2 class="hasAnchor" id="specification"><a class="anchor" href="#specification"></a>Specification</h2>
 

@@ -55,7 +55,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.5.24</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">1.6.0</span>
       </span>
     </div>
 
@@ -105,11 +105,18 @@
       
     </div>
 
-    <div id="dbitest-1-5-24-2018-04-25" class="section level1">
+    <div id="dbitest-1-6-0-2018-05-03" class="section level1">
 <h1 class="page-header">
-<a href="#dbitest-1-5-24-2018-04-25" class="anchor"></a>DBItest 1.5.24 (2018-04-25)<small> Unreleased </small>
+<a href="#dbitest-1-6-0-2018-05-03" class="anchor"></a>DBItest 1.6.0 (2018-05-03)<small> Unreleased </small>
 </h1>
+<div id="new-checks" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-checks" class="anchor"></a>New checks</h2>
 <ul>
+<li>Now checking that <code>Id()</code> is reexported.</li>
+<li>Support <code>temporary</code> argument in <code>dbRemoveTable()</code> (default: <code>FALSE</code>) (r-dbi/DBI#141).</li>
+<li>Added specification for the behavior in case of duplicate column names (#137).</li>
+<li>The <code>bigint</code> argument to <code>dbConnect()</code> is now specified. Accepts <code>"integer64"</code>, <code>"integer"</code>, <code>"numeric"</code> and <code>"character"</code>, large integers are returned as values of that type (#133).</li>
 <li>Add specification for partially filled <code>field.types</code> argument.</li>
 <li>Specify <code>dbRemoveTable(fail_if_missing = FALSE)</code> (r-dbi/DBI#197).</li>
 <li>Add specification for <code>dbColumnInfo()</code> (r-dbi/DBI#75).</li>
@@ -118,115 +125,66 @@
 <li>Explicitly specify default <code>row.names = FALSE</code> for <code>dbReadTable()</code> and <code>dbWriteTable()</code> (#139).</li>
 <li>Add specification for writing 64-bit values, backends must support roundtripping values returned from the database (#146).</li>
 <li>Add specification for the <code>params</code> argument to <code>dbGetQuery()</code>, <code>dbSendQuery()</code>, <code>dbExecute()</code> and <code>dbSendStatement()</code> (#159).</li>
-<li>Allow running only a subset of tests in <code><a href="../reference/test_all.html">test_all()</a></code> by specifying an environment variable.</li>
 <li>Add test for <code>dbQuoteIdentifier()</code>: “The names of the input argument are preserved in the output” (r-lib/DBI#173).</li>
+<li>Blob tests now also read and write zero bytes (\x00).</li>
+<li>Add string encoded in Latin-1 to the character tests.</li>
+<li>Added test for <code>dbIsValid()</code> on stale connections.</li>
 </ul>
 </div>
-    <div id="dbitest-1-5-23-2018-01-26" class="section level1">
-<h1 class="page-header">
-<a href="#dbitest-1-5-23-2018-01-26" class="anchor"></a>DBItest 1.5-23 (2018-01-26)<small> Unreleased </small>
-</h1>
-<ul>
-<li>Merge DBItest 1.5-2.</li>
-</ul>
-<div id="dbitest-1-5-22-2017-12-10" class="section level2">
+<div id="removed-checks" class="section level2">
 <h2 class="hasAnchor">
-<a href="#dbitest-1-5-22-2017-12-10" class="anchor"></a>DBItest 1.5-22 (2017-12-10)</h2>
+<a href="#removed-checks" class="anchor"></a>Removed checks</h2>
 <ul>
-<li>Compatibility code if <code><a href="http://www.rdocumentation.org/packages/DBI/topics/dbQuoteLiteral">DBI::dbQuoteLiteral()</a></code> is unavailable.</li>
-<li>New tweak <code>blob_cast</code> allows specifying a conversion function to the BLOB data type.</li>
-<li>New <code>is_null_check</code> tweak that allows specifying a function that is used when checking values for <code>NULL</code>. Required for RPostgres.</li>
-<li>Blob tests now also read and write zero bytes (\x00).</li>
 <li>Don’t test selecting untyped <code>NULL</code> anymore.</li>
+<li>Full interface compliance doesn’t require a method for <code>dbGetInfo(DBIDriver)</code> for now.</li>
+<li>Remove <code>"cannot_forget_disconnect"</code> test that fails on R-devel (#150).</li>
+<li>Methods without <code>db</code> prefix are not checked for ellipsis in the signature anymore.</li>
+<li>Don’t specify <code>Inf</code> and <code>NaN</code> for lack of consistent support across DBMS (#142).</li>
+</ul>
+</div>
+<div id="updatedcorrected-checks" class="section level2">
+<h2 class="hasAnchor">
+<a href="#updatedcorrected-checks" class="anchor"></a>Updated/corrected checks</h2>
+<ul>
 <li>Fix query that is supposed to generate a syntax error.</li>
 <li>Fix typo (#147, <a href='http://github.com/jonmcalder'>@jonmcalder</a>).</li>
-</ul>
-</div>
-<div id="dbitest-1-5-21-2017-09-24" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dbitest-1-5-21-2017-09-24" class="anchor"></a>DBItest 1.5-21 (2017-09-24)</h2>
-<ul>
-<li>Full interface compliance doesn’t require a method fo <code>dbGetInfo(DBIDriver)</code> for now.</li>
-<li>Remove <code>"cannot_forget_disconnect"</code> test that fails on R-devel (#150).</li>
-</ul>
-</div>
-<div id="dbitest-1-5-20-2017-09-23" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dbitest-1-5-20-2017-09-23" class="anchor"></a>DBItest 1.5-20 (2017-09-23)</h2>
-<ul>
 <li>Implement <code>POSIXlt</code> bind test correctly.</li>
-</ul>
-</div>
-<div id="dbitest-1-5-19-2017-09-22" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dbitest-1-5-19-2017-09-22" class="anchor"></a>DBItest 1.5-19 (2017-09-22)</h2>
-<ul>
 <li>Improve error detection for <code>dbBind()</code>.</li>
-</ul>
-</div>
-<div id="dbitest-1-5-18-2017-09-21" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dbitest-1-5-18-2017-09-21" class="anchor"></a>DBItest 1.5-18 (2017-09-21)</h2>
-<ul>
 <li>Redesign tests for <code>dbBind()</code>, now queries of the form <code>SELECT CASE WHEN (? = ?) AND (? IS NULL) THEN 1.5 ELSE 2.5</code> are issued. The original tests were inappropriate for RMariaDB, because an untyped placeholder is returned as a blob.</li>
-</ul>
-</div>
-<div id="dbitest-1-5-17-2017-09-17" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dbitest-1-5-17-2017-09-17" class="anchor"></a>DBItest 1.5-17 (2017-09-17)</h2>
-<ul>
 <li>Transaction tests now use <code>dbWriteTable()</code> instead of <code>dbCreateTable()</code>, because some DBMS don’t support transactions for DML.</li>
-</ul>
-</div>
-<div id="dbitest-1-5-16-2017-09-15" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dbitest-1-5-16-2017-09-15" class="anchor"></a>DBItest 1.5-16 (2017-09-15)</h2>
-<ul>
-<li>New <code>trivial_query()</code> replaces many hard-coded queries and uses non-integer values for better compatibility with RMariaDB.</li>
 <li>Fix timestamp tests for RMariaDB.</li>
-</ul>
-</div>
-<div id="dbitest-1-5-15-2017-09-09" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dbitest-1-5-15-2017-09-09" class="anchor"></a>DBItest 1.5-15 (2017-09-09)</h2>
-<ul>
-<li>New <code>list_temporary_tables</code> tweak that can be enabled independently of <code>temporary_tables</code> to indicate that the DBMS does not support listing temporary tables.</li>
-</ul>
-</div>
-<div id="dbitest-1-5-14-2017-09-09" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dbitest-1-5-14-2017-09-09" class="anchor"></a>DBItest 1.5-14 (2017-09-09)</h2>
-<ul>
 <li>Fix string constants.</li>
-</ul>
-</div>
-<div id="dbitest-1-5-13-2017-09-09" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dbitest-1-5-13-2017-09-09" class="anchor"></a>DBItest 1.5-13 (2017-09-09)</h2>
-<ul>
 <li>The <code>"roundtrip_timestamp"</code> test now correctly handles timezone information. The output timezone is ignored.</li>
-<li>Add string encoded in Latin-1 to the character tests.</li>
-</ul>
-</div>
-<div id="dbitest-1-5-12-2017-08-13" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dbitest-1-5-12-2017-08-13" class="anchor"></a>DBItest 1.5-12 (2017-08-13)</h2>
-<ul>
-<li>Methods without <code>db</code> prefix are not checked for ellipsis in the signature anymore.</li>
-</ul>
-</div>
-<div id="dbitest-1-5-11-2017-07-23" class="section level2">
-<h2 class="hasAnchor">
-<a href="#dbitest-1-5-11-2017-07-23" class="anchor"></a>DBItest 1.5-11 (2017-07-23)</h2>
-<ul>
-<li>Added test for <code>dbIsValid()</code> on stale connections.</li>
-<li>
-<code><a href="../reference/test_all.html">test_all()</a></code> and <code><a href="../reference/test_all.html">test_some()</a></code> return <code>NULL</code> invisibly.</li>
-<li>Convert factor to character for iris data (#141).</li>
-<li>Don’t specify <code>Inf</code> and <code>NaN</code> for lack of consistent support (#142).</li>
 <li>Clear result in <code>spec_meta_get_info_result</code> (#143).</li>
 <li>Use named argument for <code>n</code> in <code>dbGetQuery()</code> call.</li>
 <li>Minor fixes.</li>
+</ul>
+</div>
+<div id="tweaks" class="section level2">
+<h2 class="hasAnchor">
+<a href="#tweaks" class="anchor"></a>Tweaks</h2>
+<ul>
+<li>New tweak <code>blob_cast</code> allows specifying a conversion function to the BLOB data type.</li>
+<li>New <code>is_null_check</code> tweak that allows specifying a function that is used when checking values for <code>NULL</code>. Required for RPostgres.</li>
+<li>New <code>list_temporary_tables</code> tweak that can be enabled independently of <code>temporary_tables</code> to indicate that the DBMS does not support listing temporary tables.</li>
+</ul>
+</div>
+<div id="infrastructure" class="section level2">
+<h2 class="hasAnchor">
+<a href="#infrastructure" class="anchor"></a>Infrastructure</h2>
+<ul>
+<li>Allow running only a subset of tests in <code><a href="../reference/test_all.html">test_all()</a></code> by specifying an environment variable.</li>
+<li>
+<code><a href="../reference/test_all.html">test_all()</a></code> and <code><a href="../reference/test_all.html">test_some()</a></code> return <code>NULL</code> invisibly.</li>
+</ul>
+</div>
+<div id="internals" class="section level2">
+<h2 class="hasAnchor">
+<a href="#internals" class="anchor"></a>Internals</h2>
+<ul>
+<li>Compatibility code if <code><a href="http://www.rdocumentation.org/packages/DBI/topics/dbQuoteLiteral">DBI::dbQuoteLiteral()</a></code> is unavailable.</li>
+<li>New <code>trivial_query()</code> replaces many hard-coded queries and uses non-integer values for better compatibility with RMariaDB.</li>
+<li>Convert factor to character for iris data (#141).</li>
 </ul>
 </div>
 </div>
@@ -644,8 +602,7 @@
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#dbitest-1-5-24-2018-04-25">1.5.24</a></li>
-        <li><a href="#dbitest-1-5-23-2018-01-26">1.5-23</a></li>
+        <li><a href="#dbitest-1-6-0-2018-05-03">1.6.0</a></li>
         <li><a href="#dbitest-1-5-2-2018-01-26">1.5-2</a></li>
         <li><a href="#dbitest-1-5-1-2017-12-10">1.5-1</a></li>
         <li><a href="#dbitest-1-5-2017-06-18">1.5</a></li>
