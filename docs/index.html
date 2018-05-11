@@ -81,15 +81,15 @@
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <p>Install from CRAN via</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">install.packages</span>(<span class="st">"DBItest"</span>)</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="st">"DBItest"</span>)</a></code></pre></div>
 <p>or the development version using</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">install_github</span>(<span class="st">"r-dbi/DBItest"</span>)</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"r-dbi/DBItest"</span>)</a></code></pre></div>
 <p>In your driver backage, add <code>DBItest</code> to the <code>Suggests:</code>. Then, enable the tests by running</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools::<span class="kw">use_testthat</span>()
-devtools::<span class="kw">use_test</span>(<span class="st">"DBItest"</span>)</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/infrastructure">use_testthat</a></span>()</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/infrastructure">use_test</a></span>(<span class="st">"DBItest"</span>)</a></code></pre></div>
 <p>from your package’s directory. This enables testing using <code>testthat</code> (if necessary) and creates, among others, a file <code>test-DBItest.R</code> in the <code>tests/testthat</code> directory. Replace its entire contents by the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">DBItest::<span class="kw"><a href="reference/context.html">make_context</a></span>(<span class="kw">Kazam</span>(), <span class="ot">NULL</span>)
-DBItest::<span class="kw"><a href="reference/test_all.html">test_all</a></span>()</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">DBItest<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/DBItest/topics/context">make_context</a></span>(<span class="kw">Kazam</span>(), <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">DBItest<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/DBItest/topics/test_all">test_all</a></span>()</a></code></pre></div>
 <p>(This assumes that <code>Kazam()</code> returns an instance of your <code>DBIDriver</code> class. Additional arguments to <code>dbConnect()</code> are specified as named list instead of the <code>NULL</code> argument to <code><a href="reference/context.html">make_context()</a></code>.)</p>
 <p>The <code>skip</code> argument to <code><a href="reference/test_all.html">test_all()</a></code> allows specifying skipped tests.</p>
 <p>See the package’s documentation and the <a href="https://github.com/r-dbi/DBItest/wiki/Proposal">feature list</a> for a description of the tests.</p>
