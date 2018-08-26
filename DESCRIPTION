@@ -66,6 +66,8 @@ Collate:
     'spec-sql-quote-identifier.R'
     'spec-sql-unquote-identifier.R'
     'spec-sql-read-table.R'
+    'spec-sql-create-table.R'
+    'spec-sql-append-table.R'
     'spec-sql-write-table.R'
     'spec-sql-list-tables.R'
     'spec-sql-exists-table.R'

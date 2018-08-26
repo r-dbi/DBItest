@@ -45,6 +45,8 @@
 #' @include spec-sql-exists-table.R
 #' @include spec-sql-list-tables.R
 #' @include spec-sql-write-table.R
+#' @include spec-sql-append-table.R
+#' @include spec-sql-create-table.R
 #' @include spec-sql-read-table.R
 #' @include spec-sql-unquote-identifier.R
 #' @include spec-sql-quote-identifier.R

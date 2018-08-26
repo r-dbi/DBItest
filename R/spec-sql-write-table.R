@@ -60,7 +60,7 @@ spec_sql_write_table <- list(
   #' or invalid connection.
   write_table_invalid_connection = function(ctx) {
     with_invalid_connection({
-      expect_error(dbListTables(con, "test", data.frame(a = 1)))
+      expect_error(dbWriteTable(con, "test", data.frame(a = 1)))
     })
   },
 
@@ -772,7 +772,8 @@ test_table_roundtrip <- function(...) {
   test_table_roundtrip_one(..., .add_na = "below")
 }
 
-test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity, name = "test", field.types = NULL, .add_na = "none") {
+test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity,
+                                     name = "test", field.types = NULL, use_append = FALSE, .add_na = "none") {
   force(tbl_expected)
   if (.add_na == "above") {
     tbl_in <- add_na_above(tbl_in)
@@ -783,7 +784,12 @@ test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transfo
   }
 
   with_remove_test_table(name = name, {
-    dbWriteTable(con, name, tbl_in, field.types = field.types)
+    if (use_append) {
+      dbCreateTable(con, name, field.types %||% tbl_in)
+      dbAppendTable(con, name, tbl_in)
+    } else {
+      dbWriteTable(con, name, tbl_in, field.types = field.types)
+    }
 
     tbl_out <- check_df(dbReadTable(con, name, check.names = FALSE))
     tbl_out <- transform(tbl_out)
