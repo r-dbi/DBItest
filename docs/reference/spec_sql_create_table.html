@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DBItest: Testing 'DBI' 'Backends' — DBItest-package • DBItest</title>
+<title>spec_sql_create_table — spec_sql_create_table • DBItest</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,10 +30,9 @@
 
 
 
-<meta property="og:title" content="DBItest: Testing 'DBI' 'Backends' — DBItest-package" />
+<meta property="og:title" content="spec_sql_create_table — spec_sql_create_table" />
 
-<meta property="og:description" content="A helper that tests 'DBI' back ends for conformity
-    to the interface." />
+<meta property="og:description" content="spec_sql_create_table" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -108,32 +107,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>DBItest: Testing 'DBI' 'Backends'</h1>
+    <h1>spec_sql_create_table</h1>
     
-    <div class="hidden name"><code>DBItest-package.Rd</code></div>
+    <div class="hidden name"><code>spec_sql_create_table.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>A helper that tests 'DBI' back ends for conformity
-    to the interface.</p>
+    <p>spec_sql_create_table</p>
     
     </div>
 
         
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The two most important functions are <code><a href='context.html'>make_context()</a></code> and
-<code><a href='test_all.html'>test_all()</a></code>.  The former tells the package how to connect to your
-DBI backend, the latter executes all tests of the test suite. More
-fine-grained test functions (all with prefix <code>test_</code>) are available.</p>
-<p>See the package's vignette for more details.</p>
+    <p><code>dbCreateTable()</code> returns <code>TRUE</code>, invisibly.
+If the table exists, an error is raised; the remote table remains unchanged.</p>
+<p>An error is raised when calling this method for a closed
+or invalid connection.
+An error is also raised
+if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>
+or if this results in a non-scalar.
+Invalid values for the <code>row.names</code> and <code>temporary</code> arguments
+(non-scalars,
+unsupported data types,
+<code>NA</code>,
+incompatible values,
+duplicate names)
+also raise an error.</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="additional-arguments"><a class="anchor" href="#additional-arguments"></a>Additional arguments</h2>
 
-    <div class='dont-index'><p>Useful links:</p><ul>
-<li><p>Report bugs at <a href='https://github.com/r-dbi/DBItest/issues'>https://github.com/r-dbi/DBItest/issues</a></p></li>
-</ul></div>
+    
+    <p>The following arguments are not part of the <code>dbCreateTable()</code> generic
+(to improve compatibility across backends)
+but are part of the DBI specification:</p><ul>
+<li><p><code>temporary</code> (default: <code>FALSE</code>)</p></li>
+</ul>
+    <p>They must be provided as named arguments.
+See the "Specification" and "Value" sections for details on their usage.</p>
+    
+    <h2 class="hasAnchor" id="specification"><a class="anchor" href="#specification"></a>Specification</h2>
+
+    
+    <p>The <code>name</code> argument is processed as follows,
+to support databases that allow non-syntactic names for their objects:</p><ul>
+<li><p>If an unquoted table name as string: <code>dbCreateTable()</code> will do the quoting,
+perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
+<li><p>If the result of a call to <code>dbQuoteIdentifier()</code>: no more quoting is done</p></li>
+</ul>
+    <p>If the <code>temporary</code> argument is <code>TRUE</code>, the table is not available in a
+second connection and is gone after reconnecting.
+Not all backends support this argument.
+A regular, non-temporary table is visible in a second connection
+and after reconnecting to the database.</p>
+<p>SQL keywords can be used freely in table names, column names, and data.
+Quotes, commas, and spaces can also be used  for table names and column names,
+if the database supports non-syntactic identifiers.</p>
+<p>The <code>row.names</code> argument must be <code>NULL</code>, the default value.
+All other values for the <code>row.names</code> argument
+(in particular <code>TRUE</code>,
+<code>NA</code>,
+and a string)
+raise an error.</p>
     
 
   </div>
@@ -141,14 +177,12 @@ fine-grained test functions (all with prefix <code>test_</code>) are available.<
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       
-      <li><a href="#details">Details</a></li>
+      <li><a href="#value">Value</a></li>
 
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#additional-arguments">Additional arguments</a></li>
+
+      <li><a href="#specification">Specification</a></li>
           </ul>
-
-    <h2>Author</h2>
-    
-Kirill Müller
 
   </div>
 </div>
