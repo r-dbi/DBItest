@@ -11,7 +11,7 @@ all_args_have_default_values <- function() {
     args <- formals(x)
     args <- args[names(args) != "..."]
     expect_true(
-      all(vapply(args, as.character, character(1L)) != ""),
+      all(vapply(args, function(x) if (is.null(x)) "NULL" else as.character(x), character(1L)) != ""),
       "has arguments without default values")
   }
 }
