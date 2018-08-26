@@ -8,12 +8,13 @@ tweaks(..., constructor_name = NULL, constructor_relax_args = FALSE,
   strict_identifier = FALSE, omit_blob_tests = FALSE,
   current_needs_parens = FALSE, union = function(x) paste(x, collapse =
   " UNION "), placeholder_pattern = NULL, logical_return = identity,
-  date_cast = function(x) paste0("date('", x, "')"), time_cast = function(x)
-  paste0("time('", x, "')"), timestamp_cast = function(x)
-  paste0("timestamp('", x, "')"), blob_cast = identity, date_typed = TRUE,
-  time_typed = TRUE, timestamp_typed = TRUE, temporary_tables = TRUE,
-  list_temporary_tables = TRUE, is_null_check = function(x) paste0("(", x,
-  " IS NULL)"))
+  date_cast = function(x) paste0("date('", x, "')"),
+  time_cast = function(x) paste0("time('", x, "')"),
+  timestamp_cast = function(x) paste0("timestamp('", x, "')"),
+  blob_cast = identity, date_typed = TRUE, time_typed = TRUE,
+  timestamp_typed = TRUE, temporary_tables = TRUE,
+  list_temporary_tables = TRUE, is_null_check = function(x) paste0("(",
+  x, " IS NULL)"))
 }
 \arguments{
 \item{...}{\code{[any]}\cr
