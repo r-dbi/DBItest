@@ -1,3 +1,9 @@
+# DBItest 1.6.0.9000
+
+- Support NULL default value in driver constructor (#171).
+- Specify `dbCreateTable()` and `dbAppendTable()` (#169).
+
+
 # DBItest 1.6.0 (2018-05-03)
 
 ## New checks
