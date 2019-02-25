@@ -7,7 +7,6 @@ LoggingDBIResult <- function(connection, statement) {
 }
 
 #' @rdname DBI
-#' @export
 setClass(
   "LoggingDBIResult",
   contains = "DBIResult",
@@ -19,7 +18,6 @@ setClass(
 
 #' @rdname DBI
 #' @inheritParams methods::show
-#' @export
 setMethod(
   "show", "LoggingDBIResult",
   function(object) {
@@ -29,7 +27,6 @@ setMethod(
 
 #' @rdname DBI
 #' @inheritParams DBI::dbClearResult
-#' @export
 setMethod(
   "dbClearResult", "LoggingDBIResult",
   function(res, ...) {
@@ -38,7 +35,6 @@ setMethod(
 
 #' @rdname DBI
 #' @inheritParams DBI::dbFetch
-#' @export
 setMethod(
   "dbFetch", "LoggingDBIResult",
   function(res, n = -1, ...) {
@@ -47,7 +43,6 @@ setMethod(
 
 #' @rdname DBI
 #' @inheritParams DBI::dbHasCompleted
-#' @export
 setMethod(
   "dbHasCompleted", "LoggingDBIResult",
   function(res, ...) {
@@ -56,7 +51,6 @@ setMethod(
 
 #' @rdname DBI
 #' @inheritParams DBI::dbGetInfo
-#' @export
 setMethod(
   "dbGetInfo", "LoggingDBIResult",
   function(dbObj, ...) {
@@ -66,7 +60,6 @@ setMethod(
 
 #' @rdname DBI
 #' @inheritParams DBI::dbIsValid
-#' @export
 setMethod(
   "dbIsValid", "LoggingDBIResult",
   function(dbObj, ...) {
@@ -75,7 +68,6 @@ setMethod(
 
 #' @rdname DBI
 #' @inheritParams DBI::dbGetStatement
-#' @export
 setMethod(
   "dbGetStatement", "LoggingDBIResult",
   function(res, ...) {
@@ -84,7 +76,6 @@ setMethod(
 
 #' @rdname DBI
 #' @inheritParams DBI::dbColumnInfo
-#' @export
 setMethod(
   "dbColumnInfo", "LoggingDBIResult",
   function(res, ...) {
@@ -93,7 +84,6 @@ setMethod(
 
 #' @rdname DBI
 #' @inheritParams DBI::dbGetRowCount
-#' @export
 setMethod(
   "dbGetRowCount", "LoggingDBIResult",
   function(res, ...) {
@@ -102,7 +92,6 @@ setMethod(
 
 #' @rdname DBI
 #' @inheritParams DBI::dbGetRowsAffected
-#' @export
 setMethod(
   "dbGetRowsAffected", "LoggingDBIResult",
   function(res, ...) {
@@ -111,7 +100,6 @@ setMethod(
 
 #' @rdname DBI
 #' @inheritParams DBI::dbBind
-#' @export
 setMethod(
   "dbBind", "LoggingDBIResult",
   function(res, params, ...) {
