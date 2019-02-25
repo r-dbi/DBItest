@@ -1,18 +1,18 @@
 #' @include Connection.R
 NULL
 
-KazamResult <- function(connection, statement) {
+LoggingDBIResult <- function(connection, statement) {
   # TODO: Initialize result
-  new("KazamResult", connection = connection, statement = statement)
+  new("LoggingDBIResult", connection = connection, statement = statement)
 }
 
 #' @rdname DBI
 #' @export
 setClass(
-  "KazamResult",
+  "LoggingDBIResult",
   contains = "DBIResult",
   slots = list(
-    connection = "KazamConnection",
+    connection = "LoggingDBIConnection",
     statement = "character"
   )
 )
@@ -21,9 +21,9 @@ setClass(
 #' @inheritParams methods::show
 #' @export
 setMethod(
-  "show", "KazamResult",
+  "show", "LoggingDBIResult",
   function(object) {
-    cat("<KazamResult>\n")
+    cat("<LoggingDBIResult>\n")
     # TODO: Print more details
   })
 
@@ -31,7 +31,7 @@ setMethod(
 #' @inheritParams DBI::dbClearResult
 #' @export
 setMethod(
-  "dbClearResult", "KazamResult",
+  "dbClearResult", "LoggingDBIResult",
   function(res, ...) {
     testthat::skip("Not yet implemented: dbClearResult(Result)")
   })
@@ -40,7 +40,7 @@ setMethod(
 #' @inheritParams DBI::dbFetch
 #' @export
 setMethod(
-  "dbFetch", "KazamResult",
+  "dbFetch", "LoggingDBIResult",
   function(res, n = -1, ...) {
     testthat::skip("Not yet implemented: dbFetch(Result)")
   })
@@ -49,7 +49,7 @@ setMethod(
 #' @inheritParams DBI::dbHasCompleted
 #' @export
 setMethod(
-  "dbHasCompleted", "KazamResult",
+  "dbHasCompleted", "LoggingDBIResult",
   function(res, ...) {
     testthat::skip("Not yet implemented: dbHasCompleted(Result)")
   })
@@ -58,7 +58,7 @@ setMethod(
 #' @inheritParams DBI::dbGetInfo
 #' @export
 setMethod(
-  "dbGetInfo", "KazamResult",
+  "dbGetInfo", "LoggingDBIResult",
   function(dbObj, ...) {
     # Optional
     getMethod("dbGetInfo", "DBIResult", asNamespace("DBI"))(dbObj, ...)
@@ -68,7 +68,7 @@ setMethod(
 #' @inheritParams DBI::dbIsValid
 #' @export
 setMethod(
-  "dbIsValid", "KazamResult",
+  "dbIsValid", "LoggingDBIResult",
   function(dbObj, ...) {
     testthat::skip("Not yet implemented: dbIsValid(Result)")
   })
@@ -77,7 +77,7 @@ setMethod(
 #' @inheritParams DBI::dbGetStatement
 #' @export
 setMethod(
-  "dbGetStatement", "KazamResult",
+  "dbGetStatement", "LoggingDBIResult",
   function(res, ...) {
     testthat::skip("Not yet implemented: dbGetStatement(Result)")
   })
@@ -86,7 +86,7 @@ setMethod(
 #' @inheritParams DBI::dbColumnInfo
 #' @export
 setMethod(
-  "dbColumnInfo", "KazamResult",
+  "dbColumnInfo", "LoggingDBIResult",
   function(res, ...) {
     testthat::skip("Not yet implemented: dbColumnInfo(Result)")
   })
@@ -95,7 +95,7 @@ setMethod(
 #' @inheritParams DBI::dbGetRowCount
 #' @export
 setMethod(
-  "dbGetRowCount", "KazamResult",
+  "dbGetRowCount", "LoggingDBIResult",
   function(res, ...) {
     testthat::skip("Not yet implemented: dbGetRowCount(Result)")
   })
@@ -104,7 +104,7 @@ setMethod(
 #' @inheritParams DBI::dbGetRowsAffected
 #' @export
 setMethod(
-  "dbGetRowsAffected", "KazamResult",
+  "dbGetRowsAffected", "LoggingDBIResult",
   function(res, ...) {
     testthat::skip("Not yet implemented: dbGetRowsAffected(Result)")
   })
@@ -113,7 +113,7 @@ setMethod(
 #' @inheritParams DBI::dbBind
 #' @export
 setMethod(
-  "dbBind", "KazamResult",
+  "dbBind", "LoggingDBIResult",
   function(res, params, ...) {
     testthat::skip("Not yet implemented: dbBind(Result)")
   })

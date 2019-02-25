@@ -4,7 +4,7 @@
 #' @name DBI
 NULL
 
-#' Kazam driver
+#' LoggingDBI driver
 #'
 #' TBD.
 #'
@@ -13,27 +13,27 @@ NULL
 #' @examples
 #' \dontrun{
 #' #' library(DBI)
-#' RKazam::Kazam()
+#' RLoggingDBI::LoggingDBI()
 #' }
-Kazam <- function(drv) {
+LoggingDBI <- function(drv) {
   expr <- rlang::enexpr(drv)
   expr_list <- as.list(expr)
 
   rlang::eval_tidy(rlang::quo(print_call(expr_list[[1]], !!!expr_list[-1], result = drv)))
-  new("KazamDriver", drv = drv)
+  new("LoggingDBIDriver", drv = drv)
 }
 
 #' @rdname DBI
 #' @export
-setClass("KazamDriver", contains = "DBIDriver", slots = list(drv = "DBIDriver"))
+setClass("LoggingDBIDriver", contains = "DBIDriver", slots = list(drv = "DBIDriver"))
 
 #' @rdname DBI
 #' @inheritParams methods::show
 #' @export
 setMethod(
-  "show", "KazamDriver",
+  "show", "LoggingDBIDriver",
   function(object) {
-    cat("<KazamDriver>\n")
+    cat("<LoggingDBIDriver>\n")
     show(object@drv)
     # TODO: Print more details
   })
@@ -42,13 +42,13 @@ setMethod(
 #' @inheritParams DBI::dbConnect
 #' @export
 setMethod(
-  "dbConnect", "KazamDriver",
+  "dbConnect", "LoggingDBIDriver",
   function(drv, ...) {
     print_call(
       "dbConnect", drv@drv, ...,
       result = conn <- dbConnect(drv@drv, ...)
     )
-    KazamConnection(conn)
+    LoggingDBIConnection(conn)
   }
 )
 
@@ -56,7 +56,7 @@ setMethod(
 #' @inheritParams DBI::dbDataType
 #' @export
 setMethod(
-  "dbDataType", "KazamDriver",
+  "dbDataType", "LoggingDBIDriver",
   function(dbObj, obj, ...) {
     # Optional: Can remove this if all data types conform to SQL-92
     tryCatch(
@@ -68,7 +68,7 @@ setMethod(
 #' @inheritParams DBI::dbDataType
 #' @export
 setMethod(
-  "dbDataType", c("KazamDriver", "list"),
+  "dbDataType", c("LoggingDBIDriver", "list"),
   function(dbObj, obj, ...) {
     # rstats-db/DBI#70
     testthat::skip("Not yet implemented: dbDataType(Driver, list)")
@@ -78,7 +78,7 @@ setMethod(
 #' @inheritParams DBI::dbIsValid
 #' @export
 setMethod(
-  "dbIsValid", "KazamDriver",
+  "dbIsValid", "LoggingDBIDriver",
   function(dbObj, ...) {
     testthat::skip("Not yet implemented: dbIsValid(Driver)")
   })
@@ -87,7 +87,7 @@ setMethod(
 #' @inheritParams DBI::dbGetInfo
 #' @export
 setMethod(
-  "dbGetInfo", "KazamDriver",
+  "dbGetInfo", "LoggingDBIDriver",
   function(dbObj, ...) {
     testthat::skip("Not yet implemented: dbGetInfo(Driver)")
   })

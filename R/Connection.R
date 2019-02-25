@@ -1,15 +1,15 @@
 #' @include Driver.R
 NULL
 
-KazamConnection <- function(conn) {
+LoggingDBIConnection <- function(conn) {
   # TODO: Add arguments
-  new("KazamConnection", conn = conn)
+  new("LoggingDBIConnection", conn = conn)
 }
 
 #' @rdname DBI
 #' @export
 setClass(
-  "KazamConnection",
+  "LoggingDBIConnection",
   contains = "DBIConnection",
   slots = list(conn = "DBIConnection")
 )
@@ -18,9 +18,9 @@ setClass(
 #' @inheritParams methods::show
 #' @export
 setMethod(
-  "show", "KazamConnection",
+  "show", "LoggingDBIConnection",
   function(object) {
-    cat("<KazamConnection>\n")
+    cat("<LoggingDBIConnection>\n")
     # TODO: Print more details
   })
 
@@ -28,7 +28,7 @@ setMethod(
 #' @inheritParams DBI::dbIsValid
 #' @export
 setMethod(
-  "dbIsValid", "KazamConnection",
+  "dbIsValid", "LoggingDBIConnection",
   function(dbObj, ...) {
     testthat::skip("Not yet implemented: dbIsValid(Connection)")
   })
@@ -37,7 +37,7 @@ setMethod(
 #' @inheritParams DBI::dbDisconnect
 #' @export
 setMethod(
-  "dbDisconnect", "KazamConnection",
+  "dbDisconnect", "LoggingDBIConnection",
   function(conn, ...) {
     print_call("dbDisconnect", conn@conn, ...)
 
@@ -53,25 +53,25 @@ setMethod(
 #' @inheritParams DBI::dbSendQuery
 #' @export
 setMethod(
-  "dbSendQuery", c("KazamConnection", "character"),
+  "dbSendQuery", c("LoggingDBIConnection", "character"),
   function(conn, statement, ...) {
-    KazamResult(connection = conn, statement = statement)
+    LoggingDBIResult(connection = conn, statement = statement)
   })
 
 #' @rdname DBI
 #' @inheritParams DBI::dbSendStatement
 #' @export
 setMethod(
-  "dbSendStatement", c("KazamConnection", "character"),
+  "dbSendStatement", c("LoggingDBIConnection", "character"),
   function(conn, statement, ...) {
-    KazamResult(connection = conn, statement = statement)
+    LoggingDBIResult(connection = conn, statement = statement)
   })
 
 #' @rdname DBI
 #' @inheritParams DBI::dbDataType
 #' @export
 setMethod(
-  "dbDataType", "KazamConnection",
+  "dbDataType", "LoggingDBIConnection",
   function(dbObj, obj, ...) {
     tryCatch(
       getMethod("dbDataType", "DBIObject", asNamespace("DBI"))(dbObj, obj, ...),
@@ -82,7 +82,7 @@ setMethod(
 #' @inheritParams DBI::dbQuoteString
 #' @export
 setMethod(
-  "dbQuoteString", c("KazamConnection", "character"),
+  "dbQuoteString", c("LoggingDBIConnection", "character"),
   function(conn, x, ...) {
     # Optional
     getMethod("dbQuoteString", c("DBIConnection", "character"), asNamespace("DBI"))(conn, x, ...)
@@ -92,7 +92,7 @@ setMethod(
 #' @inheritParams DBI::dbQuoteIdentifier
 #' @export
 setMethod(
-  "dbQuoteIdentifier", c("KazamConnection", "character"),
+  "dbQuoteIdentifier", c("LoggingDBIConnection", "character"),
   function(conn, x, ...) {
     # Optional
     getMethod("dbQuoteIdentifier", c("DBIConnection", "character"), asNamespace("DBI"))(conn, x, ...)
@@ -106,7 +106,7 @@ setMethod(
 #'   `TRUE` if `overwrite` is also `TRUE`.
 #' @export
 setMethod(
-  "dbWriteTable", c("KazamConnection", "character", "data.frame"),
+  "dbWriteTable", c("LoggingDBIConnection", "character", "data.frame"),
   function(conn, name, value, overwrite = FALSE, append = FALSE, ...) {
     testthat::skip("Not yet implemented: dbWriteTable(Connection, character, data.frame)")
   })
@@ -115,7 +115,7 @@ setMethod(
 #' @inheritParams DBI::dbReadTable
 #' @export
 setMethod(
-  "dbReadTable", c("KazamConnection", "character"),
+  "dbReadTable", c("LoggingDBIConnection", "character"),
   function(conn, name, ...) {
     testthat::skip("Not yet implemented: dbReadTable(Connection, character)")
   })
@@ -124,7 +124,7 @@ setMethod(
 #' @inheritParams DBI::dbListTables
 #' @export
 setMethod(
-  "dbListTables", "KazamConnection",
+  "dbListTables", "LoggingDBIConnection",
   function(conn, ...) {
     testthat::skip("Not yet implemented: dbListTables(Connection)")
   })
@@ -133,7 +133,7 @@ setMethod(
 #' @inheritParams DBI::dbExistsTable
 #' @export
 setMethod(
-  "dbExistsTable", c("KazamConnection", "character"),
+  "dbExistsTable", c("LoggingDBIConnection", "character"),
   function(conn, name, ...) {
     testthat::skip("Not yet implemented: dbExistsTable(Connection)")
   })
@@ -142,7 +142,7 @@ setMethod(
 #' @inheritParams DBI::dbListFields
 #' @export
 setMethod(
-  "dbListFields", c("KazamConnection", "character"),
+  "dbListFields", c("LoggingDBIConnection", "character"),
   function(conn, name, ...) {
     testthat::skip("Not yet implemented: dbListFields(Connection, character)")
   })
@@ -151,7 +151,7 @@ setMethod(
 #' @inheritParams DBI::dbRemoveTable
 #' @export
 setMethod(
-  "dbRemoveTable", c("KazamConnection", "character"),
+  "dbRemoveTable", c("LoggingDBIConnection", "character"),
   function(conn, name, ...) {
     testthat::skip("Not yet implemented: dbRemoveTable(Connection, character)")
   })
@@ -160,7 +160,7 @@ setMethod(
 #' @inheritParams DBI::dbGetInfo
 #' @export
 setMethod(
-  "dbGetInfo", "KazamConnection",
+  "dbGetInfo", "LoggingDBIConnection",
   function(dbObj, ...) {
     testthat::skip("Not yet implemented: dbGetInfo(Connection)")
   })
@@ -169,7 +169,7 @@ setMethod(
 #' @inheritParams DBI::dbBegin
 #' @export
 setMethod(
-  "dbBegin", "KazamConnection",
+  "dbBegin", "LoggingDBIConnection",
   function(conn, ...) {
     testthat::skip("Not yet implemented: dbBegin(Connection)")
   })
@@ -178,7 +178,7 @@ setMethod(
 #' @inheritParams DBI::dbCommit
 #' @export
 setMethod(
-  "dbCommit", "KazamConnection",
+  "dbCommit", "LoggingDBIConnection",
   function(conn, ...) {
     testthat::skip("Not yet implemented: dbCommit(Connection)")
   })
@@ -187,7 +187,7 @@ setMethod(
 #' @inheritParams DBI::dbRollback
 #' @export
 setMethod(
-  "dbRollback", "KazamConnection",
+  "dbRollback", "LoggingDBIConnection",
   function(conn, ...) {
     testthat::skip("Not yet implemented: dbRollback(Connection)")
   })

@@ -3,116 +3,118 @@
 \docType{class}
 \name{DBI}
 \alias{DBI}
-\alias{KazamDriver-class}
-\alias{show,KazamDriver-method}
-\alias{dbConnect,KazamDriver-method}
-\alias{dbDataType,KazamDriver,ANY-method}
-\alias{dbDataType,KazamDriver,list-method}
-\alias{dbIsValid,KazamDriver-method}
-\alias{dbGetInfo,KazamDriver-method}
-\alias{KazamConnection-class}
-\alias{show,KazamConnection-method}
-\alias{dbIsValid,KazamConnection-method}
-\alias{dbDisconnect,KazamConnection-method}
-\alias{dbSendQuery,KazamConnection,character-method}
-\alias{dbSendStatement,KazamConnection,character-method}
-\alias{dbDataType,KazamConnection,ANY-method}
-\alias{dbQuoteString,KazamConnection,character-method}
-\alias{dbQuoteIdentifier,KazamConnection,character-method}
-\alias{dbWriteTable,KazamConnection,character,data.frame-method}
-\alias{dbReadTable,KazamConnection,character-method}
-\alias{dbListTables,KazamConnection-method}
-\alias{dbExistsTable,KazamConnection,character-method}
-\alias{dbListFields,KazamConnection,character-method}
-\alias{dbRemoveTable,KazamConnection,character-method}
-\alias{dbGetInfo,KazamConnection-method}
-\alias{dbBegin,KazamConnection-method}
-\alias{dbCommit,KazamConnection-method}
-\alias{dbRollback,KazamConnection-method}
-\alias{KazamResult-class}
-\alias{show,KazamResult-method}
-\alias{dbClearResult,KazamResult-method}
-\alias{dbFetch,KazamResult-method}
-\alias{dbHasCompleted,KazamResult-method}
-\alias{dbGetInfo,KazamResult-method}
-\alias{dbIsValid,KazamResult-method}
-\alias{dbGetStatement,KazamResult-method}
-\alias{dbColumnInfo,KazamResult-method}
-\alias{dbGetRowCount,KazamResult-method}
-\alias{dbGetRowsAffected,KazamResult-method}
-\alias{dbBind,KazamResult-method}
+\alias{LoggingDBIDriver-class}
+\alias{show,LoggingDBIDriver-method}
+\alias{dbConnect,LoggingDBIDriver-method}
+\alias{dbDataType,LoggingDBIDriver,ANY-method}
+\alias{dbDataType,LoggingDBIDriver,list-method}
+\alias{dbIsValid,LoggingDBIDriver-method}
+\alias{dbGetInfo,LoggingDBIDriver-method}
+\alias{LoggingDBIConnection-class}
+\alias{show,LoggingDBIConnection-method}
+\alias{dbIsValid,LoggingDBIConnection-method}
+\alias{dbDisconnect,LoggingDBIConnection-method}
+\alias{dbSendQuery,LoggingDBIConnection,character-method}
+\alias{dbSendStatement,LoggingDBIConnection,character-method}
+\alias{dbDataType,LoggingDBIConnection,ANY-method}
+\alias{dbQuoteString,LoggingDBIConnection,character-method}
+\alias{dbQuoteIdentifier,LoggingDBIConnection,character-method}
+\alias{dbWriteTable,LoggingDBIConnection,character,data.frame-method}
+\alias{dbReadTable,LoggingDBIConnection,character-method}
+\alias{dbListTables,LoggingDBIConnection-method}
+\alias{dbExistsTable,LoggingDBIConnection,character-method}
+\alias{dbListFields,LoggingDBIConnection,character-method}
+\alias{dbRemoveTable,LoggingDBIConnection,character-method}
+\alias{dbGetInfo,LoggingDBIConnection-method}
+\alias{dbBegin,LoggingDBIConnection-method}
+\alias{dbCommit,LoggingDBIConnection-method}
+\alias{dbRollback,LoggingDBIConnection-method}
+\alias{LoggingDBIResult-class}
+\alias{show,LoggingDBIResult-method}
+\alias{dbClearResult,LoggingDBIResult-method}
+\alias{dbFetch,LoggingDBIResult-method}
+\alias{dbHasCompleted,LoggingDBIResult-method}
+\alias{dbGetInfo,LoggingDBIResult-method}
+\alias{dbIsValid,LoggingDBIResult-method}
+\alias{dbGetStatement,LoggingDBIResult-method}
+\alias{dbColumnInfo,LoggingDBIResult-method}
+\alias{dbGetRowCount,LoggingDBIResult-method}
+\alias{dbGetRowsAffected,LoggingDBIResult-method}
+\alias{dbBind,LoggingDBIResult-method}
 \title{DBI methods}
 \usage{
-\S4method{show}{KazamDriver}(object)
+\S4method{show}{LoggingDBIDriver}(object)
 
-\S4method{dbConnect}{KazamDriver}(drv, ...)
+\S4method{dbConnect}{LoggingDBIDriver}(drv, ...)
 
-\S4method{dbDataType}{KazamDriver,ANY}(dbObj, obj, ...)
+\S4method{dbDataType}{LoggingDBIDriver,ANY}(dbObj, obj, ...)
 
-\S4method{dbDataType}{KazamDriver,list}(dbObj, obj, ...)
+\S4method{dbDataType}{LoggingDBIDriver,list}(dbObj, obj, ...)
 
-\S4method{dbIsValid}{KazamDriver}(dbObj, ...)
+\S4method{dbIsValid}{LoggingDBIDriver}(dbObj, ...)
 
-\S4method{dbGetInfo}{KazamDriver}(dbObj, ...)
+\S4method{dbGetInfo}{LoggingDBIDriver}(dbObj, ...)
 
-\S4method{show}{KazamConnection}(object)
+\S4method{show}{LoggingDBIConnection}(object)
 
-\S4method{dbIsValid}{KazamConnection}(dbObj, ...)
+\S4method{dbIsValid}{LoggingDBIConnection}(dbObj, ...)
 
-\S4method{dbDisconnect}{KazamConnection}(conn, ...)
+\S4method{dbDisconnect}{LoggingDBIConnection}(conn, ...)
 
-\S4method{dbSendQuery}{KazamConnection,character}(conn, statement, ...)
+\S4method{dbSendQuery}{LoggingDBIConnection,character}(conn, statement,
+  ...)
 
-\S4method{dbSendStatement}{KazamConnection,character}(conn, statement, ...)
+\S4method{dbSendStatement}{LoggingDBIConnection,character}(conn, statement,
+  ...)
 
-\S4method{dbDataType}{KazamConnection,ANY}(dbObj, obj, ...)
+\S4method{dbDataType}{LoggingDBIConnection,ANY}(dbObj, obj, ...)
 
-\S4method{dbQuoteString}{KazamConnection,character}(conn, x, ...)
+\S4method{dbQuoteString}{LoggingDBIConnection,character}(conn, x, ...)
 
-\S4method{dbQuoteIdentifier}{KazamConnection,character}(conn, x, ...)
+\S4method{dbQuoteIdentifier}{LoggingDBIConnection,character}(conn, x, ...)
 
-\S4method{dbWriteTable}{KazamConnection,character,data.frame}(conn, name,
-  value, overwrite = FALSE, append = FALSE, ...)
+\S4method{dbWriteTable}{LoggingDBIConnection,character,data.frame}(conn,
+  name, value, overwrite = FALSE, append = FALSE, ...)
 
-\S4method{dbReadTable}{KazamConnection,character}(conn, name, ...)
+\S4method{dbReadTable}{LoggingDBIConnection,character}(conn, name, ...)
 
-\S4method{dbListTables}{KazamConnection}(conn, ...)
+\S4method{dbListTables}{LoggingDBIConnection}(conn, ...)
 
-\S4method{dbExistsTable}{KazamConnection,character}(conn, name, ...)
+\S4method{dbExistsTable}{LoggingDBIConnection,character}(conn, name, ...)
 
-\S4method{dbListFields}{KazamConnection,character}(conn, name, ...)
+\S4method{dbListFields}{LoggingDBIConnection,character}(conn, name, ...)
 
-\S4method{dbRemoveTable}{KazamConnection,character}(conn, name, ...)
+\S4method{dbRemoveTable}{LoggingDBIConnection,character}(conn, name, ...)
 
-\S4method{dbGetInfo}{KazamConnection}(dbObj, ...)
+\S4method{dbGetInfo}{LoggingDBIConnection}(dbObj, ...)
 
-\S4method{dbBegin}{KazamConnection}(conn, ...)
+\S4method{dbBegin}{LoggingDBIConnection}(conn, ...)
 
-\S4method{dbCommit}{KazamConnection}(conn, ...)
+\S4method{dbCommit}{LoggingDBIConnection}(conn, ...)
 
-\S4method{dbRollback}{KazamConnection}(conn, ...)
+\S4method{dbRollback}{LoggingDBIConnection}(conn, ...)
 
-\S4method{show}{KazamResult}(object)
+\S4method{show}{LoggingDBIResult}(object)
 
-\S4method{dbClearResult}{KazamResult}(res, ...)
+\S4method{dbClearResult}{LoggingDBIResult}(res, ...)
 
-\S4method{dbFetch}{KazamResult}(res, n = -1, ...)
+\S4method{dbFetch}{LoggingDBIResult}(res, n = -1, ...)
 
-\S4method{dbHasCompleted}{KazamResult}(res, ...)
+\S4method{dbHasCompleted}{LoggingDBIResult}(res, ...)
 
-\S4method{dbGetInfo}{KazamResult}(dbObj, ...)
+\S4method{dbGetInfo}{LoggingDBIResult}(dbObj, ...)
 
-\S4method{dbIsValid}{KazamResult}(dbObj, ...)
+\S4method{dbIsValid}{LoggingDBIResult}(dbObj, ...)
 
-\S4method{dbGetStatement}{KazamResult}(res, ...)
+\S4method{dbGetStatement}{LoggingDBIResult}(res, ...)
 
-\S4method{dbColumnInfo}{KazamResult}(res, ...)
+\S4method{dbColumnInfo}{LoggingDBIResult}(res, ...)
 
-\S4method{dbGetRowCount}{KazamResult}(res, ...)
+\S4method{dbGetRowCount}{LoggingDBIResult}(res, ...)
 
-\S4method{dbGetRowsAffected}{KazamResult}(res, ...)
+\S4method{dbGetRowsAffected}{LoggingDBIResult}(res, ...)
 
-\S4method{dbBind}{KazamResult}(res, params, ...)
+\S4method{dbBind}{LoggingDBIResult}(res, params, ...)
 }
 \arguments{
 \item{object}{Any R object}
