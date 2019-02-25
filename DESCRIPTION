@@ -37,11 +37,15 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 6.1.1
 KeepSource: true
 Collate: 
+    'Driver.R'
+    'Connection.R'
     'DBItest.R'
+    'Result.R'
     'context.R'
     'expectations.R'
     'import-dbi.R'
     'import-testthat.R'
+    'print-call.R'
     'run.R'
     's4.R'
     'spec.R'
