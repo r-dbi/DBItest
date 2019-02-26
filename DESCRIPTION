@@ -29,6 +29,7 @@ Suggests:
     devtools,
     knitr,
     lintr,
+    rlang,
     rmarkdown
 VignetteBuilder: knitr
 Encoding: UTF-8
