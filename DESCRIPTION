@@ -21,6 +21,7 @@ Imports:
     hms,
     lubridate,
     methods,
+    purrr,
     R6,
     rlang (>= 0.2.0),
     testthat (>= 2.0.0),
@@ -29,7 +30,6 @@ Suggests:
     devtools,
     knitr,
     lintr,
-    rlang,
     rmarkdown
 VignetteBuilder: knitr
 Encoding: UTF-8
