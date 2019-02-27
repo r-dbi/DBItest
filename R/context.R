@@ -20,7 +20,7 @@
 #' @export
 make_context <- function(drv, connect_args, set_as_default = TRUE,
                          tweaks = NULL, name = NULL) {
-  drv_call <- substitute(drv)
+  drv_quo <- enquo(drv)
 
   if (is.null(drv)) {
     stop("drv cannot be NULL.")
@@ -32,8 +32,8 @@ make_context <- function(drv, connect_args, set_as_default = TRUE,
 
   ctx <- structure(
     list(
-      drv = drv,
-      drv_call = drv_call,
+      drv = LoggingDBI(!! drv_quo),
+      orig_drv = drv,
       connect_args = connect_args,
       tweaks = tweaks,
       name = name
@@ -63,7 +63,7 @@ get_default_context <- function() {
 }
 
 package_name <- function(ctx) {
-  attr(class(ctx$drv), "package")
+  attr(class(ctx$orig_drv), "package")
 }
 
 connect <- function(ctx) {

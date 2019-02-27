@@ -99,4 +99,5 @@ setMethod(
   "dbBind", "LoggingDBIResult",
   function(res, params, ...) {
     log_call(dbBind(res@res, params, !!! enquos(...)))
+    invisible(res)
   })

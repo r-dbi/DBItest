@@ -16,6 +16,7 @@ Depends:
 Imports: 
     blob (>= 1.1.1),
     callr,
+    collections,
     DBI (>= 0.4-9),
     desc,
     hms,

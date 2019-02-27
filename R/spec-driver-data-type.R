@@ -10,7 +10,7 @@ spec_driver_data_type <- list(
   },
 
   data_type_driver = function(ctx) {
-    test_data_type(ctx, ctx$drv)
+    test_data_type(ctx, ctx$orig_drv)
   },
 
   NULL

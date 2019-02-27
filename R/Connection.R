@@ -17,16 +17,21 @@ setClass(
 setMethod(
   "show", "LoggingDBIConnection",
   function(object) {
-    cat("<LoggingDBIConnection>\n")
+    cat("<LoggingDBIConnection>")
     show(object@conn)
   })
+
+#' @export
+format.LoggingDBIConnection <- function(x, ...) {
+  paste0("Logging<", format(x@conn), ">")
+}
 
 #' @rdname DBI
 #' @inheritParams DBI::dbIsValid
 setMethod(
   "dbIsValid", "LoggingDBIConnection",
   function(dbObj, ...) {
-    log_call(dbIsValid(dbObj@drv, !!! enquos(...)))
+    log_call(dbIsValid(dbObj@conn, !!! enquos(...)))
   })
 
 #' @rdname DBI
@@ -77,6 +82,14 @@ setMethod(
   "dbQuoteIdentifier", c("LoggingDBIConnection", "character"),
   function(conn, x, ...) {
     log_call(dbQuoteIdentifier(conn@conn, x, !!! enquos(...)))
+  })
+
+#' @rdname DBI
+#' @inheritParams DBI::dbQuoteIdentifier
+setMethod(
+  "dbUnquoteIdentifier", c("LoggingDBIConnection", "SQL"),
+  function(conn, x, ...) {
+    log_call(dbUnquoteIdentifier(conn@conn, x, !!! enquos(...)))
   })
 
 #' @rdname DBI

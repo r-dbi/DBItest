@@ -21,6 +21,8 @@ run_tests <- function(ctx, tests, skip, test_suite) {
     if (skip_flag[[test_idx]])
       FALSE
     else {
+      on.exit(clear_s4_dict())
+
       test_fun <- patch_test_fun(tests[[test_name]], paste0(test_context, ": ", test_name))
       test_fun(ctx)
     }

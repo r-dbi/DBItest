@@ -6,7 +6,7 @@
 \alias{LoggingDBIDriver-class}
 \alias{show,LoggingDBIDriver-method}
 \alias{dbConnect,LoggingDBIDriver-method}
-\alias{dbDataType,LoggingDBIDriver,ANY-method}
+\alias{dbDataType,LoggingDBIDriver-method}
 \alias{dbIsValid,LoggingDBIDriver-method}
 \alias{dbGetInfo,LoggingDBIDriver-method}
 \alias{LoggingDBIConnection-class}
@@ -15,9 +15,10 @@
 \alias{dbDisconnect,LoggingDBIConnection-method}
 \alias{dbSendQuery,LoggingDBIConnection,character-method}
 \alias{dbSendStatement,LoggingDBIConnection,character-method}
-\alias{dbDataType,LoggingDBIConnection,ANY-method}
+\alias{dbDataType,LoggingDBIConnection-method}
 \alias{dbQuoteString,LoggingDBIConnection,character-method}
 \alias{dbQuoteIdentifier,LoggingDBIConnection,character-method}
+\alias{dbUnquoteIdentifier,LoggingDBIConnection,SQL-method}
 \alias{dbWriteTable,LoggingDBIConnection,character,data.frame-method}
 \alias{dbReadTable,LoggingDBIConnection,character-method}
 \alias{dbListTables,LoggingDBIConnection-method}
@@ -46,7 +47,7 @@
 
 \S4method{dbConnect}{LoggingDBIDriver}(drv, ...)
 
-\S4method{dbDataType}{LoggingDBIDriver,ANY}(dbObj, obj, ...)
+\S4method{dbDataType}{LoggingDBIDriver}(dbObj, obj, ...)
 
 \S4method{dbIsValid}{LoggingDBIDriver}(dbObj, ...)
 
@@ -64,11 +65,13 @@
 \S4method{dbSendStatement}{LoggingDBIConnection,character}(conn, statement,
   ...)
 
-\S4method{dbDataType}{LoggingDBIConnection,ANY}(dbObj, obj, ...)
+\S4method{dbDataType}{LoggingDBIConnection}(dbObj, obj, ...)
 
 \S4method{dbQuoteString}{LoggingDBIConnection,character}(conn, x, ...)
 
 \S4method{dbQuoteIdentifier}{LoggingDBIConnection,character}(conn, x, ...)
+
+\S4method{dbUnquoteIdentifier}{LoggingDBIConnection,SQL}(conn, x, ...)
 
 \S4method{dbWriteTable}{LoggingDBIConnection,character,data.frame}(conn,
   name, value, overwrite = FALSE, append = FALSE, ...)
