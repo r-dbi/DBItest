@@ -26,7 +26,7 @@ setMethod(
 setMethod(
   "dbClearResult", "LoggingDBIResult",
   function(res, ...) {
-    log_call(dbClearResult(res@res, !!! rlang::enquos(...)))
+    log_call(dbClearResult(res@res, !!! enquos(...)))
   })
 
 #' @rdname DBI
@@ -34,7 +34,7 @@ setMethod(
 setMethod(
   "dbFetch", "LoggingDBIResult",
   function(res, n = -1, ...) {
-    log_call(dbFetch(res@res, n = n, !!! rlang::enquos(...)))
+    log_call(dbFetch(res@res, n = n, !!! enquos(...)))
   })
 
 #' @rdname DBI
@@ -42,7 +42,7 @@ setMethod(
 setMethod(
   "dbHasCompleted", "LoggingDBIResult",
   function(res, ...) {
-    log_call(dbHasCompleted(res@res, !!! rlang::enquos(...)))
+    log_call(dbHasCompleted(res@res, !!! enquos(...)))
   })
 
 #' @rdname DBI
@@ -50,7 +50,7 @@ setMethod(
 setMethod(
   "dbGetInfo", "LoggingDBIResult",
   function(dbObj, ...) {
-    log_call(dbGetInfo(dbObj@res, !!! rlang::enquos(...)))
+    log_call(dbGetInfo(dbObj@res, !!! enquos(...)))
   })
 
 #' @rdname DBI
@@ -58,7 +58,7 @@ setMethod(
 setMethod(
   "dbIsValid", "LoggingDBIResult",
   function(dbObj, ...) {
-    log_call(dbIsValid(dbObj@res, !!! rlang::enquos(...)))
+    log_call(dbIsValid(dbObj@res, !!! enquos(...)))
   })
 
 #' @rdname DBI
@@ -66,7 +66,7 @@ setMethod(
 setMethod(
   "dbGetStatement", "LoggingDBIResult",
   function(res, ...) {
-    log_call(dbGetStatement(res@res, !!! rlang::enquos(...)))
+    log_call(dbGetStatement(res@res, !!! enquos(...)))
   })
 
 #' @rdname DBI
@@ -74,7 +74,7 @@ setMethod(
 setMethod(
   "dbColumnInfo", "LoggingDBIResult",
   function(res, ...) {
-    log_call(dbColumnInfo(res@res, !!! rlang::enquos(...)))
+    log_call(dbColumnInfo(res@res, !!! enquos(...)))
   })
 
 #' @rdname DBI
@@ -82,7 +82,7 @@ setMethod(
 setMethod(
   "dbGetRowCount", "LoggingDBIResult",
   function(res, ...) {
-    log_call(dbGetRowCount(res@res, !!! rlang::enquos(...)))
+    log_call(dbGetRowCount(res@res, !!! enquos(...)))
   })
 
 #' @rdname DBI
@@ -90,7 +90,7 @@ setMethod(
 setMethod(
   "dbGetRowsAffected", "LoggingDBIResult",
   function(res, ...) {
-    log_call(dbGetRowsAffected(res@res, !!! rlang::enquos(...)))
+    log_call(dbGetRowsAffected(res@res, !!! enquos(...)))
   })
 
 #' @rdname DBI
@@ -98,5 +98,5 @@ setMethod(
 setMethod(
   "dbBind", "LoggingDBIResult",
   function(res, params, ...) {
-    log_call(dbBind(res@res, params, !!! rlang::enquos(...)))
+    log_call(dbBind(res@res, params, !!! enquos(...)))
   })

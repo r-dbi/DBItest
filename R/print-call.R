@@ -1,21 +1,21 @@
 s4_dict <- collections::Queue$new()
 
 log_call <- function(call) {
-  call <- rlang::enquo(call)
-  expr <- rlang::quo_get_expr(call)
-  env <- rlang::quo_get_env(call)
+  call <- enquo(call)
+  expr <- quo_get_expr(call)
+  env <- quo_get_env(call)
 
-  args <- purrr::map(expr[-1], ~ rlang::eval_tidy(., rlang::quo_get_env(call)))
+  args <- purrr::map(expr[-1], ~ eval_tidy(., rlang::quo_get_env(call)))
   args <- purrr::map(args, find_s4_dict)
 
-  new_call <- rlang::call2(expr[[1]], !!!args)
+  new_call <- call2(expr[[1]], !!!args)
   on.exit(print(styler::style_text(deparse(new_call, width.cutoff = 80))))
 
-  result <- rlang::eval_tidy(rlang::quo(withVisible(!! call)))
+  result <- eval_tidy(rlang::quo(withVisible(!! call)))
 
   new_obj <- add_s4_dict(result$value)
   if (!is.null(new_obj)) {
-    new_call <- rlang::call2("<-", new_obj, new_call)
+    new_call <- call2("<-", new_obj, new_call)
   }
 
   if (result$visible) {
@@ -45,7 +45,7 @@ add_s4_dict <- function(x) {
   else return(NULL)
 
   all_s4 <- s4_dict$as_list()
-  all_names <- purrr::map_chr(purrr::map(all_s4, "name"), rlang::as_string)
+  all_names <- purrr::map_chr(purrr::map(all_s4, "name"), as_string)
 
   prefix_names <- grep(paste0("^", prefix), all_names, value = TRUE)
   suffixes <- as.integer(gsub(paste0("^", prefix), "", prefix_names))

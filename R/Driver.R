@@ -15,7 +15,7 @@ NULL
 #' RLoggingDBI::LoggingDBI()
 #' }
 LoggingDBI <- function(drv) {
-  quo <- rlang::enquo(drv)
+  quo <- enquo(drv)
   log_drv <- log_call(!! quo)
   new("LoggingDBIDriver", drv = log_drv)
 }
@@ -37,7 +37,7 @@ setMethod(
 setMethod(
   "dbConnect", "LoggingDBIDriver",
   function(drv, ...) {
-    conn <- log_call(dbConnect(drv@drv, !!! rlang::enquos(...)))
+    conn <- log_call(dbConnect(drv@drv, !!! enquos(...)))
     LoggingDBIConnection(conn)
   }
 )
@@ -47,7 +47,7 @@ setMethod(
 setMethod(
   "dbDataType", "LoggingDBIDriver",
   function(dbObj, obj, ...) {
-    log_call(dbDataType(dbObj@drv, obj, !!! rlang::enquos(...)))
+    log_call(dbDataType(dbObj@drv, obj, !!! enquos(...)))
   })
 
 #' @rdname DBI
@@ -55,7 +55,7 @@ setMethod(
 setMethod(
   "dbIsValid", "LoggingDBIDriver",
   function(dbObj, ...) {
-    log_call(dbIsValid(dbObj@drv, !!! rlang::enquos(...)))
+    log_call(dbIsValid(dbObj@drv, !!! enquos(...)))
   })
 
 #' @rdname DBI
@@ -63,5 +63,5 @@ setMethod(
 setMethod(
   "dbGetInfo", "LoggingDBIDriver",
   function(dbObj, ...) {
-    log_call(dbGetInfo(dbObj@drv, !!! rlang::enquos(...)))
+    log_call(dbGetInfo(dbObj@drv, !!! enquos(...)))
   })
