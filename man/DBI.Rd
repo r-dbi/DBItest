@@ -7,7 +7,6 @@
 \alias{show,LoggingDBIDriver-method}
 \alias{dbConnect,LoggingDBIDriver-method}
 \alias{dbDataType,LoggingDBIDriver,ANY-method}
-\alias{dbDataType,LoggingDBIDriver,list-method}
 \alias{dbIsValid,LoggingDBIDriver-method}
 \alias{dbGetInfo,LoggingDBIDriver-method}
 \alias{LoggingDBIConnection-class}
@@ -48,8 +47,6 @@
 \S4method{dbConnect}{LoggingDBIDriver}(drv, ...)
 
 \S4method{dbDataType}{LoggingDBIDriver,ANY}(dbObj, obj, ...)
-
-\S4method{dbDataType}{LoggingDBIDriver,list}(dbObj, obj, ...)
 
 \S4method{dbIsValid}{LoggingDBIDriver}(dbObj, ...)
 

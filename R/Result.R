@@ -1,19 +1,15 @@
 #' @include Connection.R
 NULL
 
-LoggingDBIResult <- function(connection, statement) {
-  # TODO: Initialize result
-  new("LoggingDBIResult", connection = connection, statement = statement)
+LoggingDBIResult <- function(res) {
+  new("LoggingDBIResult", res = res)
 }
 
 #' @rdname DBI
 setClass(
   "LoggingDBIResult",
   contains = "DBIResult",
-  slots = list(
-    connection = "LoggingDBIConnection",
-    statement = "character"
-  )
+  slots = list(res = "DBIResult")
 )
 
 #' @rdname DBI
@@ -22,7 +18,7 @@ setMethod(
   "show", "LoggingDBIResult",
   function(object) {
     cat("<LoggingDBIResult>\n")
-    # TODO: Print more details
+    show(object@res)
   })
 
 #' @rdname DBI
@@ -30,7 +26,7 @@ setMethod(
 setMethod(
   "dbClearResult", "LoggingDBIResult",
   function(res, ...) {
-    testthat::skip("Not yet implemented: dbClearResult(Result)")
+    log_call(dbClearResult(res@res, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -38,7 +34,7 @@ setMethod(
 setMethod(
   "dbFetch", "LoggingDBIResult",
   function(res, n = -1, ...) {
-    testthat::skip("Not yet implemented: dbFetch(Result)")
+    log_call(dbFetch(res@res, n = n, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -46,7 +42,7 @@ setMethod(
 setMethod(
   "dbHasCompleted", "LoggingDBIResult",
   function(res, ...) {
-    testthat::skip("Not yet implemented: dbHasCompleted(Result)")
+    log_call(dbHasCompleted(res@res, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -54,8 +50,7 @@ setMethod(
 setMethod(
   "dbGetInfo", "LoggingDBIResult",
   function(dbObj, ...) {
-    # Optional
-    getMethod("dbGetInfo", "DBIResult", asNamespace("DBI"))(dbObj, ...)
+    log_call(dbGetInfo(dbObj@res, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -63,7 +58,7 @@ setMethod(
 setMethod(
   "dbIsValid", "LoggingDBIResult",
   function(dbObj, ...) {
-    testthat::skip("Not yet implemented: dbIsValid(Result)")
+    log_call(dbIsValid(dbObj@res, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -71,7 +66,7 @@ setMethod(
 setMethod(
   "dbGetStatement", "LoggingDBIResult",
   function(res, ...) {
-    testthat::skip("Not yet implemented: dbGetStatement(Result)")
+    log_call(dbGetStatement(res@res, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -79,7 +74,7 @@ setMethod(
 setMethod(
   "dbColumnInfo", "LoggingDBIResult",
   function(res, ...) {
-    testthat::skip("Not yet implemented: dbColumnInfo(Result)")
+    log_call(dbColumnInfo(res@res, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -87,7 +82,7 @@ setMethod(
 setMethod(
   "dbGetRowCount", "LoggingDBIResult",
   function(res, ...) {
-    testthat::skip("Not yet implemented: dbGetRowCount(Result)")
+    log_call(dbGetRowCount(res@res, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -95,7 +90,7 @@ setMethod(
 setMethod(
   "dbGetRowsAffected", "LoggingDBIResult",
   function(res, ...) {
-    testthat::skip("Not yet implemented: dbGetRowsAffected(Result)")
+    log_call(dbGetRowsAffected(res@res, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -103,5 +98,5 @@ setMethod(
 setMethod(
   "dbBind", "LoggingDBIResult",
   function(res, params, ...) {
-    testthat::skip("Not yet implemented: dbBind(Result)")
+    log_call(dbBind(res@res, params, !!! rlang::enquos(...)))
   })

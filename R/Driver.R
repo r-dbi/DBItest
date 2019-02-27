@@ -47,19 +47,7 @@ setMethod(
 setMethod(
   "dbDataType", "LoggingDBIDriver",
   function(dbObj, obj, ...) {
-    # Optional: Can remove this if all data types conform to SQL-92
-    tryCatch(
-      getMethod("dbDataType", "DBIObject", asNamespace("DBI"))(dbObj, obj, ...),
-      error = function(e) testthat::skip("Not yet implemented: dbDataType(Driver)"))
-  })
-
-#' @rdname DBI
-#' @inheritParams DBI::dbDataType
-setMethod(
-  "dbDataType", c("LoggingDBIDriver", "list"),
-  function(dbObj, obj, ...) {
-    # rstats-db/DBI#70
-    testthat::skip("Not yet implemented: dbDataType(Driver, list)")
+    log_call(dbDataType(dbObj@drv, obj, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -67,7 +55,7 @@ setMethod(
 setMethod(
   "dbIsValid", "LoggingDBIDriver",
   function(dbObj, ...) {
-    testthat::skip("Not yet implemented: dbIsValid(Driver)")
+    log_call(dbIsValid(dbObj@drv, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -75,5 +63,5 @@ setMethod(
 setMethod(
   "dbGetInfo", "LoggingDBIDriver",
   function(dbObj, ...) {
-    testthat::skip("Not yet implemented: dbGetInfo(Driver)")
+    log_call(dbGetInfo(dbObj@drv, !!! rlang::enquos(...)))
   })

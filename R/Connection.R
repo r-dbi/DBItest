@@ -2,7 +2,6 @@
 NULL
 
 LoggingDBIConnection <- function(conn) {
-  # TODO: Add arguments
   new("LoggingDBIConnection", conn = conn)
 }
 
@@ -19,7 +18,7 @@ setMethod(
   "show", "LoggingDBIConnection",
   function(object) {
     cat("<LoggingDBIConnection>\n")
-    # TODO: Print more details
+    show(object@conn)
   })
 
 #' @rdname DBI
@@ -27,7 +26,7 @@ setMethod(
 setMethod(
   "dbIsValid", "LoggingDBIConnection",
   function(dbObj, ...) {
-    testthat::skip("Not yet implemented: dbIsValid(Connection)")
+    log_call(dbIsValid(dbObj@drv, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -35,7 +34,7 @@ setMethod(
 setMethod(
   "dbDisconnect", "LoggingDBIConnection",
   function(conn, ...) {
-    log_call(dbDisconnect(conn@conn))
+    log_call(dbDisconnect(conn@conn, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -43,7 +42,8 @@ setMethod(
 setMethod(
   "dbSendQuery", c("LoggingDBIConnection", "character"),
   function(conn, statement, ...) {
-    LoggingDBIResult(connection = conn, statement = statement)
+    res <- log_call(dbSendQuery(conn@conn, statement, !!! rlang::enquos(...)))
+    LoggingDBIResult(res)
   })
 
 #' @rdname DBI
@@ -51,7 +51,8 @@ setMethod(
 setMethod(
   "dbSendStatement", c("LoggingDBIConnection", "character"),
   function(conn, statement, ...) {
-    LoggingDBIResult(connection = conn, statement = statement)
+    res <- log_call(dbSendStatement(conn@conn, statement, !!! rlang::enquos(...)))
+    LoggingDBIResult(res)
   })
 
 #' @rdname DBI
@@ -59,9 +60,7 @@ setMethod(
 setMethod(
   "dbDataType", "LoggingDBIConnection",
   function(dbObj, obj, ...) {
-    tryCatch(
-      getMethod("dbDataType", "DBIObject", asNamespace("DBI"))(dbObj, obj, ...),
-      error = function(e) testthat::skip("Not yet implemented: dbDataType(Connection)"))
+    log_call(dbDataType(dbObj@conn, obj, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -69,8 +68,7 @@ setMethod(
 setMethod(
   "dbQuoteString", c("LoggingDBIConnection", "character"),
   function(conn, x, ...) {
-    # Optional
-    getMethod("dbQuoteString", c("DBIConnection", "character"), asNamespace("DBI"))(conn, x, ...)
+    log_call(dbQuoteString(conn@conn, x, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -78,8 +76,7 @@ setMethod(
 setMethod(
   "dbQuoteIdentifier", c("LoggingDBIConnection", "character"),
   function(conn, x, ...) {
-    # Optional
-    getMethod("dbQuoteIdentifier", c("DBIConnection", "character"), asNamespace("DBI"))(conn, x, ...)
+    log_call(dbQuoteIdentifier(conn@conn, x, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -91,7 +88,7 @@ setMethod(
 setMethod(
   "dbWriteTable", c("LoggingDBIConnection", "character", "data.frame"),
   function(conn, name, value, overwrite = FALSE, append = FALSE, ...) {
-    testthat::skip("Not yet implemented: dbWriteTable(Connection, character, data.frame)")
+    log_call(dbWriteTable(conn@conn, name = name, value = value, overwrite = overwrite, append = append, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -99,7 +96,7 @@ setMethod(
 setMethod(
   "dbReadTable", c("LoggingDBIConnection", "character"),
   function(conn, name, ...) {
-    testthat::skip("Not yet implemented: dbReadTable(Connection, character)")
+    log_call(dbReadTable(conn@conn, name = name, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -107,7 +104,7 @@ setMethod(
 setMethod(
   "dbListTables", "LoggingDBIConnection",
   function(conn, ...) {
-    testthat::skip("Not yet implemented: dbListTables(Connection)")
+    log_call(dbListTables(conn@conn, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -115,7 +112,7 @@ setMethod(
 setMethod(
   "dbExistsTable", c("LoggingDBIConnection", "character"),
   function(conn, name, ...) {
-    testthat::skip("Not yet implemented: dbExistsTable(Connection)")
+    log_call(dbExistsTable(conn@conn, name, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -123,7 +120,7 @@ setMethod(
 setMethod(
   "dbListFields", c("LoggingDBIConnection", "character"),
   function(conn, name, ...) {
-    testthat::skip("Not yet implemented: dbListFields(Connection, character)")
+    log_call(dbListFields(conn@conn, name, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -131,7 +128,7 @@ setMethod(
 setMethod(
   "dbRemoveTable", c("LoggingDBIConnection", "character"),
   function(conn, name, ...) {
-    testthat::skip("Not yet implemented: dbRemoveTable(Connection, character)")
+    log_call(dbRemoveTable(conn@conn, name, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -139,7 +136,7 @@ setMethod(
 setMethod(
   "dbGetInfo", "LoggingDBIConnection",
   function(dbObj, ...) {
-    testthat::skip("Not yet implemented: dbGetInfo(Connection)")
+    log_call(dbGetInfo(dbObj@conn, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -147,7 +144,7 @@ setMethod(
 setMethod(
   "dbBegin", "LoggingDBIConnection",
   function(conn, ...) {
-    testthat::skip("Not yet implemented: dbBegin(Connection)")
+    log_call(dbBegin(conn@conn, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -155,7 +152,7 @@ setMethod(
 setMethod(
   "dbCommit", "LoggingDBIConnection",
   function(conn, ...) {
-    testthat::skip("Not yet implemented: dbCommit(Connection)")
+    log_call(dbCommit(conn@conn, !!! rlang::enquos(...)))
   })
 
 #' @rdname DBI
@@ -163,5 +160,5 @@ setMethod(
 setMethod(
   "dbRollback", "LoggingDBIConnection",
   function(conn, ...) {
-    testthat::skip("Not yet implemented: dbRollback(Connection)")
+    log_call(dbRollback(conn@conn, !!! rlang::enquos(...)))
   })
