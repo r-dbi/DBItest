@@ -15,11 +15,9 @@ NULL
 #' RLoggingDBI::LoggingDBI()
 #' }
 LoggingDBI <- function(drv) {
-  expr <- rlang::enexpr(drv)
-  expr_list <- as.list(expr)
-
-  rlang::eval_tidy(rlang::quo(print_call(expr_list[[1]], !!!expr_list[-1], result = drv)))
-  new("LoggingDBIDriver", drv = drv)
+  quo <- rlang::enquo(drv)
+  log_drv <- log_call(!! quo)
+  new("LoggingDBIDriver", drv = log_drv)
 }
 
 #' @rdname DBI
@@ -32,7 +30,6 @@ setMethod(
   function(object) {
     cat("<LoggingDBIDriver>\n")
     show(object@drv)
-    # TODO: Print more details
   })
 
 #' @rdname DBI
@@ -40,10 +37,7 @@ setMethod(
 setMethod(
   "dbConnect", "LoggingDBIDriver",
   function(drv, ...) {
-    print_call(
-      "dbConnect", drv@drv, ...,
-      result = conn <- dbConnect(drv@drv, ...)
-    )
+    conn <- log_call(dbConnect(drv@drv, !!! rlang::enquos(...)))
     LoggingDBIConnection(conn)
   }
 )

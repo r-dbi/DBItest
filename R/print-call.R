@@ -1,26 +1,28 @@
 s4_dict <- collections::Queue$new()
 
-print_call <- function(name, ..., result = NULL) {
-  args <- list(...)
+log_call <- function(call) {
+  call <- rlang::enquo(call)
+  expr <- rlang::quo_get_expr(call)
+  env <- rlang::quo_get_env(call)
 
-  is_drv <- purrr::map_lgl(args, inherits, "DBIDriver")
-  is_conn <- purrr::map_lgl(args, inherits, "DBIConnection")
-  is_result <- purrr::map_lgl(args, inherits, "DBIResult")
+  args <- purrr::map(expr[-1], ~ rlang::eval_tidy(., rlang::quo_get_env(call)))
+  args <- purrr::map(args, find_s4_dict)
 
-  if (is.call(name)) {
-    call <- rlang::eval_tidy(rlang::quo(as.call(list(name, ...))))
+  new_call <- rlang::call2(expr[[1]], !!!args)
+  on.exit(print(styler::style_text(deparse(new_call, width.cutoff = 80))))
+
+  result <- rlang::eval_tidy(rlang::quo(withVisible(!! call)))
+
+  new_obj <- add_s4_dict(result$value)
+  if (!is.null(new_obj)) {
+    new_call <- rlang::call2("<-", new_obj, new_call)
+  }
+
+  if (result$visible) {
+    result$value
   } else {
-    call <- rlang::eval_tidy(rlang::quo(call(name, find_s4_dict(args[[1]]), !!!args[-1])))
+    invisible(result$value)
   }
-  on.exit(print(styler::style_text(deparse(call, width.cutoff = 80))))
-
-  force(result)
-  if (!is.null(result)) {
-    new_obj <- add_s4_dict(result)
-    call <- call("<-", new_obj, call)
-  }
-
-  invisible(call)
 }
 
 find_s4_dict <- function(x) {
@@ -32,14 +34,15 @@ find_s4_dict <- function(x) {
     }
   }
 
-  stop("Not found.")
+  # Not found
+  x
 }
 
 add_s4_dict <- function(x) {
   if (inherits(x, "DBIResult")) prefix <- "res"
   else if (inherits(x, "DBIConnection")) prefix <- "conn"
   else if (inherits(x, "DBIDriver")) prefix <- "drv"
-  else stop("Unknown class")
+  else return(NULL)
 
   all_s4 <- s4_dict$as_list()
   all_names <- purrr::map_chr(purrr::map(all_s4, "name"), rlang::as_string)

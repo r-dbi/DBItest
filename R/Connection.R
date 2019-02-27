@@ -35,14 +35,7 @@ setMethod(
 setMethod(
   "dbDisconnect", "LoggingDBIConnection",
   function(conn, ...) {
-    print_call("dbDisconnect", conn@conn, ...)
-
-    if (!dbIsValid(conn@conn)) {
-      warning("Connection already closed.", call. = FALSE)
-    }
-
-    # TODO: Free resources
-    TRUE
+    log_call(dbDisconnect(conn@conn))
   })
 
 #' @rdname DBI
