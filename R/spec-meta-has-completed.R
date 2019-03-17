@@ -33,7 +33,7 @@ spec_meta_has_completed <- list(
       with_remove_test_table(name = name, {
         #' For a query initiated by [dbSendStatement()],
         with_result(
-          dbSendQuery(con, paste0("CREATE TABLE ", name, " (a integer)")),
+          dbSendStatement(con, paste0("CREATE TABLE ", name, " (a integer)")),
           {
             #' `dbHasCompleted()` always returns `TRUE`.
             expect_true(expect_visible(dbHasCompleted(res)))
