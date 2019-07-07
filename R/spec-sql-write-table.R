@@ -798,13 +798,13 @@ test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transfo
 }
 
 add_na_above <- function(tbl) {
-  idx <- c(nrow(tbl) + 1L, seq_len(nrow(tbl)))
+  idx <- c(NA, seq_len(nrow(tbl)))
   tbl <- tbl[idx, , drop = FALSE]
   unrowname(tbl)
 }
 
 add_na_below <- function(tbl) {
-  idx <- seq_len(nrow(tbl) + 1L)
+  idx <- c(seq_len(nrow(tbl)), NA)
   tbl <- tbl[idx, , drop = FALSE]
   unrowname(tbl)
 }
