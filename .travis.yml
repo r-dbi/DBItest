@@ -67,6 +67,7 @@ addons:
 matrix:
   include:
   - r: devel
+  - r: 3.2
   - stage: full
     os: osx
     latex: false
