@@ -13,6 +13,10 @@ run_tests <- function(ctx, tests, skip, test_suite) {
 
   tests <- tests[!vapply(tests, is.null, logical(1L))]
 
+  if (is.null(skip)) {
+    skip <- ctx$default_skip
+  }
+
   skipped <- get_skip_names(skip)
   skip_flag <- names(tests) %in% skipped
 

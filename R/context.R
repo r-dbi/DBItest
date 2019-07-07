@@ -12,6 +12,9 @@
 #' @param ctx `[DBItest_context]`\cr A test context.
 #' @param name `[character]`\cr An optional name of the context which will
 #'   be used in test messages.
+#' @param default_skip `[character]`\cr Default value of `skip` argument
+#'   to [test_all()]  and other testing functions.
+#'
 #' @return `[DBItest_context]`\cr A test context, for
 #'   `set_default_context` the previous default context (invisibly) or
 #'   `NULL`.
@@ -19,7 +22,7 @@
 #' @rdname context
 #' @export
 make_context <- function(drv, connect_args, set_as_default = TRUE,
-                         tweaks = NULL, name = NULL) {
+                         tweaks = NULL, name = NULL, default_skip = NULL) {
   drv_call <- substitute(drv)
 
   if (is.null(drv)) {
@@ -36,7 +39,8 @@ make_context <- function(drv, connect_args, set_as_default = TRUE,
       drv_call = drv_call,
       connect_args = connect_args,
       tweaks = tweaks,
-      name = name
+      name = name,
+      default_skip = default_skip
     ),
     class = "DBItest_context"
   )

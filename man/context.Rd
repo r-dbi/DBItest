@@ -7,7 +7,7 @@
 \title{Test contexts}
 \usage{
 make_context(drv, connect_args, set_as_default = TRUE, tweaks = NULL,
-  name = NULL)
+  name = NULL, default_skip = NULL)
 
 set_default_context(ctx)
 
@@ -27,6 +27,9 @@ set as default context?}
 
 \item{name}{\code{[character]}\cr An optional name of the context which will
 be used in test messages.}
+
+\item{default_skip}{\code{[character]}\cr Default value of \code{skip} argument
+to \code{\link[=test_all]{test_all()}}  and other testing functions.}
 
 \item{ctx}{\code{[DBItest_context]}\cr A test context.}
 }
