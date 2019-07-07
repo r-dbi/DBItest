@@ -1,3 +1,8 @@
+# DBItest 1.6.0.9001
+
+- Fix `has_completed_statement` test (#176).
+
+
 # DBItest 1.6.0.9000
 
 - Support NULL default value in driver constructor (#171).
