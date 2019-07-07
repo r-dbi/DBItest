@@ -1,3 +1,9 @@
+# DBItest 1.6.0.9002
+
+- Avoid subsetting vectors out of bounds, for consistency with vctrs.
+- `make_context()` gains `default_skip` argument.
+
+
 # DBItest 1.6.0.9001
 
 - Fix `has_completed_statement` test (#176).
