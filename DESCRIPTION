@@ -14,11 +14,11 @@ BugReports: https://github.com/r-dbi/DBItest/issues
 Depends: 
     R (>= 3.2.0)
 Imports: 
-    blob (>= 1.1.1),
+    blob (>= 1.1.1.9002),
     callr,
     DBI (>= 0.4-9),
     desc,
-    hms,
+    hms (>= 0.4.2.9005),
     lubridate,
     methods,
     R6,
@@ -31,6 +31,10 @@ Suggests:
     lintr,
     rmarkdown
 VignetteBuilder: knitr
+Remotes: 
+    tidyverse/blob,
+    r-dbi/DBI,
+    tidyverse/hms
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

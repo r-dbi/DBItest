@@ -467,11 +467,11 @@ spec_sql_write_table <- list(
     with_connection({
       tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
       tbl_exp <- tbl_in
-      tbl_exp$a <- blob::as.blob(unclass(tbl_in$a))
+      tbl_exp$a <- blob::as_blob(unclass(tbl_in$a))
       test_table_roundtrip(
         con, tbl_in, tbl_exp,
         transform = function(tbl_out) {
-          tbl_out$a <- blob::as.blob(tbl_out$a)
+          tbl_out$a <- blob::as_blob(tbl_out$a)
           tbl_out
         }
       )
@@ -490,7 +490,7 @@ spec_sql_write_table <- list(
       test_table_roundtrip(
         con, tbl_in,
         transform = function(tbl_out) {
-          tbl_out$a <- blob::as.blob(tbl_out$a)
+          tbl_out$a <- blob::as_blob(tbl_out$a)
           tbl_out
         }
       )
@@ -530,14 +530,14 @@ spec_sql_write_table <- list(
       tbl_in <- data.frame(a = c(now + 1:5) - now)
 
       tbl_exp <- tbl_in
-      tbl_exp$a <- hms::as.hms(tbl_exp$a)
+      tbl_exp$a <- hms::as_hms(tbl_exp$a)
 
       test_table_roundtrip(
         con, tbl_in, tbl_exp,
         transform = function(tbl_out) {
           #'   returned as objects that inherit from `difftime`)
           expect_is(tbl_out$a, "difftime")
-          tbl_out$a <- hms::as.hms(tbl_out$a)
+          tbl_out$a <- hms::as_hms(tbl_out$a)
           tbl_out
         }
       )
