@@ -7,7 +7,7 @@ before_install:
 - if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install mysql && mysql.server start; fi
 - R -q -e 'install.packages(c("remotes", "curl")); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
 - mysql -e "CREATE DATABASE IF NOT EXISTS test;" -uroot
-- mysql -e "GRANT ALL PRIVILEGES ON test.* TO 'travis'@'localhost'; FLUSH PRIVILEGES;" -uroot
+- if [ "$TRAVIS_OS_NAME" -ne "osx" ]; then mysql -e "GRANT ALL PRIVILEGES ON test.* TO 'travis'@'localhost'; FLUSH PRIVILEGES;" -uroot; fi
 
 install: R -q -e 'tic::install()'
 after_install: R -q -e 'tic::after_install()'
