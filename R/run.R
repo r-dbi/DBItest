@@ -1,4 +1,6 @@
 run_tests <- function(ctx, tests, skip, test_suite) {
+  "!DEBUG run_tests(`test_suite`)"
+
   if (is.null(ctx)) {
     stop("Need to call make_context() to use the test_...() functions.", call. = FALSE)
   }

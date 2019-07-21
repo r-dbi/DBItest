@@ -26,6 +26,7 @@ Imports:
     testthat (>= 2.0.0),
     withr
 Suggests: 
+    debugme,
     devtools,
     knitr,
     lintr,
@@ -117,3 +118,4 @@ Collate:
     'tweaks.R'
     'utf8.R'
     'utils.R'
+    'zzz.R'
