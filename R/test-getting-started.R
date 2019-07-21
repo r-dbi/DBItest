@@ -14,8 +14,8 @@ NULL
 #' @include test-all.R
 #' @family tests
 #' @export
-test_getting_started <- function(skip = NULL, ctx = get_default_context()) {
+test_getting_started <- function(skip = NULL, run_only = NULL, ctx = get_default_context()) {
   test_suite <- "Getting started"
 
-  run_tests(ctx, spec_getting_started, skip, test_suite)
+  run_tests(ctx, spec_getting_started, skip, run_only, test_suite)
 }

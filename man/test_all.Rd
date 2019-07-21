@@ -7,19 +7,25 @@
 \alias{test_some}
 \title{Run all tests}
 \usage{
-test_all(skip = NULL, ctx = get_default_context())
+test_all(skip = NULL, run_only = NULL, ctx = get_default_context())
 
 test_some(test, ctx = get_default_context())
 }
 \arguments{
 \item{skip}{\code{[character()]}\cr A vector of regular expressions to match
-against test names; skip test if matching any.}
+against test names; skip test if matching any.
+The regular expressions are matched against the entire test name.}
+
+\item{run_only}{\code{[character()]}\cr A vector of regular expressions to match
+against test names; run only these tests.
+The regular expressions are matched against the entire test name.}
 
 \item{ctx}{\code{[DBItest_context]}\cr A test context as created by
 \code{\link[=make_context]{make_context()}}.}
 
 \item{test}{\code{[character]}\cr A character vector of regular expressions
-describing the tests to run.}
+describing the tests to run.
+The regular expressions are matched against the entire test name.}
 }
 \description{
 \code{test_all()} calls all tests defined in this package (see the section
@@ -27,8 +33,7 @@ describing the tests to run.}
 environment variable, e.g., set the \code{DBITEST_ONLY_RESULT} to a nonempty
 value to run only \code{test_result()}.
 
-\code{test_some()} allows testing one or more tests, it works by
-constructing the \code{skip} argument using negative lookaheads.
+\code{test_some()} allows testing one or more tests.
 }
 \section{Tests}{
 

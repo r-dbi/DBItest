@@ -4,11 +4,16 @@
 \alias{test_meta}
 \title{Test metadata functions}
 \usage{
-test_meta(skip = NULL, ctx = get_default_context())
+test_meta(skip = NULL, run_only = NULL, ctx = get_default_context())
 }
 \arguments{
 \item{skip}{\code{[character()]}\cr A vector of regular expressions to match
-against test names; skip test if matching any.}
+against test names; skip test if matching any.
+The regular expressions are matched against the entire test name.}
+
+\item{run_only}{\code{[character()]}\cr A vector of regular expressions to match
+against test names; run only these tests.
+The regular expressions are matched against the entire test name.}
 
 \item{ctx}{\code{[DBItest_context]}\cr A test context as created by
 \code{\link[=make_context]{make_context()}}.}

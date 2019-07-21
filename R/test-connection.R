@@ -13,8 +13,8 @@ NULL
 #' @importFrom withr with_temp_libpaths
 #' @importFrom methods is
 #' @export
-test_connection <- function(skip = NULL, ctx = get_default_context()) {
+test_connection <- function(skip = NULL, run_only = NULL, ctx = get_default_context()) {
   test_suite <- "Connection"
 
-  run_tests(ctx, spec_connection, skip, test_suite)
+  run_tests(ctx, spec_connection, skip, run_only, test_suite)
 }

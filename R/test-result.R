@@ -11,8 +11,8 @@ NULL
 #' @include test-connection.R
 #' @family tests
 #' @export
-test_result <- function(skip = NULL, ctx = get_default_context()) {
+test_result <- function(skip = NULL, run_only = NULL, ctx = get_default_context()) {
   test_suite <- "Result"
 
-  run_tests(ctx, spec_result, skip, test_suite)
+  run_tests(ctx, spec_result, skip, run_only, test_suite)
 }

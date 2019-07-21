@@ -12,8 +12,8 @@ NULL
 #' @family tests
 #' @importFrom withr with_temp_libpaths
 #' @export
-test_driver <- function(skip = NULL, ctx = get_default_context()) {
+test_driver <- function(skip = NULL, run_only = NULL, ctx = get_default_context()) {
   test_suite <- "Driver"
 
-  run_tests(ctx, spec_driver, skip, test_suite)
+  run_tests(ctx, spec_driver, skip, run_only, test_suite)
 }

@@ -11,8 +11,8 @@ NULL
 #' @include test-result.R
 #' @family tests
 #' @export
-test_sql <- function(skip = NULL, ctx = get_default_context()) {
+test_sql <- function(skip = NULL, run_only = NULL, ctx = get_default_context()) {
   test_suite <- "SQL"
 
-  run_tests(ctx, spec_sql, skip, test_suite)
+  run_tests(ctx, spec_sql, skip, run_only, test_suite)
 }

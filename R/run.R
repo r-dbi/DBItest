@@ -1,4 +1,4 @@
-run_tests <- function(ctx, tests, skip, test_suite) {
+run_tests <- function(ctx, tests, skip, run_only, test_suite) {
   "!DEBUG run_tests(`test_suite`)"
 
   if (is.null(ctx)) {
@@ -14,6 +14,7 @@ run_tests <- function(ctx, tests, skip, test_suite) {
   context(test_context)
 
   tests <- tests[!vapply(tests, is.null, logical(1L))]
+  tests <- get_run_only_tests(tests, run_only)
 
   if (is.null(skip)) {
     skip <- ctx$default_skip
@@ -60,6 +61,18 @@ get_skip_names <- function(skip) {
   skip_tests <- names_all[skip_flag_all]
 
   skip_tests
+}
+
+get_run_only_tests <- function(tests, run_only) {
+  names_all <- names(tests)
+  names_all <- names_all[names_all != ""]
+  if (is.null(run_only)) return(tests)
+
+  run_only_flags_all <- lapply(paste0("(?:^", run_only, "$)"), grepl, names_all, perl = TRUE)
+  run_only_flag_all <- Reduce(`|`, run_only_flags_all)
+  run_only_tests <- names_all[run_only_flag_all]
+
+  tests[run_only_tests]
 }
 
 patch_test_fun <- function(test_fun, desc) {

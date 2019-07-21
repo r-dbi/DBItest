@@ -10,30 +10,34 @@
 #'
 #' @param skip `[character()]`\cr A vector of regular expressions to match
 #'   against test names; skip test if matching any.
+#'   The regular expressions are matched against the entire test name.
+#' @param run_only `[character()]`\cr A vector of regular expressions to match
+#'   against test names; run only these tests.
+#'   The regular expressions are matched against the entire test name.
 #' @param ctx `[DBItest_context]`\cr A test context as created by
 #'   [make_context()].
 #'
 #' @export
-test_all <- function(skip = NULL, ctx = get_default_context()) {
+test_all <- function(skip = NULL, run_only = NULL, ctx = get_default_context()) {
   run_all <- length(grep("^DBITEST_ONLY_", names(Sys.getenv()))) == 0
-  if (run_all || Sys.getenv("DBITEST_ONLY_GETTING_STARTED") != "") test_getting_started(skip = skip, ctx = ctx)
-  if (run_all || Sys.getenv("DBITEST_ONLY_DRIVER") != "") test_driver(skip = skip, ctx = ctx)
-  if (run_all || Sys.getenv("DBITEST_ONLY_CONNECTION") != "") test_connection(skip = skip, ctx = ctx)
-  if (run_all || Sys.getenv("DBITEST_ONLY_RESULT") != "") test_result(skip = skip, ctx = ctx)
-  if (run_all || Sys.getenv("DBITEST_ONLY_SQL") != "") test_sql(skip = skip, ctx = ctx)
-  if (run_all || Sys.getenv("DBITEST_ONLY_META") != "") test_meta(skip = skip, ctx = ctx)
-  if (run_all || Sys.getenv("DBITEST_ONLY_TRANSACTION") != "") test_transaction(skip = skip, ctx = ctx)
-  if (run_all || Sys.getenv("DBITEST_ONLY_COMPLIANCE") != "") test_compliance(skip = skip, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_GETTING_STARTED") != "") test_getting_started(skip = skip, run_only = run_only, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_DRIVER") != "") test_driver(skip = skip, run_only = run_only, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_CONNECTION") != "") test_connection(skip = skip, run_only = run_only, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_RESULT") != "") test_result(skip = skip, run_only = run_only, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_SQL") != "") test_sql(skip = skip, run_only = run_only, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_META") != "") test_meta(skip = skip, run_only = run_only, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_TRANSACTION") != "") test_transaction(skip = skip, run_only = run_only, ctx = ctx)
+  if (run_all || Sys.getenv("DBITEST_ONLY_COMPLIANCE") != "") test_compliance(skip = skip, run_only = run_only, ctx = ctx)
   # stress tests are not tested by default (#92)
   invisible()
 }
 
 #' @rdname test_all
-#' @description `test_some()` allows testing one or more tests, it works by
-#'   constructing the `skip` argument using negative lookaheads.
+#' @description `test_some()` allows testing one or more tests.
 #' @param test `[character]`\cr A character vector of regular expressions
 #'   describing the tests to run.
+#'   The regular expressions are matched against the entire test name.
 #' @export
 test_some <- function(test, ctx = get_default_context()) {
-  test_all(skip = paste0("(?!", paste(test, collapse = "|"), ").*$"), ctx = ctx)
+  test_all(run_only = test, ctx = ctx)
 }

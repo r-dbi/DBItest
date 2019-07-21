@@ -11,8 +11,8 @@ NULL
 #' @include test-meta.R
 #' @family tests
 #' @export
-test_transaction <- function(skip = NULL, ctx = get_default_context()) {
+test_transaction <- function(skip = NULL, run_only = NULL, ctx = get_default_context()) {
   test_suite <- "Transactions"
 
-  run_tests(ctx, spec_transaction, skip, test_suite)
+  run_tests(ctx, spec_transaction, skip, run_only, test_suite)
 }
