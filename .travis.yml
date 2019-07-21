@@ -67,10 +67,10 @@ addons:
 #jobs
 matrix:
   include:
-  - os: osx
-  - stage: full
-    r: devel
+  - r: devel
   - r: 3.2
+  - stage: full
+    os: osx
   - r: release
     env:
     - BUILD_PKGDOWN=true
