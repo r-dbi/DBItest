@@ -68,10 +68,12 @@ addons:
 matrix:
   include:
   - r: devel
+    env:
+    - DEV_VERSIONS=true
   - r: 3.2
+  - os: osx
   - stage: full
-    os: osx
-  - r: release
+    r: release
     env:
     - BUILD_PKGDOWN=true
   - r: 3.5
