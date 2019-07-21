@@ -24,14 +24,14 @@ bigrquery:
 test: ${TEST_TARGETS}
 
 safe-load-%:
-	Rscript --vanilla -e "devtools::load_all('$*')"
+	Rscript -e "devtools::load_all('$*')"
 
 # Necessary because of https://github.com/hadley/devtools/issues/1070
 load-%: %
 	make --quiet -j1 safe-load-$*
 
 test-%: install load-% %
-	Rscript --vanilla -e "options(crayon.enabled=TRUE); devtools::test('$*', filter = 'DBItest', reporter = ${TESTTHAT_REPORTER})"
+	Rscript -e "options(crayon.enabled=TRUE); devtools::test('$*', filter = 'DBItest', reporter = ${TESTTHAT_REPORTER})"
 
 clean:
 	rm -rf ${REVDEP}
