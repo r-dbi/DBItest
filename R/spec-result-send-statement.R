@@ -40,19 +40,22 @@ spec_result_send_statement <- list(
     })
   },
 
-  #' if the syntax of the statement is invalid,
-  send_statement_syntax_error = function(ctx) {
-    with_connection({
-      expect_error(dbSendStatement(con, "CREATTE"))
-    })
-  },
-
   #' or if the statement is not a non-`NA` string.
   send_statement_non_string = function(ctx) {
     with_connection({
       expect_error(dbSendStatement(con, character()))
       expect_error(dbSendStatement(con, letters))
       expect_error(dbSendStatement(con, NA_character_))
+    })
+  },
+
+  #' An error is also raised if the syntax of the query is invalid
+  #' and all query parameters are given (by passing the `params` argument)
+  #' or the `immediate` argument is set to `TRUE`.
+  send_query_syntax_error = function(ctx) {
+    with_connection({
+      expect_error(dbSendStatement(con, "CREATTE", params = list()))
+      expect_error(dbSendStatement(con, "CREATTE", immediate = TRUE))
     })
   },
 
@@ -99,13 +102,14 @@ spec_result_send_statement <- list(
   },
 
   #' @section Additional arguments:
-  #' The following argument is not part of the `dbSendStatement()` generic
+  #' The following arguments are not part of the `dbSendStatement()` generic
   #' (to improve compatibility across backends)
-  #' but is part of the DBI specification:
+  #' but are part of the DBI specification:
   #' - `params` (default: `NULL`)
+  #' - `immediate` (default: `FALSE`)
   #'
-  #' It must be provided as named arguments.
-  #' See the "Specification" sections for details on its usage.
+  #' They must be provided as named arguments.
+  #' See the "Specification" sections for details on their usage.
 
   #' @section Specification:
   #'
@@ -126,6 +130,23 @@ spec_result_send_statement <- list(
           dbClearResult(rs)
         })
       }
+    })
+  },
+
+  #'
+  #' The `immediate` argument supports distinguishing between "direct"
+  #' and "prepared" APIs offered by many database drivers.
+  #' Passing `immediate = TRUE` leads to immediate execution of the
+  #' statement, via the "direct" API (if supported by the driver),
+  #' and not wait for parameters to be bound.
+  send_statement_immediate = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        res <- expect_visible(dbSendStatement(con, trivial_statement(), immediate = TRUE))
+        expect_s4_class(res, "DBIResult")
+        expect_error(dbGetRowsAffected(res), NA)
+        dbClearResult(res)
+      })
     })
   },
 

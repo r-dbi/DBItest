@@ -106,11 +106,26 @@ spec_result_get_query <- list(
   #' but are part of the DBI specification:
   #' - `n` (default: -1)
   #' - `params` (default: `NULL`)
+  #' - `immediate` (default: `FALSE`)
   #'
   #' They must be provided as named arguments.
   #' See the "Specification" and "Value" sections for details on their usage.
 
   #' @section Specification:
+  #'
+  #' A column named `row_names` is treated like any other column.
+  get_query_row_names = function(ctx) {
+    with_connection({
+      query <- trivial_query(column = "row_names")
+      result <- trivial_df(column = "row_names")
+
+      rows <- check_df(dbGetQuery(con, query))
+      expect_identical(rows, result)
+      expect_identical(.row_names_info(rows), -1L)
+    })
+  },
+
+  #'
   #' The `n` argument specifies the number of rows to be fetched.
   #' If omitted, fetching multi-row queries with one
   get_query_multi_row_single_column = function(ctx) {
@@ -200,15 +215,16 @@ spec_result_get_query <- list(
   },
 
   #'
-  #' A column named `row_names` is treated like any other column.
-  get_query_row_names = function(ctx) {
+  #' The `immediate` argument supports distinguishing between "direct"
+  #' and "prepared" APIs offered by many database drivers.
+  #' Passing `immediate = TRUE` leads to immediate execution of the
+  #' query, via the "direct" API (if supported by the driver).
+  get_query_immediate = function(ctx) {
     with_connection({
-      query <- trivial_query(column = "row_names")
-      result <- trivial_df(column = "row_names")
-
-      rows <- check_df(dbGetQuery(con, query))
-      expect_identical(rows, result)
-      expect_identical(.row_names_info(rows), -1L)
+      with_remove_test_table({
+        res <- expect_visible(dbGetQuery(con, trivial_query(), immediate = TRUE))
+        expect_s3_class(res, "data.frame")
+      })
     })
   },
 

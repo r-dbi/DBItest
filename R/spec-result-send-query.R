@@ -37,13 +37,6 @@ spec_result_send_query <- list(
     })
   },
 
-  #' if the syntax of the query is invalid,
-  send_query_syntax_error = function(ctx) {
-    with_connection({
-      expect_error(dbSendQuery(con, "SELLECT"))
-    })
-  },
-
   #' or if the query is not a non-`NA` string.
   send_query_non_string = function(ctx) {
     with_connection({
@@ -53,14 +46,24 @@ spec_result_send_query <- list(
     })
   },
 
+  #' An error is also raised if the syntax of the query is invalid
+  #' and all query parameters are given (by passing the `params` argument)
+  #' or the `immediate` argument is set to `TRUE`.
+  send_query_syntax_error = function(ctx) {
+    with_connection({
+      expect_error(dbSendQuery(con, "SELLECT", params = list()))
+      expect_error(dbSendQuery(con, "SELLECT", immediate = TRUE))
+    })
+  },
   #' @section Additional arguments:
-  #' The following argument is not part of the `dbSendQuery()` generic
+  #' The following arguments are not part of the `dbSendQuery()` generic
   #' (to improve compatibility across backends)
-  #' but is part of the DBI specification:
+  #' but are part of the DBI specification:
   #' - `params` (default: `NULL`)
+  #' - `immediate` (default: `FALSE`)
   #'
-  #' It must be provided as named arguments.
-  #' See the "Specification" sections for details on its usage.
+  #' They must be provided as named arguments.
+  #' See the "Specification" sections for details on their usage.
 
   #' @section Specification:
   send_query_result_valid = function(ctx) {
@@ -115,6 +118,23 @@ spec_result_send_query <- list(
         expect_equal(ret, trivial_df(3), info = placeholder)
         dbClearResult(rs)
       }
+    })
+  },
+
+  #'
+  #' The `immediate` argument supports distinguishing between "direct"
+  #' and "prepared" APIs offered by many database drivers.
+  #' Passing `immediate = TRUE` leads to immediate execution of the
+  #' query, via the "direct" API (if supported by the driver),
+  #' and not wait for parameters to be bound.
+  send_query_immediate = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        res <- expect_visible(dbSendQuery(con, trivial_query(), immediate = TRUE))
+        expect_s4_class(res, "DBIResult")
+        expect_error(dbGetRowsAffected(res), NA)
+        dbClearResult(res)
+      })
     })
   },
 
