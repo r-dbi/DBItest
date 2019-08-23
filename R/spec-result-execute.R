@@ -57,13 +57,14 @@ spec_result_execute <- list(
   },
 
   #' @section Additional arguments:
-  #' The following argument is not part of the `dbExecute()` generic
+  #' The following arguments are not part of the `dbExecute()` generic
   #' (to improve compatibility across backends)
-  #' but is part of the DBI specification:
+  #' but are part of the DBI specification:
   #' - `params` (default: `NULL`)
+  #' - `immediate` (default: `FALSE`)
   #'
-  #' It must be provided as named arguments.
-  #' See the "Specification" sections for details on its usage.
+  #' They must be provided as named arguments.
+  #' See the "Specification" sections for details on their usage.
 
   #' @section Specification:
   #'
@@ -83,6 +84,20 @@ spec_result_execute <- list(
           expect_equal(ret, 2, info = placeholder)
         })
       }
+    })
+  },
+
+  #'
+  #' The `immediate` argument supports distinguishing between "direct"
+  #' and "prepared" APIs offered by many database drivers.
+  #' Passing `immediate = TRUE` leads to immediate execution of the
+  #' statement, via the "direct" API (if supported by the driver).
+  execute_immediate = function(ctx) {
+    with_connection({
+      with_remove_test_table({
+        res <- expect_visible(dbExecute(con, trivial_statement(), immediate = TRUE))
+        expect_equal(res, 0)
+      })
     })
   },
 
