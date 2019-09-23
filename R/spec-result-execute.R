@@ -61,7 +61,7 @@ spec_result_execute <- list(
   #' (to improve compatibility across backends)
   #' but are part of the DBI specification:
   #' - `params` (default: `NULL`)
-  #' - `immediate` (default: `FALSE`)
+  #' - `immediate` (default: `NULL`)
   #'
   #' They must be provided as named arguments.
   #' See the "Specification" sections for details on their usage.
@@ -87,11 +87,7 @@ spec_result_execute <- list(
     })
   },
 
-  #'
-  #' The `immediate` argument supports distinguishing between "direct"
-  #' and "prepared" APIs offered by many database drivers.
-  #' Passing `immediate = TRUE` leads to immediate execution of the
-  #' statement, via the "direct" API (if supported by the driver).
+  #' @inheritSection spec_result_get_query Specification for the `immediate` argument
   execute_immediate = function(ctx) {
     with_connection({
       with_remove_test_table({

@@ -106,7 +106,7 @@ spec_result_get_query <- list(
   #' but are part of the DBI specification:
   #' - `n` (default: -1)
   #' - `params` (default: `NULL`)
-  #' - `immediate` (default: `FALSE`)
+  #' - `immediate` (default: `NULL`)
   #'
   #' They must be provided as named arguments.
   #' See the "Specification" and "Value" sections for details on their usage.
@@ -214,11 +214,33 @@ spec_result_get_query <- list(
     })
   },
 
+  #' @section Specification for the `immediate` argument:
   #'
   #' The `immediate` argument supports distinguishing between "direct"
   #' and "prepared" APIs offered by many database drivers.
   #' Passing `immediate = TRUE` leads to immediate execution of the
-  #' query, via the "direct" API (if supported by the driver).
+  #' query or statement, via the "direct" API (if supported by the driver).
+  #' The default `NULL` means that the backend should choose whatever API
+  #' makes the most sense for the database, and (if relevant) tries the
+  #' other API if the first attempt fails. A successful second attempt
+  #' should result in a message that suggests passing the correct
+  #' `immediate` argument.
+  #' Examples for possible behaviors:
+  #' 1. DBI backend defaults to `immediate = TRUE` internally
+  #'     1. A query without parameters is passed: query is executed
+  #'     1. A query with parameters is passed:
+  #'         1. `params` not given: rejected immediately by the database
+  #'            because of a syntax error in the query, the backend tries
+  #'            `immediate = FALSE` (and gives a message)
+  #'         1. `params` given: query is executed using `immediate = FALSE`
+  #' 1. DBI backend defaults to `immediate = FALSE` internally
+  #'     1. A query without parameters is passed:
+  #'         1. simple query: query is executed
+  #'         1. "special" query (such as setting a config options): fails,
+  #'            the backend tries `immediate = TRUE` (and gives a message)
+  #'     1. A query with parameters is passed:
+  #'         1. `params` not given: waiting for parameters via [dbBind()]
+  #'         1. `params` given: query is executed
   get_query_immediate = function(ctx) {
     with_connection({
       with_remove_test_table({
