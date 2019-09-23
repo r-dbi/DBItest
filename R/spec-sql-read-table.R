@@ -247,17 +247,17 @@ spec_sql_read_table <- list(
         #' or if this results in a non-scalar.
         expect_error(dbReadTable(con, c("test", "test")))
 
-        #' Unsupported values for `row.names`, `check.names` and `max_rows`
+        #' Unsupported values for `row.names`, `check.names` and `n`
         #' (non-scalars,
         expect_error(dbReadTable(con, "test", row.names = letters))
-        expect_error(dbReadTable(con, "test", max_rows = 1:3))
+        expect_error(dbReadTable(con, "test", n = 1:3))
         #' unsupported data types,
         expect_error(dbReadTable(con, "test", row.names = list(1L)))
         expect_error(dbReadTable(con, "test", check.names = 1L))
-        expect_error(dbReadTable(con, "test", max_rows = "a"))
-        #' `NA` for `check.names` or `max_rows`)
+        expect_error(dbReadTable(con, "test", n = "a"))
+        #' `NA` for `check.names` or `n`)
         expect_error(dbReadTable(con, "test", check.names = NA))
-        expect_error(dbReadTable(con, "test", max_rows = NA))
+        expect_error(dbReadTable(con, "test", n = NA))
         #' also raise an error.
       })
     })
@@ -269,7 +269,7 @@ spec_sql_read_table <- list(
   #' but are part of the DBI specification:
   #' - `row.names` (default: `FALSE`)
   #' - `check.names` (default: `FALSE`)
-  #' - `max_rows` (default: `NULL`)
+  #' - `n` (default: `NULL`)
   #'
   #' They must be provided as named arguments.
   #' See the "Value" and "Specification" sections for details on their usage.
@@ -303,13 +303,13 @@ spec_sql_read_table <- list(
     })
   },
 
-  #' The `max_rows` argument, if provided, limits the number of rows returned.
-  read_table_max_rows = function(ctx) {
+  #' The `n` argument, if provided, limits the number of rows returned.
+  read_table_n = function(ctx) {
     with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in)
-        iris_out <- check_df(dbReadTable(con, "iris", max_rows = 50))
+        iris_out <- check_df(dbReadTable(con, "iris", n = 50))
 
         expect_equal(nrow(iris_out), 50)
 
@@ -319,15 +319,15 @@ spec_sql_read_table <- list(
         expect_true(!any(is.na(merge(iris_out, iris_merge, all.x = TRUE)$id)))
 
         #' If the table contains fewer rows, no error or warning is raised.
-        iris_out <- check_df(expect_silent(dbReadTable(con, "iris", max_rows = 200)))
+        iris_out <- check_df(expect_silent(dbReadTable(con, "iris", n = 200)))
         expect_equal_df(iris_out, iris_in)
 
         #' Passing `NULL` returns the entire table,
-        iris_out <- check_df(expect_silent(dbReadTable(con, "iris", max_rows = NULL)))
+        iris_out <- check_df(expect_silent(dbReadTable(con, "iris", n = NULL)))
         expect_equal_df(iris_out, iris_in)
 
         #' passing 0 returns an empty table with correctly typed columns.
-        iris_out <- check_df(expect_silent(dbReadTable(con, "iris", max_rows = 0)))
+        iris_out <- check_df(expect_silent(dbReadTable(con, "iris", n = 0)))
         expect_equal_df(iris_out, iris_in[0, ])
       })
     })
