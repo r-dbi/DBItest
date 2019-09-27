@@ -37,3 +37,9 @@ DBItest::test_all()
 The `skip` argument to `test_all()` allows specifying skipped tests.
 
 See the package's documentation and the [feature list](https://github.com/r-dbi/DBItest/wiki/Proposal) for a description of the tests.
+
+---
+
+Please note that the 'DBItest' project is released with a
+[Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+By contributing to this project, you agree to abide by its terms.
