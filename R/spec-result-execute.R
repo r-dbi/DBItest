@@ -92,7 +92,7 @@ spec_result_execute <- list(
     with_connection({
       with_remove_test_table({
         res <- expect_visible(dbExecute(con, trivial_statement(), immediate = TRUE))
-        expect_equal(res, 0)
+        expect_true(is.numeric(res))
       })
     })
   },
