@@ -162,9 +162,13 @@ BindTester <- R6::R6Class(
 #'
 #' @return `[function(n)]`\cr A function with one argument `n` that
 #'   returns a vector of length `n` with placeholders of the specified format.
-#'   Examples: `?, ?, ?, ...`, `$1, $2, $3, ...`, `:a, :b, :c`
 #'
 #' @keywords internal
+#' @examples
+#' body(make_placeholder_fun("?"))
+#' make_placeholder_fun("?")(2)
+#' make_placeholder_fun("$1")(3)
+#' make_placeholder_fun(":name")(5)
 make_placeholder_fun <- function(pattern) {
   format_rx <- "^(.)(.*)$"
 
