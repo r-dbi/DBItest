@@ -17,9 +17,9 @@ returns a vector of length \code{n} with placeholders of the specified format.
 For internal use by the \code{placeholder_format} tweak.
 }
 \examples{
-body(make_placeholder_fun("?"))
-make_placeholder_fun("?")(2)
-make_placeholder_fun("$1")(3)
-make_placeholder_fun(":name")(5)
+body(DBItest:::make_placeholder_fun("?"))
+DBItest:::make_placeholder_fun("?")(2)
+DBItest:::make_placeholder_fun("$1")(3)
+DBItest:::make_placeholder_fun(":name")(5)
 }
 \keyword{internal}

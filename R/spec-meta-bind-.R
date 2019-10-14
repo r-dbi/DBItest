@@ -165,10 +165,10 @@ BindTester <- R6::R6Class(
 #'
 #' @keywords internal
 #' @examples
-#' body(make_placeholder_fun("?"))
-#' make_placeholder_fun("?")(2)
-#' make_placeholder_fun("$1")(3)
-#' make_placeholder_fun(":name")(5)
+#' body(DBItest:::make_placeholder_fun("?"))
+#' DBItest:::make_placeholder_fun("?")(2)
+#' DBItest:::make_placeholder_fun("$1")(3)
+#' DBItest:::make_placeholder_fun(":name")(5)
 make_placeholder_fun <- function(pattern) {
   format_rx <- "^(.)(.*)$"
 
