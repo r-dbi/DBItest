@@ -8,18 +8,21 @@ spec_meta_get_info_result <- list(
     with_connection({
       with_result(
         dbSendQuery(con, trivial_query()),
-        info <- dbGetInfo(res)
+        {
+          info <- dbGetInfo(res)
+          expect_type(info, "list")
+
+          info_names <- names(info)
+
+          necessary_names <-
+            c("statement", "row.count", "rows.affected", "has.completed")
+
+          for (name in necessary_names) {
+            eval(bquote(
+              expect_true(.(name) %in% info_names)))
+          }
+        }
       )
-      expect_is(info, "list")
-      info_names <- names(info)
-
-      necessary_names <-
-        c("statement", "row.count", "rows.affected", "has.completed")
-
-      for (name in necessary_names) {
-        eval(bquote(
-          expect_true(.(name) %in% info_names)))
-      }
     })
   },
 
