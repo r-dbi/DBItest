@@ -11,3 +11,6 @@
 ^docs$
 ^tic\.R$
 ^CRAN-RELEASE$
+^\.github$
+^LICENSE\.md$
+^CODE_OF_CONDUCT\.md$
