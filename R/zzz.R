@@ -1,7 +1,7 @@
 .onLoad <- function(libname, pkgname) {
   if (rlang::is_installed("debugme")) {
     # Necessary to re-parse environment variable
-    get(".onLoad", asNamespace("debugme"))(libname, pkgname)()
+    get(".onLoad", asNamespace("debugme"))(libname, pkgname)
 
     debugme::debugme()
   }
