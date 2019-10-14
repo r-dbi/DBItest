@@ -35,6 +35,10 @@ value to run only \code{test_result()}.
 
 \code{test_some()} allows testing one or more tests.
 }
+\details{
+Internally \code{^} and \code{$} are used as prefix and suffix around the
+regular expressions passed in the \code{skip} and \code{run_only} arguments.
+}
 \section{Tests}{
 
 This function runs the following tests, except the stress tests:

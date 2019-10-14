@@ -50,7 +50,7 @@ get_skip_names <- function(skip) {
   if (length(skip) == 0L) return(character())
   names_all <- names(spec_all)
   names_all <- names_all[names_all != ""]
-  skip_flags_all <- lapply(paste0("(?:^", skip, "$)"), grepl, names_all, perl = TRUE)
+  skip_flags_all <- lapply(paste0("(?:^(?:", skip, ")$)"), grepl, names_all, perl = TRUE)
   skip_used <- vapply(skip_flags_all, any, logical(1L))
   if (!all(skip_used)) {
     warning("Unused skip expressions: ", paste(skip[!skip_used], collapse = ", "),
@@ -68,7 +68,7 @@ get_run_only_tests <- function(tests, run_only) {
   names_all <- names_all[names_all != ""]
   if (is.null(run_only)) return(tests)
 
-  run_only_flags_all <- lapply(paste0("(?:^", run_only, "$)"), grepl, names_all, perl = TRUE)
+  run_only_flags_all <- lapply(paste0("(?:^(?:", run_only, ")$)"), grepl, names_all, perl = TRUE)
   run_only_flag_all <- Reduce(`|`, run_only_flags_all)
   run_only_tests <- names_all[run_only_flag_all]
 
