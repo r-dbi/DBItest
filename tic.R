@@ -5,6 +5,7 @@ if (ci_has_env("DEV_VERSIONS")) {
     add_step(step_install_github(c("r-dbi/DBI", "r-dbi/RSQLite", "r-dbi/RPostgres", "r-dbi/RMariaDB")))
 }
 
-if (ci_has_env("BUILD_PKGDOWN") && ci_get_branch() == "master") {
+# Build only for master or release branches
+if (ci_has_env("BUILD_PKGDOWN") && grepl("^master$|^r-", ci_get_branch())) {
   do_pkgdown()
 }
