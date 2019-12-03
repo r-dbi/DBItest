@@ -4,19 +4,18 @@
 \alias{test_getting_started}
 \title{Getting started with testing}
 \usage{
-test_getting_started(skip = NULL, run_only = NULL,
-  ctx = get_default_context())
+test_getting_started(skip = NULL, run_only = NULL, ctx = get_default_context())
 }
 \arguments{
-\item{skip}{\code{[character()]}\cr A vector of regular expressions to match
+\item{skip}{\verb{[character()]}\cr A vector of regular expressions to match
 against test names; skip test if matching any.
 The regular expressions are matched against the entire test name.}
 
-\item{run_only}{\code{[character()]}\cr A vector of regular expressions to match
+\item{run_only}{\verb{[character()]}\cr A vector of regular expressions to match
 against test names; run only these tests.
 The regular expressions are matched against the entire test name.}
 
-\item{ctx}{\code{[DBItest_context]}\cr A test context as created by
+\item{ctx}{\verb{[DBItest_context]}\cr A test context as created by
 \code{\link[=make_context]{make_context()}}.}
 }
 \description{
@@ -24,10 +23,14 @@ Tests very basic features of a DBI driver package, to support testing
 and test-first development right from the start.
 }
 \seealso{
-Other tests: \code{\link{test_compliance}},
-  \code{\link{test_connection}}, \code{\link{test_driver}},
-  \code{\link{test_meta}}, \code{\link{test_result}},
-  \code{\link{test_sql}}, \code{\link{test_stress}},
-  \code{\link{test_transaction}}
+Other tests: 
+\code{\link{test_compliance}()},
+\code{\link{test_connection}()},
+\code{\link{test_driver}()},
+\code{\link{test_meta}()},
+\code{\link{test_result}()},
+\code{\link{test_sql}()},
+\code{\link{test_stress}()},
+\code{\link{test_transaction}()}
 }
 \concept{tests}

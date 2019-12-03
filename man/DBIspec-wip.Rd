@@ -6,6 +6,15 @@
 \name{DBIspec-wip}
 \alias{DBIspec-wip}
 \title{DBI specification (work in progress)}
+\usage{
+spec_driver_get_info
+
+spec_connection_get_info
+
+spec_meta_get_info_result
+
+spec_stress_connection
+}
 \description{
 Placeholder page.
 }

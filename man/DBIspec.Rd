@@ -7,6 +7,29 @@
 \name{DBIspec}
 \alias{DBIspec}
 \title{DBI specification}
+\usage{
+spec_getting_started
+
+spec_compliance_methods
+
+spec_driver_constructor
+
+spec_driver
+
+spec_connection
+
+spec_result
+
+spec_sql
+
+spec_meta
+
+spec_transaction
+
+spec_compliance
+
+spec_stress
+}
 \description{
 Placeholder page.
 }

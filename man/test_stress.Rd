@@ -7,21 +7,25 @@
 test_stress(skip = NULL, ctx = get_default_context())
 }
 \arguments{
-\item{skip}{\code{[character()]}\cr A vector of regular expressions to match
+\item{skip}{\verb{[character()]}\cr A vector of regular expressions to match
 against test names; skip test if matching any.
 The regular expressions are matched against the entire test name.}
 
-\item{ctx}{\code{[DBItest_context]}\cr A test context as created by
+\item{ctx}{\verb{[DBItest_context]}\cr A test context as created by
 \code{\link[=make_context]{make_context()}}.}
 }
 \description{
 Stress tests
 }
 \seealso{
-Other tests: \code{\link{test_compliance}},
-  \code{\link{test_connection}}, \code{\link{test_driver}},
-  \code{\link{test_getting_started}},
-  \code{\link{test_meta}}, \code{\link{test_result}},
-  \code{\link{test_sql}}, \code{\link{test_transaction}}
+Other tests: 
+\code{\link{test_compliance}()},
+\code{\link{test_connection}()},
+\code{\link{test_driver}()},
+\code{\link{test_getting_started}()},
+\code{\link{test_meta}()},
+\code{\link{test_result}()},
+\code{\link{test_sql}()},
+\code{\link{test_transaction}()}
 }
 \concept{tests}

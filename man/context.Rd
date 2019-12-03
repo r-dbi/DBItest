@@ -6,35 +6,41 @@
 \alias{get_default_context}
 \title{Test contexts}
 \usage{
-make_context(drv, connect_args, set_as_default = TRUE, tweaks = NULL,
-  name = NULL, default_skip = NULL)
+make_context(
+  drv,
+  connect_args,
+  set_as_default = TRUE,
+  tweaks = NULL,
+  name = NULL,
+  default_skip = NULL
+)
 
 set_default_context(ctx)
 
 get_default_context()
 }
 \arguments{
-\item{drv}{\code{[DBIDriver]}\cr An expression that constructs a DBI driver,
+\item{drv}{\verb{[DBIDriver]}\cr An expression that constructs a DBI driver,
 like \code{SQLite()}.}
 
-\item{connect_args}{\code{[named list]}\cr Connection arguments (names and values).}
+\item{connect_args}{\verb{[named list]}\cr Connection arguments (names and values).}
 
-\item{set_as_default}{\code{[logical(1)]}\cr Should the created context be
+\item{set_as_default}{\verb{[logical(1)]}\cr Should the created context be
 set as default context?}
 
-\item{tweaks}{\code{[DBItest_tweaks]}\cr Tweaks as constructed by the
+\item{tweaks}{\verb{[DBItest_tweaks]}\cr Tweaks as constructed by the
 \code{\link[=tweaks]{tweaks()}} function.}
 
-\item{name}{\code{[character]}\cr An optional name of the context which will
+\item{name}{\verb{[character]}\cr An optional name of the context which will
 be used in test messages.}
 
-\item{default_skip}{\code{[character]}\cr Default value of \code{skip} argument
+\item{default_skip}{\verb{[character]}\cr Default value of \code{skip} argument
 to \code{\link[=test_all]{test_all()}}  and other testing functions.}
 
-\item{ctx}{\code{[DBItest_context]}\cr A test context.}
+\item{ctx}{\verb{[DBItest_context]}\cr A test context.}
 }
 \value{
-\code{[DBItest_context]}\cr A test context, for
+\verb{[DBItest_context]}\cr A test context, for
 \code{set_default_context} the previous default context (invisibly) or
 \code{NULL}.
 }

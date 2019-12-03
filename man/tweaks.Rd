@@ -4,89 +4,99 @@
 \alias{tweaks}
 \title{Tweaks for DBI tests}
 \usage{
-tweaks(..., constructor_name = NULL, constructor_relax_args = FALSE,
-  strict_identifier = FALSE, omit_blob_tests = FALSE,
-  current_needs_parens = FALSE, union = function(x) paste(x, collapse =
-  " UNION "), placeholder_pattern = NULL, logical_return = identity,
+tweaks(
+  ...,
+  constructor_name = NULL,
+  constructor_relax_args = FALSE,
+  strict_identifier = FALSE,
+  omit_blob_tests = FALSE,
+  current_needs_parens = FALSE,
+  union = function(x) paste(x, collapse = " UNION "),
+  placeholder_pattern = NULL,
+  logical_return = identity,
   date_cast = function(x) paste0("date('", x, "')"),
   time_cast = function(x) paste0("time('", x, "')"),
   timestamp_cast = function(x) paste0("timestamp('", x, "')"),
-  blob_cast = identity, date_typed = TRUE, time_typed = TRUE,
-  timestamp_typed = TRUE, temporary_tables = TRUE,
-  list_temporary_tables = TRUE, is_null_check = function(x) paste0("(",
-  x, " IS NULL)"))
+  blob_cast = identity,
+  date_typed = TRUE,
+  time_typed = TRUE,
+  timestamp_typed = TRUE,
+  temporary_tables = TRUE,
+  list_temporary_tables = TRUE,
+  is_null_check = function(x) paste0("(", x, " IS NULL)")
+)
 }
 \arguments{
-\item{...}{\code{[any]}\cr
+\item{...}{\verb{[any]}\cr
 Unknown tweaks are accepted, with a warning.  The ellipsis
 also makes sure that you only can pass named arguments.}
 
-\item{constructor_name}{\code{[character(1)]}\cr
+\item{constructor_name}{\verb{[character(1)]}\cr
 Name of the function that constructs the \code{Driver} object.}
 
-\item{constructor_relax_args}{\code{[logical(1)]}\cr
+\item{constructor_relax_args}{\verb{[logical(1)]}\cr
 If \code{TRUE}, allow a driver constructor with default values for all
 arguments; otherwise, require a constructor with empty argument list
 (default).}
 
-\item{strict_identifier}{\code{[logical(1)]}\cr
+\item{strict_identifier}{\verb{[logical(1)]}\cr
 Set to \code{TRUE} if the DBMS does not support arbitrarily-named
 identifiers even when quoting is used.}
 
-\item{omit_blob_tests}{\code{[logical(1)]}\cr
+\item{omit_blob_tests}{\verb{[logical(1)]}\cr
 Set to \code{TRUE} if the DBMS does not support a \code{BLOB} data
 type.}
 
-\item{current_needs_parens}{\code{[logical(1)]}\cr
+\item{current_needs_parens}{\verb{[logical(1)]}\cr
 Set to \code{TRUE} if the SQL functions \code{current_date},
 \code{current_time}, and \code{current_timestamp} require parentheses.}
 
-\item{union}{\code{[function(character)]}\cr
+\item{union}{\verb{[function(character)]}\cr
 Function that combines several subqueries into one so that the
 resulting query returns the concatenated results of the subqueries}
 
-\item{placeholder_pattern}{\code{[character]}\cr
+\item{placeholder_pattern}{\verb{[character]}\cr
 A pattern for placeholders used in \code{\link[=dbBind]{dbBind()}}, e.g.,
 \code{"?"}, \code{"$1"}, or \code{":name"}. See
 \code{\link[=make_placeholder_fun]{make_placeholder_fun()}} for details.}
 
-\item{logical_return}{\code{[function(logical)]}\cr
+\item{logical_return}{\verb{[function(logical)]}\cr
 A vectorized function that converts logical values to the data type
 returned by the DBI backend.}
 
-\item{date_cast}{\code{[function(character)]}\cr
+\item{date_cast}{\verb{[function(character)]}\cr
 A vectorized function that creates an SQL expression for coercing a
 string to a date value.}
 
-\item{time_cast}{\code{[function(character)]}\cr
+\item{time_cast}{\verb{[function(character)]}\cr
 A vectorized function that creates an SQL expression for coercing a
 string to a time value.}
 
-\item{timestamp_cast}{\code{[function(character)]}\cr
+\item{timestamp_cast}{\verb{[function(character)]}\cr
 A vectorized function that creates an SQL expression for coercing a
 string to a timestamp value.}
 
-\item{blob_cast}{\code{[function(character)]}\cr
+\item{blob_cast}{\verb{[function(character)]}\cr
 A vectorized function that creates an SQL expression for coercing a
 string to a blob value.}
 
-\item{date_typed}{\code{[logical(1L)]}\cr
+\item{date_typed}{\verb{[logical(1L)]}\cr
 Set to \code{FALSE} if the DBMS doesn't support a dedicated type for dates.}
 
-\item{time_typed}{\code{[logical(1L)]}\cr
+\item{time_typed}{\verb{[logical(1L)]}\cr
 Set to \code{FALSE} if the DBMS doesn't support a dedicated type for times.}
 
-\item{timestamp_typed}{\code{[logical(1L)]}\cr
+\item{timestamp_typed}{\verb{[logical(1L)]}\cr
 Set to \code{FALSE} if the DBMS doesn't support a dedicated type for
 timestamps.}
 
-\item{temporary_tables}{\code{[logical(1L)]}\cr
+\item{temporary_tables}{\verb{[logical(1L)]}\cr
 Set to \code{FALSE} if the DBMS doesn't support temporary tables.}
 
-\item{list_temporary_tables}{\code{[logical(1L)]}\cr
+\item{list_temporary_tables}{\verb{[logical(1L)]}\cr
 Set to \code{FALSE} if the DBMS doesn't support listing temporary tables.}
 
-\item{is_null_check}{\code{[function(character)]}\cr
+\item{is_null_check}{\verb{[function(character)]}\cr
 A vectorized function that creates an SQL expression for checking if a
 value is \code{NULL}.}
 }
