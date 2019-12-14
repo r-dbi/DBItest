@@ -17,9 +17,9 @@ spec_driver_get_info <- list(
     #' that contains at least the following components:
     #'
     necessary_names <- c(
-      #' - `driver.version`,
+      #' - `driver.version`: the package version of the DBI backend,
       "driver.version",
-      #' - `client.version`.
+      #' - `client.version`: the version of the DBMS client library.
       "client.version"
     )
 

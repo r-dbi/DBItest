@@ -17,15 +17,15 @@ spec_connection_get_info <- list(
       #' that contains at least the following components:
       #'
       necessary_names <- c(
-        #' - `db.version`,
+        #' - `db.version`: version of the database server,
         "db.version",
-        #' - `dbname`,
+        #' - `dbname`: database name,
         "dbname",
-        #' - `username`,
+        #' - `username`: username to connect to the database,
         "username",
-        #' - `host`,
+        #' - `host`: hostname of the database server,
         "host",
-        #' - `port`.
+        #' - `port`: port on the database server.
         "port"
       )
 
