@@ -1,16 +1,27 @@
-#' @template dbispec-sub-wip
+#' spec_driver_get_info
+#' @usage NULL
 #' @format NULL
-#' @section Driver:
-#' \subsection{`dbGetInfo("DBIDriver")` (deprecated)}{
+#' @keywords NULL
+#' @name spec_get_info
 spec_driver_get_info <- list(
-  #' Return value of dbGetInfo has necessary elements.
+  #' @return
+  #' For objects of class [DBIDriver-class], `dbGetInfo()`
   get_info_driver = function(ctx) {
     info <- dbGetInfo(ctx$drv)
-    expect_is(info, "list")
+
+    #' returns a named list
+    expect_type(info, "list")
+
     info_names <- names(info)
 
-    necessary_names <-
-      c("driver.version", "client.version")
+    #' that contains at least the following components:
+    #'
+    necessary_names <- c(
+      #' - `driver.version`,
+      "driver.version",
+      #' - `client.version`.
+      "client.version"
+    )
 
     for (name in necessary_names) {
       eval(bquote(
@@ -18,6 +29,5 @@ spec_driver_get_info <- list(
     }
   },
 
-  #' }
   NULL
 )

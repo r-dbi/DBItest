@@ -1,21 +1,35 @@
-#' @template dbispec-sub-wip
+#' spec_meta_get_info_result
+#' @usage NULL
 #' @format NULL
-#' @section Meta:
-#' \subsection{`dbGetInfo("DBIResult")` (deprecated)}{
+#' @keywords NULL
+#' @name spec_get_info
 spec_meta_get_info_result <- list(
-  #' Return value of dbGetInfo has necessary elements
   get_info_result = function(ctx) {
+    #' @return
+    #' For objects of class [DBIResult-class], `dbGetInfo()`
     with_connection({
       with_result(
         dbSendQuery(con, trivial_query()),
         {
           info <- dbGetInfo(res)
+
+          #' returns a named list
           expect_type(info, "list")
 
           info_names <- names(info)
 
-          necessary_names <-
-            c("statement", "row.count", "rows.affected", "has.completed")
+          #' that contains at least the following components:
+          #'
+          necessary_names <- c(
+            #' - `statatment`,
+            "statement",
+            #' - `row.count`,
+            "row.count",
+            #' - `rows.affected`,
+            "rows.affected",
+            #' - `has.completed`.
+            "has.completed"
+          )
 
           for (name in necessary_names) {
             eval(bquote(
@@ -26,6 +40,5 @@ spec_meta_get_info_result <- list(
     })
   },
 
-  #' }
   NULL
 )

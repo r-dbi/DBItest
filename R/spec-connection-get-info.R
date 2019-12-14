@@ -1,27 +1,43 @@
-#' @template dbispec-sub-wip
+#' spec_connection_get_info
+#' @usage NULL
 #' @format NULL
-#' @section Connection:
-#' \subsection{`dbGetInfo("DBIConnection")` (deprecated)}{
+#' @keywords NULL
+#' @rdname spec_get_info
 spec_connection_get_info <- list(
-  #' Return value of dbGetInfo has necessary elements
+  #' @return
+  #' For objects of class [DBIConnection-class], `dbGetInfo()`
   get_info_connection = function(ctx) {
     with_connection({
       info <- dbGetInfo(con)
-      expect_is(info, "list")
+      #' returns a named list
+      expect_type(info, "list")
+
       info_names <- names(info)
 
-      necessary_names <-
-        c("db.version", "dbname", "username", "host", "port")
+      #' that contains at least the following components:
+      #'
+      necessary_names <- c(
+        #' - `db.version`,
+        "db.version",
+        #' - `dbname`,
+        "dbname",
+        #' - `username`,
+        "username",
+        #' - `host`,
+        "host",
+        #' - `port`.
+        "port"
+      )
 
       for (name in necessary_names) {
         eval(bquote(
           expect_true(.(name) %in% info_names)))
       }
 
+      #' It must not contain a `password` component.
       expect_false("password" %in% info_names)
     })
   },
 
-  #' }
   NULL
 )
