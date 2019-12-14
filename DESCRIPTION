@@ -11,6 +11,7 @@ Description: A helper that tests 'DBI' back ends for conformity
     to the interface.
 License: LGPL (>= 2.1)
 BugReports: https://github.com/r-dbi/DBItest/issues
+URL: https://dbitest.r-dbi.org, https://github.com/r-dbi/DBItest
 Depends: 
     R (>= 3.2.0)
 Imports: 
