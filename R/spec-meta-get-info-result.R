@@ -10,7 +10,7 @@ spec_meta_get_info_result <- list(
     with_connection({
       info <- with_result(
         dbSendQuery(con, trivial_query()),
-        info <- dbGetInfo(res)
+        dbGetInfo(res)
       )
 
       #' returns a named list
