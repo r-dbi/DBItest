@@ -20,6 +20,8 @@ See the package's vignette for more details.
 \seealso{
 Useful links:
 \itemize{
+  \item \url{https://dbitest.r-dbi.org}
+  \item \url{https://github.com/r-dbi/DBItest}
   \item Report bugs at \url{https://github.com/r-dbi/DBItest/issues}
 }
 
