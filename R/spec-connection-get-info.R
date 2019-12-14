@@ -36,6 +36,8 @@ spec_connection_get_info <- list(
 
       #' It must not contain a `password` component.
       expect_false("password" %in% info_names)
+
+      #' Components that are not applicable should be set to `NA`.
     })
   },
 

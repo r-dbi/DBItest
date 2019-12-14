@@ -27,6 +27,7 @@ that contains at least the following components:
 \item \code{host},
 \item \code{port}.
 It must not contain a \code{password} component.
+Components that are not applicable should be set to \code{NA}.
 }
 
 For objects of class \linkS4class{DBIResult}, \code{dbGetInfo()}
