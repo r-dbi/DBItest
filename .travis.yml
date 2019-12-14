@@ -4,25 +4,27 @@
 
 # DO NOT CHANGE THE CODE BELOW
 before_install:
-- if [ "$TRAVIS_OS_NAME" = "osx" ]; then brew install mysql && mysql.server start; fi
-- R -q -e 'install.packages(c("remotes", "curl")); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
-- mysql -e "CREATE DATABASE IF NOT EXISTS test;" -uroot
-- if [ "$TRAVIS_OS_NAME" -ne "osx" ]; then mysql -e "GRANT ALL PRIVILEGES ON test.* TO 'travis'@'localhost'; FLUSH PRIVILEGES;" -uroot; fi
+- if which brew; then brew install mysql && mysql.server start; fi
+- R -q -e 'install.packages("remotes"); remotes::install_github("r-lib/remotes")'
+- R -q -e 'remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
 
 install: R -q -e 'tic::install()'
 after_install: R -q -e 'tic::after_install()'
 
 before_script:
 - R -q -e 'tic::before_script()'
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo rm -rf /usr/local/var/postgres; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then initdb /usr/local/var/postgres; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then pg_ctl -D /usr/local/var/postgres start; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then createuser -s travis || true; fi
+- if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then createdb travis || true; fi
 - travis_retry mysql -e "CREATE DATABASE IF NOT EXISTS test; ALTER DATABASE test CHARACTER SET 'utf8'; FLUSH PRIVILEGES;" -uroot
 - travis_retry mysql -e "CREATE USER '"${USER}"'@'localhost'; FLUSH PRIVILEGES;" -uroot || true
 - travis_retry mysql -e "GRANT ALL PRIVILEGES ON test.* TO '"${USER}"'@'localhost'; FLUSH PRIVILEGES;" -uroot
 - make --keep-going --directory=revdep-dev
-
 script: R -q -e 'tic::script()'
 after_success: R -q -e 'tic::after_success()'
 after_failure: R -q -e 'tic::after_failure()'
-before_deploy: R -q -e 'tic::before_deploy()'
 deploy:
   provider: script
   script: R -q -e 'tic::deploy()'
@@ -37,7 +39,7 @@ after_script: R -q -e 'tic::after_script()'
 # Header
 language: r
 sudo: false
-dist: trusty
+dist: xenial
 cache: packages
 latex: false
 fortran: false
@@ -53,6 +55,8 @@ env:
   global:
   - _R_CHECK_FORCE_SUGGESTS_=false
   - _R_CHECK_SYSTEM_CLOCK_=false
+  - MAKEFLAGS="-j 2"
+  - R_CHECK_ARGS="--no-manual --as-cran"
 
 #addons
 addons:
@@ -63,6 +67,7 @@ addons:
     - libpq-dev
     - libmagick++-dev
     - libssh2-1-dev
+    - devscripts
 
 #jobs
 matrix:
