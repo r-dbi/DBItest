@@ -1,39 +1,26 @@
 # DBItest 1.7.0
 
-- Internal changes only.
-
-
-# DBItest 1.6.0.9004
+## Specifications
 
 - Specify tests for `dbGetInfo()`.
-
-
-# DBItest 1.6.0.9003
-
-- Fulfill CII badge requirements (#179, @TSchiefer).
---no-byte-compile
 - Specify `immediate` argument (r-dbi/DBI#268).
-- `test_*()` gain new `run_only = NULL` argument that allow restricting the tests to be run with a positive match. `test_some()` uses `run_only` instead of constructing a regular expression with negative lookahead. This helps troubleshooting a single test with `testthat::set_reporter(DebugReporter$new())` .
-- Use debugme.
+- Specify `dbCreateTable()` and `dbAppendTable()` (#169).
 - New `unquote_identifier_table_schema` test: Identifiers of the form `table.schema` can be processed with `dbUnquoteIdentifier()`.
-- Require R 3.2.
-
-
-# DBItest 1.6.0.9002
-
-- Avoid subsetting vectors out of bounds, for consistency with vctrs.
-- `make_context()` gains `default_skip` argument.
-
-
-# DBItest 1.6.0.9001
-
 - Fix `has_completed_statement` test (#176).
 
+## Testing infrastructure
 
-# DBItest 1.6.0.9000
-
+- `test_*()` gain new `run_only = NULL` argument that allow restricting the tests to be run with a positive match. `test_some()` uses `run_only` instead of constructing a regular expression with negative lookahead. This helps troubleshooting a single test with `testthat::set_reporter(DebugReporter$new())` .
+- `make_context()` gains `default_skip` argument.
 - Support NULL default value in driver constructor (#171).
-- Specify `dbCreateTable()` and `dbAppendTable()` (#169).
+
+## Internal
+
+- Fulfill CII badge requirements (#179, @TSchiefer).
+- Use debugme.
+- Require R 3.2.
+- Avoid subsetting vectors out of bounds, for consistency with vctrs.
+
 
 
 # DBItest 1.6.0 (2018-05-03)
