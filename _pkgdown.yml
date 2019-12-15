@@ -1,3 +1,5 @@
+url: https://dbitest.r-dbi.org
+
 template:
   params:
     bootswatch: flatly # https://bootswatch.com/flatly/
@@ -5,7 +7,33 @@ template:
 home:
   links:
   - text: Report a security vulnerability
-    href: https://github.com/r-dbi/DBItest/security.html
+    href: https://dbitest.r-dbi.org/security.html
+  - text: DBI project website
+    href: https://r-dbi.org
+
+reference:
+- title: Test setup
+  desc: Functions to include in a backend to enable DBI tests.
+  contents:
+  - '`DBItest-package`'
+  - '`make_context`'
+  - '`tweaks`'
+
+- title: Test runners
+  desc: Functions that run a set of tests.
+  contents:
+  - '`test_all`'
+  - '`test_getting_started`'
+  - '`test_driver`'
+  - '`test_connection`'
+  - '`test_result`'
+  - '`test_sql`'
+  - '`test_meta`'
+  - '`test_transaction`'
+  - '`test_compliance`'
+
+development:
+  mode: auto
 
 authors:
   Kirill Müller:

@@ -10,6 +10,7 @@ NULL
 #' @inheritParams test_all
 #' @include test-compliance.R
 #' @family tests
+#' @keywords internal
 #' @export
 test_stress <- function(skip = NULL, ctx = get_default_context()) {
   test_suite <- "Stress"
