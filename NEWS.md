@@ -1,3 +1,8 @@
+# DBItest 1.7.0
+
+- Internal changes only.
+
+
 # DBItest 1.6.0.9004
 
 - Specify tests for `dbGetInfo()`.
