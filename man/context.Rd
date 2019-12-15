@@ -20,6 +20,10 @@ set_default_context(ctx)
 get_default_context()
 }
 \arguments{
+\item{drv}{\verb{[DBIConnector]}\cr
+An object of class \linkS4class{DBIConnector} that describes how to connect
+to the database.}
+
 \item{connect_args}{\verb{[named list]}\cr Deprecated.}
 
 \item{set_as_default}{\verb{[logical(1)]}\cr Should the created context be
@@ -35,10 +39,6 @@ be used in test messages.}
 to \code{\link[=test_all]{test_all()}}  and other testing functions.}
 
 \item{ctx}{\verb{[DBItest_context]}\cr A test context.}
-
-\item{cnr}{\verb{[DBIConnector]}\cr
-An object of class \linkS4class{DBIConnector} that describes how to connect
-to the database.}
 }
 \value{
 \verb{[DBItest_context]}\cr A test context, for

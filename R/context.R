@@ -2,7 +2,7 @@
 #'
 #' Create a test context, set and query the default context.
 #'
-#' @param cnr `[DBIConnector]`\cr
+#' @param drv `[DBIConnector]`\cr
 #'   An object of class [DBIConnector-class] that describes how to connect
 #'   to the database.
 #' @param connect_args `[named list]`\cr Deprecated.
