@@ -97,13 +97,13 @@
 <p>In your driver backage, add <code>DBItest</code> to the <code>Suggests:</code>. Then, enable the tests by running</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_testthat.html">use_test</a></span>(<span class="st">"DBItest"</span>)</a></code></pre></div>
 <p>from your package’s directory. This enables testing using <code>testthat</code> (if necessary) and creates, among others, a file <code>test-DBItest.R</code> in the <code>tests/testthat</code> directory. Replace its entire contents by the following:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">DBItest<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/DBItest/man/context.html">make_context</a></span>(<span class="kw">Kazam</span>(), <span class="ot">NULL</span>)</a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">DBItest<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/DBItest/man/test_all.html">test_all</a></span>()</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">DBItest<span class="op">::</span><span class="kw"><a href="https://dbitest.r-dbi.org/reference/context.html">make_context</a></span>(<span class="kw">Kazam</span>(), <span class="ot">NULL</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">DBItest<span class="op">::</span><span class="kw"><a href="https://dbitest.r-dbi.org/reference/test_all.html">test_all</a></span>()</a></code></pre></div>
 <p>(This assumes that <code>Kazam()</code> returns an instance of your <code>DBIDriver</code> class. Additional arguments to <code>dbConnect()</code> are specified as named list instead of the <code>NULL</code> argument to <code><a href="reference/context.html">make_context()</a></code>.)</p>
 <p>The <code>skip</code> argument to <code><a href="reference/test_all.html">test_all()</a></code> allows specifying skipped tests.</p>
 <p>See the package’s documentation and the <a href="https://github.com/r-dbi/DBItest/wiki/Proposal">feature list</a> for a description of the tests.</p>
 <hr>
-<p>Please note that the ‘DBItest’ project is released with a <a href="CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the ‘DBItest’ project is released with a <a href="https://dbitest.r-dbi.org/code_of_conduct">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
   </div>

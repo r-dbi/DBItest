@@ -126,58 +126,38 @@
 <h1 class="page-header">
 <a href="#dbitest-1-7-0" class="anchor"></a>DBItest 1.7.0<small> Unreleased </small>
 </h1>
-<ul>
-<li>Internal changes only.</li>
-</ul>
-</div>
-    <div id="dbitest-1-6-0-9004" class="section level1">
-<h1 class="page-header">
-<a href="#dbitest-1-6-0-9004" class="anchor"></a>DBItest 1.6.0.9004<small> Unreleased </small>
-</h1>
+<div id="specifications" class="section level2">
+<h2 class="hasAnchor">
+<a href="#specifications" class="anchor"></a>Specifications</h2>
 <ul>
 <li>Specify tests for <code>dbGetInfo()</code>.</li>
-</ul>
-</div>
-    <div id="dbitest-1-6-0-9003" class="section level1">
-<h1 class="page-header">
-<a href="#dbitest-1-6-0-9003" class="anchor"></a>DBItest 1.6.0.9003<small> Unreleased </small>
-</h1>
-<ul>
-<li>Fulfill CII badge requirements (<a href='https://github.com/r-dbi/DBItest/issues/179'>#179</a>, <a href='https://github.com/TSchiefer'>@TSchiefer</a>). –no-byte-compile</li>
 <li>Specify <code>immediate</code> argument (r-dbi/DBI<a href='https://github.com/r-dbi/DBItest/issues/268'>#268</a>).</li>
-<li>
-<code>test_*()</code> gain new <code>run_only = NULL</code> argument that allow restricting the tests to be run with a positive match. <code><a href="../reference/test_all.html">test_some()</a></code> uses <code>run_only</code> instead of constructing a regular expression with negative lookahead. This helps troubleshooting a single test with <code><a href="https://rdrr.io/pkg/testthat/man/reporter-accessors.html">testthat::set_reporter(DebugReporter$new())</a></code> .</li>
-<li>Use debugme.</li>
+<li>Specify <code>dbCreateTable()</code> and <code>dbAppendTable()</code> (<a href='https://github.com/r-dbi/DBItest/issues/169'>#169</a>).</li>
 <li>New <code>unquote_identifier_table_schema</code> test: Identifiers of the form <code>table.schema</code> can be processed with <code>dbUnquoteIdentifier()</code>.</li>
-<li>Require R 3.2.</li>
-</ul>
-</div>
-    <div id="dbitest-1-6-0-9002" class="section level1">
-<h1 class="page-header">
-<a href="#dbitest-1-6-0-9002" class="anchor"></a>DBItest 1.6.0.9002<small> Unreleased </small>
-</h1>
-<ul>
-<li>Avoid subsetting vectors out of bounds, for consistency with vctrs.</li>
-<li>
-<code><a href="../reference/context.html">make_context()</a></code> gains <code>default_skip</code> argument.</li>
-</ul>
-</div>
-    <div id="dbitest-1-6-0-9001" class="section level1">
-<h1 class="page-header">
-<a href="#dbitest-1-6-0-9001" class="anchor"></a>DBItest 1.6.0.9001<small> Unreleased </small>
-</h1>
-<ul>
 <li>Fix <code>has_completed_statement</code> test (<a href='https://github.com/r-dbi/DBItest/issues/176'>#176</a>).</li>
 </ul>
 </div>
-    <div id="dbitest-1-6-0-9000" class="section level1">
-<h1 class="page-header">
-<a href="#dbitest-1-6-0-9000" class="anchor"></a>DBItest 1.6.0.9000<small> Unreleased </small>
-</h1>
+<div id="testing-infrastructure" class="section level2">
+<h2 class="hasAnchor">
+<a href="#testing-infrastructure" class="anchor"></a>Testing infrastructure</h2>
 <ul>
+<li>
+<code>test_*()</code> gain new <code>run_only = NULL</code> argument that allow restricting the tests to be run with a positive match. <code><a href="../reference/test_all.html">test_some()</a></code> uses <code>run_only</code> instead of constructing a regular expression with negative lookahead. This helps troubleshooting a single test with <code><a href="https://rdrr.io/pkg/testthat/man/reporter-accessors.html">testthat::set_reporter(DebugReporter$new())</a></code> .</li>
+<li>
+<code><a href="../reference/context.html">make_context()</a></code> gains <code>default_skip</code> argument.</li>
 <li>Support NULL default value in driver constructor (<a href='https://github.com/r-dbi/DBItest/issues/171'>#171</a>).</li>
-<li>Specify <code>dbCreateTable()</code> and <code>dbAppendTable()</code> (<a href='https://github.com/r-dbi/DBItest/issues/169'>#169</a>).</li>
 </ul>
+</div>
+<div id="internal" class="section level2">
+<h2 class="hasAnchor">
+<a href="#internal" class="anchor"></a>Internal</h2>
+<ul>
+<li>Fulfill CII badge requirements (<a href='https://github.com/r-dbi/DBItest/issues/179'>#179</a>, <a href='https://github.com/TSchiefer'>@TSchiefer</a>).</li>
+<li>Use debugme.</li>
+<li>Require R 3.2.</li>
+<li>Avoid subsetting vectors out of bounds, for consistency with vctrs.</li>
+</ul>
+</div>
 </div>
     <div id="dbitest-1-6-0-2018-05-03" class="section level1">
 <h1 class="page-header">
@@ -335,9 +315,9 @@
 <li>Numeric roundtrip accepts conversion of <code>NaN</code> to <code>NA</code> (<a href='https://github.com/r-dbi/DBItest/issues/79'>#79</a>).</li>
 </ul>
 </div>
-<div id="internal" class="section level2">
+<div id="internal-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#internal" class="anchor"></a>Internal</h2>
+<a href="#internal-1" class="anchor"></a>Internal</h2>
 <ul>
 <li>Fix R CMD check errors.</li>
 <li>Internal consistency checks (<a href='https://github.com/r-dbi/DBItest/issues/114'>#114</a>).</li>
@@ -381,9 +361,9 @@
 <li>Minor corrections for “bind” tests.</li>
 </ul>
 </div>
-<div id="internal-1" class="section level2">
+<div id="internal-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#internal-1" class="anchor"></a>Internal</h2>
+<a href="#internal-2" class="anchor"></a>Internal</h2>
 <ul>
 <li>Isolate stress tests from main test suite (<a href='https://github.com/r-dbi/DBItest/issues/92'>#92</a>).</li>
 <li>Refactor test specification in smaller modules, isolated from actual test execution (<a href='https://github.com/r-dbi/DBItest/issues/81'>#81</a>). This breaks the documentation of the tests, which will be substituted by a DBI specification in prose.</li>
@@ -427,9 +407,9 @@
 <li>Indicate that some tests are optional in documentation (<a href='https://github.com/r-dbi/DBItest/issues/15'>#15</a>).</li>
 </ul>
 </div>
-<div id="internal-2" class="section level2">
+<div id="internal-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#internal-2" class="anchor"></a>Internal</h2>
+<a href="#internal-3" class="anchor"></a>Internal</h2>
 <ul>
 <li>New <code>constructor_relax_args</code> tweak, currently not queried.</li>
 <li>The <code>ctx</code> argument is now explicit in the test functions.</li>
@@ -677,11 +657,6 @@
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
         <li><a href="#dbitest-1-7-0">1.7.0</a></li>
-        <li><a href="#dbitest-1-6-0-9004">1.6.0.9004</a></li>
-        <li><a href="#dbitest-1-6-0-9003">1.6.0.9003</a></li>
-        <li><a href="#dbitest-1-6-0-9002">1.6.0.9002</a></li>
-        <li><a href="#dbitest-1-6-0-9001">1.6.0.9001</a></li>
-        <li><a href="#dbitest-1-6-0-9000">1.6.0.9000</a></li>
         <li><a href="#dbitest-1-6-0-2018-05-03">1.6.0</a></li>
         <li><a href="#dbitest-1-5-2-2018-01-26">1.5-2</a></li>
         <li><a href="#dbitest-1-5-1-2017-12-10">1.5-1</a></li>
