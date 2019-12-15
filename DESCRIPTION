@@ -20,11 +20,11 @@ BugReports: https://github.com/r-dbi/DBItest/issues
 Depends: 
     R (>= 3.2.0)
 Imports: 
-    blob (>= 1.1.1.9002),
+    blob (>= 1.2.0),
     callr,
-    DBI (>= 0.4-9),
+    DBI (>= 1.1.0),
     desc,
-    hms (>= 0.4.2.9005),
+    hms (>= 0.5.0),
     lubridate,
     methods,
     R6,
@@ -39,10 +39,6 @@ Suggests:
     rmarkdown
 VignetteBuilder: 
     knitr
-Remotes: 
-    r-dbi/DBI,
-    tidyverse/blob,
-    tidyverse/hms
 Encoding: UTF-8
 KeepSource: true
 LazyData: true
