@@ -11,7 +11,7 @@
 ## Testing infrastructure
 
 - `test_*()` gain new `run_only = NULL` argument that allow restricting the tests to be run with a positive match. `test_some()` uses `run_only` instead of constructing a regular expression with negative lookahead. This helps troubleshooting a single test with `testthat::set_reporter(DebugReporter$new())` .
-- `make_context()` gains `default_skip` argument.
+- `make_context()` gains `default_skip` argument and uses the `DBIConnector` class.
 - Support NULL default value in driver constructor (#171).
 
 ## Internal

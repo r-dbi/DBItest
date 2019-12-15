@@ -15,12 +15,12 @@ utils::globalVariables("con2")
 # evaluates the code inside local() after defining a variable "con"
 # (can be overridden by specifying con argument)
 # that points to a newly opened connection. Disconnects on exit.
-with_connection <- function(code, con = "con", env = parent.frame()) {
+with_connection <- function(code, con = "con", extra_args = list(), env = parent.frame()) {
   quo <- enquo(code)
 
   con <- as.name(con)
 
-  data <- list2(!!con := connect(get("ctx", env)))
+  data <- list2(!!con := connect(get("ctx", env), !!!extra_args))
   on.exit(try_silent(dbDisconnect(data[[1]])), add = TRUE)
 
   eval_tidy(quo, data)

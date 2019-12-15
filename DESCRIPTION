@@ -55,7 +55,6 @@ Collate:
     'spec-getting-started.R'
     'spec-compliance-methods.R'
     'spec-driver-constructor.R'
-    'spec-driver-class.R'
     'spec-driver-data-type.R'
     'spec-connection-data-type.R'
     'spec-result-create-table-with-data-type.R'

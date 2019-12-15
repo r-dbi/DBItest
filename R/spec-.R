@@ -64,8 +64,6 @@
 #' @include spec-result-create-table-with-data-type.R
 #' @include spec-connection-data-type.R
 #' @include spec-driver-data-type.R
-##### Class specs
-#' @include spec-driver-class.R
 ##### Soft specs
 #' @include spec-driver-constructor.R
 #' @include spec-compliance-methods.R

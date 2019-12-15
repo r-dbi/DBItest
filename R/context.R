@@ -2,9 +2,10 @@
 #'
 #' Create a test context, set and query the default context.
 #'
-#' @param drv `[DBIDriver]`\cr An expression that constructs a DBI driver,
-#'   like `SQLite()`.
-#' @param connect_args `[named list]`\cr Connection arguments (names and values).
+#' @param cnr `[DBIConnector]`\cr
+#'   An object of class [DBIConnector-class] that describes how to connect
+#'   to the database.
+#' @param connect_args `[named list]`\cr Deprecated.
 #' @param set_as_default `[logical(1)]`\cr Should the created context be
 #'   set as default context?
 #' @param tweaks `[DBItest_tweaks]`\cr Tweaks as constructed by the
@@ -21,12 +22,22 @@
 #'
 #' @rdname context
 #' @export
-make_context <- function(drv, connect_args, set_as_default = TRUE,
+make_context <- function(drv, connect_args = NULL, set_as_default = TRUE,
                          tweaks = NULL, name = NULL, default_skip = NULL) {
-  drv_call <- substitute(drv)
-
   if (is.null(drv)) {
-    stop("drv cannot be NULL.")
+    abort("drv cannot be NULL.")
+  }
+
+  if (is(drv, "DBIDriver")) {
+    if (is.null(connect_args)) {
+      connect_args <- list()
+    }
+    cnr <- new("DBIConnector", .drv = drv, .conn_args = connect_args)
+  } else if (is(drv, "DBIConnector")) {
+    cnr <- drv
+    drv <- cnr@.drv
+  } else {
+    abort("drv must be of class DBIConnector.")
   }
 
   if (is.null(tweaks)) {
@@ -35,9 +46,8 @@ make_context <- function(drv, connect_args, set_as_default = TRUE,
 
   ctx <- structure(
     list(
+      cnr = cnr,
       drv = drv,
-      drv_call = drv_call,
-      connect_args = connect_args,
       tweaks = tweaks,
       name = name,
       default_skip = default_skip
@@ -70,11 +80,9 @@ package_name <- function(ctx) {
   attr(class(ctx$drv), "package")
 }
 
-connect <- function(ctx) {
-  connect_call <- as.call(c(list(quote(dbConnect), ctx$drv), ctx$connect_args))
-  connect_fun <- function() {}
-  body(connect_fun) <- connect_call
-  connect_fun()
+connect <- function(ctx, ...) {
+  quos <- enquos(...)
+  eval_tidy(quo(dbConnect(ctx$cnr, !!!quos)))
 }
 
 .ctx_env <- new.env(parent = emptyenv())
