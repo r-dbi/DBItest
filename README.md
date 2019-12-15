@@ -2,9 +2,13 @@
 
 [![Travis-CI Build Status](https://travis-ci.org/r-dbi/DBItest.svg?branch=master)](https://travis-ci.org/r-dbi/DBItest) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/r-dbi/DBItest?branch=master&svg=true)](https://ci.appveyor.com/project/r-dbi/DBItest) [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/DBItest)](https://cran.r-project.org/package=DBItest)
 
-This package provides a considerable set of test cases which you can easily incorporate in your DBI driver package.
+This package is primarily useful for developers of [DBI](https://dbi.r-dbi.org) backends.
+It provides a considerable set of test cases for DBI backends.
+These test cases correspond to the [DBI specification](https://dbi.r-dbi.org/articles/spec).
+Please follow the steps below to add these test cases to your DBI backend.
 
-## Usage
+
+## Installation
 
 Install from CRAN via
 
@@ -18,24 +22,34 @@ or the development version using
 devtools::install_github("r-dbi/DBItest")
 ```
 
-In your driver backage, add `DBItest` to the `Suggests:`. Then, enable the tests by running
+## Usage
+
+In your driver backage, add `DBItest` to the `Suggests:` and enable the tests.
+Run the following code in you package's directory:
 
 ```r
+# install.packages("usethis")
+usethis::use_package("DBItest", "suggests")
 usethis::use_test("DBItest")
 ```
 
-from your package's directory. This enables testing using `testthat` (if necessary) and creates, among others, a file `test-DBItest.R` in the `tests/testthat` directory. Replace its entire contents by the following:
+This enables testing using `testthat` (if necessary) and creates, among others, a file `test-DBItest.R` in the `tests/testthat` directory.
+Replace its entire contents by the following:
 
 ```r
 DBItest::make_context(Kazam(), NULL)
 DBItest::test_all()
 ```
 
-(This assumes that `Kazam()` returns an instance of your `DBIDriver` class. Additional arguments to `dbConnect()` are specified as named list instead of the `NULL` argument to `make_context()`.)
+This assumes that `Kazam()` returns an instance of your `DBIDriver` class.
+Additional arguments to `dbConnect()` are specified as named list instead of the `NULL` argument to `make_context()`.
+The `default_skip` argument to `make_context()` allows skipping tests that are not (yet) satisfied by your backend.
 
-The `skip` argument to `test_all()` allows specifying skipped tests.
+Further reading:
 
-See the package's documentation and the [feature list](https://github.com/r-dbi/DBItest/wiki/Proposal) for a description of the tests.
+- Detailed instructions in `vignette("DBItest")`
+
+- The feture list in the [original proposal](https://github.com/r-dbi/DBItest/wiki/Proposal).
 
 ---
 
