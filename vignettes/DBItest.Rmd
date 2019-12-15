@@ -9,20 +9,20 @@ vignette: >
 ---
 
 
-This document shows how to use the `DBItest` package when implementing a new `DBI` backend or when applying it to an existing backend.
-The `DBItest` package provides a large collection of automated tests.
+This document shows how to use the DBItest package when implementing a new DBI backend or when applying it to an existing backend.
+The DBItest package provides a large collection of automated tests.
 
 
 ## Testing a new backend
 
-The test cases in the `DBItest` package are structured very similarly to the sections in the "backend" vignette:
+The test cases in the DBItest package are structured very similarly to the sections in the "backend" vignette:
 ```r
 vignette("backend", package = "DBI")
 ```
 Like the "backend" vignette, this vignette assumes that you are implementing the `RKazam` package that has a `Kazam()` function that creates a new `DBIDriver` instance for connecting to a "Kazam" database.
 
-You can add the tests in the `DBItest` package incrementally, as you proceed with implementing the various parts of the DBI.
-The `DBItest` package builds upon the `testthat` package.
+You can add the tests in the DBItest package incrementally, as you proceed with implementing the various parts of the DBI.
+The DBItest package builds upon the testthat package.
 To enable it, run the following in your package directory (after installing or updating `devtools`):
 
 ```r
@@ -38,7 +38,7 @@ DBItest::make_context(Kazam(), NULL)
 DBItest::test_getting_started()
 ```
 Now test your package with `devtools::test()`.
-If you followed at least the "Getting started" section of the `DBI` "backend" vignette, all tests should succeed.
+If you followed at least the "Getting started" section of the DBI "backend" vignette, all tests should succeed.
 
 By adding the corresponding test function to your `tests/test-DBItest.R` file *before* implementing a section, you get immediate feedback which functionality of this section still needs to be implemented by running `devtools::test()` again.
 Therefore, proceed by appending the following to  `tests/test-DBItest.R`, to include a test case for the forthcoming section:
@@ -55,22 +55,24 @@ The `StopReporter` of `testthat` is most helpful here, activate it by passing `r
 Alternatively, call the relevant `DBItest::test_()` function directly.
 
 The tests are documented with the corresponding functions: For instance, `?test_driver` shows a coarse description of all tests for the "Driver" test case.
-Test failures will include the name of the test that is failing; in this case, investigating the documentation or the source code of the `DBItest` package will usually lead to the cause of the error.
+Test failures will include the name of the test that is failing; in this case, investigating the documentation or the source code of the DBItest package will usually lead to the cause of the error.
 
 Not all tests can be satisfied: For example, there is one test that tests that `logical` variables survive a write-read roundtrip to the database, whereas another test tests that `logical` variables are converted to `integer` in such a case.
 Tests can be skipped by adding regular expressions for the tests to skip as character vector to the call, as in the following[^termnull]:
+
+[^termnull]: The terminating `NULL` allows appending new lines to the end by copy-pasting an existing line, without having to take care of the terminating comma.
+
 ```r
 DBItest::test_driver(skip = c(
   "data_type"           # Reason 1...
   "constructor.*",      # Reason 2...
   NULL
 ))
-[^termnull]: The terminating `NULL` allows appending new lines to the end by copy-pasting an existing line, without having to take care of the terminating comma.
 ```
 Some other reasons to skip tests are:
 - your database does not support a feature
 - you want to postpone or avoid the implementation of a feature
-- the test takes too long to run
+- the test takes too long to run.
 
 
 ## Testing an existing backend
