@@ -1,4 +1,3 @@
-#' @template dbispec
 #' @format NULL
 spec_meta <- c(
   spec_meta_bind,

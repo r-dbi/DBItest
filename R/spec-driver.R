@@ -1,4 +1,3 @@
-#' @template dbispec
 #' @format NULL
 spec_driver <- c(
   spec_driver_class,

@@ -1,4 +1,3 @@
-#' @template dbispec-sub-wip
 #' @format NULL
 #' @importFrom withr with_output_sink
 #' @section Connection:

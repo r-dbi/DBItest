@@ -1,4 +1,3 @@
-#' @template dbispec
 #' @format NULL
 spec_transaction <- c(
   spec_transaction_begin_commit_rollback,

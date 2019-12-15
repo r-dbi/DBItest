@@ -52,7 +52,6 @@ Collate:
     'import-testthat.R'
     'run.R'
     's4.R'
-    'spec.R'
     'spec-getting-started.R'
     'spec-compliance-methods.R'
     'spec-driver-constructor.R'

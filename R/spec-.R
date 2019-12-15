@@ -70,5 +70,4 @@
 #' @include spec-driver-constructor.R
 #' @include spec-compliance-methods.R
 #' @include spec-getting-started.R
-#' @include spec.R
 NULL

@@ -1,4 +1,3 @@
-#' @template dbispec
 #' @format NULL
 spec_connection <- c(
   spec_connection_disconnect,

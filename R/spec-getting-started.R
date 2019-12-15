@@ -1,4 +1,3 @@
-#' @template dbispec
 #' @format NULL
 #' @importFrom desc desc_get_deps
 #' @section Definition:
