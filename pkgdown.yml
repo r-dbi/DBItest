@@ -2,7 +2,7 @@ pandoc: '2.2'
 pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
-  test: test.html
+  DBItest: DBItest.html
 urls:
   reference: https://dbitest.r-dbi.org/reference
   article: https://dbitest.r-dbi.org/articles

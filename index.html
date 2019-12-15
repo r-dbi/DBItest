@@ -45,19 +45,10 @@
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="articles/DBItest.html">Get started</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/test.html">Testing DBI backends</a>
-    </li>
-  </ul>
+  <a href="reference/index.html">Reference</a>
 </li>
 <li>
   <a href="news/index.html">Changelog</a>
@@ -86,22 +77,31 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#dbitest" class="anchor"></a>DBItest</h1></div>
 
-<p>This package provides a considerable set of test cases which you can easily incorporate in your DBI driver package.</p>
-<div id="usage" class="section level2">
+<p>This package is primarily useful for developers of <a href="https://dbi.r-dbi.org">DBI</a> backends. It provides a considerable set of test cases for DBI backends. These test cases correspond to the <a href="https://dbi.r-dbi.org/articles/spec">DBI specification</a>. Please follow the steps below to add these test cases to your DBI backend.</p>
+<div id="installation" class="section level2">
 <h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<a href="#installation" class="anchor"></a>Installation</h2>
 <p>Install from CRAN via</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"DBItest"</span>)</a></code></pre></div>
 <p>or the development version using</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/devtools/man/remote-reexports.html">install_github</a></span>(<span class="st">"r-dbi/DBItest"</span>)</a></code></pre></div>
-<p>In your driver backage, add <code>DBItest</code> to the <code>Suggests:</code>. Then, enable the tests by running</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_testthat.html">use_test</a></span>(<span class="st">"DBItest"</span>)</a></code></pre></div>
-<p>from your package’s directory. This enables testing using <code>testthat</code> (if necessary) and creates, among others, a file <code>test-DBItest.R</code> in the <code>tests/testthat</code> directory. Replace its entire contents by the following:</p>
+</div>
+<div id="usage" class="section level2">
+<h2 class="hasAnchor">
+<a href="#usage" class="anchor"></a>Usage</h2>
+<p>In your driver backage, add <code>DBItest</code> to the <code>Suggests:</code> and enable the tests. Run the following code in you package’s directory:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># install.packages("usethis")</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_package.html">use_package</a></span>(<span class="st">"DBItest"</span>, <span class="st">"suggests"</span>)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">usethis<span class="op">::</span><span class="kw"><a href="https://usethis.r-lib.org/reference/use_testthat.html">use_test</a></span>(<span class="st">"DBItest"</span>)</a></code></pre></div>
+<p>This enables testing using <code>testthat</code> (if necessary) and creates, among others, a file <code>test-DBItest.R</code> in the <code>tests/testthat</code> directory. Replace its entire contents by the following:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">DBItest<span class="op">::</span><span class="kw"><a href="https://dbitest.r-dbi.org/reference/context.html">make_context</a></span>(<span class="kw">Kazam</span>(), <span class="ot">NULL</span>)</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2">DBItest<span class="op">::</span><span class="kw"><a href="https://dbitest.r-dbi.org/reference/test_all.html">test_all</a></span>()</a></code></pre></div>
-<p>(This assumes that <code>Kazam()</code> returns an instance of your <code>DBIDriver</code> class. Additional arguments to <code>dbConnect()</code> are specified as named list instead of the <code>NULL</code> argument to <code><a href="reference/context.html">make_context()</a></code>.)</p>
-<p>The <code>skip</code> argument to <code><a href="reference/test_all.html">test_all()</a></code> allows specifying skipped tests.</p>
-<p>See the package’s documentation and the <a href="https://github.com/r-dbi/DBItest/wiki/Proposal">feature list</a> for a description of the tests.</p>
+<p>This assumes that <code>Kazam()</code> returns an instance of your <code>DBIDriver</code> class. Additional arguments to <code>dbConnect()</code> are specified as named list instead of the <code>NULL</code> argument to <code><a href="reference/context.html">make_context()</a></code>. The <code>default_skip</code> argument to <code><a href="reference/context.html">make_context()</a></code> allows skipping tests that are not (yet) satisfied by your backend.</p>
+<p>Further reading:</p>
+<ul>
+<li><p>Detailed instructions in <code><a href="articles/DBItest.html">vignette("DBItest")</a></code></p></li>
+<li><p>The feture list in the <a href="https://github.com/r-dbi/DBItest/wiki/Proposal">original proposal</a>.</p></li>
+</ul>
 <hr>
 <p>Please note that the ‘DBItest’ project is released with a <a href="https://dbitest.r-dbi.org/code_of_conduct">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
