@@ -21,6 +21,7 @@
 #'   `NULL`.
 #'
 #' @rdname context
+#' @importFrom methods new
 #' @export
 make_context <- function(drv, connect_args = NULL, set_as_default = TRUE,
                          tweaks = NULL, name = NULL, default_skip = NULL) {
