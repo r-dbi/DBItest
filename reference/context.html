@@ -178,12 +178,70 @@ to <code><a href='test_all.html'>test_all()</a></code>  and other testing functi
 <code>set_default_context</code> the previous default context (invisibly) or
 <code>NULL</code>.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>make_context</span>(
+  <span class='fu'>new</span>(
+    <span class='st'>"DBIConnector"</span>,
+    <span class='kw'>.drv</span> <span class='kw'>=</span> <span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/RSQLite/man/SQLite.html'>SQLite</a></span>(),
+    <span class='kw'>.conn_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>dbname</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>"DBItest"</span>, <span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".sqlite"</span>))
+  ),
+  <span class='kw'>tweaks</span> <span class='kw'>=</span> <span class='kw pkg'>DBItest</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbitest.r-dbi.org/reference/tweaks.html'>tweaks</a></span>(
+    <span class='kw'>constructor_relax_args</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+    <span class='kw'>placeholder_pattern</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"?"</span>, <span class='st'>"$1"</span>, <span class='st'>"$name"</span>, <span class='st'>":name"</span>),
+    <span class='kw'>date_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"'"</span>, <span class='no'>x</span>, <span class='st'>"'"</span>),
+    <span class='kw'>time_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"'"</span>, <span class='no'>x</span>, <span class='st'>"'"</span>),
+    <span class='kw'>timestamp_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"'"</span>, <span class='no'>x</span>, <span class='st'>"'"</span>),
+    <span class='kw'>logical_return</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span>(<span class='no'>x</span>),
+    <span class='kw'>date_typed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <span class='kw'>time_typed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+    <span class='kw'>timestamp_typed</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  ),
+  <span class='kw'>default_skip</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"roundtrip_date"</span>, <span class='st'>"roundtrip_timestamp"</span>)
+)</div><div class='output co'>#&gt; $cnr
+#&gt; &lt;DBIConnector&gt;&lt;SQLiteDriver&gt;
+#&gt; Arguments:
+#&gt; $dbname
+#&gt; [1] "/tmp/Rtmp4U6NIh/DBItest46035638265e.sqlite"
+#&gt; 
+#&gt; 
+#&gt; $drv
+#&gt; &lt;SQLiteDriver&gt;
+#&gt; 
+#&gt; $tweaks
+#&gt; DBItest tweaks:
+#&gt;   constructor_relax_args: TRUE
+#&gt;   strict_identifier: FALSE
+#&gt;   omit_blob_tests: FALSE
+#&gt;   current_needs_parens: FALSE
+#&gt;   union: function (x) 
+#&gt;   placeholder_pattern: ?    
+#&gt;   logical_return: function (x) 
+#&gt;   date_cast: function (x) 
+#&gt;   time_cast: function (x) 
+#&gt;   timestamp_cast: function (x) 
+#&gt;   blob_cast: function (x) 
+#&gt;   date_typed: FALSE
+#&gt;   time_typed: FALSE
+#&gt;   timestamp_typed: FALSE
+#&gt;   temporary_tables: TRUE
+#&gt;   list_temporary_tables: TRUE
+#&gt;   is_null_check: function (x) 
+#&gt; 
+#&gt; $name
+#&gt; NULL
+#&gt; 
+#&gt; $default_skip
+#&gt; [1] "roundtrip_date"      "roundtrip_timestamp"
+#&gt; 
+#&gt; attr(,"class")
+#&gt; [1] "DBItest_context"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
