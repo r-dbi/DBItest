@@ -80,11 +80,12 @@ matrix:
     env:
     - DEV_VERSIONS=true
   - r: 3.2
-  - stage: full
-    os: osx
-  - r: release
+  - stage: docs
+    r: release
     env:
     - BUILD_PKGDOWN=true
+  - stage: full
+    os: osx
   - r: 3.5
   - r: 3.4
   - r: 3.3
