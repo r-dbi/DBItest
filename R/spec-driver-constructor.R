@@ -1,4 +1,3 @@
-#' @template dbispec-sub
 #' @format NULL
 #' @section Construction of the DBIDriver object:
 spec_driver_constructor <- list(

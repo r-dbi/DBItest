@@ -1,4 +1,3 @@
-#' @template dbispec-sub
 #' @format NULL
 #' @importFrom callr r
 #' @section DBI classes and methods:
