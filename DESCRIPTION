@@ -36,7 +36,8 @@ Suggests:
     devtools,
     knitr,
     lintr,
-    rmarkdown
+    rmarkdown,
+    RSQLite
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
