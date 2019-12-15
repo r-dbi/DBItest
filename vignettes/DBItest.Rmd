@@ -137,7 +137,7 @@ tweaks <- tweaks(
 
 default_skip <- c("roundtrip_date", "roundtrip_timestamp")
 
-make_context(
+invisible(make_context(
   new(
     "DBIConnector",
     .drv = RSQLite::SQLite(),
@@ -145,7 +145,7 @@ make_context(
   ),
   tweaks = tweaks,
   default_skip = default_skip
-)
+))
 ```
 
 ### Testing
@@ -175,7 +175,7 @@ For this, use a driver constructed by `dblog::dblog()` to display DBI code inter
 ```{r log, eval = rlang::is_installed("dblog")}
 drv <- dblog::dblog(RSQLite::SQLite())
 
-DBItest::make_context(
+invisible(make_context(
   new(
     "DBIConnector",
     .drv = drv,
@@ -183,7 +183,7 @@ DBItest::make_context(
   ),
   tweaks = tweaks,
   default_skip = default_skip
-)
+))
 
 testthat::with_reporter(
   c("location", "stop"),
