@@ -69,7 +69,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0.9004</span>
       </span>
     </div>
 
@@ -101,7 +101,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/r-dbi/DBItest">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -116,7 +121,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Test full compliance to DBI</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/r-dbi/DBItest/blob/master/R/test-compliance.R'><code>R/test-compliance.R</code></a></small>
     <div class="hidden name"><code>test_compliance.Rd</code></div>
     </div>
 
@@ -124,8 +129,7 @@
     <p>Test full compliance to DBI</p>
     </div>
 
-    <pre class="usage"><span class='fu'>test_compliance</span>(<span class='kw'>skip</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>run_only</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>ctx</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>get_default_context</a></span>())</pre>
+    <pre class="usage"><span class='fu'>test_compliance</span>(<span class='kw'>skip</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>run_only</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ctx</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>get_default_context</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -151,12 +155,15 @@ The regular expressions are matched against the entire test name.</p></td>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other tests: <code><a href='test_connection.html'>test_connection</a></code>,
-  <code><a href='test_driver.html'>test_driver</a></code>,
-  <code><a href='test_getting_started.html'>test_getting_started</a></code>,
-  <code><a href='test_meta.html'>test_meta</a></code>, <code><a href='test_result.html'>test_result</a></code>,
-  <code><a href='test_sql.html'>test_sql</a></code>, <code><a href='test_stress.html'>test_stress</a></code>,
-  <code><a href='test_transaction.html'>test_transaction</a></code></p></div>
+    <div class='dont-index'><p>Other tests: 
+<code><a href='test_connection.html'>test_connection</a>()</code>,
+<code><a href='test_driver.html'>test_driver</a>()</code>,
+<code><a href='test_getting_started.html'>test_getting_started</a>()</code>,
+<code><a href='test_meta.html'>test_meta</a>()</code>,
+<code><a href='test_result.html'>test_result</a>()</code>,
+<code><a href='test_sql.html'>test_sql</a>()</code>,
+<code><a href='test_stress.html'>test_stress</a>()</code>,
+<code><a href='test_transaction.html'>test_transaction</a>()</code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

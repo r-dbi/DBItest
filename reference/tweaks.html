@@ -72,7 +72,7 @@ tweaks argument in a make_context() call." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0.9004</span>
       </span>
     </div>
 
@@ -104,7 +104,12 @@ tweaks argument in a make_context() call." />
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/r-dbi/DBItest">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -119,7 +124,7 @@ tweaks argument in a make_context() call." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Tweaks for DBI tests</h1>
-    
+    <small class="dont-index">Source: <a href='https://github.com/r-dbi/DBItest/blob/master/R/tweaks.R'><code>R/tweaks.R</code></a></small>
     <div class="hidden name"><code>tweaks.Rd</code></div>
     </div>
 
@@ -130,17 +135,27 @@ are affected by which tweaks. This function is usually called to set the
 <code>tweaks</code> argument in a <code><a href='context.html'>make_context()</a></code> call.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tweaks</span>(<span class='no'>...</span>, <span class='kw'>constructor_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>constructor_relax_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>strict_identifier</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>omit_blob_tests</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>current_needs_parens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>union</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>x</span>, <span class='kw'>collapse</span> <span class='kw'>=</span>
-  <span class='st'>" UNION "</span>), <span class='kw'>placeholder_pattern</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>logical_return</span> <span class='kw'>=</span> <span class='no'>identity</span>,
+    <pre class="usage"><span class='fu'>tweaks</span>(
+  <span class='no'>...</span>,
+  <span class='kw'>constructor_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>constructor_relax_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>strict_identifier</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>omit_blob_tests</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>current_needs_parens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>union</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>x</span>, <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='st'>" UNION "</span>),
+  <span class='kw'>placeholder_pattern</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>logical_return</span> <span class='kw'>=</span> <span class='no'>identity</span>,
   <span class='kw'>date_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"date('"</span>, <span class='no'>x</span>, <span class='st'>"')"</span>),
   <span class='kw'>time_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"time('"</span>, <span class='no'>x</span>, <span class='st'>"')"</span>),
   <span class='kw'>timestamp_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"timestamp('"</span>, <span class='no'>x</span>, <span class='st'>"')"</span>),
-  <span class='kw'>blob_cast</span> <span class='kw'>=</span> <span class='no'>identity</span>, <span class='kw'>date_typed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>time_typed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>timestamp_typed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>temporary_tables</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>list_temporary_tables</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>is_null_check</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"("</span>,
-  <span class='no'>x</span>, <span class='st'>" IS NULL)"</span>))</pre>
+  <span class='kw'>blob_cast</span> <span class='kw'>=</span> <span class='no'>identity</span>,
+  <span class='kw'>date_typed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>time_typed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>timestamp_typed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>temporary_tables</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>list_temporary_tables</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>is_null_check</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"("</span>, <span class='no'>x</span>, <span class='st'>" IS NULL)"</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

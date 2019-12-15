@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>DBI specification (work in progress) — DBIspec-wip • DBItest</title>
+<title>spec_driver_get_info — spec_get_info • DBItest</title>
 
 
 <!-- jquery -->
@@ -35,8 +35,10 @@
 
 
 
-<meta property="og:title" content="DBI specification (work in progress) — DBIspec-wip" />
-<meta property="og:description" content="Placeholder page." />
+<meta property="og:title" content="spec_driver_get_info — spec_get_info" />
+<meta property="og:description" content="spec_driver_get_info
+spec_connection_get_info
+spec_meta_get_info_result" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.6.0.9004</span>
       </span>
     </div>
 
@@ -101,7 +103,12 @@
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        
+        <li>
+  <a href="https://github.com/r-dbi/DBItest">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
       </ul>
       
     </div><!--/.nav-collapse -->
@@ -115,51 +122,60 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>DBI specification (work in progress)</h1>
-    
-    <div class="hidden name"><code>DBIspec-wip.Rd</code></div>
+    <h1>spec_driver_get_info</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-dbi/DBItest/blob/master/R/spec-driver-get-info.R'><code>R/spec-driver-get-info.R</code></a>, <a href='https://github.com/r-dbi/DBItest/blob/master/R/spec-connection-get-info.R'><code>R/spec-connection-get-info.R</code></a>, <a href='https://github.com/r-dbi/DBItest/blob/master/R/spec-meta-get-info-result.R'><code>R/spec-meta-get-info-result.R</code></a></small>
+    <div class="hidden name"><code>spec_get_info.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Placeholder page.</p>
+    <p>spec_driver_get_info</p>
+<p>spec_connection_get_info</p>
+<p>spec_meta_get_info_result</p>
     </div>
 
 
 
-    <h2 class="hasAnchor" id="driver"><a class="anchor" href="#driver"></a>Driver</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    
+    <p>For objects of class DBIDriver, <code>dbGetInfo()</code>
+returns a named list
+that contains at least the following components:</p><ul>
+<li><p><code>driver.version</code>: the package version of the DBI backend,</p></li>
+<li><p><code>client.version</code>: the version of the DBMS client library.</p></li>
+</ul>
 
-<h3><code>dbGetInfo("DBIDriver")</code> (deprecated)</h3>
-<p>Return value of dbGetInfo has necessary elements.</p>
+<p>For objects of class DBIConnection, <code>dbGetInfo()</code>
+returns a named list
+that contains at least the following components:</p><ul>
+<li><p><code>db.version</code>: version of the database server,</p></li>
+<li><p><code>dbname</code>: database name,</p></li>
+<li><p><code>username</code>: username to connect to the database,</p></li>
+<li><p><code>host</code>: hostname of the database server,</p></li>
+<li><p><code>port</code>: port on the database server.
+It must not contain a <code>password</code> component.
+Components that are not applicable should be set to <code>NA</code>.</p></li>
+</ul>
 
-    <h2 class="hasAnchor" id="connection"><a class="anchor" href="#connection"></a>Connection</h2>
-
-    
-
-<h3><code>dbGetInfo("DBIConnection")</code> (deprecated)</h3>
-<p>Return value of dbGetInfo has necessary elements</p>
-
-
-<h3>Stress tests</h3>
-<p>Open 50 simultaneous connections
-Open and close 50 connections</p>
-
-    <h2 class="hasAnchor" id="meta"><a class="anchor" href="#meta"></a>Meta</h2>
-
-    
-
-<h3><code>dbGetInfo("DBIResult")</code> (deprecated)</h3>
-<p>Return value of dbGetInfo has necessary elements</p>
+<p>For objects of class DBIResult, <code>dbGetInfo()</code>
+returns a named list
+that contains at least the following components:</p><ul>
+<li><p><code>statatment</code>: the statement used with <code>dbSendQuery()</code> or <code>dbExecute()</code>,
+as returned by <code>dbGetStatement()</code>,</p></li>
+<li><p><code>row.count</code>: the number of rows fetched so far (for queries),
+as returned by <code>dbGetRowCount()</code>,</p></li>
+<li><p><code>rows.affected</code>: the number of rows affected (for statements),
+as returned by <code>dbGetRowsAffected()</code></p></li>
+<li><p><code>has.completed</code>: a logical that indicates
+if the query or statement has completed,
+as returned by <code>dbHasCompleted()</code>.</p></li>
+</ul>
 
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#driver">Driver</a></li>
-      <li><a href="#connection">Connection</a></li>
-      <li><a href="#meta">Meta</a></li>
+      <li><a href="#value">Value</a></li>
     </ul>
 
   </div>
