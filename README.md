@@ -5,6 +5,7 @@
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/r-dbi/DBItest?branch=master&svg=true)](https://ci.appveyor.com/project/r-dbi/DBItest)
 [![Codecov test coverage](https://codecov.io/gh/r-dbi/DBItest/branch/master/graph/badge.svg)](https://codecov.io/gh/r-dbi/DBItest?branch=master)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/DBItest)](https://cran.r-project.org/package=DBItest)
+[![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3503/badge)](https://bestpractices.coreinfrastructure.org/projects/3503)
 <!-- badges: end -->
 
 This package is primarily useful for developers of [DBI](https://dbi.r-dbi.org) backends.
