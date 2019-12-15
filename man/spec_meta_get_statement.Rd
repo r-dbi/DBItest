@@ -14,3 +14,4 @@ Attempting to query the statement for a result set cleared with
 \description{
 spec_meta_get_statement
 }
+\keyword{internal}

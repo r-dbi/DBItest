@@ -52,3 +52,4 @@ For the data frame returned from a \code{dbListObject()} call with the
 \code{TRUE}.
 }
 
+\keyword{internal}

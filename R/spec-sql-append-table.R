@@ -1,7 +1,7 @@
 #' spec_sql_append_table
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_sql_append_table <- list(
   append_table_formals = function(ctx) {
     # <establish formals of described functions>

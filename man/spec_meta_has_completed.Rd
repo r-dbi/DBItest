@@ -30,3 +30,4 @@ but the result value is \code{TRUE} after trying to fetch only one more
 row.
 }
 
+\keyword{internal}

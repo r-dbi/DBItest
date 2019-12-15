@@ -1,7 +1,7 @@
 #' spec_result_send_statement
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_result_send_statement <- list(
   send_statement_formals = function(ctx) {
     # <establish formals of described functions>

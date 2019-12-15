@@ -1,7 +1,7 @@
 #' spec_meta_get_info_result
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 #' @name spec_get_info
 spec_meta_get_info_result <- list(
   get_info_result = function(ctx) {

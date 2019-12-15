@@ -1,7 +1,7 @@
 #' spec_meta_get_row_count
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_meta_get_row_count <- list(
   get_row_count_formals = function(ctx) {
     # <establish formals of described functions>

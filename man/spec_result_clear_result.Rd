@@ -22,3 +22,4 @@ The DBI backend can expect a call to \code{dbClearResult()} for each
 \code{\link[=dbSendQuery]{dbSendQuery()}} or \code{\link[=dbSendStatement]{dbSendStatement()}} call.
 }
 
+\keyword{internal}

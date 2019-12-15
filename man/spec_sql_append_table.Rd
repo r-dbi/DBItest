@@ -89,3 +89,4 @@ and a string)
 raise an error.
 }
 
+\keyword{internal}

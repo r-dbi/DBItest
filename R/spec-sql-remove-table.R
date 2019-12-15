@@ -1,7 +1,7 @@
 #' spec_sql_remove_table
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_sql_remove_table <- list(
   remove_table_formals = function(ctx) {
     # <establish formals of described functions>

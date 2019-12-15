@@ -42,3 +42,4 @@ and then quoting gives the same result as quoting the identifier
 constructed by \code{Id(schema = "schema", table = "table")}.
 }
 
+\keyword{internal}

@@ -1,7 +1,7 @@
 #' spec_result_fetch
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_result_fetch <- list(
   fetch_formals = function(ctx) {
     # <establish formals of described functions>

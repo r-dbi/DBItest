@@ -1,7 +1,7 @@
 #' spec_driver_data_type
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 #' @inherit test_data_type
 spec_driver_data_type <- list(
   data_type_formals = function(ctx) {

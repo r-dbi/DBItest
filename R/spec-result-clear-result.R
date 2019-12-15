@@ -1,7 +1,7 @@
 #' spec_result_clear_result
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_result_clear_result <- list(
   clear_result_formals = function(ctx) {
     # <establish formals of described functions>

@@ -1,7 +1,7 @@
 #' spec_sql_unquote_identifier
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_sql_unquote_identifier <- list(
   unquote_identifier_formals = function(ctx) {
     # <establish formals of described functions>

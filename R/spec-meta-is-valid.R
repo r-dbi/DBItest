@@ -1,7 +1,7 @@
 #' spec_meta_is_valid
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_meta_is_valid <- list(
   is_valid_formals = function(ctx) {
     # <establish formals of described functions>

@@ -36,3 +36,4 @@ the other occurrences.
 Column names that correspond to SQL or R keywords are left unchanged.
 }
 
+\keyword{internal}

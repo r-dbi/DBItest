@@ -1,7 +1,7 @@
 #' spec_sql_list_fields
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_sql_list_fields <- list(
   list_fields_formals = function(ctx) {
     # <establish formals of described functions>

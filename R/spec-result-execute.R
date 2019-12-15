@@ -1,7 +1,7 @@
 #' spec_result_execute
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_result_execute <- list(
   execute_formals = function(ctx) {
     # <establish formals of described functions>

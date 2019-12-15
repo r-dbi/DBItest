@@ -27,3 +27,4 @@ Attempting to get the row count for a result set cleared with
 \description{
 spec_meta_get_row_count
 }
+\keyword{internal}

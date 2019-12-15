@@ -43,3 +43,4 @@ and \code{\link[=as.character]{as.character()}}
 }
 }
 
+\keyword{internal}

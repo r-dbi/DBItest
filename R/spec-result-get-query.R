@@ -1,7 +1,7 @@
 #' spec_result_get_query
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_result_get_query <- list(
   get_query_formals = function(ctx) {
     # <establish formals of described functions>

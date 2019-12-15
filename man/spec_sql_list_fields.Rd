@@ -36,3 +36,4 @@ The \code{name} argument can be
 A column named \code{row_names} is treated like any other column.
 }
 
+\keyword{internal}

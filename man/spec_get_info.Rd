@@ -52,3 +52,4 @@ spec_connection_get_info
 
 spec_meta_get_info_result
 }
+\keyword{internal}

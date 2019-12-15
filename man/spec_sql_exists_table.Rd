@@ -32,3 +32,4 @@ perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 For all tables listed by \code{\link[=dbListTables]{dbListTables()}}, \code{dbExistsTable()} returns \code{TRUE}.
 }
 
+\keyword{internal}

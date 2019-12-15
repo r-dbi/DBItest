@@ -54,3 +54,4 @@ if the \code{name} argument is set.
 The transaction isolation level is not specified by DBI.
 }
 
+\keyword{internal}

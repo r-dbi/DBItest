@@ -1,7 +1,7 @@
 #' spec_meta_bind
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_meta_bind <- list(
   bind_formals = function(ctx) {
     # <establish formals of described functions>

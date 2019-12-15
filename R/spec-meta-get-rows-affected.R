@@ -1,7 +1,7 @@
 #' spec_meta_get_rows_affected
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_meta_get_rows_affected <- list(
   get_rows_affected_formals = function(ctx) {
     # <establish formals of described functions>

@@ -1,7 +1,7 @@
 #' spec_transaction_begin_commit_rollback
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_transaction_begin_commit_rollback <- list(
   begin_formals = function(ctx) {
     # <establish formals of described functions>

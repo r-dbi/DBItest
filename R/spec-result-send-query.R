@@ -1,7 +1,7 @@
 #' spec_result_send_query
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_result_send_query <- list(
   send_query_formals = function(ctx) {
     # <establish formals of described functions>

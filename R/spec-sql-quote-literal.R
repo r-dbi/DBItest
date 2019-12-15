@@ -1,7 +1,7 @@
 #' spec_sql_quote_literal
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_sql_quote_literal <- list(
   quote_literal_formals = function(ctx) {
     # <establish formals of described functions>

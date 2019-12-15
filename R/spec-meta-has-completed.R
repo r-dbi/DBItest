@@ -1,7 +1,7 @@
 #' spec_meta_has_completed
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_meta_has_completed <- list(
   has_completed_formals = function(ctx) {
     # <establish formals of described functions>

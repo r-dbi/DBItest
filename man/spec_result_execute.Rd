@@ -80,3 +80,4 @@ the backend tries \code{immediate = TRUE} (and gives a message)
 }
 }
 
+\keyword{internal}

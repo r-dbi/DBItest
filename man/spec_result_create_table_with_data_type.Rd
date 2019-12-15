@@ -14,3 +14,4 @@ of the form
 \code{"CREATE TABLE test (a ...)"}.
 }
 
+\keyword{internal}

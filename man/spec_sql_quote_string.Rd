@@ -50,3 +50,4 @@ or a list
 for the \code{x} argument raises an error.
 }
 
+\keyword{internal}

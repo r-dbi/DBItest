@@ -20,3 +20,4 @@ already disconnected
 or invalid connection.
 }
 
+\keyword{internal}

@@ -1,7 +1,7 @@
 #' spec_meta_get_statement
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_meta_get_statement <- list(
   get_statement_formals = function(ctx) {
     # <establish formals of described functions>

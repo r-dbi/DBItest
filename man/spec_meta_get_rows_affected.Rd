@@ -19,3 +19,4 @@ Attempting to get the rows affected for a result set cleared with
 \description{
 spec_meta_get_rows_affected
 }
+\keyword{internal}

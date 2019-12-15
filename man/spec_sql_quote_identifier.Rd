@@ -46,3 +46,4 @@ should be performed only when executing a query,
 and not by \code{dbQuoteIdentifier()}.
 }
 
+\keyword{internal}

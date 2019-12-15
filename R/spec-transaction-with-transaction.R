@@ -1,7 +1,7 @@
 #' spec_transaction_with_transaction
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_transaction_with_transaction <- list(
   with_transaction_formals = function(ctx) {
     # <establish formals of described functions>

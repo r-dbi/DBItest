@@ -1,7 +1,7 @@
 #' spec_driver_get_info
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 #' @name spec_get_info
 spec_driver_get_info <- list(
   #' @return

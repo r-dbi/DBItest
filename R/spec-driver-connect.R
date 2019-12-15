@@ -1,7 +1,7 @@
 #' spec_driver_connect
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_driver_connect <- list(
   connect_formals = function(ctx) {
     # <establish formals of described functions>

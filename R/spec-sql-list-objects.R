@@ -1,7 +1,7 @@
 #' spec_sql_list_objects
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_sql_list_objects <- list(
   list_objects_formals = function(ctx) {
     # <establish formals of described functions>

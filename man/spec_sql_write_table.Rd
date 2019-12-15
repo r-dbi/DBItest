@@ -136,3 +136,4 @@ even if the input data frame only has natural row names.
 The default is \code{row.names = FALSE}.
 }
 
+\keyword{internal}

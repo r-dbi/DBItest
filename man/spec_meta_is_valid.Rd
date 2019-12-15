@@ -25,3 +25,4 @@ connectivity problems, server failure, etc.), \code{dbIsValid()} should return
 \description{
 spec_meta_is_valid
 }
+\keyword{internal}

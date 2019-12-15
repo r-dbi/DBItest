@@ -1,7 +1,7 @@
 #' spec_sql_exists_table
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_sql_exists_table <- list(
   exists_table_formals = function(ctx) {
     # <establish formals of described functions>

@@ -23,3 +23,4 @@ or invalid connection.
 \description{
 spec_sql_list_tables
 }
+\keyword{internal}

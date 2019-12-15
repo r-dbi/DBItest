@@ -1,7 +1,7 @@
 #' spec_sql_write_table
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 #' @importFrom lubridate with_tz
 spec_sql_write_table <- list(
   write_table_formals = function(ctx) {

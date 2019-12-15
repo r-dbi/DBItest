@@ -1,7 +1,7 @@
 #' spec_connection_disconnect
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_connection_disconnect <- list(
   disconnect_formals = function(ctx) {
     # <establish formals of described functions>

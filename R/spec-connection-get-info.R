@@ -1,7 +1,7 @@
 #' spec_connection_get_info
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 #' @rdname spec_get_info
 spec_connection_get_info <- list(
   #' @return

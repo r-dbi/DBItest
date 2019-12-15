@@ -1,7 +1,7 @@
 #' spec_meta_column_info
 #' @usage NULL
 #' @format NULL
-#' @keywords NULL
+#' @keywords internal
 spec_meta_column_info <- list(
   column_info_formals = function(ctx) {
     # <establish formals of described functions>
