@@ -40,5 +40,5 @@ See the package's documentation and the [feature list](https://github.com/r-dbi/
 ---
 
 Please note that the 'DBItest' project is released with a
-[Contributor Code of Conduct](CODE_OF_CONDUCT.md).
+[Contributor Code of Conduct](https://dbitest.r-dbi.org/code_of_conduct).
 By contributing to this project, you agree to abide by its terms.
