@@ -48,3 +48,4 @@ and \link{ordered} is the same as for character.
 The behavior for other object types is not specified.
 }
 
+\keyword{internal}

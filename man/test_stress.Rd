@@ -29,3 +29,4 @@ Other tests:
 \code{\link{test_transaction}()}
 }
 \concept{tests}
+\keyword{internal}
