@@ -21,8 +21,7 @@ devtools::install_github("r-dbi/DBItest")
 In your driver backage, add `DBItest` to the `Suggests:`. Then, enable the tests by running
 
 ```r
-devtools::use_testthat()
-devtools::use_test("DBItest")
+usethis::use_test("DBItest")
 ```
 
 from your package's directory. This enables testing using `testthat` (if necessary) and creates, among others, a file `test-DBItest.R` in the `tests/testthat` directory. Replace its entire contents by the following:
