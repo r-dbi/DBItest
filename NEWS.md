@@ -1,3 +1,8 @@
+# DBItest 1.6.0.9004
+
+- Specify tests for `dbGetInfo()`.
+
+
 # DBItest 1.6.0.9003
 
 - Fulfill CII badge requirements (#179, @TSchiefer).
