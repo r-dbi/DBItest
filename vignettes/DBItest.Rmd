@@ -110,7 +110,7 @@ The example below shows how to run tests with the RSQLite backend.
 First, we need to define a test context.
 It contains:
 
-- a connector that describes how to establish the database connection, see ``?DBI::`DBIConnection-class` `` for details,
+- a connector that describes how to establish the database connection, see ``?DBI::`DBIConnector-class` `` for details,
 - tweaks, see `?tweaks`,
 - tests skipped by default, as a character vector.
 
