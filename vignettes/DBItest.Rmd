@@ -172,7 +172,7 @@ One way to scout for the reason of the problem is to review the sources of DBIte
 Alternatively, the new experimental [dblog package](https://github.com/r-dbi/dblog) helps by printing the DBI code that is executed as the tests are run.
 For this, use a driver constructed by `dblog::dblog()` to display DBI code interspersed with testthat output.
 
-```{r log, eval = rlang::is_installed("dblog")}
+```r
 drv <- dblog::dblog(RSQLite::SQLite())
 
 invisible(make_context(

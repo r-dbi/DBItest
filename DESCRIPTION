@@ -32,7 +32,6 @@ Imports:
     testthat (>= 2.0.0),
     withr
 Suggests: 
-    dblog,
     debugme,
     devtools,
     knitr,
@@ -41,8 +40,6 @@ Suggests:
     RSQLite
 VignetteBuilder: 
     knitr
-Remotes: 
-    r-dbi/dblog
 Encoding: UTF-8
 KeepSource: true
 LazyData: true
