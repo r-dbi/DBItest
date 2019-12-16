@@ -154,7 +154,7 @@
 <a class="sourceLine" id="cb8-14" data-line-number="14"></a>
 <a class="sourceLine" id="cb8-15" data-line-number="15">default_skip &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"roundtrip_date"</span>, <span class="st">"roundtrip_timestamp"</span>)</a>
 <a class="sourceLine" id="cb8-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="kw"><a href="../reference/context.html">make_context</a></span>(</a>
+<a class="sourceLine" id="cb8-17" data-line-number="17"><span class="kw"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span>(<span class="kw"><a href="../reference/context.html">make_context</a></span>(</a>
 <a class="sourceLine" id="cb8-18" data-line-number="18">  <span class="kw">new</span>(</a>
 <a class="sourceLine" id="cb8-19" data-line-number="19">    <span class="st">"DBIConnector"</span>,</a>
 <a class="sourceLine" id="cb8-20" data-line-number="20">    <span class="dt">.drv =</span> RSQLite<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/RSQLite/man/SQLite.html">SQLite</a></span>(),</a>
@@ -162,54 +162,16 @@
 <a class="sourceLine" id="cb8-22" data-line-number="22">  ),</a>
 <a class="sourceLine" id="cb8-23" data-line-number="23">  <span class="dt">tweaks =</span> tweaks,</a>
 <a class="sourceLine" id="cb8-24" data-line-number="24">  <span class="dt">default_skip =</span> default_skip</a>
-<a class="sourceLine" id="cb8-25" data-line-number="25">)</a></code></pre></div>
-<pre><code>## $cnr
-## &lt;DBIConnector&gt;&lt;SQLiteDriver&gt;
-## Arguments:
-## $dbname
-## [1] "/tmp/RtmpEiFxOu/DBItest463f67c2ac53.sqlite"
-## 
-## 
-## $drv
-## &lt;SQLiteDriver&gt;
-## 
-## $tweaks
-## DBItest tweaks:
-##   constructor_relax_args: TRUE
-##   strict_identifier: FALSE
-##   omit_blob_tests: FALSE
-##   current_needs_parens: FALSE
-##   union: function (x) 
-##   placeholder_pattern: ?    
-##   logical_return: function (x) 
-##   date_cast: function (x) 
-##   time_cast: function (x) 
-##   timestamp_cast: function (x) 
-##   blob_cast: function (x) 
-##   date_typed: FALSE
-##   time_typed: FALSE
-##   timestamp_typed: FALSE
-##   temporary_tables: TRUE
-##   list_temporary_tables: TRUE
-##   is_null_check: function (x) 
-## 
-## $name
-## NULL
-## 
-## $default_skip
-## [1] "roundtrip_date"      "roundtrip_timestamp"
-## 
-## attr(,"class")
-## [1] "DBItest_context"</code></pre>
+<a class="sourceLine" id="cb8-25" data-line-number="25">))</a></code></pre></div>
 </div>
 <div id="testing" class="section level3">
 <h3 class="hasAnchor">
 <a href="#testing" class="anchor"></a>Testing</h3>
 <p>Use <code><a href="../reference/test_all.html">test_all()</a></code> to run all tests, and <code><a href="../reference/test_all.html">test_some()</a></code> to run a specific test that failed previously. The <code>test_*</code> functions need to be run with a testthat reporter to avoid stopping at the first error or warning. For interactive use, the “progress” reporter gives good results. In the example below, the “location” and “stop” reporters are combined. Review <code><a href="https://rdrr.io/pkg/testthat/man/Reporter.html">?testthat::Reporter</a></code> for a list of reporters.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">testthat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/testthat/man/reporter-accessors.html">with_reporter</a></span>(</a>
-<a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"location"</span>, <span class="st">"stop"</span>),</a>
-<a class="sourceLine" id="cb10-3" data-line-number="3">  DBItest<span class="op">::</span><span class="kw"><a href="https://dbitest.r-dbi.org/reference/test_all.html">test_some</a></span>(<span class="st">"get_query_atomic"</span>)</a>
-<a class="sourceLine" id="cb10-4" data-line-number="4">)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">testthat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/testthat/man/reporter-accessors.html">with_reporter</a></span>(</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"location"</span>, <span class="st">"stop"</span>),</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">  DBItest<span class="op">::</span><span class="kw"><a href="https://dbitest.r-dbi.org/reference/test_all.html">test_some</a></span>(<span class="st">"get_query_atomic"</span>)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4">)</a></code></pre></div>
 <pre><code>## Start test: DBItest: Result: get_query_atomic
 ##   spec-result-get-query.R#17:1 [success]
 ##   spec-result-get-query.R#17:1 [success]
@@ -226,63 +188,24 @@
 <a href="#debugging-failing-tests" class="anchor"></a>Debugging failing tests</h2>
 <p>DBItest relies heavily on metaprogramming. Unfortunately, this means that a failing test may give no indication of the reason for the failure. One way to scout for the reason of the problem is to review the sources of DBItest and relate the test name (that is printed with each failure) with the human-readable specification embedded with the test code.</p>
 <p>Alternatively, the new experimental <a href="https://github.com/r-dbi/dblog">dblog package</a> helps by printing the DBI code that is executed as the tests are run. For this, use a driver constructed by <code><a href="https://rdrr.io/pkg/dblog/man/LoggingDBI.html">dblog::dblog()</a></code> to display DBI code interspersed with testthat output.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">drv &lt;-<span class="st"> </span>dblog<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/dblog/man/LoggingDBI.html">dblog</a></span>(RSQLite<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/RSQLite/man/SQLite.html">SQLite</a></span>())</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">drv &lt;-<span class="st"> </span>dblog<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/dblog/man/LoggingDBI.html">dblog</a></span>(RSQLite<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/RSQLite/man/SQLite.html">SQLite</a></span>())</a></code></pre></div>
 <pre><code>## drv1 &lt;- RSQLite::SQLite()</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">DBItest<span class="op">::</span><span class="kw"><a href="https://dbitest.r-dbi.org/reference/context.html">make_context</a></span>(</a>
-<a class="sourceLine" id="cb14-2" data-line-number="2">  <span class="kw">new</span>(</a>
-<a class="sourceLine" id="cb14-3" data-line-number="3">    <span class="st">"DBIConnector"</span>,</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">    <span class="dt">.drv =</span> drv,</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">    <span class="dt">.conn_args =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">dbname =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="st">"DBItest"</span>, <span class="dt">fileext =</span> <span class="st">".sqlite"</span>))</a>
-<a class="sourceLine" id="cb14-6" data-line-number="6">  ),</a>
-<a class="sourceLine" id="cb14-7" data-line-number="7">  <span class="dt">tweaks =</span> tweaks,</a>
-<a class="sourceLine" id="cb14-8" data-line-number="8">  <span class="dt">default_skip =</span> default_skip</a>
-<a class="sourceLine" id="cb14-9" data-line-number="9">)</a></code></pre></div>
-<pre><code>## $cnr
-## &lt;DBIConnector&gt;&lt;dblogDriver&gt;
-## &lt;SQLiteDriver&gt;
-## Arguments:
-## $dbname
-## [1] "/tmp/RtmpEiFxOu/DBItest463f675608a1.sqlite"
-## 
-## 
-## $drv
-## &lt;dblogDriver&gt;
-## &lt;SQLiteDriver&gt;
-## 
-## $tweaks
-## DBItest tweaks:
-##   constructor_relax_args: TRUE
-##   strict_identifier: FALSE
-##   omit_blob_tests: FALSE
-##   current_needs_parens: FALSE
-##   union: function (x) 
-##   placeholder_pattern: ?    
-##   logical_return: function (x) 
-##   date_cast: function (x) 
-##   time_cast: function (x) 
-##   timestamp_cast: function (x) 
-##   blob_cast: function (x) 
-##   date_typed: FALSE
-##   time_typed: FALSE
-##   timestamp_typed: FALSE
-##   temporary_tables: TRUE
-##   list_temporary_tables: TRUE
-##   is_null_check: function (x) 
-## 
-## $name
-## NULL
-## 
-## $default_skip
-## [1] "roundtrip_date"      "roundtrip_timestamp"
-## 
-## attr(,"class")
-## [1] "DBItest_context"</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">testthat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/testthat/man/reporter-accessors.html">with_reporter</a></span>(</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2">  <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"location"</span>, <span class="st">"stop"</span>),</a>
-<a class="sourceLine" id="cb16-3" data-line-number="3">  DBItest<span class="op">::</span><span class="kw"><a href="https://dbitest.r-dbi.org/reference/test_all.html">test_some</a></span>(<span class="st">"get_query_atomic"</span>)</a>
-<a class="sourceLine" id="cb16-4" data-line-number="4">)</a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span>(<span class="kw"><a href="../reference/context.html">make_context</a></span>(</a>
+<a class="sourceLine" id="cb13-2" data-line-number="2">  <span class="kw">new</span>(</a>
+<a class="sourceLine" id="cb13-3" data-line-number="3">    <span class="st">"DBIConnector"</span>,</a>
+<a class="sourceLine" id="cb13-4" data-line-number="4">    <span class="dt">.drv =</span> drv,</a>
+<a class="sourceLine" id="cb13-5" data-line-number="5">    <span class="dt">.conn_args =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">dbname =</span> <span class="kw"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="st">"DBItest"</span>, <span class="dt">fileext =</span> <span class="st">".sqlite"</span>))</a>
+<a class="sourceLine" id="cb13-6" data-line-number="6">  ),</a>
+<a class="sourceLine" id="cb13-7" data-line-number="7">  <span class="dt">tweaks =</span> tweaks,</a>
+<a class="sourceLine" id="cb13-8" data-line-number="8">  <span class="dt">default_skip =</span> default_skip</a>
+<a class="sourceLine" id="cb13-9" data-line-number="9">))</a>
+<a class="sourceLine" id="cb13-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb13-11" data-line-number="11">testthat<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/testthat/man/reporter-accessors.html">with_reporter</a></span>(</a>
+<a class="sourceLine" id="cb13-12" data-line-number="12">  <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"location"</span>, <span class="st">"stop"</span>),</a>
+<a class="sourceLine" id="cb13-13" data-line-number="13">  DBItest<span class="op">::</span><span class="kw"><a href="https://dbitest.r-dbi.org/reference/test_all.html">test_some</a></span>(<span class="st">"get_query_atomic"</span>)</a>
+<a class="sourceLine" id="cb13-14" data-line-number="14">)</a></code></pre></div>
 <pre><code>## Start test: DBItest: Result: get_query_atomic
-## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/RtmpEiFxOu/DBItest463f675608a1.sqlite")
+## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/RtmpywwTTA/DBItest44e58365c9f.sqlite")
 ## dbGetQuery(conn1, "SELECT 1.5 AS a")
 ## ##     a
 ## ## 1 1.5
