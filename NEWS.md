@@ -1,3 +1,8 @@
+# DBItest 1.7.0.9000
+
+- No changes to previous versions.
+
+
 # DBItest 1.7.0
 
 ## Specifications
