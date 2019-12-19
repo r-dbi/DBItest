@@ -185,7 +185,7 @@ to <code><a href='test_all.html'>test_all()</a></code>  and other testing functi
     <span class='kw'>.drv</span> <span class='kw'>=</span> <span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span>(),
     <span class='kw'>.conn_args</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>dbname</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='st'>"DBItest"</span>, <span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".sqlite"</span>))
   ),
-  <span class='kw'>tweaks</span> <span class='kw'>=</span> <span class='kw pkg'>DBItest</span><span class='kw ns'>::</span><span class='fu'><a href='https://dbitest.r-dbi.org/reference/tweaks.html'>tweaks</a></span>(
+  <span class='kw'>tweaks</span> <span class='kw'>=</span> <span class='fu'><a href='tweaks.html'>tweaks</a></span>(
     <span class='kw'>constructor_relax_args</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
     <span class='kw'>placeholder_pattern</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"?"</span>, <span class='st'>"$1"</span>, <span class='st'>"$name"</span>, <span class='st'>":name"</span>),
     <span class='kw'>date_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"'"</span>, <span class='no'>x</span>, <span class='st'>"'"</span>),
@@ -201,7 +201,7 @@ to <code><a href='test_all.html'>test_all()</a></code>  and other testing functi
 #&gt; &lt;DBIConnector&gt;&lt;SQLiteDriver&gt;
 #&gt; Arguments:
 #&gt; $dbname
-#&gt; [1] "/tmp/RtmpGjZPKs/DBItest457468e7455e.sqlite"
+#&gt; [1] "/tmp/Rtmp0OCgEt/DBItest44a350998b5.sqlite"
 #&gt; 
 #&gt; 
 #&gt; $drv
