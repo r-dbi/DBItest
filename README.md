@@ -55,7 +55,7 @@ Further reading:
 
 - Detailed instructions in `vignette("DBItest")`
 
-- The feture list in the [original proposal](https://github.com/r-dbi/DBItest/wiki/Proposal).
+- The feature list in the [original proposal](https://github.com/r-dbi/DBItest/wiki/Proposal).
 
 ---
 
