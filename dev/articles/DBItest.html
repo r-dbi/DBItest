@@ -168,8 +168,8 @@
 <div id="testing" class="section level3">
 <h3 class="hasAnchor">
 <a href="#testing" class="anchor"></a>Testing</h3>
-<p>Use <code><a href="../reference/test_all.html">test_all()</a></code> to run all tests, and <code><a href="../reference/test_all.html">test_some()</a></code> to run a specific test that failed previously. The <code>test_*</code> functions need to be run with a testthat reporter to avoid stopping at the first error or warning. For interactive use, the “progress” reporter gives good results. In the example below, the “location” and “stop” reporters are combined. Review <code><a href="https://rdrr.io/pkg/testthat/man/Reporter.html">?testthat::Reporter</a></code> for a list of reporters.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="kw pkg">testthat</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/testthat/man/reporter-accessors.html">with_reporter</a></span>(
+<p>Use <code><a href="../reference/test_all.html">test_all()</a></code> to run all tests, and <code><a href="../reference/test_all.html">test_some()</a></code> to run a specific test that failed previously. The <code>test_*</code> functions need to be run with a testthat reporter to avoid stopping at the first error or warning. For interactive use, the “progress” reporter gives good results. In the example below, the “location” and “stop” reporters are combined. Review <code><a href="https://testthat.r-lib.org/reference/Reporter.html">?testthat::Reporter</a></code> for a list of reporters.</p>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="kw pkg">testthat</span><span class="kw ns">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/reporter-accessors.html">with_reporter</a></span>(
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"location"</span>, <span class="st">"stop"</span>),
   <span class="kw pkg">DBItest</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_all.html">test_some</a></span>(<span class="st">"get_query_atomic"</span>)
 )</pre></body></html></div>
@@ -201,12 +201,12 @@
   <span class="kw">default_skip</span> <span class="kw">=</span> <span class="no">default_skip</span>
 ))
 
-<span class="kw pkg">testthat</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/testthat/man/reporter-accessors.html">with_reporter</a></span>(
+<span class="kw pkg">testthat</span><span class="kw ns">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/reporter-accessors.html">with_reporter</a></span>(
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"location"</span>, <span class="st">"stop"</span>),
   <span class="kw pkg">DBItest</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_all.html">test_some</a></span>(<span class="st">"get_query_atomic"</span>)
 )</pre></body></html></div>
 <pre><code>## Start test: DBItest: Result: get_query_atomic
-## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/RtmpXKXZnh/DBItest4638680f2ed7.sqlite")
+## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/RtmpfAXn8f/DBItest478974e2382f.sqlite")
 ## dbGetQuery(conn1, "SELECT 1.5 AS a")
 ## ##     a
 ## ## 1 1.5
