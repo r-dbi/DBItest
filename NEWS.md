@@ -1,3 +1,8 @@
+# DBItest 1.7.0.9001 (2020-08-26)
+
+- Ensure compatibility with dev testthat and current R.
+
+
 # DBItest 1.7.0.9000
 
 - No changes to previous versions.
