@@ -1,4 +1,7 @@
+#' spec_driver_constructor
+#' @usage NULL
 #' @format NULL
+#' @keywords internal
 #' @section Construction of the DBIDriver object:
 spec_driver_constructor <- list(
   constructor = function(ctx) {
