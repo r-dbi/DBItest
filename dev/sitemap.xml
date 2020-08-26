@@ -13,16 +13,25 @@
     <loc>https://dbitest.r-dbi.org/reference/make_placeholder_fun.html</loc>
   </url>
   <url>
+    <loc>https://dbitest.r-dbi.org/reference/spec_compliance_methods.html</loc>
+  </url>
+  <url>
     <loc>https://dbitest.r-dbi.org/reference/spec_connection_disconnect.html</loc>
   </url>
   <url>
     <loc>https://dbitest.r-dbi.org/reference/spec_driver_connect.html</loc>
   </url>
   <url>
+    <loc>https://dbitest.r-dbi.org/reference/spec_driver_constructor.html</loc>
+  </url>
+  <url>
     <loc>https://dbitest.r-dbi.org/reference/spec_driver_data_type.html</loc>
   </url>
   <url>
     <loc>https://dbitest.r-dbi.org/reference/spec_get_info.html</loc>
+  </url>
+  <url>
+    <loc>https://dbitest.r-dbi.org/reference/spec_getting_started.html</loc>
   </url>
   <url>
     <loc>https://dbitest.r-dbi.org/reference/spec_meta_bind.html</loc>
