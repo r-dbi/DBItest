@@ -204,13 +204,25 @@ spec_result_roundtrip <- list(
 
   #' - Loss of precision when converting to numeric gives a warning
   data_64_bit_numeric_warning = function(ctx) {
-    with_connection({
-      char_values <- c(" 1234567890123456789", "-1234567890123456789")
-      num_values <- as.numeric(char_values)
-      test_values <- as_numeric_equals_to(num_values)
+    char_values <- c(" 1234567890123456789", "-1234567890123456789")
+    num_values <- as.numeric(char_values)
+    test_values <- as_numeric_equals_to(num_values)
 
-      expect_warning(
-        test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
+    with_connection({
+      suppressWarnings(
+          expect_warning(
+          test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "none")
+        )
+      )
+      suppressWarnings(
+        expect_warning(
+          test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "above")
+        )
+      )
+      suppressWarnings(
+        expect_warning(
+          test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "below")
+        )
       )
     })
   },

@@ -47,7 +47,7 @@ representation
 and native encodings),
 supporting empty strings
 \item factor (returned as character,
-with awarning)
+with a warning)
 \item list of raw
 (if supported by the database)
 \item objects of type \link[blob:blob]{blob::blob}

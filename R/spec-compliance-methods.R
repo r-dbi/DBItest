@@ -55,7 +55,8 @@ spec_compliance_methods <- list(
     . <- c(., "Id")
     dbi_names <- .
 
-    exported_names <- callr::r(
+    # Suppressing warning "... may not be available when loading"
+    exported_names <- suppressWarnings(callr::r(
       function(pkg) {
         tryCatch(
           getNamespaceExports(getNamespace(pkg)),
@@ -63,7 +64,7 @@ spec_compliance_methods <- list(
         )
       },
       args = list(pkg = pkg)
-    )
+    ))
 
     # Guard against scenarios where package is not installed
     if (length(exported_names) > 0) {

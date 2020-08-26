@@ -283,9 +283,11 @@ spec_sql_append_table <- list(
       )
       tbl_exp <- tbl_in
       tbl_exp$a <- as.character(tbl_exp$a)
-      #'     with awarning)
-      expect_warning(
-        test_table_roundtrip(use_append = TRUE, con, tbl_in, tbl_exp)
+      #'     with a warning)
+      suppressWarnings(
+        expect_warning(
+          test_table_roundtrip(use_append = TRUE, con, tbl_in, tbl_exp)
+        )
       )
     })
   },
