@@ -90,37 +90,49 @@
 <h2 class="hasAnchor">
 <a href="#testing-a-new-backend" class="anchor"></a>Testing a new backend</h2>
 <p>The test cases in the DBItest package are structured very similarly to the sections in the “backend” vignette:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span>(<span class="st">"backend"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"DBI"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb1"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span>(<span class="st">"backend"</span>, package = <span class="st">"DBI"</span>)
+</pre></div>
 <p>Like the “backend” vignette, this vignette assumes that you are implementing the <code>RKazam</code> package that has a <code>Kazam()</code> function that creates a new <code>DBIDriver</code> instance for connecting to a “Kazam” database.</p>
 <p>You can add the tests in the DBItest package incrementally, as you proceed with implementing the various parts of the DBI. The DBItest package builds upon the testthat package. To enable it, run the following in your package directory (after installing or updating <code>devtools</code>):</p>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">use_testthat</span>()
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">use_test</span>(<span class="st">"DBItest"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb2"><pre class="downlit">
+<span class="kw">devtools</span>::<span class="fu">use_testthat</span>()
+<span class="kw">devtools</span>::<span class="fu">use_test</span>(<span class="st">"DBItest"</span>)
+</pre></div>
 <p>This creates, among others, a file <code>test-DBItest.R</code> in the <code>tests/testthat</code> directory. Replace its entire contents by the following:</p>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="kw pkg">DBItest</span><span class="kw ns">::</span><span class="fu"><a href="../reference/context.html">make_context</a></span>(<span class="fu">Kazam</span>(), <span class="kw">NULL</span>)
-<span class="kw pkg">DBItest</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_getting_started.html">test_getting_started</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb3"><pre class="downlit">
+<span class="kw">DBItest</span>::<span class="fu"><a href="../reference/make_context.html">make_context</a></span>(<span class="fu">Kazam</span>(), <span class="kw">NULL</span>)
+<span class="kw">DBItest</span>::<span class="fu"><a href="../reference/test_getting_started.html">test_getting_started</a></span>()
+</pre></div>
 <p>Now test your package with <code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>. If you followed at least the “Getting started” section of the DBI “backend” vignette, all tests should succeed.</p>
 <p>By adding the corresponding test function to your <code>tests/test-DBItest.R</code> file <em>before</em> implementing a section, you get immediate feedback which functionality of this section still needs to be implemented by running <code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code> again. Therefore, proceed by appending the following to <code>tests/test-DBItest.R</code>, to include a test case for the forthcoming section:</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="kw pkg">DBItest</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_driver.html">test_driver</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb4"><pre class="downlit">
+<span class="kw">DBItest</span>::<span class="fu"><a href="../reference/test_driver.html">test_driver</a></span>()
+</pre></div>
 <p>Again, all tests should succeed when you are done with the “Driver” section. Add the call to the next tester function, implement the following section until all tests succeed, and so forth.</p>
 <p>In this scenario, you are usually interested only in the first error the test suite finds. The <code>StopReporter</code> of <code>testthat</code> is most helpful here, activate it by passing <code>reporter = "stop"</code> to <code><a href="https://devtools.r-lib.org//reference/test.html">devtools::test()</a></code>. Alternatively, call the relevant <code>DBItest::test_()</code> function directly.</p>
 <p>The tests are documented with the corresponding functions: For instance, <code><a href="../reference/test_driver.html">?test_driver</a></code> shows a coarse description of all tests for the “Driver” test case. Test failures will include the name of the test that is failing; in this case, investigating the documentation or the source code of the DBItest package will usually lead to the cause of the error.</p>
 <p>Not all tests can be satisfied: For example, there is one test that tests that <code>logical</code> variables survive a write-read roundtrip to the database, whereas another test tests that <code>logical</code> variables are converted to <code>integer</code> in such a case. Tests can be skipped by adding regular expressions for the tests to skip as character vector to the call, as in the following<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>:</p>
-<div class="sourceCode" id="cb5"><html><body><pre class="r">DBItest::test_driver(skip = c(
-  "data_type"           # Reason 1...
-  "constructor.*",      # Reason 2...
-  NULL
-))</pre></body></html></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">DBItest<span class="op">::</span><span class="kw">test_driver</span>(<span class="dt">skip =</span> <span class="kw">c</span>(</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="st">"data_type"</span>           <span class="co"># Reason 1...</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3">  <span class="st">"constructor.*"</span>,      <span class="co"># Reason 2...</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4">  <span class="ot">NULL</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5">))</a></code></pre></div>
 <p>Some other reasons to skip tests are: - your database does not support a feature - you want to postpone or avoid the implementation of a feature - the test takes too long to run.</p>
 </div>
 <div id="testing-an-existing-backend" class="section level2">
 <h2 class="hasAnchor">
 <a href="#testing-an-existing-backend" class="anchor"></a>Testing an existing backend</h2>
 <p>For an existing backends, simply enabling all tests may be the quickest way to get started. Run the following in your package directory (after installing or updating <code>devtools</code>):</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">use_testthat</span>()
-<span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">use_test</span>(<span class="st">"DBItest"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb6"><pre class="downlit">
+<span class="kw">devtools</span>::<span class="fu">use_testthat</span>()
+<span class="kw">devtools</span>::<span class="fu">use_test</span>(<span class="st">"DBItest"</span>)
+</pre></div>
 <p>This creates, among others, a file <code>test-DBItest.R</code> in the <code>tests/testthat</code> directory. Replace its entire contents by the following:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="kw pkg">DBItest</span><span class="kw ns">::</span><span class="fu"><a href="../reference/context.html">make_context</a></span>(<span class="fu">Kazam</span>(), <span class="kw">NULL</span>)
-<span class="kw pkg">DBItest</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_all.html">test_all</a></span>()</pre></body></html></div>
+<div class="sourceCode" id="cb7"><pre class="downlit">
+<span class="kw">DBItest</span>::<span class="fu"><a href="../reference/make_context.html">make_context</a></span>(<span class="fu">Kazam</span>(), <span class="kw">NULL</span>)
+<span class="kw">DBItest</span>::<span class="fu"><a href="../reference/test_all.html">test_all</a></span>()
+</pre></div>
 <p>The notes about “Kazam” and skipping tests from the previous section apply here as well. The <code><a href="../reference/test_all.html">test_all()</a></code> function simply calls all test cases.</p>
 </div>
 <div id="external-testing" class="section level2">
@@ -137,42 +149,46 @@
 <li>tweaks, see <code><a href="../reference/tweaks.html">?tweaks</a></code>,</li>
 <li>tests skipped by default, as a character vector.</li>
 </ul>
-<p>Database backends that use DBItest for testing usually have a file <code>test/testthat/helper-DBItest.R</code> or <code>test/testthat/test-DBItest.R</code> where a call to <code><a href="../reference/context.html">make_context()</a></code> can be found. The help for <code><a href="../reference/context.html">make_context()</a></code> already contains an example that works for RSQLite. Adapt it to your needs.</p>
-<p>The <code><a href="../reference/context.html">make_context()</a></code> function must be called before any tests can run.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">DBItest</span>)
+<p>Database backends that use DBItest for testing usually have a file <code>test/testthat/helper-DBItest.R</code> or <code>test/testthat/test-DBItest.R</code> where a call to <code><a href="../reference/make_context.html">make_context()</a></code> can be found. The help for <code><a href="../reference/make_context.html">make_context()</a></code> already contains an example that works for RSQLite. Adapt it to your needs.</p>
+<p>The <code><a href="../reference/make_context.html">make_context()</a></code> function must be called before any tests can run.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://dbitest.r-dbi.org">DBItest</a></span>)
 
-<span class="no">tweaks</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/tweaks.html">tweaks</a></span>(
-  <span class="kw">constructor_relax_args</span> <span class="kw">=</span> <span class="fl">TRUE</span>,
-  <span class="kw">placeholder_pattern</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"?"</span>, <span class="st">"$1"</span>, <span class="st">"$name"</span>, <span class="st">":name"</span>),
-  <span class="kw">date_cast</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"'"</span>, <span class="no">x</span>, <span class="st">"'"</span>),
-  <span class="kw">time_cast</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"'"</span>, <span class="no">x</span>, <span class="st">"'"</span>),
-  <span class="kw">timestamp_cast</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"'"</span>, <span class="no">x</span>, <span class="st">"'"</span>),
-  <span class="kw">logical_return</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="no">x</span>),
-  <span class="kw">date_typed</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-  <span class="kw">time_typed</span> <span class="kw">=</span> <span class="fl">FALSE</span>,
-  <span class="kw">timestamp_typed</span> <span class="kw">=</span> <span class="fl">FALSE</span>
+<span class="kw">tweaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tweaks.html">tweaks</a></span>(
+  constructor_relax_args = <span class="fl">TRUE</span>,
+  placeholder_pattern = <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"?"</span>, <span class="st">"$1"</span>, <span class="st">"$name"</span>, <span class="st">":name"</span>),
+  date_cast = <span class="fu">function</span>(<span class="kw">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"'"</span>, <span class="kw">x</span>, <span class="st">"'"</span>),
+  time_cast = <span class="fu">function</span>(<span class="kw">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"'"</span>, <span class="kw">x</span>, <span class="st">"'"</span>),
+  timestamp_cast = <span class="fu">function</span>(<span class="kw">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"'"</span>, <span class="kw">x</span>, <span class="st">"'"</span>),
+  logical_return = <span class="fu">function</span>(<span class="kw">x</span>) <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="kw">x</span>),
+  date_typed = <span class="fl">FALSE</span>,
+  time_typed = <span class="fl">FALSE</span>,
+  timestamp_typed = <span class="fl">FALSE</span>
 )
 
-<span class="no">default_skip</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"roundtrip_date"</span>, <span class="st">"roundtrip_timestamp"</span>)
+<span class="kw">default_skip</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"roundtrip_date"</span>, <span class="st">"roundtrip_timestamp"</span>)
 
-<span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span>(<span class="fu"><a href="../reference/context.html">make_context</a></span>(
+<span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span>(<span class="fu"><a href="../reference/make_context.html">make_context</a></span>(
   <span class="fu">new</span>(
     <span class="st">"DBIConnector"</span>,
-    <span class="kw">.drv</span> <span class="kw">=</span> <span class="kw pkg">RSQLite</span><span class="kw ns">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html">SQLite</a></span>(),
-    <span class="kw">.conn_args</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">dbname</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="st">"DBItest"</span>, <span class="kw">fileext</span> <span class="kw">=</span> <span class="st">".sqlite"</span>))
+    .drv = <span class="kw">RSQLite</span>::<span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html">SQLite</a></span>(),
+    .conn_args = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(dbname = <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="st">"DBItest"</span>, fileext = <span class="st">".sqlite"</span>))
   ),
-  <span class="kw">tweaks</span> <span class="kw">=</span> <span class="no">tweaks</span>,
-  <span class="kw">default_skip</span> <span class="kw">=</span> <span class="no">default_skip</span>
-))</pre></body></html></div>
+  tweaks = <span class="kw">tweaks</span>,
+  default_skip = <span class="kw">default_skip</span>
+))
+</pre></div>
 </div>
 <div id="testing" class="section level3">
 <h3 class="hasAnchor">
 <a href="#testing" class="anchor"></a>Testing</h3>
 <p>Use <code><a href="../reference/test_all.html">test_all()</a></code> to run all tests, and <code><a href="../reference/test_all.html">test_some()</a></code> to run a specific test that failed previously. The <code>test_*</code> functions need to be run with a testthat reporter to avoid stopping at the first error or warning. For interactive use, the “progress” reporter gives good results. In the example below, the “location” and “stop” reporters are combined. Review <code><a href="https://testthat.r-lib.org/reference/Reporter.html">?testthat::Reporter</a></code> for a list of reporters.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="kw pkg">testthat</span><span class="kw ns">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/reporter-accessors.html">with_reporter</a></span>(
+<div class="sourceCode" id="cb9"><pre class="downlit">
+<span class="kw">testthat</span>::<span class="fu"><a href="https://testthat.r-lib.org/reference/reporter-accessors.html">with_reporter</a></span>(
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"location"</span>, <span class="st">"stop"</span>),
-  <span class="kw pkg">DBItest</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_all.html">test_some</a></span>(<span class="st">"get_query_atomic"</span>)
-)</pre></body></html></div>
+  <span class="kw">DBItest</span>::<span class="fu"><a href="../reference/test_all.html">test_some</a></span>(<span class="st">"get_query_atomic"</span>)
+)
+</pre></div>
 <pre><code>## Start test: DBItest: Result: get_query_atomic
 ##   spec-result-get-query.R#17:1 [success]
 ##   spec-result-get-query.R#17:1 [success]
@@ -189,24 +205,28 @@
 <a href="#debugging-failing-tests" class="anchor"></a>Debugging failing tests</h2>
 <p>DBItest relies heavily on metaprogramming. Unfortunately, this means that a failing test may give no indication of the reason for the failure. One way to scout for the reason of the problem is to review the sources of DBItest and relate the test name (that is printed with each failure) with the human-readable specification embedded with the test code.</p>
 <p>Alternatively, the new experimental <a href="https://github.com/r-dbi/dblog">dblog package</a> helps by printing the DBI code that is executed as the tests are run. For this, use a driver constructed by <code><a href="https://rdrr.io/pkg/dblog/man/LoggingDBI.html">dblog::dblog()</a></code> to display DBI code interspersed with testthat output.</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">drv</span> <span class="kw">&lt;-</span> <span class="kw pkg">dblog</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/dblog/man/LoggingDBI.html">dblog</a></span>(<span class="kw pkg">RSQLite</span><span class="kw ns">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html">SQLite</a></span>())</pre></body></html></div>
+<div class="sourceCode" id="cb11"><pre class="downlit">
+<span class="kw">drv</span> <span class="op">&lt;-</span> <span class="kw">dblog</span>::<span class="fu"><a href="https://rdrr.io/pkg/dblog/man/LoggingDBI.html">dblog</a></span>(<span class="kw">RSQLite</span>::<span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html">SQLite</a></span>())
+</pre></div>
 <pre><code>## drv1 &lt;- RSQLite::SQLite()</code></pre>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span>(<span class="fu"><a href="../reference/context.html">make_context</a></span>(
+<div class="sourceCode" id="cb13"><pre class="downlit">
+<span class="fu"><a href="https://rdrr.io/r/base/invisible.html">invisible</a></span>(<span class="fu"><a href="../reference/make_context.html">make_context</a></span>(
   <span class="fu">new</span>(
     <span class="st">"DBIConnector"</span>,
-    <span class="kw">.drv</span> <span class="kw">=</span> <span class="no">drv</span>,
-    <span class="kw">.conn_args</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">dbname</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="st">"DBItest"</span>, <span class="kw">fileext</span> <span class="kw">=</span> <span class="st">".sqlite"</span>))
+    .drv = <span class="kw">drv</span>,
+    .conn_args = <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(dbname = <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempfile</a></span>(<span class="st">"DBItest"</span>, fileext = <span class="st">".sqlite"</span>))
   ),
-  <span class="kw">tweaks</span> <span class="kw">=</span> <span class="no">tweaks</span>,
-  <span class="kw">default_skip</span> <span class="kw">=</span> <span class="no">default_skip</span>
+  tweaks = <span class="kw">tweaks</span>,
+  default_skip = <span class="kw">default_skip</span>
 ))
 
-<span class="kw pkg">testthat</span><span class="kw ns">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/reporter-accessors.html">with_reporter</a></span>(
+<span class="kw">testthat</span>::<span class="fu"><a href="https://testthat.r-lib.org/reference/reporter-accessors.html">with_reporter</a></span>(
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"location"</span>, <span class="st">"stop"</span>),
-  <span class="kw pkg">DBItest</span><span class="kw ns">::</span><span class="fu"><a href="../reference/test_all.html">test_some</a></span>(<span class="st">"get_query_atomic"</span>)
-)</pre></body></html></div>
+  <span class="kw">DBItest</span>::<span class="fu"><a href="../reference/test_all.html">test_some</a></span>(<span class="st">"get_query_atomic"</span>)
+)
+</pre></div>
 <pre><code>## Start test: DBItest: Result: get_query_atomic
-## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/RtmplXtN02/DBItest4f94cdb9b52.sqlite")
+## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/RtmprDPKB5/DBItest520c6200e8a.sqlite")
 ## dbGetQuery(conn1, "SELECT 1.5 AS a")
 ## ##     a
 ## ## 1 1.5
@@ -243,7 +263,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

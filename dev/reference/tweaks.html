@@ -126,29 +126,29 @@ tweaks argument in a make_context() call." />
     <p>The tweaks are a way to control the behavior of certain tests. Currently,
 you need to search the <span class="pkg">DBItest</span> source code to understand which tests
 are affected by which tweaks. This function is usually called to set the
-<code>tweaks</code> argument in a <code><a href='context.html'>make_context()</a></code> call.</p>
+<code>tweaks</code> argument in a <code><a href='make_context.html'>make_context()</a></code> call.</p>
     </div>
 
     <pre class="usage"><span class='fu'>tweaks</span>(
-  <span class='no'>...</span>,
-  <span class='kw'>constructor_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>constructor_relax_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>strict_identifier</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>omit_blob_tests</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>current_needs_parens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>union</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>x</span>, <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='st'>" UNION "</span>),
-  <span class='kw'>placeholder_pattern</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>logical_return</span> <span class='kw'>=</span> <span class='no'>identity</span>,
-  <span class='kw'>date_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"date('"</span>, <span class='no'>x</span>, <span class='st'>"')"</span>),
-  <span class='kw'>time_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"time('"</span>, <span class='no'>x</span>, <span class='st'>"')"</span>),
-  <span class='kw'>timestamp_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"timestamp('"</span>, <span class='no'>x</span>, <span class='st'>"')"</span>),
-  <span class='kw'>blob_cast</span> <span class='kw'>=</span> <span class='no'>identity</span>,
-  <span class='kw'>date_typed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>time_typed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>timestamp_typed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>temporary_tables</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>list_temporary_tables</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>is_null_check</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"("</span>, <span class='no'>x</span>, <span class='st'>" IS NULL)"</span>)
+  <span class='kw'>...</span>,
+  constructor_name = <span class='kw'>NULL</span>,
+  constructor_relax_args = <span class='fl'>FALSE</span>,
+  strict_identifier = <span class='fl'>FALSE</span>,
+  omit_blob_tests = <span class='fl'>FALSE</span>,
+  current_needs_parens = <span class='fl'>FALSE</span>,
+  union = <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='kw'>x</span>, collapse = <span class='st'>" UNION "</span>),
+  placeholder_pattern = <span class='kw'>NULL</span>,
+  logical_return = <span class='kw'>identity</span>,
+  date_cast = <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"date('"</span>, <span class='kw'>x</span>, <span class='st'>"')"</span>),
+  time_cast = <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"time('"</span>, <span class='kw'>x</span>, <span class='st'>"')"</span>),
+  timestamp_cast = <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"timestamp('"</span>, <span class='kw'>x</span>, <span class='st'>"')"</span>),
+  blob_cast = <span class='kw'>identity</span>,
+  date_typed = <span class='fl'>TRUE</span>,
+  time_typed = <span class='fl'>TRUE</span>,
+  timestamp_typed = <span class='fl'>TRUE</span>,
+  temporary_tables = <span class='fl'>TRUE</span>,
+  list_temporary_tables = <span class='fl'>TRUE</span>,
+  is_null_check = <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"("</span>, <span class='kw'>x</span>, <span class='st'>" IS NULL)"</span>)
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -269,9 +269,10 @@ value is <code>NULL</code>.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='context.html'>make_context</a></span>(<span class='no'>...</span>, <span class='kw'>tweaks</span> <span class='kw'>=</span> <span class='fu'>tweaks</span>(<span class='kw'>strict_identifier</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='make_context.html'>make_context</a></span>(<span class='kw'>...</span>, tweaks = <span class='fu'>tweaks</span>(strict_identifier = <span class='fl'>TRUE</span>))
+}
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -287,7 +288,7 @@ value is <code>NULL</code>.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

@@ -131,9 +131,9 @@ value to run only <code><a href='test_result.html'>test_result()</a></code>.</p>
 <p><code>test_some()</code> allows testing one or more tests.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>test_all</span>(<span class='kw'>skip</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>run_only</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ctx</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>get_default_context</a></span>())
+    <pre class="usage"><span class='fu'>test_all</span>(skip = <span class='kw'>NULL</span>, run_only = <span class='kw'>NULL</span>, ctx = <span class='fu'><a href='make_context.html'>get_default_context</a></span>())
 
-<span class='fu'>test_some</span>(<span class='no'>test</span>, <span class='kw'>ctx</span> <span class='kw'>=</span> <span class='fu'><a href='context.html'>get_default_context</a></span>())</pre>
+<span class='fu'>test_some</span>(<span class='kw'>test</span>, ctx = <span class='fu'><a href='make_context.html'>get_default_context</a></span>())</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -153,7 +153,7 @@ The regular expressions are matched against the entire test name.</p></td>
     <tr>
       <th>ctx</th>
       <td><p><code>[DBItest_context]</code><br /> A test context as created by
-<code><a href='context.html'>make_context()</a></code>.</p></td>
+<code><a href='make_context.html'>make_context()</a></code>.</p></td>
     </tr>
     <tr>
       <th>test</th>
@@ -165,7 +165,7 @@ The regular expressions are matched against the entire test name.</p></td>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Internally <code>^</code> and <code>$</code> are used as prefix and suffix around the
+    <p>Internally <code><a href='https://rdrr.io/r/base/Arithmetic.html'>^</a></code> and <code><a href='https://rdrr.io/r/base/Extract.html'>$</a></code> are used as prefix and suffix around the
 regular expressions passed in the <code>skip</code> and <code>run_only</code> arguments.</p>
     <h2 class="hasAnchor" id="tests"><a class="anchor" href="#tests"></a>Tests</h2>
 
@@ -215,7 +215,7 @@ Stress tests (not tested with <code>test_all</code>)</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

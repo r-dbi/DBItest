@@ -123,7 +123,7 @@
     <p>For internal use by the <code>placeholder_format</code> tweak.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_placeholder_fun</span>(<span class='no'>pattern</span>)</pre>
+    <pre class="usage"><span class='fu'>make_placeholder_fun</span>(<span class='kw'>pattern</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,7 +140,11 @@
 returns a vector of length <code>n</code> with placeholders of the specified format.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/body.html'>body</a></span>(<span class='kw pkg'>DBItest</span><span class='kw ns'>:::</span><span class='fu'>make_placeholder_fun</span>(<span class='st'>"?"</span>))</div><div class='output co'>#&gt; rep("?", n)</div><div class='input'><span class='kw pkg'>DBItest</span><span class='kw ns'>:::</span><span class='fu'>make_placeholder_fun</span>(<span class='st'>"?"</span>)(<span class='fl'>2</span>)</div><div class='output co'>#&gt; [1] "?" "?"</div><div class='input'><span class='kw pkg'>DBItest</span><span class='kw ns'>:::</span><span class='fu'>make_placeholder_fun</span>(<span class='st'>"$1"</span>)(<span class='fl'>3</span>)</div><div class='output co'>#&gt; [1] "$1" "$2" "$3"</div><div class='input'><span class='kw pkg'>DBItest</span><span class='kw ns'>:::</span><span class='fu'>make_placeholder_fun</span>(<span class='st'>":name"</span>)(<span class='fl'>5</span>)</div><div class='output co'>#&gt;    a    b    c    d    e 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/body.html'>body</a></span>(<span class='kw'>DBItest</span>:::<span class='fu'>make_placeholder_fun</span>(<span class='st'>"?"</span>))
+</div><div class='output co'>#&gt; rep("?", n)</div><div class='input'><span class='kw'>DBItest</span>:::<span class='fu'>make_placeholder_fun</span>(<span class='st'>"?"</span>)(<span class='fl'>2</span>)
+</div><div class='output co'>#&gt; [1] "?" "?"</div><div class='input'><span class='kw'>DBItest</span>:::<span class='fu'>make_placeholder_fun</span>(<span class='st'>"$1"</span>)(<span class='fl'>3</span>)
+</div><div class='output co'>#&gt; [1] "$1" "$2" "$3"</div><div class='input'><span class='kw'>DBItest</span>:::<span class='fu'>make_placeholder_fun</span>(<span class='st'>":name"</span>)(<span class='fl'>5</span>)
+</div><div class='output co'>#&gt;    a    b    c    d    e 
 #&gt; ":a" ":b" ":c" ":d" ":e" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -157,7 +161,7 @@ returns a vector of length <code>n</code> with placeholders of the specified for
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
