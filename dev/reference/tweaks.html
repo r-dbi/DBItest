@@ -129,27 +129,27 @@ are affected by which tweaks. This function is usually called to set the
 <code>tweaks</code> argument in a <code><a href='make_context.html'>make_context()</a></code> call.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tweaks</span>(
-  <span class='kw'>...</span>,
-  constructor_name = <span class='kw'>NULL</span>,
-  constructor_relax_args = <span class='fl'>FALSE</span>,
-  strict_identifier = <span class='fl'>FALSE</span>,
-  omit_blob_tests = <span class='fl'>FALSE</span>,
-  current_needs_parens = <span class='fl'>FALSE</span>,
-  union = <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='kw'>x</span>, collapse = <span class='st'>" UNION "</span>),
-  placeholder_pattern = <span class='kw'>NULL</span>,
-  logical_return = <span class='kw'>identity</span>,
-  date_cast = <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"date('"</span>, <span class='kw'>x</span>, <span class='st'>"')"</span>),
-  time_cast = <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"time('"</span>, <span class='kw'>x</span>, <span class='st'>"')"</span>),
-  timestamp_cast = <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"timestamp('"</span>, <span class='kw'>x</span>, <span class='st'>"')"</span>),
-  blob_cast = <span class='kw'>identity</span>,
-  date_typed = <span class='fl'>TRUE</span>,
-  time_typed = <span class='fl'>TRUE</span>,
-  timestamp_typed = <span class='fl'>TRUE</span>,
-  temporary_tables = <span class='fl'>TRUE</span>,
-  list_temporary_tables = <span class='fl'>TRUE</span>,
-  is_null_check = <span class='fu'>function</span>(<span class='kw'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"("</span>, <span class='kw'>x</span>, <span class='st'>" IS NULL)"</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>tweaks</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  constructor_name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  constructor_relax_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  strict_identifier <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  omit_blob_tests <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  current_needs_parens <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  union <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>x</span>, collapse <span class='op'>=</span> <span class='st'>" UNION "</span><span class='op'>)</span>,
+  placeholder_pattern <span class='op'>=</span> <span class='cn'>NULL</span>,
+  logical_return <span class='op'>=</span> <span class='va'>identity</span>,
+  date_cast <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"date('"</span>, <span class='va'>x</span>, <span class='st'>"')"</span><span class='op'>)</span>,
+  time_cast <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"time('"</span>, <span class='va'>x</span>, <span class='st'>"')"</span><span class='op'>)</span>,
+  timestamp_cast <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"timestamp('"</span>, <span class='va'>x</span>, <span class='st'>"')"</span><span class='op'>)</span>,
+  blob_cast <span class='op'>=</span> <span class='va'>identity</span>,
+  date_typed <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  time_typed <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  timestamp_typed <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  temporary_tables <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  list_temporary_tables <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  is_null_check <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"("</span>, <span class='va'>x</span>, <span class='st'>" IS NULL)"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -269,9 +269,9 @@ value is <code>NULL</code>.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='make_context.html'>make_context</a></span>(<span class='kw'>...</span>, tweaks = <span class='fu'>tweaks</span>(strict_identifier = <span class='fl'>TRUE</span>))
-}
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='make_context.html'>make_context</a></span><span class='op'>(</span><span class='va'>...</span>, tweaks <span class='op'>=</span> <span class='fu'>tweaks</span><span class='op'>(</span>strict_identifier <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
