@@ -30,7 +30,7 @@ devtools::install_github("r-dbi/DBItest")
 
 ## Usage
 
-In your driver backage, add `DBItest` to the `Suggests:` and enable the tests.
+In your driver package, add `DBItest` to the `Suggests:` and enable the tests.
 Run the following code in you package's directory:
 
 ```r
@@ -55,7 +55,7 @@ Further reading:
 
 - Detailed instructions in `vignette("DBItest")`
 
-- The feture list in the [original proposal](https://github.com/r-dbi/DBItest/wiki/Proposal).
+- The feature list in the [original proposal](https://github.com/r-dbi/DBItest/wiki/Proposal).
 
 ---
 
