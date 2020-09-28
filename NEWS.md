@@ -1,3 +1,8 @@
+# DBItest 1.7.0.9002 (2020-09-28)
+
+- Support more than one class of each type in DBI backend packages.
+
+
 # DBItest 1.7.0.9001 (2020-08-26)
 
 - Ensure compatibility with dev testthat and current R.
