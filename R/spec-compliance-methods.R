@@ -31,7 +31,7 @@ spec_compliance_methods <- list(
         extends(class, dbi_class) && getClass(class)@virtual == FALSE
       }, getClasses(where))
 
-      expect_equal(length(classes), 1)
+      expect_gte(length(classes), 1)
 
       class <- classes[[1]]
 
