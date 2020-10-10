@@ -3,7 +3,7 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   DBItest: DBItest.html
-last_built: 2020-10-09T02:05Z
+last_built: 2020-10-10T02:04Z
 urls:
   reference: https://dbitest.r-dbi.org/reference
   article: https://dbitest.r-dbi.org/articles
