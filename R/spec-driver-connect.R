@@ -16,7 +16,7 @@ spec_driver_connect <- list(
     dbDisconnect(con)
     #' This object is used to communicate with the database engine.
   },
-
+  #
   connect_format = function(ctx) {
     with_connection({
       #'
@@ -52,7 +52,7 @@ spec_driver_connect <- list(
       expect_is(res[[1]], "integer")
     })
   },
-
+  #
   connect_bigint_numeric = function(ctx) {
     #' - `"numeric"`: always return as `numeric`, silently round
     with_connection(extra_args = list(bigint = "numeric"), {
@@ -60,7 +60,7 @@ spec_driver_connect <- list(
       expect_is(res[[1]], "numeric")
     })
   },
-
+  #
   connect_bigint_character = function(ctx) {
     #' - `"character"`: always return the decimal representation as `character`
     with_connection(extra_args = list(bigint = "character"), {
@@ -69,7 +69,7 @@ spec_driver_connect <- list(
       expect_equal(res[[1]], "10000000000")
     })
   },
-
+  #
   connect_bigint_integer64 = function(ctx) {
     #' - `"integer64"`: return as a data type that can be coerced using
     #'   [as.integer()] (with warning on overflow), [as.numeric()]
@@ -81,6 +81,6 @@ spec_driver_connect <- list(
       expect_equal(as.character(res[[1]]), "10000000000")
     })
   },
-
+  #
   NULL
 )

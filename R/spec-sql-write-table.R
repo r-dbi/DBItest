@@ -164,8 +164,10 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
-        expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
-                     NA)
+        expect_error(
+          dbWriteTable(con, "iris", iris[1:10, ], overwrite = TRUE),
+          NA
+        )
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris[1:10, ])
       })
@@ -177,8 +179,10 @@ spec_sql_write_table <- list(
     with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
-        expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
-                     NA)
+        expect_error(
+          dbWriteTable(con, "iris", iris[1:10, ], overwrite = TRUE),
+          NA
+        )
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris_in[1:10, ])
       })
@@ -193,9 +197,9 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
-        expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
+        expect_error(dbWriteTable(con, "iris", iris[1:10, ], append = TRUE), NA)
         iris_out <- check_df(dbReadTable(con, "iris"))
-        expect_equal_df(iris_out, rbind(iris, iris[1:10,]))
+        expect_equal_df(iris_out, rbind(iris, iris[1:10, ]))
       })
     })
   },
@@ -205,9 +209,9 @@ spec_sql_write_table <- list(
     with_connection({
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
-        expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
+        expect_error(dbWriteTable(con, "iris", iris[1:10, ], append = TRUE), NA)
         iris_out <- check_df(dbReadTable(con, "iris"))
-        expect_equal_df(iris_out, iris[1:10,])
+        expect_equal_df(iris_out, iris[1:10, ])
       })
     })
   },
@@ -230,7 +234,8 @@ spec_sql_write_table <- list(
 
         with_connection(
           expect_error(dbReadTable(con2, "iris")),
-          con = "con2")
+          con = "con2"
+        )
       })
     })
 
@@ -241,7 +246,7 @@ spec_sql_write_table <- list(
 
   #' A regular, non-temporary table is visible in a second connection
   table_visible_in_other_connection = function(ctx) {
-    iris <- get_iris(ctx)[1:30,]
+    iris <- get_iris(ctx)[1:30, ]
 
     with_connection({
       dbWriteTable(con, "iris", iris)
@@ -250,7 +255,8 @@ spec_sql_write_table <- list(
 
       with_connection(
         expect_equal_df(dbReadTable(con2, "iris"), iris),
-        con = "con2")
+        con = "con2"
+      )
     })
 
     #' and after reconnecting to the database.
@@ -283,7 +289,8 @@ spec_sql_write_table <- list(
           as.character(dbQuoteIdentifier(con, "")),
           as.character(dbQuoteString(con, "")),
           "with space",
-          ",")
+          ","
+        )
       } else {
         table_names <- "a"
       }
@@ -302,7 +309,8 @@ spec_sql_write_table <- list(
             as.character(dbQuoteIdentifier(con, "")),
             as.character(dbQuoteString(con, "")),
             "with space",
-            ",")
+            ","
+          )
         }
 
         test_table_roundtrip(con, tbl_in)
@@ -327,7 +335,7 @@ spec_sql_write_table <- list(
       tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
       test_table_roundtrip(con, tbl_in)
     })
-  #'   (the behavior for `Inf` and `NaN` is not specified)
+    #'   (the behavior for `Inf` and `NaN` is not specified)
   },
 
   #' - logical
@@ -369,7 +377,7 @@ spec_sql_write_table <- list(
       )
     })
   },
-
+  #
   roundtrip_64_bit_character = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
@@ -387,16 +395,14 @@ spec_sql_write_table <- list(
       )
     })
   },
-
+  #
   roundtrip_64_bit_roundtrip = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
-      tbl_out <- with_remove_test_table(
-        {
-          dbWriteTable(con, "test", tbl_in, field.types = c(a = "BIGINT"))
-          dbReadTable(con, "test")
-        }
-      )
+      tbl_out <- with_remove_test_table({
+        dbWriteTable(con, "test", tbl_in, field.types = c(a = "BIGINT"))
+        dbReadTable(con, "test")
+      })
       tbl_exp <- tbl_out
       #'     - written to another table and read again unchanged
       test_table_roundtrip(con, tbl_out, tbl_exp)
@@ -640,7 +646,7 @@ spec_sql_write_table <- list(
       })
     }
   },
-
+  #
   write_table_row_names_true_exists = function(ctx) {
     #' - If `TRUE`, row names are converted to a column named "row_names",
     row.names <- TRUE
@@ -658,7 +664,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   write_table_row_names_true_missing = function(ctx) {
     #'   even if the input data frame only has natural row names from 1 to `nrow(...)`.
     row.names <- TRUE
@@ -676,7 +682,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   write_table_row_names_na_exists = function(ctx) {
     #' - If `NA`, a column named "row_names" is created if the data has custom row names,
     row.names <- NA
@@ -694,7 +700,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   write_table_row_names_na_missing = function(ctx) {
     #'   no extra column is created in the case of natural row names.
     row.names <- NA
@@ -709,7 +715,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   write_table_row_names_string_exists = function(ctx) {
     row.names <- "make_model"
     #' - If a string, this specifies the name of the column in the remote table
@@ -729,7 +735,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   write_table_row_names_string_missing = function(ctx) {
     row.names <- "seq"
     #'   even if the input data frame only has natural row names.
@@ -747,7 +753,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   write_table_row_names_default = function(ctx) {
     #'
     #' The default is `row.names = FALSE`.
@@ -762,7 +768,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   NULL
 )
 

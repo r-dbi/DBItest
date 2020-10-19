@@ -31,7 +31,8 @@ spec_connection_get_info <- list(
 
       for (name in necessary_names) {
         eval(bquote(
-          expect_true(.(name) %in% info_names)))
+          expect_true(.(name) %in% info_names)
+        ))
       }
 
       #' It must not contain a `password` component.
@@ -40,6 +41,6 @@ spec_connection_get_info <- list(
       #' Components that are not applicable should be set to `NA`.
     })
   },
-
+  #
   NULL
 )

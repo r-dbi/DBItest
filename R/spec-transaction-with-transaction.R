@@ -125,6 +125,6 @@ spec_transaction_with_transaction <- list(
       expect_identical(get0("a", inherits = FALSE), 42)
     })
   },
-
+  #
   NULL
 )

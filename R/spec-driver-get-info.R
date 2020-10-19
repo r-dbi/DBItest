@@ -25,9 +25,10 @@ spec_driver_get_info <- list(
 
     for (name in necessary_names) {
       eval(bquote(
-        expect_true(.(name) %in% info_names)))
+        expect_true(.(name) %in% info_names)
+      ))
     }
   },
-
+  #
   NULL
 )

@@ -4,6 +4,6 @@ spec_connection_data_type <- list(
       test_data_type(ctx, con)
     })
   },
-
+  #
   NULL
 )

@@ -75,7 +75,7 @@ spec_result_send_query <- list(
       dbClearResult(res)
     })
   },
-
+  #
   send_query_stale_warning = function(ctx) {
     #' Failure to clear the result set leads to a warning
     #' when the connection is closed.
@@ -132,6 +132,6 @@ spec_result_send_query <- list(
       })
     })
   },
-
+  #
   NULL
 )

@@ -67,7 +67,7 @@ spec_sql_read_table <- list(
       })
     }
   },
-
+  #
   read_table_row_names_true_exists = function(ctx) {
     #' - If `TRUE`, a column named "row_names" is converted to row names,
     row.names <- TRUE
@@ -82,7 +82,7 @@ spec_sql_read_table <- list(
       })
     })
   },
-
+  #
   read_table_row_names_true_missing = function(ctx) {
     #'   an error is raised if no such column exists.
     row.names <- TRUE
@@ -95,7 +95,7 @@ spec_sql_read_table <- list(
       })
     })
   },
-
+  #
   read_table_row_names_na_exists = function(ctx) {
     #' - If `NA`, a column named "row_names" is converted to row names if it exists,
     row.names <- NA
@@ -110,7 +110,7 @@ spec_sql_read_table <- list(
       })
     })
   },
-
+  #
   read_table_row_names_na_missing = function(ctx) {
     #'   otherwise no translation occurs.
     row.names <- NA
@@ -125,7 +125,7 @@ spec_sql_read_table <- list(
       })
     })
   },
-
+  #
   read_table_row_names_string_exists = function(ctx) {
     #' - If a string, this specifies the name of the column in the remote table
     #'   that contains the row names,
@@ -147,7 +147,7 @@ spec_sql_read_table <- list(
       })
     })
   },
-
+  #
   read_table_row_names_string_missing = function(ctx) {
     #'   an error is raised if no such column exists.
     row.names <- "missing"
@@ -179,7 +179,7 @@ spec_sql_read_table <- list(
       })
     })
   },
-
+  #
   read_table_check_names = function(ctx) {
     with_connection({
       #' If the database supports identifiers with special characters,
@@ -298,6 +298,6 @@ spec_sql_read_table <- list(
       }
     })
   },
-
+  #
   NULL
 )

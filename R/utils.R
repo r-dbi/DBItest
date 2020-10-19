@@ -35,12 +35,14 @@ with_closed_connection <- function(code, con = "con", env = parent.frame()) {
 
   con <- as.name(con)
 
-  eval(bquote({
-    .(con) <- connect(ctx)
-    dbDisconnect(.(con))
-    local(.(code_sub))
-  }
-  ), envir = env)
+  eval(
+    bquote({
+      .(con) <- connect(ctx)
+      dbDisconnect(.(con))
+      local(.(code_sub))
+    }),
+    envir = env
+  )
 }
 
 # Expects a variable "ctx" in the environment env,
@@ -53,13 +55,15 @@ with_invalid_connection <- function(code, con = "con", env = parent.frame()) {
   stopifnot(con != "..con")
   con <- as.name(con)
 
-  eval(bquote({
-    ..con <- connect(ctx)
-    on.exit(dbDisconnect(..con), add = TRUE)
-    .(con) <- unserialize(serialize(..con, NULL))
-    local(.(code_sub))
-  }
-  ), envir = env)
+  eval(
+    bquote({
+      ..con <- connect(ctx)
+      on.exit(dbDisconnect(..con), add = TRUE)
+      .(con) <- unserialize(serialize(..con, NULL))
+      local(.(code_sub))
+    }),
+    envir = env
+  )
 }
 
 # Evaluates the code inside local() after defining a variable "res"
@@ -71,12 +75,14 @@ with_result <- function(query, code, res = "res", env = parent.frame()) {
 
   res <- as.name(res)
 
-  eval(bquote({
-    .(res) <- .(query_sub)
-    on.exit(dbClearResult(.(res)), add = TRUE)
-    local(.(code_sub))
-  }
-  ), envir = env)
+  eval(
+    bquote({
+      .(res) <- .(query_sub)
+      on.exit(dbClearResult(.(res)), add = TRUE)
+      local(.(code_sub))
+    }),
+    envir = env
+  )
 }
 
 # Evaluates the code inside local() after defining a variable "con"
@@ -88,16 +94,18 @@ with_remove_test_table <- function(code, name = "test", con = "con", env = paren
 
   con <- as.name(con)
 
-  eval(bquote({
-    on.exit(
-      try_silent(
-        dbExecute(.(con), paste0("DROP TABLE ", dbQuoteIdentifier(.(con), .(name))))
-      ),
-      add = TRUE
-    )
-    local(.(code_sub))
-  }
-  ), envir = env)
+  eval(
+    bquote({
+      on.exit(
+        try_silent(
+          dbExecute(.(con), paste0("DROP TABLE ", dbQuoteIdentifier(.(con), .(name))))
+        ),
+        add = TRUE
+      )
+      local(.(code_sub))
+    }),
+    envir = env
+  )
 }
 
 # Evaluates the code inside local() after defining a variable "con"
@@ -108,17 +116,19 @@ with_rollback_on_error <- function(code, con = "con", env = parent.frame()) {
 
   con <- as.name(con)
 
-  eval(bquote({
-    on.exit(
-      try_silent(
-        dbRollback(.(con))
-      ),
-      add = TRUE
-    )
-    local(.(code_sub))
-    on.exit(NULL, add = FALSE)
-  }
-  ), envir = env)
+  eval(
+    bquote({
+      on.exit(
+        try_silent(
+          dbRollback(.(con))
+        ),
+        add = TRUE
+      )
+      local(.(code_sub))
+      on.exit(NULL, add = FALSE)
+    }),
+    envir = env
+  )
 }
 
 get_iris <- function(ctx) {
@@ -151,7 +161,8 @@ expand_char <- function(...) {
 try_silent <- function(code) {
   tryCatch(
     code,
-    error = function(e) NULL)
+    error = function(e) NULL
+  )
 }
 
 check_df <- function(df) {

@@ -69,7 +69,7 @@ spec_meta_get_row_count <- list(
       )
     })
   },
-
+  #
   row_count_statement = function(ctx) {
     with_connection({
       name <- random_table_name()
@@ -93,7 +93,7 @@ spec_meta_get_row_count <- list(
       })
     })
   },
-
+  #
   get_row_count_error = function(ctx) {
     with_connection({
       res <- dbSendQuery(con, trivial_query())
@@ -103,6 +103,6 @@ spec_meta_get_row_count <- list(
       expect_error(dbGetRowCount(res))
     })
   },
-
+  #
   NULL
 )

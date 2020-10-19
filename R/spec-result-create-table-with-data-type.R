@@ -18,7 +18,8 @@ spec_result_create_table_with_data_type <- list(
 
       expect_conn_has_data_type <- function(value) {
         eval(bquote(
-          expect_error(check_connection_data_type(.(value)), NA)))
+          expect_error(check_connection_data_type(.(value)), NA)
+        ))
       }
 
       expect_conn_has_data_type(logical(1))
@@ -32,6 +33,6 @@ spec_result_create_table_with_data_type <- list(
       }
     })
   },
-
+  #
   NULL
 )

@@ -20,7 +20,7 @@ spec_meta_is_valid <- list(
     #' and becomes invalid after disconnecting with [dbDisconnect()].
     expect_false(expect_visible(dbIsValid(con)))
   },
-
+  #
   is_valid_stale_connection = function(ctx) {
     with_invalid_connection(
       #' For an invalid connection object (e.g., for some drivers if the object
@@ -28,7 +28,7 @@ spec_meta_is_valid <- list(
       expect_false(expect_visible(dbIsValid(con)))
     )
   },
-
+  #
   is_valid_result_query = function(ctx) {
     with_connection({
       query <- trivial_query()
@@ -43,7 +43,7 @@ spec_meta_is_valid <- list(
       expect_false(dbIsValid(res))
     })
   },
-
+  #
   is_valid_result_statement = function(ctx) {
     with_connection({
       with_remove_test_table({

@@ -17,7 +17,7 @@ spec_sql_quote_identifier <- list(
       expect_is(as.character(simple_out), "character")
     })
   },
-
+  #
   quote_identifier_vectorized = function(ctx) {
     with_connection({
       #' of the same length as the input.
@@ -56,7 +56,7 @@ spec_sql_quote_identifier <- list(
       #' to achieve this behavior, but this is not required.)
     })
   },
-
+  #
   quote_identifier_error = function(ctx) {
     with_connection({
       #'
@@ -104,7 +104,7 @@ spec_sql_quote_identifier <- list(
       eval(bquote(expect_error(dbGetQuery(con, .(query)))))
     })
   },
-
+  #
   quote_identifier_special = function(ctx) {
     with_connection({
       #'
@@ -138,27 +138,33 @@ spec_sql_quote_identifier <- list(
       #' In any case, checking the validity of the identifier
       #' should be performed only when executing a query,
       #' and not by `dbQuoteIdentifier()`.
-      query <- paste0("SELECT ",
-                      "2.5 as", with_space, ",",
-                      "3.5 as", with_dot, ",",
-                      "4.5 as", with_comma, ",",
-                      "5.5 as", with_quote, ",",
-                      "6.5 as", quoted_empty, ",",
-                      "7.5 as", quoted_with_space, ",",
-                      "8.5 as", quoted_with_dot, ",",
-                      "9.5 as", quoted_with_comma, ",",
-                      "10.5 as", quoted_with_quote)
+      query <- paste0(
+        "SELECT ",
+        "2.5 as", with_space, ",",
+        "3.5 as", with_dot, ",",
+        "4.5 as", with_comma, ",",
+        "5.5 as", with_quote, ",",
+        "6.5 as", quoted_empty, ",",
+        "7.5 as", quoted_with_space, ",",
+        "8.5 as", quoted_with_dot, ",",
+        "9.5 as", quoted_with_comma, ",",
+        "10.5 as", quoted_with_quote
+      )
 
       rows <- check_df(dbGetQuery(con, query))
-      expect_identical(names(rows),
-                       c(with_space_in, with_dot_in, with_comma_in,
-                         with_quote_in,
-                         as.character(empty), as.character(with_space),
-                         as.character(with_dot), as.character(with_comma),
-                         as.character(with_quote)))
+      expect_identical(
+        names(rows),
+        c(
+          with_space_in, with_dot_in, with_comma_in,
+          with_quote_in,
+          as.character(empty), as.character(with_space),
+          as.character(with_dot), as.character(with_comma),
+          as.character(with_quote)
+        )
+      )
       expect_identical(unlist(unname(rows)), 2:10 + 0.5)
     })
   },
-
+  #
   NULL
 )

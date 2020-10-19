@@ -36,7 +36,7 @@ spec_meta_get_rows_affected <- list(
       })
     })
   },
-
+  #
   rows_affected_query = function(ctx) {
     with_connection({
       query <- trivial_query()
@@ -55,7 +55,7 @@ spec_meta_get_rows_affected <- list(
       )
     })
   },
-
+  #
   get_rows_affected_error = function(ctx) {
     with_connection({
       query <- paste0(
@@ -70,6 +70,6 @@ spec_meta_get_rows_affected <- list(
       })
     })
   },
-
+  #
   NULL
 )

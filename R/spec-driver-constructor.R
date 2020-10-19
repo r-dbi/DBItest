@@ -20,11 +20,13 @@ spec_driver_constructor <- list(
     #' The constructor must be exported, and
     pkg_env <- getNamespace(pkg_name)
     eval(bquote(
-      expect_true(.(constructor_name) %in% getNamespaceExports(pkg_env))))
+      expect_true(.(constructor_name) %in% getNamespaceExports(pkg_env))
+    ))
 
     #' it must be a function
     eval(bquote(
-      expect_true(exists(.(constructor_name), mode = "function", pkg_env))))
+      expect_true(exists(.(constructor_name), mode = "function", pkg_env))
+    ))
     constructor <- get(constructor_name, mode = "function", pkg_env)
 
     #' that is callable without arguments.
@@ -34,6 +36,6 @@ spec_driver_constructor <- list(
       expect_that(constructor, arglist_is_empty())
     }
   },
-
+  #
   NULL
 )

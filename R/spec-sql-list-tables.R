@@ -78,6 +78,6 @@ spec_sql_list_tables <- list(
       expect_error(dbListTables(con))
     })
   },
-
+  #
   NULL
 )

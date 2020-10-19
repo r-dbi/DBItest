@@ -30,7 +30,7 @@ spec_meta_bind <- list(
       test_select_bind(con, ctx, 1L, extra = extra, query = FALSE)
     })
   },
-
+  #
   bind_empty = function(ctx) {
     with_connection({
       with_result(
@@ -41,7 +41,7 @@ spec_meta_bind <- list(
       )
     })
   },
-
+  #
   bind_too_many = function(ctx) {
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {
@@ -58,7 +58,7 @@ spec_meta_bind <- list(
       test_select_bind(con, ctx, 1L, extra = extra)
     })
   },
-
+  #
   bind_not_enough = function(ctx) {
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {
@@ -71,14 +71,14 @@ spec_meta_bind <- list(
       test_select_bind(con, ctx, 1L, extra = extra)
     })
   },
-
+  #
   bind_wrong_name = function(ctx) {
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {
         #' or parameters with wrong names
         stats::setNames(bind_values, paste0("bogus", names(bind_values)))
       },
-
+      #
       requires_names = function() TRUE,
       bind_error = function() ".*"
     )
@@ -86,7 +86,7 @@ spec_meta_bind <- list(
       test_select_bind(con, ctx, 1L, extra = extra)
     })
   },
-
+  #
   bind_multi_row_unequal_length = function(ctx) {
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {
@@ -113,14 +113,14 @@ spec_meta_bind <- list(
         stats::setNames(bind_values, NULL)
       },
       bind_error = function() ".*",
-
+      #
       requires_names = function() TRUE
     )
     with_connection({
       test_select_bind(con, ctx, 1L, extra = extra)
     })
   },
-
+  #
   bind_named_param_empty_placeholders = function(ctx) {
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {
@@ -128,14 +128,14 @@ spec_meta_bind <- list(
         names(bind_values)[[1]] <- ""
       },
       bind_error = function() ".*",
-
+      #
       requires_names = function() TRUE
     )
     with_connection({
       test_select_bind(con, ctx, list(1L, 2L), extra = extra)
     })
   },
-
+  #
   bind_named_param_na_placeholders = function(ctx) {
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {
@@ -143,7 +143,7 @@ spec_meta_bind <- list(
         names(bind_values)[[1]] <- NA
       },
       bind_error = function() ".*",
-
+      #
       requires_names = function() TRUE
     )
     with_connection({
@@ -158,7 +158,7 @@ spec_meta_bind <- list(
         stats::setNames(bind_values, letters[seq_along(bind_values)])
       },
       bind_error = function() ".*",
-
+      #
       requires_names = function() FALSE
     )
     with_connection({
@@ -193,7 +193,7 @@ spec_meta_bind <- list(
       test_select_bind(con, ctx, list(1:3))
     })
   },
-
+  #
   bind_multi_row_zero_length = function(ctx) {
     with_connection({
       #' (including length 0)
@@ -206,7 +206,7 @@ spec_meta_bind <- list(
     #' concatenated results, equivalent to binding and fetching for each set
     #' of values and connecting via [rbind()].
   },
-
+  #
   bind_multi_row_statement = function(ctx) {
     with_connection({
       # This behavior is tested as part of run_bind_tester$fun
@@ -215,7 +215,7 @@ spec_meta_bind <- list(
       test_select_bind(con, ctx, list(1:3), query = FALSE)
     })
   },
-
+  #
   bind_repeated = function(ctx) {
     extra <- new_bind_tester_extra(
       #' `dbBind()` also accepts repeated calls on the same result set
@@ -232,7 +232,7 @@ spec_meta_bind <- list(
       test_select_bind(con, ctx, 1L, extra = extra, query = FALSE)
     })
   },
-
+  #
   bind_repeated_untouched = function(ctx) {
     extra <- new_bind_tester_extra(
       #' even if no results are fetched between calls to `dbBind()`.
@@ -257,7 +257,7 @@ spec_meta_bind <- list(
         #' their order in the `params` argument is not important.
         bind_values[c(3, 1, 2, 4)]
       },
-
+      #
       requires_names = function() TRUE
     )
     with_connection({
@@ -376,6 +376,6 @@ spec_meta_bind <- list(
       )
     })
   },
-
+  #
   NULL
 )

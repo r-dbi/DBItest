@@ -86,7 +86,7 @@ spec_compliance_methods <- list(
     methods <- methods[grep("^db", names(methods))]
     Map(expect_ellipsis_in_formals, methods, names(methods))
   },
-
+  #
   NULL
 )
 

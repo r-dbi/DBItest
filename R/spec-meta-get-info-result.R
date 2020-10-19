@@ -38,10 +38,11 @@ spec_meta_get_info_result <- list(
 
       for (name in necessary_names) {
         eval(bquote(
-          expect_true(.(name) %in% info_names)))
+          expect_true(.(name) %in% info_names)
+        ))
       }
     })
   },
-
+  #
   NULL
 )

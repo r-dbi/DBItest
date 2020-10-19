@@ -24,7 +24,7 @@ spec_meta_get_statement <- list(
       )
     })
   },
-
+  #
   get_statement_statement = function(ctx) {
     with_connection({
       name <- random_table_name()
@@ -45,7 +45,7 @@ spec_meta_get_statement <- list(
       })
     })
   },
-
+  #
   get_statement_error = function(ctx) {
     with_connection({
       res <- dbSendQuery(con, trivial_query())
@@ -55,6 +55,6 @@ spec_meta_get_statement <- list(
       expect_error(dbGetStatement(res))
     })
   },
-
+  #
   NULL
 )

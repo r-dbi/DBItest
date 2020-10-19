@@ -106,6 +106,6 @@ spec_sql_exists_table <- list(
       )
     })
   },
-
+  #
   NULL
 )

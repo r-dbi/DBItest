@@ -19,7 +19,7 @@ spec_sql_quote_string <- list(
       expect_equal(length(simple_out), 1L)
     })
   },
-
+  #
   quote_string_vectorized = function(ctx) {
     with_connection({
       #' of the same length as the input.
@@ -31,7 +31,7 @@ spec_sql_quote_string <- list(
       expect_equal(length(empty_out), 0L)
     })
   },
-
+  #
   quote_string_double = function(ctx) {
     with_connection({
       simple <- "simple"
@@ -102,7 +102,7 @@ spec_sql_quote_string <- list(
       do_test_string(test_strings)
     })
   },
-
+  #
   quote_string_na = function(ctx) {
     with_connection({
       null <- dbQuoteString(con, NA_character_)
@@ -110,11 +110,13 @@ spec_sql_quote_string <- list(
       na <- dbQuoteString(con, "NA")
       quoted_na <- dbQuoteString(con, as.character(na))
 
-      query <- paste0("SELECT ",
-                      null, " AS null_return,",
-                      na, " AS na_return,",
-                      quoted_null, " AS quoted_null,",
-                      quoted_na, " AS quoted_na")
+      query <- paste0(
+        "SELECT ",
+        null, " AS null_return,",
+        na, " AS na_return,",
+        quoted_null, " AS quoted_null,",
+        quoted_na, " AS quoted_na"
+      )
 
       #' If `x` is `NA`, the result must merely satisfy [is.na()].
       rows <- check_df(dbGetQuery(con, query))
@@ -125,7 +127,7 @@ spec_sql_quote_string <- list(
       expect_identical(rows$quoted_na, as.character(na))
     })
   },
-
+  #
   quote_string_na_is_null = function(ctx) {
     with_connection({
       #'
@@ -137,7 +139,7 @@ spec_sql_quote_string <- list(
       expect_equal(nrow(rows), 1L)
     })
   },
-
+  #
   quote_string_error = function(ctx) {
     with_connection({
       #'
@@ -154,6 +156,6 @@ spec_sql_quote_string <- list(
       #' for the `x` argument raises an error.
     })
   },
-
+  #
   NULL
 )

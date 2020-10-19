@@ -39,7 +39,7 @@ remove_from_logging <- function(spec) {
 }
 
 debug_info <- function(pkgname) {
-  '!DEBUG `get_pkgname()` loaded'
+  "!DEBUG `get_pkgname()` loaded"
   "!!DEBUG Two bangs"
   "!!!DEBUG Three bangs"
   "!!!!DEBUG Four bangs"

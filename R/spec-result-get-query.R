@@ -142,7 +142,8 @@ spec_result_get_query <- list(
   get_query_multi_row_multi_column = function(ctx) {
     with_connection({
       query <- union(
-        .ctx = ctx, paste("SELECT", 1:5 + 0.5, "AS a,", 4:0 + 0.5, "AS b"), .order_by = "a")
+        .ctx = ctx, paste("SELECT", 1:5 + 0.5, "AS a,", 4:0 + 0.5, "AS b"), .order_by = "a"
+      )
 
       rows <- check_df(dbGetQuery(con, query))
       expect_identical(rows, data.frame(a = 1:5 + 0.5, b = 4:0 + 0.5))
@@ -249,6 +250,6 @@ spec_result_get_query <- list(
       })
     })
   },
-
+  #
   NULL
 )

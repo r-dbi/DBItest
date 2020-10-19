@@ -120,7 +120,8 @@ spec_sql_list_objects <- list(
       #' returned from [dbListTables()],
       non_prefix_objects <- vapply(
         objects$table[!objects$is_prefix],
-        dbQuoteIdentifier, conn = con,
+        dbQuoteIdentifier,
+        conn = con,
         character(1)
       )
       all_tables <- dbQuoteIdentifier(con, dbListTables(con))
@@ -147,6 +148,6 @@ spec_sql_list_objects <- list(
       }
     })
   },
-
+  #
   NULL
 )

@@ -203,6 +203,6 @@ spec_sql_remove_table <- list(
       }
     })
   },
-
+  #
   NULL
 )
