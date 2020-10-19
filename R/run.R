@@ -32,7 +32,14 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
         FALSE
       } else {
         test_fun <- patch_test_fun(tests[[test_name]], paste0(test_context, ": ", test_name))
-        test_fun(ctx)
+
+        args <- list(ctx)
+        if ("con" %in% names(formals(test_fun))) {
+          con <- local_connection(ctx)
+          args <- c(args, list(con = con))
+        }
+
+        rlang::exec(test_fun, !!!args)
       }
     },
     logical(1L)

@@ -11,6 +11,11 @@ get_pkg_path <- function(ctx) {
 utils::globalVariables("con")
 utils::globalVariables("con2")
 
+local_connection <- function(ctx, ..., .local_envir = parent.frame()) {
+  con <- connect(ctx, ...)
+  withr::local_db_connection(con, .local_envir = .local_envir)
+}
+
 # Expects a variable "ctx" in the environment env,
 # evaluates the code inside local() after defining a variable "con"
 # (can be overridden by specifying con argument)
