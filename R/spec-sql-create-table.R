@@ -151,7 +151,7 @@ spec_sql_create_table <- list(
 
   #' A regular, non-temporary table is visible in a second connection
   create_table_visible_in_other_connection = function(ctx) {
-    iris <- get_iris(ctx)[1:30,]
+    iris <- get_iris(ctx)[1:30, ]
 
     with_connection({
       dbCreateTable(con, "iris", iris)

@@ -164,7 +164,7 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
-        expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
+        expect_error(dbWriteTable(con, "iris", iris[1:10, ], overwrite = TRUE),
                      NA)
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris[1:10, ])
@@ -177,7 +177,7 @@ spec_sql_write_table <- list(
     with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
-        expect_error(dbWriteTable(con, "iris", iris[1:10,], overwrite = TRUE),
+        expect_error(dbWriteTable(con, "iris", iris[1:10, ], overwrite = TRUE),
                      NA)
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris_in[1:10, ])
@@ -193,9 +193,9 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
-        expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
+        expect_error(dbWriteTable(con, "iris", iris[1:10, ], append = TRUE), NA)
         iris_out <- check_df(dbReadTable(con, "iris"))
-        expect_equal_df(iris_out, rbind(iris, iris[1:10,]))
+        expect_equal_df(iris_out, rbind(iris, iris[1:10, ]))
       })
     })
   },
@@ -205,9 +205,9 @@ spec_sql_write_table <- list(
     with_connection({
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
-        expect_error(dbWriteTable(con, "iris", iris[1:10,], append = TRUE), NA)
+        expect_error(dbWriteTable(con, "iris", iris[1:10, ], append = TRUE), NA)
         iris_out <- check_df(dbReadTable(con, "iris"))
-        expect_equal_df(iris_out, iris[1:10,])
+        expect_equal_df(iris_out, iris[1:10, ])
       })
     })
   },
@@ -241,7 +241,7 @@ spec_sql_write_table <- list(
 
   #' A regular, non-temporary table is visible in a second connection
   table_visible_in_other_connection = function(ctx) {
-    iris <- get_iris(ctx)[1:30,]
+    iris <- get_iris(ctx)[1:30, ]
 
     with_connection({
       dbWriteTable(con, "iris", iris)
