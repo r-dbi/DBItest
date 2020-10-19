@@ -94,7 +94,8 @@ spec_transaction_begin_commit_rollback <- list(
       success <- FALSE
       expect_error(
         {
-          dbCommit(con); success <- TRUE
+          dbCommit(con)
+          success <- TRUE
         },
         NA
       )

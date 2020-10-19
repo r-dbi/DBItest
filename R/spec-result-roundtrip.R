@@ -352,17 +352,18 @@ all_have_utf8_or_ascii_encoding <- function(x) {
 }
 
 has_utf8_or_ascii_encoding <- function(x) {
-  if (Encoding(x) == "UTF-8")
+  if (Encoding(x) == "UTF-8") {
     TRUE
-  else if (Encoding(x) == "unknown") {
+  } else if (Encoding(x) == "unknown") {
     # Characters encoded as "unknown" must be ASCII only, and remain "unknown"
     # after attempting to assign an encoding. From ?Encoding :
     # > ASCII strings will never be marked with a declared encoding, since their
     # > representation is the same in all supported encodings.
     Encoding(x) <- "UTF-8"
     Encoding(x) == "unknown"
-  } else
+  } else {
     FALSE
+  }
 }
 
 is_raw_list <- function(x) {
@@ -453,27 +454,31 @@ quote_literal <- function(con, x) {
   if (exists("dbQuoteLiteral", getNamespace("DBI"))) {
     DBI::dbQuoteLiteral(con, x)
   } else {
-    if (is(x, "SQL"))
+    if (is(x, "SQL")) {
       return(x)
-    if (is.factor(x))
+    }
+    if (is.factor(x)) {
       return(dbQuoteString(con, as.character(x)))
-    if (is.character(x))
+    }
+    if (is.character(x)) {
       return(dbQuoteString(con, x))
+    }
     if (inherits(x, "POSIXt")) {
       return(dbQuoteString(con, strftime(as.POSIXct(x), "%Y%m%d%H%M%S", tz = "UTC")))
     }
-    if (inherits(x, "Date"))
+    if (inherits(x, "Date")) {
       return(dbQuoteString(con, as.character(x, usetz = TRUE)))
+    }
     if (is.list(x)) {
       blob_data <- vapply(x, function(x) {
-        if (is.null(x))
+        if (is.null(x)) {
           "NULL"
-        else if (is.raw(x))
+        } else if (is.raw(x)) {
           paste0(
             "X'", paste(format(x), collapse = ""),
             "'"
           )
-        else {
+        } else {
           stop("Lists must contain raw vectors or NULL",
             call. = FALSE
           )
@@ -481,8 +486,9 @@ quote_literal <- function(con, x) {
       }, character(1))
       return(SQL(blob_data))
     }
-    if (is.logical(x))
+    if (is.logical(x)) {
       x <- as.numeric(x)
+    }
     x <- as.character(x)
     x[is.na(x)] <- "NULL"
     SQL(x)

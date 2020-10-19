@@ -28,9 +28,9 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
     seq_along(tests),
     function(test_idx) {
       test_name <- names(tests)[[test_idx]]
-      if (skip_flag[[test_idx]])
+      if (skip_flag[[test_idx]]) {
         FALSE
-      else {
+      } else {
         test_fun <- patch_test_fun(tests[[test_name]], paste0(test_context, ": ", test_name))
         test_fun(ctx)
       }
@@ -51,7 +51,9 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
 }
 
 get_skip_names <- function(skip) {
-  if (length(skip) == 0L) return(character())
+  if (length(skip) == 0L) {
+    return(character())
+  }
   names_all <- names(spec_all)
   names_all <- names_all[names_all != ""]
   skip_flags_all <- lapply(paste0("(?:^(?:", skip, ")$)"), grepl, names_all, perl = TRUE)
@@ -71,7 +73,9 @@ get_skip_names <- function(skip) {
 get_run_only_tests <- function(tests, run_only) {
   names_all <- names(tests)
   names_all <- names_all[names_all != ""]
-  if (is.null(run_only)) return(tests)
+  if (is.null(run_only)) {
+    return(tests)
+  }
 
   run_only_flags_all <- lapply(paste0("(?:^(?:", run_only, ")$)"), grepl, names_all, perl = TRUE)
   run_only_flag_all <- Reduce(`|`, run_only_flags_all)

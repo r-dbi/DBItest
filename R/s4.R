@@ -42,8 +42,9 @@ s4_unwrap <- function(s4_method) {
     local_def <- method_body[[2]]
     if (inherits(local_def, "<-") && local_def[[2]] == quote(.local)) {
       local_fun <- local_def[[3]]
-      if (inherits(local_fun, "function"))
+      if (inherits(local_fun, "function")) {
         return(local_fun)
+      }
     }
   }
 

@@ -12,10 +12,11 @@ test_select_bind <- function(con, ctx, ...) {
 
 get_placeholder_funs <- function(ctx) {
   placeholder_fun <- ctx$tweaks$placeholder_pattern
-  if (is.character(placeholder_fun))
+  if (is.character(placeholder_fun)) {
     placeholder_fun <- lapply(placeholder_fun, make_placeholder_fun)
-  else if (is.function(placeholder_fun))
+  } else if (is.function(placeholder_fun)) {
     placeholder_fun <- list(placeholder_fun)
+  }
 
   if (length(placeholder_fun) == 0) {
     skip("Use the placeholder_pattern tweak, or skip all 'bind_.*' tests")
@@ -40,13 +41,13 @@ test_select_bind_one <- function(con, placeholder_fun, is_null_check, values,
 }
 
 new_extra_imp <- function(extra) {
-  if (is.environment(extra))
+  if (is.environment(extra)) {
     extra$new()
-  else if (length(extra) == 0)
+  } else if (length(extra) == 0) {
     new_extra_imp_one("none")
-  else if (length(extra) == 1)
+  } else if (length(extra) == 1) {
     new_extra_imp_one(extra)
-  else {
+  } else {
     stop("need BindTesterExtraMulti")
     # BindTesterExtraMulti$new(lapply(extra, new_extra_imp_one))
   }
