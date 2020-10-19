@@ -74,7 +74,7 @@ BindTester <- R6::R6Class(
       self$con <- con
     },
     run = run_bind_tester$fun,
-  #
+    #
     con = NULL,
     placeholder_fun = NULL,
     is_null_check = NULL,
@@ -88,7 +88,7 @@ BindTester <- R6::R6Class(
     is_query = function() {
       query
     },
-  #
+    #
     send_query = function() {
       ret_values <- trivial_values(2)
       placeholder <- placeholder_fun(length(values))
@@ -112,7 +112,7 @@ BindTester <- R6::R6Class(
 
       dbSendQuery(con, query)
     },
-  #
+    #
     send_statement = function() {
       data <- data.frame(a = rep(1:5, 1:5))
       data$b <- seq_along(data$a)
@@ -123,11 +123,12 @@ BindTester <- R6::R6Class(
       placeholder <- placeholder_fun(length(values))
       statement <- paste0(
         "UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ",
-        paste(value_names, " = ", placeholder, collapse = " AND "))
+        paste(value_names, " = ", placeholder, collapse = " AND ")
+      )
 
       dbSendStatement(con, statement)
     },
-  #
+    #
     bind = function(res, bind_values) {
       bind_values <- extra_obj$patch_bind_values(bind_values)
       bind_error <- extra_obj$bind_error()
@@ -136,7 +137,7 @@ BindTester <- R6::R6Class(
       if (is.na(bind_error)) extra_obj$check_return_value(bind_res, res)
       invisible()
     },
-  #
+    #
     compare = function(rows) {
       expect_equal(nrow(rows), length(values[[1]]))
       if (nrow(rows) > 0) {
@@ -144,7 +145,7 @@ BindTester <- R6::R6Class(
         expect_equal(rows, data.frame(a = expected))
       }
     },
-  #
+    #
     compare_affected = function(rows_affected, values) {
       expect_equal(rows_affected, sum(values[[1]]))
     }

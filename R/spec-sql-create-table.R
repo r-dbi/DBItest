@@ -140,7 +140,8 @@ spec_sql_create_table <- list(
 
         with_connection(
           expect_error(dbReadTable(con2, "iris")),
-          con = "con2")
+          con = "con2"
+        )
       })
     })
 
@@ -160,7 +161,8 @@ spec_sql_create_table <- list(
 
       with_connection(
         expect_equal_df(dbReadTable(con2, "iris"), iris[0, , drop = FALSE]),
-        con = "con2")
+        con = "con2"
+      )
     })
 
     #' and after reconnecting to the database.
@@ -205,7 +207,8 @@ spec_sql_create_table <- list(
           as.character(dbQuoteIdentifier(con, "")),
           as.character(dbQuoteString(con, "")),
           "with space",
-          ",")
+          ","
+        )
 
         test_table_roundtrip(con, tbl_in)
       }

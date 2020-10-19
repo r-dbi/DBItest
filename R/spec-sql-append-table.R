@@ -113,7 +113,8 @@ spec_sql_append_table <- list(
           as.character(dbQuoteIdentifier(con, "")),
           as.character(dbQuoteString(con, "")),
           "with space",
-          ",")
+          ","
+        )
       } else {
         table_names <- "a"
       }
@@ -132,7 +133,8 @@ spec_sql_append_table <- list(
             as.character(dbQuoteIdentifier(con, "")),
             as.character(dbQuoteString(con, "")),
             "with space",
-            ",")
+            ","
+          )
         }
 
         test_table_roundtrip(use_append = TRUE, con, tbl_in)
@@ -174,7 +176,8 @@ spec_sql_append_table <- list(
   append_roundtrip_null = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = NA)
-      test_table_roundtrip(use_append = TRUE,
+      test_table_roundtrip(
+        use_append = TRUE,
         con, tbl_in,
         transform = function(tbl_out) {
           tbl_out$a <- as.logical(tbl_out$a) # Plain NA is of type logical
@@ -188,7 +191,8 @@ spec_sql_append_table <- list(
   append_roundtrip_64_bit_numeric = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
-      test_table_roundtrip(use_append = TRUE,
+      test_table_roundtrip(
+        use_append = TRUE,
         con, tbl_in,
         transform = function(tbl_out) {
           #'     - converted to a numeric, which may lose precision,
@@ -205,7 +209,8 @@ spec_sql_append_table <- list(
       tbl_in <- data.frame(a = c(-1e14, 1e15))
       tbl_exp <- tbl_in
       tbl_exp$a <- format(tbl_exp$a, scientific = FALSE)
-      test_table_roundtrip(use_append = TRUE,
+      test_table_roundtrip(
+        use_append = TRUE,
         con, tbl_in, tbl_exp,
         transform = function(tbl_out) {
           #'     - converted a character vector, which gives the full decimal
@@ -221,12 +226,10 @@ spec_sql_append_table <- list(
   append_roundtrip_64_bit_roundtrip = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
-      tbl_out <- with_remove_test_table(
-        {
-          dbWriteTable(con, "test", tbl_in, field.types = c(a = "BIGINT"))
-          dbReadTable(con, "test")
-        }
-      )
+      tbl_out <- with_remove_test_table({
+        dbWriteTable(con, "test", tbl_in, field.types = c(a = "BIGINT"))
+        dbReadTable(con, "test")
+      })
       tbl_exp <- tbl_out
       #'     - written to another table and read again unchanged
       test_table_roundtrip(use_append = TRUE, con, tbl_out, tbl_exp)
@@ -303,7 +306,8 @@ spec_sql_append_table <- list(
       tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
       tbl_exp <- tbl_in
       tbl_exp$a <- blob::as_blob(unclass(tbl_in$a))
-      test_table_roundtrip(use_append = TRUE,
+      test_table_roundtrip(
+        use_append = TRUE,
         con, tbl_in, tbl_exp,
         transform = function(tbl_out) {
           tbl_out$a <- blob::as_blob(tbl_out$a)
@@ -322,7 +326,8 @@ spec_sql_append_table <- list(
 
     with_connection({
       tbl_in <- data.frame(id = 1L, a = blob::blob(as.raw(0:10)))
-      test_table_roundtrip(use_append = TRUE,
+      test_table_roundtrip(
+        use_append = TRUE,
         con, tbl_in,
         transform = function(tbl_out) {
           tbl_out$a <- blob::as_blob(tbl_out$a)
@@ -342,7 +347,8 @@ spec_sql_append_table <- list(
     with_connection({
       #'   returned as `Date`)
       tbl_in <- data.frame(a = as_numeric_date(c(Sys.Date() + 1:5)))
-      test_table_roundtrip(use_append = TRUE,
+      test_table_roundtrip(
+        use_append = TRUE,
         con, tbl_in,
         transform = function(tbl_out) {
           expect_is(unclass(tbl_out$a), "numeric")
@@ -367,7 +373,8 @@ spec_sql_append_table <- list(
       tbl_exp <- tbl_in
       tbl_exp$a <- hms::as_hms(tbl_exp$a)
 
-      test_table_roundtrip(use_append = TRUE,
+      test_table_roundtrip(
+        use_append = TRUE,
         con, tbl_in, tbl_exp,
         transform = function(tbl_out) {
           #'   returned as objects that inherit from `difftime`)
@@ -375,7 +382,7 @@ spec_sql_append_table <- list(
           tbl_out$a <- hms::as_hms(tbl_out$a)
           tbl_out
         }
-    )
+      )
     })
   },
 
@@ -403,7 +410,8 @@ spec_sql_append_table <- list(
 
       #'   respecting the time zone but not necessarily preserving the
       #'   input time zone)
-      test_table_roundtrip(use_append = TRUE,
+      test_table_roundtrip(
+        use_append = TRUE,
         con, tbl_in,
         transform = function(out) {
           dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))

@@ -79,7 +79,8 @@ spec_result_roundtrip <- list(
     with_connection({
       test_select_with_null(
         .ctx = ctx, con,
-        "current_date" ~ is_roughly_current_date)
+        "current_date" ~ is_roughly_current_date
+      )
     })
   },
 
@@ -100,7 +101,8 @@ spec_result_roundtrip <- list(
     with_connection({
       test_select_with_null(
         .ctx = ctx, con,
-        "current_time" ~ coercible_to_time)
+        "current_time" ~ coercible_to_time
+      )
     })
   },
 
@@ -121,7 +123,8 @@ spec_result_roundtrip <- list(
     with_connection({
       test_select_with_null(
         .ctx = ctx, con,
-        "current_timestamp" ~ is_roughly_current_timestamp)
+        "current_timestamp" ~ is_roughly_current_timestamp
+      )
     })
   },
 
@@ -152,7 +155,8 @@ spec_result_roundtrip <- list(
     with_connection({
       test_select_with_null(
         .ctx = ctx, con,
-        "current_date" ~ is_roughly_current_date_typed)
+        "current_date" ~ is_roughly_current_date_typed
+      )
     })
   },
 
@@ -180,7 +184,8 @@ spec_result_roundtrip <- list(
     with_connection({
       test_select_with_null(
         .ctx = ctx, con,
-        "current_timestamp" ~ is_roughly_current_timestamp_typed)
+        "current_timestamp" ~ is_roughly_current_timestamp_typed
+      )
     })
   },
 
@@ -210,7 +215,7 @@ spec_result_roundtrip <- list(
 
     with_connection({
       suppressWarnings(
-          expect_warning(
+        expect_warning(
           test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "none")
         )
       )
@@ -269,17 +274,23 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
   }
 
   if (isTRUE(.ctx$tweaks$current_needs_parens)) {
-    sql_values <- gsub("^(current_(?:date|time|timestamp))$", "\\1()",
-                       sql_values)
+    sql_values <- gsub(
+      "^(current_(?:date|time|timestamp))$", "\\1()",
+      sql_values
+    )
   }
 
   sql_names <- letters[seq_along(sql_values)]
 
-  query <- paste("SELECT",
-                 paste(sql_values, "as", sql_names, collapse = ", "))
+  query <- paste(
+    "SELECT",
+    paste(sql_values, "as", sql_names, collapse = ", ")
+  )
   if (.add_null != "none") {
-    query_null <- paste("SELECT",
-                        paste("NULL as", sql_names, collapse = ", "))
+    query_null <- paste(
+      "SELECT",
+      paste("NULL as", sql_names, collapse = ", ")
+    )
     query <- c(query, query_null)
     if (.add_null == "above") {
       query <- rev(query)
@@ -458,11 +469,14 @@ quote_literal <- function(con, x) {
         if (is.null(x))
           "NULL"
         else if (is.raw(x))
-          paste0("X'", paste(format(x), collapse = ""),
-                 "'")
+          paste0(
+            "X'", paste(format(x), collapse = ""),
+            "'"
+          )
         else {
           stop("Lists must contain raw vectors or NULL",
-               call. = FALSE)
+            call. = FALSE
+          )
         }
       }, character(1))
       return(SQL(blob_data))

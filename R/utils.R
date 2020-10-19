@@ -151,7 +151,8 @@ expand_char <- function(...) {
 try_silent <- function(code) {
   tryCatch(
     code,
-    error = function(e) NULL)
+    error = function(e) NULL
+  )
 }
 
 check_df <- function(df) {

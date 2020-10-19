@@ -164,8 +164,10 @@ spec_sql_write_table <- list(
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
-        expect_error(dbWriteTable(con, "iris", iris[1:10, ], overwrite = TRUE),
-                     NA)
+        expect_error(
+          dbWriteTable(con, "iris", iris[1:10, ], overwrite = TRUE),
+          NA
+        )
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris[1:10, ])
       })
@@ -177,8 +179,10 @@ spec_sql_write_table <- list(
     with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
-        expect_error(dbWriteTable(con, "iris", iris[1:10, ], overwrite = TRUE),
-                     NA)
+        expect_error(
+          dbWriteTable(con, "iris", iris[1:10, ], overwrite = TRUE),
+          NA
+        )
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris_in[1:10, ])
       })
@@ -230,7 +234,8 @@ spec_sql_write_table <- list(
 
         with_connection(
           expect_error(dbReadTable(con2, "iris")),
-          con = "con2")
+          con = "con2"
+        )
       })
     })
 
@@ -250,7 +255,8 @@ spec_sql_write_table <- list(
 
       with_connection(
         expect_equal_df(dbReadTable(con2, "iris"), iris),
-        con = "con2")
+        con = "con2"
+      )
     })
 
     #' and after reconnecting to the database.
@@ -283,7 +289,8 @@ spec_sql_write_table <- list(
           as.character(dbQuoteIdentifier(con, "")),
           as.character(dbQuoteString(con, "")),
           "with space",
-          ",")
+          ","
+        )
       } else {
         table_names <- "a"
       }
@@ -302,7 +309,8 @@ spec_sql_write_table <- list(
             as.character(dbQuoteIdentifier(con, "")),
             as.character(dbQuoteString(con, "")),
             "with space",
-            ",")
+            ","
+          )
         }
 
         test_table_roundtrip(con, tbl_in)
@@ -327,7 +335,7 @@ spec_sql_write_table <- list(
       tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
       test_table_roundtrip(con, tbl_in)
     })
-  #'   (the behavior for `Inf` and `NaN` is not specified)
+    #'   (the behavior for `Inf` and `NaN` is not specified)
   },
 
   #' - logical
@@ -391,12 +399,10 @@ spec_sql_write_table <- list(
   roundtrip_64_bit_roundtrip = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
-      tbl_out <- with_remove_test_table(
-        {
-          dbWriteTable(con, "test", tbl_in, field.types = c(a = "BIGINT"))
-          dbReadTable(con, "test")
-        }
-      )
+      tbl_out <- with_remove_test_table({
+        dbWriteTable(con, "test", tbl_in, field.types = c(a = "BIGINT"))
+        dbReadTable(con, "test")
+      })
       tbl_exp <- tbl_out
       #'     - written to another table and read again unchanged
       test_table_roundtrip(con, tbl_out, tbl_exp)

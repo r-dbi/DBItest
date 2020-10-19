@@ -78,7 +78,7 @@ spec_meta_bind <- list(
         #' or parameters with wrong names
         stats::setNames(bind_values, paste0("bogus", names(bind_values)))
       },
-  #
+      #
       requires_names = function() TRUE,
       bind_error = function() ".*"
     )
@@ -113,7 +113,7 @@ spec_meta_bind <- list(
         stats::setNames(bind_values, NULL)
       },
       bind_error = function() ".*",
-  #
+      #
       requires_names = function() TRUE
     )
     with_connection({
@@ -128,7 +128,7 @@ spec_meta_bind <- list(
         names(bind_values)[[1]] <- ""
       },
       bind_error = function() ".*",
-  #
+      #
       requires_names = function() TRUE
     )
     with_connection({
@@ -143,7 +143,7 @@ spec_meta_bind <- list(
         names(bind_values)[[1]] <- NA
       },
       bind_error = function() ".*",
-  #
+      #
       requires_names = function() TRUE
     )
     with_connection({
@@ -158,7 +158,7 @@ spec_meta_bind <- list(
         stats::setNames(bind_values, letters[seq_along(bind_values)])
       },
       bind_error = function() ".*",
-  #
+      #
       requires_names = function() FALSE
     )
     with_connection({
@@ -257,7 +257,7 @@ spec_meta_bind <- list(
         #' their order in the `params` argument is not important.
         bind_values[c(3, 1, 2, 4)]
       },
-  #
+      #
       requires_names = function() TRUE
     )
     with_connection({

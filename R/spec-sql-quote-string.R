@@ -110,11 +110,13 @@ spec_sql_quote_string <- list(
       na <- dbQuoteString(con, "NA")
       quoted_na <- dbQuoteString(con, as.character(na))
 
-      query <- paste0("SELECT ",
-                      null, " AS null_return,",
-                      na, " AS na_return,",
-                      quoted_null, " AS quoted_null,",
-                      quoted_na, " AS quoted_na")
+      query <- paste0(
+        "SELECT ",
+        null, " AS null_return,",
+        na, " AS na_return,",
+        quoted_null, " AS quoted_null,",
+        quoted_na, " AS quoted_na"
+      )
 
       #' If `x` is `NA`, the result must merely satisfy [is.na()].
       rows <- check_df(dbGetQuery(con, query))

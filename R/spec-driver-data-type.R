@@ -99,19 +99,27 @@ test_data_type <- function(ctx, dbObj) {
       if (!is.null(value)) {
         eval(bquote(
           expect_error(
-            expect_identical(dbDataType(dbObj, I(.(value))),
-                             dbDataType(dbObj, .(value))),
-            NA)))
+            expect_identical(
+              dbDataType(dbObj, I(.(value))),
+              dbDataType(dbObj, .(value))
+            ),
+            NA
+          )
+        ))
       }
     }
   )
 
   #' The SQL data type for [factor]
-  expect_identical(dbDataType(dbObj, letters),
-                   dbDataType(dbObj, factor(letters)))
+  expect_identical(
+    dbDataType(dbObj, letters),
+    dbDataType(dbObj, factor(letters))
+  )
   #' and [ordered] is the same as for character.
-  expect_identical(dbDataType(dbObj, letters),
-                   dbDataType(dbObj, ordered(letters)))
+  expect_identical(
+    dbDataType(dbObj, letters),
+    dbDataType(dbObj, ordered(letters))
+  )
 
   #' The behavior for other object types is not specified.
 }

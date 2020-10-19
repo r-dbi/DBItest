@@ -92,7 +92,12 @@ spec_transaction_begin_commit_rollback <- list(
       dbBegin(con)
       #' and committed by a call to `dbCommit()`.
       success <- FALSE
-      expect_error({dbCommit(con); success <- TRUE}, NA)
+      expect_error(
+        {
+          dbCommit(con); success <- TRUE
+        },
+        NA
+      )
       if (!success) dbRollback(con)
     })
   },

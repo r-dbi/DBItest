@@ -49,7 +49,8 @@ spec_result_clear_result <- list(
           res <- dbSendStatement(con, paste0("CREATE TABLE ", table_name, " AS SELECT 1"))
           dbClearResult(res)
           expect_warning(expect_invisible_true(dbClearResult(res)))
-        })
+        }
+      )
     })
   },
 
