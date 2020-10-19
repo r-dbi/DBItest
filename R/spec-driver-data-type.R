@@ -54,7 +54,8 @@ test_data_type <- function(ctx, dbObj) {
   #' it must accept all basic R data types as its second argument, namely
   expect_has_data_type <- function(value) {
     eval(bquote(
-      expect_error(check_data_type(.(value)), NA)))
+      expect_error(check_data_type(.(value)), NA)
+    ))
   }
 
   expected_data_types <- list(

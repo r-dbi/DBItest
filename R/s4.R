@@ -10,14 +10,16 @@ s4_methods <- function(env, pkg_fun = NULL) {
 
 
   res <- Map(
-    generics@.Data[ok], generics@package[ok], USE.NAMES = TRUE,
+    generics@.Data[ok], generics@package[ok],
+    USE.NAMES = TRUE,
     f = function(name, package) {
       what <- methods::methodsPackageMetaName("T", paste(name, package, sep = ":"))
 
       table <- get(what, envir = env)
 
       mget(ls(table, all.names = TRUE), envir = table)
-    })
+    }
+  )
   unlist(res, recursive = FALSE)
 }
 

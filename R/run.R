@@ -9,8 +9,9 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
   }
 
   test_context <- paste0(
-    "DBItest", if(!is.null(ctx$name)) paste0("[", ctx$name, "]"),
-    ": ", test_suite)
+    "DBItest", if (!is.null(ctx$name)) paste0("[", ctx$name, "]"),
+    ": ", test_suite
+  )
   context(test_context)
 
   tests <- tests[!vapply(tests, is.null, logical(1L))]
@@ -23,16 +24,19 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
   skipped <- get_skip_names(skip)
   skip_flag <- names(tests) %in% skipped
 
-  ok <- vapply(seq_along(tests), function(test_idx) {
-    test_name <- names(tests)[[test_idx]]
-    if (skip_flag[[test_idx]])
-      FALSE
-    else {
-      test_fun <- patch_test_fun(tests[[test_name]], paste0(test_context, ": ", test_name))
-      test_fun(ctx)
-    }
-  },
-  logical(1L))
+  ok <- vapply(
+    seq_along(tests),
+    function(test_idx) {
+      test_name <- names(tests)[[test_idx]]
+      if (skip_flag[[test_idx]])
+        FALSE
+      else {
+        test_fun <- patch_test_fun(tests[[test_name]], paste0(test_context, ": ", test_name))
+        test_fun(ctx)
+      }
+    },
+    logical(1L)
+  )
 
   if (any(skip_flag)) {
     test_that(paste0(test_context, ": skipped tests"), {
@@ -54,7 +58,8 @@ get_skip_names <- function(skip) {
   skip_used <- vapply(skip_flags_all, any, logical(1L))
   if (!all(skip_used)) {
     warning("Unused skip expressions: ", paste(skip[!skip_used], collapse = ", "),
-            call. = FALSE)
+      call. = FALSE
+    )
   }
 
   skip_flag_all <- Reduce(`|`, skip_flags_all)
