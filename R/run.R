@@ -87,11 +87,12 @@ get_run_only_tests <- function(tests, run_only) {
 patch_test_fun <- function(test_fun, desc) {
   body_of_test_fun <- wrap_all_statements_with_expect_no_warning(body(test_fun))
 
-  eval(bquote(
-    function(ctx) {
-      test_that(.(desc), .(body_of_test_fun))
-    }
-  ))
+  rlang::new_function(
+    formals(test_fun),
+    rlang::expr(
+      test_that(!!desc, !!body_of_test_fun)
+    )
+  )
 }
 
 wrap_all_statements_with_expect_no_warning <- function(block) {
