@@ -267,6 +267,6 @@ spec_result_fetch <- list(
       )
     })
   },
-
+  #
   NULL
 )

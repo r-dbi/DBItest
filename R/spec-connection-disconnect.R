@@ -34,6 +34,6 @@ spec_connection_disconnect <- list(
       expect_warning(dbDisconnect(con))
     })
   },
-
+  #
   NULL
 )

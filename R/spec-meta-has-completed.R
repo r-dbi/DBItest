@@ -25,7 +25,7 @@ spec_meta_has_completed <- list(
       )
     })
   },
-
+  #
   has_completed_statement = function(ctx) {
     with_connection({
       name <- random_table_name()
@@ -42,7 +42,7 @@ spec_meta_has_completed <- list(
       })
     })
   },
-
+  #
   has_completed_error = function(ctx) {
     with_connection({
       res <- dbSendQuery(con, trivial_query())
@@ -83,6 +83,6 @@ spec_meta_has_completed <- list(
       )
     })
   },
-
+  #
   NULL
 )

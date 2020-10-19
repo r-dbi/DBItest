@@ -119,6 +119,6 @@ spec_sql_list_fields <- list(
       })
     })
   },
-
+  #
   NULL
 )

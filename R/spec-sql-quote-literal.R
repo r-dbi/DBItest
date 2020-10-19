@@ -19,7 +19,7 @@ spec_sql_quote_literal <- list(
       expect_equal(length(simple_out), 1L)
     })
   },
-
+  #
   quote_literal_vectorized = function(ctx) {
     with_connection({
       #' of the same length as the input.
@@ -31,7 +31,7 @@ spec_sql_quote_literal <- list(
       expect_equal(length(empty_out), 0L)
     })
   },
-
+  #
   quote_literal_double = function(ctx) {
     with_connection({
       simple <- "simple"
@@ -93,7 +93,7 @@ spec_sql_quote_literal <- list(
       do_test_literal(test_literals)
     })
   },
-
+  #
   quote_literal_na = function(ctx) {
     with_connection({
       null <- dbQuoteLiteral(con, NA_character_)
@@ -116,7 +116,7 @@ spec_sql_quote_literal <- list(
       expect_identical(rows$quoted_na, as.character(na))
     })
   },
-
+  #
   quote_literal_na_is_null = function(ctx) {
     with_connection({
       #'
@@ -128,7 +128,7 @@ spec_sql_quote_literal <- list(
       expect_equal(nrow(rows), 1L)
     })
   },
-
+  #
   quote_literal_error = function(ctx) {
     with_connection({
       #'
@@ -137,6 +137,6 @@ spec_sql_quote_literal <- list(
       #' for the `x` argument raises an error.
     })
   },
-
+  #
   NULL
 )

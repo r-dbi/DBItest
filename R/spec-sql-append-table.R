@@ -199,7 +199,7 @@ spec_sql_append_table <- list(
       )
     })
   },
-
+  #
   append_roundtrip_64_bit_character = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
@@ -217,7 +217,7 @@ spec_sql_append_table <- list(
       )
     })
   },
-
+  #
   append_roundtrip_64_bit_roundtrip = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
@@ -495,7 +495,7 @@ spec_sql_append_table <- list(
       })
     })
   },
-
+  #
   append_table_row_names_non_null = function(ctx) {
     #' All other values for the `row.names` argument
     with_connection({
@@ -514,6 +514,6 @@ spec_sql_append_table <- list(
       #' raise an error.
     })
   },
-
+  #
   NULL
 )

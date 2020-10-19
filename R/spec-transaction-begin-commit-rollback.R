@@ -7,12 +7,12 @@ spec_transaction_begin_commit_rollback <- list(
     # <establish formals of described functions>
     expect_equal(names(formals(dbBegin)), c("conn", "..."))
   },
-
+  #
   commit_formals = function(ctx) {
     # <establish formals of described functions>
     expect_equal(names(formals(dbCommit)), c("conn", "..."))
   },
-
+  #
   rollback_formals = function(ctx) {
     # <establish formals of described functions>
     expect_equal(names(formals(dbRollback)), c("conn", "..."))
@@ -28,7 +28,7 @@ spec_transaction_begin_commit_rollback <- list(
       })
     })
   },
-
+  #
   begin_rollback_return_value = function(ctx) {
     with_connection({
       expect_invisible_true(dbBegin(con))
@@ -46,7 +46,7 @@ spec_transaction_begin_commit_rollback <- list(
       expect_error(dbRollback(con))
     })
   },
-
+  #
   begin_commit_invalid = function(ctx) {
     with_invalid_connection({
       #' or invalid connection.
@@ -55,14 +55,14 @@ spec_transaction_begin_commit_rollback <- list(
       expect_error(dbRollback(con))
     })
   },
-
+  #
   commit_without_begin = function(ctx) {
     #' In addition, a call to `dbCommit()`
     with_connection({
       expect_error(dbCommit(con))
     })
   },
-
+  #
   rollback_without_begin = function(ctx) {
     #' or `dbRollback()`
     with_connection({
@@ -70,7 +70,7 @@ spec_transaction_begin_commit_rollback <- list(
       expect_error(dbRollback(con))
     })
   },
-
+  #
   begin_begin = function(ctx) {
     #' Nested transactions are not supported by DBI,
     with_connection({
@@ -128,7 +128,7 @@ spec_transaction_begin_commit_rollback <- list(
       })
     })
   },
-
+  #
   begin_rollback = function(ctx) {
     with_connection({
       #'
@@ -158,7 +158,7 @@ spec_transaction_begin_commit_rollback <- list(
       })
     })
   },
-
+  #
   begin_write_disconnect = function(ctx) {
     #'
     #' Disconnection from a connection with an open transaction

@@ -17,7 +17,7 @@ spec_sql_quote_identifier <- list(
       expect_is(as.character(simple_out), "character")
     })
   },
-
+  #
   quote_identifier_vectorized = function(ctx) {
     with_connection({
       #' of the same length as the input.
@@ -56,7 +56,7 @@ spec_sql_quote_identifier <- list(
       #' to achieve this behavior, but this is not required.)
     })
   },
-
+  #
   quote_identifier_error = function(ctx) {
     with_connection({
       #'
@@ -104,7 +104,7 @@ spec_sql_quote_identifier <- list(
       eval(bquote(expect_error(dbGetQuery(con, .(query)))))
     })
   },
-
+  #
   quote_identifier_special = function(ctx) {
     with_connection({
       #'
@@ -159,6 +159,6 @@ spec_sql_quote_identifier <- list(
       expect_identical(unlist(unname(rows)), 2:10 + 0.5)
     })
   },
-
+  #
   NULL
 )

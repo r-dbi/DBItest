@@ -42,6 +42,6 @@ spec_meta_get_info_result <- list(
       }
     })
   },
-
+  #
   NULL
 )

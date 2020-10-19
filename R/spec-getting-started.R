@@ -18,7 +18,7 @@ spec_getting_started <- list(
     expect_true("methods" %in% pkg_imports)
     #' packages.
   },
-
+  #
   package_name = function(ctx) {
     pkg_name <- package_name(ctx)
 
@@ -27,6 +27,6 @@ spec_getting_started <- list(
     #' to the backend author to adopt this convention or not.
     expect_match(pkg_name, "^R")
   },
-
+  #
   NULL
 )

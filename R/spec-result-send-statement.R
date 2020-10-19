@@ -71,7 +71,7 @@ spec_result_send_statement <- list(
       })
     })
   },
-
+  #
   send_statement_stale_warning = function(ctx) {
     #' Failure to clear the result set leads to a warning
     #' when the connection is closed.
@@ -144,6 +144,6 @@ spec_result_send_statement <- list(
       })
     })
   },
-
+  #
   NULL
 )

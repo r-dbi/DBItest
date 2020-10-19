@@ -32,6 +32,6 @@ spec_result_create_table_with_data_type <- list(
       }
     })
   },
-
+  #
   NULL
 )

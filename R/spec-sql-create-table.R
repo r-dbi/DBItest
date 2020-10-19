@@ -237,7 +237,7 @@ spec_sql_create_table <- list(
       })
     })
   },
-
+  #
   create_table_row_names_non_null = function(ctx) {
     #' All other values for the `row.names` argument
     with_connection({
@@ -255,6 +255,6 @@ spec_sql_create_table <- list(
       #' raise an error.
     })
   },
-
+  #
   NULL
 )

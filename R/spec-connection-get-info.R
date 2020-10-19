@@ -41,6 +41,6 @@ spec_connection_get_info <- list(
       #' Components that are not applicable should be set to `NA`.
     })
   },
-
+  #
   NULL
 )

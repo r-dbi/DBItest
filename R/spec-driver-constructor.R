@@ -36,6 +36,6 @@ spec_driver_constructor <- list(
       expect_that(constructor, arglist_is_empty())
     }
   },
-
+  #
   NULL
 )

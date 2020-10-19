@@ -237,7 +237,7 @@ spec_result_roundtrip <- list(
       test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
     })
   },
-
+  #
   NULL
 )
 

@@ -249,6 +249,6 @@ spec_result_get_query <- list(
       })
     })
   },
-
+  #
   NULL
 )

@@ -147,6 +147,6 @@ spec_sql_list_objects <- list(
       }
     })
   },
-
+  #
   NULL
 )

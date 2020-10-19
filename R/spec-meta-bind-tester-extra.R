@@ -1,7 +1,7 @@
 BindTesterExtra <- R6::R6Class(
   "BindTesterExtra",
   portable = TRUE,
-
+  #
   public = list(
     check_return_value = function(bind_res, res) invisible(NULL),
     patch_bind_values = identity,

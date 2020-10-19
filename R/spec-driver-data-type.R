@@ -8,11 +8,11 @@ spec_driver_data_type <- list(
     # <establish formals of described function>
     expect_equal(names(formals(dbDataType)), c("dbObj", "obj", "..."))
   },
-
+  #
   data_type_driver = function(ctx) {
     test_data_type(ctx, ctx$drv)
   },
-
+  #
   NULL
 )
 

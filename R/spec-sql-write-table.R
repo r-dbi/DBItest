@@ -369,7 +369,7 @@ spec_sql_write_table <- list(
       )
     })
   },
-
+  #
   roundtrip_64_bit_character = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
@@ -387,7 +387,7 @@ spec_sql_write_table <- list(
       )
     })
   },
-
+  #
   roundtrip_64_bit_roundtrip = function(ctx) {
     with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
@@ -640,7 +640,7 @@ spec_sql_write_table <- list(
       })
     }
   },
-
+  #
   write_table_row_names_true_exists = function(ctx) {
     #' - If `TRUE`, row names are converted to a column named "row_names",
     row.names <- TRUE
@@ -658,7 +658,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   write_table_row_names_true_missing = function(ctx) {
     #'   even if the input data frame only has natural row names from 1 to `nrow(...)`.
     row.names <- TRUE
@@ -676,7 +676,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   write_table_row_names_na_exists = function(ctx) {
     #' - If `NA`, a column named "row_names" is created if the data has custom row names,
     row.names <- NA
@@ -694,7 +694,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   write_table_row_names_na_missing = function(ctx) {
     #'   no extra column is created in the case of natural row names.
     row.names <- NA
@@ -709,7 +709,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   write_table_row_names_string_exists = function(ctx) {
     row.names <- "make_model"
     #' - If a string, this specifies the name of the column in the remote table
@@ -729,7 +729,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   write_table_row_names_string_missing = function(ctx) {
     row.names <- "seq"
     #'   even if the input data frame only has natural row names.
@@ -747,7 +747,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   write_table_row_names_default = function(ctx) {
     #'
     #' The default is `row.names = FALSE`.
@@ -762,7 +762,7 @@ spec_sql_write_table <- list(
       })
     })
   },
-
+  #
   NULL
 )
 

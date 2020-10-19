@@ -28,6 +28,6 @@ spec_driver_get_info <- list(
         expect_true(.(name) %in% info_names)))
     }
   },
-
+  #
   NULL
 )

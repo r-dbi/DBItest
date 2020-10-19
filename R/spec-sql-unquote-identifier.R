@@ -17,7 +17,7 @@ spec_sql_unquote_identifier <- list(
       expect_is(simple_out, "list")
     })
   },
-
+  #
   unquote_identifier_vectorized = function(ctx) {
     with_connection({
       #' of the same length as the input.
@@ -55,7 +55,7 @@ spec_sql_unquote_identifier <- list(
       #' to achieve this behavior, but this is not required.)
     })
   },
-
+  #
   unquote_identifier_error = function(ctx) {
     with_connection({
       #'
@@ -78,7 +78,7 @@ spec_sql_unquote_identifier <- list(
       expect_identical(simple_in, simple_roundtrip)
     })
   },
-
+  #
   unquote_identifier_special = function(ctx) {
     with_connection({
       #' This is also true for strings that
@@ -158,6 +158,6 @@ spec_sql_unquote_identifier <- list(
       expect_identical(simple_roundtrip, simple_quoted)
     })
   },
-
+  #
   NULL
 )
