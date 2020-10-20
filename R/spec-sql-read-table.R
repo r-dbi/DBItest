@@ -45,9 +45,9 @@ spec_sql_read_table <- list(
   #' The presence of [rownames] depends on the `row.names` argument,
   #' see [sqlColumnToRownames()] for details:
   read_table_row_names_false = function(ctx) {
-    #' - If `FALSE` or `NULL`, the returned data frame doesn't have row names.
-    for (row.names in list(FALSE, NULL)) {
-      with_connection({
+    with_connection({
+      #' - If `FALSE` or `NULL`, the returned data frame doesn't have row names.
+      for (row.names in list(FALSE, NULL)) {
         with_remove_test_table(name = "mtcars", {
           mtcars_in <- datasets::mtcars
           dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)
@@ -58,15 +58,15 @@ spec_sql_read_table <- list(
           expect_true(all(rownames(mtcars_in) %in% mtcars_out$row_names))
           expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
         })
-      })
-    }
+      }
+    })
   },
   #
   read_table_row_names_true_exists = function(ctx) {
-    #' - If `TRUE`, a column named "row_names" is converted to row names,
-    row.names <- TRUE
-
     with_connection({
+      #' - If `TRUE`, a column named "row_names" is converted to row names,
+      row.names <- TRUE
+
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in, row.names = NA)
@@ -78,10 +78,10 @@ spec_sql_read_table <- list(
   },
   #
   read_table_row_names_true_missing = function(ctx) {
-    #'   an error is raised if no such column exists.
-    row.names <- TRUE
-
     with_connection({
+      #'   an error is raised if no such column exists.
+      row.names <- TRUE
+
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in, row.names = NA)
@@ -91,10 +91,10 @@ spec_sql_read_table <- list(
   },
   #
   read_table_row_names_na_exists = function(ctx) {
-    #' - If `NA`, a column named "row_names" is converted to row names if it exists,
-    row.names <- NA
-
     with_connection({
+      #' - If `NA`, a column named "row_names" is converted to row names if it exists,
+      row.names <- NA
+
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)
@@ -106,10 +106,10 @@ spec_sql_read_table <- list(
   },
   #
   read_table_row_names_na_missing = function(ctx) {
-    #'   otherwise no translation occurs.
-    row.names <- NA
-
     with_connection({
+      #'   otherwise no translation occurs.
+      row.names <- NA
+
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in, row.names = FALSE)
@@ -121,11 +121,11 @@ spec_sql_read_table <- list(
   },
   #
   read_table_row_names_string_exists = function(ctx) {
-    #' - If a string, this specifies the name of the column in the remote table
-    #'   that contains the row names,
-    row.names <- "make_model"
-
     with_connection({
+      #' - If a string, this specifies the name of the column in the remote table
+      #'   that contains the row names,
+      row.names <- "make_model"
+
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         mtcars_in$make_model <- rownames(mtcars_in)
@@ -143,10 +143,10 @@ spec_sql_read_table <- list(
   },
   #
   read_table_row_names_string_missing = function(ctx) {
-    #'   an error is raised if no such column exists.
-    row.names <- "missing"
-
     with_connection({
+      #'   an error is raised if no such column exists.
+      row.names <- "missing"
+
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in, row.names = FALSE)
@@ -157,10 +157,10 @@ spec_sql_read_table <- list(
   #'
 
   read_table_row_names_default = function(ctx) {
-    #'
-    #' The default is `row.names = FALSE`.
-    #'
     with_connection({
+      #'
+      #' The default is `row.names = FALSE`.
+      #'
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)

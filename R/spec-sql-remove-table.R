@@ -132,11 +132,11 @@ spec_sql_remove_table <- list(
 
   #' This function can also be used to remove a temporary table.
   remove_table_temporary = function(ctx) {
-    if (!isTRUE(ctx$tweaks$temporary_tables)) {
-      skip("tweak: temporary_tables")
-    }
-
     with_connection({
+      if (!isTRUE(ctx$tweaks$temporary_tables)) {
+        skip("tweak: temporary_tables")
+      }
+
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
         if (isTRUE(ctx$tweaks$list_temporary_tables)) {

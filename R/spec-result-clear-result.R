@@ -35,8 +35,8 @@ spec_result_clear_result <- list(
 
   #' in both cases.
   cannot_clear_result_twice_statement = function(ctx) {
-    table_name <- random_table_name()
     with_connection({
+      table_name <- random_table_name()
       with_remove_test_table(
         name = table_name,
         {

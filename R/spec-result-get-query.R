@@ -173,9 +173,9 @@ spec_result_get_query <- list(
   #'
   #' The `param` argument allows passing query parameters, see [dbBind()] for details.
   get_query_params = function(ctx) {
-    placeholder_funs <- get_placeholder_funs(ctx)
-
     with_connection({
+      placeholder_funs <- get_placeholder_funs(ctx)
+
       for (placeholder_fun in placeholder_funs) {
         placeholder <- placeholder_fun(1)
         query <- paste0("SELECT ", placeholder, " + 1.0 AS a")

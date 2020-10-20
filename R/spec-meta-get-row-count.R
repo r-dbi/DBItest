@@ -29,7 +29,9 @@ spec_meta_get_row_count <- list(
         }
       )
     })
+  },
 
+  row_count_query_limited = function(ctx) {
     with_connection({
       query <- union(.ctx = ctx, trivial_query(), "SELECT 2", "SELECT 3")
       with_result(
@@ -49,7 +51,9 @@ spec_meta_get_row_count <- list(
         }
       )
     })
+  },
 
+  row_count_query_empty = function(ctx) {
     with_connection({
       #' For queries with an empty result set,
       query <- union(

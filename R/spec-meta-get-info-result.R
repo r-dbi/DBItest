@@ -5,9 +5,9 @@
 #' @name spec_get_info
 spec_meta_get_info_result <- list(
   get_info_result = function(ctx) {
-    #' @return
-    #' For objects of class [DBIResult-class], `dbGetInfo()`
     with_connection({
+      #' @return
+      #' For objects of class [DBIResult-class], `dbGetInfo()`
       info <- with_result(
         dbSendQuery(con, trivial_query()),
         dbGetInfo(res)

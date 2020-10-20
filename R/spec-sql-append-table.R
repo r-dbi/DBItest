@@ -144,8 +144,8 @@ spec_sql_append_table <- list(
     with_connection({
       tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
       test_table_roundtrip(use_append = TRUE, con, tbl_in)
+      #'   (the behavior for `Inf` and `NaN` is not specified)
     })
-    #'   (the behavior for `Inf` and `NaN` is not specified)
   },
 
   #' - logical
@@ -457,8 +457,8 @@ spec_sql_append_table <- list(
   }), # with_connection
   #
   append_table_row_names_non_null = function(ctx) {
-    #' All other values for the `row.names` argument
     with_connection({
+      #' All other values for the `row.names` argument
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbCreateTable(con, "mtcars", mtcars_in)

@@ -53,23 +53,23 @@ spec_transaction_begin_commit_rollback <- list(
   },
   #
   commit_without_begin = function(ctx) {
-    #' In addition, a call to `dbCommit()`
     with_connection({
+      #' In addition, a call to `dbCommit()`
       expect_error(dbCommit(con))
     })
   },
   #
   rollback_without_begin = function(ctx) {
-    #' or `dbRollback()`
     with_connection({
+      #' or `dbRollback()`
       #' without a prior call to `dbBegin()` raises an error.
       expect_error(dbRollback(con))
     })
   },
   #
   begin_begin = function(ctx) {
-    #' Nested transactions are not supported by DBI,
     with_connection({
+      #' Nested transactions are not supported by DBI,
       #' an attempt to call `dbBegin()` twice
       dbBegin(con)
       with_rollback_on_error({

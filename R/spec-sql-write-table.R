@@ -202,12 +202,12 @@ spec_sql_write_table <- list(
   #' If the `temporary` argument is `TRUE`, the table is not available in a
   #' second connection and is gone after reconnecting.
   temporary_table = function(ctx) {
-    #' Not all backends support this argument.
-    if (!isTRUE(ctx$tweaks$temporary_tables)) {
-      skip("tweak: temporary_tables")
-    }
-
     with_connection({
+      #' Not all backends support this argument.
+      if (!isTRUE(ctx$tweaks$temporary_tables)) {
+        skip("tweak: temporary_tables")
+      }
+
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)[1:30, ]
         dbWriteTable(con, "iris", iris, temporary = TRUE)
@@ -228,15 +228,15 @@ spec_sql_write_table <- list(
 
   #' A regular, non-temporary table is visible in a second connection
   table_visible_in_other_connection = function(ctx) {
-    iris <- get_iris(ctx)[1:30, ]
+    iris30 <- get_iris(ctx)[1:30, ]
 
     with_connection({
-      dbWriteTable(con, "iris", iris)
+      dbWriteTable(con, "iris", iris30)
       iris_out <- check_df(dbReadTable(con, "iris"))
-      expect_equal_df(iris_out, iris)
+      expect_equal_df(iris_out, iris30)
 
       with_connection(
-        expect_equal_df(dbReadTable(con2, "iris"), iris),
+        expect_equal_df(dbReadTable(con2, "iris"), iris30),
         con = "con2"
       )
     })
@@ -244,7 +244,7 @@ spec_sql_write_table <- list(
     #' and after reconnecting to the database.
     with_connection({
       with_remove_test_table(name = "iris", {
-        expect_equal_df(check_df(dbReadTable(con, "iris")), iris)
+        expect_equal_df(check_df(dbReadTable(con, "iris")), iris30)
       })
     })
   },
@@ -310,8 +310,8 @@ spec_sql_write_table <- list(
     with_connection({
       tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
       test_table_roundtrip(con, tbl_in)
+      #'   (the behavior for `Inf` and `NaN` is not specified)
     })
-    #'   (the behavior for `Inf` and `NaN` is not specified)
   },
 
   #' - logical
@@ -403,7 +403,10 @@ spec_sql_write_table <- list(
       )
       test_table_roundtrip(con, tbl_in)
     })
+  },
 
+  #'   before and after a non-empty string
+  roundtrip_character_empty_after = function(ctx) {
     with_connection({
       tbl_in <- data.frame(
         a = c("a", ""),
@@ -425,12 +428,12 @@ spec_sql_write_table <- list(
 
   #' - list of raw
   roundtrip_raw = function(ctx) {
-    #'   (if supported by the database)
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
     with_connection({
+      #'   (if supported by the database)
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
       tbl_exp <- tbl_in
       tbl_exp$a <- blob::as_blob(unclass(tbl_in$a))
@@ -446,12 +449,12 @@ spec_sql_write_table <- list(
 
   #' - objects of type [blob::blob]
   roundtrip_blob = function(ctx) {
-    #'   (if supported by the database)
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
     with_connection({
+      #'   (if supported by the database)
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       tbl_in <- data.frame(id = 1L, a = blob::blob(as.raw(0:10)))
       test_table_roundtrip(
         con, tbl_in,
@@ -465,12 +468,12 @@ spec_sql_write_table <- list(
 
   #' - date
   roundtrip_date = function(ctx) {
-    #'   (if supported by the database;
-    if (!isTRUE(ctx$tweaks$date_typed)) {
-      skip("tweak: !date_typed")
-    }
-
     with_connection({
+      #'   (if supported by the database;
+      if (!isTRUE(ctx$tweaks$date_typed)) {
+        skip("tweak: !date_typed")
+      }
+
       #'   returned as `Date`)
       tbl_in <- data.frame(a = as_numeric_date(c(Sys.Date() + 1:5)))
       test_table_roundtrip(
@@ -485,13 +488,13 @@ spec_sql_write_table <- list(
 
   #' - time
   roundtrip_time = function(ctx) {
-    #'   (if supported by the database;
-    if (!isTRUE(ctx$tweaks$time_typed)) {
-      skip("tweak: !time_typed")
-    }
-
-
     with_connection({
+      #'   (if supported by the database;
+      if (!isTRUE(ctx$tweaks$time_typed)) {
+        skip("tweak: !time_typed")
+      }
+
+
       now <- Sys.time()
       tbl_in <- data.frame(a = c(now + 1:5) - now)
 
@@ -512,12 +515,12 @@ spec_sql_write_table <- list(
 
   #' - timestamp
   roundtrip_timestamp = function(ctx) {
-    #'   (if supported by the database;
-    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
-      skip("tweak: !timestamp_typed")
-    }
-
     with_connection({
+      #'   (if supported by the database;
+      if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+        skip("tweak: !timestamp_typed")
+      }
+
       #'   returned as `POSIXct`
       local <- round(Sys.time()) +
         c(
@@ -588,9 +591,9 @@ spec_sql_write_table <- list(
   #' The interpretation of [rownames] depends on the `row.names` argument,
   #' see [sqlRownamesToColumn()] for details:
   write_table_row_names_false = function(ctx) {
-    #' - If `FALSE` or `NULL`, row names are ignored.
-    for (row.names in list(FALSE, NULL)) {
-      with_connection({
+    with_connection({
+      #' - If `FALSE` or `NULL`, row names are ignored.
+      for (row.names in list(FALSE, NULL)) {
         with_remove_test_table(name = "mtcars", {
           mtcars_in <- datasets::mtcars
           dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
@@ -599,15 +602,15 @@ spec_sql_write_table <- list(
           expect_false("row_names" %in% names(mtcars_out))
           expect_equal_df(mtcars_out, unrowname(mtcars_in))
         })
-      })
-    }
+      }
+    })
   },
   #
   write_table_row_names_true_exists = function(ctx) {
-    #' - If `TRUE`, row names are converted to a column named "row_names",
-    row.names <- TRUE
-
     with_connection({
+      #' - If `TRUE`, row names are converted to a column named "row_names",
+      row.names <- TRUE
+
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
@@ -622,10 +625,10 @@ spec_sql_write_table <- list(
   },
   #
   write_table_row_names_true_missing = function(ctx) {
-    #'   even if the input data frame only has natural row names from 1 to `nrow(...)`.
-    row.names <- TRUE
-
     with_connection({
+      #'   even if the input data frame only has natural row names from 1 to `nrow(...)`.
+      row.names <- TRUE
+
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in, row.names = row.names)
@@ -640,10 +643,10 @@ spec_sql_write_table <- list(
   },
   #
   write_table_row_names_na_exists = function(ctx) {
-    #' - If `NA`, a column named "row_names" is created if the data has custom row names,
-    row.names <- NA
-
     with_connection({
+      #' - If `NA`, a column named "row_names" is created if the data has custom row names,
+      row.names <- NA
+
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
@@ -658,10 +661,10 @@ spec_sql_write_table <- list(
   },
   #
   write_table_row_names_na_missing = function(ctx) {
-    #'   no extra column is created in the case of natural row names.
-    row.names <- NA
-
     with_connection({
+      #'   no extra column is created in the case of natural row names.
+      row.names <- NA
+
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in, row.names = row.names)
@@ -673,11 +676,11 @@ spec_sql_write_table <- list(
   },
   #
   write_table_row_names_string_exists = function(ctx) {
-    row.names <- "make_model"
-    #' - If a string, this specifies the name of the column in the remote table
-    #'   that contains the row names,
-
     with_connection({
+      row.names <- "make_model"
+      #' - If a string, this specifies the name of the column in the remote table
+      #'   that contains the row names,
+
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
 
@@ -693,10 +696,10 @@ spec_sql_write_table <- list(
   },
   #
   write_table_row_names_string_missing = function(ctx) {
-    row.names <- "seq"
-    #'   even if the input data frame only has natural row names.
-
     with_connection({
+      row.names <- "seq"
+      #'   even if the input data frame only has natural row names.
+
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in, row.names = row.names)
@@ -711,9 +714,9 @@ spec_sql_write_table <- list(
   },
   #
   write_table_row_names_default = function(ctx) {
-    #'
-    #' The default is `row.names = FALSE`.
     with_connection({
+      #'
+      #' The default is `row.names = FALSE`.
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbWriteTable(con, "mtcars", mtcars_in)

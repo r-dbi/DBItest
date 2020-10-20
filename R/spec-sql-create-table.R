@@ -118,12 +118,12 @@ spec_sql_create_table <- list(
   #' If the `temporary` argument is `TRUE`, the table is not available in a
   #' second connection and is gone after reconnecting.
   create_temporary_table = function(ctx) {
-    #' Not all backends support this argument.
-    if (!isTRUE(ctx$tweaks$temporary_tables)) {
-      skip("tweak: temporary_tables")
-    }
-
     with_connection({
+      #' Not all backends support this argument.
+      if (!isTRUE(ctx$tweaks$temporary_tables)) {
+        skip("tweak: temporary_tables")
+      }
+
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)[1:30, ]
         dbCreateTable(con, "iris", iris, temporary = TRUE)
@@ -144,9 +144,9 @@ spec_sql_create_table <- list(
 
   #' A regular, non-temporary table is visible in a second connection
   create_table_visible_in_other_connection = function(ctx) {
-    iris <- get_iris(ctx)[1:30, ]
-
     with_connection({
+      iris <- get_iris(ctx)[1:30, ]
+
       dbCreateTable(con, "iris", iris)
       iris_out <- check_df(dbReadTable(con, "iris"))
       expect_equal_df(iris_out, iris[0, , drop = FALSE])
@@ -204,8 +204,8 @@ spec_sql_create_table <- list(
   }), # with_connection
 
   #'
-  #' The `row.names` argument must be `NULL`, the default value.
-  create_table_row_names_false = function(ctx) {
+  #' The `row.names` argument must be missing
+  create_table_row_names_default = function(ctx) {
     with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
@@ -216,7 +216,9 @@ spec_sql_create_table <- list(
         expect_equal_df(mtcars_out, unrowname(mtcars_in)[0, , drop = FALSE])
       })
     })
-
+  },
+  #' or `NULL`, the default value.
+  create_table_row_names_null = function(ctx) {
     with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
@@ -230,8 +232,8 @@ spec_sql_create_table <- list(
   },
   #
   create_table_row_names_non_null = function(ctx) {
-    #' All other values for the `row.names` argument
     with_connection({
+      #' All other values for the `row.names` argument
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
 
@@ -241,9 +243,8 @@ spec_sql_create_table <- list(
         expect_error(dbCreateTable(con, "mtcars", mtcars_in, row.names = NA))
         #' and a string)
         expect_error(dbCreateTable(con, "mtcars", mtcars_in, row.names = "make_model"))
+        #' raise an error.
       })
-
-      #' raise an error.
     })
   },
   #
