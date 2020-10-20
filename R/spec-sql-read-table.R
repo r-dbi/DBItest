@@ -44,8 +44,7 @@ spec_sql_read_table <- list(
   #'
   #' The presence of [rownames] depends on the `row.names` argument,
   #' see [sqlColumnToRownames()] for details:
-  read_table_row_names_false = function(ctx) {
-    with_connection({
+  read_table_row_names_false = function(ctx) with_connection({
       #' - If `FALSE` or `NULL`, the returned data frame doesn't have row names.
       for (row.names in list(FALSE, NULL)) {
         with_remove_test_table(name = "mtcars", {
@@ -59,11 +58,9 @@ spec_sql_read_table <- list(
           expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
         })
       }
-    })
-  },
+  }), # with_connection
   #
-  read_table_row_names_true_exists = function(ctx) {
-    with_connection({
+  read_table_row_names_true_exists = function(ctx) with_connection({
       #' - If `TRUE`, a column named "row_names" is converted to row names,
       row.names <- TRUE
 
@@ -74,11 +71,9 @@ spec_sql_read_table <- list(
 
         expect_equal_df(mtcars_out, mtcars_in)
       })
-    })
-  },
+  }), # with_connection
   #
-  read_table_row_names_true_missing = function(ctx) {
-    with_connection({
+  read_table_row_names_true_missing = function(ctx) with_connection({
       #'   an error is raised if no such column exists.
       row.names <- TRUE
 
@@ -87,11 +82,9 @@ spec_sql_read_table <- list(
         dbWriteTable(con, "iris", iris_in, row.names = NA)
         expect_error(dbReadTable(con, "iris", row.names = row.names))
       })
-    })
-  },
+  }), # with_connection
   #
-  read_table_row_names_na_exists = function(ctx) {
-    with_connection({
+  read_table_row_names_na_exists = function(ctx) with_connection({
       #' - If `NA`, a column named "row_names" is converted to row names if it exists,
       row.names <- NA
 
@@ -102,11 +95,9 @@ spec_sql_read_table <- list(
 
         expect_equal_df(mtcars_out, mtcars_in)
       })
-    })
-  },
+  }), # with_connection
   #
-  read_table_row_names_na_missing = function(ctx) {
-    with_connection({
+  read_table_row_names_na_missing = function(ctx) with_connection({
       #'   otherwise no translation occurs.
       row.names <- NA
 
@@ -117,11 +108,9 @@ spec_sql_read_table <- list(
 
         expect_equal_df(iris_out, iris_in)
       })
-    })
-  },
+  }), # with_connection
   #
-  read_table_row_names_string_exists = function(ctx) {
-    with_connection({
+  read_table_row_names_string_exists = function(ctx) with_connection({
       #' - If a string, this specifies the name of the column in the remote table
       #'   that contains the row names,
       row.names <- "make_model"
@@ -139,11 +128,9 @@ spec_sql_read_table <- list(
         expect_true(all(rownames(mtcars_out) %in% mtcars_in$make_model))
         expect_equal_df(unrowname(mtcars_out), mtcars_in[names(mtcars_in) != "make_model"])
       })
-    })
-  },
+  }), # with_connection
   #
-  read_table_row_names_string_missing = function(ctx) {
-    with_connection({
+  read_table_row_names_string_missing = function(ctx) with_connection({
       #'   an error is raised if no such column exists.
       row.names <- "missing"
 
@@ -152,12 +139,10 @@ spec_sql_read_table <- list(
         dbWriteTable(con, "iris", iris_in, row.names = FALSE)
         expect_error(dbReadTable(con, "iris", row.names = row.names))
       })
-    })
-  },
+  }), # with_connection
   #'
 
-  read_table_row_names_default = function(ctx) {
-    with_connection({
+  read_table_row_names_default = function(ctx) with_connection({
       #'
       #' The default is `row.names = FALSE`.
       #'
@@ -171,8 +156,7 @@ spec_sql_read_table <- list(
         expect_true(all(rownames(mtcars_in) %in% mtcars_out$row_names))
         expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
       })
-    })
-  },
+  }), # with_connection
   #
   read_table_check_names = function(ctx) with_connection({
       #' If the database supports identifiers with special characters,

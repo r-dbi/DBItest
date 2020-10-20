@@ -45,18 +45,14 @@ spec_sql_write_table <- list(
 
   #'
   #' An error is raised when calling this method for a closed
-  write_table_closed_connection = function(ctx) {
-    with_closed_connection({
+  write_table_closed_connection = function(ctx) with_closed_connection({
       expect_error(dbWriteTable(con, "test", data.frame(a = 1)))
-    })
-  },
+  }), # with_closed_connection
 
   #' or invalid connection.
-  write_table_invalid_connection = function(ctx) {
-    with_invalid_connection({
+  write_table_invalid_connection = function(ctx) with_invalid_connection({
       expect_error(dbWriteTable(con, "test", data.frame(a = 1)))
-    })
-  },
+  }), # with_invalid_connection
 
   #' An error is also raised
   write_table_error = function(ctx) with_connection({
@@ -306,13 +302,11 @@ spec_sql_write_table <- list(
   }), # with_connection
 
   #' - numeric
-  roundtrip_numeric = function(ctx) {
-    with_connection({
+  roundtrip_numeric = function(ctx) with_connection({
       tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
       test_table_roundtrip(con, tbl_in)
       #'   (the behavior for `Inf` and `NaN` is not specified)
-    })
-  },
+  }), # with_connection
 
   #' - logical
   roundtrip_logical = function(ctx) with_connection({
@@ -395,26 +389,22 @@ spec_sql_write_table <- list(
   }), # with_connection
 
   #'   supporting empty strings
-  roundtrip_character_empty = function(ctx) {
-    with_connection({
+  roundtrip_character_empty = function(ctx) with_connection({
       tbl_in <- data.frame(
         a = c("", "a"),
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in)
-    })
-  },
+  }), # with_connection
 
   #'   before and after a non-empty string
-  roundtrip_character_empty_after = function(ctx) {
-    with_connection({
+  roundtrip_character_empty_after = function(ctx) with_connection({
       tbl_in <- data.frame(
         a = c("a", ""),
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in)
-    })
-  },
+  }), # with_connection
 
   #' - factor (returned as character)
   roundtrip_factor = function(ctx) with_connection({
@@ -427,8 +417,7 @@ spec_sql_write_table <- list(
   }), # with_connection
 
   #' - list of raw
-  roundtrip_raw = function(ctx) {
-    with_connection({
+  roundtrip_raw = function(ctx) with_connection({
       #'   (if supported by the database)
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {
         skip("tweak: omit_blob_tests")
@@ -444,12 +433,10 @@ spec_sql_write_table <- list(
           tbl_out
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' - objects of type [blob::blob]
-  roundtrip_blob = function(ctx) {
-    with_connection({
+  roundtrip_blob = function(ctx) with_connection({
       #'   (if supported by the database)
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {
         skip("tweak: omit_blob_tests")
@@ -463,12 +450,10 @@ spec_sql_write_table <- list(
           tbl_out
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' - date
-  roundtrip_date = function(ctx) {
-    with_connection({
+  roundtrip_date = function(ctx) with_connection({
       #'   (if supported by the database;
       if (!isTRUE(ctx$tweaks$date_typed)) {
         skip("tweak: !date_typed")
@@ -483,12 +468,10 @@ spec_sql_write_table <- list(
           tbl_out
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' - time
-  roundtrip_time = function(ctx) {
-    with_connection({
+  roundtrip_time = function(ctx) with_connection({
       #'   (if supported by the database;
       if (!isTRUE(ctx$tweaks$time_typed)) {
         skip("tweak: !time_typed")
@@ -510,12 +493,10 @@ spec_sql_write_table <- list(
           tbl_out
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' - timestamp
-  roundtrip_timestamp = function(ctx) {
-    with_connection({
+  roundtrip_timestamp = function(ctx) with_connection({
       #'   (if supported by the database;
       if (!isTRUE(ctx$tweaks$timestamp_typed)) {
         skip("tweak: !timestamp_typed")
@@ -546,8 +527,7 @@ spec_sql_write_table <- list(
           out
         }
       )
-    })
-  },
+  }), # with_connection
 
   #'
   #' Mixing column types in the same table is supported.
@@ -590,8 +570,7 @@ spec_sql_write_table <- list(
   #'
   #' The interpretation of [rownames] depends on the `row.names` argument,
   #' see [sqlRownamesToColumn()] for details:
-  write_table_row_names_false = function(ctx) {
-    with_connection({
+  write_table_row_names_false = function(ctx) with_connection({
       #' - If `FALSE` or `NULL`, row names are ignored.
       for (row.names in list(FALSE, NULL)) {
         with_remove_test_table(name = "mtcars", {
@@ -603,11 +582,9 @@ spec_sql_write_table <- list(
           expect_equal_df(mtcars_out, unrowname(mtcars_in))
         })
       }
-    })
-  },
+  }), # with_connection
   #
-  write_table_row_names_true_exists = function(ctx) {
-    with_connection({
+  write_table_row_names_true_exists = function(ctx) with_connection({
       #' - If `TRUE`, row names are converted to a column named "row_names",
       row.names <- TRUE
 
@@ -621,11 +598,9 @@ spec_sql_write_table <- list(
         expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
         expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
       })
-    })
-  },
+  }), # with_connection
   #
-  write_table_row_names_true_missing = function(ctx) {
-    with_connection({
+  write_table_row_names_true_missing = function(ctx) with_connection({
       #'   even if the input data frame only has natural row names from 1 to `nrow(...)`.
       row.names <- TRUE
 
@@ -639,11 +614,9 @@ spec_sql_write_table <- list(
         expect_true(all(iris_out$row_names %in% rownames(iris_in)))
         expect_equal_df(iris_out[names(iris_out) != "row_names"], iris_in)
       })
-    })
-  },
+  }), # with_connection
   #
-  write_table_row_names_na_exists = function(ctx) {
-    with_connection({
+  write_table_row_names_na_exists = function(ctx) with_connection({
       #' - If `NA`, a column named "row_names" is created if the data has custom row names,
       row.names <- NA
 
@@ -657,11 +630,9 @@ spec_sql_write_table <- list(
         expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
         expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
       })
-    })
-  },
+  }), # with_connection
   #
-  write_table_row_names_na_missing = function(ctx) {
-    with_connection({
+  write_table_row_names_na_missing = function(ctx) with_connection({
       #'   no extra column is created in the case of natural row names.
       row.names <- NA
 
@@ -672,11 +643,9 @@ spec_sql_write_table <- list(
 
         expect_equal_df(iris_out, iris_in)
       })
-    })
-  },
+  }), # with_connection
   #
-  write_table_row_names_string_exists = function(ctx) {
-    with_connection({
+  write_table_row_names_string_exists = function(ctx) with_connection({
       row.names <- "make_model"
       #' - If a string, this specifies the name of the column in the remote table
       #'   that contains the row names,
@@ -692,11 +661,9 @@ spec_sql_write_table <- list(
         expect_true(all(rownames(mtcars_in) %in% mtcars_out$make_model))
         expect_equal_df(mtcars_out[names(mtcars_out) != "make_model"], unrowname(mtcars_in))
       })
-    })
-  },
+  }), # with_connection
   #
-  write_table_row_names_string_missing = function(ctx) {
-    with_connection({
+  write_table_row_names_string_missing = function(ctx) with_connection({
       row.names <- "seq"
       #'   even if the input data frame only has natural row names.
 
@@ -710,11 +677,9 @@ spec_sql_write_table <- list(
         expect_true(all(rownames(iris_in) %in% iris_out$seq))
         expect_equal_df(iris_out[names(iris_out) != "seq"], iris_in)
       })
-    })
-  },
+  }), # with_connection
   #
-  write_table_row_names_default = function(ctx) {
-    with_connection({
+  write_table_row_names_default = function(ctx) with_connection({
       #'
       #' The default is `row.names = FALSE`.
       with_remove_test_table(name = "mtcars", {
@@ -725,8 +690,7 @@ spec_sql_write_table <- list(
         expect_false("row_names" %in% names(mtcars_out))
         expect_equal_df(mtcars_out, unrowname(mtcars_in))
       })
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

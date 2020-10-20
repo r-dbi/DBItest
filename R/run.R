@@ -103,7 +103,12 @@ patch_test_fun <- function(test_fun, desc) {
 }
 
 wrap_all_statements_with_expect_no_warning <- function(block) {
-  stopifnot(identical(block[[1]], quote(`{`)) || identical(block[[1]], quote(with_connection)))
+  stopifnot(
+    identical(block[[1]], quote(`{`)) ||
+      identical(block[[1]], quote(with_connection)) ||
+      identical(block[[1]], quote(with_closed_connection)) ||
+      identical(block[[1]], quote(with_invalid_connection))
+  )
   block[-1] <- lapply(block[-1], function(x) expr(expect_warning(!!x, NA)))
   block
 }

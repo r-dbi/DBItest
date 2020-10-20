@@ -34,8 +34,7 @@ spec_result_clear_result <- list(
   }), # with_connection
 
   #' in both cases.
-  cannot_clear_result_twice_statement = function(ctx) {
-    with_connection({
+  cannot_clear_result_twice_statement = function(ctx) with_connection({
       table_name <- random_table_name()
       with_remove_test_table(
         name = table_name,
@@ -45,8 +44,7 @@ spec_result_clear_result <- list(
           expect_warning(expect_invisible_true(dbClearResult(res)))
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' @section Specification:
   #' `dbClearResult()` frees all resources associated with retrieving

@@ -42,18 +42,14 @@ spec_result_get_query <- list(
 
 
   #' An error is raised when issuing a query over a closed
-  get_query_closed_connection = function(ctx) {
-    with_closed_connection({
+  get_query_closed_connection = function(ctx) with_closed_connection({
       expect_error(dbGetQuery(con, trivial_query()))
-    })
-  },
+  }), # with_closed_connection
 
   #' or invalid connection,
-  get_query_invalid_connection = function(ctx) {
-    with_invalid_connection({
+  get_query_invalid_connection = function(ctx) with_invalid_connection({
       expect_error(dbGetQuery(con, trivial_query()))
-    })
-  },
+  }), # with_invalid_connection
 
   #' if the syntax of the query is invalid,
   get_query_syntax_error = function(ctx) with_connection({
@@ -172,8 +168,7 @@ spec_result_get_query <- list(
 
   #'
   #' The `param` argument allows passing query parameters, see [dbBind()] for details.
-  get_query_params = function(ctx) {
-    with_connection({
+  get_query_params = function(ctx) with_connection({
       placeholder_funs <- get_placeholder_funs(ctx)
 
       for (placeholder_fun in placeholder_funs) {
@@ -184,8 +179,7 @@ spec_result_get_query <- list(
         ret <- dbGetQuery(con, query, params = params)
         expect_equal(ret, trivial_df(3), info = placeholder)
       }
-    })
-  },
+  }), # with_connection
 
   #' @section Specification for the `immediate` argument:
   #'

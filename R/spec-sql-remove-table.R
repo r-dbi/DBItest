@@ -131,8 +131,7 @@ spec_sql_remove_table <- list(
   }), # with_connection
 
   #' This function can also be used to remove a temporary table.
-  remove_table_temporary = function(ctx) {
-    with_connection({
+  remove_table_temporary = function(ctx) with_connection({
       if (!isTRUE(ctx$tweaks$temporary_tables)) {
         skip("tweak: temporary_tables")
       }
@@ -150,8 +149,7 @@ spec_sql_remove_table <- list(
         }
         expect_false(dbExistsTable(con, "test"))
       })
-    })
-  },
+  }), # with_connection
 
   #'
   #' The `name` argument is processed as follows,

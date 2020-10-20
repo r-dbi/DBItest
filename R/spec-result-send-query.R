@@ -22,18 +22,14 @@ spec_result_send_query <- list(
   }), # with_connection
 
   #' An error is raised when issuing a query over a closed
-  send_query_closed_connection = function(ctx) {
-    with_closed_connection({
+  send_query_closed_connection = function(ctx) with_closed_connection({
       expect_error(dbSendQuery(con, trivial_query()))
-    })
-  },
+  }), # with_closed_connection
 
   #' or invalid connection,
-  send_query_invalid_connection = function(ctx) {
-    with_invalid_connection({
+  send_query_invalid_connection = function(ctx) with_invalid_connection({
       expect_error(dbSendQuery(con, trivial_query()))
-    })
-  },
+  }), # with_invalid_connection
 
   #' or if the query is not a non-`NA` string.
   send_query_non_string = function(ctx) with_connection({

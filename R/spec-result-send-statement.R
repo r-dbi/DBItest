@@ -25,18 +25,14 @@ spec_result_send_statement <- list(
   }), # with_connection
 
   #' An error is raised when issuing a statement over a closed
-  send_statement_closed_connection = function(ctx) {
-    with_closed_connection({
+  send_statement_closed_connection = function(ctx) with_closed_connection({
       expect_error(dbSendStatement(con, trivial_statement()))
-    })
-  },
+  }), # with_closed_connection
 
   #' or invalid connection,
-  send_statement_invalid_connection = function(ctx) {
-    with_invalid_connection({
+  send_statement_invalid_connection = function(ctx) with_invalid_connection({
       expect_error(dbSendStatement(con, trivial_statement()))
-    })
-  },
+  }), # with_invalid_connection
 
   #' or if the statement is not a non-`NA` string.
   send_statement_non_string = function(ctx) with_connection({
@@ -104,8 +100,7 @@ spec_result_send_statement <- list(
   #' @section Specification:
   #'
   #' The `param` argument allows passing query parameters, see [dbBind()] for details.
-  send_statement_params = function(ctx) {
-    with_connection({
+  send_statement_params = function(ctx) with_connection({
       placeholder_funs <- get_placeholder_funs(ctx)
 
       for (placeholder_fun in placeholder_funs) {
@@ -120,8 +115,7 @@ spec_result_send_statement <- list(
           dbClearResult(rs)
         })
       }
-    })
-  },
+  }), # with_connection
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
   send_statement_immediate = function(ctx) with_connection({

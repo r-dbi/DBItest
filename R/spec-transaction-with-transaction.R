@@ -10,27 +10,21 @@ spec_transaction_with_transaction <- list(
 
   #' @return
   #' `dbWithTransaction()` returns the value of the executed code.
-  with_transaction_return_value = function(ctx) {
-    with_connection({
+  with_transaction_return_value = function(ctx) with_connection({
       name <- random_table_name()
       expect_identical(dbWithTransaction(con, name), name)
-    })
-  },
+  }), # with_connection
 
   #' Failure to initiate the transaction
   #' (e.g., if the connection is closed
-  with_transaction_error_closed = function(ctx) {
-    with_closed_connection({
+  with_transaction_error_closed = function(ctx) with_closed_connection({
       expect_error(dbWithTransaction(con, NULL))
-    })
-  },
+  }), # with_closed_connection
 
   #' or invalid
-  with_transaction_error_invalid = function(ctx) {
-    with_invalid_connection({
+  with_transaction_error_invalid = function(ctx) with_invalid_connection({
       expect_error(dbWithTransaction(con, NULL))
-    })
-  },
+  }), # with_invalid_connection
 
   #' of if [dbBegin()] has been called already)
   with_transaction_error_nested = function(ctx) with_connection({
@@ -62,8 +56,7 @@ spec_transaction_with_transaction <- list(
 
   #' If the code raises an error, the transaction is instead aborted with
   #' [dbRollback()], and the error is propagated.
-  with_transaction_failure = function(ctx) {
-    with_connection({
+  with_transaction_failure = function(ctx) with_connection({
       name <- random_table_name()
 
       with_remove_test_table({
@@ -83,13 +76,11 @@ spec_transaction_with_transaction <- list(
 
         expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0L))
       })
-    })
-  },
+  }), # with_connection
 
   #' If the code calls `dbBreak()`, execution of the code stops and the
   #' transaction is silently aborted.
-  with_transaction_break = function(ctx) {
-    with_connection({
+  with_transaction_break = function(ctx) with_connection({
       name <- random_table_name()
 
       with_remove_test_table({
@@ -108,8 +99,7 @@ spec_transaction_with_transaction <- list(
 
         expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0L))
       })
-    })
-  },
+  }), # with_connection
 
   #' All side effects caused by the code
   with_transaction_side_effects = function(ctx) with_connection({

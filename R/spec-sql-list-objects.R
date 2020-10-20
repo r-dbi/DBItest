@@ -83,18 +83,14 @@ spec_sql_list_objects <- list(
   }), # with_connection
 
   #' An error is raised when calling this method for a closed
-  list_objects_closed_connection = function(ctx) {
-    with_closed_connection({
+  list_objects_closed_connection = function(ctx) with_closed_connection({
       expect_error(dbListObjects(con))
-    })
-  },
+  }), # with_closed_connection
 
   #' or invalid connection.
-  list_objects_invalid_connection = function(ctx) {
-    with_invalid_connection({
+  list_objects_invalid_connection = function(ctx) with_invalid_connection({
       expect_error(dbListObjects(con))
-    })
-  },
+  }), # with_invalid_connection
 
   #' @section Specification:
   list_objects_features = function(ctx) with_connection({

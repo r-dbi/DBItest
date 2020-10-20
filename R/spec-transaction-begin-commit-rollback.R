@@ -34,41 +34,32 @@ spec_transaction_begin_commit_rollback <- list(
 
   #' The implementations are expected to raise an error in case of failure,
   #' but this is not tested.
-  begin_commit_closed = function(ctx) {
-    with_closed_connection({
+  begin_commit_closed = function(ctx) with_closed_connection({
       #' In any way, all generics throw an error with a closed
       expect_error(dbBegin(con))
       expect_error(dbCommit(con))
       expect_error(dbRollback(con))
-    })
-  },
+  }), # with_closed_connection
   #
-  begin_commit_invalid = function(ctx) {
-    with_invalid_connection({
+  begin_commit_invalid = function(ctx) with_invalid_connection({
       #' or invalid connection.
       expect_error(dbBegin(con))
       expect_error(dbCommit(con))
       expect_error(dbRollback(con))
-    })
-  },
+  }), # with_invalid_connection
   #
-  commit_without_begin = function(ctx) {
-    with_connection({
+  commit_without_begin = function(ctx) with_connection({
       #' In addition, a call to `dbCommit()`
       expect_error(dbCommit(con))
-    })
-  },
+  }), # with_connection
   #
-  rollback_without_begin = function(ctx) {
-    with_connection({
+  rollback_without_begin = function(ctx) with_connection({
       #' or `dbRollback()`
       #' without a prior call to `dbBegin()` raises an error.
       expect_error(dbRollback(con))
-    })
-  },
+  }), # with_connection
   #
-  begin_begin = function(ctx) {
-    with_connection({
+  begin_begin = function(ctx) with_connection({
       #' Nested transactions are not supported by DBI,
       #' an attempt to call `dbBegin()` twice
       dbBegin(con)
@@ -77,8 +68,7 @@ spec_transaction_begin_commit_rollback <- list(
         expect_error(dbBegin(con))
         dbCommit(con)
       })
-    })
-  },
+  }), # with_connection
 
   #' @section Specification:
   #' Actual support for transactions may vary between backends.

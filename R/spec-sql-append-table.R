@@ -49,18 +49,14 @@ spec_sql_append_table <- list(
 
   #'
   #' An error is raised when calling this method for a closed
-  append_table_closed_connection = function(ctx) {
-    with_closed_connection({
+  append_table_closed_connection = function(ctx) with_closed_connection({
       expect_error(dbAppendTable(con, "test", data.frame(a = 1)))
-    })
-  },
+  }), # with_closed_connection
 
   #' or invalid connection.
-  append_table_invalid_connection = function(ctx) {
-    with_invalid_connection({
+  append_table_invalid_connection = function(ctx) with_invalid_connection({
       expect_error(dbAppendTable(con, "test", data.frame(a = 1)))
-    })
-  },
+  }), # with_invalid_connection
 
   #' An error is also raised
   append_table_error = function(ctx) with_connection({
@@ -140,13 +136,11 @@ spec_sql_append_table <- list(
   }), # with_connection
 
   #' - numeric
-  append_roundtrip_numeric = function(ctx) {
-    with_connection({
+  append_roundtrip_numeric = function(ctx) with_connection({
       tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
       test_table_roundtrip(use_append = TRUE, con, tbl_in)
       #'   (the behavior for `Inf` and `NaN` is not specified)
-    })
-  },
+  }), # with_connection
 
   #' - logical
   append_roundtrip_logical = function(ctx) with_connection({
@@ -456,8 +450,7 @@ spec_sql_append_table <- list(
       })
   }), # with_connection
   #
-  append_table_row_names_non_null = function(ctx) {
-    with_connection({
+  append_table_row_names_non_null = function(ctx) with_connection({
       #' All other values for the `row.names` argument
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
@@ -472,8 +465,7 @@ spec_sql_append_table <- list(
       })
 
       #' raise an error.
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

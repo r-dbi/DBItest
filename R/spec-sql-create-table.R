@@ -32,18 +32,14 @@ spec_sql_create_table <- list(
 
   #'
   #' An error is raised when calling this method for a closed
-  create_table_closed_connection = function(ctx) {
-    with_closed_connection({
+  create_table_closed_connection = function(ctx) with_closed_connection({
       expect_error(dbCreateTable(con, "test", data.frame(a = 1)))
-    })
-  },
+  }), # with_closed_connection
 
   #' or invalid connection.
-  create_table_invalid_connection = function(ctx) {
-    with_invalid_connection({
+  create_table_invalid_connection = function(ctx) with_invalid_connection({
       expect_error(dbCreateTable(con, "test", data.frame(a = 1)))
-    })
-  },
+  }), # with_invalid_connection
 
   #' An error is also raised
   create_table_error = function(ctx) with_connection({
@@ -205,8 +201,7 @@ spec_sql_create_table <- list(
 
   #'
   #' The `row.names` argument must be missing
-  create_table_row_names_default = function(ctx) {
-    with_connection({
+  create_table_row_names_default = function(ctx) with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbCreateTable(con, "mtcars", mtcars_in)
@@ -215,11 +210,9 @@ spec_sql_create_table <- list(
         expect_false("row_names" %in% names(mtcars_out))
         expect_equal_df(mtcars_out, unrowname(mtcars_in)[0, , drop = FALSE])
       })
-    })
-  },
+  }), # with_connection
   #' or `NULL`, the default value.
-  create_table_row_names_null = function(ctx) {
-    with_connection({
+  create_table_row_names_null = function(ctx) with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
         dbCreateTable(con, "mtcars", mtcars_in, row.names = NULL)
@@ -228,11 +221,9 @@ spec_sql_create_table <- list(
         expect_false("row_names" %in% names(mtcars_out))
         expect_equal_df(mtcars_out, unrowname(mtcars_in)[0, , drop = FALSE])
       })
-    })
-  },
+  }), # with_connection
   #
-  create_table_row_names_non_null = function(ctx) {
-    with_connection({
+  create_table_row_names_non_null = function(ctx) with_connection({
       #' All other values for the `row.names` argument
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars
@@ -245,8 +236,7 @@ spec_sql_create_table <- list(
         expect_error(dbCreateTable(con, "mtcars", mtcars_in, row.names = "make_model"))
         #' raise an error.
       })
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

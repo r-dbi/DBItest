@@ -4,8 +4,7 @@
 #' @keywords internal
 #' @name spec_get_info
 spec_meta_get_info_result <- list(
-  get_info_result = function(ctx) {
-    with_connection({
+  get_info_result = function(ctx) with_connection({
       #' @return
       #' For objects of class [DBIResult-class], `dbGetInfo()`
       info <- with_result(
@@ -41,8 +40,7 @@ spec_meta_get_info_result <- list(
           expect_true(.(name) %in% info_names)
         ))
       }
-    })
-  },
+  }), # with_connection
   #
   NULL
 )
