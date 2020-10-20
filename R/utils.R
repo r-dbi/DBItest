@@ -35,7 +35,7 @@ with_connection <- function(code, con = "con", env = parent.frame()) {
 # evaluates the code inside local() after defining a variable "con"
 # (can be overridden by specifying con argument)
 # that points to a newly opened and then closed connection. Disconnects on exit.
-with_closed_connection <- function(code, con = "con", env = parent.frame()) {
+with_closed_connection <- function(code, con = "closed_con", env = parent.frame()) {
   code_sub <- substitute(code)
 
   con <- as.name(con)
@@ -54,7 +54,7 @@ with_closed_connection <- function(code, con = "con", env = parent.frame()) {
 # evaluates the code inside local() after defining a variable "con"
 # (can be overridden by specifying con argument)
 # that points to a newly opened but invalidated connection. Disconnects on exit.
-with_invalid_connection <- function(code, con = "con", env = parent.frame()) {
+with_invalid_connection <- function(code, con = "invalid_con", env = parent.frame()) {
   code_sub <- substitute(code)
 
   stopifnot(con != "..con")

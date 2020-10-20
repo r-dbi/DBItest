@@ -24,7 +24,7 @@ spec_meta_is_valid <- list(
   is_valid_stale_connection = function(ctx) with_invalid_connection({
       #' For an invalid connection object (e.g., for some drivers if the object
       #' is saved to a file and then restored), the method also returns `FALSE`.
-      expect_false(expect_visible(dbIsValid(con)))
+      expect_false(expect_visible(dbIsValid(invalid_con)))
   }), # with_invalid_connection
   #
   is_valid_result_query = function(ctx, con) {

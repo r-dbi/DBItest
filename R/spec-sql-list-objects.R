@@ -84,12 +84,12 @@ spec_sql_list_objects <- list(
 
   #' An error is raised when calling this method for a closed
   list_objects_closed_connection = function(ctx) with_closed_connection({
-      expect_error(dbListObjects(con))
+      expect_error(dbListObjects(closed_con))
   }), # with_closed_connection
 
   #' or invalid connection.
   list_objects_invalid_connection = function(ctx) with_invalid_connection({
-      expect_error(dbListObjects(con))
+      expect_error(dbListObjects(invalid_con))
   }), # with_invalid_connection
 
   #' @section Specification:

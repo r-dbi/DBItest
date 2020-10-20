@@ -43,12 +43,12 @@ spec_result_get_query <- list(
 
   #' An error is raised when issuing a query over a closed
   get_query_closed_connection = function(ctx) with_closed_connection({
-      expect_error(dbGetQuery(con, trivial_query()))
+      expect_error(dbGetQuery(closed_con, trivial_query()))
   }), # with_closed_connection
 
   #' or invalid connection,
   get_query_invalid_connection = function(ctx) with_invalid_connection({
-      expect_error(dbGetQuery(con, trivial_query()))
+      expect_error(dbGetQuery(invalid_con, trivial_query()))
   }), # with_invalid_connection
 
   #' if the syntax of the query is invalid,

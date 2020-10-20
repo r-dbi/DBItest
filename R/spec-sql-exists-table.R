@@ -34,12 +34,12 @@ spec_sql_exists_table <- list(
   #'
   #' An error is raised when calling this method for a closed
   exists_table_closed_connection = function(ctx) with_closed_connection({
-      expect_error(dbExistsTable(con, "test"))
+      expect_error(dbExistsTable(closed_con, "test"))
   }), # with_closed_connection
 
   #' or invalid connection.
   exists_table_invalid_connection = function(ctx) with_invalid_connection({
-      expect_error(dbExistsTable(con, "test"))
+      expect_error(dbExistsTable(invalid_con, "test"))
   }), # with_invalid_connection
 
   #' An error is also raised

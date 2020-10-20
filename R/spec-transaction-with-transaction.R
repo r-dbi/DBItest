@@ -18,12 +18,12 @@ spec_transaction_with_transaction <- list(
   #' Failure to initiate the transaction
   #' (e.g., if the connection is closed
   with_transaction_error_closed = function(ctx) with_closed_connection({
-      expect_error(dbWithTransaction(con, NULL))
+      expect_error(dbWithTransaction(closed_con, NULL))
   }), # with_closed_connection
 
   #' or invalid
   with_transaction_error_invalid = function(ctx) with_invalid_connection({
-      expect_error(dbWithTransaction(con, NULL))
+      expect_error(dbWithTransaction(invalid_con, NULL))
   }), # with_invalid_connection
 
   #' of if [dbBegin()] has been called already)

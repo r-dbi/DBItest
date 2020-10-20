@@ -50,12 +50,12 @@ spec_sql_append_table <- list(
   #'
   #' An error is raised when calling this method for a closed
   append_table_closed_connection = function(ctx) with_closed_connection({
-      expect_error(dbAppendTable(con, "test", data.frame(a = 1)))
+      expect_error(dbAppendTable(closed_con, "test", data.frame(a = 1)))
   }), # with_closed_connection
 
   #' or invalid connection.
   append_table_invalid_connection = function(ctx) with_invalid_connection({
-      expect_error(dbAppendTable(con, "test", data.frame(a = 1)))
+      expect_error(dbAppendTable(invalid_con, "test", data.frame(a = 1)))
   }), # with_invalid_connection
 
   #' An error is also raised

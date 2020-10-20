@@ -56,12 +56,12 @@ spec_sql_list_fields <- list(
 
   #' An error is also raised when calling this method for a closed
   list_fields_closed_connection = function(ctx) with_closed_connection({
-      expect_error(dbListFields(con, "test"))
+      expect_error(dbListFields(closed_con, "test"))
   }), # with_closed_connection
 
   #' or invalid connection.
   list_fields_invalid_connection = function(ctx) with_invalid_connection({
-      expect_error(dbListFields(con, "test"))
+      expect_error(dbListFields(invalid_con, "test"))
   }), # with_invalid_connection
 
   #' @section Specification:
