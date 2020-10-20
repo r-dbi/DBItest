@@ -31,16 +31,14 @@ spec_meta_bind <- list(
     })
   },
   #
-  bind_empty = function(ctx) {
-    with_connection({
+  bind_empty = function(ctx) with_connection({
       with_result(
         #' Calling `dbBind()` for a query without parameters
         dbSendQuery(con, trivial_query()),
         #' raises an error.
         expect_error(dbBind(res, list()))
       )
-    })
-  },
+  }), # with_connection
   #
   bind_too_many = function(ctx) {
     extra <- new_bind_tester_extra(
@@ -187,34 +185,28 @@ spec_meta_bind <- list(
 
   #' @section Specification:
   #' The elements of the `params` argument do not need to be scalars,
-  bind_multi_row = function(ctx) {
-    with_connection({
+  bind_multi_row = function(ctx) with_connection({
       #' vectors of arbitrary length
       test_select_bind(con, ctx, list(1:3))
-    })
-  },
+  }), # with_connection
   #
-  bind_multi_row_zero_length = function(ctx) {
-    with_connection({
+  bind_multi_row_zero_length = function(ctx) with_connection({
       #' (including length 0)
       test_select_bind(con, ctx, list(integer(), integer()))
-    })
 
     #' are supported.
     # This behavior is tested as part of run_bind_tester$fun
     #' For queries, calling `dbFetch()` binding such parameters returns
     #' concatenated results, equivalent to binding and fetching for each set
     #' of values and connecting via [rbind()].
-  },
+  }), # with_connection
   #
-  bind_multi_row_statement = function(ctx) {
-    with_connection({
+  bind_multi_row_statement = function(ctx) with_connection({
       # This behavior is tested as part of run_bind_tester$fun
       #' For data manipulation statements, `dbGetRowsAffected()` returns the
       #' total number of rows affected if binding non-scalar parameters.
       test_select_bind(con, ctx, list(1:3), query = FALSE)
-    })
-  },
+  }), # with_connection
   #
   bind_repeated = function(ctx) {
     extra <- new_bind_tester_extra(
@@ -268,36 +260,27 @@ spec_meta_bind <- list(
   #'
   #' At least the following data types are accepted on input (including [NA]):
   #' - [integer]
-  bind_integer = function(ctx) {
-    with_connection({
+  bind_integer = function(ctx) with_connection({
       test_select_bind(con, ctx, c(1:3, NA))
-    })
-  },
+  }), # with_connection
 
   #' - [numeric]
-  bind_numeric = function(ctx) {
-    with_connection({
+  bind_numeric = function(ctx) with_connection({
       test_select_bind(con, ctx, c(1:3 + 0.5, NA))
-    })
-  },
+  }), # with_connection
 
   #' - [logical] for Boolean values
-  bind_logical = function(ctx) {
-    with_connection({
+  bind_logical = function(ctx) with_connection({
       test_select_bind(con, ctx, c(TRUE, FALSE, NA))
-    })
-  },
+  }), # with_connection
 
   #' - [character]
-  bind_character = function(ctx) {
-    with_connection({
+  bind_character = function(ctx) with_connection({
       test_select_bind(con, ctx, c(texts, NA))
-    })
-  },
+  }), # with_connection
 
   #' - [factor] (bound as character,
-  bind_factor = function(ctx) {
-    with_connection({
+  bind_factor = function(ctx) with_connection({
       #' with warning)
       expect_warning(
         test_select_bind(
@@ -306,8 +289,7 @@ spec_meta_bind <- list(
           lapply(c(texts, NA_character_), factor)
         )
       )
-    })
-  },
+  }), # with_connection
 
   #' - [Date]
   bind_date = function(ctx) {

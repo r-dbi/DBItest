@@ -10,8 +10,7 @@ spec_sql_list_objects <- list(
 
   #' @return
   #' `dbListObjects()`
-  list_objects = function(ctx) {
-    with_connection({
+  list_objects = function(ctx) with_connection({
       with_remove_test_table(name = "iris", {
         objects <- dbListObjects(con)
         #' returns a data frame
@@ -81,8 +80,7 @@ spec_sql_list_objects <- list(
           expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
         })
       }
-    })
-  },
+  }), # with_connection
 
   #' An error is raised when calling this method for a closed
   list_objects_closed_connection = function(ctx) {
@@ -99,8 +97,7 @@ spec_sql_list_objects <- list(
   },
 
   #' @section Specification:
-  list_objects_features = function(ctx) {
-    with_connection({
+  list_objects_features = function(ctx) with_connection({
       objects <- dbListObjects(con)
 
       #' The `table` object can be quoted with [dbQuoteIdentifier()].
@@ -146,8 +143,7 @@ spec_sql_list_objects <- list(
           eval(bquote(expect_true(dbExistsTable(con, .(sub_table)))))
         }
       }
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

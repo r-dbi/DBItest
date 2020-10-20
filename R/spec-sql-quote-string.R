@@ -9,19 +9,16 @@ spec_sql_quote_string <- list(
   },
 
   #' @return
-  quote_string_return = function(ctx) {
-    with_connection({
+  quote_string_return = function(ctx) with_connection({
       #' `dbQuoteString()` returns an object that can be coerced to [character],
       simple <- "simple"
       simple_out <- dbQuoteString(con, simple)
       expect_error(as.character(simple_out), NA)
       expect_is(as.character(simple_out), "character")
       expect_equal(length(simple_out), 1L)
-    })
-  },
+  }), # with_connection
   #
-  quote_string_vectorized = function(ctx) {
-    with_connection({
+  quote_string_vectorized = function(ctx) with_connection({
       #' of the same length as the input.
       letters_out <- dbQuoteString(con, letters)
       expect_equal(length(letters_out), length(letters))
@@ -29,11 +26,9 @@ spec_sql_quote_string <- list(
       #' For an empty character vector this function returns a length-0 object.
       empty_out <- dbQuoteString(con, character())
       expect_equal(length(empty_out), 0L)
-    })
-  },
+  }), # with_connection
   #
-  quote_string_double = function(ctx) {
-    with_connection({
+  quote_string_double = function(ctx) with_connection({
       simple <- "simple"
       simple_out <- dbQuoteString(con, simple)
 
@@ -56,12 +51,10 @@ spec_sql_quote_string <- list(
 
       #' (For backends it may be most convenient to return [SQL] objects
       #' to achieve this behavior, but this is not required.)
-    })
-  },
+  }), # with_connection
 
   #' @section Specification:
-  quote_string_roundtrip = function(ctx) {
-    with_connection({
+  quote_string_roundtrip = function(ctx) with_connection({
       do_test_string <- function(x) {
         #' The returned expression can be used in a `SELECT ...` query,
         query <- paste0("SELECT ", paste(dbQuoteString(con, x), collapse = ", "))
@@ -100,11 +93,9 @@ spec_sql_quote_string <- list(
 
       test_strings <- c(test_strings_0, test_strings_1, test_strings_2)
       do_test_string(test_strings)
-    })
-  },
+  }), # with_connection
   #
-  quote_string_na = function(ctx) {
-    with_connection({
+  quote_string_na = function(ctx) with_connection({
       null <- dbQuoteString(con, NA_character_)
       quoted_null <- dbQuoteString(con, as.character(null))
       na <- dbQuoteString(con, "NA")
@@ -125,11 +116,9 @@ spec_sql_quote_string <- list(
       expect_identical(rows$na_return, "NA")
       expect_identical(rows$quoted_null, as.character(null))
       expect_identical(rows$quoted_na, as.character(na))
-    })
-  },
+  }), # with_connection
   #
-  quote_string_na_is_null = function(ctx) {
-    with_connection({
+  quote_string_na_is_null = function(ctx) with_connection({
       #'
       #' `NA` should be translated to an unquoted SQL `NULL`,
       null <- dbQuoteString(con, NA_character_)
@@ -137,11 +126,9 @@ spec_sql_quote_string <- list(
       rows <- check_df(dbGetQuery(con, paste0("SELECT * FROM (SELECT 1) a WHERE ", null, " IS NULL")))
       #' returns one row.
       expect_equal(nrow(rows), 1L)
-    })
-  },
+  }), # with_connection
   #
-  quote_string_error = function(ctx) {
-    with_connection({
+  quote_string_error = function(ctx) with_connection({
       #'
       #' Passing a numeric,
       expect_error(dbQuoteString(con, c(1, 2, 3)))
@@ -154,8 +141,7 @@ spec_sql_quote_string <- list(
       #' or a list
       expect_error(dbQuoteString(con, as.list(1:3)))
       #' for the `x` argument raises an error.
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

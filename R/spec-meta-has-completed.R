@@ -10,8 +10,7 @@ spec_meta_has_completed <- list(
 
   #' @return
   #' `dbHasCompleted()` returns a logical scalar.
-  has_completed_query = function(ctx) {
-    with_connection({
+  has_completed_query = function(ctx) with_connection({
       #' For a query initiated by [dbSendQuery()] with non-empty result set,
       with_result(
         dbSendQuery(con, trivial_query()),
@@ -23,11 +22,9 @@ spec_meta_has_completed <- list(
           expect_true(expect_visible(dbHasCompleted(res)))
         }
       )
-    })
-  },
+  }), # with_connection
   #
-  has_completed_statement = function(ctx) {
-    with_connection({
+  has_completed_statement = function(ctx) with_connection({
       name <- random_table_name()
 
       with_remove_test_table(name = name, {
@@ -40,22 +37,18 @@ spec_meta_has_completed <- list(
           }
         )
       })
-    })
-  },
+  }), # with_connection
   #
-  has_completed_error = function(ctx) {
-    with_connection({
+  has_completed_error = function(ctx) with_connection({
       res <- dbSendQuery(con, trivial_query())
       dbClearResult(res)
       #' Attempting to query completion status for a result set cleared with
       #' [dbClearResult()] gives an error.
       expect_error(dbHasCompleted(res))
-    })
-  },
+  }), # with_connection
 
   #' @section Specification:
-  has_completed_query_spec = function(ctx) {
-    with_connection({
+  has_completed_query_spec = function(ctx) with_connection({
       #' The completion status for a query is only guaranteed to be set to
       #' `FALSE` after attempting to fetch past the end of the entire result.
       #' Therefore, for a query with an empty result set,
@@ -81,8 +74,7 @@ spec_meta_has_completed <- list(
           expect_true(expect_visible(dbHasCompleted(res)))
         }
       )
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

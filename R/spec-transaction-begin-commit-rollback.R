@@ -20,21 +20,17 @@ spec_transaction_begin_commit_rollback <- list(
 
   #' @return
   #' `dbBegin()`, `dbCommit()` and `dbRollback()` return `TRUE`, invisibly.
-  begin_commit_return_value = function(ctx) {
-    with_connection({
+  begin_commit_return_value = function(ctx) with_connection({
       expect_invisible_true(dbBegin(con))
       with_rollback_on_error({
         expect_invisible_true(dbCommit(con))
       })
-    })
-  },
+  }), # with_connection
   #
-  begin_rollback_return_value = function(ctx) {
-    with_connection({
+  begin_rollback_return_value = function(ctx) with_connection({
       expect_invisible_true(dbBegin(con))
       expect_invisible_true(dbRollback(con))
-    })
-  },
+  }), # with_connection
 
   #' The implementations are expected to raise an error in case of failure,
   #' but this is not tested.
@@ -86,8 +82,7 @@ spec_transaction_begin_commit_rollback <- list(
 
   #' @section Specification:
   #' Actual support for transactions may vary between backends.
-  begin_commit = function(ctx) {
-    with_connection({
+  begin_commit = function(ctx) with_connection({
       #' A transaction is initiated by a call to `dbBegin()`
       dbBegin(con)
       #' and committed by a call to `dbCommit()`.
@@ -100,8 +95,7 @@ spec_transaction_begin_commit_rollback <- list(
         NA
       )
       if (!success) dbRollback(con)
-    })
-  },
+  }), # with_connection
 
   #' Data written in a transaction must persist after the transaction is committed.
   begin_write_commit = function(ctx) {
@@ -135,20 +129,17 @@ spec_transaction_begin_commit_rollback <- list(
     })
   },
   #
-  begin_rollback = function(ctx) {
-    with_connection({
+  begin_rollback = function(ctx) with_connection({
       #'
       #' A transaction
       dbBegin(con)
       #' can also be aborted with `dbRollback()`.
       expect_error(dbRollback(con), NA)
-    })
-  },
+  }), # with_connection
 
   #' All data written in such a transaction must be removed after the
   #' transaction is rolled back.
-  begin_write_rollback = function(ctx) {
-    with_connection({
+  begin_write_rollback = function(ctx) with_connection({
       #' For example, a record that is missing when the transaction is started
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
@@ -162,8 +153,7 @@ spec_transaction_begin_commit_rollback <- list(
         dbRollback(con)
         expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0L))
       })
-    })
-  },
+  }), # with_connection
   #
   begin_write_disconnect = function(ctx) {
     #'

@@ -10,8 +10,7 @@ spec_result_execute <- list(
 
   #' @return
   #' `dbExecute()` always returns a
-  execute_atomic = function(ctx) {
-    with_connection({
+  execute_atomic = function(ctx) with_connection({
       with_remove_test_table({
         query <- trivial_statement()
 
@@ -23,8 +22,7 @@ spec_result_execute <- list(
         #' that specifies the number of rows affected
         #' by the statement.
       })
-    })
-  },
+  }), # with_connection
 
   #' An error is raised when issuing a statement over a closed
   execute_closed_connection = function(ctx) {
@@ -41,20 +39,16 @@ spec_result_execute <- list(
   },
 
   #' if the syntax of the statement is invalid,
-  execute_syntax_error = function(ctx) {
-    with_connection({
+  execute_syntax_error = function(ctx) with_connection({
       expect_error(dbExecute(con, "CREATTE"))
-    })
-  },
+  }), # with_connection
 
   #' or if the statement is not a non-`NA` string.
-  execute_non_string = function(ctx) {
-    with_connection({
+  execute_non_string = function(ctx) with_connection({
       expect_error(dbExecute(con, character()))
       expect_error(dbExecute(con, letters))
       expect_error(dbExecute(con, NA_character_))
-    })
-  },
+  }), # with_connection
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbExecute()` generic
@@ -69,8 +63,7 @@ spec_result_execute <- list(
   #' @section Specification:
   #'
   #' The `param` argument allows passing query parameters, see [dbBind()] for details.
-  execute_params = function(ctx) {
-    with_connection({
+  execute_params = function(ctx) with_connection({
       placeholder_funs <- get_placeholder_funs(ctx)
 
       for (placeholder_fun in placeholder_funs) {
@@ -84,18 +77,15 @@ spec_result_execute <- list(
           expect_equal(ret, 2, info = placeholder)
         })
       }
-    })
-  },
+  }), # with_connection
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  execute_immediate = function(ctx) {
-    with_connection({
+  execute_immediate = function(ctx) with_connection({
       with_remove_test_table({
         res <- expect_visible(dbExecute(con, trivial_statement(), immediate = TRUE))
         expect_true(is.numeric(res))
       })
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

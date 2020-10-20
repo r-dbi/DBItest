@@ -10,8 +10,7 @@ spec_meta_column_info <- list(
 
   #' @return
   #' `dbColumnInfo()`
-  column_info = function(ctx) {
-    with_connection({
+  column_info = function(ctx) with_connection({
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
@@ -38,28 +37,24 @@ spec_meta_column_info <- list(
           }
         )
       })
-    })
-  },
+  }), # with_connection
 
 
   #'
   #' An attempt to query columns for a closed result set raises an error.
-  column_info_closed = function(ctx) {
-    with_connection({
+  column_info_closed = function(ctx) with_connection({
       query <- trivial_query()
 
       res <- dbSendQuery(con, query)
       dbClearResult(res)
 
       expect_error(dbColumnInfo(res))
-    })
-  },
+  }), # with_connection
 
   #' @section Specification:
   #'
   #' A column named `row_names` is treated like any other column.
-  column_info_row_names = function(ctx) {
-    with_connection({
+  column_info_row_names = function(ctx) with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L, row_names = 2L))
         with_result(
@@ -69,12 +64,10 @@ spec_meta_column_info <- list(
           }
         )
       })
-    })
-  },
+  }), # with_connection
 
   #'
-  column_info_consistent = function(ctx) {
-    with_connection({
+  column_info_consistent = function(ctx) with_connection({
       with_result(
         dbSendQuery(con, "SELECT 1.5 AS a, 2.5 AS b"),
         {
@@ -125,8 +118,7 @@ spec_meta_column_info <- list(
           expect_equal(data[["for"]], 1.5)
         }
       )
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

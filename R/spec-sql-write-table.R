@@ -11,17 +11,14 @@ spec_sql_write_table <- list(
 
   #' @return
   #' `dbWriteTable()` returns `TRUE`, invisibly.
-  write_table_return = function(ctx) {
-    with_connection({
+  write_table_return = function(ctx) with_connection({
       with_remove_test_table({
         expect_invisible_true(dbWriteTable(con, "test", data.frame(a = 1L)))
       })
-    })
-  },
+  }), # with_connection
 
   #' If the table exists, and both `append` and `overwrite` arguments are unset,
-  write_table_overwrite = function(ctx) {
-    with_connection({
+  write_table_overwrite = function(ctx) with_connection({
       with_remove_test_table({
         test_in <- data.frame(a = 1L)
         dbWriteTable(con, "test", test_in)
@@ -30,14 +27,12 @@ spec_sql_write_table <- list(
         test_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(test_out, test_in)
       })
-    })
-  },
+  }), # with_connection
 
   #' or `append = TRUE` and the data frame with the new data has different
   #' column names,
   #' an error is raised; the remote table remains unchanged.
-  write_table_append_incompatible = function(ctx) {
-    with_connection({
+  write_table_append_incompatible = function(ctx) with_connection({
       with_remove_test_table({
         test_in <- data.frame(a = 1L)
         dbWriteTable(con, "test", test_in)
@@ -46,8 +41,7 @@ spec_sql_write_table <- list(
         test_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(test_out, test_in)
       })
-    })
-  },
+  }), # with_connection
 
   #'
   #' An error is raised when calling this method for a closed
@@ -65,8 +59,7 @@ spec_sql_write_table <- list(
   },
 
   #' An error is also raised
-  write_table_error = function(ctx) {
-    with_connection({
+  write_table_error = function(ctx) with_connection({
       test_in <- data.frame(a = 1L)
       with_remove_test_table({
         #' if `name` cannot be processed with [dbQuoteIdentifier()]
@@ -109,8 +102,7 @@ spec_sql_write_table <- list(
         expect_error(dbWriteTable(con, "test", data.frame(b = 2L, c = 3L), append = TRUE))
       })
       #' also raise an error.
-    })
-  },
+  }), # with_connection
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbWriteTable()` generic
@@ -127,8 +119,7 @@ spec_sql_write_table <- list(
 
   #' @section Specification:
   #' The `name` argument is processed as follows,
-  write_table_name = function(ctx) {
-    with_connection({
+  write_table_name = function(ctx) with_connection({
       #' to support databases that allow non-syntactic names for their objects:
       if (isTRUE(ctx$tweaks$strict_identifier)) {
         table_names <- "a"
@@ -153,14 +144,12 @@ spec_sql_write_table <- list(
           expect_equal_df(test_out, test_in)
         })
       }
-    })
-  },
+  }), # with_connection
 
   #'
   #' If the `overwrite` argument is `TRUE`, an existing table of the same name
   #' will be overwritten.
-  overwrite_table = function(ctx) {
-    with_connection({
+  overwrite_table = function(ctx) with_connection({
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
@@ -171,12 +160,10 @@ spec_sql_write_table <- list(
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris[1:10, ])
       })
-    })
-  },
+  }), # with_connection
 
   #' This argument doesn't change behavior if the table does not exist yet.
-  overwrite_table_missing = function(ctx) {
-    with_connection({
+  overwrite_table_missing = function(ctx) with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         expect_error(
@@ -186,14 +173,12 @@ spec_sql_write_table <- list(
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris_in[1:10, ])
       })
-    })
-  },
+  }), # with_connection
 
   #'
   #' If the `append` argument is `TRUE`, the rows in an existing table are
   #' preserved, and the new data are appended.
-  append_table = function(ctx) {
-    with_connection({
+  append_table = function(ctx) with_connection({
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
@@ -201,20 +186,17 @@ spec_sql_write_table <- list(
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, rbind(iris, iris[1:10, ]))
       })
-    })
-  },
+  }), # with_connection
 
   #' If the table doesn't exist yet, it is created.
-  append_table_new = function(ctx) {
-    with_connection({
+  append_table_new = function(ctx) with_connection({
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         expect_error(dbWriteTable(con, "iris", iris[1:10, ], append = TRUE), NA)
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris[1:10, ])
       })
-    })
-  },
+  }), # with_connection
 
   #'
   #' If the `temporary` argument is `TRUE`, the table is not available in a
@@ -269,21 +251,18 @@ spec_sql_write_table <- list(
 
   #'
   #' SQL keywords can be used freely in table names, column names, and data.
-  roundtrip_keywords = function(ctx) {
-    with_connection({
+  roundtrip_keywords = function(ctx) with_connection({
       tbl_in <- data.frame(
         SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in, name = "EXISTS")
-    })
-  },
+  }), # with_connection
 
   #' Quotes, commas, and spaces can also be used in the data,
   #' and, if the database supports non-syntactic identifiers,
   #' also for table names and column names.
-  roundtrip_quotes = function(ctx) {
-    with_connection({
+  roundtrip_quotes = function(ctx) with_connection({
       if (!isTRUE(ctx$tweaks$strict_identifier)) {
         table_names <- c(
           as.character(dbQuoteIdentifier(con, "")),
@@ -315,19 +294,16 @@ spec_sql_write_table <- list(
 
         test_table_roundtrip(con, tbl_in)
       }
-    })
-  },
+  }), # with_connection
 
   #'
   #' The following data types must be supported at least,
   #' and be read identically with [dbReadTable()]:
   #' - integer
-  roundtrip_integer = function(ctx) {
-    with_connection({
+  roundtrip_integer = function(ctx) with_connection({
       tbl_in <- data.frame(a = c(1:5))
       test_table_roundtrip(con, tbl_in)
-    })
-  },
+  }), # with_connection
 
   #' - numeric
   roundtrip_numeric = function(ctx) {
@@ -339,18 +315,15 @@ spec_sql_write_table <- list(
   },
 
   #' - logical
-  roundtrip_logical = function(ctx) {
-    with_connection({
+  roundtrip_logical = function(ctx) with_connection({
       tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
       tbl_exp <- tbl_in
       tbl_exp$a <- ctx$tweaks$logical_return(tbl_exp$a)
       test_table_roundtrip(con, tbl_in, tbl_exp)
-    })
-  },
+  }), # with_connection
 
   #' - `NA` as NULL
-  roundtrip_null = function(ctx) {
-    with_connection({
+  roundtrip_null = function(ctx) with_connection({
       tbl_in <- data.frame(a = NA)
       test_table_roundtrip(
         con, tbl_in,
@@ -359,12 +332,10 @@ spec_sql_write_table <- list(
           tbl_out
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' - 64-bit values (using `"bigint"` as field type); the result can be
-  roundtrip_64_bit_numeric = function(ctx) {
-    with_connection({
+  roundtrip_64_bit_numeric = function(ctx) with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
       test_table_roundtrip(
         con, tbl_in,
@@ -375,11 +346,9 @@ spec_sql_write_table <- list(
         },
         field.types = c(a = "BIGINT")
       )
-    })
-  },
+  }), # with_connection
   #
-  roundtrip_64_bit_character = function(ctx) {
-    with_connection({
+  roundtrip_64_bit_character = function(ctx) with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
       tbl_exp <- tbl_in
       tbl_exp$a <- format(tbl_exp$a, scientific = FALSE)
@@ -393,11 +362,9 @@ spec_sql_write_table <- list(
         },
         field.types = c(a = "BIGINT")
       )
-    })
-  },
+  }), # with_connection
   #
-  roundtrip_64_bit_roundtrip = function(ctx) {
-    with_connection({
+  roundtrip_64_bit_roundtrip = function(ctx) with_connection({
       tbl_in <- data.frame(a = c(-1e14, 1e15))
       tbl_out <- with_remove_test_table({
         dbWriteTable(con, "test", tbl_in, field.types = c(a = "BIGINT"))
@@ -406,31 +373,26 @@ spec_sql_write_table <- list(
       tbl_exp <- tbl_out
       #'     - written to another table and read again unchanged
       test_table_roundtrip(con, tbl_out, tbl_exp)
-    })
-  },
+  }), # with_connection
 
   #' - character (in both UTF-8
-  roundtrip_character = function(ctx) {
-    with_connection({
+  roundtrip_character = function(ctx) with_connection({
       tbl_in <- data.frame(
         id = seq_along(texts),
         a = c(texts),
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in)
-    })
-  },
+  }), # with_connection
 
   #'   and native encodings),
-  roundtrip_character_native = function(ctx) {
-    with_connection({
+  roundtrip_character_native = function(ctx) with_connection({
       tbl_in <- data.frame(
         a = c(enc2native(texts)),
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in)
-    })
-  },
+  }), # with_connection
 
   #'   supporting empty strings
   roundtrip_character_empty = function(ctx) {
@@ -452,16 +414,14 @@ spec_sql_write_table <- list(
   },
 
   #' - factor (returned as character)
-  roundtrip_factor = function(ctx) {
-    with_connection({
+  roundtrip_factor = function(ctx) with_connection({
       tbl_in <- data.frame(
         a = factor(c(texts))
       )
       tbl_exp <- tbl_in
       tbl_exp$a <- as.character(tbl_exp$a)
       test_table_roundtrip(con, tbl_in, tbl_exp)
-    })
-  },
+  }), # with_connection
 
   #' - list of raw
   roundtrip_raw = function(ctx) {
@@ -588,8 +548,7 @@ spec_sql_write_table <- list(
 
   #'
   #' Mixing column types in the same table is supported.
-  roundtrip_mixed = function(ctx) {
-    with_connection({
+  roundtrip_mixed = function(ctx) with_connection({
       data <- list("a", 1L, 1.5)
       data <- lapply(data, c, NA)
       expanded <- expand.grid(a = data, b = data, c = data)
@@ -601,15 +560,13 @@ spec_sql_write_table <- list(
       )
 
       lapply(tbl_in_list, test_table_roundtrip, con = con)
-    })
-  },
+  }), # with_connection
 
   #'
   #' The `field.types` argument must be a named character vector with at most
   #' one entry for each column.
   #' It indicates the SQL data type to be used for a new column.
-  roundtrip_field_types = function(ctx) {
-    with_connection({
+  roundtrip_field_types = function(ctx) with_connection({
       tbl_in <- data.frame(a = numeric(), b = character())
       #' If a column is missed from `field.types`, the type is inferred
       #' from the input data with [dbDataType()].
@@ -625,8 +582,7 @@ spec_sql_write_table <- list(
         con, tbl_in, tbl_exp,
         field.types = c(b = "REAL", a = "INTEGER")
       )
-    })
-  },
+  }), # with_connection
 
   #'
   #' The interpretation of [rownames] depends on the `row.names` argument,

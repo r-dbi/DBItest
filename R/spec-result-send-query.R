@@ -10,8 +10,7 @@ spec_result_send_query <- list(
 
   #' @return
   #' `dbSendQuery()` returns
-  send_query_trivial = function(ctx) {
-    with_connection({
+  send_query_trivial = function(ctx) with_connection({
       res <- expect_visible(dbSendQuery(con, trivial_query()))
       #' an S4 object that inherits from [DBIResult-class].
       expect_s4_class(res, "DBIResult")
@@ -20,8 +19,7 @@ spec_result_send_query <- list(
       #' Once you have finished using a result, make sure to clear it
       #' with [dbClearResult()].
       dbClearResult(res)
-    })
-  },
+  }), # with_connection
 
   #' An error is raised when issuing a query over a closed
   send_query_closed_connection = function(ctx) {
@@ -38,23 +36,19 @@ spec_result_send_query <- list(
   },
 
   #' or if the query is not a non-`NA` string.
-  send_query_non_string = function(ctx) {
-    with_connection({
+  send_query_non_string = function(ctx) with_connection({
       expect_error(dbSendQuery(con, character()))
       expect_error(dbSendQuery(con, letters))
       expect_error(dbSendQuery(con, NA_character_))
-    })
-  },
+  }), # with_connection
 
   #' An error is also raised if the syntax of the query is invalid
   #' and all query parameters are given (by passing the `params` argument)
   #' or the `immediate` argument is set to `TRUE`.
-  send_query_syntax_error = function(ctx) {
-    with_connection({
+  send_query_syntax_error = function(ctx) with_connection({
       expect_error(dbSendQuery(con, "SELLECT", params = list()))
       expect_error(dbSendQuery(con, "SELLECT", immediate = TRUE))
-    })
-  },
+  }), # with_connection
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbSendQuery()` generic
   #' (to improve compatibility across backends)
@@ -66,15 +60,13 @@ spec_result_send_query <- list(
   #' See the "Specification" sections for details on their usage.
 
   #' @section Specification:
-  send_query_result_valid = function(ctx) {
-    with_connection({
+  send_query_result_valid = function(ctx) with_connection({
       #' No warnings occur under normal conditions.
       expect_warning(res <- dbSendQuery(con, trivial_query()), NA)
       #' When done, the DBIResult object must be cleared with a call to
       #' [dbClearResult()].
       dbClearResult(res)
-    })
-  },
+  }), # with_connection
   #
   send_query_stale_warning = function(ctx) {
     #' Failure to clear the result set leads to a warning
@@ -88,8 +80,7 @@ spec_result_send_query <- list(
 
   #'
   #' If the backend supports only one open result set per connection,
-  send_query_only_one_result_set = function(ctx) {
-    with_connection({
+  send_query_only_one_result_set = function(ctx) with_connection({
       res1 <- dbSendQuery(con, trivial_query())
       #' issuing a second query invalidates an already open result set
       #' and raises a warning.
@@ -99,13 +90,11 @@ spec_result_send_query <- list(
       expect_true(dbIsValid(res2))
       #' and must be cleared with `dbClearResult()`.
       dbClearResult(res2)
-    })
-  },
+  }), # with_connection
 
   #'
   #' The `param` argument allows passing query parameters, see [dbBind()] for details.
-  send_query_params = function(ctx) {
-    with_connection({
+  send_query_params = function(ctx) with_connection({
       placeholder_funs <- get_placeholder_funs(ctx)
 
       for (placeholder_fun in placeholder_funs) {
@@ -118,20 +107,17 @@ spec_result_send_query <- list(
         expect_equal(ret, trivial_df(3), info = placeholder)
         dbClearResult(rs)
       }
-    })
-  },
+  }), # with_connection
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  send_query_immediate = function(ctx) {
-    with_connection({
+  send_query_immediate = function(ctx) with_connection({
       with_remove_test_table({
         res <- expect_visible(dbSendQuery(con, trivial_query(), immediate = TRUE))
         expect_s4_class(res, "DBIResult")
         expect_error(dbGetRowsAffected(res), NA)
         dbClearResult(res)
       })
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

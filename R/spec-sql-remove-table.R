@@ -10,56 +10,47 @@ spec_sql_remove_table <- list(
 
   #' @return
   #' `dbRemoveTable()` returns `TRUE`, invisibly.
-  remove_table_return = function(ctx) {
-    with_connection({
+  remove_table_return = function(ctx) with_connection({
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
 
         expect_invisible_true(dbRemoveTable(con, "iris"))
       })
-    })
-  },
+  }), # with_connection
 
   #' If the table does not exist, an error is raised.
-  remove_table_missing = function(ctx) {
-    with_connection({
+  remove_table_missing = function(ctx) with_connection({
       with_remove_test_table({
         expect_error(dbRemoveTable(con, "test"))
       })
-    })
-  },
+  }), # with_connection
 
   #' An attempt to remove a view with this function may result in an error.
   #'
   #'
   #' An error is raised when calling this method for a closed
-  remove_table_closed_connection = function(ctx) {
-    with_connection({
+  remove_table_closed_connection = function(ctx) with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1))
         with_closed_connection(con = "con2", {
           expect_error(dbRemoveTable(con2, "test"))
         })
       })
-    })
-  },
+  }), # with_connection
 
   #' or invalid connection.
-  remove_table_invalid_connection = function(ctx) {
-    with_connection({
+  remove_table_invalid_connection = function(ctx) with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1))
         with_invalid_connection(con = "con2", {
           expect_error(dbRemoveTable(con2, "test"))
         })
       })
-    })
-  },
+  }), # with_connection
 
   #' An error is also raised
-  remove_table_error = function(ctx) {
-    with_connection({
+  remove_table_error = function(ctx) with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L))
         #' if `name` cannot be processed with [dbQuoteIdentifier()]
@@ -67,8 +58,7 @@ spec_sql_remove_table <- list(
         #' or if this results in a non-scalar.
         expect_error(dbRemoveTable(con, c("test", "test")))
       })
-    })
-  },
+  }), # with_connection
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbRemoveTable()` generic
@@ -83,8 +73,7 @@ spec_sql_remove_table <- list(
   #'
   #' If `temporary` is `TRUE`, the call to `dbRemoveTable()`
   #' will consider only temporary tables.
-  remove_table_temporary_arg = function(ctx) {
-    with_connection({
+  remove_table_temporary_arg = function(ctx) with_connection({
       #' Not all backends support this argument.
       if (!isTRUE(ctx$tweaks$temporary_tables)) {
         skip("tweak: temporary_tables")
@@ -99,26 +88,22 @@ spec_sql_remove_table <- list(
         expect_error(dbRemoveTable(con, "test", temporary = TRUE))
         expect_equal(dbReadTable(con, "test"), data.frame(a = 1.5))
       })
-    })
-  },
+  }), # with_connection
 
   #'
   #' If `fail_if_missing` is `FALSE`, the call to `dbRemoveTable()`
   #' succeeds if the table does not exist.
-  remove_table_missing_succeed = function(ctx) {
-    with_connection({
+  remove_table_missing_succeed = function(ctx) with_connection({
       with_remove_test_table({
         expect_error(dbRemoveTable(con, "test", fail_if_missing = FALSE), NA)
       })
-    })
-  },
+  }), # with_connection
 
   #' @section Specification:
   #' A table removed by `dbRemoveTable()` doesn't appear in the list of tables
   #' returned by [dbListTables()],
   #' and [dbExistsTable()] returns `FALSE`.
-  remove_table_list = function(ctx) {
-    with_connection({
+  remove_table_list = function(ctx) with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L))
         expect_true("test" %in% dbListTables(con))
@@ -128,12 +113,10 @@ spec_sql_remove_table <- list(
         expect_false("test" %in% dbListTables(con))
         expect_false(dbExistsTable(con, "test"))
       })
-    })
-  },
+  }), # with_connection
 
   #' The removal propagates immediately to other connections to the same database.
-  remove_table_other_con = function(ctx) {
-    with_connection({
+  remove_table_other_con = function(ctx) with_connection({
       with_connection(con = "con2", {
         with_remove_test_table({
           dbWriteTable(con, "test", data.frame(a = 1L))
@@ -145,8 +128,7 @@ spec_sql_remove_table <- list(
           expect_false(dbExistsTable(con2, "test"))
         })
       })
-    })
-  },
+  }), # with_connection
 
   #' This function can also be used to remove a temporary table.
   remove_table_temporary = function(ctx) {
@@ -173,8 +155,7 @@ spec_sql_remove_table <- list(
 
   #'
   #' The `name` argument is processed as follows,
-  remove_table_name = function(ctx) {
-    with_connection({
+  remove_table_name = function(ctx) with_connection({
       #' to support databases that allow non-syntactic names for their objects:
       if (isTRUE(ctx$tweaks$strict_identifier)) {
         table_names <- "a"
@@ -201,8 +182,7 @@ spec_sql_remove_table <- list(
           expect_true(dbRemoveTable(con, dbQuoteIdentifier(con, table_name)))
         })
       }
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

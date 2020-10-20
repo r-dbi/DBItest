@@ -70,8 +70,7 @@ spec_meta_get_row_count <- list(
     })
   },
   #
-  row_count_statement = function(ctx) {
-    with_connection({
+  row_count_statement = function(ctx) with_connection({
       name <- random_table_name()
 
       with_remove_test_table(name = name, {
@@ -91,18 +90,15 @@ spec_meta_get_row_count <- list(
           }
         )
       })
-    })
-  },
+  }), # with_connection
   #
-  get_row_count_error = function(ctx) {
-    with_connection({
+  get_row_count_error = function(ctx) with_connection({
       res <- dbSendQuery(con, trivial_query())
       dbClearResult(res)
       #' Attempting to get the row count for a result set cleared with
       #' [dbClearResult()] gives an error.
       expect_error(dbGetRowCount(res))
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

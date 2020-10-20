@@ -17,8 +17,7 @@ spec_driver_connect <- list(
     #' This object is used to communicate with the database engine.
   },
   #
-  connect_format = function(ctx) {
-    with_connection({
+  connect_format = function(ctx) with_connection({
       #'
       #' A [format()] method is defined for the connection object.
       desc <- format(con)
@@ -26,8 +25,7 @@ spec_driver_connect <- list(
       expect_is(desc, "character")
       expect_length(desc, 1)
       expect_false(grepl("\n", desc, fixed = TRUE))
-    })
-  },
+  }), # with_connection
 
   #' @section Specification:
   #' DBI recommends using the following argument names for authentication

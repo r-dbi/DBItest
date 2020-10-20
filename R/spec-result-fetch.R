@@ -13,8 +13,7 @@ spec_result_fetch <- list(
   #' with as many rows as records were fetched and as many
   #' columns as fields in the result set,
   #' even if the result is a single value
-  fetch_atomic = function(ctx) {
-    with_connection({
+  fetch_atomic = function(ctx) with_connection({
       query <- trivial_query()
       with_result(
         dbSendQuery(con, query),
@@ -23,12 +22,10 @@ spec_result_fetch <- list(
           expect_equal(rows, data.frame(a = 1.5))
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' or has one
-  fetch_one_row = function(ctx) {
-    with_connection({
+  fetch_one_row = function(ctx) with_connection({
       query <- trivial_query(3, letters[1:3])
       result <- trivial_df(3, letters[1:3])
       with_result(
@@ -38,12 +35,10 @@ spec_result_fetch <- list(
           expect_identical(rows, result)
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' or zero rows.
-  fetch_zero_rows = function(ctx) {
-    with_connection({
+  fetch_zero_rows = function(ctx) with_connection({
       query <-
         "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
       with_result(
@@ -53,25 +48,21 @@ spec_result_fetch <- list(
           expect_identical(class(rows), "data.frame")
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' An attempt to fetch from a closed result set raises an error.
-  fetch_closed = function(ctx) {
-    with_connection({
+  fetch_closed = function(ctx) with_connection({
       query <- trivial_query()
 
       res <- dbSendQuery(con, query)
       dbClearResult(res)
 
       expect_error(dbFetch(res))
-    })
-  },
+  }), # with_connection
 
   #' If the `n` argument is not an atomic whole number
   #' greater or equal to -1 or Inf, an error is raised,
-  fetch_n_bad = function(ctx) {
-    with_connection({
+  fetch_n_bad = function(ctx) with_connection({
       query <- trivial_query()
       with_result(
         dbSendQuery(con, query),
@@ -83,12 +74,10 @@ spec_result_fetch <- list(
           expect_error(dbFetch(res, NA_integer_))
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' but a subsequent call to `dbFetch()` with proper `n` argument succeeds.
-  fetch_n_good_after_bad = function(ctx) {
-    with_connection({
+  fetch_n_good_after_bad = function(ctx) with_connection({
       query <- trivial_query()
       with_result(
         dbSendQuery(con, query),
@@ -98,14 +87,12 @@ spec_result_fetch <- list(
           expect_equal(rows, data.frame(a = 1.5))
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' Calling `dbFetch()` on a result set from a data manipulation query
   #' created by [dbSendStatement()]
   #' can be fetched and return an empty data frame, with a warning.
-  fetch_no_return_value = function(ctx) {
-    with_connection({
+  fetch_no_return_value = function(ctx) with_connection({
       query <- "CREATE TABLE test (a integer)"
 
       with_remove_test_table({
@@ -117,13 +104,11 @@ spec_result_fetch <- list(
           }
         )
       })
-    })
-  },
+  }), # with_connection
 
   #' @section Specification:
   #' Fetching multi-row queries with one
-  fetch_multi_row_single_column = function(ctx) {
-    with_connection({
+  fetch_multi_row_single_column = function(ctx) with_connection({
       query <- trivial_query(3, .ctx = ctx, .order_by = "a")
       result <- trivial_df(3)
 
@@ -134,12 +119,10 @@ spec_result_fetch <- list(
           expect_identical(rows, result)
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' or more columns by default returns the entire result.
-  fetch_multi_row_multi_column = function(ctx) {
-    with_connection({
+  fetch_multi_row_multi_column = function(ctx) with_connection({
       query <- union(
         .ctx = ctx, paste("SELECT", 1:5 + 0.5, "AS a,", 4:0 + 0.5, "AS b"), .order_by = "a"
       )
@@ -151,12 +134,10 @@ spec_result_fetch <- list(
           expect_identical(rows, data.frame(a = 1:5 + 0.5, b = 4:0 + 0.5))
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' Multi-row queries can also be fetched progressively
-  fetch_n_progressive = function(ctx) {
-    with_connection({
+  fetch_n_progressive = function(ctx) with_connection({
       query <- trivial_query(25, .ctx = ctx, .order_by = "a")
       result <- trivial_df(25)
 
@@ -176,13 +157,11 @@ spec_result_fetch <- list(
           expect_identical(rows, unrowname(result[21:25, , drop = FALSE]))
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' A value of [Inf] for the `n` argument is supported
   #' and also returns the full result.
-  fetch_n_multi_row_inf = function(ctx) {
-    with_connection({
+  fetch_n_multi_row_inf = function(ctx) with_connection({
       query <- trivial_query(3, .ctx = ctx, .order_by = "a")
       result <- trivial_df(3)
 
@@ -193,13 +172,11 @@ spec_result_fetch <- list(
           expect_identical(rows, result)
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' If more rows than available are fetched, the result is returned in full
   #' without warning.
-  fetch_n_more_rows = function(ctx) {
-    with_connection({
+  fetch_n_more_rows = function(ctx) with_connection({
       query <- trivial_query(3, .ctx = ctx, .order_by = "a")
       result <- trivial_df(3)
 
@@ -214,13 +191,11 @@ spec_result_fetch <- list(
           expect_identical(rows, result[0, , drop = FALSE])
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' If zero rows are fetched, the columns of the data frame are still fully
   #' typed.
-  fetch_n_zero_rows = function(ctx) {
-    with_connection({
+  fetch_n_zero_rows = function(ctx) with_connection({
       query <- trivial_query(3, .ctx = ctx, .order_by = "a")
       result <- trivial_df(0)
 
@@ -231,13 +206,11 @@ spec_result_fetch <- list(
           expect_identical(rows, result)
         }
       )
-    })
-  },
+  }), # with_connection
 
   #' Fetching fewer rows than available is permitted,
   #' no warning is issued when clearing the result set.
-  fetch_n_premature_close = function(ctx) {
-    with_connection({
+  fetch_n_premature_close = function(ctx) with_connection({
       query <- trivial_query(3, .ctx = ctx, .order_by = "a")
       result <- trivial_df(2)
 
@@ -248,13 +221,11 @@ spec_result_fetch <- list(
           expect_identical(rows, result)
         }
       )
-    })
-  },
+  }), # with_connection
 
   #'
   #' A column named `row_names` is treated like any other column.
-  fetch_row_names = function(ctx) {
-    with_connection({
+  fetch_row_names = function(ctx) with_connection({
       query <- trivial_query(column = "row_names")
       result <- trivial_df(column = "row_names")
 
@@ -266,8 +237,7 @@ spec_result_fetch <- list(
           expect_identical(.row_names_info(rows), -1L)
         }
       )
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

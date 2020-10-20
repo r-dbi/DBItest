@@ -12,8 +12,7 @@ spec_sql_read_table <- list(
   #' `dbReadTable()` returns a data frame that contains the complete data
   #' from the remote table, effectively the result of calling [dbGetQuery()]
   #' with `SELECT * FROM <name>`.
-  read_table = function(ctx) {
-    with_connection({
+  read_table = function(ctx) with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         dbWriteTable(con, "iris", iris_in)
@@ -21,21 +20,17 @@ spec_sql_read_table <- list(
 
         expect_equal_df(iris_out, iris_in)
       })
-    })
-  },
+  }), # with_connection
 
   #' An error is raised if the table does not exist.
-  read_table_missing = function(ctx) {
-    with_connection({
+  read_table_missing = function(ctx) with_connection({
       with_remove_test_table({
         expect_error(dbReadTable(con, "test"))
       })
-    })
-  },
+  }), # with_connection
 
   #' An empty table is returned as a data frame with zero rows.
-  read_table_empty = function(ctx) {
-    with_connection({
+  read_table_empty = function(ctx) with_connection({
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)[integer(), ]
         dbWriteTable(con, "iris", iris_in)
@@ -44,8 +39,7 @@ spec_sql_read_table <- list(
         expect_equal(nrow(iris_out), 0L)
         expect_equal_df(iris_out, iris_in)
       })
-    })
-  },
+  }), # with_connection
 
   #'
   #' The presence of [rownames] depends on the `row.names` argument,
@@ -180,8 +174,7 @@ spec_sql_read_table <- list(
     })
   },
   #
-  read_table_check_names = function(ctx) {
-    with_connection({
+  read_table_check_names = function(ctx) with_connection({
       #' If the database supports identifiers with special characters,
       if (isTRUE(ctx$tweaks$strict_identifier)) {
         skip("tweak: strict_identifier")
@@ -209,37 +202,31 @@ spec_sql_read_table <- list(
 
         expect_equal_df(test_out, test_in)
       })
-    })
-  },
+  }), # with_connection
 
   #'
   #' An error is raised when calling this method for a closed
-  read_table_closed_connection = function(ctx) {
-    with_connection({
+  read_table_closed_connection = function(ctx) with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1))
         with_closed_connection(con = "con2", {
           expect_error(dbReadTable(con2, "test"))
         })
       })
-    })
-  },
+  }), # with_connection
 
   #' or invalid connection.
-  read_table_invalid_connection = function(ctx) {
-    with_connection({
+  read_table_invalid_connection = function(ctx) with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1))
         with_invalid_connection(con = "con2", {
           expect_error(dbReadTable(con2, "test"))
         })
       })
-    })
-  },
+  }), # with_connection
 
   #' An error is raised
-  read_table_error = function(ctx) {
-    with_connection({
+  read_table_error = function(ctx) with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L))
         #' if `name` cannot be processed with [dbQuoteIdentifier()]
@@ -257,8 +244,7 @@ spec_sql_read_table <- list(
         expect_error(dbReadTable(con, "test", check.names = NA))
         #' also raise an error.
       })
-    })
-  },
+  }), # with_connection
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbReadTable()` generic
@@ -272,8 +258,7 @@ spec_sql_read_table <- list(
 
   #' @section Specification:
   #' The `name` argument is processed as follows,
-  read_table_name = function(ctx) {
-    with_connection({
+  read_table_name = function(ctx) with_connection({
       #' to support databases that allow non-syntactic names for their objects:
       if (isTRUE(ctx$tweaks$strict_identifier)) {
         table_names <- "a"
@@ -296,8 +281,7 @@ spec_sql_read_table <- list(
           expect_equal_df(test_out, test_in)
         })
       }
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

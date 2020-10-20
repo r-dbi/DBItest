@@ -9,17 +9,14 @@ spec_sql_quote_identifier <- list(
   },
 
   #' @return
-  quote_identifier_return = function(ctx) {
-    with_connection({
+  quote_identifier_return = function(ctx) with_connection({
       #' `dbQuoteIdentifier()` returns an object that can be coerced to [character],
       simple_out <- dbQuoteIdentifier(con, "simple")
       expect_error(as.character(simple_out), NA)
       expect_is(as.character(simple_out), "character")
-    })
-  },
+  }), # with_connection
   #
-  quote_identifier_vectorized = function(ctx) {
-    with_connection({
+  quote_identifier_vectorized = function(ctx) with_connection({
       #' of the same length as the input.
       simple <- "simple"
       simple_out <- dbQuoteIdentifier(con, simple)
@@ -54,11 +51,9 @@ spec_sql_quote_identifier <- list(
 
       #' (For backends it may be most convenient to return [SQL] objects
       #' to achieve this behavior, but this is not required.)
-    })
-  },
+  }), # with_connection
   #
-  quote_identifier_error = function(ctx) {
-    with_connection({
+  quote_identifier_error = function(ctx) with_connection({
       #'
       #' An error is raised if the input contains `NA`,
       expect_error(dbQuoteIdentifier(con, NA))
@@ -66,14 +61,12 @@ spec_sql_quote_identifier <- list(
       expect_error(dbQuoteIdentifier(con, c("a", NA_character_)))
       #' but not for an empty string.
       expect_error(dbQuoteIdentifier(con, ""), NA)
-    })
-  },
+  }), # with_connection
 
   #' @section Specification:
   #' Calling [dbGetQuery()] for a query of the format `SELECT 1 AS ...`
   #' returns a data frame with the identifier, unquoted, as column name.
-  quote_identifier = function(ctx) {
-    with_connection({
+  quote_identifier = function(ctx) with_connection({
       #' Quoted identifiers can be used as table and column names in SQL queries,
       simple <- dbQuoteIdentifier(con, "simple")
 
@@ -87,13 +80,11 @@ spec_sql_quote_identifier <- list(
       query <- paste0("SELECT * FROM (", trivial_query(), ") ", simple)
       rows <- check_df(dbGetQuery(con, query))
       expect_identical(unlist(unname(rows)), 1.5)
-    })
-  },
+  }), # with_connection
 
   #' The method must use a quoting mechanism that is unambiguously different
   #' from the quoting mechanism used for strings, so that a query like
-  quote_identifier_string = function(ctx) {
-    with_connection({
+  quote_identifier_string = function(ctx) with_connection({
       #' `SELECT ... FROM (SELECT 1 AS ...)`
       query <- paste0(
         "SELECT ", dbQuoteIdentifier(con, "b"), " FROM (",
@@ -102,11 +93,9 @@ spec_sql_quote_identifier <- list(
 
       #' throws an error if the column names do not match.
       eval(bquote(expect_error(dbGetQuery(con, .(query)))))
-    })
-  },
+  }), # with_connection
   #
-  quote_identifier_special = function(ctx) {
-    with_connection({
+  quote_identifier_special = function(ctx) with_connection({
       #'
       #' The method can quote column names that
       #' contain special characters such as a space,
@@ -163,8 +152,7 @@ spec_sql_quote_identifier <- list(
         )
       )
       expect_identical(unlist(unname(rows)), 2:10 + 0.5)
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

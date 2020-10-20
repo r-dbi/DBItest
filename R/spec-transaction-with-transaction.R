@@ -33,21 +33,18 @@ spec_transaction_with_transaction <- list(
   },
 
   #' of if [dbBegin()] has been called already)
-  with_transaction_error_nested = function(ctx) {
-    with_connection({
+  with_transaction_error_nested = function(ctx) with_connection({
       dbBegin(con)
       #' gives an error.
       expect_error(dbWithTransaction(con, NULL))
       dbRollback(con)
-    })
-  },
+  }), # with_connection
 
   #' @section Specification:
   #' `dbWithTransaction()` initiates a transaction with `dbBegin()`, executes
   #' the code given in the `code` argument, and commits the transaction with
   #' [dbCommit()].
-  with_transaction_success = function(ctx) {
-    with_connection({
+  with_transaction_success = function(ctx) with_connection({
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
 
@@ -61,8 +58,7 @@ spec_transaction_with_transaction <- list(
 
         expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0:1))
       })
-    })
-  },
+  }), # with_connection
 
   #' If the code raises an error, the transaction is instead aborted with
   #' [dbRollback()], and the error is propagated.
@@ -116,15 +112,13 @@ spec_transaction_with_transaction <- list(
   },
 
   #' All side effects caused by the code
-  with_transaction_side_effects = function(ctx) {
-    with_connection({
+  with_transaction_side_effects = function(ctx) with_connection({
       expect_false(exists("a", inherits = FALSE))
       #' (such as the creation of new variables)
       dbWithTransaction(con, a <- 42)
       #' propagate to the calling environment.
       expect_identical(get0("a", inherits = FALSE), 42)
-    })
-  },
+  }), # with_connection
   #
   NULL
 )

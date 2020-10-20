@@ -10,17 +10,14 @@ spec_sql_create_table <- list(
 
   #' @return
   #' `dbCreateTable()` returns `TRUE`, invisibly.
-  create_table_return = function(ctx) {
-    with_connection({
+  create_table_return = function(ctx) with_connection({
       with_remove_test_table({
         expect_invisible_true(dbCreateTable(con, "test", trivial_df()))
       })
-    })
-  },
+  }), # with_connection
 
   #' If the table exists, an error is raised; the remote table remains unchanged.
-  create_table_overwrite = function(ctx) {
-    with_connection({
+  create_table_overwrite = function(ctx) with_connection({
       with_remove_test_table({
         test_in <- trivial_df()
 
@@ -31,8 +28,7 @@ spec_sql_create_table <- list(
         test_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(test_out, test_in)
       })
-    })
-  },
+  }), # with_connection
 
   #'
   #' An error is raised when calling this method for a closed
@@ -50,8 +46,7 @@ spec_sql_create_table <- list(
   },
 
   #' An error is also raised
-  create_table_error = function(ctx) {
-    with_connection({
+  create_table_error = function(ctx) with_connection({
       test_in <- data.frame(a = 1L)
       with_remove_test_table({
         #' if `name` cannot be processed with [dbQuoteIdentifier()]
@@ -78,8 +73,7 @@ spec_sql_create_table <- list(
       })
 
       #' also raise an error.
-    })
-  },
+  }), # with_connection
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbCreateTable()` generic
@@ -92,8 +86,7 @@ spec_sql_create_table <- list(
 
   #' @section Specification:
   #' The `name` argument is processed as follows,
-  create_table_name = function(ctx) {
-    with_connection({
+  create_table_name = function(ctx) with_connection({
       #' to support databases that allow non-syntactic names for their objects:
       if (isTRUE(ctx$tweaks$strict_identifier)) {
         table_names <- "a"
@@ -119,8 +112,7 @@ spec_sql_create_table <- list(
           expect_equal_df(test_out, test_in[0, , drop = FALSE])
         })
       }
-    })
-  },
+  }), # with_connection
 
   #'
   #' If the `temporary` argument is `TRUE`, the table is not available in a
@@ -175,20 +167,17 @@ spec_sql_create_table <- list(
 
   #'
   #' SQL keywords can be used freely in table names, column names, and data.
-  create_roundtrip_keywords = function(ctx) {
-    with_connection({
+  create_roundtrip_keywords = function(ctx) with_connection({
       tbl_in <- data.frame(
         SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in, name = "EXISTS")
-    })
-  },
+  }), # with_connection
 
   #' Quotes, commas, and spaces can also be used  for table names and column names,
   #' if the database supports non-syntactic identifiers.
-  create_roundtrip_quotes = function(ctx) {
-    with_connection({
+  create_roundtrip_quotes = function(ctx) with_connection({
       if (isTRUE(ctx$tweaks$strict_identifier)) {
         skip("tweak: strict_identifier")
       }
@@ -212,8 +201,7 @@ spec_sql_create_table <- list(
 
         test_table_roundtrip(con, tbl_in)
       }
-    })
-  },
+  }), # with_connection
 
   #'
   #' The `row.names` argument must be `NULL`, the default value.
