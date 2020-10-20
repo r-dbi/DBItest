@@ -268,16 +268,14 @@ spec_meta_bind <- list(
   }), # with_connection
 
   #' - [POSIXct] timestamps
-  bind_timestamp = function(ctx) {
-    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
-      skip("tweak: !timestamp_typed")
-    }
+  bind_timestamp = function(ctx) with_connection({
+      if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+        skip("tweak: !timestamp_typed")
+      }
 
-    with_connection({
       data_in <- as.POSIXct(c(round(Sys.time()) + 0:2, NA))
       test_select_bind(con, ctx, data_in)
-    })
-  },
+  }), # with_connection
 
   #' - [POSIXlt] timestamps
   bind_timestamp_lt = function(ctx) with_connection({
