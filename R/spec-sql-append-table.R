@@ -268,7 +268,10 @@ spec_sql_append_table <- list(
       )
       test_table_roundtrip(use_append = TRUE, con, tbl_in)
     })
+  },
 
+  #'   (before and after non-empty strings)
+  append_roundtrip_character_empty_after = function(ctx) {
     with_connection({
       tbl_in <- data.frame(
         a = c("a", ""),
@@ -297,12 +300,12 @@ spec_sql_append_table <- list(
 
   #' - list of raw
   append_roundtrip_raw = function(ctx) {
-    #'   (if supported by the database)
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
     with_connection({
+      #'   (if supported by the database)
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
       tbl_exp <- tbl_in
       tbl_exp$a <- blob::as_blob(unclass(tbl_in$a))
@@ -319,12 +322,12 @@ spec_sql_append_table <- list(
 
   #' - objects of type [blob::blob]
   append_roundtrip_blob = function(ctx) {
-    #'   (if supported by the database)
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
     with_connection({
+      #'   (if supported by the database)
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       tbl_in <- data.frame(id = 1L, a = blob::blob(as.raw(0:10)))
       test_table_roundtrip(
         use_append = TRUE,
@@ -339,12 +342,12 @@ spec_sql_append_table <- list(
 
   #' - date
   append_roundtrip_date = function(ctx) {
-    #'   (if supported by the database;
-    if (!isTRUE(ctx$tweaks$date_typed)) {
-      skip("tweak: !date_typed")
-    }
-
     with_connection({
+      #'   (if supported by the database;
+      if (!isTRUE(ctx$tweaks$date_typed)) {
+        skip("tweak: !date_typed")
+      }
+
       #'   returned as `Date`)
       tbl_in <- data.frame(a = as_numeric_date(c(Sys.Date() + 1:5)))
       test_table_roundtrip(
@@ -360,13 +363,12 @@ spec_sql_append_table <- list(
 
   #' - time
   append_roundtrip_time = function(ctx) {
-    #'   (if supported by the database;
-    if (!isTRUE(ctx$tweaks$time_typed)) {
-      skip("tweak: !time_typed")
-    }
-
-
     with_connection({
+      #'   (if supported by the database;
+      if (!isTRUE(ctx$tweaks$time_typed)) {
+        skip("tweak: !time_typed")
+      }
+
       now <- Sys.time()
       tbl_in <- data.frame(a = c(now + 1:5) - now)
 
@@ -388,12 +390,12 @@ spec_sql_append_table <- list(
 
   #' - timestamp
   append_roundtrip_timestamp = function(ctx) {
-    #'   (if supported by the database;
-    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
-      skip("tweak: !timestamp_typed")
-    }
-
     with_connection({
+      #'   (if supported by the database;
+      if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+        skip("tweak: !timestamp_typed")
+      }
+
       #'   returned as `POSIXct`
       local <- round(Sys.time()) +
         c(
@@ -477,7 +479,6 @@ spec_sql_append_table <- list(
   #'
   #'
   #' The `row.names` argument must be `NULL`, the default value.
-  #' Row names are ignored.
   append_table_row_names_false = function(ctx) {
     with_connection({
       with_remove_test_table(name = "mtcars", {
@@ -490,7 +491,10 @@ spec_sql_append_table <- list(
         expect_equal_df(mtcars_out, unrowname(mtcars_in))
       })
     })
+  },
 
+  #' Row names are ignored.
+  append_table_row_names_ignore = function(ctx) {
     with_connection({
       with_remove_test_table(name = "mtcars", {
         mtcars_in <- datasets::mtcars

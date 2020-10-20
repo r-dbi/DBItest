@@ -49,11 +49,11 @@ spec_result_roundtrip <- list(
 
   #' - lists of [raw] for blobs
   data_raw = function(ctx) {
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
     with_connection({
+      if (isTRUE(ctx$tweaks$omit_blob_tests)) {
+        skip("tweak: omit_blob_tests")
+      }
+
       values <- list(is_raw_list)
       sql_names <- ctx$tweaks$blob_cast(quote_literal(con, list(raw(1))))
 
@@ -133,11 +133,11 @@ spec_result_roundtrip <- list(
   #' used:
   #' - [Date] for dates
   data_date_typed = function(ctx) {
-    if (!isTRUE(ctx$tweaks$date_typed)) {
-      skip("tweak: !date_typed")
-    }
-
     with_connection({
+      if (!isTRUE(ctx$tweaks$date_typed)) {
+        skip("tweak: !date_typed")
+      }
+
       char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
       values <- lapply(char_values, as_numeric_date)
       sql_names <- ctx$tweaks$date_cast(char_values)
@@ -148,11 +148,11 @@ spec_result_roundtrip <- list(
 
   #'   (also applies to the return value of the SQL function `current_date`)
   data_date_current_typed = function(ctx) {
-    if (!isTRUE(ctx$tweaks$date_typed)) {
-      skip("tweak: !date_typed")
-    }
-
     with_connection({
+      if (!isTRUE(ctx$tweaks$date_typed)) {
+        skip("tweak: !date_typed")
+      }
+
       test_select_with_null(
         .ctx = ctx, con,
         "current_date" ~ is_roughly_current_date_typed
@@ -162,11 +162,11 @@ spec_result_roundtrip <- list(
 
   #' - [POSIXct] for timestamps
   data_timestamp_typed = function(ctx) {
-    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
-      skip("tweak: !timestamp_typed")
-    }
-
     with_connection({
+      if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+        skip("tweak: !timestamp_typed")
+      }
+
       char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
       timestamp_values <- rep(list(is_timestamp), 2L)
       sql_names <- ctx$tweaks$timestamp_cast(char_values)
@@ -177,11 +177,11 @@ spec_result_roundtrip <- list(
 
   #'   (also applies to the return value of the SQL function `current_timestamp`)
   data_timestamp_current_typed = function(ctx) {
-    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
-      skip("tweak: !timestamp_typed")
-    }
-
     with_connection({
+      if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+        skip("tweak: !timestamp_typed")
+      }
+
       test_select_with_null(
         .ctx = ctx, con,
         "current_timestamp" ~ is_roughly_current_timestamp_typed
@@ -209,11 +209,11 @@ spec_result_roundtrip <- list(
 
   #' - Loss of precision when converting to numeric gives a warning
   data_64_bit_numeric_warning = function(ctx) {
-    char_values <- c(" 1234567890123456789", "-1234567890123456789")
-    num_values <- as.numeric(char_values)
-    test_values <- as_numeric_equals_to(num_values)
-
     with_connection({
+      char_values <- c(" 1234567890123456789", "-1234567890123456789")
+      num_values <- as.numeric(char_values)
+      test_values <- as_numeric_equals_to(num_values)
+
       suppressWarnings(
         expect_warning(
           test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "none")

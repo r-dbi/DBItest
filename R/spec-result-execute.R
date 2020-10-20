@@ -70,9 +70,9 @@ spec_result_execute <- list(
   #'
   #' The `param` argument allows passing query parameters, see [dbBind()] for details.
   execute_params = function(ctx) {
-    placeholder_funs <- get_placeholder_funs(ctx)
-
     with_connection({
+      placeholder_funs <- get_placeholder_funs(ctx)
+
       for (placeholder_fun in placeholder_funs) {
         with_remove_test_table(name = "test", {
           dbWriteTable(con, "test", data.frame(a = as.numeric(1:3)))

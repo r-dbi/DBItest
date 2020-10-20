@@ -84,12 +84,12 @@ spec_sql_remove_table <- list(
   #' If `temporary` is `TRUE`, the call to `dbRemoveTable()`
   #' will consider only temporary tables.
   remove_table_temporary_arg = function(ctx) {
-    #' Not all backends support this argument.
-    if (!isTRUE(ctx$tweaks$temporary_tables)) {
-      skip("tweak: temporary_tables")
-    }
-
     with_connection({
+      #' Not all backends support this argument.
+      if (!isTRUE(ctx$tweaks$temporary_tables)) {
+        skip("tweak: temporary_tables")
+      }
+
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1.5))
         expect_equal(dbReadTable(con, "test"), data.frame(a = 1.5))
