@@ -11,7 +11,7 @@ spec_sql_exists_table <- list(
   #' @return
   #' `dbExistsTable()` returns a logical scalar, `TRUE` if the table or view
   #' specified by the `name` argument exists, `FALSE` otherwise.
-  exists_table = function(ctx) with_connection({
+  exists_table = function(ctx, con) {
       with_remove_test_table(name = "iris", {
         expect_false(expect_visible(dbExistsTable(con, "iris")))
         iris <- get_iris(ctx)
@@ -29,7 +29,7 @@ spec_sql_exists_table <- list(
       })
 
       expect_false(expect_visible(dbExistsTable(con, "iris")))
-  }), # with_connection
+  },
 
   #'
   #' An error is raised when calling this method for a closed
@@ -43,7 +43,7 @@ spec_sql_exists_table <- list(
   }), # with_invalid_connection
 
   #' An error is also raised
-  exists_table_error = function(ctx) with_connection({
+  exists_table_error = function(ctx, con) {
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L))
         #' if `name` cannot be processed with [dbQuoteIdentifier()]
@@ -51,11 +51,11 @@ spec_sql_exists_table <- list(
         #' or if this results in a non-scalar.
         expect_error(dbExistsTable(con, c("test", "test")))
       })
-  }), # with_connection
+  },
 
   #' @section Specification:
   #' The `name` argument is processed as follows,
-  exists_table_name = function(ctx) with_connection({
+  exists_table_name = function(ctx, con) {
       #' to support databases that allow non-syntactic names for their objects:
       if (isTRUE(ctx$tweaks$strict_identifier)) {
         table_names <- "a"
@@ -78,11 +78,11 @@ spec_sql_exists_table <- list(
           expect_true(dbExistsTable(con, dbQuoteIdentifier(con, table_name)))
         })
       }
-  }), # with_connection
+  },
 
   #'
   #' For all tables listed by [dbListTables()], `dbExistsTable()` returns `TRUE`.
-  exists_table_list = function(ctx) with_connection({
+  exists_table_list = function(ctx, con) {
       name <- random_table_name()
       with_remove_test_table(
         name = name,
@@ -93,7 +93,7 @@ spec_sql_exists_table <- list(
           }
         }
       )
-  }), # with_connection
+  },
   #
   NULL
 )

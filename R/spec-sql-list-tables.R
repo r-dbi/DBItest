@@ -10,7 +10,7 @@ spec_sql_list_tables <- list(
 
   #' @return
   #' `dbListTables()`
-  list_tables = function(ctx) with_connection({
+  list_tables = function(ctx, con) {
       with_remove_test_table(name = "iris", {
         tables <- dbListTables(con)
         #' returns a character vector
@@ -61,7 +61,7 @@ spec_sql_list_tables <- list(
           expect_true(dbQuoteIdentifier(con, table_name) %in% dbQuoteIdentifier(con, tables))
         })
       }
-  }), # with_connection
+  },
 
   #' An error is raised when calling this method for a closed
   list_tables_closed_connection = function(ctx) with_closed_connection({

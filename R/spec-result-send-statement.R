@@ -10,7 +10,7 @@ spec_result_send_statement <- list(
 
   #' @return
   #' `dbSendStatement()` returns
-  send_statement_trivial = function(ctx) with_connection({
+  send_statement_trivial = function(ctx, con) {
       with_remove_test_table({
         res <- expect_visible(dbSendStatement(con, trivial_statement()))
         #' an S4 object that inherits from [DBIResult-class].
@@ -22,7 +22,7 @@ spec_result_send_statement <- list(
         #' with [dbClearResult()].
         dbClearResult(res)
       })
-  }), # with_connection
+  },
 
   #' An error is raised when issuing a statement over a closed
   send_statement_closed_connection = function(ctx) with_closed_connection({
@@ -35,22 +35,22 @@ spec_result_send_statement <- list(
   }), # with_invalid_connection
 
   #' or if the statement is not a non-`NA` string.
-  send_statement_non_string = function(ctx) with_connection({
+  send_statement_non_string = function(ctx, con) {
       expect_error(dbSendStatement(con, character()))
       expect_error(dbSendStatement(con, letters))
       expect_error(dbSendStatement(con, NA_character_))
-  }), # with_connection
+  },
 
   #' An error is also raised if the syntax of the query is invalid
   #' and all query parameters are given (by passing the `params` argument)
   #' or the `immediate` argument is set to `TRUE`.
-  send_statement_syntax_error = function(ctx) with_connection({
+  send_statement_syntax_error = function(ctx, con) {
       expect_error(dbSendStatement(con, "CREATTE", params = list()))
       expect_error(dbSendStatement(con, "CREATTE", immediate = TRUE))
-  }), # with_connection
+  },
 
   #' @section Specification:
-  send_statement_result_valid = function(ctx) with_connection({
+  send_statement_result_valid = function(ctx, con) {
       with_remove_test_table({
         #' No warnings occur under normal conditions.
         expect_warning(res <- dbSendStatement(con, trivial_statement()), NA)
@@ -58,7 +58,7 @@ spec_result_send_statement <- list(
         #' [dbClearResult()].
         dbClearResult(res)
       })
-  }), # with_connection
+  },
   #
   send_statement_stale_warning = function(ctx) {
     #' Failure to clear the result set leads to a warning
@@ -71,7 +71,7 @@ spec_result_send_statement <- list(
   },
 
   #' If the backend supports only one open result set per connection,
-  send_statement_only_one_result_set = function(ctx) with_connection({
+  send_statement_only_one_result_set = function(ctx, con) {
       with_remove_test_table({
         res1 <- dbSendStatement(con, trivial_statement())
         with_remove_test_table(name = "test2", {
@@ -85,7 +85,7 @@ spec_result_send_statement <- list(
           dbClearResult(res2)
         })
       })
-  }), # with_connection
+  },
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbSendStatement()` generic
@@ -100,7 +100,7 @@ spec_result_send_statement <- list(
   #' @section Specification:
   #'
   #' The `param` argument allows passing query parameters, see [dbBind()] for details.
-  send_statement_params = function(ctx) with_connection({
+  send_statement_params = function(ctx, con) {
       placeholder_funs <- get_placeholder_funs(ctx)
 
       for (placeholder_fun in placeholder_funs) {
@@ -115,17 +115,17 @@ spec_result_send_statement <- list(
           dbClearResult(rs)
         })
       }
-  }), # with_connection
+  },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  send_statement_immediate = function(ctx) with_connection({
+  send_statement_immediate = function(ctx, con) {
       with_remove_test_table({
         res <- expect_visible(dbSendStatement(con, trivial_statement(), immediate = TRUE))
         expect_s4_class(res, "DBIResult")
         expect_error(dbGetRowsAffected(res), NA)
         dbClearResult(res)
       })
-  }), # with_connection
+  },
   #
   NULL
 )

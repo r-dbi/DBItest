@@ -11,7 +11,7 @@ spec_meta_get_row_count <- list(
   #' @return
   #' `dbGetRowCount()` returns a scalar number (integer or numeric),
   #' the number of rows fetched so far.
-  row_count_query = function(ctx) with_connection({
+  row_count_query = function(ctx, con) {
       query <- trivial_query()
       with_result(
         #' After calling [dbSendQuery()],
@@ -27,9 +27,9 @@ spec_meta_get_row_count <- list(
           expect_equal(rc, 1L)
         }
       )
-  }), # with_connection
+  },
 
-  row_count_query_limited = function(ctx) with_connection({
+  row_count_query_limited = function(ctx, con) {
       query <- union(.ctx = ctx, trivial_query(), "SELECT 2", "SELECT 3")
       with_result(
         dbSendQuery(con, query),
@@ -47,9 +47,9 @@ spec_meta_get_row_count <- list(
           expect_equal(rc3, 3L)
         }
       )
-  }), # with_connection
+  },
 
-  row_count_query_empty = function(ctx) with_connection({
+  row_count_query_empty = function(ctx, con) {
       #' For queries with an empty result set,
       query <- union(
         .ctx = ctx, "SELECT * FROM (SELECT 1 as a) a WHERE (0 = 1)"
@@ -66,9 +66,9 @@ spec_meta_get_row_count <- list(
           expect_equal(rc, 0L)
         }
       )
-  }), # with_connection
+  },
   #
-  row_count_statement = function(ctx) with_connection({
+  row_count_statement = function(ctx, con) {
       name <- random_table_name()
 
       with_remove_test_table(name = name, {
@@ -88,15 +88,15 @@ spec_meta_get_row_count <- list(
           }
         )
       })
-  }), # with_connection
+  },
   #
-  get_row_count_error = function(ctx) with_connection({
+  get_row_count_error = function(ctx, con) {
       res <- dbSendQuery(con, trivial_query())
       dbClearResult(res)
       #' Attempting to get the row count for a result set cleared with
       #' [dbClearResult()] gives an error.
       expect_error(dbGetRowCount(res))
-  }), # with_connection
+  },
   #
   NULL
 )

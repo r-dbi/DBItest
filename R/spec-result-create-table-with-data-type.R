@@ -6,7 +6,7 @@ spec_result_create_table_with_data_type <- list(
   #' @section Specification:
   #' All data types returned by `dbDataType()` are usable in an SQL statement
   #' of the form
-  data_type_create_table = function(ctx) with_connection({
+  data_type_create_table = function(ctx, con) {
       check_connection_data_type <- function(value) {
         with_remove_test_table({
           #' `"CREATE TABLE test (a ...)"`.
@@ -30,7 +30,7 @@ spec_result_create_table_with_data_type <- list(
       if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
         expect_conn_has_data_type(list(as.raw(0:10)))
       }
-  }), # with_connection
+  },
   #
   NULL
 )

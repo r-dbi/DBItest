@@ -10,7 +10,7 @@ spec_meta_get_statement <- list(
 
   #' @return
   #' `dbGetStatement()` returns a string, the query used in
-  get_statement_query = function(ctx) with_connection({
+  get_statement_query = function(ctx, con) {
       query <- trivial_query()
       with_result(
         #' either [dbSendQuery()]
@@ -21,9 +21,9 @@ spec_meta_get_statement <- list(
           expect_identical(s, query)
         }
       )
-  }), # with_connection
+  },
   #
-  get_statement_statement = function(ctx) with_connection({
+  get_statement_statement = function(ctx, con) {
       name <- random_table_name()
 
       with_remove_test_table(name = name, {
@@ -38,15 +38,15 @@ spec_meta_get_statement <- list(
           }
         )
       })
-  }), # with_connection
+  },
   #
-  get_statement_error = function(ctx) with_connection({
+  get_statement_error = function(ctx, con) {
       res <- dbSendQuery(con, trivial_query())
       dbClearResult(res)
       #' Attempting to query the statement for a result set cleared with
       #' [dbClearResult()] gives an error.
       expect_error(dbGetStatement(res))
-  }), # with_connection
+  },
   #
   NULL
 )

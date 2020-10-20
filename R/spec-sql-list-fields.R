@@ -10,7 +10,7 @@ spec_sql_list_fields <- list(
 
   #' @return
   #' `dbListFields()`
-  list_fields = function(ctx) with_connection({
+  list_fields = function(ctx, con) {
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
@@ -34,25 +34,25 @@ spec_sql_list_fields <- list(
           expect_equal(dbQuoteIdentifier(con, fields), dbQuoteIdentifier(con, c("a", "b")))
         }
       })
-  }), # with_connection
+  },
 
   #' If the table does not exist, an error is raised.
-  list_fields_wrong_table = function(ctx) with_connection({
+  list_fields_wrong_table = function(ctx, con) {
       name <- "missing"
 
       expect_false(dbExistsTable(con, name))
       expect_error(dbListFields(con, name))
-  }), # with_connection
+  },
 
   #' Invalid types for the `name` argument
-  list_fields_invalid_type = function(ctx) with_connection({
+  list_fields_invalid_type = function(ctx, con) {
       #' (e.g., `character` of length not equal to one,
       expect_error(dbListFields(con, character()))
       expect_error(dbListFields(con, letters))
       #' or numeric)
       expect_error(dbListFields(con, 1))
       #' lead to an error.
-  }), # with_connection
+  },
 
   #' An error is also raised when calling this method for a closed
   list_fields_closed_connection = function(ctx) with_closed_connection({
@@ -70,7 +70,7 @@ spec_sql_list_fields <- list(
   #'
   #' - a string
   #' - the return value of [dbQuoteIdentifier()]
-  list_fields_quoted = function(ctx) with_connection({
+  list_fields_quoted = function(ctx, con) {
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L, b = 2L))
         expect_identical(
@@ -78,11 +78,11 @@ spec_sql_list_fields <- list(
           c("a", "b")
         )
       })
-  }), # with_connection
+  },
 
   #' - a value from the `table` column from the return value of
   #'   [dbListObjects()] where `is_prefix` is `FALSE`
-  list_fields_object = function(ctx) with_connection({
+  list_fields_object = function(ctx, con) {
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L, b = 2L))
         objects <- dbListObjects(con)
@@ -93,16 +93,16 @@ spec_sql_list_fields <- list(
           dbListFields(con, dbQuoteIdentifier(con, objects$table[[1]]))
         )
       })
-  }), # with_connection
+  },
 
   #'
   #' A column named `row_names` is treated like any other column.
-  list_fields_row_names = function(ctx) with_connection({
+  list_fields_row_names = function(ctx, con) {
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L, row_names = 2L))
         expect_identical(dbListFields(con, "test"), c("a", "row_names"))
       })
-  }), # with_connection
+  },
   #
   NULL
 )

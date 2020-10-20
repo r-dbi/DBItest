@@ -11,14 +11,14 @@ spec_sql_write_table <- list(
 
   #' @return
   #' `dbWriteTable()` returns `TRUE`, invisibly.
-  write_table_return = function(ctx) with_connection({
+  write_table_return = function(ctx, con) {
       with_remove_test_table({
         expect_invisible_true(dbWriteTable(con, "test", data.frame(a = 1L)))
       })
-  }), # with_connection
+  },
 
   #' If the table exists, and both `append` and `overwrite` arguments are unset,
-  write_table_overwrite = function(ctx) with_connection({
+  write_table_overwrite = function(ctx, con) {
       with_remove_test_table({
         test_in <- data.frame(a = 1L)
         dbWriteTable(con, "test", test_in)
@@ -27,12 +27,12 @@ spec_sql_write_table <- list(
         test_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(test_out, test_in)
       })
-  }), # with_connection
+  },
 
   #' or `append = TRUE` and the data frame with the new data has different
   #' column names,
   #' an error is raised; the remote table remains unchanged.
-  write_table_append_incompatible = function(ctx) with_connection({
+  write_table_append_incompatible = function(ctx, con) {
       with_remove_test_table({
         test_in <- data.frame(a = 1L)
         dbWriteTable(con, "test", test_in)
@@ -41,7 +41,7 @@ spec_sql_write_table <- list(
         test_out <- check_df(dbReadTable(con, "test"))
         expect_equal_df(test_out, test_in)
       })
-  }), # with_connection
+  },
 
   #'
   #' An error is raised when calling this method for a closed
@@ -55,7 +55,7 @@ spec_sql_write_table <- list(
   }), # with_invalid_connection
 
   #' An error is also raised
-  write_table_error = function(ctx) with_connection({
+  write_table_error = function(ctx, con) {
       test_in <- data.frame(a = 1L)
       with_remove_test_table({
         #' if `name` cannot be processed with [dbQuoteIdentifier()]
@@ -98,7 +98,7 @@ spec_sql_write_table <- list(
         expect_error(dbWriteTable(con, "test", data.frame(b = 2L, c = 3L), append = TRUE))
       })
       #' also raise an error.
-  }), # with_connection
+  },
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbWriteTable()` generic
@@ -115,7 +115,7 @@ spec_sql_write_table <- list(
 
   #' @section Specification:
   #' The `name` argument is processed as follows,
-  write_table_name = function(ctx) with_connection({
+  write_table_name = function(ctx, con) {
       #' to support databases that allow non-syntactic names for their objects:
       if (isTRUE(ctx$tweaks$strict_identifier)) {
         table_names <- "a"
@@ -140,12 +140,12 @@ spec_sql_write_table <- list(
           expect_equal_df(test_out, test_in)
         })
       }
-  }), # with_connection
+  },
 
   #'
   #' If the `overwrite` argument is `TRUE`, an existing table of the same name
   #' will be overwritten.
-  overwrite_table = function(ctx) with_connection({
+  overwrite_table = function(ctx, con) {
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
@@ -156,10 +156,10 @@ spec_sql_write_table <- list(
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris[1:10, ])
       })
-  }), # with_connection
+  },
 
   #' This argument doesn't change behavior if the table does not exist yet.
-  overwrite_table_missing = function(ctx) with_connection({
+  overwrite_table_missing = function(ctx, con) {
       with_remove_test_table(name = "iris", {
         iris_in <- get_iris(ctx)
         expect_error(
@@ -169,12 +169,12 @@ spec_sql_write_table <- list(
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris_in[1:10, ])
       })
-  }), # with_connection
+  },
 
   #'
   #' If the `append` argument is `TRUE`, the rows in an existing table are
   #' preserved, and the new data are appended.
-  append_table = function(ctx) with_connection({
+  append_table = function(ctx, con) {
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         dbWriteTable(con, "iris", iris)
@@ -182,17 +182,17 @@ spec_sql_write_table <- list(
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, rbind(iris, iris[1:10, ]))
       })
-  }), # with_connection
+  },
 
   #' If the table doesn't exist yet, it is created.
-  append_table_new = function(ctx) with_connection({
+  append_table_new = function(ctx, con) {
       with_remove_test_table(name = "iris", {
         iris <- get_iris(ctx)
         expect_error(dbWriteTable(con, "iris", iris[1:10, ], append = TRUE), NA)
         iris_out <- check_df(dbReadTable(con, "iris"))
         expect_equal_df(iris_out, iris[1:10, ])
       })
-  }), # with_connection
+  },
 
   #'
   #' If the `temporary` argument is `TRUE`, the table is not available in a
@@ -247,18 +247,18 @@ spec_sql_write_table <- list(
 
   #'
   #' SQL keywords can be used freely in table names, column names, and data.
-  roundtrip_keywords = function(ctx) with_connection({
+  roundtrip_keywords = function(ctx, con) {
       tbl_in <- data.frame(
         SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in, name = "EXISTS")
-  }), # with_connection
+  },
 
   #' Quotes, commas, and spaces can also be used in the data,
   #' and, if the database supports non-syntactic identifiers,
   #' also for table names and column names.
-  roundtrip_quotes = function(ctx) with_connection({
+  roundtrip_quotes = function(ctx, con) {
       if (!isTRUE(ctx$tweaks$strict_identifier)) {
         table_names <- c(
           as.character(dbQuoteIdentifier(con, "")),
@@ -290,34 +290,34 @@ spec_sql_write_table <- list(
 
         test_table_roundtrip(con, tbl_in)
       }
-  }), # with_connection
+  },
 
   #'
   #' The following data types must be supported at least,
   #' and be read identically with [dbReadTable()]:
   #' - integer
-  roundtrip_integer = function(ctx) with_connection({
+  roundtrip_integer = function(ctx, con) {
       tbl_in <- data.frame(a = c(1:5))
       test_table_roundtrip(con, tbl_in)
-  }), # with_connection
+  },
 
   #' - numeric
-  roundtrip_numeric = function(ctx) with_connection({
+  roundtrip_numeric = function(ctx, con) {
       tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
       test_table_roundtrip(con, tbl_in)
       #'   (the behavior for `Inf` and `NaN` is not specified)
-  }), # with_connection
+  },
 
   #' - logical
-  roundtrip_logical = function(ctx) with_connection({
+  roundtrip_logical = function(ctx, con) {
       tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
       tbl_exp <- tbl_in
       tbl_exp$a <- ctx$tweaks$logical_return(tbl_exp$a)
       test_table_roundtrip(con, tbl_in, tbl_exp)
-  }), # with_connection
+  },
 
   #' - `NA` as NULL
-  roundtrip_null = function(ctx) with_connection({
+  roundtrip_null = function(ctx, con) {
       tbl_in <- data.frame(a = NA)
       test_table_roundtrip(
         con, tbl_in,
@@ -326,10 +326,10 @@ spec_sql_write_table <- list(
           tbl_out
         }
       )
-  }), # with_connection
+  },
 
   #' - 64-bit values (using `"bigint"` as field type); the result can be
-  roundtrip_64_bit_numeric = function(ctx) with_connection({
+  roundtrip_64_bit_numeric = function(ctx, con) {
       tbl_in <- data.frame(a = c(-1e14, 1e15))
       test_table_roundtrip(
         con, tbl_in,
@@ -340,9 +340,9 @@ spec_sql_write_table <- list(
         },
         field.types = c(a = "BIGINT")
       )
-  }), # with_connection
+  },
   #
-  roundtrip_64_bit_character = function(ctx) with_connection({
+  roundtrip_64_bit_character = function(ctx, con) {
       tbl_in <- data.frame(a = c(-1e14, 1e15))
       tbl_exp <- tbl_in
       tbl_exp$a <- format(tbl_exp$a, scientific = FALSE)
@@ -356,9 +356,9 @@ spec_sql_write_table <- list(
         },
         field.types = c(a = "BIGINT")
       )
-  }), # with_connection
+  },
   #
-  roundtrip_64_bit_roundtrip = function(ctx) with_connection({
+  roundtrip_64_bit_roundtrip = function(ctx, con) {
       tbl_in <- data.frame(a = c(-1e14, 1e15))
       tbl_out <- with_remove_test_table({
         dbWriteTable(con, "test", tbl_in, field.types = c(a = "BIGINT"))
@@ -367,57 +367,57 @@ spec_sql_write_table <- list(
       tbl_exp <- tbl_out
       #'     - written to another table and read again unchanged
       test_table_roundtrip(con, tbl_out, tbl_exp)
-  }), # with_connection
+  },
 
   #' - character (in both UTF-8
-  roundtrip_character = function(ctx) with_connection({
+  roundtrip_character = function(ctx, con) {
       tbl_in <- data.frame(
         id = seq_along(texts),
         a = c(texts),
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in)
-  }), # with_connection
+  },
 
   #'   and native encodings),
-  roundtrip_character_native = function(ctx) with_connection({
+  roundtrip_character_native = function(ctx, con) {
       tbl_in <- data.frame(
         a = c(enc2native(texts)),
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in)
-  }), # with_connection
+  },
 
   #'   supporting empty strings
-  roundtrip_character_empty = function(ctx) with_connection({
+  roundtrip_character_empty = function(ctx, con) {
       tbl_in <- data.frame(
         a = c("", "a"),
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in)
-  }), # with_connection
+  },
 
   #'   before and after a non-empty string
-  roundtrip_character_empty_after = function(ctx) with_connection({
+  roundtrip_character_empty_after = function(ctx, con) {
       tbl_in <- data.frame(
         a = c("a", ""),
         stringsAsFactors = FALSE
       )
       test_table_roundtrip(con, tbl_in)
-  }), # with_connection
+  },
 
   #' - factor (returned as character)
-  roundtrip_factor = function(ctx) with_connection({
+  roundtrip_factor = function(ctx, con) {
       tbl_in <- data.frame(
         a = factor(c(texts))
       )
       tbl_exp <- tbl_in
       tbl_exp$a <- as.character(tbl_exp$a)
       test_table_roundtrip(con, tbl_in, tbl_exp)
-  }), # with_connection
+  },
 
   #' - list of raw
-  roundtrip_raw = function(ctx) with_connection({
+  roundtrip_raw = function(ctx, con) {
       #'   (if supported by the database)
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {
         skip("tweak: omit_blob_tests")
@@ -433,10 +433,10 @@ spec_sql_write_table <- list(
           tbl_out
         }
       )
-  }), # with_connection
+  },
 
   #' - objects of type [blob::blob]
-  roundtrip_blob = function(ctx) with_connection({
+  roundtrip_blob = function(ctx, con) {
       #'   (if supported by the database)
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {
         skip("tweak: omit_blob_tests")
@@ -450,10 +450,10 @@ spec_sql_write_table <- list(
           tbl_out
         }
       )
-  }), # with_connection
+  },
 
   #' - date
-  roundtrip_date = function(ctx) with_connection({
+  roundtrip_date = function(ctx, con) {
       #'   (if supported by the database;
       if (!isTRUE(ctx$tweaks$date_typed)) {
         skip("tweak: !date_typed")
@@ -468,10 +468,10 @@ spec_sql_write_table <- list(
           tbl_out
         }
       )
-  }), # with_connection
+  },
 
   #' - time
-  roundtrip_time = function(ctx) with_connection({
+  roundtrip_time = function(ctx, con) {
       #'   (if supported by the database;
       if (!isTRUE(ctx$tweaks$time_typed)) {
         skip("tweak: !time_typed")
@@ -493,10 +493,10 @@ spec_sql_write_table <- list(
           tbl_out
         }
       )
-  }), # with_connection
+  },
 
   #' - timestamp
-  roundtrip_timestamp = function(ctx) with_connection({
+  roundtrip_timestamp = function(ctx, con) {
       #'   (if supported by the database;
       if (!isTRUE(ctx$tweaks$timestamp_typed)) {
         skip("tweak: !timestamp_typed")
@@ -527,11 +527,11 @@ spec_sql_write_table <- list(
           out
         }
       )
-  }), # with_connection
+  },
 
   #'
   #' Mixing column types in the same table is supported.
-  roundtrip_mixed = function(ctx) with_connection({
+  roundtrip_mixed = function(ctx, con) {
       data <- list("a", 1L, 1.5)
       data <- lapply(data, c, NA)
       expanded <- expand.grid(a = data, b = data, c = data)
@@ -543,13 +543,13 @@ spec_sql_write_table <- list(
       )
 
       lapply(tbl_in_list, test_table_roundtrip, con = con)
-  }), # with_connection
+  },
 
   #'
   #' The `field.types` argument must be a named character vector with at most
   #' one entry for each column.
   #' It indicates the SQL data type to be used for a new column.
-  roundtrip_field_types = function(ctx) with_connection({
+  roundtrip_field_types = function(ctx, con) {
       tbl_in <- data.frame(a = numeric(), b = character())
       #' If a column is missed from `field.types`, the type is inferred
       #' from the input data with [dbDataType()].
@@ -565,12 +565,12 @@ spec_sql_write_table <- list(
         con, tbl_in, tbl_exp,
         field.types = c(b = "REAL", a = "INTEGER")
       )
-  }), # with_connection
+  },
 
   #'
   #' The interpretation of [rownames] depends on the `row.names` argument,
   #' see [sqlRownamesToColumn()] for details:
-  write_table_row_names_false = function(ctx) with_connection({
+  write_table_row_names_false = function(ctx, con) {
       #' - If `FALSE` or `NULL`, row names are ignored.
       for (row.names in list(FALSE, NULL)) {
         with_remove_test_table(name = "mtcars", {
@@ -582,9 +582,9 @@ spec_sql_write_table <- list(
           expect_equal_df(mtcars_out, unrowname(mtcars_in))
         })
       }
-  }), # with_connection
+  },
   #
-  write_table_row_names_true_exists = function(ctx) with_connection({
+  write_table_row_names_true_exists = function(ctx, con) {
       #' - If `TRUE`, row names are converted to a column named "row_names",
       row.names <- TRUE
 
@@ -598,9 +598,9 @@ spec_sql_write_table <- list(
         expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
         expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
       })
-  }), # with_connection
+  },
   #
-  write_table_row_names_true_missing = function(ctx) with_connection({
+  write_table_row_names_true_missing = function(ctx, con) {
       #'   even if the input data frame only has natural row names from 1 to `nrow(...)`.
       row.names <- TRUE
 
@@ -614,9 +614,9 @@ spec_sql_write_table <- list(
         expect_true(all(iris_out$row_names %in% rownames(iris_in)))
         expect_equal_df(iris_out[names(iris_out) != "row_names"], iris_in)
       })
-  }), # with_connection
+  },
   #
-  write_table_row_names_na_exists = function(ctx) with_connection({
+  write_table_row_names_na_exists = function(ctx, con) {
       #' - If `NA`, a column named "row_names" is created if the data has custom row names,
       row.names <- NA
 
@@ -630,9 +630,9 @@ spec_sql_write_table <- list(
         expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
         expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
       })
-  }), # with_connection
+  },
   #
-  write_table_row_names_na_missing = function(ctx) with_connection({
+  write_table_row_names_na_missing = function(ctx, con) {
       #'   no extra column is created in the case of natural row names.
       row.names <- NA
 
@@ -643,9 +643,9 @@ spec_sql_write_table <- list(
 
         expect_equal_df(iris_out, iris_in)
       })
-  }), # with_connection
+  },
   #
-  write_table_row_names_string_exists = function(ctx) with_connection({
+  write_table_row_names_string_exists = function(ctx, con) {
       row.names <- "make_model"
       #' - If a string, this specifies the name of the column in the remote table
       #'   that contains the row names,
@@ -661,9 +661,9 @@ spec_sql_write_table <- list(
         expect_true(all(rownames(mtcars_in) %in% mtcars_out$make_model))
         expect_equal_df(mtcars_out[names(mtcars_out) != "make_model"], unrowname(mtcars_in))
       })
-  }), # with_connection
+  },
   #
-  write_table_row_names_string_missing = function(ctx) with_connection({
+  write_table_row_names_string_missing = function(ctx, con) {
       row.names <- "seq"
       #'   even if the input data frame only has natural row names.
 
@@ -677,9 +677,9 @@ spec_sql_write_table <- list(
         expect_true(all(rownames(iris_in) %in% iris_out$seq))
         expect_equal_df(iris_out[names(iris_out) != "seq"], iris_in)
       })
-  }), # with_connection
+  },
   #
-  write_table_row_names_default = function(ctx) with_connection({
+  write_table_row_names_default = function(ctx, con) {
       #'
       #' The default is `row.names = FALSE`.
       with_remove_test_table(name = "mtcars", {
@@ -690,7 +690,7 @@ spec_sql_write_table <- list(
         expect_false("row_names" %in% names(mtcars_out))
         expect_equal_df(mtcars_out, unrowname(mtcars_in))
       })
-  }), # with_connection
+  },
   #
   NULL
 )

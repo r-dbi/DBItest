@@ -9,7 +9,7 @@ spec_meta_bind <- list(
   },
 
   #' @return
-  bind_return_value = function(ctx) with_connection({
+  bind_return_value = function(ctx, con) {
       extra <- new_bind_tester_extra(
         check_return_value = function(bind_res, res) {
           #' `dbBind()` returns the result set,
@@ -24,18 +24,18 @@ spec_meta_bind <- list(
       #' and also for data manipulation statements issued by
       #' [dbSendStatement()].
       test_select_bind(con, ctx, 1L, extra = extra, query = FALSE)
-  }), # with_connection
+  },
   #
-  bind_empty = function(ctx) with_connection({
+  bind_empty = function(ctx, con) {
       with_result(
         #' Calling `dbBind()` for a query without parameters
         dbSendQuery(con, trivial_query()),
         #' raises an error.
         expect_error(dbBind(res, list()))
       )
-  }), # with_connection
+  },
   #
-  bind_too_many = function(ctx) with_connection({
+  bind_too_many = function(ctx, con) {
       extra <- new_bind_tester_extra(
         patch_bind_values = function(bind_values) {
           #' Binding too many
@@ -48,9 +48,9 @@ spec_meta_bind <- list(
         bind_error = function() ".*"
       )
       test_select_bind(con, ctx, 1L, extra = extra)
-  }), # with_connection
+  },
   #
-  bind_not_enough = function(ctx) with_connection({
+  bind_not_enough = function(ctx, con) {
       extra <- new_bind_tester_extra(
         patch_bind_values = function(bind_values) {
           #' or not enough values,
@@ -59,9 +59,9 @@ spec_meta_bind <- list(
         bind_error = function() ".*"
       )
       test_select_bind(con, ctx, 1L, extra = extra)
-  }), # with_connection
+  },
   #
-  bind_wrong_name = function(ctx) with_connection({
+  bind_wrong_name = function(ctx, con) {
       extra <- new_bind_tester_extra(
         patch_bind_values = function(bind_values) {
           #' or parameters with wrong names
@@ -72,9 +72,9 @@ spec_meta_bind <- list(
         bind_error = function() ".*"
       )
       test_select_bind(con, ctx, 1L, extra = extra)
-  }), # with_connection
+  },
   #
-  bind_multi_row_unequal_length = function(ctx) with_connection({
+  bind_multi_row_unequal_length = function(ctx, con) {
       extra <- new_bind_tester_extra(
         patch_bind_values = function(bind_values) {
           #' or unequal length,
@@ -88,10 +88,10 @@ spec_meta_bind <- list(
         con, ctx, list(1:3, 2:4),
         extra = extra, query = FALSE
       )
-  }), # with_connection
+  },
 
   #' If the placeholders in the query are named,
-  bind_named_param_unnamed_placeholders = function(ctx) with_connection({
+  bind_named_param_unnamed_placeholders = function(ctx, con) {
       extra <- new_bind_tester_extra(
         patch_bind_values = function(bind_values) {
           #' all parameter values must have names
@@ -102,9 +102,9 @@ spec_meta_bind <- list(
         requires_names = function() TRUE
       )
       test_select_bind(con, ctx, 1L, extra = extra)
-  }), # with_connection
+  },
   #
-  bind_named_param_empty_placeholders = function(ctx) with_connection({
+  bind_named_param_empty_placeholders = function(ctx, con) {
       extra <- new_bind_tester_extra(
         patch_bind_values = function(bind_values) {
           #' (which must not be empty
@@ -115,9 +115,9 @@ spec_meta_bind <- list(
         requires_names = function() TRUE
       )
       test_select_bind(con, ctx, list(1L, 2L), extra = extra)
-  }), # with_connection
+  },
   #
-  bind_named_param_na_placeholders = function(ctx) with_connection({
+  bind_named_param_na_placeholders = function(ctx, con) {
       extra <- new_bind_tester_extra(
         patch_bind_values = function(bind_values) {
           #' or `NA`),
@@ -128,10 +128,10 @@ spec_meta_bind <- list(
         requires_names = function() TRUE
       )
       test_select_bind(con, ctx, list(1L, 2L), extra = extra)
-  }), # with_connection
+  },
 
   #' and vice versa,
-  bind_unnamed_param_named_placeholders = function(ctx) with_connection({
+  bind_unnamed_param_named_placeholders = function(ctx, con) {
       extra <- new_bind_tester_extra(
         patch_bind_values = function(bind_values) {
           stats::setNames(bind_values, letters[seq_along(bind_values)])
@@ -142,14 +142,14 @@ spec_meta_bind <- list(
       )
       #' otherwise an error is raised.
       test_select_bind(con, ctx, 1L, extra = extra)
-  }), # with_connection
+  },
 
   #' The behavior for mixing placeholders of different types
   #' (in particular mixing positional and named placeholders)
   #' is not specified.
   #'
 
-  bind_premature_clear = function(ctx) with_connection({
+  bind_premature_clear = function(ctx, con) {
       extra <- new_bind_tester_extra(
         #' Calling `dbBind()` on a result set already cleared by [dbClearResult()]
         is_premature_clear = function() TRUE
@@ -158,16 +158,16 @@ spec_meta_bind <- list(
       expect_error(
         test_select_bind(con, ctx, 1L, extra = extra)
       )
-  }), # with_connection
+  },
 
   #' @section Specification:
   #' The elements of the `params` argument do not need to be scalars,
-  bind_multi_row = function(ctx) with_connection({
+  bind_multi_row = function(ctx, con) {
       #' vectors of arbitrary length
       test_select_bind(con, ctx, list(1:3))
-  }), # with_connection
+  },
   #
-  bind_multi_row_zero_length = function(ctx) with_connection({
+  bind_multi_row_zero_length = function(ctx, con) {
       #' (including length 0)
       test_select_bind(con, ctx, list(integer(), integer()))
 
@@ -176,16 +176,16 @@ spec_meta_bind <- list(
     #' For queries, calling `dbFetch()` binding such parameters returns
     #' concatenated results, equivalent to binding and fetching for each set
     #' of values and connecting via [rbind()].
-  }), # with_connection
+  },
   #
-  bind_multi_row_statement = function(ctx) with_connection({
+  bind_multi_row_statement = function(ctx, con) {
       # This behavior is tested as part of run_bind_tester$fun
       #' For data manipulation statements, `dbGetRowsAffected()` returns the
       #' total number of rows affected if binding non-scalar parameters.
       test_select_bind(con, ctx, list(1:3), query = FALSE)
-  }), # with_connection
+  },
   #
-  bind_repeated = function(ctx) with_connection({
+  bind_repeated = function(ctx, con) {
       extra <- new_bind_tester_extra(
         #' `dbBind()` also accepts repeated calls on the same result set
         is_repeated = function() TRUE
@@ -195,9 +195,9 @@ spec_meta_bind <- list(
       test_select_bind(con, ctx, 1L, extra = extra)
       #' and data manipulation statements,
       test_select_bind(con, ctx, 1L, extra = extra, query = FALSE)
-  }), # with_connection
+  },
   #
-  bind_repeated_untouched = function(ctx) with_connection({
+  bind_repeated_untouched = function(ctx, con) {
       extra <- new_bind_tester_extra(
         #' even if no results are fetched between calls to `dbBind()`,
         is_repeated = function() TRUE,
@@ -208,11 +208,11 @@ spec_meta_bind <- list(
       test_select_bind(con, ctx, 1L, extra = extra)
       #' and data manipulation statements.
       test_select_bind(con, ctx, 1L, extra = extra, query = FALSE)
-  }), # with_connection
+  },
 
   #'
   #' If the placeholders in the query are named,
-  bind_named_param_shuffle = function(ctx) with_connection({
+  bind_named_param_shuffle = function(ctx, con) {
       extra <- new_bind_tester_extra(
         patch_bind_values = function(bind_values) {
           #' their order in the `params` argument is not important.
@@ -222,32 +222,32 @@ spec_meta_bind <- list(
         requires_names = function() TRUE
       )
       test_select_bind(con, ctx, c(1:3 + 0.5, NA), extra = extra)
-  }), # with_connection
+  },
 
   #'
   #' At least the following data types are accepted on input (including [NA]):
   #' - [integer]
-  bind_integer = function(ctx) with_connection({
+  bind_integer = function(ctx, con) {
       test_select_bind(con, ctx, c(1:3, NA))
-  }), # with_connection
+  },
 
   #' - [numeric]
-  bind_numeric = function(ctx) with_connection({
+  bind_numeric = function(ctx, con) {
       test_select_bind(con, ctx, c(1:3 + 0.5, NA))
-  }), # with_connection
+  },
 
   #' - [logical] for Boolean values
-  bind_logical = function(ctx) with_connection({
+  bind_logical = function(ctx, con) {
       test_select_bind(con, ctx, c(TRUE, FALSE, NA))
-  }), # with_connection
+  },
 
   #' - [character]
-  bind_character = function(ctx) with_connection({
+  bind_character = function(ctx, con) {
       test_select_bind(con, ctx, c(texts, NA))
-  }), # with_connection
+  },
 
   #' - [factor] (bound as character,
-  bind_factor = function(ctx) with_connection({
+  bind_factor = function(ctx, con) {
       #' with warning)
       expect_warning(
         test_select_bind(
@@ -256,29 +256,29 @@ spec_meta_bind <- list(
           lapply(c(texts, NA_character_), factor)
         )
       )
-  }), # with_connection
+  },
 
   #' - [Date]
-  bind_date = function(ctx) with_connection({
+  bind_date = function(ctx, con) {
       if (!isTRUE(ctx$tweaks$date_typed)) {
         skip("tweak: !date_typed")
       }
 
       test_select_bind(con, ctx, c(Sys.Date() + 0:2, NA))
-  }), # with_connection
+  },
 
   #' - [POSIXct] timestamps
-  bind_timestamp = function(ctx) with_connection({
+  bind_timestamp = function(ctx, con) {
       if (!isTRUE(ctx$tweaks$timestamp_typed)) {
         skip("tweak: !timestamp_typed")
       }
 
       data_in <- as.POSIXct(c(round(Sys.time()) + 0:2, NA))
       test_select_bind(con, ctx, data_in)
-  }), # with_connection
+  },
 
   #' - [POSIXlt] timestamps
-  bind_timestamp_lt = function(ctx) with_connection({
+  bind_timestamp_lt = function(ctx, con) {
       if (!isTRUE(ctx$tweaks$timestamp_typed)) {
         skip("tweak: !timestamp_typed")
       }
@@ -288,10 +288,10 @@ spec_meta_bind <- list(
         as.POSIXlt
       )
       test_select_bind(con, ctx, data_in)
-  }), # with_connection
+  },
 
   #' - lists of [raw] for blobs (with `NULL` entries for SQL NULL values)
-  bind_raw = function(ctx) with_connection({
+  bind_raw = function(ctx, con) {
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {
         skip("tweak: omit_blob_tests")
       }
@@ -301,10 +301,10 @@ spec_meta_bind <- list(
         list(list(as.raw(1:10)), list(raw(3)), list(NULL)),
         cast_fun = ctx$tweaks$blob_cast
       )
-  }), # with_connection
+  },
 
   #' - objects of type [blob::blob]
-  bind_blob = function(ctx) with_connection({
+  bind_blob = function(ctx, con) {
       if (isTRUE(ctx$tweaks$omit_blob_tests)) {
         skip("tweak: omit_blob_tests")
       }
@@ -314,7 +314,7 @@ spec_meta_bind <- list(
         list(blob::blob(as.raw(1:10)), blob::blob(raw(3)), blob::blob(NULL)),
         cast_fun = ctx$tweaks$blob_cast
       )
-  }), # with_connection
+  },
   #
   NULL
 )

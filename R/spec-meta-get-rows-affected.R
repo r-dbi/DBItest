@@ -11,7 +11,7 @@ spec_meta_get_rows_affected <- list(
   #' @return
   #' `dbGetRowsAffected()` returns a scalar number (integer or numeric),
   #' the number of rows affected by a data manipulation statement
-  rows_affected_statement = function(ctx) with_connection({
+  rows_affected_statement = function(ctx, con) {
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1:10))
 
@@ -33,9 +33,9 @@ spec_meta_get_rows_affected <- list(
           }
         )
       })
-  }), # with_connection
+  },
   #
-  rows_affected_query = function(ctx) with_connection({
+  rows_affected_query = function(ctx, con) {
       query <- trivial_query()
       with_result(
         #' For queries issued with [dbSendQuery()],
@@ -50,9 +50,9 @@ spec_meta_get_rows_affected <- list(
           expect_equal(rc, 0L)
         }
       )
-  }), # with_connection
+  },
   #
-  get_rows_affected_error = function(ctx) with_connection({
+  get_rows_affected_error = function(ctx, con) {
       query <- paste0(
         "CREATE TABLE ", dbQuoteIdentifier(con, "test"), " (a integer)"
       )
@@ -63,7 +63,7 @@ spec_meta_get_rows_affected <- list(
         #' [dbClearResult()] gives an error.
         expect_error(dbGetRowsAffected(res))
       })
-  }), # with_connection
+  },
   #
   NULL
 )
