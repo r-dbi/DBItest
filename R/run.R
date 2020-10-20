@@ -39,6 +39,16 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
           args <- c(args, list(con = con))
         }
 
+        if ("closed_con" %in% names(formals(test_fun))) {
+          closed_con <- local_closed_connection(ctx)
+          args <- c(args, list(closed_con = closed_con))
+        }
+
+        if ("invalid_con" %in% names(formals(test_fun))) {
+          invalid_con <- local_invalid_connection(ctx)
+          args <- c(args, list(invalid_con = invalid_con))
+        }
+
         rlang::exec(test_fun, !!!args)
       }
     },

@@ -32,14 +32,14 @@ spec_sql_create_table <- list(
 
   #'
   #' An error is raised when calling this method for a closed
-  create_table_closed_connection = function(ctx) with_closed_connection({
+  create_table_closed_connection = function(ctx, closed_con) {
       expect_error(dbCreateTable(closed_con, "test", data.frame(a = 1)))
-  }), # with_closed_connection
+  },
 
   #' or invalid connection.
-  create_table_invalid_connection = function(ctx) with_invalid_connection({
+  create_table_invalid_connection = function(ctx, invalid_con) {
       expect_error(dbCreateTable(invalid_con, "test", data.frame(a = 1)))
-  }), # with_invalid_connection
+  },
 
   #' An error is also raised
   create_table_error = function(ctx, con) {

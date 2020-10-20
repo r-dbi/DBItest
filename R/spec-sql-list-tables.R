@@ -64,14 +64,14 @@ spec_sql_list_tables <- list(
   },
 
   #' An error is raised when calling this method for a closed
-  list_tables_closed_connection = function(ctx) with_closed_connection({
+  list_tables_closed_connection = function(ctx, closed_con) {
       expect_error(dbListTables(closed_con))
-  }), # with_closed_connection
+  },
 
   #' or invalid connection.
-  list_tables_invalid_connection = function(ctx) with_invalid_connection({
+  list_tables_invalid_connection = function(ctx, invalid_con) {
       expect_error(dbListTables(invalid_con))
-  }), # with_invalid_connection
+  },
   #
   NULL
 )

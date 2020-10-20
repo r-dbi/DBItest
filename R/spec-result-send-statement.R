@@ -25,14 +25,14 @@ spec_result_send_statement <- list(
   },
 
   #' An error is raised when issuing a statement over a closed
-  send_statement_closed_connection = function(ctx) with_closed_connection({
+  send_statement_closed_connection = function(ctx, closed_con) {
       expect_error(dbSendStatement(closed_con, trivial_statement()))
-  }), # with_closed_connection
+  },
 
   #' or invalid connection,
-  send_statement_invalid_connection = function(ctx) with_invalid_connection({
+  send_statement_invalid_connection = function(ctx, invalid_con) {
       expect_error(dbSendStatement(invalid_con, trivial_statement()))
-  }), # with_invalid_connection
+  },
 
   #' or if the statement is not a non-`NA` string.
   send_statement_non_string = function(ctx, con) {

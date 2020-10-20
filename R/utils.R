@@ -16,6 +16,18 @@ local_connection <- function(ctx, ..., .local_envir = parent.frame()) {
   withr::local_db_connection(con, .local_envir = .local_envir)
 }
 
+local_closed_connection <- function(ctx, ...) {
+  con <- connect(ctx, ...)
+  dbDisconnect(con)
+  con
+}
+
+local_invalid_connection <- function(ctx, ...) {
+  con <- connect(ctx, ...)
+  dbDisconnect(con)
+  unserialize(serialize(con, NULL))
+}
+
 # Expects a variable "ctx" in the environment env,
 # evaluates the code inside local() after defining a variable "con"
 # (can be overridden by specifying con argument)

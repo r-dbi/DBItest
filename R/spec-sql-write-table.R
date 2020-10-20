@@ -45,14 +45,14 @@ spec_sql_write_table <- list(
 
   #'
   #' An error is raised when calling this method for a closed
-  write_table_closed_connection = function(ctx) with_closed_connection({
+  write_table_closed_connection = function(ctx, closed_con) {
       expect_error(dbWriteTable(closed_con, "test", data.frame(a = 1)))
-  }), # with_closed_connection
+  },
 
   #' or invalid connection.
-  write_table_invalid_connection = function(ctx) with_invalid_connection({
+  write_table_invalid_connection = function(ctx, invalid_con) {
       expect_error(dbWriteTable(invalid_con, "test", data.frame(a = 1)))
-  }), # with_invalid_connection
+  },
 
   #' An error is also raised
   write_table_error = function(ctx, con) {
