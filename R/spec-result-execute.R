@@ -11,39 +11,39 @@ spec_result_execute <- list(
   #' @return
   #' `dbExecute()` always returns a
   execute_atomic = function(ctx, con) {
-      with_remove_test_table({
-        query <- trivial_statement()
+    with_remove_test_table({
+      query <- trivial_statement()
 
-        ret <- dbExecute(con, query)
-        #' scalar
-        expect_equal(length(ret), 1)
-        #' numeric
-        expect_true(is.numeric(ret))
-        #' that specifies the number of rows affected
-        #' by the statement.
-      })
+      ret <- dbExecute(con, query)
+      #' scalar
+      expect_equal(length(ret), 1)
+      #' numeric
+      expect_true(is.numeric(ret))
+      #' that specifies the number of rows affected
+      #' by the statement.
+    })
   },
 
   #' An error is raised when issuing a statement over a closed
   execute_closed_connection = function(ctx, closed_con) {
-      expect_error(dbExecute(closed_con, trivial_statement()))
+    expect_error(dbExecute(closed_con, trivial_statement()))
   },
 
   #' or invalid connection,
   execute_invalid_connection = function(ctx, invalid_con) {
-      expect_error(dbExecute(invalid_con, trivial_statement()))
+    expect_error(dbExecute(invalid_con, trivial_statement()))
   },
 
   #' if the syntax of the statement is invalid,
   execute_syntax_error = function(ctx, con) {
-      expect_error(dbExecute(con, "CREATTE"))
+    expect_error(dbExecute(con, "CREATTE"))
   },
 
   #' or if the statement is not a non-`NA` string.
   execute_non_string = function(ctx, con) {
-      expect_error(dbExecute(con, character()))
-      expect_error(dbExecute(con, letters))
-      expect_error(dbExecute(con, NA_character_))
+    expect_error(dbExecute(con, character()))
+    expect_error(dbExecute(con, letters))
+    expect_error(dbExecute(con, NA_character_))
   },
 
   #' @section Additional arguments:
@@ -60,27 +60,27 @@ spec_result_execute <- list(
   #'
   #' The `param` argument allows passing query parameters, see [dbBind()] for details.
   execute_params = function(ctx, con) {
-      placeholder_funs <- get_placeholder_funs(ctx)
+    placeholder_funs <- get_placeholder_funs(ctx)
 
-      for (placeholder_fun in placeholder_funs) {
-        with_remove_test_table(name = "test", {
-          dbWriteTable(con, "test", data.frame(a = as.numeric(1:3)))
-          placeholder <- placeholder_fun(1)
-          query <- paste0("DELETE FROM test WHERE a > ", placeholder)
-          values <- 1.5
-          params <- stats::setNames(list(values), names(placeholder))
-          ret <- dbExecute(con, query, params = params)
-          expect_equal(ret, 2, info = placeholder)
-        })
-      }
+    for (placeholder_fun in placeholder_funs) {
+      with_remove_test_table(name = "test", {
+        dbWriteTable(con, "test", data.frame(a = as.numeric(1:3)))
+        placeholder <- placeholder_fun(1)
+        query <- paste0("DELETE FROM test WHERE a > ", placeholder)
+        values <- 1.5
+        params <- stats::setNames(list(values), names(placeholder))
+        ret <- dbExecute(con, query, params = params)
+        expect_equal(ret, 2, info = placeholder)
+      })
+    }
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
   execute_immediate = function(ctx, con) {
-      with_remove_test_table({
-        res <- expect_visible(dbExecute(con, trivial_statement(), immediate = TRUE))
-        expect_true(is.numeric(res))
-      })
+    with_remove_test_table({
+      res <- expect_visible(dbExecute(con, trivial_statement(), immediate = TRUE))
+      expect_true(is.numeric(res))
+    })
   },
   #
   NULL
