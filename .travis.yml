@@ -85,7 +85,8 @@ matrix:
     env:
     - BUILD_PKGDOWN=true
   - stage: full
-    r: 3.5
+    os: osx
+  - r: 3.5
   - r: 3.4
   - r: 3.3
   fast_finish: true
