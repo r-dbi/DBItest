@@ -1,3 +1,8 @@
+# DBItest 1.7.0.9003 (2020-10-21)
+
+- Many tests now emit simpler stack traces, because the connection is opened by the test driver and not by the test itself (#187).
+
+
 # DBItest 1.7.0.9002 (2020-09-28)
 
 - Support more than one class of each type in DBI backend packages.
