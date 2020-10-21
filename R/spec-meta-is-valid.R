@@ -21,43 +21,37 @@ spec_meta_is_valid <- list(
     expect_false(expect_visible(dbIsValid(con)))
   },
   #
-  is_valid_stale_connection = function(ctx) {
-    with_invalid_connection(
-      #' For an invalid connection object (e.g., for some drivers if the object
-      #' is saved to a file and then restored), the method also returns `FALSE`.
-      expect_false(expect_visible(dbIsValid(con)))
-    )
+  is_valid_stale_connection = function(ctx, invalid_con) {
+    #' For an invalid connection object (e.g., for some drivers if the object
+    #' is saved to a file and then restored), the method also returns `FALSE`.
+    expect_false(expect_visible(dbIsValid(invalid_con)))
   },
   #
-  is_valid_result_query = function(ctx) {
-    with_connection({
-      query <- trivial_query()
-      res <- dbSendQuery(con, query)
-      #' A [DBIResult-class] object is valid after a call to [dbSendQuery()],
+  is_valid_result_query = function(ctx, con) {
+    query <- trivial_query()
+    res <- dbSendQuery(con, query)
+    #' A [DBIResult-class] object is valid after a call to [dbSendQuery()],
+    expect_true(expect_visible(dbIsValid(res)))
+    expect_error(dbFetch(res), NA)
+    #' and stays valid even after all rows have been fetched;
+    expect_true(expect_visible(dbIsValid(res)))
+    dbClearResult(res)
+    #' only clearing it with [dbClearResult()] invalidates it.
+    expect_false(dbIsValid(res))
+  },
+  #
+  is_valid_result_statement = function(ctx, con) {
+    with_remove_test_table({
+      query <- paste0("CREATE TABLE test (a ", dbDataType(con, 1L), ")")
+      res <- dbSendStatement(con, query)
+      #' A [DBIResult-class] object is also valid after a call to [dbSendStatement()],
       expect_true(expect_visible(dbIsValid(res)))
-      expect_error(dbFetch(res), NA)
-      #' and stays valid even after all rows have been fetched;
+      #' and stays valid after querying the number of rows affected;
+      expect_error(dbGetRowsAffected(res), NA)
       expect_true(expect_visible(dbIsValid(res)))
       dbClearResult(res)
       #' only clearing it with [dbClearResult()] invalidates it.
       expect_false(dbIsValid(res))
-    })
-  },
-  #
-  is_valid_result_statement = function(ctx) {
-    with_connection({
-      with_remove_test_table({
-        query <- paste0("CREATE TABLE test (a ", dbDataType(con, 1L), ")")
-        res <- dbSendStatement(con, query)
-        #' A [DBIResult-class] object is also valid after a call to [dbSendStatement()],
-        expect_true(expect_visible(dbIsValid(res)))
-        #' and stays valid after querying the number of rows affected;
-        expect_error(dbGetRowsAffected(res), NA)
-        expect_true(expect_visible(dbIsValid(res)))
-        dbClearResult(res)
-        #' only clearing it with [dbClearResult()] invalidates it.
-        expect_false(dbIsValid(res))
-      })
     })
   },
 

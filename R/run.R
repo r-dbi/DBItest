@@ -32,7 +32,24 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
         FALSE
       } else {
         test_fun <- patch_test_fun(tests[[test_name]], paste0(test_context, ": ", test_name))
-        test_fun(ctx)
+
+        args <- list(ctx)
+        if ("con" %in% names(formals(test_fun))) {
+          con <- local_connection(ctx)
+          args <- c(args, list(con = con))
+        }
+
+        if ("closed_con" %in% names(formals(test_fun))) {
+          closed_con <- local_closed_connection(ctx)
+          args <- c(args, list(closed_con = closed_con))
+        }
+
+        if ("invalid_con" %in% names(formals(test_fun))) {
+          invalid_con <- local_invalid_connection(ctx)
+          args <- c(args, list(invalid_con = invalid_con))
+        }
+
+        rlang::exec(test_fun, !!!args)
       }
     },
     logical(1L)
@@ -87,11 +104,12 @@ get_run_only_tests <- function(tests, run_only) {
 patch_test_fun <- function(test_fun, desc) {
   body_of_test_fun <- wrap_all_statements_with_expect_no_warning(body(test_fun))
 
-  eval(bquote(
-    function(ctx) {
-      test_that(.(desc), .(body_of_test_fun))
-    }
-  ))
+  rlang::new_function(
+    formals(test_fun),
+    rlang::expr(
+      test_that(!!desc, !!body_of_test_fun)
+    )
+  )
 }
 
 wrap_all_statements_with_expect_no_warning <- function(block) {
