@@ -136,7 +136,10 @@ spec_sql_list_objects <- list(
       for (sub_table in sub_objects$table[!sub_objects$is_prefix]) {
         # eval(bquote()) preserves the SQL class, even if it's not apparent
         # in the output
-        eval(bquote(expect_true(dbExistsTable(con, .(sub_table)), label = sub_table)))
+        eval(bquote(expect_true(
+          dbExistsTable(con, .(sub_table)),
+          label = dbQuoteIdentifier(con, sub_table)
+        )))
       }
     }
   },
