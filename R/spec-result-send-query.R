@@ -68,7 +68,7 @@ spec_result_send_query <- list(
     #' Failure to clear the result set leads to a warning
     #' when the connection is closed.
     expect_warning(
-      with_connection({
+      with_connection(ctx = ctx, {
         dbSendQuery(con, trivial_query())
       })
     )

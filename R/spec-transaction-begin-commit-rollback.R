@@ -89,7 +89,7 @@ spec_transaction_begin_commit_rollback <- list(
 
   #' Data written in a transaction must persist after the transaction is committed.
   begin_write_commit = function(ctx) {
-    with_connection({
+    with_connection(ctx = ctx, {
       #' For example, a record that is missing when the transaction is started
 
       dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
@@ -110,7 +110,7 @@ spec_transaction_begin_commit_rollback <- list(
       expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0:1))
     })
 
-    with_connection({
+    with_connection(ctx = ctx, {
       with_remove_test_table({
         #' and also in a new connection.
         expect_true(dbExistsTable(con, "test"))
@@ -148,7 +148,7 @@ spec_transaction_begin_commit_rollback <- list(
   begin_write_disconnect = function(ctx) {
     #'
     #' Disconnection from a connection with an open transaction
-    with_connection({
+    with_connection(ctx = ctx, {
       dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
 
       dbBegin(con)
@@ -156,7 +156,7 @@ spec_transaction_begin_commit_rollback <- list(
       dbWriteTable(con, "test", data.frame(a = 1L), append = TRUE)
     })
 
-    with_connection({
+    with_connection(ctx = ctx, {
       #' effectively rolls back the transaction.
       #' All data written in such a transaction must be removed after the
       #' transaction is rolled back.

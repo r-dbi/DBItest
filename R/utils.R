@@ -28,59 +28,49 @@ local_invalid_connection <- function(ctx, ...) {
   unserialize(serialize(con, NULL))
 }
 
-# Expects a variable "ctx" in the environment env,
-# evaluates the code inside local() after defining a variable "con"
+# Evaluates the code inside local() after defining a variable "con"
 # (can be overridden by specifying con argument)
 # that points to a newly opened connection. Disconnects on exit.
-with_connection <- function(code, con = "con", env = parent.frame()) {
+with_connection <- function(code, con = "con", env = parent.frame(), ctx) {
+  force(ctx)
+
   quo <- enquo(code)
 
   con <- as.name(con)
 
-  data <- list2(!!con := connect(get("ctx", env)))
-  on.exit(try_silent(dbDisconnect(data[[1]])), add = TRUE)
+  data <- list2(!!con := local_connection(ctx))
 
   eval_tidy(quo, data)
 }
 
-# Expects a variable "ctx" in the environment env,
-# evaluates the code inside local() after defining a variable "con"
+# Evaluates the code inside local() after defining a variable "con"
 # (can be overridden by specifying con argument)
 # that points to a newly opened and then closed connection. Disconnects on exit.
-with_closed_connection <- function(code, con = "closed_con", env = parent.frame()) {
-  code_sub <- substitute(code)
+with_closed_connection <- function(code, con = "closed_con", env = parent.frame(), ctx) {
+  force(ctx)
+
+  quo <- enquo(code)
 
   con <- as.name(con)
 
-  eval(
-    bquote({
-      .(con) <- connect(ctx)
-      dbDisconnect(.(con))
-      local(.(code_sub))
-    }),
-    envir = env
-  )
+  data <- list2(!!con := local_closed_connection(ctx))
+
+  eval_tidy(quo, data)
 }
 
-# Expects a variable "ctx" in the environment env,
-# evaluates the code inside local() after defining a variable "con"
+# Evaluates the code inside local() after defining a variable "con"
 # (can be overridden by specifying con argument)
 # that points to a newly opened but invalidated connection. Disconnects on exit.
-with_invalid_connection <- function(code, con = "invalid_con", env = parent.frame()) {
-  code_sub <- substitute(code)
+with_invalid_connection <- function(code, con = "invalid_con", env = parent.frame(), ctx) {
+  force(ctx)
 
-  stopifnot(con != "..con")
+  quo <- enquo(code)
+
   con <- as.name(con)
 
-  eval(
-    bquote({
-      ..con <- connect(ctx)
-      on.exit(dbDisconnect(..con), add = TRUE)
-      .(con) <- unserialize(serialize(..con, NULL))
-      local(.(code_sub))
-    }),
-    envir = env
-  )
+  data <- list2(!!con := local_invalid_connection(ctx))
+
+  eval_tidy(quo, data)
 }
 
 # Evaluates the code inside local() after defining a variable "res"
