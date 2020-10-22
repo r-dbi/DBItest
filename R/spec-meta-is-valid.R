@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_meta_is_valid <- list(
-  is_valid_formals = function(ctx) {
+  is_valid_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbIsValid)), c("dbObj", "..."))
   },

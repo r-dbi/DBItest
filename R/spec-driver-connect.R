@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_driver_connect <- list(
-  connect_formals = function(ctx) {
+  connect_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbConnect)), c("drv", "..."))
   },

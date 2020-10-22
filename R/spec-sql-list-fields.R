@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_sql_list_fields <- list(
-  list_fields_formals = function(ctx) {
+  list_fields_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbListFields)), c("conn", "name", "..."))
   },

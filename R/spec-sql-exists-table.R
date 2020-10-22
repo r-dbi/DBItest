@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_sql_exists_table <- list(
-  exists_table_formals = function(ctx) {
+  exists_table_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbExistsTable)), c("conn", "name", "..."))
   },

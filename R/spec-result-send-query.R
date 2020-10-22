@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_result_send_query <- list(
-  send_query_formals = function(ctx) {
+  send_query_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbSendQuery)), c("conn", "statement", "..."))
   },

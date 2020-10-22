@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_meta_bind <- list(
-  bind_formals = function(ctx) {
+  bind_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbBind)), c("res", "params", "..."))
   },

@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_connection_disconnect <- list(
-  disconnect_formals = function(ctx) {
+  disconnect_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbDisconnect)), c("conn", "..."))
   },

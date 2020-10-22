@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_meta_column_info <- list(
-  column_info_formals = function(ctx) {
+  column_info_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbColumnInfo)), c("res", "..."))
   },

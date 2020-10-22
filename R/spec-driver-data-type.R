@@ -4,7 +4,7 @@
 #' @keywords internal
 #' @inherit test_data_type
 spec_driver_data_type <- list(
-  data_type_formals = function(ctx) {
+  data_type_formals = function() {
     # <establish formals of described function>
     expect_equal(names(formals(dbDataType)), c("dbObj", "obj", "..."))
   },

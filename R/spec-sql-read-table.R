@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_sql_read_table <- list(
-  read_table_formals = function(ctx) {
+  read_table_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbReadTable)), c("conn", "name", "..."))
   },
