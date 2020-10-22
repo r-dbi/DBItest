@@ -138,7 +138,7 @@ spec_sql_list_objects <- list(
         # in the output
         eval(bquote(expect_true(
           dbExistsTable(con, .(sub_table)),
-          label = dbQuoteIdentifier(con, sub_table)
+          label = paste0("dbExistsTable(", dbQuoteIdentifier(con, sub_table), ")")
         )))
       }
     }
