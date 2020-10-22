@@ -26,7 +26,7 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, 1L, extra = extra, query = FALSE)
   },
   #
-  bind_empty = function(ctx, con) {
+  bind_empty = function(con) {
     with_result(
       #' Calling `dbBind()` for a query without parameters
       dbSendQuery(con, trivial_query()),

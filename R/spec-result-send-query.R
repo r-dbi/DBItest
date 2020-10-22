@@ -10,7 +10,7 @@ spec_result_send_query <- list(
 
   #' @return
   #' `dbSendQuery()` returns
-  send_query_trivial = function(ctx, con) {
+  send_query_trivial = function(con) {
     res <- expect_visible(dbSendQuery(con, trivial_query()))
     #' an S4 object that inherits from [DBIResult-class].
     expect_s4_class(res, "DBIResult")
@@ -32,7 +32,7 @@ spec_result_send_query <- list(
   },
 
   #' or if the query is not a non-`NA` string.
-  send_query_non_string = function(ctx, con) {
+  send_query_non_string = function(con) {
     expect_error(dbSendQuery(con, character()))
     expect_error(dbSendQuery(con, letters))
     expect_error(dbSendQuery(con, NA_character_))
@@ -41,7 +41,7 @@ spec_result_send_query <- list(
   #' An error is also raised if the syntax of the query is invalid
   #' and all query parameters are given (by passing the `params` argument)
   #' or the `immediate` argument is set to `TRUE`.
-  send_query_syntax_error = function(ctx, con) {
+  send_query_syntax_error = function(con) {
     expect_error(dbSendQuery(con, "SELLECT", params = list()))
     expect_error(dbSendQuery(con, "SELLECT", immediate = TRUE))
   },
@@ -56,7 +56,7 @@ spec_result_send_query <- list(
   #' See the "Specification" sections for details on their usage.
 
   #' @section Specification:
-  send_query_result_valid = function(ctx, con) {
+  send_query_result_valid = function(con) {
     #' No warnings occur under normal conditions.
     expect_warning(res <- dbSendQuery(con, trivial_query()), NA)
     #' When done, the DBIResult object must be cleared with a call to
@@ -76,7 +76,7 @@ spec_result_send_query <- list(
 
   #'
   #' If the backend supports only one open result set per connection,
-  send_query_only_one_result_set = function(ctx, con) {
+  send_query_only_one_result_set = function(con) {
     res1 <- dbSendQuery(con, trivial_query())
     #' issuing a second query invalidates an already open result set
     #' and raises a warning.
@@ -106,7 +106,7 @@ spec_result_send_query <- list(
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  send_query_immediate = function(ctx, con) {
+  send_query_immediate = function(con) {
     with_remove_test_table({
       res <- expect_visible(dbSendQuery(con, trivial_query(), immediate = TRUE))
       expect_s4_class(res, "DBIResult")

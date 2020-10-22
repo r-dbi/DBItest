@@ -10,7 +10,7 @@ spec_result_send_statement <- list(
 
   #' @return
   #' `dbSendStatement()` returns
-  send_statement_trivial = function(ctx, con) {
+  send_statement_trivial = function(con) {
     with_remove_test_table({
       res <- expect_visible(dbSendStatement(con, trivial_statement()))
       #' an S4 object that inherits from [DBIResult-class].
@@ -35,7 +35,7 @@ spec_result_send_statement <- list(
   },
 
   #' or if the statement is not a non-`NA` string.
-  send_statement_non_string = function(ctx, con) {
+  send_statement_non_string = function(con) {
     expect_error(dbSendStatement(con, character()))
     expect_error(dbSendStatement(con, letters))
     expect_error(dbSendStatement(con, NA_character_))
@@ -44,13 +44,13 @@ spec_result_send_statement <- list(
   #' An error is also raised if the syntax of the query is invalid
   #' and all query parameters are given (by passing the `params` argument)
   #' or the `immediate` argument is set to `TRUE`.
-  send_statement_syntax_error = function(ctx, con) {
+  send_statement_syntax_error = function(con) {
     expect_error(dbSendStatement(con, "CREATTE", params = list()))
     expect_error(dbSendStatement(con, "CREATTE", immediate = TRUE))
   },
 
   #' @section Specification:
-  send_statement_result_valid = function(ctx, con) {
+  send_statement_result_valid = function(con) {
     with_remove_test_table({
       #' No warnings occur under normal conditions.
       expect_warning(res <- dbSendStatement(con, trivial_statement()), NA)

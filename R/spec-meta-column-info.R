@@ -42,7 +42,7 @@ spec_meta_column_info <- list(
 
   #'
   #' An attempt to query columns for a closed result set raises an error.
-  column_info_closed = function(ctx, con) {
+  column_info_closed = function(con) {
     query <- trivial_query()
 
     res <- dbSendQuery(con, query)
@@ -54,7 +54,7 @@ spec_meta_column_info <- list(
   #' @section Specification:
   #'
   #' A column named `row_names` is treated like any other column.
-  column_info_row_names = function(ctx, con) {
+  column_info_row_names = function(con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1L, row_names = 2L))
       with_result(

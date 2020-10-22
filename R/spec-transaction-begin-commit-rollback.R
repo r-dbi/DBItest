@@ -20,14 +20,14 @@ spec_transaction_begin_commit_rollback <- list(
 
   #' @return
   #' `dbBegin()`, `dbCommit()` and `dbRollback()` return `TRUE`, invisibly.
-  begin_commit_return_value = function(ctx, con) {
+  begin_commit_return_value = function(con) {
     expect_invisible_true(dbBegin(con))
     with_rollback_on_error({
       expect_invisible_true(dbCommit(con))
     })
   },
   #
-  begin_rollback_return_value = function(ctx, con) {
+  begin_rollback_return_value = function(con) {
     expect_invisible_true(dbBegin(con))
     expect_invisible_true(dbRollback(con))
   },
@@ -48,18 +48,18 @@ spec_transaction_begin_commit_rollback <- list(
     expect_error(dbRollback(invalid_con))
   },
   #
-  commit_without_begin = function(ctx, con) {
+  commit_without_begin = function(con) {
     #' In addition, a call to `dbCommit()`
     expect_error(dbCommit(con))
   },
   #
-  rollback_without_begin = function(ctx, con) {
+  rollback_without_begin = function(con) {
     #' or `dbRollback()`
     #' without a prior call to `dbBegin()` raises an error.
     expect_error(dbRollback(con))
   },
   #
-  begin_begin = function(ctx, con) {
+  begin_begin = function(con) {
     #' Nested transactions are not supported by DBI,
     #' an attempt to call `dbBegin()` twice
     dbBegin(con)
@@ -72,7 +72,7 @@ spec_transaction_begin_commit_rollback <- list(
 
   #' @section Specification:
   #' Actual support for transactions may vary between backends.
-  begin_commit = function(ctx, con) {
+  begin_commit = function(con) {
     #' A transaction is initiated by a call to `dbBegin()`
     dbBegin(con)
     #' and committed by a call to `dbCommit()`.
@@ -119,7 +119,7 @@ spec_transaction_begin_commit_rollback <- list(
     })
   },
   #
-  begin_rollback = function(ctx, con) {
+  begin_rollback = function(con) {
     #'
     #' A transaction
     dbBegin(con)
@@ -129,7 +129,7 @@ spec_transaction_begin_commit_rollback <- list(
 
   #' All data written in such a transaction must be removed after the
   #' transaction is rolled back.
-  begin_write_rollback = function(ctx, con) {
+  begin_write_rollback = function(con) {
     #' For example, a record that is missing when the transaction is started
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)

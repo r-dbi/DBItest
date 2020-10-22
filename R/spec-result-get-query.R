@@ -13,7 +13,7 @@ spec_result_get_query <- list(
   #' with as many rows as records were fetched and as many
   #' columns as fields in the result set,
   #' even if the result is a single value
-  get_query_atomic = function(ctx, con) {
+  get_query_atomic = function(con) {
     query <- trivial_query()
 
     rows <- check_df(dbGetQuery(con, query))
@@ -21,7 +21,7 @@ spec_result_get_query <- list(
   },
 
   #' or has one
-  get_query_one_row = function(ctx, con) {
+  get_query_one_row = function(con) {
     query <- trivial_query(3, letters[1:3])
     result <- trivial_df(3, letters[1:3])
 
@@ -30,7 +30,7 @@ spec_result_get_query <- list(
   },
 
   #' or zero rows.
-  get_query_zero_rows = function(ctx, con) {
+  get_query_zero_rows = function(con) {
     # Not all SQL dialects seem to support the query used here.
     query <-
       "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
@@ -52,12 +52,12 @@ spec_result_get_query <- list(
   },
 
   #' if the syntax of the query is invalid,
-  get_query_syntax_error = function(ctx, con) {
+  get_query_syntax_error = function(con) {
     expect_error(dbGetQuery(con, "SELLECT"))
   },
 
   #' or if the query is not a non-`NA` string.
-  get_query_non_string = function(ctx, con) {
+  get_query_non_string = function(con) {
     expect_error(dbGetQuery(con, character()))
     expect_error(dbGetQuery(con, letters))
     expect_error(dbGetQuery(con, NA_character_))
@@ -65,7 +65,7 @@ spec_result_get_query <- list(
 
   #' If the `n` argument is not an atomic whole number
   #' greater or equal to -1 or Inf, an error is raised,
-  get_query_n_bad = function(ctx, con) {
+  get_query_n_bad = function(con) {
     query <- trivial_query()
     expect_error(dbGetQuery(con, query, n = -2))
     expect_error(dbGetQuery(con, query, n = 1.5))
@@ -75,7 +75,7 @@ spec_result_get_query <- list(
   },
 
   #' but a subsequent call to `dbGetQuery()` with proper `n` argument succeeds.
-  get_query_good_after_bad_n = function(ctx, con) {
+  get_query_good_after_bad_n = function(con) {
     query <- trivial_query()
     expect_error(dbGetQuery(con, query, n = NA_integer_))
     rows <- check_df(dbGetQuery(con, query))
@@ -96,7 +96,7 @@ spec_result_get_query <- list(
   #' @section Specification:
   #'
   #' A column named `row_names` is treated like any other column.
-  get_query_row_names = function(ctx, con) {
+  get_query_row_names = function(con) {
     query <- trivial_query(column = "row_names")
     result <- trivial_df(column = "row_names")
 
@@ -208,7 +208,7 @@ spec_result_get_query <- list(
   #'     1. A query with parameters is passed:
   #'         1. `params` not given: waiting for parameters via [dbBind()]
   #'         1. `params` given: query is executed
-  get_query_immediate = function(ctx, con) {
+  get_query_immediate = function(con) {
     with_remove_test_table({
       res <- expect_visible(dbGetQuery(con, trivial_query(), immediate = TRUE))
       expect_s3_class(res, "data.frame")

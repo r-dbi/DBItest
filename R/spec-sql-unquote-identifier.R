@@ -9,7 +9,7 @@ spec_sql_unquote_identifier <- list(
   },
 
   #' @return
-  unquote_identifier_return = function(ctx, con) {
+  unquote_identifier_return = function(con) {
     #' `dbUnquoteIdentifier()` returns a list of objects
     simple_in <- dbQuoteIdentifier(con, "simple")
     simple_out <- dbUnquoteIdentifier(con, simple_in)

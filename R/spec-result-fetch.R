@@ -13,7 +13,7 @@ spec_result_fetch <- list(
   #' with as many rows as records were fetched and as many
   #' columns as fields in the result set,
   #' even if the result is a single value
-  fetch_atomic = function(ctx, con) {
+  fetch_atomic = function(con) {
     query <- trivial_query()
     with_result(
       dbSendQuery(con, query),
@@ -25,7 +25,7 @@ spec_result_fetch <- list(
   },
 
   #' or has one
-  fetch_one_row = function(ctx, con) {
+  fetch_one_row = function(con) {
     query <- trivial_query(3, letters[1:3])
     result <- trivial_df(3, letters[1:3])
     with_result(
@@ -38,7 +38,7 @@ spec_result_fetch <- list(
   },
 
   #' or zero rows.
-  fetch_zero_rows = function(ctx, con) {
+  fetch_zero_rows = function(con) {
     query <-
       "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
     with_result(
@@ -51,7 +51,7 @@ spec_result_fetch <- list(
   },
 
   #' An attempt to fetch from a closed result set raises an error.
-  fetch_closed = function(ctx, con) {
+  fetch_closed = function(con) {
     query <- trivial_query()
 
     res <- dbSendQuery(con, query)
@@ -62,7 +62,7 @@ spec_result_fetch <- list(
 
   #' If the `n` argument is not an atomic whole number
   #' greater or equal to -1 or Inf, an error is raised,
-  fetch_n_bad = function(ctx, con) {
+  fetch_n_bad = function(con) {
     query <- trivial_query()
     with_result(
       dbSendQuery(con, query),
@@ -77,7 +77,7 @@ spec_result_fetch <- list(
   },
 
   #' but a subsequent call to `dbFetch()` with proper `n` argument succeeds.
-  fetch_n_good_after_bad = function(ctx, con) {
+  fetch_n_good_after_bad = function(con) {
     query <- trivial_query()
     with_result(
       dbSendQuery(con, query),
@@ -92,7 +92,7 @@ spec_result_fetch <- list(
   #' Calling `dbFetch()` on a result set from a data manipulation query
   #' created by [dbSendStatement()]
   #' can be fetched and return an empty data frame, with a warning.
-  fetch_no_return_value = function(ctx, con) {
+  fetch_no_return_value = function(con) {
     query <- "CREATE TABLE test (a integer)"
 
     with_remove_test_table({
@@ -225,7 +225,7 @@ spec_result_fetch <- list(
 
   #'
   #' A column named `row_names` is treated like any other column.
-  fetch_row_names = function(ctx, con) {
+  fetch_row_names = function(con) {
     query <- trivial_query(column = "row_names")
     result <- trivial_df(column = "row_names")
 

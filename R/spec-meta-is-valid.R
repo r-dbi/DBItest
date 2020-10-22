@@ -27,7 +27,7 @@ spec_meta_is_valid <- list(
     expect_false(expect_visible(dbIsValid(invalid_con)))
   },
   #
-  is_valid_result_query = function(ctx, con) {
+  is_valid_result_query = function(con) {
     query <- trivial_query()
     res <- dbSendQuery(con, query)
     #' A [DBIResult-class] object is valid after a call to [dbSendQuery()],
@@ -40,7 +40,7 @@ spec_meta_is_valid <- list(
     expect_false(dbIsValid(res))
   },
   #
-  is_valid_result_statement = function(ctx, con) {
+  is_valid_result_statement = function(con) {
     with_remove_test_table({
       query <- paste0("CREATE TABLE test (a ", dbDataType(con, 1L), ")")
       res <- dbSendStatement(con, query)

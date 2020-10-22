@@ -20,7 +20,7 @@ spec_sql_remove_table <- list(
   },
 
   #' If the table does not exist, an error is raised.
-  remove_table_missing = function(ctx, con) {
+  remove_table_missing = function(con) {
     with_remove_test_table({
       expect_error(dbRemoveTable(con, "test"))
     })
@@ -50,7 +50,7 @@ spec_sql_remove_table <- list(
   },
 
   #' An error is also raised
-  remove_table_error = function(ctx, con) {
+  remove_table_error = function(con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1L))
       #' if `name` cannot be processed with [dbQuoteIdentifier()]
@@ -93,7 +93,7 @@ spec_sql_remove_table <- list(
   #'
   #' If `fail_if_missing` is `FALSE`, the call to `dbRemoveTable()`
   #' succeeds if the table does not exist.
-  remove_table_missing_succeed = function(ctx, con) {
+  remove_table_missing_succeed = function(con) {
     with_remove_test_table({
       expect_error(dbRemoveTable(con, "test", fail_if_missing = FALSE), NA)
     })
@@ -103,7 +103,7 @@ spec_sql_remove_table <- list(
   #' A table removed by `dbRemoveTable()` doesn't appear in the list of tables
   #' returned by [dbListTables()],
   #' and [dbExistsTable()] returns `FALSE`.
-  remove_table_list = function(ctx, con) {
+  remove_table_list = function(con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1L))
       expect_true("test" %in% dbListTables(con))

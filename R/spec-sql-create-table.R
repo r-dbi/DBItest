@@ -10,14 +10,14 @@ spec_sql_create_table <- list(
 
   #' @return
   #' `dbCreateTable()` returns `TRUE`, invisibly.
-  create_table_return = function(ctx, con) {
+  create_table_return = function(con) {
     with_remove_test_table({
       expect_invisible_true(dbCreateTable(con, "test", trivial_df()))
     })
   },
 
   #' If the table exists, an error is raised; the remote table remains unchanged.
-  create_table_overwrite = function(ctx, con) {
+  create_table_overwrite = function(con) {
     with_remove_test_table({
       test_in <- trivial_df()
 

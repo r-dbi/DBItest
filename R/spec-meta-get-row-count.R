@@ -11,7 +11,7 @@ spec_meta_get_row_count <- list(
   #' @return
   #' `dbGetRowCount()` returns a scalar number (integer or numeric),
   #' the number of rows fetched so far.
-  row_count_query = function(ctx, con) {
+  row_count_query = function(con) {
     query <- trivial_query()
     with_result(
       #' After calling [dbSendQuery()],
@@ -68,7 +68,7 @@ spec_meta_get_row_count <- list(
     )
   },
   #
-  row_count_statement = function(ctx, con) {
+  row_count_statement = function(con) {
     name <- random_table_name()
 
     with_remove_test_table(name = name, {
@@ -90,7 +90,7 @@ spec_meta_get_row_count <- list(
     })
   },
   #
-  get_row_count_error = function(ctx, con) {
+  get_row_count_error = function(con) {
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
     #' Attempting to get the row count for a result set cleared with

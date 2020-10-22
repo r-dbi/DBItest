@@ -37,7 +37,7 @@ spec_sql_list_fields <- list(
   },
 
   #' If the table does not exist, an error is raised.
-  list_fields_wrong_table = function(ctx, con) {
+  list_fields_wrong_table = function(con) {
     name <- "missing"
 
     expect_false(dbExistsTable(con, name))
@@ -45,7 +45,7 @@ spec_sql_list_fields <- list(
   },
 
   #' Invalid types for the `name` argument
-  list_fields_invalid_type = function(ctx, con) {
+  list_fields_invalid_type = function(con) {
     #' (e.g., `character` of length not equal to one,
     expect_error(dbListFields(con, character()))
     expect_error(dbListFields(con, letters))
@@ -70,7 +70,7 @@ spec_sql_list_fields <- list(
   #'
   #' - a string
   #' - the return value of [dbQuoteIdentifier()]
-  list_fields_quoted = function(ctx, con) {
+  list_fields_quoted = function(con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1L, b = 2L))
       expect_identical(
@@ -82,7 +82,7 @@ spec_sql_list_fields <- list(
 
   #' - a value from the `table` column from the return value of
   #'   [dbListObjects()] where `is_prefix` is `FALSE`
-  list_fields_object = function(ctx, con) {
+  list_fields_object = function(con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1L, b = 2L))
       objects <- dbListObjects(con)
@@ -97,7 +97,7 @@ spec_sql_list_fields <- list(
 
   #'
   #' A column named `row_names` is treated like any other column.
-  list_fields_row_names = function(ctx, con) {
+  list_fields_row_names = function(con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1L, row_names = 2L))
       expect_identical(dbListFields(con, "test"), c("a", "row_names"))

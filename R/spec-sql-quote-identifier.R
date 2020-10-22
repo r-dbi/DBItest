@@ -9,7 +9,7 @@ spec_sql_quote_identifier <- list(
   },
 
   #' @return
-  quote_identifier_return = function(ctx, con) {
+  quote_identifier_return = function(con) {
     #' `dbQuoteIdentifier()` returns an object that can be coerced to [character],
     simple_out <- dbQuoteIdentifier(con, "simple")
     expect_error(as.character(simple_out), NA)

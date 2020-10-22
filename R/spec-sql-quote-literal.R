@@ -9,7 +9,7 @@ spec_sql_quote_literal <- list(
   },
 
   #' @return
-  quote_literal_return = function(ctx, con) {
+  quote_literal_return = function(con) {
     #' `dbQuoteLiteral()` returns an object that can be coerced to [character],
     simple <- "simple"
     simple_out <- dbQuoteLiteral(con, simple)
@@ -18,7 +18,7 @@ spec_sql_quote_literal <- list(
     expect_equal(length(simple_out), 1L)
   },
   #
-  quote_literal_vectorized = function(ctx, con) {
+  quote_literal_vectorized = function(con) {
     #' of the same length as the input.
     letters_out <- dbQuoteLiteral(con, letters)
     expect_equal(length(letters_out), length(letters))
@@ -28,7 +28,7 @@ spec_sql_quote_literal <- list(
     expect_equal(length(empty_out), 0L)
   },
   #
-  quote_literal_double = function(ctx, con) {
+  quote_literal_double = function(con) {
     simple <- "simple"
     simple_out <- dbQuoteLiteral(con, simple)
 
