@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_sql_create_table <- list(
-  create_table_formals = function(ctx) {
+  create_table_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbCreateTable)), c("conn", "name", "fields", "...", "row.names", "temporary"))
   },

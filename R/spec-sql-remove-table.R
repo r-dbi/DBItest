@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_sql_remove_table <- list(
-  remove_table_formals = function(ctx) {
+  remove_table_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbRemoveTable)), c("conn", "name", "..."))
   },

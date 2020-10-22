@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_sql_unquote_identifier <- list(
-  unquote_identifier_formals = function(ctx) {
+  unquote_identifier_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbUnquoteIdentifier)), c("conn", "x", "..."))
   },

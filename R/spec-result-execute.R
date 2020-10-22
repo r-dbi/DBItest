@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_result_execute <- list(
-  execute_formals = function(ctx) {
+  execute_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbExecute)), c("conn", "statement", "..."))
   },

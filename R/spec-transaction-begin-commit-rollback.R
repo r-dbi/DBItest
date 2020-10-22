@@ -3,17 +3,17 @@
 #' @format NULL
 #' @keywords internal
 spec_transaction_begin_commit_rollback <- list(
-  begin_formals = function(ctx) {
+  begin_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbBegin)), c("conn", "..."))
   },
   #
-  commit_formals = function(ctx) {
+  commit_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbCommit)), c("conn", "..."))
   },
   #
-  rollback_formals = function(ctx) {
+  rollback_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbRollback)), c("conn", "..."))
   },

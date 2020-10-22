@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_meta_get_row_count <- list(
-  get_row_count_formals = function(ctx) {
+  get_row_count_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbGetRowCount)), c("res", "..."))
   },
