@@ -33,7 +33,7 @@ spec_sql_remove_table <- list(
   remove_table_closed_connection = function(ctx, con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1))
-      with_closed_connection(con = "con2", {
+      with_closed_connection(ctx = ctx, con = "con2", {
         expect_error(dbRemoveTable(con2, "test"))
       })
     })
@@ -43,7 +43,7 @@ spec_sql_remove_table <- list(
   remove_table_invalid_connection = function(ctx, con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1))
-      with_invalid_connection(con = "con2", {
+      with_invalid_connection(ctx = ctx, con = "con2", {
         expect_error(dbRemoveTable(con2, "test"))
       })
     })
@@ -117,7 +117,7 @@ spec_sql_remove_table <- list(
 
   #' The removal propagates immediately to other connections to the same database.
   remove_table_other_con = function(ctx, con) {
-    with_connection(con = "con2", {
+    with_connection(ctx = ctx, con = "con2", {
       with_remove_test_table({
         dbWriteTable(con, "test", data.frame(a = 1L))
         expect_true("test" %in% dbListTables(con2))
