@@ -176,7 +176,7 @@ Internal
 - All unexpected warnings are now reported as test failures (#113).
 - `DBItest_tweaks` class gains a `$` method, accessing an undefined tweak now raises an error.
 - The arguments of the `tweaks()` function now have default values that further describe their intended usage.
-- New `with_closed_connection()`, `with_invalid_connection()`, `with_result()` and `with_remove_test_table()` helpers, and `expect_visible()`, `expect_inbisible_true()`, and `expect_equal_df()` expectations for more concise tests.
+- New `with_closed_connection(ctx = ctx, )`, `with_invalid_connection(ctx = ctx, )`, `with_result()` and `with_remove_test_table()` helpers, and `expect_visible()`, `expect_inbisible_true()`, and `expect_equal_df()` expectations for more concise tests.
 
 
 # DBItest 1.4 (2016-12-02)
