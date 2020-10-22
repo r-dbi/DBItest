@@ -9,7 +9,7 @@ spec_sql_quote_string <- list(
   },
 
   #' @return
-  quote_string_return = function(ctx, con) {
+  quote_string_return = function(con) {
     #' `dbQuoteString()` returns an object that can be coerced to [character],
     simple <- "simple"
     simple_out <- dbQuoteString(con, simple)
@@ -18,7 +18,7 @@ spec_sql_quote_string <- list(
     expect_equal(length(simple_out), 1L)
   },
   #
-  quote_string_vectorized = function(ctx, con) {
+  quote_string_vectorized = function(con) {
     #' of the same length as the input.
     letters_out <- dbQuoteString(con, letters)
     expect_equal(length(letters_out), length(letters))
@@ -28,7 +28,7 @@ spec_sql_quote_string <- list(
     expect_equal(length(empty_out), 0L)
   },
   #
-  quote_string_double = function(ctx, con) {
+  quote_string_double = function(con) {
     simple <- "simple"
     simple_out <- dbQuoteString(con, simple)
 

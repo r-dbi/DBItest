@@ -10,7 +10,7 @@ spec_meta_get_statement <- list(
 
   #' @return
   #' `dbGetStatement()` returns a string, the query used in
-  get_statement_query = function(ctx, con) {
+  get_statement_query = function(con) {
     query <- trivial_query()
     with_result(
       #' either [dbSendQuery()]
@@ -23,7 +23,7 @@ spec_meta_get_statement <- list(
     )
   },
   #
-  get_statement_statement = function(ctx, con) {
+  get_statement_statement = function(con) {
     name <- random_table_name()
 
     with_remove_test_table(name = name, {
@@ -40,7 +40,7 @@ spec_meta_get_statement <- list(
     })
   },
   #
-  get_statement_error = function(ctx, con) {
+  get_statement_error = function(con) {
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
     #' Attempting to query the statement for a result set cleared with

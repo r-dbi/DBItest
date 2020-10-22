@@ -11,14 +11,14 @@ spec_sql_write_table <- list(
 
   #' @return
   #' `dbWriteTable()` returns `TRUE`, invisibly.
-  write_table_return = function(ctx, con) {
+  write_table_return = function(con) {
     with_remove_test_table({
       expect_invisible_true(dbWriteTable(con, "test", data.frame(a = 1L)))
     })
   },
 
   #' If the table exists, and both `append` and `overwrite` arguments are unset,
-  write_table_overwrite = function(ctx, con) {
+  write_table_overwrite = function(con) {
     with_remove_test_table({
       test_in <- data.frame(a = 1L)
       dbWriteTable(con, "test", test_in)
@@ -32,7 +32,7 @@ spec_sql_write_table <- list(
   #' or `append = TRUE` and the data frame with the new data has different
   #' column names,
   #' an error is raised; the remote table remains unchanged.
-  write_table_append_incompatible = function(ctx, con) {
+  write_table_append_incompatible = function(con) {
     with_remove_test_table({
       test_in <- data.frame(a = 1L)
       dbWriteTable(con, "test", test_in)

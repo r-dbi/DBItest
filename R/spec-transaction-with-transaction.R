@@ -10,7 +10,7 @@ spec_transaction_with_transaction <- list(
 
   #' @return
   #' `dbWithTransaction()` returns the value of the executed code.
-  with_transaction_return_value = function(ctx, con) {
+  with_transaction_return_value = function(con) {
     name <- random_table_name()
     expect_identical(dbWithTransaction(con, name), name)
   },
@@ -27,7 +27,7 @@ spec_transaction_with_transaction <- list(
   },
 
   #' of if [dbBegin()] has been called already)
-  with_transaction_error_nested = function(ctx, con) {
+  with_transaction_error_nested = function(con) {
     dbBegin(con)
     #' gives an error.
     expect_error(dbWithTransaction(con, NULL))
@@ -38,7 +38,7 @@ spec_transaction_with_transaction <- list(
   #' `dbWithTransaction()` initiates a transaction with `dbBegin()`, executes
   #' the code given in the `code` argument, and commits the transaction with
   #' [dbCommit()].
-  with_transaction_success = function(ctx, con) {
+  with_transaction_success = function(con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
 
@@ -56,7 +56,7 @@ spec_transaction_with_transaction <- list(
 
   #' If the code raises an error, the transaction is instead aborted with
   #' [dbRollback()], and the error is propagated.
-  with_transaction_failure = function(ctx, con) {
+  with_transaction_failure = function(con) {
     name <- random_table_name()
 
     with_remove_test_table({
@@ -80,7 +80,7 @@ spec_transaction_with_transaction <- list(
 
   #' If the code calls `dbBreak()`, execution of the code stops and the
   #' transaction is silently aborted.
-  with_transaction_break = function(ctx, con) {
+  with_transaction_break = function(con) {
     name <- random_table_name()
 
     with_remove_test_table({
@@ -102,7 +102,7 @@ spec_transaction_with_transaction <- list(
   },
 
   #' All side effects caused by the code
-  with_transaction_side_effects = function(ctx, con) {
+  with_transaction_side_effects = function(con) {
     expect_false(exists("a", inherits = FALSE))
     #' (such as the creation of new variables)
     dbWithTransaction(con, a <- 42)

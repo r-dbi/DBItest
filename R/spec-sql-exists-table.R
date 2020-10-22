@@ -43,7 +43,7 @@ spec_sql_exists_table <- list(
   },
 
   #' An error is also raised
-  exists_table_error = function(ctx, con) {
+  exists_table_error = function(con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1L))
       #' if `name` cannot be processed with [dbQuoteIdentifier()]
@@ -82,7 +82,7 @@ spec_sql_exists_table <- list(
 
   #'
   #' For all tables listed by [dbListTables()], `dbExistsTable()` returns `TRUE`.
-  exists_table_list = function(ctx, con) {
+  exists_table_list = function(con) {
     name <- random_table_name()
     with_remove_test_table(
       name = name,

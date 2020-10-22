@@ -10,7 +10,7 @@ spec_sql_append_table <- list(
 
   #' @return
   #' `dbAppendTable()` returns a
-  append_table_return = function(ctx, con) {
+  append_table_return = function(con) {
     with_remove_test_table({
       test_in <- trivial_df()
       dbCreateTable(con, "test", test_in)
@@ -24,7 +24,7 @@ spec_sql_append_table <- list(
   },
 
   #' If the table does not exist,
-  append_table_missing = function(ctx, con) {
+  append_table_missing = function(con) {
     with_remove_test_table({
       expect_false(dbExistsTable(con, "test"))
 
@@ -35,7 +35,7 @@ spec_sql_append_table <- list(
 
   #' or the data frame with the new data has different column names,
   #' an error is raised; the remote table remains unchanged.
-  append_table_append_incompatible = function(ctx, con) {
+  append_table_append_incompatible = function(con) {
     with_remove_test_table({
       test_in <- trivial_df()
       dbCreateTable(con, "test", test_in)
@@ -59,7 +59,7 @@ spec_sql_append_table <- list(
   },
 
   #' An error is also raised
-  append_table_error = function(ctx, con) {
+  append_table_error = function(con) {
     test_in <- data.frame(a = 1L)
     with_remove_test_table({
       #' if `name` cannot be processed with [dbQuoteIdentifier()]
@@ -81,7 +81,7 @@ spec_sql_append_table <- list(
 
   #'
   #' SQL keywords can be used freely in table names, column names, and data.
-  append_roundtrip_keywords = function(ctx, con) {
+  append_roundtrip_keywords = function(con) {
     tbl_in <- data.frame(
       SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
       stringsAsFactors = FALSE
@@ -130,13 +130,13 @@ spec_sql_append_table <- list(
   #' The following data types must be supported at least,
   #' and be read identically with [dbReadTable()]:
   #' - integer
-  append_roundtrip_integer = function(ctx, con) {
+  append_roundtrip_integer = function(con) {
     tbl_in <- data.frame(a = c(1:5))
     test_table_roundtrip(use_append = TRUE, con, tbl_in)
   },
 
   #' - numeric
-  append_roundtrip_numeric = function(ctx, con) {
+  append_roundtrip_numeric = function(con) {
     tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
     test_table_roundtrip(use_append = TRUE, con, tbl_in)
     #'   (the behavior for `Inf` and `NaN` is not specified)
@@ -151,7 +151,7 @@ spec_sql_append_table <- list(
   },
 
   #' - `NA` as NULL
-  append_roundtrip_null = function(ctx, con) {
+  append_roundtrip_null = function(con) {
     tbl_in <- data.frame(a = NA)
     test_table_roundtrip(
       use_append = TRUE,
@@ -207,7 +207,7 @@ spec_sql_append_table <- list(
   },
 
   #' - character (in both UTF-8
-  append_roundtrip_character = function(ctx, con) {
+  append_roundtrip_character = function(con) {
     tbl_in <- data.frame(
       id = seq_along(texts),
       a = c(texts),
@@ -217,7 +217,7 @@ spec_sql_append_table <- list(
   },
 
   #'   and native encodings),
-  append_roundtrip_character_native = function(ctx, con) {
+  append_roundtrip_character_native = function(con) {
     tbl_in <- data.frame(
       a = c(enc2native(texts)),
       stringsAsFactors = FALSE
@@ -226,7 +226,7 @@ spec_sql_append_table <- list(
   },
 
   #'   supporting empty strings
-  append_roundtrip_character_empty = function(ctx, con) {
+  append_roundtrip_character_empty = function(con) {
     tbl_in <- data.frame(
       a = c("", "a"),
       stringsAsFactors = FALSE
@@ -235,7 +235,7 @@ spec_sql_append_table <- list(
   },
 
   #'   (before and after non-empty strings)
-  append_roundtrip_character_empty_after = function(ctx, con) {
+  append_roundtrip_character_empty_after = function(con) {
     tbl_in <- data.frame(
       a = c("a", ""),
       stringsAsFactors = FALSE
@@ -244,7 +244,7 @@ spec_sql_append_table <- list(
   },
 
   #' - factor (returned as character,
-  append_roundtrip_factor = function(ctx, con) {
+  append_roundtrip_factor = function(con) {
     tbl_in <- data.frame(
       a = factor(c(texts))
     )
@@ -377,7 +377,7 @@ spec_sql_append_table <- list(
 
   #'
   #' Mixing column types in the same table is supported.
-  append_roundtrip_mixed = function(ctx, con) {
+  append_roundtrip_mixed = function(con) {
     data <- list("a", 1L, 1.5)
     data <- lapply(data, c, NA)
     expanded <- expand.grid(a = data, b = data, c = data)
@@ -425,7 +425,7 @@ spec_sql_append_table <- list(
   #'
   #'
   #' The `row.names` argument must be `NULL`, the default value.
-  append_table_row_names_false = function(ctx, con) {
+  append_table_row_names_false = function(con) {
     with_remove_test_table(name = "mtcars", {
       mtcars_in <- datasets::mtcars
       dbCreateTable(con, "mtcars", mtcars_in)
@@ -438,7 +438,7 @@ spec_sql_append_table <- list(
   },
 
   #' Row names are ignored.
-  append_table_row_names_ignore = function(ctx, con) {
+  append_table_row_names_ignore = function(con) {
     with_remove_test_table(name = "mtcars", {
       mtcars_in <- datasets::mtcars
       dbCreateTable(con, "mtcars", mtcars_in)
@@ -450,7 +450,7 @@ spec_sql_append_table <- list(
     })
   },
   #
-  append_table_row_names_non_null = function(ctx, con) {
+  append_table_row_names_non_null = function(con) {
     #' All other values for the `row.names` argument
     with_remove_test_table(name = "mtcars", {
       mtcars_in <- datasets::mtcars

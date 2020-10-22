@@ -10,7 +10,7 @@ spec_result_execute <- list(
 
   #' @return
   #' `dbExecute()` always returns a
-  execute_atomic = function(ctx, con) {
+  execute_atomic = function(con) {
     with_remove_test_table({
       query <- trivial_statement()
 
@@ -35,12 +35,12 @@ spec_result_execute <- list(
   },
 
   #' if the syntax of the statement is invalid,
-  execute_syntax_error = function(ctx, con) {
+  execute_syntax_error = function(con) {
     expect_error(dbExecute(con, "CREATTE"))
   },
 
   #' or if the statement is not a non-`NA` string.
-  execute_non_string = function(ctx, con) {
+  execute_non_string = function(con) {
     expect_error(dbExecute(con, character()))
     expect_error(dbExecute(con, letters))
     expect_error(dbExecute(con, NA_character_))
@@ -76,7 +76,7 @@ spec_result_execute <- list(
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  execute_immediate = function(ctx, con) {
+  execute_immediate = function(con) {
     with_remove_test_table({
       res <- expect_visible(dbExecute(con, trivial_statement(), immediate = TRUE))
       expect_true(is.numeric(res))

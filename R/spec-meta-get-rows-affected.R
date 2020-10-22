@@ -11,7 +11,7 @@ spec_meta_get_rows_affected <- list(
   #' @return
   #' `dbGetRowsAffected()` returns a scalar number (integer or numeric),
   #' the number of rows affected by a data manipulation statement
-  rows_affected_statement = function(ctx, con) {
+  rows_affected_statement = function(con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1:10))
 
@@ -35,7 +35,7 @@ spec_meta_get_rows_affected <- list(
     })
   },
   #
-  rows_affected_query = function(ctx, con) {
+  rows_affected_query = function(con) {
     query <- trivial_query()
     with_result(
       #' For queries issued with [dbSendQuery()],
@@ -52,7 +52,7 @@ spec_meta_get_rows_affected <- list(
     )
   },
   #
-  get_rows_affected_error = function(ctx, con) {
+  get_rows_affected_error = function(con) {
     query <- paste0(
       "CREATE TABLE ", dbQuoteIdentifier(con, "test"), " (a integer)"
     )

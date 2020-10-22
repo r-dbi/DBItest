@@ -10,7 +10,7 @@ spec_meta_has_completed <- list(
 
   #' @return
   #' `dbHasCompleted()` returns a logical scalar.
-  has_completed_query = function(ctx, con) {
+  has_completed_query = function(con) {
     #' For a query initiated by [dbSendQuery()] with non-empty result set,
     with_result(
       dbSendQuery(con, trivial_query()),
@@ -24,7 +24,7 @@ spec_meta_has_completed <- list(
     )
   },
   #
-  has_completed_statement = function(ctx, con) {
+  has_completed_statement = function(con) {
     name <- random_table_name()
 
     with_remove_test_table(name = name, {
@@ -39,7 +39,7 @@ spec_meta_has_completed <- list(
     })
   },
   #
-  has_completed_error = function(ctx, con) {
+  has_completed_error = function(con) {
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
     #' Attempting to query completion status for a result set cleared with
@@ -48,7 +48,7 @@ spec_meta_has_completed <- list(
   },
 
   #' @section Specification:
-  has_completed_query_spec = function(ctx, con) {
+  has_completed_query_spec = function(con) {
     #' The completion status for a query is only guaranteed to be set to
     #' `FALSE` after attempting to fetch past the end of the entire result.
     #' Therefore, for a query with an empty result set,
