@@ -229,7 +229,7 @@ spec_sql_write_table <- list(
     con2 <- local_connection(ctx)
     expect_equal_df(dbReadTable(con2, "iris"), iris30)
   },
-  #second stage
+  # second stage
   table_visible_in_other_connection = function(ctx, con) {
     #' and after reconnecting to the database.
     iris30 <- get_iris(ctx)[1:30, ]
