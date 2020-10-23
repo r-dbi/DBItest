@@ -31,7 +31,7 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
       if (skip_flag[[test_idx]]) {
         FALSE
       } else {
-        test_fun <- patch_test_fun(tests[[test_name]], paste0(test_context, ": ", test_name))
+        test_fun <- patch_test_fun(tests[[test_idx]], paste0(test_context, ": ", test_name))
 
         args <- list()
         if ("ctx" %in% names(formals(test_fun))) {

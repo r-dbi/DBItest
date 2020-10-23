@@ -88,34 +88,32 @@ spec_transaction_begin_commit_rollback <- list(
   },
 
   #' Data written in a transaction must persist after the transaction is committed.
-  begin_write_commit = function(ctx) {
-    with_connection(ctx = ctx, {
-      #' For example, a record that is missing when the transaction is started
+  begin_write_commit = function(con) {
+    #' For example, a record that is missing when the transaction is started
 
-      dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
+    dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
 
-      dbBegin(con)
-      with_rollback_on_error({
-        #' but is created during the transaction
-        dbExecute(con, paste0("INSERT INTO test (a) VALUES (1)"))
+    dbBegin(con)
+    with_rollback_on_error({
+      #' but is created during the transaction
+      dbExecute(con, paste0("INSERT INTO test (a) VALUES (1)"))
 
-        #' must exist
-        expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0:1))
-
-        #' both during
-        dbCommit(con)
-      })
-
-      #' and after the transaction,
+      #' must exist
       expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0:1))
+
+      #' both during
+      dbCommit(con)
     })
 
-    with_connection(ctx = ctx, {
-      with_remove_test_table({
-        #' and also in a new connection.
-        expect_true(dbExistsTable(con, "test"))
-        expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0:1))
-      })
+    #' and after the transaction,
+    expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0:1))
+  },
+  # second stage
+  begin_write_commit = function(con) {
+    with_remove_test_table({
+      #' and also in a new connection.
+      expect_true(dbExistsTable(con, "test"))
+      expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0:1))
     })
   },
   #
@@ -145,24 +143,22 @@ spec_transaction_begin_commit_rollback <- list(
     })
   },
   #
-  begin_write_disconnect = function(ctx) {
+  begin_write_disconnect = function(con) {
     #'
     #' Disconnection from a connection with an open transaction
-    with_connection(ctx = ctx, {
-      dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
+    dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
 
-      dbBegin(con)
+    dbBegin(con)
 
-      dbWriteTable(con, "test", data.frame(a = 1L), append = TRUE)
-    })
-
-    with_connection(ctx = ctx, {
-      #' effectively rolls back the transaction.
-      #' All data written in such a transaction must be removed after the
-      #' transaction is rolled back.
-      with_remove_test_table({
-        expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0L))
-      })
+    dbWriteTable(con, "test", data.frame(a = 1L), append = TRUE)
+  },
+  #
+  begin_write_disconnect = function(con) {
+    #' effectively rolls back the transaction.
+    #' All data written in such a transaction must be removed after the
+    #' transaction is rolled back.
+    with_remove_test_table({
+      expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0L))
     })
   },
 

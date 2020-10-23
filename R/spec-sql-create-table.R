@@ -113,51 +113,43 @@ spec_sql_create_table <- list(
   #'
   #' If the `temporary` argument is `TRUE`, the table is not available in a
   #' second connection and is gone after reconnecting.
-  create_temporary_table = function(ctx) {
-    with_connection(ctx = ctx, {
+  create_temporary_table = function(ctx, con) {
+    with_remove_test_table(name = "iris", {
       #' Not all backends support this argument.
       if (!isTRUE(ctx$tweaks$temporary_tables)) {
         skip("tweak: temporary_tables")
       }
 
-      with_remove_test_table(name = "iris", {
-        iris <- get_iris(ctx)[1:30, ]
-        dbCreateTable(con, "iris", iris, temporary = TRUE)
-        iris_out <- check_df(dbReadTable(con, "iris"))
-        expect_equal_df(iris_out, iris[0, , drop = FALSE])
-
-        with_connection(ctx = ctx,
-          expect_error(dbReadTable(con2, "iris")),
-          con = "con2"
-        )
-      })
-    })
-
-    with_connection(ctx = ctx, {
-      expect_error(dbReadTable(con, "iris"))
-    })
-  },
-
-  #' A regular, non-temporary table is visible in a second connection
-  create_table_visible_in_other_connection = function(ctx) {
-    with_connection(ctx = ctx, {
       iris <- get_iris(ctx)[1:30, ]
-
-      dbCreateTable(con, "iris", iris)
+      dbCreateTable(con, "iris", iris, temporary = TRUE)
       iris_out <- check_df(dbReadTable(con, "iris"))
       expect_equal_df(iris_out, iris[0, , drop = FALSE])
 
-      with_connection(ctx = ctx,
-        expect_equal_df(dbReadTable(con2, "iris"), iris[0, , drop = FALSE]),
-        con = "con2"
-      )
+      con2 <- local_connection(ctx)
+      expect_error(dbReadTable(con2, "iris"))
     })
+  },
+  # second stage
+  create_temporary_table = function(con) {
+    expect_error(dbReadTable(con, "iris"))
+  },
 
+  #' A regular, non-temporary table is visible in a second connection
+  create_table_visible_in_other_connection = function(ctx, con) {
+    iris <- get_iris(ctx)[1:30, ]
+
+    dbCreateTable(con, "iris", iris)
+    iris_out <- check_df(dbReadTable(con, "iris"))
+    expect_equal_df(iris_out, iris[0, , drop = FALSE])
+
+    con2 <- local_connection(ctx)
+    expect_equal_df(dbReadTable(con2, "iris"), iris[0, , drop = FALSE])
+  },
+  # second stage
+  create_table_visible_in_other_connection = function(con) {
     #' and after reconnecting to the database.
-    with_connection(ctx = ctx, {
-      with_remove_test_table(name = "iris", {
-        expect_equal_df(check_df(dbReadTable(con, "iris")), iris[0, , drop = FALSE])
-      })
+    with_remove_test_table(name = "iris", {
+      expect_equal_df(check_df(dbReadTable(con, "iris")), iris[0, , drop = FALSE])
     })
   },
 
