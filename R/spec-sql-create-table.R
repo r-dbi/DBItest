@@ -132,7 +132,9 @@ spec_sql_create_table <- list(
         )
       })
     })
-
+  },
+  # second stage
+  create_temporary_table = function(ctx) {
     with_connection(ctx = ctx, {
       expect_error(dbReadTable(con, "iris"))
     })
@@ -152,7 +154,9 @@ spec_sql_create_table <- list(
         con = "con2"
       )
     })
-
+  },
+  # second stage
+  create_table_visible_in_other_connection = function(ctx) {
     #' and after reconnecting to the database.
     with_connection(ctx = ctx, {
       with_remove_test_table(name = "iris", {

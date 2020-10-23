@@ -216,7 +216,9 @@ spec_sql_write_table <- list(
         )
       })
     })
-
+  },
+  # second stage
+  temporary_table = function(ctx) {
     with_connection(ctx = ctx, {
       expect_error(dbReadTable(con, "iris"))
     })

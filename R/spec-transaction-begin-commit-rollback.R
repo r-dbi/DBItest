@@ -109,7 +109,9 @@ spec_transaction_begin_commit_rollback <- list(
       #' and after the transaction,
       expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0:1))
     })
-
+  },
+  # second stage
+  begin_write_commit = function(ctx) {
     with_connection(ctx = ctx, {
       with_remove_test_table({
         #' and also in a new connection.
@@ -155,7 +157,9 @@ spec_transaction_begin_commit_rollback <- list(
 
       dbWriteTable(con, "test", data.frame(a = 1L), append = TRUE)
     })
-
+  },
+  #
+  begin_write_disconnect = function(ctx) {
     with_connection(ctx = ctx, {
       #' effectively rolls back the transaction.
       #' All data written in such a transaction must be removed after the
