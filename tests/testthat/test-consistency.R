@@ -19,6 +19,7 @@ test_that("no duplicate spec names expect known exceptions", {
     "create_temporary_table",
     "create_table_visible_in_other_connection",
     "temporary_table",
+    "table_visible_in_other_connection",
     "begin_write_disconnect",
     "begin_write_commit"
   ))]
