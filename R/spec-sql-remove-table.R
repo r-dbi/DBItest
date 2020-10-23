@@ -42,9 +42,8 @@ spec_sql_remove_table <- list(
   remove_table_invalid_connection = function(ctx, con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1))
-      with_invalid_connection(ctx = ctx, con = "con2", {
-        expect_error(dbRemoveTable(con2, "test"))
-      })
+      con2 <- local_invalid_connection(ctx)
+      expect_error(dbRemoveTable(con2, "test"))
     })
   },
 
