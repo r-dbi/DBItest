@@ -117,8 +117,8 @@ spec_sql_remove_table <- list(
 
   #' The removal propagates immediately to other connections to the same database.
   remove_table_other_con = function(ctx, con) {
-    with_connection(ctx = ctx, con = "con2", {
-      with_remove_test_table({
+    with_remove_test_table({
+      with_connection(ctx = ctx, con = "con2", {
         dbWriteTable(con, "test", data.frame(a = 1L))
         expect_true("test" %in% dbListTables(con2))
         expect_true(dbExistsTable(con2, "test"))
