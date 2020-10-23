@@ -217,9 +217,8 @@ test_select_with_null <- function(...) {
   test_select(..., .add_null = "below")
 }
 
-# NB: .table = TRUE will not work in bigrquery
 test_select <- function(con, ..., .dots = NULL, .add_null = "none",
-                        .table = FALSE, .ctx, .envir = parent.frame()) {
+                        .ctx, .envir = parent.frame()) {
   values <- c(list(...), .dots)
 
   value_is_formula <- vapply(values, is.call, logical(1L))
@@ -263,15 +262,7 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
     query <- union(.ctx = .ctx, query)
   }
 
-  if (.table) {
-    with_remove_test_table({
-      query <- paste("CREATE TABLE test AS", query)
-      dbExecute(con, query)
-      rows <- check_df(dbReadTable(con, "test"))
-    })
-  } else {
-    rows <- check_df(dbGetQuery(con, query))
-  }
+  rows <- check_df(dbGetQuery(con, query))
 
   if (.add_null != "none") {
     rows <- rows[order(rows$id), -(length(sql_names) + 1L), drop = FALSE]
