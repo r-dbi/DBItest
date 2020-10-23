@@ -193,9 +193,8 @@ spec_sql_read_table <- list(
   read_table_closed_connection = function(ctx, con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1))
-      with_closed_connection(ctx = ctx, con = "con2", {
-        expect_error(dbReadTable(con2, "test"))
-      })
+      con2 <- local_closed_connection(ctx = ctx)
+      expect_error(dbReadTable(con2, "test"))
     })
   },
 

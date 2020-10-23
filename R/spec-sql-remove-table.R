@@ -33,9 +33,8 @@ spec_sql_remove_table <- list(
   remove_table_closed_connection = function(ctx, con) {
     with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1))
-      with_closed_connection(ctx = ctx, con = "con2", {
-        expect_error(dbRemoveTable(con2, "test"))
-      })
+      con2 <- local_closed_connection(ctx = ctx)
+      expect_error(dbRemoveTable(con2, "test"))
     })
   },
 

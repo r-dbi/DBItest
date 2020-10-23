@@ -30,21 +30,6 @@ local_invalid_connection <- function(ctx, ...) {
 
 # Evaluates the code inside local() after defining a variable "con"
 # (can be overridden by specifying con argument)
-# that points to a newly opened and then closed connection. Disconnects on exit.
-with_closed_connection <- function(code, con = "closed_con", env = parent.frame(), ctx) {
-  force(ctx)
-
-  quo <- enquo(code)
-
-  con <- as.name(con)
-
-  data <- list2(!!con := local_closed_connection(ctx))
-
-  eval_tidy(quo, data)
-}
-
-# Evaluates the code inside local() after defining a variable "con"
-# (can be overridden by specifying con argument)
 # that points to a newly opened but invalidated connection. Disconnects on exit.
 with_invalid_connection <- function(code, con = "invalid_con", env = parent.frame(), ctx) {
   force(ctx)
