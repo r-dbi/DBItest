@@ -10,7 +10,7 @@ spec_sql_append_table <- list(
 
   #' @return
   #' `dbAppendTable()` returns a
-  append_table_return = function(con) with_remove_test_table({
+  append_table_return = function(con) with_remove_test_table(name = "test", {
       test_in <- trivial_df()
       dbCreateTable(con, "test", test_in)
       ret <- dbAppendTable(con, "test", test_in)
@@ -22,7 +22,7 @@ spec_sql_append_table <- list(
   }), # with_remove_test_table
 
   #' If the table does not exist,
-  append_table_missing = function(con) with_remove_test_table({
+  append_table_missing = function(con) with_remove_test_table(name = "test", {
       expect_false(dbExistsTable(con, "test"))
 
       test_in <- trivial_df()
@@ -31,7 +31,7 @@ spec_sql_append_table <- list(
 
   #' or the data frame with the new data has different column names,
   #' an error is raised; the remote table remains unchanged.
-  append_table_append_incompatible = function(con) with_remove_test_table({
+  append_table_append_incompatible = function(con) with_remove_test_table(name = "test", {
       test_in <- trivial_df()
       dbCreateTable(con, "test", test_in)
       dbAppendTable(con, "test", test_in)
@@ -53,7 +53,7 @@ spec_sql_append_table <- list(
   },
 
   #' An error is also raised
-  append_table_error = function(con) with_remove_test_table({
+  append_table_error = function(con) with_remove_test_table(name = "test", {
       test_in <- data.frame(a = 1L)
       #' if `name` cannot be processed with [dbQuoteIdentifier()]
       expect_error(dbAppendTable(con, NA, test_in))

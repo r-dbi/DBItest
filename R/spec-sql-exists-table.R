@@ -43,7 +43,7 @@ spec_sql_exists_table <- list(
   },
 
   #' An error is also raised
-  exists_table_error = function(con) with_remove_test_table({
+  exists_table_error = function(con) with_remove_test_table(name = "test", {
       dbWriteTable(con, "test", data.frame(a = 1L))
       #' if `name` cannot be processed with [dbQuoteIdentifier()]
       expect_error(dbExistsTable(con, NA))

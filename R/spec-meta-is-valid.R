@@ -40,7 +40,7 @@ spec_meta_is_valid <- list(
     expect_false(dbIsValid(res))
   },
   #
-  is_valid_result_statement = function(con) with_remove_test_table({
+  is_valid_result_statement = function(con) with_remove_test_table(name = "test", {
       query <- paste0("CREATE TABLE test (a ", dbDataType(con, 1L), ")")
       res <- dbSendStatement(con, query)
       #' A [DBIResult-class] object is also valid after a call to [dbSendStatement()],

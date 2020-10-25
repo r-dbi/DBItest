@@ -38,7 +38,7 @@ spec_transaction_with_transaction <- list(
   #' `dbWithTransaction()` initiates a transaction with `dbBegin()`, executes
   #' the code given in the `code` argument, and commits the transaction with
   #' [dbCommit()].
-  with_transaction_success = function(con) with_remove_test_table({
+  with_transaction_success = function(con) with_remove_test_table(name = "test", {
       dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
 
       dbWithTransaction(
@@ -54,7 +54,7 @@ spec_transaction_with_transaction <- list(
 
   #' If the code raises an error, the transaction is instead aborted with
   #' [dbRollback()], and the error is propagated.
-  with_transaction_failure = function(con) with_remove_test_table({
+  with_transaction_failure = function(con) with_remove_test_table(name = "test", {
       dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
 
       name <- random_table_name()
@@ -75,7 +75,7 @@ spec_transaction_with_transaction <- list(
 
   #' If the code calls `dbBreak()`, execution of the code stops and the
   #' transaction is silently aborted.
-  with_transaction_break = function(con) with_remove_test_table({
+  with_transaction_break = function(con) with_remove_test_table(name = "test", {
       dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
 
       expect_error(

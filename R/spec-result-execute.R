@@ -10,7 +10,7 @@ spec_result_execute <- list(
 
   #' @return
   #' `dbExecute()` always returns a
-  execute_atomic = function(con) with_remove_test_table({
+  execute_atomic = function(con) with_remove_test_table(name = "test", {
       query <- trivial_statement()
 
       ret <- dbExecute(con, query)
@@ -74,7 +74,7 @@ spec_result_execute <- list(
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  execute_immediate = function(con) with_remove_test_table({
+  execute_immediate = function(con) with_remove_test_table(name = "test", {
       res <- expect_visible(dbExecute(con, trivial_statement(), immediate = TRUE))
       expect_true(is.numeric(res))
   }), # with_remove_test_table

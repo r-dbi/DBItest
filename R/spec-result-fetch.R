@@ -92,7 +92,7 @@ spec_result_fetch <- list(
   #' Calling `dbFetch()` on a result set from a data manipulation query
   #' created by [dbSendStatement()]
   #' can be fetched and return an empty data frame, with a warning.
-  fetch_no_return_value = function(con) with_remove_test_table({
+  fetch_no_return_value = function(con) with_remove_test_table(name = "test", {
       query <- "CREATE TABLE test (a integer)"
 
       with_result(
