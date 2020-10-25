@@ -10,8 +10,7 @@ spec_sql_list_objects <- list(
 
   #' @return
   #' `dbListObjects()`
-  list_objects = function(ctx, con) {
-    with_remove_test_table(name = "iris", {
+  list_objects = function(ctx, con) with_remove_test_table(name = "iris", {
       objects <- dbListObjects(con)
       #' returns a data frame
       expect_is(objects, "data.frame")
@@ -45,8 +44,7 @@ spec_sql_list_objects <- list(
       objects <- dbListObjects(con)
       quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
       expect_true(dbQuoteIdentifier(con, "iris") %in% quoted_tables)
-    })
-  },
+  }), # with_remove_test_table
   # second stage
   list_objects = function(ctx, con) {
     #' As soon a table is removed from the database,
@@ -58,8 +56,7 @@ spec_sql_list_objects <- list(
 
   #'
   #' The same applies to temporary objects if supported by the database.
-  list_objects_temporary = function(ctx, con) {
-    with_remove_test_table({
+  list_objects_temporary = function(ctx, con) with_remove_test_table({
       if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
         dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
 
@@ -67,8 +64,7 @@ spec_sql_list_objects <- list(
         quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
         expect_true(dbQuoteIdentifier(con, "test") %in% quoted_tables)
       }
-    })
-  },
+  }), # with_remove_test_table
 
   #'
   #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
