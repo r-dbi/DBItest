@@ -72,12 +72,12 @@ spec_sql_remove_table <- list(
   #' If `temporary` is `TRUE`, the call to `dbRemoveTable()`
   #' will consider only temporary tables.
   remove_table_temporary_arg = function(ctx, con) {
-    #' Not all backends support this argument.
-    if (!isTRUE(ctx$tweaks$temporary_tables)) {
-      skip("tweak: temporary_tables")
-    }
-
     with_remove_test_table({
+      #' Not all backends support this argument.
+      if (!isTRUE(ctx$tweaks$temporary_tables)) {
+        skip("tweak: temporary_tables")
+      }
+
       dbWriteTable(con, "test", data.frame(a = 1.5))
       expect_equal(dbReadTable(con, "test"), data.frame(a = 1.5))
       dbCreateTable(con, "test", data.frame(b = 2.5), temporary = TRUE)
@@ -129,11 +129,11 @@ spec_sql_remove_table <- list(
 
   #' This function can also be used to remove a temporary table.
   remove_table_temporary = function(ctx, con) {
-    if (!isTRUE(ctx$tweaks$temporary_tables)) {
-      skip("tweak: temporary_tables")
-    }
-
     with_remove_test_table({
+      if (!isTRUE(ctx$tweaks$temporary_tables)) {
+        skip("tweak: temporary_tables")
+      }
+
       dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
       if (isTRUE(ctx$tweaks$list_temporary_tables)) {
         expect_true("test" %in% dbListTables(con))

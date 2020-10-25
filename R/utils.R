@@ -60,7 +60,7 @@ with_remove_test_table <- function(code, name = "test", con = "con", env = paren
     bquote({
       on.exit(
         try_silent(
-          dbExecute(.(con), paste0("DROP TABLE ", dbQuoteIdentifier(.(con), .(name))))
+          dbRemoveTable(.(con), .(name))
         ),
         add = TRUE
       )

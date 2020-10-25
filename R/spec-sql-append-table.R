@@ -60,8 +60,8 @@ spec_sql_append_table <- list(
 
   #' An error is also raised
   append_table_error = function(con) {
-    test_in <- data.frame(a = 1L)
     with_remove_test_table({
+      test_in <- data.frame(a = 1L)
       #' if `name` cannot be processed with [dbQuoteIdentifier()]
       expect_error(dbAppendTable(con, NA, test_in))
       #' or if this results in a non-scalar.
@@ -196,14 +196,13 @@ spec_sql_append_table <- list(
   },
   #
   append_roundtrip_64_bit_roundtrip = function(ctx, con) {
-    tbl_in <- data.frame(a = c(-1e14, 1e15))
-    tbl_out <- with_remove_test_table({
-      dbWriteTable(con, "test", tbl_in, field.types = c(a = "BIGINT"))
-      dbReadTable(con, "test")
+    with_remove_test_table(name = table_name <- "test2", {
+      tbl_in <- data.frame(a = c(-1e14, 1e15))
+      dbWriteTable(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
+      tbl_out <- dbReadTable(con, table_name)
+      #'     - written to another table and read again unchanged
+      test_table_roundtrip(use_append = TRUE, con, tbl_out, tbl_expected = tbl_out)
     })
-    tbl_exp <- tbl_out
-    #'     - written to another table and read again unchanged
-    test_table_roundtrip(use_append = TRUE, con, tbl_out, tbl_exp)
   },
 
   #' - character (in both UTF-8
@@ -451,8 +450,8 @@ spec_sql_append_table <- list(
   },
   #
   append_table_row_names_non_null = function(con) {
-    #' All other values for the `row.names` argument
     with_remove_test_table(name = "mtcars", {
+      #' All other values for the `row.names` argument
       mtcars_in <- datasets::mtcars
       dbCreateTable(con, "mtcars", mtcars_in)
 

@@ -83,16 +83,12 @@ spec_sql_exists_table <- list(
   #'
   #' For all tables listed by [dbListTables()], `dbExistsTable()` returns `TRUE`.
   exists_table_list = function(con) {
-    name <- random_table_name()
-    with_remove_test_table(
-      name = name,
-      {
-        dbWriteTable(con, name, data.frame(a = 1))
-        for (table_name in dbListTables(con)) {
-          eval(bquote(expect_true(dbExistsTable(con, .(table_name)))))
-        }
+    with_remove_test_table(name = table_name <- random_table_name(), {
+      dbWriteTable(con, table_name, data.frame(a = 1))
+      for (table_name in dbListTables(con)) {
+        eval(bquote(expect_true(dbExistsTable(con, .(table_name)))))
       }
-    )
+    })
   },
   #
   NULL

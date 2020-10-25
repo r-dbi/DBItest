@@ -93,9 +93,9 @@ spec_result_fetch <- list(
   #' created by [dbSendStatement()]
   #' can be fetched and return an empty data frame, with a warning.
   fetch_no_return_value = function(con) {
-    query <- "CREATE TABLE test (a integer)"
-
     with_remove_test_table({
+      query <- "CREATE TABLE test (a integer)"
+
       with_result(
         dbSendStatement(con, query),
         {
