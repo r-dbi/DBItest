@@ -15,7 +15,7 @@ spec_meta_column_info <- list(
     dbWriteTable(con, table_name, iris)
 
     with_result(
-      dbSendQuery(con, "SELECT * FROM iris"),
+      dbSendQuery(con, paste0("SELECT * FROM ", table_name)),
       {
         fields <- dbColumnInfo(res)
         #' returns a data frame
