@@ -68,8 +68,7 @@ spec_meta_get_row_count <- list(
     )
   },
   #
-  row_count_statement = function(con) {
-    with_remove_test_table(name = table_name <- random_table_name(), {
+  row_count_statement = function(con) with_remove_test_table(name = table_name <- random_table_name(), {
       query <- paste0("CREATE TABLE ", table_name, " (a integer)")
       with_result(
         #' For data manipulation statements issued with
@@ -85,8 +84,7 @@ spec_meta_get_row_count <- list(
           expect_equal(rc, 0L)
         }
       )
-    })
-  },
+  }), # with_remove_test_table
   #
   get_row_count_error = function(con) {
     res <- dbSendQuery(con, trivial_query())
