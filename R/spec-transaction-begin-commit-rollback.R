@@ -97,7 +97,7 @@ spec_transaction_begin_commit_rollback <- list(
     dbBegin(con)
     with_rollback_on_error({
       #' but is created during the transaction
-      dbExecute(con, paste0("INSERT INTO test (a) VALUES (1)"))
+      dbExecute(con, paste0("INSERT INTO ", table_name, " (a) VALUES (1)"))
 
       #' must exist
       expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0:1))

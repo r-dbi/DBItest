@@ -65,7 +65,7 @@ spec_result_execute <- list(
       with_remove_test_table(name = table_name, {
         dbWriteTable(con, table_name, data.frame(a = as.numeric(1:3)))
         placeholder <- placeholder_fun(1)
-        query <- paste0("DELETE FROM test WHERE a > ", placeholder)
+        query <- paste0("DELETE FROM ", table_name, " WHERE a > ", placeholder)
         values <- 1.5
         params <- stats::setNames(list(values), names(placeholder))
         ret <- dbExecute(con, query, params = params)
