@@ -27,7 +27,9 @@ spec_sql_exists_table <- list(
         expect_true(expect_visible(dbExistsTable(con, "test")))
       }
     })
-
+  },
+  # second stage
+  exists_table = function(ctx, con) {
     expect_false(expect_visible(dbExistsTable(con, "iris")))
   },
 
