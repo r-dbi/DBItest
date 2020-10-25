@@ -10,8 +10,7 @@ spec_sql_append_table <- list(
 
   #' @return
   #' `dbAppendTable()` returns a
-  append_table_return = function(con) {
-    with_remove_test_table({
+  append_table_return = function(con) with_remove_test_table({
       test_in <- trivial_df()
       dbCreateTable(con, "test", test_in)
       ret <- dbAppendTable(con, "test", test_in)
@@ -20,23 +19,19 @@ spec_sql_append_table <- list(
       expect_equal(length(ret), 1)
       #' numeric.
       expect_true(is.numeric(ret))
-    })
-  },
+  }), # with_remove_test_table
 
   #' If the table does not exist,
-  append_table_missing = function(con) {
-    with_remove_test_table({
+  append_table_missing = function(con) with_remove_test_table({
       expect_false(dbExistsTable(con, "test"))
 
       test_in <- trivial_df()
       expect_error(dbAppendTable(con, "test", data.frame(a = 2L)))
-    })
-  },
+  }), # with_remove_test_table
 
   #' or the data frame with the new data has different column names,
   #' an error is raised; the remote table remains unchanged.
-  append_table_append_incompatible = function(con) {
-    with_remove_test_table({
+  append_table_append_incompatible = function(con) with_remove_test_table({
       test_in <- trivial_df()
       dbCreateTable(con, "test", test_in)
       dbAppendTable(con, "test", test_in)
@@ -44,8 +39,7 @@ spec_sql_append_table <- list(
 
       test_out <- check_df(dbReadTable(con, "test"))
       expect_equal_df(test_out, test_in)
-    })
-  },
+  }), # with_remove_test_table
 
   #'
   #' An error is raised when calling this method for a closed
@@ -59,8 +53,7 @@ spec_sql_append_table <- list(
   },
 
   #' An error is also raised
-  append_table_error = function(con) {
-    with_remove_test_table({
+  append_table_error = function(con) with_remove_test_table({
       test_in <- data.frame(a = 1L)
       #' if `name` cannot be processed with [dbQuoteIdentifier()]
       expect_error(dbAppendTable(con, NA, test_in))
@@ -74,10 +67,9 @@ spec_sql_append_table <- list(
       expect_error(dbAppendTable(con, "test", test_in, row.names = list(1L)))
       #' `NA`)
       expect_error(dbAppendTable(con, "test", test_in, row.names = NA))
-    })
 
-    #' also raise an error.
-  },
+      #' also raise an error.
+  }), # with_remove_test_table
 
   #'
   #' SQL keywords can be used freely in table names, column names, and data.
@@ -195,15 +187,13 @@ spec_sql_append_table <- list(
     )
   },
   #
-  append_roundtrip_64_bit_roundtrip = function(ctx, con) {
-    with_remove_test_table(name = table_name <- "test2", {
+  append_roundtrip_64_bit_roundtrip = function(ctx, con) with_remove_test_table(name = table_name <- "test2", {
       tbl_in <- data.frame(a = c(-1e14, 1e15))
       dbWriteTable(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
       tbl_out <- dbReadTable(con, table_name)
       #'     - written to another table and read again unchanged
       test_table_roundtrip(use_append = TRUE, con, tbl_out, tbl_expected = tbl_out)
-    })
-  },
+  }), # with_remove_test_table
 
   #' - character (in both UTF-8
   append_roundtrip_character = function(con) {
@@ -424,8 +414,7 @@ spec_sql_append_table <- list(
   #'
   #'
   #' The `row.names` argument must be `NULL`, the default value.
-  append_table_row_names_false = function(con) {
-    with_remove_test_table(name = "mtcars", {
+  append_table_row_names_false = function(con) with_remove_test_table(name = "mtcars", {
       mtcars_in <- datasets::mtcars
       dbCreateTable(con, "mtcars", mtcars_in)
       dbAppendTable(con, "mtcars", mtcars_in)
@@ -433,12 +422,10 @@ spec_sql_append_table <- list(
 
       expect_false("row_names" %in% names(mtcars_out))
       expect_equal_df(mtcars_out, unrowname(mtcars_in))
-    })
-  },
+  }), # with_remove_test_table
 
   #' Row names are ignored.
-  append_table_row_names_ignore = function(con) {
-    with_remove_test_table(name = "mtcars", {
+  append_table_row_names_ignore = function(con) with_remove_test_table(name = "mtcars", {
       mtcars_in <- datasets::mtcars
       dbCreateTable(con, "mtcars", mtcars_in)
       dbAppendTable(con, "mtcars", mtcars_in, row.names = NULL)
@@ -446,11 +433,9 @@ spec_sql_append_table <- list(
 
       expect_false("row_names" %in% names(mtcars_out))
       expect_equal_df(mtcars_out, unrowname(mtcars_in))
-    })
-  },
+  }), # with_remove_test_table
   #
-  append_table_row_names_non_null = function(con) {
-    with_remove_test_table(name = "mtcars", {
+  append_table_row_names_non_null = function(con) with_remove_test_table(name = "mtcars", {
       #' All other values for the `row.names` argument
       mtcars_in <- datasets::mtcars
       dbCreateTable(con, "mtcars", mtcars_in)
@@ -461,10 +446,9 @@ spec_sql_append_table <- list(
       expect_error(dbAppendTable(con, "mtcars", mtcars_in, row.names = NA))
       #' and a string)
       expect_error(dbAppendTable(con, "mtcars", mtcars_in, row.names = "make_model"))
-    })
 
-    #' raise an error.
-  },
+      #' raise an error.
+  }), # with_remove_test_table
   #
   NULL
 )
