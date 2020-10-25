@@ -24,8 +24,7 @@ spec_meta_has_completed <- list(
     )
   },
   #
-  has_completed_statement = function(con) {
-    with_remove_test_table(name = table_name <- random_table_name(), {
+  has_completed_statement = function(con) with_remove_test_table(name = table_name <- random_table_name(), {
       #' For a query initiated by [dbSendStatement()],
       with_result(
         dbSendStatement(con, paste0("CREATE TABLE ", table_name, " (a integer)")),
@@ -34,8 +33,7 @@ spec_meta_has_completed <- list(
           expect_true(expect_visible(dbHasCompleted(res)))
         }
       )
-    })
-  },
+  }), # with_remove_test_table
   #
   has_completed_error = function(con) {
     res <- dbSendQuery(con, trivial_query())
