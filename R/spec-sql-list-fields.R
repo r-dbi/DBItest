@@ -22,9 +22,10 @@ spec_sql_list_fields <- list(
       #' in the table in the correct order.
       expect_identical(fields, names(iris))
     })
-
+  },
+  #' This also works for temporary tables if supported by the database.
+  list_fields_temporary = function(ctx, con) {
     with_remove_test_table({
-      #' This also works for temporary tables if supported by the database.
       if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
         dbWriteTable(con, "test", data.frame(a = 1L, b = 2L), temporary = TRUE)
         fields <- dbListFields(con, "test")
