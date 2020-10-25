@@ -136,7 +136,7 @@ spec_sql_write_table <- list(
   #'
   #' If the `overwrite` argument is `TRUE`, an existing table of the same name
   #' will be overwritten.
-  overwrite_table = function(ctx, con, table_name = "iris") {
+  overwrite_table = function(ctx, con, table_name) {
     iris <- get_iris(ctx)
     dbWriteTable(con, table_name, iris)
     expect_error(
@@ -148,7 +148,7 @@ spec_sql_write_table <- list(
   },
 
   #' This argument doesn't change behavior if the table does not exist yet.
-  overwrite_table_missing = function(ctx, con, table_name = "iris") {
+  overwrite_table_missing = function(ctx, con, table_name) {
     iris_in <- get_iris(ctx)
     expect_error(
       dbWriteTable(con, table_name, iris[1:10, ], overwrite = TRUE),
@@ -161,7 +161,7 @@ spec_sql_write_table <- list(
   #'
   #' If the `append` argument is `TRUE`, the rows in an existing table are
   #' preserved, and the new data are appended.
-  append_table = function(ctx, con, table_name = "iris") {
+  append_table = function(ctx, con, table_name) {
     iris <- get_iris(ctx)
     dbWriteTable(con, table_name, iris)
     expect_error(dbWriteTable(con, table_name, iris[1:10, ], append = TRUE), NA)
@@ -170,7 +170,7 @@ spec_sql_write_table <- list(
   },
 
   #' If the table doesn't exist yet, it is created.
-  append_table_new = function(ctx, con, table_name = "iris") {
+  append_table_new = function(ctx, con, table_name) {
     iris <- get_iris(ctx)
     expect_error(dbWriteTable(con, table_name, iris[1:10, ], append = TRUE), NA)
     iris_out <- check_df(dbReadTable(con, table_name))
@@ -562,7 +562,7 @@ spec_sql_write_table <- list(
     }
   },
   #
-  write_table_row_names_true_exists = function(ctx, con, table_name = "mtcars") {
+  write_table_row_names_true_exists = function(ctx, con, table_name) {
     #' - If `TRUE`, row names are converted to a column named "row_names",
     row.names <- TRUE
 
@@ -576,7 +576,7 @@ spec_sql_write_table <- list(
     expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
   },
   #
-  write_table_row_names_true_missing = function(ctx, con, table_name = "iris") {
+  write_table_row_names_true_missing = function(ctx, con, table_name) {
     #'   even if the input data frame only has natural row names from 1 to `nrow(...)`.
     row.names <- TRUE
 
@@ -590,7 +590,7 @@ spec_sql_write_table <- list(
     expect_equal_df(iris_out[names(iris_out) != "row_names"], iris_in)
   },
   #
-  write_table_row_names_na_exists = function(ctx, con, table_name = "mtcars") {
+  write_table_row_names_na_exists = function(ctx, con, table_name) {
     #' - If `NA`, a column named "row_names" is created if the data has custom row names,
     row.names <- NA
 
@@ -604,7 +604,7 @@ spec_sql_write_table <- list(
     expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
   },
   #
-  write_table_row_names_na_missing = function(ctx, con, table_name = "iris") {
+  write_table_row_names_na_missing = function(ctx, con, table_name) {
     #'   no extra column is created in the case of natural row names.
     row.names <- NA
 
@@ -615,7 +615,7 @@ spec_sql_write_table <- list(
     expect_equal_df(iris_out, iris_in)
   },
   #
-  write_table_row_names_string_exists = function(ctx, con, table_name = "mtcars") {
+  write_table_row_names_string_exists = function(ctx, con, table_name) {
     row.names <- "make_model"
     #' - If a string, this specifies the name of the column in the remote table
     #'   that contains the row names,
@@ -631,7 +631,7 @@ spec_sql_write_table <- list(
     expect_equal_df(mtcars_out[names(mtcars_out) != "make_model"], unrowname(mtcars_in))
   },
   #
-  write_table_row_names_string_missing = function(ctx, con, table_name = "iris") {
+  write_table_row_names_string_missing = function(ctx, con, table_name) {
     row.names <- "seq"
     #'   even if the input data frame only has natural row names.
 
@@ -645,7 +645,7 @@ spec_sql_write_table <- list(
     expect_equal_df(iris_out[names(iris_out) != "seq"], iris_in)
   },
   #
-  write_table_row_names_default = function(ctx, con, table_name = "mtcars") {
+  write_table_row_names_default = function(ctx, con, table_name) {
     #'
     #' The default is `row.names = FALSE`.
     mtcars_in <- datasets::mtcars

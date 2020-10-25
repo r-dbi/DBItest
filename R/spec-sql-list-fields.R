@@ -10,7 +10,7 @@ spec_sql_list_fields <- list(
 
   #' @return
   #' `dbListFields()`
-  list_fields = function(ctx, con, table_name = "iris") {
+  list_fields = function(ctx, con, table_name) {
     iris <- get_iris(ctx)
     dbWriteTable(con, table_name, iris)
 

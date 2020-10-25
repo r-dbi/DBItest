@@ -10,7 +10,7 @@ spec_meta_column_info <- list(
 
   #' @return
   #' `dbColumnInfo()`
-  column_info = function(ctx, con, table_name = "iris") {
+  column_info = function(ctx, con, table_name) {
     iris <- get_iris(ctx)
     dbWriteTable(con, table_name, iris)
 

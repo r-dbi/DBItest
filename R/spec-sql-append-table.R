@@ -414,7 +414,7 @@ spec_sql_append_table <- list(
   #'
   #'
   #' The `row.names` argument must be `NULL`, the default value.
-  append_table_row_names_false = function(con, table_name = "mtcars") {
+  append_table_row_names_false = function(con, table_name) {
     mtcars_in <- datasets::mtcars
     dbCreateTable(con, table_name, mtcars_in)
     dbAppendTable(con, table_name, mtcars_in)
@@ -425,7 +425,7 @@ spec_sql_append_table <- list(
   },
 
   #' Row names are ignored.
-  append_table_row_names_ignore = function(con, table_name = "mtcars") {
+  append_table_row_names_ignore = function(con, table_name) {
     mtcars_in <- datasets::mtcars
     dbCreateTable(con, table_name, mtcars_in)
     dbAppendTable(con, table_name, mtcars_in, row.names = NULL)
@@ -435,7 +435,7 @@ spec_sql_append_table <- list(
     expect_equal_df(mtcars_out, unrowname(mtcars_in))
   },
   #
-  append_table_row_names_non_null = function(con, table_name = "mtcars") {
+  append_table_row_names_non_null = function(con, table_name) {
     #' All other values for the `row.names` argument
     mtcars_in <- datasets::mtcars
     dbCreateTable(con, table_name, mtcars_in)

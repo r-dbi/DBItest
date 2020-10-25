@@ -185,7 +185,7 @@ spec_sql_create_table <- list(
 
   #'
   #' The `row.names` argument must be missing
-  create_table_row_names_default = function(ctx, con, table_name = "mtcars") {
+  create_table_row_names_default = function(ctx, con, table_name) {
     mtcars_in <- datasets::mtcars
     dbCreateTable(con, table_name, mtcars_in)
     mtcars_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
@@ -194,7 +194,7 @@ spec_sql_create_table <- list(
     expect_equal_df(mtcars_out, unrowname(mtcars_in)[0, , drop = FALSE])
   },
   #' or `NULL`, the default value.
-  create_table_row_names_null = function(ctx, con, table_name = "mtcars") {
+  create_table_row_names_null = function(ctx, con, table_name) {
     mtcars_in <- datasets::mtcars
     dbCreateTable(con, table_name, mtcars_in, row.names = NULL)
     mtcars_out <- check_df(dbReadTable(con, table_name, row.names = NULL))
@@ -203,7 +203,7 @@ spec_sql_create_table <- list(
     expect_equal_df(mtcars_out, unrowname(mtcars_in)[0, , drop = FALSE])
   },
   #
-  create_table_row_names_non_null = function(ctx, con, table_name = "mtcars") {
+  create_table_row_names_non_null = function(ctx, con, table_name) {
     #' All other values for the `row.names` argument
     mtcars_in <- datasets::mtcars
 
