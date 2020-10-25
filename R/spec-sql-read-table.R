@@ -138,8 +138,7 @@ spec_sql_read_table <- list(
       expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
   }), # with_remove_test_table
   #
-  read_table_check_names = function(ctx, con) {
-    with_remove_test_table({
+  read_table_check_names = function(ctx, con) with_remove_test_table({
       #' If the database supports identifiers with special characters,
       if (isTRUE(ctx$tweaks$strict_identifier)) {
         skip("tweak: strict_identifier")
@@ -155,11 +154,9 @@ spec_sql_read_table <- list(
 
       expect_identical(names(test_out), make.names(names(test_out), unique = TRUE))
       expect_equal_df(test_out, setNames(test_in, names(test_out)))
-    })
-  },
+  }), # with_remove_test_table
   #
-  read_table_check_names_false = function(ctx, con) {
-    with_remove_test_table({
+  read_table_check_names_false = function(ctx, con) with_remove_test_table({
       if (isTRUE(ctx$tweaks$strict_identifier)) {
         skip("tweak: strict_identifier")
       }
@@ -171,8 +168,7 @@ spec_sql_read_table <- list(
       test_out <- check_df(dbReadTable(con, "test", check.names = FALSE))
 
       expect_equal_df(test_out, test_in)
-    })
-  },
+  }), # with_remove_test_table
 
   #'
   #' An error is raised when calling this method for a closed
