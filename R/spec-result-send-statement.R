@@ -10,8 +10,7 @@ spec_result_send_statement <- list(
 
   #' @return
   #' `dbSendStatement()` returns
-  send_statement_trivial = function(con) {
-    with_remove_test_table({
+  send_statement_trivial = function(con) with_remove_test_table({
       res <- expect_visible(dbSendStatement(con, trivial_statement()))
       #' an S4 object that inherits from [DBIResult-class].
       expect_s4_class(res, "DBIResult")
@@ -21,8 +20,7 @@ spec_result_send_statement <- list(
       #' Once you have finished using a result, make sure to clear it
       #' with [dbClearResult()].
       dbClearResult(res)
-    })
-  },
+  }), # with_remove_test_table
 
   #' An error is raised when issuing a statement over a closed
   send_statement_closed_connection = function(ctx, closed_con) {
@@ -50,15 +48,13 @@ spec_result_send_statement <- list(
   },
 
   #' @section Specification:
-  send_statement_result_valid = function(con) {
-    with_remove_test_table({
+  send_statement_result_valid = function(con) with_remove_test_table({
       #' No warnings occur under normal conditions.
       expect_warning(res <- dbSendStatement(con, trivial_statement()), NA)
       #' When done, the DBIResult object must be cleared with a call to
       #' [dbClearResult()].
       dbClearResult(res)
-    })
-  },
+  }), # with_remove_test_table
   #
   send_statement_stale_warning = function(ctx) {
     #' Failure to clear the result set leads to a warning
@@ -72,8 +68,7 @@ spec_result_send_statement <- list(
   },
 
   #' If the backend supports only one open result set per connection,
-  send_statement_only_one_result_set = function(con) {
-    with_remove_test_table({
+  send_statement_only_one_result_set = function(con) with_remove_test_table({
       res1 <- dbSendStatement(con, trivial_statement())
       with_remove_test_table(name = "test2", {
         #' issuing a second query invalidates an already open result set
@@ -85,8 +80,7 @@ spec_result_send_statement <- list(
         #' and must be cleared with `dbClearResult()`.
         dbClearResult(res2)
       })
-    })
-  },
+  }), # with_remove_test_table
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbSendStatement()` generic
@@ -119,14 +113,12 @@ spec_result_send_statement <- list(
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  send_statement_immediate = function(con) {
-    with_remove_test_table({
+  send_statement_immediate = function(con) with_remove_test_table({
       res <- expect_visible(dbSendStatement(con, trivial_statement(), immediate = TRUE))
       expect_s4_class(res, "DBIResult")
       expect_error(dbGetRowsAffected(res), NA)
       dbClearResult(res)
-    })
-  },
+  }), # with_remove_test_table
   #
   NULL
 )
