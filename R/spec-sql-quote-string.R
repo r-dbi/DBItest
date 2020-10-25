@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_sql_quote_string <- list(
-  quote_string_formals = function(ctx) {
+  quote_string_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbQuoteString)), c("conn", "x", "..."))
   },

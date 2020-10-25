@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_sql_append_table <- list(
-  append_table_formals = function(ctx) {
+  append_table_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbAppendTable)), c("conn", "name", "value", "...", "row.names"))
   },

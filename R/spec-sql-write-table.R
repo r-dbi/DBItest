@@ -4,7 +4,7 @@
 #' @keywords internal
 #' @importFrom lubridate with_tz
 spec_sql_write_table <- list(
-  write_table_formals = function(ctx) {
+  write_table_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbWriteTable)), c("conn", "name", "value", "..."))
   },

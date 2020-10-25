@@ -72,7 +72,7 @@ spec_result_send_statement <- list(
   },
 
   #' If the backend supports only one open result set per connection,
-  send_statement_only_one_result_set = function(ctx, con) {
+  send_statement_only_one_result_set = function(con) {
     with_remove_test_table({
       res1 <- dbSendStatement(con, trivial_statement())
       with_remove_test_table(name = "test2", {
@@ -119,7 +119,7 @@ spec_result_send_statement <- list(
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  send_statement_immediate = function(ctx, con) {
+  send_statement_immediate = function(con) {
     with_remove_test_table({
       res <- expect_visible(dbSendStatement(con, trivial_statement(), immediate = TRUE))
       expect_s4_class(res, "DBIResult")

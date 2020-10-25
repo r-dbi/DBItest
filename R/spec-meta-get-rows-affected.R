@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_meta_get_rows_affected <- list(
-  get_rows_affected_formals = function(ctx) {
+  get_rows_affected_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbGetRowsAffected)), c("res", "..."))
   },

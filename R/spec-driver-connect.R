@@ -17,7 +17,7 @@ spec_driver_connect <- list(
     #' This object is used to communicate with the database engine.
   },
   #
-  connect_format = function(ctx, con) {
+  connect_format = function(con) {
     #'
     #' A [format()] method is defined for the connection object.
     desc <- format(con)

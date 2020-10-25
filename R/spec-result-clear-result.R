@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_result_clear_result <- list(
-  clear_result_formals = function(ctx) {
+  clear_result_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbClearResult)), c("res", "..."))
   },
