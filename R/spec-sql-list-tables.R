@@ -30,7 +30,9 @@ spec_sql_list_tables <- list(
       tables <- dbListTables(con)
       expect_true("iris" %in% tables)
     })
-
+  },
+  #
+  list_tables_temporary = function(ctx, con) {
     with_remove_test_table({
       #' including temporary tables if supported by the database.
       if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
