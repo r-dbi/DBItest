@@ -24,12 +24,14 @@ spec_result_execute <- list(
 
   #' An error is raised when issuing a statement over a closed
   execute_closed_connection = function(ctx, closed_con) {
-    expect_error(dbExecute(closed_con, trivial_statement(table_name = "test2")))
+    table_name <- "dbit12"
+    expect_error(dbExecute(closed_con, trivial_statement(table_name = table_name)))
   },
 
   #' or invalid connection,
   execute_invalid_connection = function(ctx, invalid_con) {
-    expect_error(dbExecute(invalid_con, trivial_statement(table_name = "test2")))
+    table_name <- "dbit13"
+    expect_error(dbExecute(invalid_con, trivial_statement(table_name = table_name)))
   },
 
   #' if the syntax of the statement is invalid,
