@@ -55,7 +55,7 @@ spec_meta_column_info <- list(
   column_info_row_names = function(con, table_name = "test") {
     dbWriteTable(con, table_name, data.frame(a = 1L, row_names = 2L))
     with_result(
-      dbSendQuery(con, "SELECT * FROM test"),
+      dbSendQuery(con, paste0("SELECT * FROM ", table_name)),
       {
         expect_identical(dbColumnInfo(res)$name, c("a", "row_names"))
       }
