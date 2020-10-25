@@ -139,14 +139,14 @@ spec_sql_read_table <- list(
   }), # with_remove_test_table
   #
   read_table_check_names = function(ctx, con) {
-    #' If the database supports identifiers with special characters,
-    if (isTRUE(ctx$tweaks$strict_identifier)) {
-      skip("tweak: strict_identifier")
-    }
-
-    #' the columns in the returned data frame are converted to valid R
-    #' identifiers
     with_remove_test_table({
+      #' If the database supports identifiers with special characters,
+      if (isTRUE(ctx$tweaks$strict_identifier)) {
+        skip("tweak: strict_identifier")
+      }
+
+      #' the columns in the returned data frame are converted to valid R
+      #' identifiers
       test_in <- data.frame(a = 1:3, b = 4:6)
       names(test_in) <- c("with spaces", "with,comma")
       dbWriteTable(con, "test", test_in)
@@ -156,9 +156,15 @@ spec_sql_read_table <- list(
       expect_identical(names(test_out), make.names(names(test_out), unique = TRUE))
       expect_equal_df(test_out, setNames(test_in, names(test_out)))
     })
-
-    #' otherwise non-syntactic column names can be returned unquoted.
+  },
+  #
+  read_table_check_names_false = function(ctx, con) {
     with_remove_test_table({
+      if (isTRUE(ctx$tweaks$strict_identifier)) {
+        skip("tweak: strict_identifier")
+      }
+
+      #' If `check.names = FALSE`, the returned table has non-syntactic column names without quotes.
       test_in <- data.frame(a = 1:3, b = 4:6)
       names(test_in) <- c("with spaces", "with,comma")
       dbWriteTable(con, "test", test_in)

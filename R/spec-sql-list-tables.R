@@ -25,28 +25,32 @@ spec_sql_list_tables <- list(
       iris <- get_iris(ctx)
       dbWriteTable(con, "iris", iris)
 
-      #' are part of the list,
+      #' are part of the list.
       tables <- dbListTables(con)
       expect_true("iris" %in% tables)
   }), # with_remove_test_table
-  #
+  # second stage
+  list_tables = function(ctx, con) {
+    #' As soon a table is removed from the database,
+    #' it is also removed from the list of database tables.
+    tables <- dbListTables(con)
+    expect_false("iris" %in% tables)
+  },
+  #'
+  #' The same applies to temporary tables if supported by the database.
   list_tables_temporary = function(ctx, con) {
     with_remove_test_table({
-      #' including temporary tables if supported by the database.
       if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
         dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
         tables <- dbListTables(con)
         expect_true("test" %in% tables)
       }
     })
+  },
 
-    #' As soon a table is removed from the database,
-    #' it is also removed from the list of database tables.
-    tables <- dbListTables(con)
-    expect_false("iris" %in% tables)
-
-    #'
-    #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
+  #'
+  #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
+  list_tables_quote = function(ctx, con) {
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
     } else {
