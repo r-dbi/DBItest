@@ -54,6 +54,16 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
           args <- c(args, list(invalid_con = invalid_con))
         }
 
+        if ("table_name" %in% names(fmls)) {
+          if (rlang::is_missing(fmls$table_name)) {
+            table_name <- random_table_name()
+          } else {
+            table_name <- fmls$table_name
+          }
+          local_remove_test_table(con, table_name)
+          args <- c(args, list(table_name = table_name))
+        }
+
         rlang::exec(test_fun, !!!args)
       }
     },
