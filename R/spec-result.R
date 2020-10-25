@@ -22,7 +22,7 @@ union <- function(..., .order_by = NULL, .ctx) {
   query
 }
 
-trivial_statement <- function(table_name = "test2") {
+trivial_statement <- function(table_name) {
   paste0("CREATE TABLE ", table_name, " AS ", trivial_query())
 }
 
