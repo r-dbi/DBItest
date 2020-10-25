@@ -416,9 +416,9 @@ spec_sql_append_table <- list(
   #' The `row.names` argument must be `NULL`, the default value.
   append_table_row_names_false = function(con, table_name = "mtcars") {
     mtcars_in <- datasets::mtcars
-    dbCreateTable(con, "mtcars", mtcars_in)
-    dbAppendTable(con, "mtcars", mtcars_in)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
+    dbCreateTable(con, table_name, mtcars_in)
+    dbAppendTable(con, table_name, mtcars_in)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_false("row_names" %in% names(mtcars_out))
     expect_equal_df(mtcars_out, unrowname(mtcars_in))
@@ -427,9 +427,9 @@ spec_sql_append_table <- list(
   #' Row names are ignored.
   append_table_row_names_ignore = function(con, table_name = "mtcars") {
     mtcars_in <- datasets::mtcars
-    dbCreateTable(con, "mtcars", mtcars_in)
-    dbAppendTable(con, "mtcars", mtcars_in, row.names = NULL)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
+    dbCreateTable(con, table_name, mtcars_in)
+    dbAppendTable(con, table_name, mtcars_in, row.names = NULL)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_false("row_names" %in% names(mtcars_out))
     expect_equal_df(mtcars_out, unrowname(mtcars_in))
@@ -438,14 +438,14 @@ spec_sql_append_table <- list(
   append_table_row_names_non_null = function(con, table_name = "mtcars") {
     #' All other values for the `row.names` argument
     mtcars_in <- datasets::mtcars
-    dbCreateTable(con, "mtcars", mtcars_in)
+    dbCreateTable(con, table_name, mtcars_in)
 
     #' (in particular `TRUE`,
-    expect_error(dbAppendTable(con, "mtcars", mtcars_in, row.names = TRUE))
+    expect_error(dbAppendTable(con, table_name, mtcars_in, row.names = TRUE))
     #' `NA`,
-    expect_error(dbAppendTable(con, "mtcars", mtcars_in, row.names = NA))
+    expect_error(dbAppendTable(con, table_name, mtcars_in, row.names = NA))
     #' and a string)
-    expect_error(dbAppendTable(con, "mtcars", mtcars_in, row.names = "make_model"))
+    expect_error(dbAppendTable(con, table_name, mtcars_in, row.names = "make_model"))
 
     #' raise an error.
   },

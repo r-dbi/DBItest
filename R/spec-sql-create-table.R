@@ -187,8 +187,8 @@ spec_sql_create_table <- list(
   #' The `row.names` argument must be missing
   create_table_row_names_default = function(ctx, con, table_name = "mtcars") {
     mtcars_in <- datasets::mtcars
-    dbCreateTable(con, "mtcars", mtcars_in)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
+    dbCreateTable(con, table_name, mtcars_in)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_false("row_names" %in% names(mtcars_out))
     expect_equal_df(mtcars_out, unrowname(mtcars_in)[0, , drop = FALSE])
@@ -196,8 +196,8 @@ spec_sql_create_table <- list(
   #' or `NULL`, the default value.
   create_table_row_names_null = function(ctx, con, table_name = "mtcars") {
     mtcars_in <- datasets::mtcars
-    dbCreateTable(con, "mtcars", mtcars_in, row.names = NULL)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = NULL))
+    dbCreateTable(con, table_name, mtcars_in, row.names = NULL)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = NULL))
 
     expect_false("row_names" %in% names(mtcars_out))
     expect_equal_df(mtcars_out, unrowname(mtcars_in)[0, , drop = FALSE])
@@ -208,11 +208,11 @@ spec_sql_create_table <- list(
     mtcars_in <- datasets::mtcars
 
     #' (in particular `TRUE`,
-    expect_error(dbCreateTable(con, "mtcars", mtcars_in, row.names = TRUE))
+    expect_error(dbCreateTable(con, table_name, mtcars_in, row.names = TRUE))
     #' `NA`,
-    expect_error(dbCreateTable(con, "mtcars", mtcars_in, row.names = NA))
+    expect_error(dbCreateTable(con, table_name, mtcars_in, row.names = NA))
     #' and a string)
-    expect_error(dbCreateTable(con, "mtcars", mtcars_in, row.names = "make_model"))
+    expect_error(dbCreateTable(con, table_name, mtcars_in, row.names = "make_model"))
     #' raise an error.
   },
   #

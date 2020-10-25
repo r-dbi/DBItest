@@ -40,11 +40,12 @@ spec_sql_read_table <- list(
   #' see [sqlColumnToRownames()] for details:
   read_table_row_names_false = function(con) {
     #' - If `FALSE` or `NULL`, the returned data frame doesn't have row names.
+    table_name <- random_table_name()
     for (row.names in list(FALSE, NULL)) {
-      with_remove_test_table(name = "mtcars", {
+      with_remove_test_table(name = table_name, {
         mtcars_in <- datasets::mtcars
-        dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)
-        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
+        dbWriteTable(con, table_name, mtcars_in, row.names = TRUE)
+        mtcars_out <- check_df(dbReadTable(con, table_name, row.names = row.names))
 
         expect_true("row_names" %in% names(mtcars_out))
         expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
@@ -59,8 +60,8 @@ spec_sql_read_table <- list(
     row.names <- TRUE
 
     mtcars_in <- datasets::mtcars
-    dbWriteTable(con, "mtcars", mtcars_in, row.names = NA)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
+    dbWriteTable(con, table_name, mtcars_in, row.names = NA)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = row.names))
 
     expect_equal_df(mtcars_out, mtcars_in)
   },
@@ -79,8 +80,8 @@ spec_sql_read_table <- list(
     row.names <- NA
 
     mtcars_in <- datasets::mtcars
-    dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
+    dbWriteTable(con, table_name, mtcars_in, row.names = TRUE)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = row.names))
 
     expect_equal_df(mtcars_out, mtcars_in)
   },
@@ -105,8 +106,8 @@ spec_sql_read_table <- list(
     mtcars_in$make_model <- rownames(mtcars_in)
     mtcars_in <- unrowname(mtcars_in)
 
-    dbWriteTable(con, "mtcars", mtcars_in, row.names = FALSE)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = row.names))
+    dbWriteTable(con, table_name, mtcars_in, row.names = FALSE)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = row.names))
 
     expect_false("make_model" %in% names(mtcars_out))
     expect_true(all(mtcars_in$make_model %in% rownames(mtcars_out)))
@@ -129,8 +130,8 @@ spec_sql_read_table <- list(
     #' The default is `row.names = FALSE`.
     #'
     mtcars_in <- datasets::mtcars
-    dbWriteTable(con, "mtcars", mtcars_in, row.names = TRUE)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars"))
+    dbWriteTable(con, table_name, mtcars_in, row.names = TRUE)
+    mtcars_out <- check_df(dbReadTable(con, table_name))
 
     expect_true("row_names" %in% names(mtcars_out))
     expect_true(all(mtcars_out$row_names %in% rownames(mtcars_in)))
