@@ -131,7 +131,7 @@ unrowname <- function(x) {
 }
 
 random_table_name <- function(n = 10) {
-  paste0(sample(letters, n, replace = TRUE), collapse = "")
+  paste0("dbit", paste(sample(letters, n, replace = TRUE), collapse = ""))
 }
 
 compact <- function(x) {
