@@ -42,6 +42,7 @@ spec_compliance_methods <- list(
         expect_has_class_method(method, class, args, where)
       }, names(key_methods[[name]]), key_methods[[name]])
     })
+    #
   },
 
   #' All methods defined in \pkg{DBI} are reexported (so that the package can
