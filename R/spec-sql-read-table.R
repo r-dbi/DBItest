@@ -21,7 +21,7 @@ spec_sql_read_table <- list(
   },
 
   #' An error is raised if the table does not exist.
-  read_table_missing = function(con, table_name = "test") {
+  read_table_missing = function(con, table_name = "test2") {
     expect_error(dbReadTable(con, table_name))
   },
 
@@ -138,7 +138,7 @@ spec_sql_read_table <- list(
     expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
   },
   #
-  read_table_check_names = function(ctx, con, table_name = "test") {
+  read_table_check_names = function(ctx, con, table_name = "test2") {
     #' If the database supports identifiers with special characters,
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       skip("tweak: strict_identifier")
@@ -156,7 +156,7 @@ spec_sql_read_table <- list(
     expect_equal_df(test_out, setNames(test_in, names(test_out)))
   },
   #
-  read_table_check_names_false = function(ctx, con, table_name = "test") {
+  read_table_check_names_false = function(ctx, con, table_name = "test2") {
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       skip("tweak: strict_identifier")
     }
@@ -172,21 +172,21 @@ spec_sql_read_table <- list(
 
   #'
   #' An error is raised when calling this method for a closed
-  read_table_closed_connection = function(ctx, con, table_name = "test") {
+  read_table_closed_connection = function(ctx, con, table_name = "test2") {
     dbWriteTable(con, table_name, data.frame(a = 1))
     con2 <- local_closed_connection(ctx = ctx)
     expect_error(dbReadTable(con2, table_name))
   },
 
   #' or invalid connection.
-  read_table_invalid_connection = function(ctx, con, table_name = "test") {
+  read_table_invalid_connection = function(ctx, con, table_name = "test2") {
     dbWriteTable(con, table_name, data.frame(a = 1))
     con2 <- local_invalid_connection(ctx)
     expect_error(dbReadTable(con2, table_name))
   },
 
   #' An error is raised
-  read_table_error = function(ctx, con, table_name = "test") {
+  read_table_error = function(ctx, con, table_name = "test2") {
     dbWriteTable(con, table_name, data.frame(a = 1L))
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
     expect_error(dbReadTable(con, NA))

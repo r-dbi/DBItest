@@ -38,7 +38,7 @@ spec_sql_list_tables <- list(
   },
   #'
   #' The same applies to temporary tables if supported by the database.
-  list_tables_temporary = function(ctx, con, table_name = "test") {
+  list_tables_temporary = function(ctx, con, table_name = "test2") {
     if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
       dbWriteTable(con, table_name, data.frame(a = 1L), temporary = TRUE)
       tables <- dbListTables(con)

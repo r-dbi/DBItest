@@ -107,7 +107,7 @@ spec_result_send_query <- list(
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  send_query_immediate = function(con, table_name = "test") {
+  send_query_immediate = function(con, table_name = "test2") {
     res <- expect_visible(dbSendQuery(con, trivial_query(), immediate = TRUE))
     expect_s4_class(res, "DBIResult")
     expect_error(dbGetRowsAffected(res), NA)
