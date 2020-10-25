@@ -10,8 +10,7 @@ spec_sql_list_fields <- list(
 
   #' @return
   #' `dbListFields()`
-  list_fields = function(ctx, con) {
-    with_remove_test_table(name = "iris", {
+  list_fields = function(ctx, con) with_remove_test_table(name = "iris", {
       iris <- get_iris(ctx)
       dbWriteTable(con, "iris", iris)
 
@@ -21,11 +20,9 @@ spec_sql_list_fields <- list(
       #' that enumerates all fields
       #' in the table in the correct order.
       expect_identical(fields, names(iris))
-    })
-  },
+  }), # with_remove_test_table
   #' This also works for temporary tables if supported by the database.
-  list_fields_temporary = function(ctx, con) {
-    with_remove_test_table({
+  list_fields_temporary = function(ctx, con) with_remove_test_table({
       if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
         dbWriteTable(con, "test", data.frame(a = 1L, b = 2L), temporary = TRUE)
         fields <- dbListFields(con, "test")
@@ -34,8 +31,7 @@ spec_sql_list_fields <- list(
         #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
         expect_equal(dbQuoteIdentifier(con, fields), dbQuoteIdentifier(con, c("a", "b")))
       }
-    })
-  },
+  }), # with_remove_test_table
 
   #' If the table does not exist, an error is raised.
   list_fields_wrong_table = function(con) {
@@ -71,20 +67,17 @@ spec_sql_list_fields <- list(
   #'
   #' - a string
   #' - the return value of [dbQuoteIdentifier()]
-  list_fields_quoted = function(con) {
-    with_remove_test_table({
+  list_fields_quoted = function(con) with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1L, b = 2L))
       expect_identical(
         dbListFields(con, dbQuoteIdentifier(con, "test")),
         c("a", "b")
       )
-    })
-  },
+  }), # with_remove_test_table
 
   #' - a value from the `table` column from the return value of
   #'   [dbListObjects()] where `is_prefix` is `FALSE`
-  list_fields_object = function(con) {
-    with_remove_test_table({
+  list_fields_object = function(con) with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1L, b = 2L))
       objects <- dbListObjects(con)
       expect_gt(nrow(objects), 0)
@@ -93,17 +86,14 @@ spec_sql_list_fields <- list(
         dbListFields(con, objects$table[[1]]),
         dbListFields(con, dbQuoteIdentifier(con, objects$table[[1]]))
       )
-    })
-  },
+  }), # with_remove_test_table
 
   #'
   #' A column named `row_names` is treated like any other column.
-  list_fields_row_names = function(con) {
-    with_remove_test_table({
+  list_fields_row_names = function(con) with_remove_test_table({
       dbWriteTable(con, "test", data.frame(a = 1L, row_names = 2L))
       expect_identical(dbListFields(con, "test"), c("a", "row_names"))
-    })
-  },
+  }), # with_remove_test_table
   #
   NULL
 )
