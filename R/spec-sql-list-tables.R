@@ -10,7 +10,7 @@ spec_sql_list_tables <- list(
 
   #' @return
   #' `dbListTables()`
-  list_tables = function(ctx, con) with_remove_test_table(name = "iris", {
+  list_tables = function(ctx, con, table_name = "iris") {
       tables <- dbListTables(con)
       #' returns a character vector
       expect_is(tables, "character")
@@ -28,7 +28,7 @@ spec_sql_list_tables <- list(
       #' are part of the list.
       tables <- dbListTables(con)
       expect_true("iris" %in% tables)
-  }), # with_remove_test_table
+  },
   # second stage
   list_tables = function(ctx, con) {
     #' As soon a table is removed from the database,
@@ -38,13 +38,13 @@ spec_sql_list_tables <- list(
   },
   #'
   #' The same applies to temporary tables if supported by the database.
-  list_tables_temporary = function(ctx, con) with_remove_test_table(name = "test", {
+  list_tables_temporary = function(ctx, con, table_name = "test") {
       if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
         dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
         tables <- dbListTables(con)
         expect_true("test" %in% tables)
       }
-  }), # with_remove_test_table
+  },
 
   #'
   #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
