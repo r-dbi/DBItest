@@ -40,8 +40,7 @@ spec_meta_is_valid <- list(
     expect_false(dbIsValid(res))
   },
   #
-  is_valid_result_statement = function(con) {
-    with_remove_test_table({
+  is_valid_result_statement = function(con) with_remove_test_table({
       query <- paste0("CREATE TABLE test (a ", dbDataType(con, 1L), ")")
       res <- dbSendStatement(con, query)
       #' A [DBIResult-class] object is also valid after a call to [dbSendStatement()],
@@ -52,8 +51,7 @@ spec_meta_is_valid <- list(
       dbClearResult(res)
       #' only clearing it with [dbClearResult()] invalidates it.
       expect_false(dbIsValid(res))
-    })
-  },
+  }), # with_remove_test_table
 
   #' If the connection to the database system is dropped (e.g., due to
   #' connectivity problems, server failure, etc.), `dbIsValid()` should return
