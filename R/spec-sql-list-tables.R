@@ -10,8 +10,7 @@ spec_sql_list_tables <- list(
 
   #' @return
   #' `dbListTables()`
-  list_tables = function(ctx, con) {
-    with_remove_test_table(name = "iris", {
+  list_tables = function(ctx, con) with_remove_test_table(name = "iris", {
       tables <- dbListTables(con)
       #' returns a character vector
       expect_is(tables, "character")
@@ -29,8 +28,7 @@ spec_sql_list_tables <- list(
       #' are part of the list,
       tables <- dbListTables(con)
       expect_true("iris" %in% tables)
-    })
-  },
+  }), # with_remove_test_table
   #
   list_tables_temporary = function(ctx, con) {
     with_remove_test_table({
