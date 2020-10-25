@@ -38,15 +38,13 @@ spec_sql_list_tables <- list(
   },
   #'
   #' The same applies to temporary tables if supported by the database.
-  list_tables_temporary = function(ctx, con) {
-    with_remove_test_table({
+  list_tables_temporary = function(ctx, con) with_remove_test_table({
       if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
         dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
         tables <- dbListTables(con)
         expect_true("test" %in% tables)
       }
-    })
-  },
+  }), # with_remove_test_table
 
   #'
   #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
