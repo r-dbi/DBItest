@@ -10,7 +10,7 @@ spec_meta_column_info <- list(
 
   #' @return
   #' `dbColumnInfo()`
-  column_info = function(ctx, con) with_remove_test_table(name = "iris", {
+  column_info = function(ctx, con, table_name = "iris") {
       iris <- get_iris(ctx)
       dbWriteTable(con, "iris", iris)
 
@@ -35,7 +35,7 @@ spec_meta_column_info <- list(
           #' to create a zero-row data frame initialized with the correct data types.
         }
       )
-  }), # with_remove_test_table
+  },
 
 
   #'
@@ -52,7 +52,7 @@ spec_meta_column_info <- list(
   #' @section Specification:
   #'
   #' A column named `row_names` is treated like any other column.
-  column_info_row_names = function(con) with_remove_test_table(name = "test", {
+  column_info_row_names = function(con, table_name = "test") {
       dbWriteTable(con, "test", data.frame(a = 1L, row_names = 2L))
       with_result(
         dbSendQuery(con, "SELECT * FROM test"),
@@ -60,7 +60,7 @@ spec_meta_column_info <- list(
           expect_identical(dbColumnInfo(res)$name, c("a", "row_names"))
         }
       )
-  }), # with_remove_test_table
+  },
 
   #'
   column_info_consistent = function(ctx, con) {
