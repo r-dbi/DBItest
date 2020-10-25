@@ -32,25 +32,36 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
         FALSE
       } else {
         test_fun <- patch_test_fun(tests[[test_idx]], paste0(test_context, ": ", test_name))
+        fmls <- formals(test_fun)
 
         args <- list()
-        if ("ctx" %in% names(formals(test_fun))) {
+        if ("ctx" %in% names(fmls)) {
           args <- c(args, list(ctx = ctx))
         }
 
-        if ("con" %in% names(formals(test_fun))) {
+        if ("con" %in% names(fmls)) {
           con <- local_connection(ctx)
           args <- c(args, list(con = con))
         }
 
-        if ("closed_con" %in% names(formals(test_fun))) {
+        if ("closed_con" %in% names(fmls)) {
           closed_con <- local_closed_connection(ctx)
           args <- c(args, list(closed_con = closed_con))
         }
 
-        if ("invalid_con" %in% names(formals(test_fun))) {
+        if ("invalid_con" %in% names(fmls)) {
           invalid_con <- local_invalid_connection(ctx)
           args <- c(args, list(invalid_con = invalid_con))
+        }
+
+        if ("table_name" %in% names(fmls)) {
+          if (rlang::is_missing(fmls$table_name)) {
+            table_name <- random_table_name()
+          } else {
+            table_name <- fmls$table_name
+          }
+          local_remove_test_table(con, table_name)
+          args <- c(args, list(table_name = table_name))
         }
 
         rlang::exec(test_fun, !!!args)
@@ -117,7 +128,7 @@ patch_test_fun <- function(test_fun, desc) {
 }
 
 wrap_all_statements_with_expect_no_warning <- function(block) {
-  stopifnot(identical(block[[1]], quote(`{`)))
+  # stopifnot(identical(block[[1]], quote(`{`)))
   block[-1] <- lapply(block[-1], function(x) expr(expect_warning(!!x, NA)))
   block
 }

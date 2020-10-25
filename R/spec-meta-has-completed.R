@@ -24,17 +24,15 @@ spec_meta_has_completed <- list(
     )
   },
   #
-  has_completed_statement = function(con) {
-    with_remove_test_table(name = table_name <- random_table_name(), {
-      #' For a query initiated by [dbSendStatement()],
-      with_result(
-        dbSendStatement(con, paste0("CREATE TABLE ", table_name, " (a integer)")),
-        {
-          #' `dbHasCompleted()` always returns `TRUE`.
-          expect_true(expect_visible(dbHasCompleted(res)))
-        }
-      )
-    })
+  has_completed_statement = function(con, table_name) {
+    #' For a query initiated by [dbSendStatement()],
+    with_result(
+      dbSendStatement(con, paste0("CREATE TABLE ", table_name, " (a integer)")),
+      {
+        #' `dbHasCompleted()` always returns `TRUE`.
+        expect_true(expect_visible(dbHasCompleted(res)))
+      }
+    )
   },
   #
   has_completed_error = function(con) {

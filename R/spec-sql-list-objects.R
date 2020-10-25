@@ -10,62 +10,65 @@ spec_sql_list_objects <- list(
 
   #' @return
   #' `dbListObjects()`
+  list_objects = function(ctx, con, table_name = "iris") {
+    objects <- dbListObjects(con)
+    #' returns a data frame
+    expect_is(objects, "data.frame")
+    #' with columns
+    cols <- c("table", "is_prefix")
+    #' `table` and `is_prefix` (in that order),
+    expect_equal(names(objects)[seq_along(cols)], cols)
+    #' optionally with other columns with a dot (`.`) prefix.
+    expect_true(all(grepl("^[.]", names(objects)[-seq_along(cols)])))
+
+    #' The `table` column is of type list.
+    expect_equal(typeof(objects$table), "list")
+    #' Each object in this list is suitable for use as argument in [dbQuoteIdentifier()].
+    expect_error(lapply(objects$table, dbQuoteIdentifier, conn = con), NA)
+
+    #' The `is_prefix` column is a logical.
+    expect_is(objects$is_prefix, "logical")
+
+    #' This data frame contains one row for each object (schema, table
+    expect_false("iris" %in% objects)
+    #' and view)
+    # TODO
+    #' accessible from the prefix (if passed) or from the global namespace
+    #' (if prefix is omitted).
+
+    #' Tables added with [dbWriteTable()]
+    iris <- get_iris(ctx)
+    dbWriteTable(con, "iris", iris)
+
+    #' are part of the data frame.
+    objects <- dbListObjects(con)
+    quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
+    expect_true(dbQuoteIdentifier(con, "iris") %in% quoted_tables)
+  },
+  # second stage
   list_objects = function(ctx, con) {
-    with_remove_test_table(name = "iris", {
-      objects <- dbListObjects(con)
-      #' returns a data frame
-      expect_is(objects, "data.frame")
-      #' with columns
-      cols <- c("table", "is_prefix")
-      #' `table` and `is_prefix` (in that order),
-      expect_equal(names(objects)[seq_along(cols)], cols)
-      #' optionally with other columns with a dot (`.`) prefix.
-      expect_true(all(grepl("^[.]", names(objects)[-seq_along(cols)])))
-
-      #' The `table` column is of type list.
-      expect_equal(typeof(objects$table), "list")
-      #' Each object in this list is suitable for use as argument in [dbQuoteIdentifier()].
-      expect_error(lapply(objects$table, dbQuoteIdentifier, conn = con), NA)
-
-      #' The `is_prefix` column is a logical.
-      expect_is(objects$is_prefix, "logical")
-
-      #' This data frame contains one row for each object (schema, table
-      expect_false("iris" %in% objects)
-      #' and view)
-      # TODO
-      #' accessible from the prefix (if passed) or from the global namespace
-      #' (if prefix is omitted).
-
-      #' Tables added with [dbWriteTable()]
-      iris <- get_iris(ctx)
-      dbWriteTable(con, "iris", iris)
-
-      #' are part of the data frame,
-      objects <- dbListObjects(con)
-      quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
-      expect_true(dbQuoteIdentifier(con, "iris") %in% quoted_tables)
-    })
-
-    with_remove_test_table({
-      #' including temporary objects if supported by the database.
-      if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
-        dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
-
-        objects <- dbListObjects(con)
-        quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
-        expect_true(dbQuoteIdentifier(con, "test") %in% quoted_tables)
-      }
-    })
-
     #' As soon a table is removed from the database,
     #' it is also removed from the data frame of database objects.
     objects <- dbListObjects(con)
     quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
     expect_false(dbQuoteIdentifier(con, "iris") %in% quoted_tables)
+  },
 
-    #'
-    #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
+  #'
+  #' The same applies to temporary objects if supported by the database.
+  list_objects_temporary = function(ctx, con, table_name = "test") {
+    if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
+      dbWriteTable(con, table_name, data.frame(a = 1L), temporary = TRUE)
+
+      objects <- dbListObjects(con)
+      quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
+      expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
+    }
+  },
+
+  #'
+  #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
+  list_objects_quote = function(ctx, con) {
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
     } else {

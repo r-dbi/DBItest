@@ -38,64 +38,58 @@ spec_transaction_with_transaction <- list(
   #' `dbWithTransaction()` initiates a transaction with `dbBegin()`, executes
   #' the code given in the `code` argument, and commits the transaction with
   #' [dbCommit()].
-  with_transaction_success = function(con) {
-    with_remove_test_table({
-      dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
+  with_transaction_success = function(con, table_name = "test") {
+    dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
 
-      dbWithTransaction(
-        con,
-        {
-          dbWriteTable(con, "test", data.frame(a = 1L), append = TRUE)
-          expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0:1))
-        }
-      )
+    dbWithTransaction(
+      con,
+      {
+        dbWriteTable(con, table_name, data.frame(a = 1L), append = TRUE)
+        expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0:1))
+      }
+    )
 
-      expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0:1))
-    })
+    expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0:1))
   },
 
   #' If the code raises an error, the transaction is instead aborted with
   #' [dbRollback()], and the error is propagated.
-  with_transaction_failure = function(con) {
-    with_remove_test_table({
-      dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
+  with_transaction_failure = function(con, table_name = "test") {
+    dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
 
-      name <- random_table_name()
-      expect_error(
-        dbWithTransaction(
-          con,
-          {
-            dbWriteTable(con, "test", data.frame(a = 1L), append = TRUE)
-            stop(name)
-          }
-        ),
-        name,
-        fixed = TRUE
-      )
+    name <- random_table_name()
+    expect_error(
+      dbWithTransaction(
+        con,
+        {
+          dbWriteTable(con, table_name, data.frame(a = 1L), append = TRUE)
+          stop(name)
+        }
+      ),
+      name,
+      fixed = TRUE
+    )
 
-      expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0L))
-    })
+    expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0L))
   },
 
   #' If the code calls `dbBreak()`, execution of the code stops and the
   #' transaction is silently aborted.
-  with_transaction_break = function(con) {
-    with_remove_test_table({
-      dbWriteTable(con, "test", data.frame(a = 0L), overwrite = TRUE)
+  with_transaction_break = function(con, table_name = "test") {
+    dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
 
-      expect_error(
-        dbWithTransaction(
-          con,
-          {
-            dbWriteTable(con, "test", data.frame(a = 1L), append = TRUE)
-            dbBreak()
-          }
-        ),
-        NA
-      )
+    expect_error(
+      dbWithTransaction(
+        con,
+        {
+          dbWriteTable(con, table_name, data.frame(a = 1L), append = TRUE)
+          dbBreak()
+        }
+      ),
+      NA
+    )
 
-      expect_equal(check_df(dbReadTable(con, "test")), data.frame(a = 0L))
-    })
+    expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0L))
   },
 
   #' All side effects caused by the code
