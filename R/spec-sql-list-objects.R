@@ -10,7 +10,7 @@ spec_sql_list_objects <- list(
 
   #' @return
   #' `dbListObjects()`
-  list_objects = function(ctx, con, table_name = "dbit6") {
+  list_objects = function(ctx, con, table_name = "dbit06") {
     objects <- dbListObjects(con)
     #' returns a data frame
     expect_is(objects, "data.frame")
@@ -49,7 +49,7 @@ spec_sql_list_objects <- list(
   list_objects = function(ctx, con) {
     #' As soon a table is removed from the database,
     #' it is also removed from the data frame of database objects.
-    table_name <- "dbit6"
+    table_name <- "dbit06"
 
     objects <- dbListObjects(con)
     quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))

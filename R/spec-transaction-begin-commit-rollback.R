@@ -91,7 +91,7 @@ spec_transaction_begin_commit_rollback <- list(
   begin_write_commit = function(con) {
     #' For example, a record that is missing when the transaction is started
 
-    table_name <- "dbit0"
+    table_name <- "dbit00"
     dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
 
     dbBegin(con)
@@ -110,7 +110,7 @@ spec_transaction_begin_commit_rollback <- list(
     expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0:1))
   },
   # second stage
-  begin_write_commit = function(con, table_name = "dbit0") {
+  begin_write_commit = function(con, table_name = "dbit00") {
     #' and also in a new connection.
     expect_true(dbExistsTable(con, table_name))
     expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0:1))
@@ -141,7 +141,7 @@ spec_transaction_begin_commit_rollback <- list(
   },
   #
   begin_write_disconnect = function(con) {
-    table_name <- "dbit1"
+    table_name <- "dbit01"
     #'
     #' Disconnection from a connection with an open transaction
     dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
@@ -151,7 +151,7 @@ spec_transaction_begin_commit_rollback <- list(
     dbWriteTable(con, table_name, data.frame(a = 1L), append = TRUE)
   },
   #
-  begin_write_disconnect = function(con, table_name = "dbit1") {
+  begin_write_disconnect = function(con, table_name = "dbit01") {
     #' effectively rolls back the transaction.
     #' All data written in such a transaction must be removed after the
     #' transaction is rolled back.

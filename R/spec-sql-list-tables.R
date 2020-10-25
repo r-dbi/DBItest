@@ -10,7 +10,7 @@ spec_sql_list_tables <- list(
 
   #' @return
   #' `dbListTables()`
-  list_tables = function(ctx, con, table_name = "dbit7") {
+  list_tables = function(ctx, con, table_name = "dbit07") {
     tables <- dbListTables(con)
     #' returns a character vector
     expect_is(tables, "character")
@@ -33,7 +33,7 @@ spec_sql_list_tables <- list(
   list_tables = function(ctx, con) {
     #' As soon a table is removed from the database,
     #' it is also removed from the list of database tables.
-    table_name <- "dbit7"
+    table_name <- "dbit07"
     tables <- dbListTables(con)
     expect_false(table_name %in% tables)
   },

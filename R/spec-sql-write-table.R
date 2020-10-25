@@ -180,7 +180,7 @@ spec_sql_write_table <- list(
   #'
   #' If the `temporary` argument is `TRUE`, the table is not available in a
   #' second connection and is gone after reconnecting.
-  temporary_table = function(ctx, con, table_name = "dbit8") {
+  temporary_table = function(ctx, con, table_name = "dbit08") {
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
@@ -200,7 +200,7 @@ spec_sql_write_table <- list(
       skip("tweak: temporary_tables")
     }
 
-    table_name <- "dbit8"
+    table_name <- "dbit08"
     expect_error(dbReadTable(con, table_name))
   },
 
@@ -208,7 +208,7 @@ spec_sql_write_table <- list(
   table_visible_in_other_connection = function(ctx, con) {
     iris30 <- get_iris(ctx)[1:30, ]
 
-    table_name <- "dbit9"
+    table_name <- "dbit09"
 
     dbWriteTable(con, table_name, iris30)
     iris_out <- check_df(dbReadTable(con, table_name))
@@ -218,7 +218,7 @@ spec_sql_write_table <- list(
     expect_equal_df(dbReadTable(con2, table_name), iris30)
   },
   # second stage
-  table_visible_in_other_connection = function(ctx, con, table_name = "dbit9") {
+  table_visible_in_other_connection = function(ctx, con, table_name = "dbit09") {
     #' and after reconnecting to the database.
     iris30 <- get_iris(ctx)[1:30, ]
 

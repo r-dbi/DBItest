@@ -107,7 +107,7 @@ spec_sql_create_table <- list(
   #'
   #' If the `temporary` argument is `TRUE`, the table is not available in a
   #' second connection and is gone after reconnecting.
-  create_temporary_table = function(ctx, con, table_name = "dbit3") {
+  create_temporary_table = function(ctx, con, table_name = "dbit03") {
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
@@ -123,7 +123,7 @@ spec_sql_create_table <- list(
   },
   # second stage
   create_temporary_table = function(con) {
-    table_name <- "dbit3"
+    table_name <- "dbit03"
     expect_error(dbReadTable(con, table_name))
   },
 
@@ -131,7 +131,7 @@ spec_sql_create_table <- list(
   create_table_visible_in_other_connection = function(ctx, con) {
     iris <- get_iris(ctx)[1:30, ]
 
-    table_name <- "dbit4"
+    table_name <- "dbit04"
     dbCreateTable(con, table_name, iris)
     iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris[0, , drop = FALSE])
@@ -140,7 +140,7 @@ spec_sql_create_table <- list(
     expect_equal_df(dbReadTable(con2, table_name), iris[0, , drop = FALSE])
   },
   # second stage
-  create_table_visible_in_other_connection = function(con, table_name = "dbit4") {
+  create_table_visible_in_other_connection = function(con, table_name = "dbit04") {
     #' and after reconnecting to the database.
     expect_equal_df(check_df(dbReadTable(con, table_name)), iris[0, , drop = FALSE])
   },
