@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_meta_has_completed <- list(
-  has_completed_formals = function(ctx) {
+  has_completed_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbHasCompleted)), c("res", "..."))
   },

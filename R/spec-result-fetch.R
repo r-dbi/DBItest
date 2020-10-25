@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_result_fetch <- list(
-  fetch_formals = function(ctx) {
+  fetch_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbFetch)), c("res", "n", "..."))
   },

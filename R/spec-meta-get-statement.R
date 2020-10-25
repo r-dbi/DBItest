@@ -3,7 +3,7 @@
 #' @format NULL
 #' @keywords internal
 spec_meta_get_statement <- list(
-  get_statement_formals = function(ctx) {
+  get_statement_formals = function() {
     # <establish formals of described functions>
     expect_equal(names(formals(dbGetStatement)), c("res", "..."))
   },
