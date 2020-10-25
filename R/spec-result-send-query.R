@@ -107,14 +107,12 @@ spec_result_send_query <- list(
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  send_query_immediate = function(con) {
-    with_remove_test_table({
+  send_query_immediate = function(con) with_remove_test_table({
       res <- expect_visible(dbSendQuery(con, trivial_query(), immediate = TRUE))
       expect_s4_class(res, "DBIResult")
       expect_error(dbGetRowsAffected(res), NA)
       dbClearResult(res)
-    })
-  },
+  }), # with_remove_test_table
   #
   NULL
 )
