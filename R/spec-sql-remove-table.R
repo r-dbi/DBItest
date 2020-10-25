@@ -12,9 +12,9 @@ spec_sql_remove_table <- list(
   #' `dbRemoveTable()` returns `TRUE`, invisibly.
   remove_table_return = function(ctx, con, table_name = "iris") {
     iris <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris)
+    dbWriteTable(con, table_name, iris)
 
-    expect_invisible_true(dbRemoveTable(con, "iris"))
+    expect_invisible_true(dbRemoveTable(con, table_name))
   },
 
   #' If the table does not exist, an error is raised.

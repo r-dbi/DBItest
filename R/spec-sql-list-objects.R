@@ -10,7 +10,7 @@ spec_sql_list_objects <- list(
 
   #' @return
   #' `dbListObjects()`
-  list_objects = function(ctx, con, table_name = "iris") {
+  list_objects = function(ctx, con, table_name = "dbit6") {
     objects <- dbListObjects(con)
     #' returns a data frame
     expect_is(objects, "data.frame")
@@ -30,7 +30,7 @@ spec_sql_list_objects <- list(
     expect_is(objects$is_prefix, "logical")
 
     #' This data frame contains one row for each object (schema, table
-    expect_false("iris" %in% objects)
+    expect_false(table_name %in% objects)
     #' and view)
     # TODO
     #' accessible from the prefix (if passed) or from the global namespace
@@ -38,20 +38,22 @@ spec_sql_list_objects <- list(
 
     #' Tables added with [dbWriteTable()]
     iris <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris)
+    dbWriteTable(con, table_name, iris)
 
     #' are part of the data frame.
     objects <- dbListObjects(con)
     quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
-    expect_true(dbQuoteIdentifier(con, "iris") %in% quoted_tables)
+    expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
   },
   # second stage
   list_objects = function(ctx, con) {
     #' As soon a table is removed from the database,
     #' it is also removed from the data frame of database objects.
+    table_name <- "dbit6"
+
     objects <- dbListObjects(con)
     quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
-    expect_false(dbQuoteIdentifier(con, "iris") %in% quoted_tables)
+    expect_false(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
   },
 
   #'

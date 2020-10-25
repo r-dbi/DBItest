@@ -14,8 +14,8 @@ spec_sql_read_table <- list(
   #' with `SELECT * FROM <name>`.
   read_table = function(ctx, con, table_name = "iris") {
     iris_in <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris_in)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    dbWriteTable(con, table_name, iris_in)
+    iris_out <- check_df(dbReadTable(con, table_name))
 
     expect_equal_df(iris_out, iris_in)
   },
@@ -28,8 +28,8 @@ spec_sql_read_table <- list(
   #' An empty table is returned as a data frame with zero rows.
   read_table_empty = function(ctx, con, table_name = "iris") {
     iris_in <- get_iris(ctx)[integer(), ]
-    dbWriteTable(con, "iris", iris_in)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    dbWriteTable(con, table_name, iris_in)
+    iris_out <- check_df(dbReadTable(con, table_name))
 
     expect_equal(nrow(iris_out), 0L)
     expect_equal_df(iris_out, iris_in)
@@ -70,8 +70,8 @@ spec_sql_read_table <- list(
     row.names <- TRUE
 
     iris_in <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris_in, row.names = NA)
-    expect_error(dbReadTable(con, "iris", row.names = row.names))
+    dbWriteTable(con, table_name, iris_in, row.names = NA)
+    expect_error(dbReadTable(con, table_name, row.names = row.names))
   },
   #
   read_table_row_names_na_exists = function(con, table_name = "mtcars") {
@@ -90,8 +90,8 @@ spec_sql_read_table <- list(
     row.names <- NA
 
     iris_in <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris_in, row.names = FALSE)
-    iris_out <- check_df(dbReadTable(con, "iris", row.names = row.names))
+    dbWriteTable(con, table_name, iris_in, row.names = FALSE)
+    iris_out <- check_df(dbReadTable(con, table_name, row.names = row.names))
 
     expect_equal_df(iris_out, iris_in)
   },
@@ -119,8 +119,8 @@ spec_sql_read_table <- list(
     row.names <- "missing"
 
     iris_in <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris_in, row.names = FALSE)
-    expect_error(dbReadTable(con, "iris", row.names = row.names))
+    dbWriteTable(con, table_name, iris_in, row.names = FALSE)
+    expect_error(dbReadTable(con, table_name, row.names = row.names))
   },
   #'
 

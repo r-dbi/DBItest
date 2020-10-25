@@ -12,9 +12,9 @@ spec_sql_list_fields <- list(
   #' `dbListFields()`
   list_fields = function(ctx, con, table_name = "iris") {
     iris <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris)
+    dbWriteTable(con, table_name, iris)
 
-    fields <- dbListFields(con, "iris")
+    fields <- dbListFields(con, table_name)
     #' returns a character vector
     expect_is(fields, "character")
     #' that enumerates all fields

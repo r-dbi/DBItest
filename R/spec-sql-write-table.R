@@ -138,12 +138,12 @@ spec_sql_write_table <- list(
   #' will be overwritten.
   overwrite_table = function(ctx, con, table_name = "iris") {
     iris <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris)
+    dbWriteTable(con, table_name, iris)
     expect_error(
-      dbWriteTable(con, "iris", iris[1:10, ], overwrite = TRUE),
+      dbWriteTable(con, table_name, iris[1:10, ], overwrite = TRUE),
       NA
     )
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris[1:10, ])
   },
 
@@ -151,10 +151,10 @@ spec_sql_write_table <- list(
   overwrite_table_missing = function(ctx, con, table_name = "iris") {
     iris_in <- get_iris(ctx)
     expect_error(
-      dbWriteTable(con, "iris", iris[1:10, ], overwrite = TRUE),
+      dbWriteTable(con, table_name, iris[1:10, ], overwrite = TRUE),
       NA
     )
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris_in[1:10, ])
   },
 
@@ -163,36 +163,36 @@ spec_sql_write_table <- list(
   #' preserved, and the new data are appended.
   append_table = function(ctx, con, table_name = "iris") {
     iris <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris)
-    expect_error(dbWriteTable(con, "iris", iris[1:10, ], append = TRUE), NA)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    dbWriteTable(con, table_name, iris)
+    expect_error(dbWriteTable(con, table_name, iris[1:10, ], append = TRUE), NA)
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, rbind(iris, iris[1:10, ]))
   },
 
   #' If the table doesn't exist yet, it is created.
   append_table_new = function(ctx, con, table_name = "iris") {
     iris <- get_iris(ctx)
-    expect_error(dbWriteTable(con, "iris", iris[1:10, ], append = TRUE), NA)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    expect_error(dbWriteTable(con, table_name, iris[1:10, ], append = TRUE), NA)
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris[1:10, ])
   },
 
   #'
   #' If the `temporary` argument is `TRUE`, the table is not available in a
   #' second connection and is gone after reconnecting.
-  temporary_table = function(ctx, con, table_name = "iris") {
+  temporary_table = function(ctx, con, table_name = "dbit8") {
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
     }
 
     iris <- get_iris(ctx)[1:30, ]
-    dbWriteTable(con, "iris", iris, temporary = TRUE)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    dbWriteTable(con, table_name, iris, temporary = TRUE)
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris)
 
     con2 <- local_connection(ctx)
-    expect_error(dbReadTable(con2, "iris"))
+    expect_error(dbReadTable(con2, table_name))
   },
   # second stage
   temporary_table = function(ctx, con) {
@@ -200,26 +200,29 @@ spec_sql_write_table <- list(
       skip("tweak: temporary_tables")
     }
 
-    expect_error(dbReadTable(con, "iris"))
+    table_name <- "dbit8"
+    expect_error(dbReadTable(con, table_name))
   },
 
   #' A regular, non-temporary table is visible in a second connection
   table_visible_in_other_connection = function(ctx, con) {
     iris30 <- get_iris(ctx)[1:30, ]
 
-    dbWriteTable(con, "iris", iris30)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    table_name <- "dbit9"
+
+    dbWriteTable(con, table_name, iris30)
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris30)
 
     con2 <- local_connection(ctx)
-    expect_equal_df(dbReadTable(con2, "iris"), iris30)
+    expect_equal_df(dbReadTable(con2, table_name), iris30)
   },
   # second stage
-  table_visible_in_other_connection = function(ctx, con, table_name = "iris") {
+  table_visible_in_other_connection = function(ctx, con, table_name = "dbit9") {
     #' and after reconnecting to the database.
     iris30 <- get_iris(ctx)[1:30, ]
 
-    expect_equal_df(check_df(dbReadTable(con, "iris")), iris30)
+    expect_equal_df(check_df(dbReadTable(con, table_name)), iris30)
   },
 
   #'
@@ -577,8 +580,8 @@ spec_sql_write_table <- list(
     row.names <- TRUE
 
     iris_in <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris_in, row.names = row.names)
-    iris_out <- check_df(dbReadTable(con, "iris", row.names = FALSE))
+    dbWriteTable(con, table_name, iris_in, row.names = row.names)
+    iris_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_true("row_names" %in% names(iris_out))
     expect_true(all(rownames(iris_in) %in% iris_out$row_names))
@@ -605,8 +608,8 @@ spec_sql_write_table <- list(
     row.names <- NA
 
     iris_in <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris_in, row.names = row.names)
-    iris_out <- check_df(dbReadTable(con, "iris", row.names = FALSE))
+    dbWriteTable(con, table_name, iris_in, row.names = row.names)
+    iris_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_equal_df(iris_out, iris_in)
   },
@@ -632,8 +635,8 @@ spec_sql_write_table <- list(
     #'   even if the input data frame only has natural row names.
 
     iris_in <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris_in, row.names = row.names)
-    iris_out <- check_df(dbReadTable(con, "iris", row.names = FALSE))
+    dbWriteTable(con, table_name, iris_in, row.names = row.names)
+    iris_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_true("seq" %in% names(iris_out))
     expect_true(all(iris_out$seq %in% rownames(iris_in)))

@@ -107,40 +107,42 @@ spec_sql_create_table <- list(
   #'
   #' If the `temporary` argument is `TRUE`, the table is not available in a
   #' second connection and is gone after reconnecting.
-  create_temporary_table = function(ctx, con, table_name = "iris") {
+  create_temporary_table = function(ctx, con, table_name = "dbit3") {
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
     }
 
     iris <- get_iris(ctx)[1:30, ]
-    dbCreateTable(con, "iris", iris, temporary = TRUE)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    dbCreateTable(con, table_name, iris, temporary = TRUE)
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris[0, , drop = FALSE])
 
     con2 <- local_connection(ctx)
-    expect_error(dbReadTable(con2, "iris"))
+    expect_error(dbReadTable(con2, table_name))
   },
   # second stage
   create_temporary_table = function(con) {
-    expect_error(dbReadTable(con, "iris"))
+    table_name <- "dbit3"
+    expect_error(dbReadTable(con, table_name))
   },
 
   #' A regular, non-temporary table is visible in a second connection
   create_table_visible_in_other_connection = function(ctx, con) {
     iris <- get_iris(ctx)[1:30, ]
 
-    dbCreateTable(con, "iris", iris)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    table_name <- "dbit4"
+    dbCreateTable(con, table_name, iris)
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris[0, , drop = FALSE])
 
     con2 <- local_connection(ctx)
-    expect_equal_df(dbReadTable(con2, "iris"), iris[0, , drop = FALSE])
+    expect_equal_df(dbReadTable(con2, table_name), iris[0, , drop = FALSE])
   },
   # second stage
-  create_table_visible_in_other_connection = function(con, table_name = "iris") {
+  create_table_visible_in_other_connection = function(con, table_name = "dbit4") {
     #' and after reconnecting to the database.
-    expect_equal_df(check_df(dbReadTable(con, "iris")), iris[0, , drop = FALSE])
+    expect_equal_df(check_df(dbReadTable(con, table_name)), iris[0, , drop = FALSE])
   },
 
   #'

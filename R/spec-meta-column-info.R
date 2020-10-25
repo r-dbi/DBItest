@@ -12,7 +12,7 @@ spec_meta_column_info <- list(
   #' `dbColumnInfo()`
   column_info = function(ctx, con, table_name = "iris") {
     iris <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris)
+    dbWriteTable(con, table_name, iris)
 
     with_result(
       dbSendQuery(con, "SELECT * FROM iris"),

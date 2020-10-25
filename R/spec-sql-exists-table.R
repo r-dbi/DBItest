@@ -11,16 +11,17 @@ spec_sql_exists_table <- list(
   #' @return
   #' `dbExistsTable()` returns a logical scalar, `TRUE` if the table or view
   #' specified by the `name` argument exists, `FALSE` otherwise.
-  exists_table = function(ctx, con, table_name = "iris") {
-    expect_false(expect_visible(dbExistsTable(con, "iris")))
+  exists_table = function(ctx, con, table_name = "dbit5") {
+    expect_false(expect_visible(dbExistsTable(con, table_name)))
     iris <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris)
+    dbWriteTable(con, table_name, iris)
 
-    expect_true(expect_visible(dbExistsTable(con, "iris")))
+    expect_true(expect_visible(dbExistsTable(con, table_name)))
   },
   # second stage
   exists_table = function(ctx, con) {
-    expect_false(expect_visible(dbExistsTable(con, "iris")))
+    table_name <- "dbit5"
+    expect_false(expect_visible(dbExistsTable(con, table_name)))
   },
 
   #' 
