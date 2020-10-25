@@ -335,13 +335,13 @@ spec_sql_write_table <- list(
     )
   },
   #
-  roundtrip_64_bit_roundtrip = function(ctx, con) with_remove_test_table(name = table_name <- "test2", {
+  roundtrip_64_bit_roundtrip = function(con, table_name) {
       tbl_in <- data.frame(a = c(-1e14, 1e15))
       dbWriteTable(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
       tbl_out <- dbReadTable(con, table_name)
       #'     - written to another table and read again unchanged
       test_table_roundtrip(con, tbl_out, tbl_expected = tbl_out)
-  }), # with_remove_test_table
+  },
 
   #' - character (in both UTF-8
   roundtrip_character = function(ctx, con) {

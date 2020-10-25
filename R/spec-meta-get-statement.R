@@ -23,7 +23,7 @@ spec_meta_get_statement <- list(
     )
   },
   #
-  get_statement_statement = function(con) with_remove_test_table(name = table_name <- random_table_name(), {
+  get_statement_statement = function(con, table_name) {
       query <- paste0("CREATE TABLE ", table_name, " (a integer)")
       with_result(
         #' or [dbSendStatement()].
@@ -34,7 +34,7 @@ spec_meta_get_statement <- list(
           expect_identical(s, query)
         }
       )
-  }), # with_remove_test_table
+  },
   #
   get_statement_error = function(con) {
     res <- dbSendQuery(con, trivial_query())
