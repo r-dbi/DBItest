@@ -25,12 +25,10 @@ spec_meta_has_completed <- list(
   },
   #
   has_completed_statement = function(con) {
-    name <- random_table_name()
-
-    with_remove_test_table(name = name, {
+    with_remove_test_table(name = table_name <- random_table_name(), {
       #' For a query initiated by [dbSendStatement()],
       with_result(
-        dbSendStatement(con, paste0("CREATE TABLE ", name, " (a integer)")),
+        dbSendStatement(con, paste0("CREATE TABLE ", table_name, " (a integer)")),
         {
           #' `dbHasCompleted()` always returns `TRUE`.
           expect_true(expect_visible(dbHasCompleted(res)))
