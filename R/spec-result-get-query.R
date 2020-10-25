@@ -209,8 +209,8 @@ spec_result_get_query <- list(
   #'         1. `params` not given: waiting for parameters via [dbBind()]
   #'         1. `params` given: query is executed
   get_query_immediate = function(con, table_name = "test") {
-      res <- expect_visible(dbGetQuery(con, trivial_query(), immediate = TRUE))
-      expect_s3_class(res, "data.frame")
+    res <- expect_visible(dbGetQuery(con, trivial_query(), immediate = TRUE))
+    expect_s3_class(res, "data.frame")
   },
   #
   NULL

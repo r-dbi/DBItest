@@ -69,21 +69,21 @@ spec_meta_get_row_count <- list(
   },
   #
   row_count_statement = function(con, table_name) {
-      query <- paste0("CREATE TABLE ", table_name, " (a integer)")
-      with_result(
-        #' For data manipulation statements issued with
-        #' [dbSendStatement()],
-        dbSendStatement(con, query),
-        {
-          rc <- dbGetRowCount(res)
-          #' zero is returned before
-          expect_equal(rc, 0L)
-          expect_warning(check_df(dbFetch(res)))
-          rc <- dbGetRowCount(res)
-          #' and after calling `dbFetch()`.
-          expect_equal(rc, 0L)
-        }
-      )
+    query <- paste0("CREATE TABLE ", table_name, " (a integer)")
+    with_result(
+      #' For data manipulation statements issued with
+      #' [dbSendStatement()],
+      dbSendStatement(con, query),
+      {
+        rc <- dbGetRowCount(res)
+        #' zero is returned before
+        expect_equal(rc, 0L)
+        expect_warning(check_df(dbFetch(res)))
+        rc <- dbGetRowCount(res)
+        #' and after calling `dbFetch()`.
+        expect_equal(rc, 0L)
+      }
+    )
   },
   #
   get_row_count_error = function(con) {

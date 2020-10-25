@@ -11,15 +11,15 @@ spec_result_execute <- list(
   #' @return
   #' `dbExecute()` always returns a
   execute_atomic = function(con, table_name = "test") {
-      query <- trivial_statement()
+    query <- trivial_statement()
 
-      ret <- dbExecute(con, query)
-      #' scalar
-      expect_equal(length(ret), 1)
-      #' numeric
-      expect_true(is.numeric(ret))
-      #' that specifies the number of rows affected
-      #' by the statement.
+    ret <- dbExecute(con, query)
+    #' scalar
+    expect_equal(length(ret), 1)
+    #' numeric
+    expect_true(is.numeric(ret))
+    #' that specifies the number of rows affected
+    #' by the statement.
   },
 
   #' An error is raised when issuing a statement over a closed
@@ -75,8 +75,8 @@ spec_result_execute <- list(
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
   execute_immediate = function(con, table_name = "test") {
-      res <- expect_visible(dbExecute(con, trivial_statement(), immediate = TRUE))
-      expect_true(is.numeric(res))
+    res <- expect_visible(dbExecute(con, trivial_statement(), immediate = TRUE))
+    expect_true(is.numeric(res))
   },
   #
   NULL

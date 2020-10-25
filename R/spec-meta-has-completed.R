@@ -25,14 +25,14 @@ spec_meta_has_completed <- list(
   },
   #
   has_completed_statement = function(con, table_name) {
-      #' For a query initiated by [dbSendStatement()],
-      with_result(
-        dbSendStatement(con, paste0("CREATE TABLE ", table_name, " (a integer)")),
-        {
-          #' `dbHasCompleted()` always returns `TRUE`.
-          expect_true(expect_visible(dbHasCompleted(res)))
-        }
-      )
+    #' For a query initiated by [dbSendStatement()],
+    with_result(
+      dbSendStatement(con, paste0("CREATE TABLE ", table_name, " (a integer)")),
+      {
+        #' `dbHasCompleted()` always returns `TRUE`.
+        expect_true(expect_visible(dbHasCompleted(res)))
+      }
+    )
   },
   #
   has_completed_error = function(con) {

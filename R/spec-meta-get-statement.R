@@ -24,16 +24,16 @@ spec_meta_get_statement <- list(
   },
   #
   get_statement_statement = function(con, table_name) {
-      query <- paste0("CREATE TABLE ", table_name, " (a integer)")
-      with_result(
-        #' or [dbSendStatement()].
-        dbSendStatement(con, query),
-        {
-          s <- dbGetStatement(res)
-          expect_is(s, "character")
-          expect_identical(s, query)
-        }
-      )
+    query <- paste0("CREATE TABLE ", table_name, " (a integer)")
+    with_result(
+      #' or [dbSendStatement()].
+      dbSendStatement(con, query),
+      {
+        s <- dbGetStatement(res)
+        expect_is(s, "character")
+        expect_identical(s, query)
+      }
+    )
   },
   #
   get_statement_error = function(con) {

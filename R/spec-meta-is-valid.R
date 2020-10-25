@@ -41,16 +41,16 @@ spec_meta_is_valid <- list(
   },
   #
   is_valid_result_statement = function(con, table_name = "test") {
-      query <- paste0("CREATE TABLE test (a ", dbDataType(con, 1L), ")")
-      res <- dbSendStatement(con, query)
-      #' A [DBIResult-class] object is also valid after a call to [dbSendStatement()],
-      expect_true(expect_visible(dbIsValid(res)))
-      #' and stays valid after querying the number of rows affected;
-      expect_error(dbGetRowsAffected(res), NA)
-      expect_true(expect_visible(dbIsValid(res)))
-      dbClearResult(res)
-      #' only clearing it with [dbClearResult()] invalidates it.
-      expect_false(dbIsValid(res))
+    query <- paste0("CREATE TABLE test (a ", dbDataType(con, 1L), ")")
+    res <- dbSendStatement(con, query)
+    #' A [DBIResult-class] object is also valid after a call to [dbSendStatement()],
+    expect_true(expect_visible(dbIsValid(res)))
+    #' and stays valid after querying the number of rows affected;
+    expect_error(dbGetRowsAffected(res), NA)
+    expect_true(expect_visible(dbIsValid(res)))
+    dbClearResult(res)
+    #' only clearing it with [dbClearResult()] invalidates it.
+    expect_false(dbIsValid(res))
   },
 
   #' If the connection to the database system is dropped (e.g., due to

@@ -18,8 +18,8 @@ spec_result_clear_result <- list(
 
   #' and `dbSendStatement()`.
   clear_result_return_statement = function(con, table_name) {
-      res <- dbSendStatement(con, paste0("CREATE TABLE ", table_name, " AS SELECT 1"))
-      expect_invisible_true(dbClearResult(res))
+    res <- dbSendStatement(con, paste0("CREATE TABLE ", table_name, " AS SELECT 1"))
+    expect_invisible_true(dbClearResult(res))
   },
 
   #' An attempt to close an already closed result set issues a warning
@@ -31,9 +31,9 @@ spec_result_clear_result <- list(
 
   #' in both cases.
   cannot_clear_result_twice_statement = function(con, table_name) {
-      res <- dbSendStatement(con, paste0("CREATE TABLE ", table_name, " AS SELECT 1"))
-      dbClearResult(res)
-      expect_warning(expect_invisible_true(dbClearResult(res)))
+    res <- dbSendStatement(con, paste0("CREATE TABLE ", table_name, " AS SELECT 1"))
+    dbClearResult(res)
+    expect_warning(expect_invisible_true(dbClearResult(res)))
   },
 
   #' @section Specification:

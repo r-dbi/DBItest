@@ -11,30 +11,30 @@ spec_meta_column_info <- list(
   #' @return
   #' `dbColumnInfo()`
   column_info = function(ctx, con, table_name = "iris") {
-      iris <- get_iris(ctx)
-      dbWriteTable(con, "iris", iris)
+    iris <- get_iris(ctx)
+    dbWriteTable(con, "iris", iris)
 
-      with_result(
-        dbSendQuery(con, "SELECT * FROM iris"),
-        {
-          fields <- dbColumnInfo(res)
-          #' returns a data frame
-          expect_is(fields, "data.frame")
-          #' with at least two columns `"name"` and `"type"` (in that order)
-          expect_equal(names(fields)[1:2], c("name", "type"))
-          #' (and optional columns that start with a dot).
-          expect_true(all(grepl("^[.]", names(fields)[-1:-2])))
+    with_result(
+      dbSendQuery(con, "SELECT * FROM iris"),
+      {
+        fields <- dbColumnInfo(res)
+        #' returns a data frame
+        expect_is(fields, "data.frame")
+        #' with at least two columns `"name"` and `"type"` (in that order)
+        expect_equal(names(fields)[1:2], c("name", "type"))
+        #' (and optional columns that start with a dot).
+        expect_true(all(grepl("^[.]", names(fields)[-1:-2])))
 
-          #' The `"name"` and `"type"` columns contain the names and types
-          #' of the R columns of the data frame that is returned from [`dbFetch()`].
-          iris_ret <- dbFetch(res)
-          expect_identical(fields$name, names(iris_ret))
-          #' The `"type"` column is of type `character` and only for information.
-          expect_is(fields$type, "character")
-          #' Do not compute on the `"type"` column, instead use `dbFetch(res, n = 0)`
-          #' to create a zero-row data frame initialized with the correct data types.
-        }
-      )
+        #' The `"name"` and `"type"` columns contain the names and types
+        #' of the R columns of the data frame that is returned from [`dbFetch()`].
+        iris_ret <- dbFetch(res)
+        expect_identical(fields$name, names(iris_ret))
+        #' The `"type"` column is of type `character` and only for information.
+        expect_is(fields$type, "character")
+        #' Do not compute on the `"type"` column, instead use `dbFetch(res, n = 0)`
+        #' to create a zero-row data frame initialized with the correct data types.
+      }
+    )
   },
 
 
@@ -53,13 +53,13 @@ spec_meta_column_info <- list(
   #'
   #' A column named `row_names` is treated like any other column.
   column_info_row_names = function(con, table_name = "test") {
-      dbWriteTable(con, "test", data.frame(a = 1L, row_names = 2L))
-      with_result(
-        dbSendQuery(con, "SELECT * FROM test"),
-        {
-          expect_identical(dbColumnInfo(res)$name, c("a", "row_names"))
-        }
-      )
+    dbWriteTable(con, "test", data.frame(a = 1L, row_names = 2L))
+    with_result(
+      dbSendQuery(con, "SELECT * FROM test"),
+      {
+        expect_identical(dbColumnInfo(res)$name, c("a", "row_names"))
+      }
+    )
   },
 
   #'
