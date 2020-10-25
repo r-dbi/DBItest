@@ -10,7 +10,7 @@ spec_result_send_statement <- list(
 
   #' @return
   #' `dbSendStatement()` returns
-  send_statement_trivial = function(con, table_name = "test2") {
+  send_statement_trivial = function(con, table_name) {
     res <- expect_visible(dbSendStatement(con, trivial_statement(table_name)))
     #' an S4 object that inherits from [DBIResult-class].
     expect_s4_class(res, "DBIResult")
@@ -48,7 +48,7 @@ spec_result_send_statement <- list(
   },
 
   #' @section Specification:
-  send_statement_result_valid = function(con, table_name = "test2") {
+  send_statement_result_valid = function(con, table_name) {
     #' No warnings occur under normal conditions.
     expect_warning(res <- dbSendStatement(con, trivial_statement(table_name)), NA)
     #' When done, the DBIResult object must be cleared with a call to
@@ -68,7 +68,7 @@ spec_result_send_statement <- list(
   },
 
   #' If the backend supports only one open result set per connection,
-  send_statement_only_one_result_set = function(con, table_name = "test2") {
+  send_statement_only_one_result_set = function(con, table_name) {
     res1 <- dbSendStatement(con, trivial_statement(table_name))
     other_table_name <- random_table_name()
     with_remove_test_table(name = other_table_name, {
@@ -116,7 +116,7 @@ spec_result_send_statement <- list(
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  send_statement_immediate = function(con, table_name = "test2") {
+  send_statement_immediate = function(con, table_name) {
     res <- expect_visible(dbSendStatement(con, trivial_statement(table_name), immediate = TRUE))
     expect_s4_class(res, "DBIResult")
     expect_error(dbGetRowsAffected(res), NA)

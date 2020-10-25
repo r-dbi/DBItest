@@ -11,12 +11,12 @@ spec_sql_write_table <- list(
 
   #' @return
   #' `dbWriteTable()` returns `TRUE`, invisibly.
-  write_table_return = function(con, table_name = "test2") {
+  write_table_return = function(con, table_name) {
     expect_invisible_true(dbWriteTable(con, table_name, data.frame(a = 1L)))
   },
 
   #' If the table exists, and both `append` and `overwrite` arguments are unset,
-  write_table_overwrite = function(con, table_name = "test2") {
+  write_table_overwrite = function(con, table_name) {
     test_in <- data.frame(a = 1L)
     dbWriteTable(con, table_name, test_in)
     expect_error(dbWriteTable(con, table_name, data.frame(a = 2L)))
@@ -28,7 +28,7 @@ spec_sql_write_table <- list(
   #' or `append = TRUE` and the data frame with the new data has different
   #' column names,
   #' an error is raised; the remote table remains unchanged.
-  write_table_append_incompatible = function(con, table_name = "test2") {
+  write_table_append_incompatible = function(con, table_name) {
     test_in <- data.frame(a = 1L)
     dbWriteTable(con, table_name, test_in)
     expect_error(dbWriteTable(con, table_name, data.frame(b = 2L), append = TRUE))
@@ -49,7 +49,7 @@ spec_sql_write_table <- list(
   },
 
   #' An error is also raised
-  write_table_error = function(ctx, con, table_name = "test2") {
+  write_table_error = function(ctx, con, table_name) {
     test_in <- data.frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
     expect_error(dbWriteTable(con, NA, test_in))

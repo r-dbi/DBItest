@@ -25,7 +25,7 @@ spec_sql_exists_table <- list(
 
   #' 
   #' This includes temporary tables if supported by the database.
-  exists_table_temporary = function(ctx, con, table_name = "test2") {
+  exists_table_temporary = function(ctx, con, table_name) {
     expect_false(expect_visible(dbExistsTable(con, table_name)))
 
     if (isTRUE(ctx$tweaks$temporary_tables)) {
@@ -46,7 +46,7 @@ spec_sql_exists_table <- list(
   },
 
   #' An error is also raised
-  exists_table_error = function(con, table_name = "test2") {
+  exists_table_error = function(con, table_name) {
     dbWriteTable(con, table_name, data.frame(a = 1L))
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
     expect_error(dbExistsTable(con, NA))

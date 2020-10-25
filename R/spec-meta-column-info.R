@@ -52,7 +52,7 @@ spec_meta_column_info <- list(
   #' @section Specification:
   #'
   #' A column named `row_names` is treated like any other column.
-  column_info_row_names = function(con, table_name = "test2") {
+  column_info_row_names = function(con, table_name) {
     dbWriteTable(con, table_name, data.frame(a = 1L, row_names = 2L))
     with_result(
       dbSendQuery(con, paste0("SELECT * FROM ", table_name)),

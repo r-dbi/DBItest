@@ -126,7 +126,7 @@ spec_transaction_begin_commit_rollback <- list(
 
   #' All data written in such a transaction must be removed after the
   #' transaction is rolled back.
-  begin_write_rollback = function(con, table_name = "test2") {
+  begin_write_rollback = function(con, table_name) {
     #' For example, a record that is missing when the transaction is started
     dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
 
