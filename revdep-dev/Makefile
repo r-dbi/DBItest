@@ -3,12 +3,11 @@ all: test
 TESTTHAT_REPORTER ?= 'check'
 
 REVDEP := RMariaDB RSQLite RPostgres RKazam
-LOAD_TARGETS := $(patsubst %,load-%,${REVDEP})
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
 
 LIB_DIR := $(shell Rscript -e "cat(.libPaths()[1])")
 
-${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION ${LOAD_TARGETS}
+${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION
 	R CMD INSTALL ..
 
 install: ${LIB_DIR}/DBItest/DESCRIPTION
@@ -23,14 +22,7 @@ bigrquery:
 
 test: ${TEST_TARGETS}
 
-safe-load-%:
-	Rscript -e "devtools::load_all('$*')"
-
-# Necessary because of https://github.com/hadley/devtools/issues/1070
-load-%: %
-	make --quiet -j1 safe-load-$*
-
-test-%: install load-% %
+test-%: install %
 	Rscript -e "options(crayon.enabled=TRUE); devtools::test('$*', filter = 'DBItest', reporter = ${TESTTHAT_REPORTER})"
 
 clean:
