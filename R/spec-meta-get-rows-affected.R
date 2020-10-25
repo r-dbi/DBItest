@@ -53,10 +53,10 @@ spec_meta_get_rows_affected <- list(
   },
   #
   get_rows_affected_error = function(con) {
-    query <- paste0(
-      "CREATE TABLE ", dbQuoteIdentifier(con, "test"), " (a integer)"
-    )
     with_remove_test_table({
+      query <- paste0(
+        "CREATE TABLE ", dbQuoteIdentifier(con, "test"), " (a integer)"
+      )
       res <- dbSendStatement(con, query)
       dbClearResult(res)
       #' Attempting to get the rows affected for a result set cleared with
