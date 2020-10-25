@@ -100,7 +100,7 @@ spec_result_send_statement <- list(
   send_statement_params = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
 
-    table_name <- "test"
+    table_name <- random_table_name()
     for (placeholder_fun in placeholder_funs) {
       with_remove_test_table(name = table_name, {
         dbWriteTable(con, table_name, data.frame(a = as.numeric(1:3)))
