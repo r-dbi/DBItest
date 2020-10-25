@@ -17,18 +17,21 @@ spec_sql_exists_table <- list(
     dbWriteTable(con, "iris", iris)
 
     expect_true(expect_visible(dbExistsTable(con, "iris")))
-
-    expect_false(expect_visible(dbExistsTable(con, "test")))
-
-    #' This includes temporary tables if supported by the database.
-    if (isTRUE(ctx$tweaks$temporary_tables)) {
-      dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
-      expect_true(expect_visible(dbExistsTable(con, "test")))
-    }
   },
   # second stage
   exists_table = function(ctx, con) {
     expect_false(expect_visible(dbExistsTable(con, "iris")))
+  },
+
+  #' 
+  #' This includes temporary tables if supported by the database.
+  exists_table_temporary = function(ctx, con, table_name = "test") {
+    expect_false(expect_visible(dbExistsTable(con, table_name)))
+
+    if (isTRUE(ctx$tweaks$temporary_tables)) {
+      dbWriteTable(con, table_name, data.frame(a = 1L), temporary = TRUE)
+      expect_true(expect_visible(dbExistsTable(con, table_name)))
+    }
   },
 
   #'
@@ -44,11 +47,11 @@ spec_sql_exists_table <- list(
 
   #' An error is also raised
   exists_table_error = function(con, table_name = "test") {
-    dbWriteTable(con, "test", data.frame(a = 1L))
+    dbWriteTable(con, table_name, data.frame(a = 1L))
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
     expect_error(dbExistsTable(con, NA))
     #' or if this results in a non-scalar.
-    expect_error(dbExistsTable(con, c("test", "test")))
+    expect_error(dbExistsTable(con, c(table_name, table_name)))
   },
 
   #' @section Specification:

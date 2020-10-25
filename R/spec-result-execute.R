@@ -60,9 +60,10 @@ spec_result_execute <- list(
   execute_params = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
 
+    table_name <- "test"
     for (placeholder_fun in placeholder_funs) {
-      with_remove_test_table(name = "test", {
-        dbWriteTable(con, "test", data.frame(a = as.numeric(1:3)))
+      with_remove_test_table(name = table_name, {
+        dbWriteTable(con, table_name, data.frame(a = as.numeric(1:3)))
         placeholder <- placeholder_fun(1)
         query <- paste0("DELETE FROM test WHERE a > ", placeholder)
         values <- 1.5

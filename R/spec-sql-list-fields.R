@@ -24,8 +24,8 @@ spec_sql_list_fields <- list(
   #' This also works for temporary tables if supported by the database.
   list_fields_temporary = function(ctx, con, table_name = "test") {
     if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
-      dbWriteTable(con, "test", data.frame(a = 1L, b = 2L), temporary = TRUE)
-      fields <- dbListFields(con, "test")
+      dbWriteTable(con, table_name, data.frame(a = 1L, b = 2L), temporary = TRUE)
+      fields <- dbListFields(con, table_name)
       expect_equal(fields, c("a", "b"))
 
       #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
@@ -68,9 +68,9 @@ spec_sql_list_fields <- list(
   #' - a string
   #' - the return value of [dbQuoteIdentifier()]
   list_fields_quoted = function(con, table_name = "test") {
-    dbWriteTable(con, "test", data.frame(a = 1L, b = 2L))
+    dbWriteTable(con, table_name, data.frame(a = 1L, b = 2L))
     expect_identical(
-      dbListFields(con, dbQuoteIdentifier(con, "test")),
+      dbListFields(con, dbQuoteIdentifier(con, table_name)),
       c("a", "b")
     )
   },
@@ -78,7 +78,7 @@ spec_sql_list_fields <- list(
   #' - a value from the `table` column from the return value of
   #'   [dbListObjects()] where `is_prefix` is `FALSE`
   list_fields_object = function(con, table_name = "test") {
-    dbWriteTable(con, "test", data.frame(a = 1L, b = 2L))
+    dbWriteTable(con, table_name, data.frame(a = 1L, b = 2L))
     objects <- dbListObjects(con)
     expect_gt(nrow(objects), 0)
     expect_false(all(objects$is_prefix))
@@ -91,8 +91,8 @@ spec_sql_list_fields <- list(
   #'
   #' A column named `row_names` is treated like any other column.
   list_fields_row_names = function(con, table_name = "test") {
-    dbWriteTable(con, "test", data.frame(a = 1L, row_names = 2L))
-    expect_identical(dbListFields(con, "test"), c("a", "row_names"))
+    dbWriteTable(con, table_name, data.frame(a = 1L, row_names = 2L))
+    expect_identical(dbListFields(con, table_name), c("a", "row_names"))
   },
   #
   NULL

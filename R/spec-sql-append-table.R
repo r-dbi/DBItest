@@ -12,8 +12,8 @@ spec_sql_append_table <- list(
   #' `dbAppendTable()` returns a
   append_table_return = function(con, table_name = "test") {
     test_in <- trivial_df()
-    dbCreateTable(con, "test", test_in)
-    ret <- dbAppendTable(con, "test", test_in)
+    dbCreateTable(con, table_name, test_in)
+    ret <- dbAppendTable(con, table_name, test_in)
 
     #' scalar
     expect_equal(length(ret), 1)
@@ -23,21 +23,21 @@ spec_sql_append_table <- list(
 
   #' If the table does not exist,
   append_table_missing = function(con, table_name = "test") {
-    expect_false(dbExistsTable(con, "test"))
+    expect_false(dbExistsTable(con, table_name))
 
     test_in <- trivial_df()
-    expect_error(dbAppendTable(con, "test", data.frame(a = 2L)))
+    expect_error(dbAppendTable(con, table_name, data.frame(a = 2L)))
   },
 
   #' or the data frame with the new data has different column names,
   #' an error is raised; the remote table remains unchanged.
   append_table_append_incompatible = function(con, table_name = "test") {
     test_in <- trivial_df()
-    dbCreateTable(con, "test", test_in)
-    dbAppendTable(con, "test", test_in)
-    expect_error(dbAppendTable(con, "test", data.frame(b = 2L), append = TRUE))
+    dbCreateTable(con, table_name, test_in)
+    dbAppendTable(con, table_name, test_in)
+    expect_error(dbAppendTable(con, table_name, data.frame(b = 2L), append = TRUE))
 
-    test_out <- check_df(dbReadTable(con, "test"))
+    test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
   },
 

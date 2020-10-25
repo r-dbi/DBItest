@@ -12,16 +12,16 @@ spec_sql_write_table <- list(
   #' @return
   #' `dbWriteTable()` returns `TRUE`, invisibly.
   write_table_return = function(con, table_name = "test") {
-    expect_invisible_true(dbWriteTable(con, "test", data.frame(a = 1L)))
+    expect_invisible_true(dbWriteTable(con, table_name, data.frame(a = 1L)))
   },
 
   #' If the table exists, and both `append` and `overwrite` arguments are unset,
   write_table_overwrite = function(con, table_name = "test") {
     test_in <- data.frame(a = 1L)
-    dbWriteTable(con, "test", test_in)
-    expect_error(dbWriteTable(con, "test", data.frame(a = 2L)))
+    dbWriteTable(con, table_name, test_in)
+    expect_error(dbWriteTable(con, table_name, data.frame(a = 2L)))
 
-    test_out <- check_df(dbReadTable(con, "test"))
+    test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
   },
 
@@ -30,10 +30,10 @@ spec_sql_write_table <- list(
   #' an error is raised; the remote table remains unchanged.
   write_table_append_incompatible = function(con, table_name = "test") {
     test_in <- data.frame(a = 1L)
-    dbWriteTable(con, "test", test_in)
-    expect_error(dbWriteTable(con, "test", data.frame(b = 2L), append = TRUE))
+    dbWriteTable(con, table_name, test_in)
+    expect_error(dbWriteTable(con, table_name, data.frame(b = 2L), append = TRUE))
 
-    test_out <- check_df(dbReadTable(con, "test"))
+    test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
   },
 
@@ -54,39 +54,39 @@ spec_sql_write_table <- list(
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
     expect_error(dbWriteTable(con, NA, test_in))
     #' or if this results in a non-scalar.
-    expect_error(dbWriteTable(con, c("test", "test"), test_in))
+    expect_error(dbWriteTable(con, c(table_name, table_name), test_in))
 
     #' Invalid values for the additional arguments `row.names`,
     #' `overwrite`, `append`, `field.types`, and `temporary`
     #' (non-scalars,
-    expect_error(dbWriteTable(con, "test", test_in, row.names = letters))
-    expect_error(dbWriteTable(con, "test", test_in, overwrite = c(TRUE, FALSE)))
-    expect_error(dbWriteTable(con, "test", test_in, append = c(TRUE, FALSE)))
-    expect_error(dbWriteTable(con, "test", test_in, temporary = c(TRUE, FALSE)))
+    expect_error(dbWriteTable(con, table_name, test_in, row.names = letters))
+    expect_error(dbWriteTable(con, table_name, test_in, overwrite = c(TRUE, FALSE)))
+    expect_error(dbWriteTable(con, table_name, test_in, append = c(TRUE, FALSE)))
+    expect_error(dbWriteTable(con, table_name, test_in, temporary = c(TRUE, FALSE)))
     #' unsupported data types,
-    expect_error(dbWriteTable(con, "test", test_in, row.names = list(1L)))
-    expect_error(dbWriteTable(con, "test", test_in, overwrite = 1L))
-    expect_error(dbWriteTable(con, "test", test_in, append = 1L))
-    expect_error(dbWriteTable(con, "test", test_in, field.types = 1L))
-    expect_error(dbWriteTable(con, "test", test_in, temporary = 1L))
+    expect_error(dbWriteTable(con, table_name, test_in, row.names = list(1L)))
+    expect_error(dbWriteTable(con, table_name, test_in, overwrite = 1L))
+    expect_error(dbWriteTable(con, table_name, test_in, append = 1L))
+    expect_error(dbWriteTable(con, table_name, test_in, field.types = 1L))
+    expect_error(dbWriteTable(con, table_name, test_in, temporary = 1L))
     #' `NA`,
-    expect_error(dbWriteTable(con, "test", test_in, overwrite = NA))
-    expect_error(dbWriteTable(con, "test", test_in, append = NA))
-    expect_error(dbWriteTable(con, "test", test_in, field.types = NA))
-    expect_error(dbWriteTable(con, "test", test_in, temporary = NA))
+    expect_error(dbWriteTable(con, table_name, test_in, overwrite = NA))
+    expect_error(dbWriteTable(con, table_name, test_in, append = NA))
+    expect_error(dbWriteTable(con, table_name, test_in, field.types = NA))
+    expect_error(dbWriteTable(con, table_name, test_in, temporary = NA))
     #' incompatible values,
-    expect_error(dbWriteTable(con, "test", test_in, field.types = letters))
-    expect_error(dbWriteTable(con, "test", test_in, field.types = c(b = "INTEGER")))
-    expect_error(dbWriteTable(con, "test", test_in, overwrite = TRUE, append = TRUE))
-    expect_error(dbWriteTable(con, "test", test_in, append = TRUE, field.types = c(a = "INTEGER")))
+    expect_error(dbWriteTable(con, table_name, test_in, field.types = letters))
+    expect_error(dbWriteTable(con, table_name, test_in, field.types = c(b = "INTEGER")))
+    expect_error(dbWriteTable(con, table_name, test_in, overwrite = TRUE, append = TRUE))
+    expect_error(dbWriteTable(con, table_name, test_in, append = TRUE, field.types = c(a = "INTEGER")))
     #' duplicate
-    expect_error(dbWriteTable(con, "test", test_in, field.types = c(a = "INTEGER", a = "INTEGER")))
+    expect_error(dbWriteTable(con, table_name, test_in, field.types = c(a = "INTEGER", a = "INTEGER")))
     #' or missing names,
-    expect_error(dbWriteTable(con, "test", test_in, field.types = c("INTEGER")))
+    expect_error(dbWriteTable(con, table_name, test_in, field.types = c("INTEGER")))
 
     #' incompatible columns)
-    dbWriteTable(con, "test", test_in)
-    expect_error(dbWriteTable(con, "test", data.frame(b = 2L, c = 3L), append = TRUE))
+    dbWriteTable(con, table_name, test_in)
+    expect_error(dbWriteTable(con, table_name, data.frame(b = 2L, c = 3L), append = TRUE))
 
     #' also raise an error.
   },

@@ -12,10 +12,10 @@ spec_meta_get_rows_affected <- list(
   #' `dbGetRowsAffected()` returns a scalar number (integer or numeric),
   #' the number of rows affected by a data manipulation statement
   rows_affected_statement = function(con, table_name = "test") {
-    dbWriteTable(con, "test", data.frame(a = 1:10))
+    dbWriteTable(con, table_name, data.frame(a = 1:10))
 
     query <- paste0(
-      "DELETE FROM ", dbQuoteIdentifier(con, "test"), " ",
+      "DELETE FROM ", dbQuoteIdentifier(con, table_name), " ",
       "WHERE a < 6"
     )
     with_result(
@@ -52,7 +52,7 @@ spec_meta_get_rows_affected <- list(
   #
   get_rows_affected_error = function(con, table_name = "test") {
     query <- paste0(
-      "CREATE TABLE ", dbQuoteIdentifier(con, "test"), " (a integer)"
+      "CREATE TABLE ", dbQuoteIdentifier(con, table_name), " (a integer)"
     )
     res <- dbSendStatement(con, query)
     dbClearResult(res)

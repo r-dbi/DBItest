@@ -22,7 +22,7 @@ spec_sql_read_table <- list(
 
   #' An error is raised if the table does not exist.
   read_table_missing = function(con, table_name = "test") {
-    expect_error(dbReadTable(con, "test"))
+    expect_error(dbReadTable(con, table_name))
   },
 
   #' An empty table is returned as a data frame with zero rows.
@@ -148,9 +148,9 @@ spec_sql_read_table <- list(
     #' identifiers
     test_in <- data.frame(a = 1:3, b = 4:6)
     names(test_in) <- c("with spaces", "with,comma")
-    dbWriteTable(con, "test", test_in)
+    dbWriteTable(con, table_name, test_in)
     #' if the `check.names` argument is `TRUE`,
-    test_out <- check_df(dbReadTable(con, "test", check.names = TRUE))
+    test_out <- check_df(dbReadTable(con, table_name, check.names = TRUE))
 
     expect_identical(names(test_out), make.names(names(test_out), unique = TRUE))
     expect_equal_df(test_out, setNames(test_in, names(test_out)))
@@ -164,8 +164,8 @@ spec_sql_read_table <- list(
     #' If `check.names = FALSE`, the returned table has non-syntactic column names without quotes.
     test_in <- data.frame(a = 1:3, b = 4:6)
     names(test_in) <- c("with spaces", "with,comma")
-    dbWriteTable(con, "test", test_in)
-    test_out <- check_df(dbReadTable(con, "test", check.names = FALSE))
+    dbWriteTable(con, table_name, test_in)
+    test_out <- check_df(dbReadTable(con, table_name, check.names = FALSE))
 
     expect_equal_df(test_out, test_in)
   },
@@ -173,34 +173,34 @@ spec_sql_read_table <- list(
   #'
   #' An error is raised when calling this method for a closed
   read_table_closed_connection = function(ctx, con, table_name = "test") {
-    dbWriteTable(con, "test", data.frame(a = 1))
+    dbWriteTable(con, table_name, data.frame(a = 1))
     con2 <- local_closed_connection(ctx = ctx)
-    expect_error(dbReadTable(con2, "test"))
+    expect_error(dbReadTable(con2, table_name))
   },
 
   #' or invalid connection.
   read_table_invalid_connection = function(ctx, con, table_name = "test") {
-    dbWriteTable(con, "test", data.frame(a = 1))
+    dbWriteTable(con, table_name, data.frame(a = 1))
     con2 <- local_invalid_connection(ctx)
-    expect_error(dbReadTable(con2, "test"))
+    expect_error(dbReadTable(con2, table_name))
   },
 
   #' An error is raised
   read_table_error = function(ctx, con, table_name = "test") {
-    dbWriteTable(con, "test", data.frame(a = 1L))
+    dbWriteTable(con, table_name, data.frame(a = 1L))
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
     expect_error(dbReadTable(con, NA))
     #' or if this results in a non-scalar.
-    expect_error(dbReadTable(con, c("test", "test")))
+    expect_error(dbReadTable(con, c(table_name, table_name)))
 
     #' Unsupported values for `row.names` and `check.names`
     #' (non-scalars,
-    expect_error(dbReadTable(con, "test", row.names = letters))
+    expect_error(dbReadTable(con, table_name, row.names = letters))
     #' unsupported data types,
-    expect_error(dbReadTable(con, "test", row.names = list(1L)))
-    expect_error(dbReadTable(con, "test", check.names = 1L))
+    expect_error(dbReadTable(con, table_name, row.names = list(1L)))
+    expect_error(dbReadTable(con, table_name, check.names = 1L))
     #' `NA` for `check.names`)
-    expect_error(dbReadTable(con, "test", check.names = NA))
+    expect_error(dbReadTable(con, table_name, check.names = NA))
     #' also raise an error.
   },
 

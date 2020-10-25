@@ -11,18 +11,18 @@ spec_sql_create_table <- list(
   #' @return
   #' `dbCreateTable()` returns `TRUE`, invisibly.
   create_table_return = function(con, table_name = "test") {
-    expect_invisible_true(dbCreateTable(con, "test", trivial_df()))
+    expect_invisible_true(dbCreateTable(con, table_name, trivial_df()))
   },
 
   #' If the table exists, an error is raised; the remote table remains unchanged.
   create_table_overwrite = function(con, table_name = "test") {
     test_in <- trivial_df()
 
-    dbCreateTable(con, "test", test_in)
-    dbAppendTable(con, "test", test_in)
-    expect_error(dbCreateTable(con, "test", data.frame(b = 1L)))
+    dbCreateTable(con, table_name, test_in)
+    dbAppendTable(con, table_name, test_in)
+    expect_error(dbCreateTable(con, table_name, data.frame(b = 1L)))
 
-    test_out <- check_df(dbReadTable(con, "test"))
+    test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
   },
 
@@ -43,24 +43,24 @@ spec_sql_create_table <- list(
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
     expect_error(dbCreateTable(con, NA, test_in))
     #' or if this results in a non-scalar.
-    expect_error(dbCreateTable(con, c("test", "test"), test_in))
+    expect_error(dbCreateTable(con, c(table_name, table_name), test_in))
 
     #' Invalid values for the `row.names` and `temporary` arguments
     #' (non-scalars,
-    expect_error(dbCreateTable(con, "test", test_in, row.names = letters))
-    expect_error(dbCreateTable(con, "test", test_in, temporary = c(TRUE, FALSE)))
+    expect_error(dbCreateTable(con, table_name, test_in, row.names = letters))
+    expect_error(dbCreateTable(con, table_name, test_in, temporary = c(TRUE, FALSE)))
     #' unsupported data types,
-    expect_error(dbCreateTable(con, "test", test_in, row.names = list(1L)))
-    expect_error(dbCreateTable(con, "test", fields = 1L))
-    expect_error(dbCreateTable(con, "test", test_in, temporary = 1L))
+    expect_error(dbCreateTable(con, table_name, test_in, row.names = list(1L)))
+    expect_error(dbCreateTable(con, table_name, fields = 1L))
+    expect_error(dbCreateTable(con, table_name, test_in, temporary = 1L))
     #' `NA`,
-    expect_error(dbCreateTable(con, "test", test_in, row.names = NA))
-    expect_error(dbCreateTable(con, "test", fields = NA))
-    expect_error(dbCreateTable(con, "test", test_in, temporary = NA))
+    expect_error(dbCreateTable(con, table_name, test_in, row.names = NA))
+    expect_error(dbCreateTable(con, table_name, fields = NA))
+    expect_error(dbCreateTable(con, table_name, test_in, temporary = NA))
     #' incompatible values,
-    expect_error(dbCreateTable(con, "test", test_in, fields = letters))
+    expect_error(dbCreateTable(con, table_name, test_in, fields = letters))
     #' duplicate names)
-    expect_error(dbCreateTable(con, "test", fields = c(a = "INTEGER", a = "INTEGER")))
+    expect_error(dbCreateTable(con, table_name, fields = c(a = "INTEGER", a = "INTEGER")))
 
     #' also raise an error.
   },

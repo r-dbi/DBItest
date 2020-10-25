@@ -58,11 +58,11 @@ spec_sql_list_objects <- list(
   #' The same applies to temporary objects if supported by the database.
   list_objects_temporary = function(ctx, con, table_name = "test") {
     if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
-      dbWriteTable(con, "test", data.frame(a = 1L), temporary = TRUE)
+      dbWriteTable(con, table_name, data.frame(a = 1L), temporary = TRUE)
 
       objects <- dbListObjects(con)
       quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
-      expect_true(dbQuoteIdentifier(con, "test") %in% quoted_tables)
+      expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
     }
   },
 
