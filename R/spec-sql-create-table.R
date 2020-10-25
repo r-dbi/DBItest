@@ -43,8 +43,8 @@ spec_sql_create_table <- list(
 
   #' An error is also raised
   create_table_error = function(ctx, con) {
-    test_in <- data.frame(a = 1L)
     with_remove_test_table({
+      test_in <- data.frame(a = 1L)
       #' if `name` cannot be processed with [dbQuoteIdentifier()]
       expect_error(dbCreateTable(con, NA, test_in))
       #' or if this results in a non-scalar.
@@ -147,8 +147,8 @@ spec_sql_create_table <- list(
   },
   # second stage
   create_table_visible_in_other_connection = function(con) {
-    #' and after reconnecting to the database.
     with_remove_test_table(name = "iris", {
+      #' and after reconnecting to the database.
       expect_equal_df(check_df(dbReadTable(con, "iris")), iris[0, , drop = FALSE])
     })
   },
@@ -216,8 +216,8 @@ spec_sql_create_table <- list(
   },
   #
   create_table_row_names_non_null = function(ctx, con) {
-    #' All other values for the `row.names` argument
     with_remove_test_table(name = "mtcars", {
+      #' All other values for the `row.names` argument
       mtcars_in <- datasets::mtcars
 
       #' (in particular `TRUE`,
