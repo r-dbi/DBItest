@@ -23,7 +23,7 @@ bigrquery:
 test: ${TEST_TARGETS}
 
 test-%: install %
-	Rscript -e "options(crayon.enabled=TRUE); devtools::test('$*', filter = 'DBItest', reporter = ${TESTTHAT_REPORTER})"
+	Rscript -e "options(crayon.enabled=TRUE); devtools::test('$*', filter = 'DBItest', stop_on_failure = TRUE, reporter = ${TESTTHAT_REPORTER})"
 
 clean:
 	rm -rf ${REVDEP}
