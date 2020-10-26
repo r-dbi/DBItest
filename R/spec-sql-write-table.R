@@ -452,7 +452,7 @@ spec_sql_write_table <- list(
     }
 
     tbl_in <- data.frame(a = hms::hms(minutes = 1:5))
-    tbl_in$b <- structure(as.numeric(tbl_in$a) / 60, class = "difftime", units = "mins")
+    tbl_in$b <- .difftime(as.numeric(tbl_in$a) / 60, "mins")
 
     tbl_exp <- tbl_in
     tbl_exp$a <- hms::as_hms(tbl_exp$a)
