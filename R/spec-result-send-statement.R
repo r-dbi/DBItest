@@ -65,8 +65,8 @@ spec_result_send_statement <- list(
     on.exit(dbDisconnect(con))
     expect_warning(dbSendStatement(con, trivial_query()), NA)
 
-    on.exit(NULL)
     expect_warning({ dbDisconnect(con); gc() })
+    on.exit(NULL)
   },
 
   #' If the backend supports only one open result set per connection,

@@ -71,8 +71,8 @@ spec_result_send_query <- list(
     on.exit(dbDisconnect(con))
     expect_warning(dbSendQuery(con, trivial_query()), NA)
 
-    on.exit(NULL)
     expect_warning({ dbDisconnect(con); gc() })
+    on.exit(NULL)
   },
 
   #'
