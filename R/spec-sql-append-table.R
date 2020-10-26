@@ -343,7 +343,7 @@ spec_sql_append_table <- list(
         86400 * 90, 86400 * 180, 86400 * 270,
         1e9, 5e9
       )
-    attr(local, "tzone") <- NULL
+    attr(local, "tzone") <- ""
     tbl_in <- data.frame(id = seq_along(local))
     tbl_in$local <- local
     tbl_in$GMT <- lubridate::with_tz(local, tzone = "GMT")
@@ -357,8 +357,9 @@ spec_sql_append_table <- list(
       con, tbl_in,
       transform = function(out) {
         dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
-        zoned <- dates & (names(out) != "local")
-        out[zoned] <- Map(lubridate::with_tz, out[zoned], names(out)[zoned])
+        tz <- names(out)
+        tz[tz == "local"] <- ""
+        out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
         out
       }
     )
