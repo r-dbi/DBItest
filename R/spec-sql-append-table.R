@@ -311,19 +311,21 @@ spec_sql_append_table <- list(
       skip("tweak: !time_typed")
     }
 
-    now <- Sys.time()
-    tbl_in <- data.frame(a = c(now + 1:5) - now)
+    tbl_in <- data.frame(a = hms::hms(minutes = 1:5))
+    tbl_in$b <- structure(as.numeric(tbl_in$a) / 60, class = "difftime", units = "mins")
 
     tbl_exp <- tbl_in
     tbl_exp$a <- hms::as_hms(tbl_exp$a)
+    tbl_exp$b <- hms::as_hms(tbl_exp$b)
 
     test_table_roundtrip(
-      use_append = TRUE,
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
         #'   returned as objects that inherit from `difftime`)
-        expect_is(tbl_out$a, "difftime")
+        expect_s3_class(tbl_out$a, "difftime")
+        expect_s3_class(tbl_out$b, "difftime")
         tbl_out$a <- hms::as_hms(tbl_out$a)
+        tbl_out$b <- hms::as_hms(tbl_out$b)
         tbl_out
       }
     )
