@@ -71,8 +71,8 @@ spec_result_send_query <- list(
     on.exit(dbDisconnect(con))
     expect_warning(dbSendQuery(con, trivial_query()), NA)
 
+    expect_warning({ dbDisconnect(con); gc() })
     on.exit(NULL)
-    expect_warning(dbDisconnect(con))
   },
 
   #'
@@ -107,7 +107,7 @@ spec_result_send_query <- list(
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  send_query_immediate = function(con, table_name = "test") {
+  send_query_immediate = function(con, table_name) {
     res <- expect_visible(dbSendQuery(con, trivial_query(), immediate = TRUE))
     expect_s4_class(res, "DBIResult")
     expect_error(dbGetRowsAffected(res), NA)

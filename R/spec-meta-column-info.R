@@ -10,12 +10,12 @@ spec_meta_column_info <- list(
 
   #' @return
   #' `dbColumnInfo()`
-  column_info = function(ctx, con, table_name = "iris") {
+  column_info = function(ctx, con, table_name) {
     iris <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris)
+    dbWriteTable(con, table_name, iris)
 
     with_result(
-      dbSendQuery(con, "SELECT * FROM iris"),
+      dbSendQuery(con, paste0("SELECT * FROM ", table_name)),
       {
         fields <- dbColumnInfo(res)
         #' returns a data frame
@@ -52,10 +52,10 @@ spec_meta_column_info <- list(
   #' @section Specification:
   #'
   #' A column named `row_names` is treated like any other column.
-  column_info_row_names = function(con, table_name = "test") {
+  column_info_row_names = function(con, table_name) {
     dbWriteTable(con, table_name, data.frame(a = 1L, row_names = 2L))
     with_result(
-      dbSendQuery(con, "SELECT * FROM test"),
+      dbSendQuery(con, paste0("SELECT * FROM ", table_name)),
       {
         expect_identical(dbColumnInfo(res)$name, c("a", "row_names"))
       }

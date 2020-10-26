@@ -10,12 +10,12 @@ spec_sql_create_table <- list(
 
   #' @return
   #' `dbCreateTable()` returns `TRUE`, invisibly.
-  create_table_return = function(con, table_name = "test") {
+  create_table_return = function(con, table_name) {
     expect_invisible_true(dbCreateTable(con, table_name, trivial_df()))
   },
 
   #' If the table exists, an error is raised; the remote table remains unchanged.
-  create_table_overwrite = function(con, table_name = "test") {
+  create_table_overwrite = function(con, table_name) {
     test_in <- trivial_df()
 
     dbCreateTable(con, table_name, test_in)
@@ -38,7 +38,7 @@ spec_sql_create_table <- list(
   },
 
   #' An error is also raised
-  create_table_error = function(ctx, con, table_name = "test") {
+  create_table_error = function(ctx, con, table_name) {
     test_in <- data.frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
     expect_error(dbCreateTable(con, NA, test_in))
@@ -107,40 +107,42 @@ spec_sql_create_table <- list(
   #'
   #' If the `temporary` argument is `TRUE`, the table is not available in a
   #' second connection and is gone after reconnecting.
-  create_temporary_table = function(ctx, con, table_name = "iris") {
+  create_temporary_table = function(ctx, con, table_name = "dbit03") {
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
     }
 
     iris <- get_iris(ctx)[1:30, ]
-    dbCreateTable(con, "iris", iris, temporary = TRUE)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    dbCreateTable(con, table_name, iris, temporary = TRUE)
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris[0, , drop = FALSE])
 
     con2 <- local_connection(ctx)
-    expect_error(dbReadTable(con2, "iris"))
+    expect_error(dbReadTable(con2, table_name))
   },
   # second stage
   create_temporary_table = function(con) {
-    expect_error(dbReadTable(con, "iris"))
+    table_name <- "dbit03"
+    expect_error(dbReadTable(con, table_name))
   },
 
   #' A regular, non-temporary table is visible in a second connection
   create_table_visible_in_other_connection = function(ctx, con) {
     iris <- get_iris(ctx)[1:30, ]
 
-    dbCreateTable(con, "iris", iris)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    table_name <- "dbit04"
+    dbCreateTable(con, table_name, iris)
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris[0, , drop = FALSE])
 
     con2 <- local_connection(ctx)
-    expect_equal_df(dbReadTable(con2, "iris"), iris[0, , drop = FALSE])
+    expect_equal_df(dbReadTable(con2, table_name), iris[0, , drop = FALSE])
   },
   # second stage
-  create_table_visible_in_other_connection = function(con, table_name = "iris") {
+  create_table_visible_in_other_connection = function(con, table_name = "dbit04") {
     #' and after reconnecting to the database.
-    expect_equal_df(check_df(dbReadTable(con, "iris")), iris[0, , drop = FALSE])
+    expect_equal_df(check_df(dbReadTable(con, table_name)), iris[0, , drop = FALSE])
   },
 
   #'
@@ -183,34 +185,34 @@ spec_sql_create_table <- list(
 
   #'
   #' The `row.names` argument must be missing
-  create_table_row_names_default = function(ctx, con, table_name = "mtcars") {
+  create_table_row_names_default = function(ctx, con, table_name) {
     mtcars_in <- datasets::mtcars
-    dbCreateTable(con, "mtcars", mtcars_in)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
+    dbCreateTable(con, table_name, mtcars_in)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_false("row_names" %in% names(mtcars_out))
     expect_equal_df(mtcars_out, unrowname(mtcars_in)[0, , drop = FALSE])
   },
   #' or `NULL`, the default value.
-  create_table_row_names_null = function(ctx, con, table_name = "mtcars") {
+  create_table_row_names_null = function(ctx, con, table_name) {
     mtcars_in <- datasets::mtcars
-    dbCreateTable(con, "mtcars", mtcars_in, row.names = NULL)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = NULL))
+    dbCreateTable(con, table_name, mtcars_in, row.names = NULL)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = NULL))
 
     expect_false("row_names" %in% names(mtcars_out))
     expect_equal_df(mtcars_out, unrowname(mtcars_in)[0, , drop = FALSE])
   },
   #
-  create_table_row_names_non_null = function(ctx, con, table_name = "mtcars") {
+  create_table_row_names_non_null = function(ctx, con, table_name) {
     #' All other values for the `row.names` argument
     mtcars_in <- datasets::mtcars
 
     #' (in particular `TRUE`,
-    expect_error(dbCreateTable(con, "mtcars", mtcars_in, row.names = TRUE))
+    expect_error(dbCreateTable(con, table_name, mtcars_in, row.names = TRUE))
     #' `NA`,
-    expect_error(dbCreateTable(con, "mtcars", mtcars_in, row.names = NA))
+    expect_error(dbCreateTable(con, table_name, mtcars_in, row.names = NA))
     #' and a string)
-    expect_error(dbCreateTable(con, "mtcars", mtcars_in, row.names = "make_model"))
+    expect_error(dbCreateTable(con, table_name, mtcars_in, row.names = "make_model"))
     #' raise an error.
   },
   #

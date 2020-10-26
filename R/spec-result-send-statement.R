@@ -10,8 +10,8 @@ spec_result_send_statement <- list(
 
   #' @return
   #' `dbSendStatement()` returns
-  send_statement_trivial = function(con, table_name = "test") {
-    res <- expect_visible(dbSendStatement(con, trivial_statement()))
+  send_statement_trivial = function(con, table_name) {
+    res <- expect_visible(dbSendStatement(con, trivial_statement(table_name)))
     #' an S4 object that inherits from [DBIResult-class].
     expect_s4_class(res, "DBIResult")
     #' The result set can be used with [dbGetRowsAffected()] to
@@ -24,12 +24,14 @@ spec_result_send_statement <- list(
 
   #' An error is raised when issuing a statement over a closed
   send_statement_closed_connection = function(ctx, closed_con) {
-    expect_error(dbSendStatement(closed_con, trivial_statement()))
+    table_name <- "dbit10"
+    expect_error(dbSendStatement(closed_con, trivial_statement(table_name = table_name)))
   },
 
   #' or invalid connection,
   send_statement_invalid_connection = function(ctx, invalid_con) {
-    expect_error(dbSendStatement(invalid_con, trivial_statement()))
+    table_name <- "dbit11"
+    expect_error(dbSendStatement(invalid_con, trivial_statement(table_name = table_name)))
   },
 
   #' or if the statement is not a non-`NA` string.
@@ -48,9 +50,9 @@ spec_result_send_statement <- list(
   },
 
   #' @section Specification:
-  send_statement_result_valid = function(con, table_name = "test") {
+  send_statement_result_valid = function(con, table_name) {
     #' No warnings occur under normal conditions.
-    expect_warning(res <- dbSendStatement(con, trivial_statement()), NA)
+    expect_warning(res <- dbSendStatement(con, trivial_statement(table_name)), NA)
     #' When done, the DBIResult object must be cleared with a call to
     #' [dbClearResult()].
     dbClearResult(res)
@@ -63,17 +65,19 @@ spec_result_send_statement <- list(
     on.exit(dbDisconnect(con))
     expect_warning(dbSendStatement(con, trivial_query()), NA)
 
+    expect_warning({ dbDisconnect(con); gc() })
     on.exit(NULL)
-    expect_warning(dbDisconnect(con))
   },
 
   #' If the backend supports only one open result set per connection,
-  send_statement_only_one_result_set = function(con, table_name = "test") {
-    res1 <- dbSendStatement(con, trivial_statement())
-    with_remove_test_table(name = "test2", {
+  send_statement_only_one_result_set = function(con, table_name) {
+    res1 <- dbSendStatement(con, trivial_statement(table_name))
+    other_table_name <- random_table_name()
+    with_remove_test_table(name = other_table_name, {
       #' issuing a second query invalidates an already open result set
       #' and raises a warning.
-      expect_warning(res2 <- dbSendStatement(con, "CREATE TABLE test2 AS SELECT 1 AS a"))
+      query <- paste0("CREATE TABLE ", other_table_name, " AS SELECT 1 AS a")
+      expect_warning(res2 <- dbSendStatement(con, query))
       expect_false(dbIsValid(res1))
       #' The newly opened result set is valid
       expect_true(dbIsValid(res2))
@@ -98,12 +102,12 @@ spec_result_send_statement <- list(
   send_statement_params = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
 
-    table_name <- "test"
+    table_name <- random_table_name()
     for (placeholder_fun in placeholder_funs) {
       with_remove_test_table(name = table_name, {
         dbWriteTable(con, table_name, data.frame(a = as.numeric(1:3)))
         placeholder <- placeholder_fun(1)
-        query <- paste0("DELETE FROM test WHERE a > ", placeholder)
+        query <- paste0("DELETE FROM ", table_name, " WHERE a > ", placeholder)
         values <- 1.5
         params <- stats::setNames(list(values), names(placeholder))
         rs <- dbSendStatement(con, query, params = params)
@@ -114,8 +118,8 @@ spec_result_send_statement <- list(
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  send_statement_immediate = function(con, table_name = "test") {
-    res <- expect_visible(dbSendStatement(con, trivial_statement(), immediate = TRUE))
+  send_statement_immediate = function(con, table_name) {
+    res <- expect_visible(dbSendStatement(con, trivial_statement(table_name), immediate = TRUE))
     expect_s4_class(res, "DBIResult")
     expect_error(dbGetRowsAffected(res), NA)
     dbClearResult(res)

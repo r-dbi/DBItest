@@ -10,12 +10,12 @@ spec_sql_list_tables <- list(
 
   #' @return
   #' `dbListTables()`
-  list_tables = function(ctx, con, table_name = "iris") {
+  list_tables = function(ctx, con, table_name = "dbit07") {
     tables <- dbListTables(con)
     #' returns a character vector
     expect_is(tables, "character")
     #' that enumerates all tables
-    expect_false("iris" %in% tables)
+    expect_false(table_name %in% tables)
 
     #' and views
     # TODO
@@ -23,22 +23,23 @@ spec_sql_list_tables <- list(
 
     #' Tables added with [dbWriteTable()]
     iris <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris)
+    dbWriteTable(con, table_name, iris)
 
     #' are part of the list.
     tables <- dbListTables(con)
-    expect_true("iris" %in% tables)
+    expect_true(table_name %in% tables)
   },
   # second stage
   list_tables = function(ctx, con) {
     #' As soon a table is removed from the database,
     #' it is also removed from the list of database tables.
+    table_name <- "dbit07"
     tables <- dbListTables(con)
-    expect_false("iris" %in% tables)
+    expect_false(table_name %in% tables)
   },
   #'
   #' The same applies to temporary tables if supported by the database.
-  list_tables_temporary = function(ctx, con, table_name = "test") {
+  list_tables_temporary = function(ctx, con, table_name) {
     if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
       dbWriteTable(con, table_name, data.frame(a = 1L), temporary = TRUE)
       tables <- dbListTables(con)

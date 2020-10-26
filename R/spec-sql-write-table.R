@@ -11,12 +11,12 @@ spec_sql_write_table <- list(
 
   #' @return
   #' `dbWriteTable()` returns `TRUE`, invisibly.
-  write_table_return = function(con, table_name = "test") {
+  write_table_return = function(con, table_name) {
     expect_invisible_true(dbWriteTable(con, table_name, data.frame(a = 1L)))
   },
 
   #' If the table exists, and both `append` and `overwrite` arguments are unset,
-  write_table_overwrite = function(con, table_name = "test") {
+  write_table_overwrite = function(con, table_name) {
     test_in <- data.frame(a = 1L)
     dbWriteTable(con, table_name, test_in)
     expect_error(dbWriteTable(con, table_name, data.frame(a = 2L)))
@@ -28,7 +28,7 @@ spec_sql_write_table <- list(
   #' or `append = TRUE` and the data frame with the new data has different
   #' column names,
   #' an error is raised; the remote table remains unchanged.
-  write_table_append_incompatible = function(con, table_name = "test") {
+  write_table_append_incompatible = function(con, table_name) {
     test_in <- data.frame(a = 1L)
     dbWriteTable(con, table_name, test_in)
     expect_error(dbWriteTable(con, table_name, data.frame(b = 2L), append = TRUE))
@@ -49,7 +49,7 @@ spec_sql_write_table <- list(
   },
 
   #' An error is also raised
-  write_table_error = function(ctx, con, table_name = "test") {
+  write_table_error = function(ctx, con, table_name) {
     test_in <- data.frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
     expect_error(dbWriteTable(con, NA, test_in))
@@ -136,63 +136,63 @@ spec_sql_write_table <- list(
   #'
   #' If the `overwrite` argument is `TRUE`, an existing table of the same name
   #' will be overwritten.
-  overwrite_table = function(ctx, con, table_name = "iris") {
+  overwrite_table = function(ctx, con, table_name) {
     iris <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris)
+    dbWriteTable(con, table_name, iris)
     expect_error(
-      dbWriteTable(con, "iris", iris[1:10, ], overwrite = TRUE),
+      dbWriteTable(con, table_name, iris[1:10, ], overwrite = TRUE),
       NA
     )
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris[1:10, ])
   },
 
   #' This argument doesn't change behavior if the table does not exist yet.
-  overwrite_table_missing = function(ctx, con, table_name = "iris") {
+  overwrite_table_missing = function(ctx, con, table_name) {
     iris_in <- get_iris(ctx)
     expect_error(
-      dbWriteTable(con, "iris", iris[1:10, ], overwrite = TRUE),
+      dbWriteTable(con, table_name, iris[1:10, ], overwrite = TRUE),
       NA
     )
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris_in[1:10, ])
   },
 
   #'
   #' If the `append` argument is `TRUE`, the rows in an existing table are
   #' preserved, and the new data are appended.
-  append_table = function(ctx, con, table_name = "iris") {
+  append_table = function(ctx, con, table_name) {
     iris <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris)
-    expect_error(dbWriteTable(con, "iris", iris[1:10, ], append = TRUE), NA)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    dbWriteTable(con, table_name, iris)
+    expect_error(dbWriteTable(con, table_name, iris[1:10, ], append = TRUE), NA)
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, rbind(iris, iris[1:10, ]))
   },
 
   #' If the table doesn't exist yet, it is created.
-  append_table_new = function(ctx, con, table_name = "iris") {
+  append_table_new = function(ctx, con, table_name) {
     iris <- get_iris(ctx)
-    expect_error(dbWriteTable(con, "iris", iris[1:10, ], append = TRUE), NA)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    expect_error(dbWriteTable(con, table_name, iris[1:10, ], append = TRUE), NA)
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris[1:10, ])
   },
 
   #'
   #' If the `temporary` argument is `TRUE`, the table is not available in a
   #' second connection and is gone after reconnecting.
-  temporary_table = function(ctx, con, table_name = "iris") {
+  temporary_table = function(ctx, con, table_name = "dbit08") {
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
     }
 
     iris <- get_iris(ctx)[1:30, ]
-    dbWriteTable(con, "iris", iris, temporary = TRUE)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    dbWriteTable(con, table_name, iris, temporary = TRUE)
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris)
 
     con2 <- local_connection(ctx)
-    expect_error(dbReadTable(con2, "iris"))
+    expect_error(dbReadTable(con2, table_name))
   },
   # second stage
   temporary_table = function(ctx, con) {
@@ -200,26 +200,29 @@ spec_sql_write_table <- list(
       skip("tweak: temporary_tables")
     }
 
-    expect_error(dbReadTable(con, "iris"))
+    table_name <- "dbit08"
+    expect_error(dbReadTable(con, table_name))
   },
 
   #' A regular, non-temporary table is visible in a second connection
   table_visible_in_other_connection = function(ctx, con) {
     iris30 <- get_iris(ctx)[1:30, ]
 
-    dbWriteTable(con, "iris", iris30)
-    iris_out <- check_df(dbReadTable(con, "iris"))
+    table_name <- "dbit09"
+
+    dbWriteTable(con, table_name, iris30)
+    iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris30)
 
     con2 <- local_connection(ctx)
-    expect_equal_df(dbReadTable(con2, "iris"), iris30)
+    expect_equal_df(dbReadTable(con2, table_name), iris30)
   },
   # second stage
-  table_visible_in_other_connection = function(ctx, con, table_name = "iris") {
+  table_visible_in_other_connection = function(ctx, con, table_name = "dbit09") {
     #' and after reconnecting to the database.
     iris30 <- get_iris(ctx)[1:30, ]
 
-    expect_equal_df(check_df(dbReadTable(con, "iris")), iris30)
+    expect_equal_df(check_df(dbReadTable(con, table_name)), iris30)
   },
 
   #'
@@ -547,11 +550,12 @@ spec_sql_write_table <- list(
   #' see [sqlRownamesToColumn()] for details:
   write_table_row_names_false = function(ctx, con) {
     #' - If `FALSE` or `NULL`, row names are ignored.
+    table_name <- random_table_name()
     for (row.names in list(FALSE, NULL)) {
-      with_remove_test_table(name = "mtcars", {
+      with_remove_test_table(name = table_name, {
         mtcars_in <- datasets::mtcars
-        dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
-        mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
+        dbWriteTable(con, table_name, mtcars_in, row.names = row.names)
+        mtcars_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
         expect_false("row_names" %in% names(mtcars_out))
         expect_equal_df(mtcars_out, unrowname(mtcars_in))
@@ -559,13 +563,13 @@ spec_sql_write_table <- list(
     }
   },
   #
-  write_table_row_names_true_exists = function(ctx, con, table_name = "mtcars") {
+  write_table_row_names_true_exists = function(ctx, con, table_name) {
     #' - If `TRUE`, row names are converted to a column named "row_names",
     row.names <- TRUE
 
     mtcars_in <- datasets::mtcars
-    dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
+    dbWriteTable(con, table_name, mtcars_in, row.names = row.names)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_true("row_names" %in% names(mtcars_out))
     expect_true(all(rownames(mtcars_in) %in% mtcars_out$row_names))
@@ -573,13 +577,13 @@ spec_sql_write_table <- list(
     expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
   },
   #
-  write_table_row_names_true_missing = function(ctx, con, table_name = "iris") {
+  write_table_row_names_true_missing = function(ctx, con, table_name) {
     #'   even if the input data frame only has natural row names from 1 to `nrow(...)`.
     row.names <- TRUE
 
     iris_in <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris_in, row.names = row.names)
-    iris_out <- check_df(dbReadTable(con, "iris", row.names = FALSE))
+    dbWriteTable(con, table_name, iris_in, row.names = row.names)
+    iris_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_true("row_names" %in% names(iris_out))
     expect_true(all(rownames(iris_in) %in% iris_out$row_names))
@@ -587,13 +591,13 @@ spec_sql_write_table <- list(
     expect_equal_df(iris_out[names(iris_out) != "row_names"], iris_in)
   },
   #
-  write_table_row_names_na_exists = function(ctx, con, table_name = "mtcars") {
+  write_table_row_names_na_exists = function(ctx, con, table_name) {
     #' - If `NA`, a column named "row_names" is created if the data has custom row names,
     row.names <- NA
 
     mtcars_in <- datasets::mtcars
-    dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
+    dbWriteTable(con, table_name, mtcars_in, row.names = row.names)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_true("row_names" %in% names(mtcars_out))
     expect_true(all(rownames(mtcars_in) %in% mtcars_out$row_names))
@@ -601,26 +605,26 @@ spec_sql_write_table <- list(
     expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
   },
   #
-  write_table_row_names_na_missing = function(ctx, con, table_name = "iris") {
+  write_table_row_names_na_missing = function(ctx, con, table_name) {
     #'   no extra column is created in the case of natural row names.
     row.names <- NA
 
     iris_in <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris_in, row.names = row.names)
-    iris_out <- check_df(dbReadTable(con, "iris", row.names = FALSE))
+    dbWriteTable(con, table_name, iris_in, row.names = row.names)
+    iris_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_equal_df(iris_out, iris_in)
   },
   #
-  write_table_row_names_string_exists = function(ctx, con, table_name = "mtcars") {
+  write_table_row_names_string_exists = function(ctx, con, table_name) {
     row.names <- "make_model"
     #' - If a string, this specifies the name of the column in the remote table
     #'   that contains the row names,
 
     mtcars_in <- datasets::mtcars
 
-    dbWriteTable(con, "mtcars", mtcars_in, row.names = row.names)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
+    dbWriteTable(con, table_name, mtcars_in, row.names = row.names)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_true("make_model" %in% names(mtcars_out))
     expect_true(all(mtcars_out$make_model %in% rownames(mtcars_in)))
@@ -628,13 +632,13 @@ spec_sql_write_table <- list(
     expect_equal_df(mtcars_out[names(mtcars_out) != "make_model"], unrowname(mtcars_in))
   },
   #
-  write_table_row_names_string_missing = function(ctx, con, table_name = "iris") {
+  write_table_row_names_string_missing = function(ctx, con, table_name) {
     row.names <- "seq"
     #'   even if the input data frame only has natural row names.
 
     iris_in <- get_iris(ctx)
-    dbWriteTable(con, "iris", iris_in, row.names = row.names)
-    iris_out <- check_df(dbReadTable(con, "iris", row.names = FALSE))
+    dbWriteTable(con, table_name, iris_in, row.names = row.names)
+    iris_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_true("seq" %in% names(iris_out))
     expect_true(all(iris_out$seq %in% rownames(iris_in)))
@@ -642,12 +646,12 @@ spec_sql_write_table <- list(
     expect_equal_df(iris_out[names(iris_out) != "seq"], iris_in)
   },
   #
-  write_table_row_names_default = function(ctx, con, table_name = "mtcars") {
+  write_table_row_names_default = function(ctx, con, table_name) {
     #'
     #' The default is `row.names = FALSE`.
     mtcars_in <- datasets::mtcars
-    dbWriteTable(con, "mtcars", mtcars_in)
-    mtcars_out <- check_df(dbReadTable(con, "mtcars", row.names = FALSE))
+    dbWriteTable(con, table_name, mtcars_in)
+    mtcars_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
     expect_false("row_names" %in% names(mtcars_out))
     expect_equal_df(mtcars_out, unrowname(mtcars_in))
@@ -681,8 +685,8 @@ test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transfo
       dbWriteTable(con, name, tbl_in, field.types = field.types)
     }
 
-    tbl_out <- check_df(dbReadTable(con, name, check.names = FALSE))
-    tbl_out <- transform(tbl_out)
+    tbl_read <- check_df(dbReadTable(con, name, check.names = FALSE))
+    tbl_out <- transform(tbl_read)
     expect_equal_df(tbl_out, tbl_expected)
   })
 }
