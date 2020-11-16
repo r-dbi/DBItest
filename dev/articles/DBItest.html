@@ -176,9 +176,9 @@
 <div id="testing" class="section level3">
 <h3 class="hasAnchor">
 <a href="#testing" class="anchor"></a>Testing</h3>
-<p>Use <code><a href="../reference/test_all.html">test_all()</a></code> to run all tests, and <code><a href="../reference/test_all.html">test_some()</a></code> to run a specific test that failed previously. The <code>test_*</code> functions need to be run with a testthat reporter to avoid stopping at the first error or warning. For interactive use, the “progress” reporter gives good results. In the example below, the “location” and “stop” reporters are combined. Review <code><a href="https://testthat.r-lib.org/reference/Reporter.html">?testthat::Reporter</a></code> for a list of reporters.</p>
+<p>Use <code><a href="../reference/test_all.html">test_all()</a></code> to run all tests, and <code><a href="../reference/test_all.html">test_some()</a></code> to run a specific test that failed previously. The <code>test_*</code> functions need to be run with a testthat reporter to avoid stopping at the first error or warning. For interactive use, the “progress” reporter gives good results. In the example below, the “location” and “stop” reporters are combined. Review <code><a href="https://rdrr.io/pkg/testthat/man/Reporter.html">?testthat::Reporter</a></code> for a list of reporters.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/reporter-accessors.html">with_reporter</a></span><span class="op">(</span>
+<span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/testthat/man/reporter-accessors.html">with_reporter</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"location"</span>, <span class="st">"stop"</span><span class="op">)</span>,
   <span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="../reference/test_all.html">test_some</a></span><span class="op">(</span><span class="st">"get_query_atomic"</span><span class="op">)</span>
 <span class="op">)</span></pre></div>
@@ -194,7 +194,7 @@
 ##   spec-result-get-query.R:20:5 [success]
 ## End test: DBItest: Result: get_query_atomic
 ## 
-## Test passed 🥳</code></pre>
+## Test passed 😸</code></pre>
 </div>
 </div>
 <div id="debugging-failing-tests" class="section level2">
@@ -216,11 +216,11 @@
   default_skip <span class="op">=</span> <span class="va">default_skip</span>
 <span class="op">)</span><span class="op">)</span>
 
-<span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://testthat.r-lib.org/reference/reporter-accessors.html">with_reporter</a></span><span class="op">(</span>
+<span class="fu">testthat</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/testthat/man/reporter-accessors.html">with_reporter</a></span><span class="op">(</span>
   <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"location"</span>, <span class="st">"stop"</span><span class="op">)</span>,
   <span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="../reference/test_all.html">test_some</a></span><span class="op">(</span><span class="st">"get_query_atomic"</span><span class="op">)</span>
 <span class="op">)</span></pre></div>
-<pre><code>## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/RtmpR4XDDK/DBItest4e5e45331efb.sqlite")
+<pre><code>## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/RtmpqQe9zI/DBItest4fe86180a7d3.sqlite")
 ## Start test: DBItest: Result: get_query_atomic
 ##   spec-result-get-query.R:17:5 [success]
 ## dbGetQuery(conn1, "SELECT 1.5 AS a")
@@ -236,7 +236,7 @@
 ##   spec-result-get-query.R:20:5 [success]
 ## End test: DBItest: Result: get_query_atomic
 ## 
-## Test passed 🎊
+## Test passed 🥳
 ## dbDisconnect(conn1)</code></pre>
 </div>
 <div class="footnotes">
