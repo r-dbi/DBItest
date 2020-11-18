@@ -181,7 +181,7 @@
 <ul>
 <li>Document how to run tests externally and how to debug tests (<a href='https://github.com/r-dbi/DBItest/issues/165'>#165</a>).</li>
 <li>
-<code>test_*()</code> gain new <code>run_only = NULL</code> argument that allow restricting the tests to be run with a positive match. <code><a href="../reference/test_all.html">test_some()</a></code> uses <code>run_only</code> instead of constructing a regular expression with negative lookahead. This helps troubleshooting a single test with <code><a href="https://rdrr.io/pkg/testthat/man/reporter-accessors.html">testthat::set_reporter(DebugReporter$new())</a></code> .</li>
+<code>test_*()</code> gain new <code>run_only = NULL</code> argument that allow restricting the tests to be run with a positive match. <code><a href="../reference/test_all.html">test_some()</a></code> uses <code>run_only</code> instead of constructing a regular expression with negative lookahead. This helps troubleshooting a single test with <code><a href="https://testthat.r-lib.org/reference/reporter-accessors.html">testthat::set_reporter(DebugReporter$new())</a></code> .</li>
 <li>
 <code><a href="../reference/make_context.html">make_context()</a></code> gains <code>default_skip</code> argument and uses the <code>DBIConnector</code> class.</li>
 <li>Support <code>NULL</code> default value in driver constructor (<a href='https://github.com/r-dbi/DBItest/issues/171'>#171</a>).</li>
