@@ -669,7 +669,7 @@ test_table_roundtrip <- function(...) {
 }
 
 test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity,
-                                     name = "test", field.types = NULL, use_append = FALSE, .add_na = "none") {
+                                     name = NULL, field.types = NULL, use_append = FALSE, .add_na = "none") {
   force(tbl_expected)
   if (.add_na == "above") {
     tbl_in <- add_na_above(tbl_in)
@@ -679,18 +679,22 @@ test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transfo
     tbl_expected <- add_na_below(tbl_expected)
   }
 
-  with_remove_test_table(name = name, {
-    if (use_append) {
-      dbCreateTable(con, name, field.types %||% tbl_in)
-      dbAppendTable(con, name, tbl_in)
-    } else {
-      dbWriteTable(con, name, tbl_in, field.types = field.types)
-    }
+  if (is.null(name)) {
+    name <- random_table_name()
+  }
 
-    tbl_read <- check_df(dbReadTable(con, name, check.names = FALSE))
-    tbl_out <- transform(tbl_read)
-    expect_equal_df(tbl_out, tbl_expected)
-  })
+  local_remove_test_table(con, name = name)
+
+  if (use_append) {
+    dbCreateTable(con, name, field.types %||% tbl_in)
+    dbAppendTable(con, name, tbl_in)
+  } else {
+    dbWriteTable(con, name, tbl_in, field.types = field.types)
+  }
+
+  tbl_read <- check_df(dbReadTable(con, name, check.names = FALSE))
+  tbl_out <- transform(tbl_read)
+  expect_equal_df(tbl_out, tbl_expected)
 }
 
 add_na_above <- function(tbl) {
