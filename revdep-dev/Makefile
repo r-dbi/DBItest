@@ -13,8 +13,8 @@ ${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION
 install: ${LIB_DIR}/DBItest/DESCRIPTION
 
 RKazam RSQLite RPostgres RMySQL RMariaDB:
-	# Use local checkout if available, otherwise clone from rstats-db GitHub
-	if [ -d ../../$@/$@-pkg ]; then ln -s $(realpath ../../$@/$@-pkg) $@; else if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/rstats-db/$@.git; Rscript -e "devtools::install_deps('$@', dependencies = TRUE)"; fi; fi
+	# Use local checkout if available, otherwise clone from r-dbi GitHub
+	if [ -d ../../$@/$@-pkg ]; then ln -s $(realpath ../../$@/$@-pkg) $@; else if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/r-dbi/$@.git; Rscript -e "devtools::install_deps('$@', dependencies = TRUE)"; fi; fi
 
 bigrquery:
 	# Use local checkout if available, otherwise clone from GitHub
