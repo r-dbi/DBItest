@@ -1,15 +1,12 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.travis\.yml$
 ^\.lintr$
 ^cran-comments\.md$
 ^revdep-dev$
-^appveyor\.yml$
 ^man-roxygen$
 ^revdep$
 ^_pkgdown\.yml$
 ^docs$
-^tic\.R$
 ^CRAN-RELEASE$
 ^\.github$
 ^LICENSE\.md$
