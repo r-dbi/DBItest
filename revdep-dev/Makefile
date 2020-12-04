@@ -1,6 +1,6 @@
 all: test
 
-TESTTHAT_REPORTER ?= 'check'
+TESTTHAT_REPORTER ?= testthat::ProgressReporter\$$new(max_failures = Inf, update_interval = Inf)
 
 REVDEP := RMariaDB RSQLite RPostgres RKazam
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
@@ -23,7 +23,7 @@ bigrquery:
 test: ${TEST_TARGETS}
 
 test-%: install %
-	Rscript -e "options(crayon.enabled=TRUE); devtools::test('$*', filter = 'DBItest', stop_on_failure = TRUE, reporter = ${TESTTHAT_REPORTER})"
+	Rscript -e "options(crayon.enabled=TRUE); testthat::test_local('$*', filter = 'DBItest', stop_on_failure = TRUE, reporter = ${TESTTHAT_REPORTER})"
 
 clean:
 	rm -rf ${REVDEP}
