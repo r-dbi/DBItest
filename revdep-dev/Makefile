@@ -14,7 +14,7 @@ install: ${LIB_DIR}/DBItest/DESCRIPTION
 
 RKazam RSQLite RPostgres RMySQL RMariaDB:
 	# Use local checkout if available, otherwise clone from r-dbi GitHub
-	if [ -d ../../$@/$@-pkg ]; then ln -s $(realpath ../../$@/$@-pkg) $@; else if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/r-dbi/$@.git; Rscript -e "remotes::install_deps('$@', dependencies = TRUE)"; fi; fi
+	if [ -d ../../$@/$@-pkg ]; then ln -s $(realpath ../../$@/$@-pkg) $@; else if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/r-dbi/$@.git; fi; fi
 
 bigrquery:
 	# Use local checkout if available, otherwise clone from GitHub
