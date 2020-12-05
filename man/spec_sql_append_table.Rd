@@ -46,6 +46,7 @@ representation
 \item character (in both UTF-8
 and native encodings),
 supporting empty strings
+(before and after non-empty strings)
 \item factor (returned as character,
 with a warning)
 \item list of raw

@@ -57,7 +57,8 @@ SQL keywords can be used freely in table names, column names, and data.
 Quotes, commas, and spaces can also be used  for table names and column names,
 if the database supports non-syntactic identifiers.
 
-The \code{row.names} argument must be \code{NULL}, the default value.
+The \code{row.names} argument must be missing
+or \code{NULL}, the default value.
 All other values for the \code{row.names} argument
 (in particular \code{TRUE},
 \code{NA},
