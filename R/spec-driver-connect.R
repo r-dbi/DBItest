@@ -9,7 +9,7 @@ spec_driver_connect <- list(
   },
 
   #' @return
-  connct_can_connect = function(ctx) {
+  connect_can_connect = function(ctx) {
     con <- expect_visible(connect(ctx))
     #' `dbConnect()` returns an S4 object that inherits from [DBIConnection-class].
     expect_s4_class(con, "DBIConnection")
