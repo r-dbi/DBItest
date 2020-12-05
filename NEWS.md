@@ -1,3 +1,11 @@
+# DBItest 1.7.0.9005 (2020-12-05)
+
+- Fix reexport test: skip if package is not installed, remove checks for deprecated functions and functions not reexported (#203).
+- Switch to GitHub Actions (#201).
+- `"roundtrip_time"` and `"append_roundtrip_time"` tests now also test values of class `"difftime"` with units other than `"secs"` (#199).
+- All tables created by the tests have the `"dbit"` prefix. Almost all tests now use random table names to avoid collisions and unrelated test failures (#197).
+
+
 # DBItest 1.7.0.9004 (2020-10-26)
 
 - `"roundtrip_timestamp"` tests now accept a time zone set by the database backend (#198).
