@@ -71,10 +71,12 @@ spec_compliance_methods <- list(
     ))
 
     # Guard against scenarios where package is not installed
-    if (length(exported_names) > 0) {
-      missing <- setdiff(dbi_names, exported_names)
-      expect_equal(paste(missing, collapse = ", "), "")
+    if (length(exported_names) == 0) {
+      skip("reexport: package must be installed for this test")
     }
+
+    missing <- setdiff(dbi_names, exported_names)
+    expect_equal(paste(missing, collapse = ", "), "")
   },
 
   #' and have an ellipsis `...` in their formals for extensibility.
