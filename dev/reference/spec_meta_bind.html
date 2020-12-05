@@ -73,7 +73,7 @@ spec_meta_bind" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.0.9004</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.0.9005</span>
       </span>
     </div>
 
@@ -203,7 +203,9 @@ total number of rows affected if binding non-scalar parameters.
 <code>dbBind()</code> also accepts repeated calls on the same result set
 for both queries
 and data manipulation statements,
-even if no results are fetched between calls to <code>dbBind()</code>.</p>
+even if no results are fetched between calls to <code>dbBind()</code>,
+for both queries
+and data manipulation statements.</p>
 <p>If the placeholders in the query are named,
 their order in the <code>params</code> argument is not important.</p>
 <p>At least the following data types are accepted on input (including <a href='https://rdrr.io/r/base/NA.html'>NA</a>):</p><ul>

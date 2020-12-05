@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.0.9004</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.0.9005</span>
       </span>
     </div>
 
@@ -127,10 +127,10 @@ that enumerates all tables
 and views
 in the database.
 Tables added with <code>dbWriteTable()</code>
-are part of the list,
-including temporary tables if supported by the database.
+are part of the list.
 As soon a table is removed from the database,
 it is also removed from the list of database tables.</p>
+<p>The same applies to temporary tables if supported by the database.</p>
 <p>The returned names are suitable for quoting with <code>dbQuoteIdentifier()</code>.
 An error is raised when calling this method for a closed
 or invalid connection.</p>

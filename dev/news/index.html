@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.0.9004</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.0.9005</span>
       </span>
     </div>
 
@@ -111,6 +111,18 @@
       <small>Source: <a href='https://github.com/r-dbi/DBItest/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="dbitest-1709005-2020-12-05" class="section level1">
+<h1 class="page-header" data-toc-text="1.7.0.9005">
+<a href="#dbitest-1709005-2020-12-05" class="anchor"></a>DBItest 1.7.0.9005 (2020-12-05)<small> Unreleased </small>
+</h1>
+<ul>
+<li>Fix reexport test: skip if package is not installed, remove checks for deprecated functions and functions not reexported (<a href='https://github.com/r-dbi/DBItest/issues/203'>#203</a>).</li>
+<li>Switch to GitHub Actions (<a href='https://github.com/r-dbi/DBItest/issues/201'>#201</a>).</li>
+<li>
+<code>"roundtrip_time"</code> and <code>"append_roundtrip_time"</code> tests now also test values of class <code>"difftime"</code> with units other than <code>"secs"</code> (<a href='https://github.com/r-dbi/DBItest/issues/199'>#199</a>).</li>
+<li>All tables created by the tests have the <code>"dbit"</code> prefix. Almost all tests now use random table names to avoid collisions and unrelated test failures (<a href='https://github.com/r-dbi/DBItest/issues/197'>#197</a>).</li>
+</ul>
+</div>
     <div id="dbitest-1709004-2020-10-26" class="section level1">
 <h1 class="page-header" data-toc-text="1.7.0.9004">
 <a href="#dbitest-1709004-2020-10-26" class="anchor"></a>DBItest 1.7.0.9004 (2020-10-26)<small> Unreleased </small>
