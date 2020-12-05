@@ -55,7 +55,7 @@ spec_compliance_methods <- list(
 
     dbi_generics <- grep("^[.]__T__db", getNamespaceExports(dbi), value = TRUE)
     . <- gsub("^[.]__T__(.*):DBI$", "\\1", dbi_generics)
-    . <- setdiff(., c("dbListConnections", "dbSetDataMappings", "dbGetException", "dbCallProc", "dbGetConnectArgs"))
+    . <- setdiff(., c("dbListConnections", "dbListResults", "dbSetDataMappings", "dbGetException", "dbCallProc", "dbGetConnectArgs"))
     . <- c(., "Id")
     dbi_names <- .
 
