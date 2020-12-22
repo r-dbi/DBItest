@@ -26,7 +26,12 @@ bigrquery:
 
 test: ${TEST_TARGETS}
 
+# https://stackoverflow.com/a/42449998/946850
 test-%: install %
+	@echo
+	@echo
+	@echo "\033[1m=== $* ===\033[0m"
+	@echo
 	Rscript -e "options(crayon.enabled=TRUE); testthat::test_local('$*', filter = 'DBItest', stop_on_failure = TRUE, reporter = ${TESTTHAT_REPORTER})"
 
 clean:
