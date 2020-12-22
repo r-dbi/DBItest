@@ -267,6 +267,15 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, c(Sys.Date() + 0:2, NA))
   },
 
+  #'   (also when stored internally as integer)
+  bind_date_integer = function(ctx, con) {
+    if (!isTRUE(ctx$tweaks$date_typed)) {
+      skip("tweak: !date_typed")
+    }
+
+    test_select_bind(con, ctx, structure(c(18618:18620, NA), class = "Date"))
+  },
+
   #' - [POSIXct] timestamps
   bind_timestamp = function(ctx, con) {
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
@@ -287,6 +296,26 @@ spec_meta_bind <- list(
       round(Sys.time()) + c(0:2, NA),
       as.POSIXlt
     )
+    test_select_bind(con, ctx, data_in)
+  },
+
+  #' - [difftime] values
+  bind_time_seconds = function(ctx, con) {
+    if (!isTRUE(ctx$tweaks$time_typed)) {
+      skip("tweak: !time_typed")
+    }
+
+    data_in <- as.difftime(c(1:3, NA), units = "secs")
+    test_select_bind(con, ctx, data_in)
+  },
+
+  #'   (also with units other than seconds)
+  bind_time_hours = function(ctx, con) {
+    if (!isTRUE(ctx$tweaks$time_typed)) {
+      skip("tweak: !time_typed")
+    }
+
+    data_in <- as.difftime(c(1:3, NA), units = "hours")
     test_select_bind(con, ctx, data_in)
   },
 
