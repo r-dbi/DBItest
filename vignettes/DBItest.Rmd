@@ -9,6 +9,11 @@ vignette: >
 ---
 
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(error = (getRversion() < "3.5"))
+```
+
+
 This document shows how to use the DBItest package when implementing a new DBI backend or when applying it to an existing backend.
 The DBItest package provides a large collection of automated tests.
 
@@ -157,34 +162,17 @@ In the example below, the "location" and "stop" reporters are combined.
 Review `?testthat::Reporter` for a list of reporters.
 
 ```{r simple}
-testthat::with_reporter(
-  c("location", "stop"),
-  DBItest::test_some("get_query_atomic")
-)
+DBItest::test_some("get_query_atomic")
 ```
-
-## Debugging failing tests
 
 DBItest relies heavily on metaprogramming.
 Unfortunately, this means that a failing test may give no indication of the reason for the failure.
-One way to scout for the reason of the problem is to review the sources of DBItest and relate the test name (that is printed with each failure) with the human-readable specification embedded with the test code.
+The `test_some()` function now by default integrates the new experimental [dblog package](https://github.com/r-dbi/dblog) package.
+It prints the DBI code that is executed as the tests are run, as seen above.
 
-Alternatively, the new experimental [dblog package](https://github.com/r-dbi/dblog) helps by printing the DBI code that is executed as the tests are run.
-For this, use a driver constructed by `dblog::dblog()` to display DBI code interspersed with testthat output.
+Another way to scout for the reason of the problem is to review the sources of DBItest and relate the test name (that is printed with each failure) with the human-readable specification embedded with the test code.
 
-```{r log, eval = rlang::is_installed("dblog")}
-drv <- dblog::dblog(RSQLite::SQLite())
-
-invisible(make_context(
-  new(
-    "DBIConnector",
-    .drv = drv,
-    .conn_args = list(dbname = tempfile("DBItest", fileext = ".sqlite"))
-  ),
-  tweaks = tweaks,
-  default_skip = default_skip
-))
-
+```{r location}
 testthat::with_reporter(
   c("location", "stop"),
   DBItest::test_some("get_query_atomic")

@@ -23,7 +23,8 @@ The regular expressions are matched against the entire test name.}
 \item{ctx}{\verb{[DBItest_context]}\cr A test context as created by
 \code{\link[=make_context]{make_context()}}.}
 
-\item{test}{\verb{[character]}\cr A character vector of regular expressions
+\item{test}{\verb{[character]}\cr
+A character vector of regular expressions
 describing the tests to run.
 The regular expressions are matched against the entire test name.}
 }

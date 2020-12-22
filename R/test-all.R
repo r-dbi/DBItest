@@ -37,10 +37,21 @@ test_all <- function(skip = NULL, run_only = NULL, ctx = get_default_context()) 
 
 #' @rdname test_all
 #' @description `test_some()` allows testing one or more tests.
-#' @param test `[character]`\cr A character vector of regular expressions
+#' @param test `[character]`\cr
+#'   A character vector of regular expressions
 #'   describing the tests to run.
 #'   The regular expressions are matched against the entire test name.
 #' @export
 test_some <- function(test, ctx = get_default_context()) {
+  logger <- dblog::make_collect_logger(display = TRUE)
+
+  ctx$cnr <- dblog::dblog_cnr(ctx$cnr, logger)
+  ctx$drv <- ctx$cnr@.drv
+
   test_all(run_only = test, ctx = ctx)
+
+  if (is_interactive()) {
+    clipr::write_clip(logger$retrieve())
+    message("DBI calls written to clipboard.")
+  }
 }
