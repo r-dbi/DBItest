@@ -406,46 +406,5 @@ as_numeric_date <- function(d) {
 }
 
 quote_literal <- function(con, x) {
-  if (exists("dbQuoteLiteral", getNamespace("DBI"))) {
-    DBI::dbQuoteLiteral(con, x)
-  } else {
-    if (is(x, "SQL")) {
-      return(x)
-    }
-    if (is.factor(x)) {
-      return(dbQuoteString(con, as.character(x)))
-    }
-    if (is.character(x)) {
-      return(dbQuoteString(con, x))
-    }
-    if (inherits(x, "POSIXt")) {
-      return(dbQuoteString(con, strftime(as.POSIXct(x), "%Y%m%d%H%M%S", tz = "UTC")))
-    }
-    if (inherits(x, "Date")) {
-      return(dbQuoteString(con, as.character(x, usetz = TRUE)))
-    }
-    if (is.list(x)) {
-      blob_data <- vapply(x, function(x) {
-        if (is.null(x)) {
-          "NULL"
-        } else if (is.raw(x)) {
-          paste0(
-            "X'", paste(format(x), collapse = ""),
-            "'"
-          )
-        } else {
-          stop("Lists must contain raw vectors or NULL",
-            call. = FALSE
-          )
-        }
-      }, character(1))
-      return(SQL(blob_data))
-    }
-    if (is.logical(x)) {
-      x <- as.numeric(x)
-    }
-    x <- as.character(x)
-    x[is.na(x)] <- "NULL"
-    SQL(x)
-  }
+  DBI::dbQuoteLiteral(con, x)
 }
