@@ -50,7 +50,6 @@ make_context <- function(drv, connect_args = NULL, set_as_default = TRUE,
     list(
       cnr = cnr,
       drv = drv,
-      drv_quo = drv_quo,
       tweaks = tweaks,
       default_skip = default_skip
     ),
