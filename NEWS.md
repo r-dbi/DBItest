@@ -1,3 +1,8 @@
+# DBItest 1.7.0.9007 (2020-12-22)
+
+- `test_some()` shows DBI code via dblog (#217).
+
+
 # DBItest 1.7.0.9006 (2020-12-22)
 
 - New `"bind_date_integer"`, `"bind_time_seconds"` and `"bind_time_hours"` tests (#218).
