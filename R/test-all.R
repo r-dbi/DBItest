@@ -42,5 +42,13 @@ test_all <- function(skip = NULL, run_only = NULL, ctx = get_default_context()) 
 #'   The regular expressions are matched against the entire test name.
 #' @export
 test_some <- function(test, ctx = get_default_context()) {
+  logger <- dblog::make_collect_logger(display = TRUE)
+
+  ctx$drv <- dblog::dblog(!!ctx$drv_quo, logger)
+  ctx$cnr@.drv <- ctx$drv
+
   test_all(run_only = test, ctx = ctx)
+
+  clipr::write_clip(logger$retrieve())
+  message("DBI calls written to clipboard.")
 }

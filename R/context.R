@@ -26,6 +26,8 @@
 #' @example examples/make_context.R
 make_context <- function(drv, connect_args = NULL, set_as_default = TRUE,
                          tweaks = NULL, name = NULL, default_skip = NULL) {
+  drv_quo <- enquo(drv)
+
   if (is.null(drv)) {
     abort("drv cannot be NULL.")
   }
@@ -50,6 +52,7 @@ make_context <- function(drv, connect_args = NULL, set_as_default = TRUE,
     list(
       cnr = cnr,
       drv = drv,
+      drv_quo = drv_quo,
       tweaks = tweaks,
       name = name,
       default_skip = default_skip

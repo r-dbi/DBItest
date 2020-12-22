@@ -33,6 +33,7 @@ Imports:
     withr,
     vctrs
 Suggests: 
+    clipr,
     dblog,
     debugme,
     devtools,
