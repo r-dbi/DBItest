@@ -39,7 +39,7 @@ make_context <- function(drv, connect_args = NULL, set_as_default = TRUE,
     cnr <- drv
     drv <- cnr@.drv
   } else {
-    abort("drv must be of class DBIConnector.")
+    abort("drv must be of class DBIDriver or DBIConnector.")
   }
 
   if (is.null(tweaks)) {
