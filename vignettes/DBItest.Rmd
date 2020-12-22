@@ -9,6 +9,11 @@ vignette: >
 ---
 
 
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(error = (getRversion() < "3.5"))
+```
+
+
 This document shows how to use the DBItest package when implementing a new DBI backend or when applying it to an existing backend.
 The DBItest package provides a large collection of automated tests.
 
