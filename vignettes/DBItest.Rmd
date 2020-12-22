@@ -157,10 +157,7 @@ In the example below, the "location" and "stop" reporters are combined.
 Review `?testthat::Reporter` for a list of reporters.
 
 ```{r simple}
-testthat::with_reporter(
-  c("location", "stop"),
-  DBItest::test_some("get_query_atomic")
-)
+DBItest::test_some("get_query_atomic")
 ```
 
 DBItest relies heavily on metaprogramming.
@@ -169,3 +166,10 @@ The `test_some()` function now by default integrates the new experimental [dblog
 It prints the DBI code that is executed as the tests are run, as seen above.
 
 Another way to scout for the reason of the problem is to review the sources of DBItest and relate the test name (that is printed with each failure) with the human-readable specification embedded with the test code.
+
+```{r location}
+testthat::with_reporter(
+  c("location", "stop"),
+  DBItest::test_some("get_query_atomic")
+)
+```
