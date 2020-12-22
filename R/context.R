@@ -51,6 +51,7 @@ make_context <- function(drv, connect_args = NULL, set_as_default = TRUE,
       cnr = cnr,
       drv = drv,
       tweaks = tweaks,
+      name = name,
       default_skip = default_skip
     ),
     class = "DBItest_context"
