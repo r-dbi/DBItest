@@ -2,7 +2,7 @@ all: test
 
 TESTTHAT_REPORTER ?= testthat::ProgressReporter\$$new(max_failures = Inf, update_interval = Inf)
 
-REVDEP := RMariaDB RSQLite RPostgres RKazam
+REVDEP := RMariaDB RSQLite RPostgres RKazam duckdb
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
 
 LIB_DIR := $(shell Rscript -e "cat(.libPaths()[1])")
