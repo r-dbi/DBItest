@@ -1,3 +1,10 @@
+# DBItest 1.7.0.9006 (2020-12-22)
+
+- New `"bind_date_integer"`, `"bind_time_seconds"` and `"bind_time_hours"` tests (#218).
+- Compatibility with testthat 3.0.0 (#207).
+- Avoid rate limit error in GHA (#208).
+
+
 # DBItest 1.7.0.9005 (2020-12-05)
 
 - Fix reexport test: skip if package is not installed, remove checks for deprecated functions and functions not reexported (#203).
