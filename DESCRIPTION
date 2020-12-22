@@ -34,7 +34,7 @@ Imports:
     vctrs
 Suggests: 
     clipr,
-    dblog (>= 0.0.0.9007),
+    dblog (>= 0.0.0.9008),
     debugme,
     devtools,
     knitr,

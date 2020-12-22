@@ -45,8 +45,8 @@ test_all <- function(skip = NULL, run_only = NULL, ctx = get_default_context()) 
 test_some <- function(test, ctx = get_default_context()) {
   logger <- dblog::make_collect_logger(display = TRUE)
 
-  ctx$drv <- dblog::dblog(!!ctx$drv_quo, logger)
-  ctx$cnr@.drv <- ctx$drv
+  ctx$cnr <- dblog::dblog_cnr(ctx$cnr, logger)
+  ctx$drv <- ctx$cnr@.drv
 
   test_all(run_only = test, ctx = ctx)
 
