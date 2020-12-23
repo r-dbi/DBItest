@@ -118,7 +118,7 @@ with_rollback_on_error <- function(code, con = "con", env = parent.frame()) {
 
 get_iris <- function(ctx) {
   datasets_iris <- datasets::iris
-  iris$Species <- as.character(iris$Species)
+  datasets_iris$Species <- as.character(datasets_iris$Species)
   if (isTRUE(ctx$tweaks$strict_identifier)) {
     names(datasets_iris) <- gsub(".", "_", names(datasets_iris), fixed = TRUE)
   }
