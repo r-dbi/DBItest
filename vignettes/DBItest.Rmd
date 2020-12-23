@@ -174,7 +174,7 @@ Another way to scout for the reason of the problem is to review the sources of D
 
 ```{r location}
 testthat::with_reporter(
-  c("location", "stop"),
+  c("location", "fail"),
   DBItest::test_some("get_query_atomic")
 )
 ```
