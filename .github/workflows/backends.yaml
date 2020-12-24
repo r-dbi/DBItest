@@ -143,7 +143,7 @@ jobs:
           mysql -e "CREATE DATABASE IF NOT EXISTS test; ALTER DATABASE test CHARACTER SET 'utf8'; FLUSH PRIVILEGES;"
 
       - uses: ankane/setup-postgres@v1
-        if: matrix.package == 'RPostgres' || matrix.package == ('odbc' && matrix.variant == '-PostgreSQL')
+        if: matrix.package == 'RPostgres' || (matrix.package == 'odbc' && matrix.variant == '-PostgreSQL')
         with:
           postgres-version: 13
 
