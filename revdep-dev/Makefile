@@ -16,6 +16,7 @@ install: ${LIB_DIR}/DBItest/DESCRIPTION
 RKazam RSQLite RPostgres RMySQL RMariaDB odbc:
 	# Use local checkout if available, otherwise clone from r-dbi GitHub
 	if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/r-dbi/$@.git; fi
+	head $@/DESCRIPTION
 
 odbc-%: odbc
 	@true
@@ -23,6 +24,7 @@ odbc-%: odbc
 duckdb:
 	# Use local checkout if available, otherwise clone from cwida GitHub
 	if [ -d ../../../$@ ]; then ln -s $(realpath ../../../$@/tools/rpkg) $@; else git clone https://github.com/cwida/$@.git duckdb-core; ln -s duckdb-core/tools/rpkg duckdb; fi
+	head $@/tools/rpkg/DESCRIPTION
 
 bigrquery:
 	# Use local checkout if available, otherwise clone from GitHub
