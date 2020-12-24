@@ -31,7 +31,7 @@ jobs:
         run: |
           matrix=$((
             echo '{ "include" : ['
-            sed -n "/^REVDEP *:= */ { s///; p }" revdep-dev/Makefile | sed 's/ /,\n/g' | sed -r 's/^([^,-]*)(-[^,]*)?(,?)$/{ "name": "\1", "variant": "\2" }\3/;s/, "variant": ""//g'
+            sed -n "/^REVDEP *:= */ { s///; p }" revdep-dev/Makefile | sed 's/ /,\n/g' | sed -r 's/^([^,-]*)(-[^,]*)?(,?)$/{ "package": "\1", "variant": "\2" }\3/;s/, "variant": ""//g'
             echo " ]}"
           ) | jq -c .)
           echo $matrix
