@@ -39,7 +39,7 @@ test-%: install %
 	@echo
 	@echo "\033[1m=== $* ===\033[0m"
 	@echo
-	Rscript -e 'target <- "$*"; if (grepl(".*-.*", target)) { pkg <- sub("-.*", "", target); filter = sub(".*-", "", target) } else { pkg <- target; filter <- "DBItest" }; options(crayon.enabled = TRUE); testthat::test_local(pkg, filter = filter, stop_on_failure = TRUE, reporter = '"${TESTTHAT_REPORTER}"')'
+	DBITEST_BACKENDS=true Rscript -e 'target <- "$*"; if (grepl(".*-.*", target)) { pkg <- sub("-.*", "", target); filter = sub(".*-", "", target) } else { pkg <- target; filter <- "DBItest" }; options(crayon.enabled = TRUE); testthat::test_local(pkg, filter = filter, stop_on_failure = TRUE, reporter = '"${TESTTHAT_REPORTER}"')'
 
 clean:
 	rm -rf ${REVDEP}
