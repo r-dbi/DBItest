@@ -42,6 +42,7 @@ Replace its entire contents by the following:
 DBItest::make_context(Kazam(), NULL)
 DBItest::test_getting_started()
 ```
+
 Now test your package with `devtools::test()`.
 If you followed at least the "Getting started" section of the DBI "backend" vignette, all tests should succeed.
 
