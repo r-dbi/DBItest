@@ -162,13 +162,6 @@ jobs:
         with:
           accept-eula: true
           sqlserver-version: 2019
-
-      - name: Create database
-        if: matrix.package == 'odbc-SQLServer'
-        run: |
-
-
-
       # End custom: after install
 
       - name: test
