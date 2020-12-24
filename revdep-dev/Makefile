@@ -13,9 +13,14 @@ ${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION
 
 install: ${LIB_DIR}/DBItest/DESCRIPTION
 
-RKazam RSQLite RPostgres RMySQL RMariaDB odbc:
+RKazam RSQLite RPostgres RMySQL RMariaDB:
 	# Use local checkout if available, otherwise clone from r-dbi GitHub
 	if [ -d ../../$@ ]; then ln -s $$(realpath ../../$@) .; else git clone https://github.com/r-dbi/$@.git; fi
+	head $@/DESCRIPTION
+
+odbc:
+	# Use local checkout if available, otherwise clone from r-dbi GitHub
+	if [ -d ../../$@ ]; then ln -s $$(realpath ../../$@) .; else git clone https://github.com/r-dbi/$@.git -b f-dbitest-backends; fi
 	head $@/DESCRIPTION
 
 odbc-%: odbc
