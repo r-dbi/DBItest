@@ -162,6 +162,11 @@ jobs:
         with:
           accept-eula: true
           sqlserver-version: 2019
+
+      - name: Install package to work around pkgload failure
+        if: matrix.package == 'odbc'
+        run: |
+          R CMD INSTALL revdep-dev/${{ matrix.package }}
       # End custom: after install
 
       - name: test
