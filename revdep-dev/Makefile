@@ -13,9 +13,12 @@ ${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION
 
 install: ${LIB_DIR}/DBItest/DESCRIPTION
 
-RKazam RSQLite RPostgres RMySQL RMariaDB:
+RKazam RSQLite RPostgres RMySQL RMariaDB odbc:
 	# Use local checkout if available, otherwise clone from r-dbi GitHub
 	if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/r-dbi/$@.git; fi
+
+odbc-%: odbc
+	@true
 
 duckdb:
 	# Use local checkout if available, otherwise clone from cwida GitHub
@@ -33,7 +36,7 @@ test-%: install %
 	@echo
 	@echo "\033[1m=== $* ===\033[0m"
 	@echo
-	Rscript -e "options(crayon.enabled=TRUE); testthat::test_local('$*', filter = 'DBItest', stop_on_failure = TRUE, reporter = ${TESTTHAT_REPORTER})"
+	Rscript -e 'target <- "$*"; if (grepl(".*-.*", target)) { pkg <- sub("-.*", "", target); filter = sub(".*-", "", target) } else { pkg <- target; filter <- "DBItest" }; options(crayon.enabled = TRUE); testthat::test_local(pkg, filter = filter, stop_on_failure = TRUE, reporter = '"${TESTTHAT_REPORTER}"')'
 
 clean:
 	rm -rf ${REVDEP}
