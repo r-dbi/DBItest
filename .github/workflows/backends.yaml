@@ -168,6 +168,31 @@ jobs:
         if: matrix.package == 'odbc'
         run: |
           R CMD INSTALL revdep-dev/${{ matrix.package }}
+
+      - name: Install SQLite Driver
+        if: matrix.package == 'odbc' && matrix.variant == '-SQLite'
+        run: |
+          sudo apt-get install -y libsqliteodbc
+
+      - name: Install PostgreSQL Driver
+        if: matrix.package == 'odbc' && matrix.variant == '-PostgreSQL'
+        run: |
+          sudo apt-get install -y unixodbc-dev odbc-postgresql devscripts
+
+      - name: Install MySQL Driver
+        if: matrix.package == 'odbc' && matrix.variant == '-MySQL'
+        run: |
+          .github/odbc/install-mariadb-driver.sh
+
+      - name: Install SQL Server Driver
+        if: matrix.package == 'odbc' && matrix.variant == '-SQLServer'
+        run: |
+          curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+          curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+          apt-get update
+          ACCEPT_EULA=Y apt-get install -y msodbcsql17
+          ln -s /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.*.so.* /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.so
+        shell: sudo bash {0}
       # End custom: after install
 
       - name: test
