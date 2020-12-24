@@ -30,7 +30,7 @@ jobs:
       - id: set-matrix
         run: |
           matrix=$((
-            echo '{ "package" : ['
+            echo '{ "include" : ['
             sed -n "/^REVDEP *:= */ { s///; p }" revdep-dev/Makefile | sed 's/ /,\n/g' | sed -r 's/^([^,-]*)(-[^,]*)?(,?)$/{ "name": "\1", "variant": "\2" }\3/;s/, "variant": ""//g'
             echo " ]}"
           ) | jq -c .)
@@ -86,12 +86,12 @@ jobs:
 
       - name: Clone backend
         run: |
-          make -C revdep-dev ${{ matrix.package.name }}${{ matrix.package.variant }}
+          make -C revdep-dev ${{ matrix.package }}${{ matrix.variant }}
 
       - name: Prepare cache keys
         if: runner.os != 'Windows'
         run: |
-          saveRDS(remotes::dev_package_deps("revdep-dev/${{ matrix.package.name }}", dependencies = TRUE, type = .Platform$pkgType), ".github/depends.Rds", version = 2)
+          saveRDS(remotes::dev_package_deps("revdep-dev/${{ matrix.package }}", dependencies = TRUE, type = .Platform$pkgType), ".github/depends.Rds", version = 2)
           writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
         shell: Rscript {0}
 
@@ -109,14 +109,14 @@ jobs:
           while read -r cmd
           do
             eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "16.04", path = "revdep-dev/${{ matrix.package.name }}"))')
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "16.04", path = "revdep-dev/${{ matrix.package }}"))')
 
       - name: Install package and dependencies
         run: |
           if (!requireNamespace("curl", quietly = TRUE)) install.packages("curl")
           install.packages("https://github.com/krlmlr/remotes/archive/f-rate-limit-gh.tar.gz", repos = NULL)
 
-          remotes::install_local("revdep-dev/${{ matrix.package.name }}", dependencies = TRUE, type = .Platform$pkgType)
+          remotes::install_local("revdep-dev/${{ matrix.package }}", dependencies = TRUE, type = .Platform$pkgType)
           remotes::install_local(".", type = .Platform$pkgType)
         shell: Rscript {0}
 
@@ -156,18 +156,31 @@ jobs:
         run: |
           createdb ${USERNAME}
         shell: bash
+
+      - uses: ankane/setup-sqlserver@v1
+        if: matrix.package == 'odbc-SQLServer'
+        with:
+          accept-eula: true
+          sqlserver-version: 2019
+
+      - name: Create database
+        if: matrix.package == 'odbc-SQLServer'
+        run: |
+
+
+
       # End custom: after install
 
       - name: test
         run: |
-          make -C revdep-dev test-${{ matrix.package.name }}${{ matrix.package.variant }}
+          make -C revdep-dev test-${{ matrix.package }}${{ matrix.variant }}
 
       - name: Upload check results
         if: failure()
         uses: actions/upload-artifact@main
         with:
           name: ${{ runner.os }}-r${{ matrix.config.r }}-results
-          path: revdep-dev/${{ matrix.package.name }}
+          path: revdep-dev/${{ matrix.package }}
 
       - name: Check rate limits
         if: always()
