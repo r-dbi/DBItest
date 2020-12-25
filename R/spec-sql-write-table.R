@@ -151,7 +151,7 @@ spec_sql_write_table <- list(
   overwrite_table_missing = function(ctx, con, table_name) {
     iris_in <- get_iris(ctx)
     expect_error(
-      dbWriteTable(con, table_name, iris[1:10, ], overwrite = TRUE),
+      dbWriteTable(con, table_name, iris_in[1:10, ], overwrite = TRUE),
       NA
     )
     iris_out <- check_df(dbReadTable(con, table_name))
