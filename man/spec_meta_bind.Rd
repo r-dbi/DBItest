@@ -108,7 +108,7 @@ At least the following data types are accepted on input (including \link{NA}):
 \item \link{character}
 \item \link{factor} (bound as character,
 with warning)
-\item \link{Date} (also when given as integer)
+\item \link{Date}
 (also when stored internally as integer)
 \item \link{POSIXct} timestamps
 \item \link{POSIXlt} timestamps
