@@ -141,6 +141,12 @@ jobs:
         run: |
           mysql -e "CREATE DATABASE IF NOT EXISTS test; ALTER DATABASE test CHARACTER SET 'utf8'; FLUSH PRIVILEGES;"
 
+      # Breaks builds on Ubuntu 18.04
+      - name: Purge libmysqlclient-dev
+        if: matrix.package == 'RMariaDB'
+        run: |
+          apt-get purge -y libmysqlclient-dev
+
       - name: Set root password
         if: matrix.package == 'odbc' && matrix.variant == '-MySQL'
         run: |
