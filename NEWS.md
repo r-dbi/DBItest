@@ -20,7 +20,7 @@
 
 # DBItest 1.7.0.9004 (2020-10-26)
 
-- `"roundtrip_timestamp"` tests now accept a time zone set by the database backend (#198).
+- `"roundtrip_timestamp"` tests now accept a time zone set by the database backend (#178, #198).
 - Reduce usage of `with_remove_test_table()` for better stack traces on error (#196).
 - Remove `with_*connection()` (#193).
 
