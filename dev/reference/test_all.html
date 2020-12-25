@@ -127,7 +127,7 @@ value to run only <code><a href='test_result.html'>test_result()</a></code>.</p>
 
     <pre class="usage"><span class='fu'>test_all</span><span class='op'>(</span>skip <span class='op'>=</span> <span class='cn'>NULL</span>, run_only <span class='op'>=</span> <span class='cn'>NULL</span>, ctx <span class='op'>=</span> <span class='fu'><a href='make_context.html'>get_default_context</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'>test_some</span><span class='op'>(</span><span class='va'>test</span>, ctx <span class='op'>=</span> <span class='fu'><a href='make_context.html'>get_default_context</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
+<span class='fu'>test_some</span><span class='op'>(</span><span class='va'>test</span>, ctx <span class='op'>=</span> <span class='fu'><a href='make_context.html'>get_default_context</a></span><span class='op'>(</span><span class='op'>)</span>, dblog <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -155,6 +155,11 @@ The regular expressions are matched against the entire test name.</p></td>
 A character vector of regular expressions
 describing the tests to run.
 The regular expressions are matched against the entire test name.</p></td>
+    </tr>
+    <tr>
+      <th>dblog</th>
+      <td><p><code>[logical(1)]</code><br />
+Set to <code>FALSE</code> to disable dblog integration.</p></td>
     </tr>
     </table>
 
