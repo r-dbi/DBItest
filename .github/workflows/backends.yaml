@@ -207,6 +207,12 @@ jobs:
         run: |
           remotes::install_local("revdep-dev/${{ matrix.package }}", dependencies = TRUE, type = .Platform$pkgType)
         shell: Rscript {0}
+
+      # At the end
+      - name: Install MySQL Driver
+        if: matrix.package == 'odbc' && matrix.variant == '-MySQL'
+        run: |
+          .github/odbc/install-mariadb-driver.sh
       # End custom: after install
 
       - name: Test backend
