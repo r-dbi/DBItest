@@ -195,7 +195,7 @@ jobs:
         shell: sudo bash {0}
       # End custom: after install
 
-      - name: test
+      - name: Test backend
         run: |
           make -C revdep-dev test-${{ matrix.package }}${{ matrix.variant }}
 
