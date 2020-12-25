@@ -20,7 +20,7 @@ name: backends
 
 jobs:
   matrix:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -101,8 +101,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: backends-${{ hashFiles('.github/R-version') }}-3-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: backends-${{ hashFiles('.github/R-version') }}-3-
+          key: backends-${{ hashFiles('.github/R-version') }}-5-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: backends-${{ hashFiles('.github/R-version') }}-5-
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
@@ -184,7 +184,7 @@ jobs:
           createdb test
           echo "ALTER USER postgres PASSWORD 'password'" | sudo su postgres -c psql
 
-      - uses: ankane/setup-sqlserver@v1
+      - uses: krlmlr/setup-sqlserver@f-20.04
         if: (matrix.package == 'odbc' && matrix.variant == '-SQLServer')
         with:
           accept-eula: true
