@@ -101,8 +101,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: backends-${{ hashFiles('.github/R-version') }}-6-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: backends-${{ hashFiles('.github/R-version') }}-6-
+          key: backends-${{ hashFiles('.github/R-version') }}-7-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: backends-${{ hashFiles('.github/R-version') }}-7-
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
