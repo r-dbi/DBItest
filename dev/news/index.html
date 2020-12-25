@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.0.9007</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.0.9008</span>
       </span>
     </div>
 
@@ -111,6 +111,19 @@
       <small>Source: <a href='https://github.com/r-dbi/DBItest/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="dbitest-1709008-2020-12-25" class="section level1">
+<h1 class="page-header" data-toc-text="1.7.0.9008">
+<a href="#dbitest-1709008-2020-12-25" class="anchor"></a>DBItest 1.7.0.9008 (2020-12-25)<small> Unreleased </small>
+</h1>
+<ul>
+<li>Test odbc as part of the backend tests (<a href='https://github.com/r-dbi/DBItest/issues/228'>#228</a>).</li>
+<li>Fix input dataset in <code>"overwrite_table_missing"</code> test (<a href='https://github.com/r-dbi/DBItest/issues/210'>#210</a>, <a href='https://github.com/martinstuder'>@martinstuder</a>).</li>
+<li>
+<code><a href="../reference/test_all.html">test_some()</a></code> gains <code>dblog = TRUE</code> argument so that the code still runs without dblog (<a href='https://github.com/r-dbi/DBItest/issues/226'>#226</a>).</li>
+<li>Use original test name to decide if a test is skipped (<a href='https://github.com/r-dbi/DBItest/issues/225'>#225</a>).</li>
+<li>Dynamic build matrix for backends (<a href='https://github.com/r-dbi/DBItest/issues/221'>#221</a>).</li>
+</ul>
+</div>
     <div id="dbitest-1709007-2020-12-22" class="section level1">
 <h1 class="page-header" data-toc-text="1.7.0.9007">
 <a href="#dbitest-1709007-2020-12-22" class="anchor"></a>DBItest 1.7.0.9007 (2020-12-22)<small> Unreleased </small>
