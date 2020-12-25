@@ -24,7 +24,7 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
   test_names <- vctrs::vec_names2(tests, repair = "unique", quiet = TRUE)
 
   skipped <- get_skip_names(skip)
-  skip_flag <- test_names %in% skipped
+  skip_flag <- names(tests) %in% skipped
 
   ok <- vapply(
     seq_along(tests),
