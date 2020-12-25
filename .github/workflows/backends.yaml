@@ -165,6 +165,7 @@ jobs:
       - name: Set user password
         if: matrix.package == 'odbc' && matrix.variant == '-PostgreSQL'
         run: |
+          createdb test
           echo "ALTER USER postgres PASSWORD 'password'" | sudo su postgres -c psql
 
       - uses: ankane/setup-sqlserver@v1
