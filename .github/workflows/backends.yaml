@@ -117,7 +117,6 @@ jobs:
           if (!requireNamespace("curl", quietly = TRUE)) install.packages("curl")
           if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")
 
-          remotes::install_local("revdep-dev/${{ matrix.package }}", dependencies = TRUE, type = .Platform$pkgType)
           remotes::install_local(".", type = .Platform$pkgType)
         shell: Rscript {0}
 
@@ -193,6 +192,13 @@ jobs:
           ACCEPT_EULA=Y apt-get install -y msodbcsql17
           ln -s /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.*.so.* /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.so
         shell: sudo bash {0}
+
+      # Must happen after installing database libraries for RMariaDB,
+      # https://github.com/ankane/setup-mariadb/issues/2
+      - name: Install downstream package and dependencies
+        run: |
+          remotes::install_local("revdep-dev/${{ matrix.package }}", dependencies = TRUE, type = .Platform$pkgType)
+        shell: Rscript {0}
       # End custom: after install
 
       - name: Test backend
