@@ -178,6 +178,12 @@ jobs:
         run: |
           sqlcmd -U SA -P 'YourStrong!Passw0rd' -Q 'ALTER LOGIN [sa] WITH PASSWORD=N'Password12'
 
+        # Really necessary for some reason, install_local() still fails
+      - name: Install package to work around pkgload failure
+        if: matrix.package == 'odbc'
+        run: |
+          R CMD INSTALL revdep-dev/${{ matrix.package }}
+
       - name: Install SQLite Driver
         if: matrix.package == 'odbc' && matrix.variant == '-SQLite'
         run: |
