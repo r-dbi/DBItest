@@ -178,7 +178,7 @@ jobs:
       - name: Set root password
         if: matrix.package == 'odbc' && matrix.variant == '-MySQL'
         run: |
-          echo "ALTER USER root IDENTIFIED WITH mysql_native_password BY 'root'" | sudo su -c mysql
+          echo "ALTER USER root IDENTIFIED BY PASSWORD 'root'" | sudo su -c mysql
 
       - uses: ankane/setup-postgres@v1
         if: matrix.package == 'RPostgres' || (matrix.package == 'odbc' && matrix.variant == '-PostgreSQL')
