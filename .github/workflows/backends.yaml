@@ -141,11 +141,6 @@ jobs:
         run: |
           sudo apt-get install -y unixodbc-dev odbc-postgresql devscripts
 
-      - name: Install MySQL Driver
-        if: matrix.package == 'odbc' && matrix.variant == '-MySQL'
-        run: |
-          .github/odbc/install-mariadb-driver.sh
-
       - name: Install SQL Server Driver
         if: matrix.package == 'odbc' && matrix.variant == '-SQLServer'
         run: |
@@ -167,13 +162,6 @@ jobs:
         if: matrix.package == 'RMariaDB' || (matrix.package == 'odbc' && matrix.variant == '-MySQL')
         run: |
           mysql -e "CREATE DATABASE IF NOT EXISTS test; ALTER DATABASE test CHARACTER SET 'utf8'; FLUSH PRIVILEGES;"
-
-      # Breaks builds on Ubuntu 18.04
-      - name: Purge libmysqlclient-dev
-        if: matrix.package == 'RMariaDB'
-        run: |
-          sudo apt-get purge -y libmysqlclient-dev libmysqlclient*
-          sudo apt-get install -y libmariadbclient18=1:10.1.47-0ubuntu0.18.04.1 libmariadbclient-dev
 
       - name: Set root password
         if: matrix.package == 'odbc' && matrix.variant == '-MySQL'
