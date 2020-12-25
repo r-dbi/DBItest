@@ -23,7 +23,9 @@ tweaks(
   timestamp_typed = TRUE,
   temporary_tables = TRUE,
   list_temporary_tables = TRUE,
-  is_null_check = function(x) paste0("(", x, " IS NULL)")
+  is_null_check = function(x) paste0("(", x, " IS NULL)"),
+  create_table_as = function(table_name, query) paste0("CREATE TABLE ", table_name,
+    " AS ", query)
 )
 }
 \arguments{
@@ -99,6 +101,10 @@ Set to \code{FALSE} if the DBMS doesn't support listing temporary tables.}
 \item{is_null_check}{\verb{[function(character)]}\cr
 A vectorized function that creates an SQL expression for checking if a
 value is \code{NULL}.}
+
+\item{create_table_as}{\verb{[function(character(1), character(1))]}\cr
+A function that creates an SQL expression for creating a table
+from an SQL expression.}
 }
 \description{
 The tweaks are a way to control the behavior of certain tests. Currently,

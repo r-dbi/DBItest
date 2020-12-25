@@ -70,13 +70,13 @@ spec_result_send_statement <- list(
   },
 
   #' If the backend supports only one open result set per connection,
-  send_statement_only_one_result_set = function(con, table_name) {
+  send_statement_only_one_result_set = function(ctx, con, table_name) {
     res1 <- dbSendStatement(con, trivial_statement(table_name))
     other_table_name <- random_table_name()
     with_remove_test_table(name = other_table_name, {
       #' issuing a second query invalidates an already open result set
       #' and raises a warning.
-      query <- create_table_as(other_table_name, "SELECT 1 AS a")
+      query <- ctx$create_table_as(other_table_name, "SELECT 1 AS a")
       expect_warning(res2 <- dbSendStatement(con, query))
       expect_false(dbIsValid(res1))
       #' The newly opened result set is valid
