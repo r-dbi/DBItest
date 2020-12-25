@@ -1,3 +1,12 @@
+# DBItest 1.7.0.9008 (2020-12-25)
+
+- Test odbc as part of the backend tests (#228).
+- Fix input dataset in `"overwrite_table_missing"` test (#210, @martinstuder).
+- `test_some()` gains `dblog = TRUE` argument so that the code still runs without dblog (#226).
+- Use original test name to decide if a test is skipped (#225).
+- Dynamic build matrix for backends (#221).
+
+
 # DBItest 1.7.0.9007 (2020-12-22)
 
 - `test_some()` shows DBI code via dblog (#217).
