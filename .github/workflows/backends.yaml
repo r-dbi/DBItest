@@ -163,6 +163,11 @@ jobs:
           accept-eula: true
           sqlserver-version: 2019
 
+      - name: Set SA password
+        if: (matrix.package == 'odbc' && matrix.variant == '-SQLServer')
+        run: |
+          sqlcmd -U SA -P 'YourStrong!Passw0rd' -Q 'ALTER LOGIN [sa] WITH PASSWORD=N'Password12'
+
       - name: Install SQLite Driver
         if: matrix.package == 'odbc' && matrix.variant == '-SQLite'
         run: |
