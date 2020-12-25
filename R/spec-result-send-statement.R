@@ -76,7 +76,7 @@ spec_result_send_statement <- list(
     with_remove_test_table(name = other_table_name, {
       #' issuing a second query invalidates an already open result set
       #' and raises a warning.
-      query <- ctx$create_table_as(other_table_name, "SELECT 1 AS a")
+      query <- ctx$tweaks$create_table_as(other_table_name, "SELECT 1 AS a")
       expect_warning(res2 <- dbSendStatement(con, query))
       expect_false(dbIsValid(res1))
       #' The newly opened result set is valid
