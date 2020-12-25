@@ -20,7 +20,7 @@ name: backends
 
 jobs:
   matrix:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
@@ -55,7 +55,7 @@ jobs:
 
   backend:
     needs: matrix
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
 
     strategy:
       fail-fast: false
