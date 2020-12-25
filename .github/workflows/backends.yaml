@@ -172,8 +172,8 @@ jobs:
       - name: Purge libmysqlclient-dev
         if: matrix.package == 'RMariaDB'
         run: |
-          sudo apt-get purge -y libmysqlclient-dev
-          sudo apt-get install -y libmariadbclient-dev
+          sudo apt-get purge -y libmysqlclient-dev libmysqlclient*
+          sudo apt-get install -y libmariadb3 libmariadbclient18 libmariadbclient-dev
 
       - name: Set root password
         if: matrix.package == 'odbc' && matrix.variant == '-MySQL'
