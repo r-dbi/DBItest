@@ -129,6 +129,33 @@ jobs:
         shell: Rscript {0}
 
       # Begin custom: after install
+      # Install driver libraries first, so that we e.g.
+      # can set the user password on SQL Server
+      - name: Install SQLite Driver
+        if: matrix.package == 'odbc' && matrix.variant == '-SQLite'
+        run: |
+          sudo apt-get install -y libsqliteodbc
+
+      - name: Install PostgreSQL Driver
+        if: matrix.package == 'odbc' && matrix.variant == '-PostgreSQL'
+        run: |
+          sudo apt-get install -y unixodbc-dev odbc-postgresql devscripts
+
+      - name: Install MySQL Driver
+        if: matrix.package == 'odbc' && matrix.variant == '-MySQL'
+        run: |
+          .github/odbc/install-mariadb-driver.sh
+
+      - name: Install SQL Server Driver
+        if: matrix.package == 'odbc' && matrix.variant == '-SQLServer'
+        run: |
+          curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
+          curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+          apt-get update
+          ACCEPT_EULA=Y apt-get install -y msodbcsql17
+          ln -s /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.*.so.* /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.so
+        shell: sudo bash {0}
+
       # Must happen after installing system dependencies,
       # https://github.com/ankane/setup-mariadb/issues/2
       - uses: ankane/setup-mariadb@v1
@@ -185,31 +212,6 @@ jobs:
         if: matrix.package == 'odbc'
         run: |
           R CMD INSTALL revdep-dev/${{ matrix.package }}
-
-      - name: Install SQLite Driver
-        if: matrix.package == 'odbc' && matrix.variant == '-SQLite'
-        run: |
-          sudo apt-get install -y libsqliteodbc
-
-      - name: Install PostgreSQL Driver
-        if: matrix.package == 'odbc' && matrix.variant == '-PostgreSQL'
-        run: |
-          sudo apt-get install -y unixodbc-dev odbc-postgresql devscripts
-
-      - name: Install MySQL Driver
-        if: matrix.package == 'odbc' && matrix.variant == '-MySQL'
-        run: |
-          .github/odbc/install-mariadb-driver.sh
-
-      - name: Install SQL Server Driver
-        if: matrix.package == 'odbc' && matrix.variant == '-SQLServer'
-        run: |
-          curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-          curl https://packages.microsoft.com/config/ubuntu/18.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
-          apt-get update
-          ACCEPT_EULA=Y apt-get install -y msodbcsql17
-          ln -s /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.*.so.* /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.so
-        shell: sudo bash {0}
 
       # Must happen after installing database libraries for RMariaDB,
       # https://github.com/ankane/setup-mariadb/issues/2
