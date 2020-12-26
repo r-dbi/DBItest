@@ -10,8 +10,8 @@ spec_result_execute <- list(
 
   #' @return
   #' `dbExecute()` always returns a
-  execute_atomic = function(con, table_name) {
-    query <- trivial_statement(table_name)
+  execute_atomic = function(ctx, con, table_name) {
+    query <- trivial_statement(ctx, table_name)
 
     ret <- dbExecute(con, query)
     #' scalar
@@ -25,13 +25,13 @@ spec_result_execute <- list(
   #' An error is raised when issuing a statement over a closed
   execute_closed_connection = function(ctx, closed_con) {
     table_name <- "dbit12"
-    expect_error(dbExecute(closed_con, trivial_statement(table_name = table_name)))
+    expect_error(dbExecute(closed_con, trivial_statement(ctx, table_name = table_name)))
   },
 
   #' or invalid connection,
   execute_invalid_connection = function(ctx, invalid_con) {
     table_name <- "dbit13"
-    expect_error(dbExecute(invalid_con, trivial_statement(table_name = table_name)))
+    expect_error(dbExecute(invalid_con, trivial_statement(ctx, table_name = table_name)))
   },
 
   #' if the syntax of the statement is invalid,
@@ -77,8 +77,8 @@ spec_result_execute <- list(
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  execute_immediate = function(con, table_name) {
-    res <- expect_visible(dbExecute(con, trivial_statement(table_name), immediate = TRUE))
+  execute_immediate = function(ctx, con, table_name) {
+    res <- expect_visible(dbExecute(con, trivial_statement(ctx, table_name), immediate = TRUE))
     expect_true(is.numeric(res))
   },
   #

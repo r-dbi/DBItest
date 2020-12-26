@@ -10,8 +10,8 @@ spec_result_send_statement <- list(
 
   #' @return
   #' `dbSendStatement()` returns
-  send_statement_trivial = function(con, table_name) {
-    res <- expect_visible(dbSendStatement(con, trivial_statement(table_name)))
+  send_statement_trivial = function(ctx, con, table_name) {
+    res <- expect_visible(dbSendStatement(con, trivial_statement(ctx, table_name)))
     #' an S4 object that inherits from [DBIResult-class].
     expect_s4_class(res, "DBIResult")
     #' The result set can be used with [dbGetRowsAffected()] to
@@ -25,13 +25,13 @@ spec_result_send_statement <- list(
   #' An error is raised when issuing a statement over a closed
   send_statement_closed_connection = function(ctx, closed_con) {
     table_name <- "dbit10"
-    expect_error(dbSendStatement(closed_con, trivial_statement(table_name = table_name)))
+    expect_error(dbSendStatement(closed_con, trivial_statement(ctx, table_name = table_name)))
   },
 
   #' or invalid connection,
   send_statement_invalid_connection = function(ctx, invalid_con) {
     table_name <- "dbit11"
-    expect_error(dbSendStatement(invalid_con, trivial_statement(table_name = table_name)))
+    expect_error(dbSendStatement(invalid_con, trivial_statement(ctx, table_name = table_name)))
   },
 
   #' or if the statement is not a non-`NA` string.
@@ -50,9 +50,9 @@ spec_result_send_statement <- list(
   },
 
   #' @section Specification:
-  send_statement_result_valid = function(con, table_name) {
+  send_statement_result_valid = function(ctx, con, table_name) {
     #' No warnings occur under normal conditions.
-    expect_warning(res <- dbSendStatement(con, trivial_statement(table_name)), NA)
+    expect_warning(res <- dbSendStatement(con, trivial_statement(ctx, table_name)), NA)
     #' When done, the DBIResult object must be cleared with a call to
     #' [dbClearResult()].
     dbClearResult(res)
@@ -70,13 +70,13 @@ spec_result_send_statement <- list(
   },
 
   #' If the backend supports only one open result set per connection,
-  send_statement_only_one_result_set = function(con, table_name) {
-    res1 <- dbSendStatement(con, trivial_statement(table_name))
+  send_statement_only_one_result_set = function(ctx, con, table_name) {
+    res1 <- dbSendStatement(con, trivial_statement(ctx, table_name))
     other_table_name <- random_table_name()
     with_remove_test_table(name = other_table_name, {
       #' issuing a second query invalidates an already open result set
       #' and raises a warning.
-      query <- paste0("CREATE TABLE ", other_table_name, " AS SELECT 1 AS a")
+      query <- ctx$tweaks$create_table_as(other_table_name, "SELECT 1 AS a")
       expect_warning(res2 <- dbSendStatement(con, query))
       expect_false(dbIsValid(res1))
       #' The newly opened result set is valid
@@ -118,8 +118,8 @@ spec_result_send_statement <- list(
   },
 
   #' @inheritSection spec_result_get_query Specification for the `immediate` argument
-  send_statement_immediate = function(con, table_name) {
-    res <- expect_visible(dbSendStatement(con, trivial_statement(table_name), immediate = TRUE))
+  send_statement_immediate = function(ctx, con, table_name) {
+    res <- expect_visible(dbSendStatement(con, trivial_statement(ctx, table_name), immediate = TRUE))
     expect_s4_class(res, "DBIResult")
     expect_error(dbGetRowsAffected(res), NA)
     dbClearResult(res)
