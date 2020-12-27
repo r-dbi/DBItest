@@ -1,3 +1,8 @@
+# DBItest 1.7.0.9009 (2020-12-27)
+
+- New `create_table_as` tweak (#131).
+
+
 # DBItest 1.7.0.9008 (2020-12-25)
 
 - Test odbc as part of the backend tests (#228).

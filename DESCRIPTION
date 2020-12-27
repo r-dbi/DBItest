@@ -1,7 +1,7 @@
 Package: DBItest
 Title: Testing 'DBI' 'Backends'
-Version: 1.7.0.9008
-Date: 2020-12-25
+Version: 1.7.0.9009
+Date: 2020-12-27
 Authors@R: 
     c(person(given = "Kirill",
              family = "M\u00fcller",
