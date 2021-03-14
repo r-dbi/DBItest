@@ -57,9 +57,15 @@
 
 
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -229,7 +235,7 @@
 <ul>
 <li>Document how to run tests externally and how to debug tests (<a href='https://github.com/r-dbi/DBItest/issues/165'>#165</a>).</li>
 <li>
-<code>test_*()</code> gain new <code>run_only = NULL</code> argument that allow restricting the tests to be run with a positive match. <code><a href="../reference/test_all.html">test_some()</a></code> uses <code>run_only</code> instead of constructing a regular expression with negative lookahead. This helps troubleshooting a single test with <code><a href="https://testthat.r-lib.org/reference/reporter-accessors.html">testthat::set_reporter(DebugReporter$new())</a></code> .</li>
+<code>test_*()</code> gain new <code>run_only = NULL</code> argument that allow restricting the tests to be run with a positive match. <code><a href="../reference/test_all.html">test_some()</a></code> uses <code>run_only</code> instead of constructing a regular expression with negative lookahead. This helps troubleshooting a single test with <code><a href="https://testthat.r-lib.org/reference/reporter-accessors.html" class="external-link">testthat::set_reporter(DebugReporter$new())</a></code> .</li>
 <li>
 <code><a href="../reference/make_context.html">make_context()</a></code> gains <code>default_skip</code> argument and uses the <code>DBIConnector</code> class.</li>
 <li>Support <code>NULL</code> default value in driver constructor (<a href='https://github.com/r-dbi/DBItest/issues/171'>#171</a>).</li>
@@ -267,7 +273,7 @@
 <li>Add specification for writing 64-bit values, backends must support roundtripping values returned from the database (<a href='https://github.com/r-dbi/DBItest/issues/146'>#146</a>).</li>
 <li>Add specification for the <code>params</code> argument to <code>dbGetQuery()</code>, <code>dbSendQuery()</code>, <code>dbExecute()</code> and <code>dbSendStatement()</code> (<a href='https://github.com/r-dbi/DBItest/issues/159'>#159</a>).</li>
 <li>Add test for <code>dbQuoteIdentifier()</code>: “The names of the input argument are preserved in the output” (r-lib/DBI<a href='https://github.com/r-dbi/DBItest/issues/173'>#173</a>).</li>
-<li>Blob tests now also read and write zero bytes (\x00).</li>
+<li>Blob tests now also read and write zero bytes (00).</li>
 <li>Add string encoded in Latin-1 to the character tests.</li>
 <li>Added test for <code>dbIsValid()</code> on stale connections.</li>
 </ul>
@@ -323,7 +329,7 @@
 <h2 class="hasAnchor">
 <a href="#internals" class="anchor"></a>Internals</h2>
 <ul>
-<li>Compatibility code if <code><a href="https://dbi.r-dbi.org/reference/dbQuoteLiteral.html">DBI::dbQuoteLiteral()</a></code> is unavailable.</li>
+<li>Compatibility code if <code><a href="https://dbi.r-dbi.org/reference/dbQuoteLiteral.html" class="external-link">DBI::dbQuoteLiteral()</a></code> is unavailable.</li>
 <li>New <code>trivial_query()</code> replaces many hard-coded queries and uses non-integer values for better compatibility with RMariaDB.</li>
 <li>Convert factor to character for iris data (<a href='https://github.com/r-dbi/DBItest/issues/141'>#141</a>).</li>
 </ul>
@@ -413,7 +419,7 @@
 <li>Use desc instead of devtools (<a href='https://github.com/r-dbi/DBItest/issues/40'>#40</a>).</li>
 <li>All unexpected warnings are now reported as test failures (<a href='https://github.com/r-dbi/DBItest/issues/113'>#113</a>).</li>
 <li>
-<code>DBItest_tweaks</code> class gains a <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code> method, accessing an undefined tweak now raises an error.</li>
+<code>DBItest_tweaks</code> class gains a <code><a href="https://rdrr.io/r/base/Extract.html" class="external-link">$</a></code> method, accessing an undefined tweak now raises an error.</li>
 <li>The arguments of the <code><a href="../reference/tweaks.html">tweaks()</a></code> function now have default values that further describe their intended usage.</li>
 <li>New <code>with_closed_connection(ctx = ctx, )</code>, <code>with_invalid_connection(ctx = ctx, )</code>, <code>with_result()</code> and <code>with_remove_test_table()</code> helpers, and <code>expect_visible()</code>, <code>expect_inbisible_true()</code>, and <code>expect_equal_df()</code> expectations for more concise tests.</li>
 </ul>
@@ -659,9 +665,9 @@
 </li>
 <li>Style
 <ul>
-<li>Avoid using <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code> for date and time columns (<a href='https://github.com/r-dbi/DBItest/issues/10'>#10</a>)</li>
+<li>Avoid using <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> for date and time columns (<a href='https://github.com/r-dbi/DBItest/issues/10'>#10</a>)</li>
 <li>Use <code>expect_identical()</code> instead of <code>expect_equal()</code> in many places (<a href='https://github.com/r-dbi/DBItest/issues/13'>#13</a>)</li>
-<li>Catch all errors in <code><a href="https://rdrr.io/r/base/on.exit.html">on.exit()</a></code> handlers via <code>expect_error()</code> (<a href='https://github.com/r-dbi/DBItest/issues/20'>#20</a>).</li>
+<li>Catch all errors in <code><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit()</a></code> handlers via <code>expect_error()</code> (<a href='https://github.com/r-dbi/DBItest/issues/20'>#20</a>).</li>
 <li>Combine “meta” tests into new <code><a href="../reference/test_meta.html">test_meta()</a></code> (<a href='https://github.com/r-dbi/DBItest/issues/37'>#37</a>)</li>
 </ul>
 </li>
@@ -750,11 +756,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.r-consortium.org'>R Consortium</a>.</p>
+  <p><p>Developed by <a href="http://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.r-consortium.org" class="external-link">R Consortium</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
 </div>
 
       </footer>
@@ -762,6 +768,8 @@
 
   
 
+
+  
 
   </body>
 </html>
