@@ -47,7 +47,6 @@ Remotes:
     r-dbi/dblog
 Encoding: UTF-8
 KeepSource: true
-LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1.9001
 Collate: 
