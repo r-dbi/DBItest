@@ -57,6 +57,7 @@
 
 
 
+
   
 
   
@@ -237,7 +238,7 @@
 <li>
 <code>test_*()</code> gain new <code>run_only = NULL</code> argument that allow restricting the tests to be run with a positive match. <code><a href="../reference/test_all.html">test_some()</a></code> uses <code>run_only</code> instead of constructing a regular expression with negative lookahead. This helps troubleshooting a single test with <code><a href="https://testthat.r-lib.org/reference/reporter-accessors.html" class="external-link">testthat::set_reporter(DebugReporter$new())</a></code> .</li>
 <li>
-<code><a href="../reference/make_context.html">make_context()</a></code> gains <code>default_skip</code> argument and uses the <code>DBIConnector</code> class.</li>
+<code><a href="../reference/context.html">make_context()</a></code> gains <code>default_skip</code> argument and uses the <code>DBIConnector</code> class.</li>
 <li>Support <code>NULL</code> default value in driver constructor (<a href='https://github.com/r-dbi/DBItest/issues/171'>#171</a>).</li>
 </ul>
 </div>
@@ -557,7 +558,7 @@
 <ul>
 <li>New feature: tweaks
 <ul>
-<li>New argument <code>tweaks</code> to <code><a href="../reference/make_context.html">make_context()</a></code> (<a href='https://github.com/r-dbi/DBItest/issues/49'>#49</a>).</li>
+<li>New argument <code>tweaks</code> to <code><a href="../reference/context.html">make_context()</a></code> (<a href='https://github.com/r-dbi/DBItest/issues/49'>#49</a>).</li>
 <li>New <code><a href="../reference/tweaks.html">tweaks()</a></code>, essentially constructs a named list of tweaks but with predefined and documented argument names.</li>
 <li>
 <code>constructor_name</code>, respected by the <code>constructor.*</code> tests.</li>
@@ -760,7 +761,7 @@
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>

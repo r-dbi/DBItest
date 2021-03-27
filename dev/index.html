@@ -96,9 +96,9 @@
 <span class="fu">usethis</span><span class="fu">::</span><span class="fu"><a href="https://usethis.r-lib.org/reference/use_r.html" class="external-link">use_test</a></span><span class="op">(</span><span class="st">"DBItest"</span><span class="op">)</span></code></pre></div>
 <p>This enables testing using <code>testthat</code> (if necessary) and creates, among others, a file <code>test-DBItest.R</code> in the <code>tests/testthat</code> directory. Replace its entire contents by the following:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="reference/make_context.html">make_context</a></span><span class="op">(</span><span class="fu">Kazam</span><span class="op">(</span><span class="op">)</span>, <span class="cn">NULL</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="reference/context.html">make_context</a></span><span class="op">(</span><span class="fu">Kazam</span><span class="op">(</span><span class="op">)</span>, <span class="cn">NULL</span><span class="op">)</span>
 <span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="reference/test_all.html">test_all</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>This assumes that <code>Kazam()</code> returns an instance of your <code>DBIDriver</code> class. Additional arguments to <code>dbConnect()</code> are specified as named list instead of the <code>NULL</code> argument to <code><a href="reference/make_context.html">make_context()</a></code>. The <code>default_skip</code> argument to <code><a href="reference/make_context.html">make_context()</a></code> allows skipping tests that are not (yet) satisfied by your backend.</p>
+<p>This assumes that <code>Kazam()</code> returns an instance of your <code>DBIDriver</code> class. Additional arguments to <code>dbConnect()</code> are specified as named list instead of the <code>NULL</code> argument to <code><a href="reference/context.html">make_context()</a></code>. The <code>default_skip</code> argument to <code><a href="reference/context.html">make_context()</a></code> allows skipping tests that are not (yet) satisfied by your backend.</p>
 <p>Further reading:</p>
 <ul>
 <li><p>Detailed instructions in <code><a href="articles/DBItest.html">vignette("DBItest")</a></code></p></li>
@@ -175,7 +175,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>

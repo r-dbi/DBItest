@@ -95,7 +95,7 @@
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">use_test</span><span class="op">(</span><span class="st">"DBItest"</span><span class="op">)</span></code></pre></div>
 <p>This creates, among others, a file <code>test-DBItest.R</code> in the <code>tests/testthat</code> directory. Replace its entire contents by the following:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="../reference/make_context.html">make_context</a></span><span class="op">(</span><span class="fu">Kazam</span><span class="op">(</span><span class="op">)</span>, <span class="cn">NULL</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="../reference/context.html">make_context</a></span><span class="op">(</span><span class="fu">Kazam</span><span class="op">(</span><span class="op">)</span>, <span class="cn">NULL</span><span class="op">)</span>
 <span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="../reference/test_getting_started.html">test_getting_started</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>Now test your package with <code><a href="https://devtools.r-lib.org//reference/test.html" class="external-link">devtools::test()</a></code>. If you followed at least the “Getting started” section of the DBI “backend” vignette, all tests should succeed.</p>
 <p>By adding the corresponding test function to your <code>tests/test-DBItest.R</code> file <em>before</em> implementing a section, you get immediate feedback which functionality of this section still needs to be implemented by running <code><a href="https://devtools.r-lib.org//reference/test.html" class="external-link">devtools::test()</a></code> again. Therefore, proceed by appending the following to <code>tests/test-DBItest.R</code>, to include a test case for the forthcoming section:</p>
@@ -121,7 +121,7 @@
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">use_test</span><span class="op">(</span><span class="st">"DBItest"</span><span class="op">)</span></code></pre></div>
 <p>This creates, among others, a file <code>test-DBItest.R</code> in the <code>tests/testthat</code> directory. Replace its entire contents by the following:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="../reference/make_context.html">make_context</a></span><span class="op">(</span><span class="fu">Kazam</span><span class="op">(</span><span class="op">)</span>, <span class="cn">NULL</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="../reference/context.html">make_context</a></span><span class="op">(</span><span class="fu">Kazam</span><span class="op">(</span><span class="op">)</span>, <span class="cn">NULL</span><span class="op">)</span>
 <span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="../reference/test_all.html">test_all</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p>The notes about “Kazam” and skipping tests from the previous section apply here as well. The <code><a href="../reference/test_all.html">test_all()</a></code> function simply calls all test cases.</p>
 </div>
@@ -139,8 +139,8 @@
 <li>tweaks, see <code><a href="../reference/tweaks.html">?tweaks</a></code>,</li>
 <li>tests skipped by default, as a character vector.</li>
 </ul>
-<p>Database backends that use DBItest for testing usually have a file <code>test/testthat/helper-DBItest.R</code> or <code>test/testthat/test-DBItest.R</code> where a call to <code><a href="../reference/make_context.html">make_context()</a></code> can be found. The help for <code><a href="../reference/make_context.html">make_context()</a></code> already contains an example that works for RSQLite. Adapt it to your needs.</p>
-<p>The <code><a href="../reference/make_context.html">make_context()</a></code> function must be called before any tests can run.</p>
+<p>Database backends that use DBItest for testing usually have a file <code>test/testthat/helper-DBItest.R</code> or <code>test/testthat/test-DBItest.R</code> where a call to <code><a href="../reference/context.html">make_context()</a></code> can be found. The help for <code><a href="../reference/context.html">make_context()</a></code> already contains an example that works for RSQLite. Adapt it to your needs.</p>
+<p>The <code><a href="../reference/context.html">make_context()</a></code> function must be called before any tests can run.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dbitest.r-dbi.org">DBItest</a></span><span class="op">)</span>
 
@@ -158,7 +158,7 @@
 
 <span class="va">default_skip</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"roundtrip_date"</span>, <span class="st">"roundtrip_timestamp"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="../reference/make_context.html">make_context</a></span><span class="op">(</span>
+<span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="../reference/context.html">make_context</a></span><span class="op">(</span>
   <span class="fu">new</span><span class="op">(</span>
     <span class="st">"DBIConnector"</span>,
     .drv <span class="op">=</span> <span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>,
@@ -175,12 +175,12 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="../reference/test_all.html">test_some</a></span><span class="op">(</span><span class="st">"get_query_atomic"</span><span class="op">)</span></code></pre></div>
 <pre><code>## drv1 &lt;- new("SQLiteDriver")
-## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/Rtmp4wFxZH/DBItest3fd4182c463c.sqlite")
+## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/RtmpKGWEvt/DBItest3c7ed3d7b94.sqlite")
 ## dbGetQuery(conn1, "SELECT 1.5 AS a")
 ## ##     a
 ## ## 1 1.5
 ## dbDisconnect(conn1)
-## Test passed 🥇</code></pre>
+## Test passed 😀</code></pre>
 <p>DBItest relies heavily on metaprogramming. Unfortunately, this means that a failing test may give no indication of the reason for the failure. The <code><a href="../reference/test_all.html">test_some()</a></code> function now by default integrates the new experimental <a href="https://github.com/r-dbi/dblog" class="external-link">dblog package</a> package. It prints the DBI code that is executed as the tests are run, as seen above.</p>
 <p>Another way to scout for the reason of the problem is to review the sources of DBItest and relate the test name (that is printed with each failure) with the human-readable specification embedded with the test code.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -190,7 +190,7 @@
 <span class="op">)</span></code></pre></div>
 <pre><code>## drv1 &lt;- new("SQLiteDriver")
 ## Start test: DBItest: Result: get_query_atomic
-## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/Rtmp4wFxZH/DBItest3fd4182c463c.sqlite")
+## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/RtmpKGWEvt/DBItest3c7ed3d7b94.sqlite")
 ##   run.R:70:11 [success]
 ## dbGetQuery(conn1, "SELECT 1.5 AS a")
 ## ##     a
@@ -232,7 +232,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9001.</p>
 </div>
 
       </footer>

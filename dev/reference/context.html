@@ -58,6 +58,9 @@
 
 
 
+<!-- dependencies from examples -->
+
+
   
 
   
@@ -125,7 +128,7 @@
     <p>Create a test context, set and query the default context.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>make_context</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'><a href='context.html'>make_context</a></span><span class='op'>(</span>
   <span class='va'>drv</span>,
   connect_args <span class='op'>=</span> <span class='cn'>NULL</span>,
   set_as_default <span class='op'>=</span> <span class='cn'>TRUE</span>,
@@ -134,9 +137,9 @@
   default_skip <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span>
 
-<span class='fu'>set_default_context</span><span class='op'>(</span><span class='va'>ctx</span><span class='op'>)</span>
+<span class='fu'><a href='context.html'>set_default_context</a></span><span class='op'>(</span><span class='va'>ctx</span><span class='op'>)</span>
 
-<span class='fu'>get_default_context</span><span class='op'>(</span><span class='op'>)</span></pre>
+<span class='fu'><a href='context.html'>get_default_context</a></span><span class='op'>(</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -184,7 +187,7 @@ to <code><a href='test_all.html'>test_all()</a></code>  and other testing functi
 <code>NULL</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>make_context</span><span class='op'>(</span>
+    <pre class="examples"><div class='input'><span class='fu'><a href='context.html'>make_context</a></span><span class='op'>(</span>
   <span class='fu'>new</span><span class='op'>(</span>
     <span class='st'>"DBIConnector"</span>,
     .drv <span class='op'>=</span> <span class='fu'>RSQLite</span><span class='fu'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span><span class='op'>(</span><span class='op'>)</span>,
@@ -207,7 +210,7 @@ to <code><a href='test_all.html'>test_all()</a></code>  and other testing functi
 #&gt; &lt;DBIConnector&gt;&lt;SQLiteDriver&gt;
 #&gt; Arguments:
 #&gt; $dbname
-#&gt; [1] "/tmp/Rtmpo7xYMn/DBItest396f54fb22b1.sqlite"
+#&gt; [1] "/tmp/Rtmp8iIGkK/DBItest361c4cec45.sqlite"
 #&gt; 
 #&gt; 
 #&gt; $drv
@@ -257,7 +260,7 @@ to <code><a href='test_all.html'>test_all()</a></code>  and other testing functi
 </div>
 
 <div class="pkgdown">
-  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p></p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
