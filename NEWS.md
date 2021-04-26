@@ -1,3 +1,10 @@
+<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+
+# DBItest 1.7.0.9010 (2021-04-26)
+
+- Requires DBI 1.1.1.
+
+
 # DBItest 1.7.0.9009 (2020-12-27)
 
 - New `create_table_as` tweak (#131).
