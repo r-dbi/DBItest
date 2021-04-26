@@ -124,112 +124,43 @@
 <h1 class="page-header" data-toc-text="1.7.1">
 <a href="#dbitest-171-2021-04-26" class="anchor" aria-hidden="true"></a>DBItest 1.7.1 (2021-04-26)<small> Unreleased </small>
 </h1>
+<div id="features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#features" class="anchor" aria-hidden="true"></a>Features</h2>
 <ul>
-<li>Same as previous version.</li>
-</ul>
-</div>
-    <div id="dbitest-1709010-2021-04-26" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.0.9010">
-<a href="#dbitest-1709010-2021-04-26" class="anchor" aria-hidden="true"></a>DBItest 1.7.0.9010 (2021-04-26)<small> Unreleased </small>
-</h1>
-<ul>
-<li>Requires DBI 1.1.1.</li>
-</ul>
-</div>
-    <div id="dbitest-1709009-2020-12-27" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.0.9009">
-<a href="#dbitest-1709009-2020-12-27" class="anchor" aria-hidden="true"></a>DBItest 1.7.0.9009 (2020-12-27)<small> Unreleased </small>
-</h1>
-<ul>
-<li>New <code>create_table_as</code> tweak (<a href='https://github.com/r-dbi/DBItest/issues/131'>#131</a>).</li>
-</ul>
-</div>
-    <div id="dbitest-1709008-2020-12-25" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.0.9008">
-<a href="#dbitest-1709008-2020-12-25" class="anchor" aria-hidden="true"></a>DBItest 1.7.0.9008 (2020-12-25)<small> Unreleased </small>
-</h1>
-<ul>
-<li>Test odbc as part of the backend tests (<a href='https://github.com/r-dbi/DBItest/issues/228'>#228</a>).</li>
-<li>Fix input dataset in <code>"overwrite_table_missing"</code> test (<a href='https://github.com/r-dbi/DBItest/issues/210'>#210</a>, <a href='https://github.com/martinstuder'>@martinstuder</a>).</li>
+<li>Many tests now emit simpler stack traces, because the connection is opened by the test driver and not by the test itself (<a href='https://github.com/r-dbi/DBItest/issues/187'>#187</a>). Reduce usage of <code>with_remove_test_table()</code> for better stack traces on error (<a href='https://github.com/r-dbi/DBItest/issues/196'>#196</a>). Remove <code>with_*connection()</code> (<a href='https://github.com/r-dbi/DBItest/issues/193'>#193</a>).</li>
 <li>
-<code><a href="../reference/test_all.html">test_some()</a></code> gains <code>dblog = TRUE</code> argument so that the code still runs without dblog (<a href='https://github.com/r-dbi/DBItest/issues/226'>#226</a>).</li>
-<li>Use original test name to decide if a test is skipped (<a href='https://github.com/r-dbi/DBItest/issues/225'>#225</a>).</li>
-<li>Dynamic build matrix for backends (<a href='https://github.com/r-dbi/DBItest/issues/221'>#221</a>).</li>
-</ul>
-</div>
-    <div id="dbitest-1709007-2020-12-22" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.0.9007">
-<a href="#dbitest-1709007-2020-12-22" class="anchor" aria-hidden="true"></a>DBItest 1.7.0.9007 (2020-12-22)<small> Unreleased </small>
-</h1>
-<ul>
-<li>
-<code><a href="../reference/test_all.html">test_some()</a></code> shows DBI code via dblog (<a href='https://github.com/r-dbi/DBItest/issues/217'>#217</a>).</li>
-</ul>
-</div>
-    <div id="dbitest-1709006-2020-12-22" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.0.9006">
-<a href="#dbitest-1709006-2020-12-22" class="anchor" aria-hidden="true"></a>DBItest 1.7.0.9006 (2020-12-22)<small> Unreleased </small>
-</h1>
-<ul>
+<code><a href="../reference/test_all.html">test_some()</a></code> shows DBI code via dblog (<a href='https://github.com/r-dbi/DBItest/issues/217'>#217</a>) if <code>dblog = TRUE</code> (<a href='https://github.com/r-dbi/DBItest/issues/226'>#226</a>).</li>
 <li>New <code>"bind_date_integer"</code>, <code>"bind_time_seconds"</code> and <code>"bind_time_hours"</code> tests (<a href='https://github.com/r-dbi/DBItest/issues/218'>#218</a>).</li>
-<li>Compatibility with testthat 3.0.0 (<a href='https://github.com/r-dbi/DBItest/issues/207'>#207</a>).</li>
-<li>Avoid rate limit error in GHA (<a href='https://github.com/r-dbi/DBItest/issues/208'>#208</a>).</li>
-</ul>
-</div>
-    <div id="dbitest-1709005-2020-12-05" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.0.9005">
-<a href="#dbitest-1709005-2020-12-05" class="anchor" aria-hidden="true"></a>DBItest 1.7.0.9005 (2020-12-05)<small> Unreleased </small>
-</h1>
-<ul>
-<li>Fix reexport test: skip if package is not installed, remove checks for deprecated functions and functions not reexported (<a href='https://github.com/r-dbi/DBItest/issues/203'>#203</a>).</li>
-<li>Switch to GitHub Actions (<a href='https://github.com/r-dbi/DBItest/issues/201'>#201</a>).</li>
+<li>New <code>create_table_as</code> tweak (<a href='https://github.com/r-dbi/DBItest/issues/131'>#131</a>).</li>
 <li>
 <code>"roundtrip_time"</code> and <code>"append_roundtrip_time"</code> tests now also test values of class <code>"difftime"</code> with units other than <code>"secs"</code> (<a href='https://github.com/r-dbi/DBItest/issues/199'>#199</a>).</li>
 <li>All tables created by the tests have the <code>"dbit"</code> prefix. Almost all tests now use random table names to avoid collisions and unrelated test failures (<a href='https://github.com/r-dbi/DBItest/issues/197'>#197</a>).</li>
-</ul>
-</div>
-    <div id="dbitest-1709004-2020-10-26" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.0.9004">
-<a href="#dbitest-1709004-2020-10-26" class="anchor" aria-hidden="true"></a>DBItest 1.7.0.9004 (2020-10-26)<small> Unreleased </small>
-</h1>
-<ul>
 <li>
 <code>"roundtrip_timestamp"</code> tests now accept a time zone set by the database backend (<a href='https://github.com/r-dbi/DBItest/issues/178'>#178</a>, <a href='https://github.com/r-dbi/DBItest/issues/198'>#198</a>).</li>
-<li>Reduce usage of <code>with_remove_test_table()</code> for better stack traces on error (<a href='https://github.com/r-dbi/DBItest/issues/196'>#196</a>).</li>
-<li>Remove <code>with_*connection()</code> (<a href='https://github.com/r-dbi/DBItest/issues/193'>#193</a>).</li>
-</ul>
-</div>
-    <div id="dbitest-1709003-2020-10-21" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.0.9003">
-<a href="#dbitest-1709003-2020-10-21" class="anchor" aria-hidden="true"></a>DBItest 1.7.0.9003 (2020-10-21)<small> Unreleased </small>
-</h1>
-<ul>
-<li>Many tests now emit simpler stack traces, because the connection is opened by the test driver and not by the test itself (<a href='https://github.com/r-dbi/DBItest/issues/187'>#187</a>).</li>
-</ul>
-</div>
-    <div id="dbitest-1709002-2020-09-28" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.0.9002">
-<a href="#dbitest-1709002-2020-09-28" class="anchor" aria-hidden="true"></a>DBItest 1.7.0.9002 (2020-09-28)<small> Unreleased </small>
-</h1>
-<ul>
 <li>Support more than one class of each type in DBI backend packages.</li>
 </ul>
 </div>
-    <div id="dbitest-1709001-2020-08-26" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.0.9001">
-<a href="#dbitest-1709001-2020-08-26" class="anchor" aria-hidden="true"></a>DBItest 1.7.0.9001 (2020-08-26)<small> Unreleased </small>
-</h1>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul>
-<li>Ensure compatibility with dev testthat and current R.</li>
+<li>Fix input dataset in <code>"overwrite_table_missing"</code> test (<a href='https://github.com/r-dbi/DBItest/issues/210'>#210</a>, <a href='https://github.com/martinstuder'>@martinstuder</a>).</li>
+<li>Use original test name to decide if a test is skipped (<a href='https://github.com/r-dbi/DBItest/issues/225'>#225</a>).</li>
+<li>Fix reexport test: skip if package is not installed, remove checks for deprecated functions and functions not reexported (<a href='https://github.com/r-dbi/DBItest/issues/203'>#203</a>).</li>
 </ul>
 </div>
-    <div id="dbitest-1709000" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.0.9000">
-<a href="#dbitest-1709000" class="anchor" aria-hidden="true"></a>DBItest 1.7.0.9000<small> Unreleased </small>
-</h1>
+<div id="internal" class="section level2">
+<h2 class="hasAnchor">
+<a href="#internal" class="anchor" aria-hidden="true"></a>Internal</h2>
 <ul>
-<li>No changes to previous versions.</li>
+<li>Requires DBI 1.1.1.</li>
+<li>Test odbc as part of the backend tests (<a href='https://github.com/r-dbi/DBItest/issues/228'>#228</a>).</li>
+<li>Dynamic build matrix for backends (<a href='https://github.com/r-dbi/DBItest/issues/221'>#221</a>).</li>
+<li>Compatibility with testthat 3.0.0 (<a href='https://github.com/r-dbi/DBItest/issues/207'>#207</a>).</li>
+<li>Switch to GitHub Actions (<a href='https://github.com/r-dbi/DBItest/issues/201'>#201</a>).</li>
 </ul>
+</div>
 </div>
     <div id="dbitest-170" class="section level1">
 <h1 class="page-header" data-toc-text="1.7.0">
@@ -258,9 +189,9 @@
 <li>Support <code>NULL</code> default value in driver constructor (<a href='https://github.com/r-dbi/DBItest/issues/171'>#171</a>).</li>
 </ul>
 </div>
-<div id="internal" class="section level2">
+<div id="internal-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#internal" class="anchor" aria-hidden="true"></a>Internal</h2>
+<a href="#internal-1" class="anchor" aria-hidden="true"></a>Internal</h2>
 <ul>
 <li>Fulfill CII badge requirements (<a href='https://github.com/r-dbi/DBItest/issues/179'>#179</a>, <a href='https://github.com/TSchiefer'>@TSchiefer</a>).</li>
 <li>Use debugme.</li>
@@ -425,9 +356,9 @@
 <li>Numeric roundtrip accepts conversion of <code>NaN</code> to <code>NA</code> (<a href='https://github.com/r-dbi/DBItest/issues/79'>#79</a>).</li>
 </ul>
 </div>
-<div id="internal-1" class="section level2">
+<div id="internal-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#internal-1" class="anchor" aria-hidden="true"></a>Internal</h2>
+<a href="#internal-2" class="anchor" aria-hidden="true"></a>Internal</h2>
 <ul>
 <li>Fix R CMD check errors.</li>
 <li>Internal consistency checks (<a href='https://github.com/r-dbi/DBItest/issues/114'>#114</a>).</li>
@@ -471,9 +402,9 @@
 <li>Minor corrections for “bind” tests.</li>
 </ul>
 </div>
-<div id="internal-2" class="section level2">
+<div id="internal-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#internal-2" class="anchor" aria-hidden="true"></a>Internal</h2>
+<a href="#internal-3" class="anchor" aria-hidden="true"></a>Internal</h2>
 <ul>
 <li>Isolate stress tests from main test suite (<a href='https://github.com/r-dbi/DBItest/issues/92'>#92</a>).</li>
 <li>Refactor test specification in smaller modules, isolated from actual test execution (<a href='https://github.com/r-dbi/DBItest/issues/81'>#81</a>). This breaks the documentation of the tests, which will be substituted by a DBI specification in prose.</li>
@@ -489,9 +420,9 @@
 <h1 class="page-header" data-toc-text="1.3">
 <a href="#dbitest-13-2016-07-07" class="anchor" aria-hidden="true"></a>DBItest 1.3 (2016-07-07)<small> 2016-07-07 </small>
 </h1>
-<div id="bug-fixes" class="section level2">
+<div id="bug-fixes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#bug-fixes" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
+<a href="#bug-fixes-1" class="anchor" aria-hidden="true"></a>Bug fixes</h2>
 <ul>
 <li>Fix <code>read_table</code> test when the backend actually returns the data in a different order.</li>
 </ul>
@@ -505,9 +436,9 @@
 <li>Repeated <code>dbBind()</code> + <code>dbFetch()</code> on the same result set (<a href='https://github.com/r-dbi/DBItest/issues/51'>#51</a>).</li>
 </ul>
 </div>
-<div id="features" class="section level2">
+<div id="features-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#features" class="anchor" aria-hidden="true"></a>Features</h2>
+<a href="#features-1" class="anchor" aria-hidden="true"></a>Features</h2>
 <ul>
 <li>
 <code><a href="../reference/tweaks.html">tweaks()</a></code> gains an <code>...</code> as first argument to support future/deprecated tweaks (with a warning), and also to avoid unnamed arguments (<a href='https://github.com/r-dbi/DBItest/issues/83'>#83</a>).</li>
@@ -517,9 +448,9 @@
 <li>Indicate that some tests are optional in documentation (<a href='https://github.com/r-dbi/DBItest/issues/15'>#15</a>).</li>
 </ul>
 </div>
-<div id="internal-3" class="section level2">
+<div id="internal-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#internal-3" class="anchor" aria-hidden="true"></a>Internal</h2>
+<a href="#internal-4" class="anchor" aria-hidden="true"></a>Internal</h2>
 <ul>
 <li>New <code>constructor_relax_args</code> tweak, currently not queried.</li>
 <li>The <code>ctx</code> argument is now explicit in the test functions.</li>
