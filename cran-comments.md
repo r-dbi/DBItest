@@ -7,15 +7,11 @@ DBItest 1.7.1
 ## R CMD check results
 
 - [x] Checked locally, R 4.0.5
-- [ ] Checked on CI system, R 4.0.5
-- [ ] Checked on win-builder, R devel
-
-Check the boxes above after successful execution and remove this line. Then run `fledge::release()`.
+- [x] Checked on CI system, R 4.0.5
+- [x] Checked on win-builder, R devel
 
 ## Current CRAN check results
 
 - [x] Checked on 2021-04-26, problems found: https://cran.r-project.org/web/checks/check_results_DBItest.html
-- [ ] NOTE: r-devel-linux-x86_64-debian-clang, r-devel-linux-x86_64-debian-gcc, r-devel-linux-x86_64-fedora-clang, r-devel-linux-x86_64-fedora-gcc, r-devel-windows-ix86+x86_64, r-patched-linux-x86_64
-- [ ] ERROR: r-devel-windows-x86_64-gcc10-UCRT
-
-Check results at: https://cran.r-project.org/web/checks/check_results_DBItest.html
+- [x] NOTE: r-devel-linux-x86_64-debian-clang, r-devel-linux-x86_64-debian-gcc, r-devel-linux-x86_64-fedora-clang, r-devel-linux-x86_64-fedora-gcc, r-devel-windows-ix86+x86_64, r-patched-linux-x86_64: Fixed
+- [x] ERROR: r-devel-windows-x86_64-gcc10-UCRT: Checking system broken
