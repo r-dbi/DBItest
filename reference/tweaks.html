@@ -10,23 +10,27 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -40,7 +44,8 @@
 you need to search the DBItest source code to understand which tests
 are affected by which tweaks. This function is usually called to set the
 tweaks argument in a make_context() call." />
-<meta name="twitter:card" content="summary" />
+
+
 
 
 
@@ -56,9 +61,18 @@ tweaks argument in a make_context() call." />
 
 
 
+<!-- dependencies from examples -->
+
+
+  
+
+  
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -72,19 +86,13 @@ tweaks argument in a make_context() call." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../articles/DBItest.html">Get started</a>
 </li>
 <li>
@@ -96,8 +104,8 @@ tweaks argument in a make_context() call." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/r-dbi/DBItest">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/r-dbi/DBItest/">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -126,27 +134,29 @@ are affected by which tweaks. This function is usually called to set the
 <code>tweaks</code> argument in a <code><a href='context.html'>make_context()</a></code> call.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tweaks</span>(
-  <span class='no'>...</span>,
-  <span class='kw'>constructor_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>constructor_relax_args</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>strict_identifier</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>omit_blob_tests</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>current_needs_parens</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>union</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span>(<span class='no'>x</span>, <span class='kw'>collapse</span> <span class='kw'>=</span> <span class='st'>" UNION "</span>),
-  <span class='kw'>placeholder_pattern</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>logical_return</span> <span class='kw'>=</span> <span class='no'>identity</span>,
-  <span class='kw'>date_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"date('"</span>, <span class='no'>x</span>, <span class='st'>"')"</span>),
-  <span class='kw'>time_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"time('"</span>, <span class='no'>x</span>, <span class='st'>"')"</span>),
-  <span class='kw'>timestamp_cast</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"timestamp('"</span>, <span class='no'>x</span>, <span class='st'>"')"</span>),
-  <span class='kw'>blob_cast</span> <span class='kw'>=</span> <span class='no'>identity</span>,
-  <span class='kw'>date_typed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>time_typed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>timestamp_typed</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>temporary_tables</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>list_temporary_tables</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
-  <span class='kw'>is_null_check</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"("</span>, <span class='no'>x</span>, <span class='st'>" IS NULL)"</span>)
-)</pre>
+    <pre class="usage"><span class='fu'>tweaks</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  constructor_name <span class='op'>=</span> <span class='cn'>NULL</span>,
+  constructor_relax_args <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  strict_identifier <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  omit_blob_tests <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  current_needs_parens <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  union <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='va'>x</span>, collapse <span class='op'>=</span> <span class='st'>" UNION "</span><span class='op'>)</span>,
+  placeholder_pattern <span class='op'>=</span> <span class='cn'>NULL</span>,
+  logical_return <span class='op'>=</span> <span class='va'>identity</span>,
+  date_cast <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"date('"</span>, <span class='va'>x</span>, <span class='st'>"')"</span><span class='op'>)</span>,
+  time_cast <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"time('"</span>, <span class='va'>x</span>, <span class='st'>"')"</span><span class='op'>)</span>,
+  timestamp_cast <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"timestamp('"</span>, <span class='va'>x</span>, <span class='st'>"')"</span><span class='op'>)</span>,
+  blob_cast <span class='op'>=</span> <span class='va'>identity</span>,
+  date_typed <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  time_typed <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  timestamp_typed <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  temporary_tables <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  list_temporary_tables <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  is_null_check <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"("</span>, <span class='va'>x</span>, <span class='st'>" IS NULL)"</span><span class='op'>)</span>,
+  create_table_as <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>table_name</span>, <span class='va'>query</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"CREATE TABLE "</span>, <span class='va'>table_name</span>,
+    <span class='st'>" AS "</span>, <span class='va'>query</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -262,32 +272,36 @@ Set to <code>FALSE</code> if the DBMS doesn't support listing temporary tables.<
 A vectorized function that creates an SQL expression for checking if a
 value is <code>NULL</code>.</p></td>
     </tr>
+    <tr>
+      <th>create_table_as</th>
+      <td><p><code>[function(character(1), character(1))]</code><br />
+A function that creates an SQL expression for creating a table
+from an SQL expression.</p></td>
+    </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='context.html'>make_context</a></span>(<span class='no'>...</span>, <span class='kw'>tweaks</span> <span class='kw'>=</span> <span class='fu'>tweaks</span>(<span class='kw'>strict_identifier</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='context.html'>make_context</a></span><span class='op'>(</span><span class='va'>...</span>, tweaks <span class='op'>=</span> <span class='fu'>tweaks</span><span class='op'>(</span>strict_identifier <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by <a href='http://krlmlr.info'>Kirill Müller</a>, <a href='https://www.r-consortium.org'>R Consortium</a>.</p>
+  <p><p>Developed by <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.r-consortium.org" class="external-link">R Consortium</a>.</p></p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9001.</p></p>
 </div>
 
       </footer>
@@ -295,6 +309,8 @@ value is <code>NULL</code>.</p></td>
 
   
 
+
+  
 
   </body>
 </html>

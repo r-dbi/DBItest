@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Stress tests — test_stress • DBItest</title>
+<title>spec_driver_constructor — spec_driver_constructor • DBItest</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Stress tests — test_stress" />
-<meta property="og:description" content="Stress tests" />
+<meta property="og:title" content="spec_driver_constructor — spec_driver_constructor" />
+<meta property="og:description" content="spec_driver_constructor" />
 
 
 
@@ -117,44 +117,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Stress tests</h1>
-    <small class="dont-index">Source: <a href='https://github.com/r-dbi/DBItest/blob/master/R/test-stress.R'><code>R/test-stress.R</code></a></small>
-    <div class="hidden name"><code>test_stress.Rd</code></div>
+    <h1>spec_driver_constructor</h1>
+    <small class="dont-index">Source: <a href='https://github.com/r-dbi/DBItest/blob/master/R/spec-driver-constructor.R'><code>R/spec-driver-constructor.R</code></a></small>
+    <div class="hidden name"><code>spec_driver_constructor.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Stress tests</p>
+    <p>spec_driver_constructor</p>
     </div>
 
-    <pre class="usage"><span class='fu'>test_stress</span><span class='op'>(</span>skip <span class='op'>=</span> <span class='cn'>NULL</span>, ctx <span class='op'>=</span> <span class='fu'><a href='context.html'>get_default_context</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>skip</th>
-      <td><p><code>[character()]</code><br /> A vector of regular expressions to match
-against test names; skip test if matching any.
-The regular expressions are matched against the entire test name.</p></td>
-    </tr>
-    <tr>
-      <th>ctx</th>
-      <td><p><code>[DBItest_context]</code><br /> A test context as created by
-<code><a href='context.html'>make_context()</a></code>.</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="construction-of-the-dbidriver-object"><a class="anchor" href="#construction-of-the-dbidriver-object"></a>Construction of the DBIDriver object</h2>
 
-    <div class='dont-index'><p>Other tests: 
-<code><a href='test_compliance.html'>test_compliance</a>()</code>,
-<code><a href='test_connection.html'>test_connection</a>()</code>,
-<code><a href='test_driver.html'>test_driver</a>()</code>,
-<code><a href='test_getting_started.html'>test_getting_started</a>()</code>,
-<code><a href='test_meta.html'>test_meta</a>()</code>,
-<code><a href='test_result.html'>test_result</a>()</code>,
-<code><a href='test_sql.html'>test_sql</a>()</code>,
-<code><a href='test_transaction.html'>test_transaction</a>()</code></p></div>
+    
+
+<p>The backend must support creation of an instance of its DBIDriver
+subclass
+with a <dfn>constructor function</dfn>.
+By default, its name is the package name without the leading &#8216;R&#8217;
+(if it exists), e.g., <code>SQLite</code> for the <span class="pkg">RSQLite</span> package.
+However, backend authors may choose a different name.
+The constructor must be exported, and
+it must be a function
+that is callable without arguments.
+DBI recommends to define a constructor with an empty argument list.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
