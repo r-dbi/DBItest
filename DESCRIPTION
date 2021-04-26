@@ -22,7 +22,7 @@ Depends:
 Imports: 
     blob (>= 1.2.0),
     callr,
-    DBI (>= 1.1.0),
+    DBI (>= 1.1.1),
     desc,
     hms (>= 0.5.0),
     lubridate,
