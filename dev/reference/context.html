@@ -58,8 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
 
   
 
@@ -128,7 +126,7 @@
     <p>Create a test context, set and query the default context.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='context.html'>make_context</a></span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>make_context</span><span class='op'>(</span>
   <span class='va'>drv</span>,
   connect_args <span class='op'>=</span> <span class='cn'>NULL</span>,
   set_as_default <span class='op'>=</span> <span class='cn'>TRUE</span>,
@@ -137,9 +135,9 @@
   default_skip <span class='op'>=</span> <span class='cn'>NULL</span>
 <span class='op'>)</span>
 
-<span class='fu'><a href='context.html'>set_default_context</a></span><span class='op'>(</span><span class='va'>ctx</span><span class='op'>)</span>
+<span class='fu'>set_default_context</span><span class='op'>(</span><span class='va'>ctx</span><span class='op'>)</span>
 
-<span class='fu'><a href='context.html'>get_default_context</a></span><span class='op'>(</span><span class='op'>)</span></pre>
+<span class='fu'>get_default_context</span><span class='op'>(</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -187,64 +185,65 @@ to <code><a href='test_all.html'>test_all()</a></code>  and other testing functi
 <code>NULL</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='context.html'>make_context</a></span><span class='op'>(</span>
-  <span class='fu'>new</span><span class='op'>(</span>
-    <span class='st'>"DBIConnector"</span>,
-    .drv <span class='op'>=</span> <span class='fu'>RSQLite</span><span class='fu'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span><span class='op'>(</span><span class='op'>)</span>,
-    .conn_args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>dbname <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='st'>"DBItest"</span>, fileext <span class='op'>=</span> <span class='st'>".sqlite"</span><span class='op'>)</span><span class='op'>)</span>
-  <span class='op'>)</span>,
-  tweaks <span class='op'>=</span> <span class='fu'><a href='tweaks.html'>tweaks</a></span><span class='op'>(</span>
-    constructor_relax_args <span class='op'>=</span> <span class='cn'>TRUE</span>,
-    placeholder_pattern <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"?"</span>, <span class='st'>"$1"</span>, <span class='st'>"$name"</span>, <span class='st'>":name"</span><span class='op'>)</span>,
-    date_cast <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"'"</span>, <span class='va'>x</span>, <span class='st'>"'"</span><span class='op'>)</span>,
-    time_cast <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"'"</span>, <span class='va'>x</span>, <span class='st'>"'"</span><span class='op'>)</span>,
-    timestamp_cast <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"'"</span>, <span class='va'>x</span>, <span class='st'>"'"</span><span class='op'>)</span>,
-    logical_return <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>,
-    date_typed <span class='op'>=</span> <span class='cn'>FALSE</span>,
-    time_typed <span class='op'>=</span> <span class='cn'>FALSE</span>,
-    timestamp_typed <span class='op'>=</span> <span class='cn'>FALSE</span>
-  <span class='op'>)</span>,
-  default_skip <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"roundtrip_date"</span>, <span class='st'>"roundtrip_timestamp"</span><span class='op'>)</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; $cnr
-#&gt; &lt;DBIConnector&gt;&lt;SQLiteDriver&gt;
-#&gt; Arguments:
-#&gt; $dbname
-#&gt; [1] "/tmp/RtmpfBocts/DBItest25ef2e9e793c.sqlite"
-#&gt; 
-#&gt; 
-#&gt; $drv
-#&gt; &lt;SQLiteDriver&gt;
-#&gt; 
-#&gt; $tweaks
-#&gt; DBItest tweaks:
-#&gt;   constructor_relax_args: TRUE
-#&gt;   strict_identifier: FALSE
-#&gt;   omit_blob_tests: FALSE
-#&gt;   current_needs_parens: FALSE
-#&gt;   union: function (x) 
-#&gt;   placeholder_pattern: ?    
-#&gt;   logical_return: function (x) 
-#&gt;   date_cast: function (x) 
-#&gt;   time_cast: function (x) 
-#&gt;   timestamp_cast: function (x) 
-#&gt;   blob_cast: function (x) 
-#&gt;   date_typed: FALSE
-#&gt;   time_typed: FALSE
-#&gt;   timestamp_typed: FALSE
-#&gt;   temporary_tables: TRUE
-#&gt;   list_temporary_tables: TRUE
-#&gt;   is_null_check: function (x) 
-#&gt;   create_table_as: function (table_name, query) 
-#&gt; 
-#&gt; $name
-#&gt; NULL
-#&gt; 
-#&gt; $default_skip
-#&gt; [1] "roundtrip_date"      "roundtrip_timestamp"
-#&gt; 
-#&gt; attr(,"class")
-#&gt; [1] "DBItest_context"</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'>make_context</span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='fu'>new</span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='st'>"DBIConnector"</span>,</span>
+<span class='r-in'>    .drv <span class='op'>=</span> <span class='fu'>RSQLite</span><span class='fu'>::</span><span class='fu'><a href='https://rsqlite.r-dbi.org/reference/SQLite.html'>SQLite</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span class='r-in'>    .conn_args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>dbname <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span><span class='op'>(</span><span class='st'>"DBItest"</span>, fileext <span class='op'>=</span> <span class='st'>".sqlite"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span>,</span>
+<span class='r-in'>  tweaks <span class='op'>=</span> <span class='fu'><a href='tweaks.html'>tweaks</a></span><span class='op'>(</span></span>
+<span class='r-in'>    constructor_relax_args <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>    placeholder_pattern <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"?"</span>, <span class='st'>"$1"</span>, <span class='st'>"$name"</span>, <span class='st'>":name"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    date_cast <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"'"</span>, <span class='va'>x</span>, <span class='st'>"'"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    time_cast <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"'"</span>, <span class='va'>x</span>, <span class='st'>"'"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    timestamp_cast <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"'"</span>, <span class='va'>x</span>, <span class='st'>"'"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    logical_return <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>,</span>
+<span class='r-in'>    date_typed <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
+<span class='r-in'>    time_typed <span class='op'>=</span> <span class='cn'>FALSE</span>,</span>
+<span class='r-in'>    timestamp_typed <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span class='r-in'>  <span class='op'>)</span>,</span>
+<span class='r-in'>  default_skip <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"roundtrip_date"</span>, <span class='st'>"roundtrip_timestamp"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $cnr</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;DBIConnector&gt;&lt;SQLiteDriver&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> Arguments:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $dbname</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "/tmp/Rtmpcriiv4/DBItest22cb590735ed.sqlite"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $drv</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> &lt;SQLiteDriver&gt;</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $tweaks</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> DBItest tweaks:</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   constructor_relax_args: TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   strict_identifier: FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   omit_blob_tests: FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   current_needs_parens: FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   union: function (x) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   placeholder_pattern: ?    </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   logical_return: function (x) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   date_cast: function (x) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   time_cast: function (x) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   timestamp_cast: function (x) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   blob_cast: function (x) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   date_typed: FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   time_typed: FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   timestamp_typed: FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   temporary_tables: TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   list_temporary_tables: TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   is_null_check: function (x) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   create_table_as: function (table_name, query) </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $name</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $default_skip</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "roundtrip_date"      "roundtrip_timestamp"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> attr(,"class")</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "DBItest_context"</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

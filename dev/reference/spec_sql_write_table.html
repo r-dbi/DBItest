@@ -237,7 +237,7 @@ from the input data with <code>dbDataType()</code>.</p>
 see <code>sqlRownamesToColumn()</code> for details:</p><ul>
 <li><p>If <code>FALSE</code> or <code>NULL</code>, row names are ignored.</p></li>
 <li><p>If <code>TRUE</code>, row names are converted to a column named "row_names",
-even if the input data frame only has natural row names from 1 to <code><a href='https://rdrr.io/r/base/nrow.html'>nrow(...)</a></code>.</p></li>
+even if the input data frame only has natural row names from 1 to <code>nrow(...)</code>.</p></li>
 <li><p>If <code>NA</code>, a column named "row_names" is created if the data has custom row names,
 no extra column is created in the case of natural row names.</p></li>
 <li><p>If a string, this specifies the name of the column in the remote table
