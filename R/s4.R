@@ -24,7 +24,8 @@ s4_methods <- function(env, pkg_fun = NULL) {
 }
 
 s4_real_argument_names <- function(s4_method) {
-  expect_is(s4_method, c("function", "MethodDefinition", "derivedDefaultMethod"))
+  expect_s4_class(s4_method, "function")
+  expect_s4_class(s4_method, "MethodDefinition")
   unwrapped <- s4_unwrap(s4_method)
   names(formals(unwrapped))
 }
