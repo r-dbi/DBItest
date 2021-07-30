@@ -162,7 +162,7 @@ For interactive use, the "progress" reporter gives good results.
 In the example below, the "location" and "stop" reporters are combined.
 Review `?testthat::Reporter` for a list of reporters.
 
-```{r simple}
+```{r simple, error = !rlang::is_installed("dblog")}
 DBItest::test_some("get_query_atomic")
 ```
 
