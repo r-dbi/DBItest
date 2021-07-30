@@ -58,7 +58,6 @@
 
 
 
-
   
 
   
@@ -145,7 +144,7 @@ An error is raised for invalid values for the <code>obj</code> argument such as 
 for its driver class.</p>
 <p>This generic expects an arbitrary object as second argument.
 To query the values returned by the default implementation,
-run <code><a href='https://rdrr.io/r/utils/example.html'>example(dbDataType, package = "DBI")</a></code>.
+run <code>example(dbDataType, package = "DBI")</code>.
 If the backend needs to override this generic,
 it must accept all basic R data types as its second argument, namely
 <a href='https://rdrr.io/r/base/logical.html'>logical</a>,
@@ -157,7 +156,7 @@ date-time (see <a href='https://rdrr.io/r/base/DateTimeClasses.html'>DateTimeCla
 and <a href='https://rdrr.io/r/base/difftime.html'>difftime</a>.
 If the database supports blobs,
 this method also must accept lists of <a href='https://rdrr.io/r/base/raw.html'>raw</a> vectors,
-and <a href='https://rdrr.io/pkg/blob/man/blob.html'>blob::blob</a> objects.
+and <a href='https://blob.tidyverse.org/reference/blob.html'>blob::blob</a> objects.
 As-is objects (i.e., wrapped by <code><a href='https://rdrr.io/r/base/AsIs.html'>I()</a></code>) must be
 supported and return the same results as their unwrapped counterparts.
 The SQL data type for <a href='https://rdrr.io/r/base/factor.html'>factor</a>
