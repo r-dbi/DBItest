@@ -43,8 +43,7 @@ Suggests:
     RSQLite
 VignetteBuilder: 
     knitr
-Remotes: 
-    r-dbi/dblog
+Additional_repositories: https://r-dbi.r-universe.dev
 Encoding: UTF-8
 KeepSource: true
 Roxygen: list(markdown = TRUE)
