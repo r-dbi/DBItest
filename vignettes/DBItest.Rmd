@@ -162,7 +162,7 @@ For interactive use, the "progress" reporter gives good results.
 In the example below, the "location" and "stop" reporters are combined.
 Review `?testthat::Reporter` for a list of reporters.
 
-```{r simple, error = !rlang::is_installed("dblog")}
+```{r simple, error = (getRversion() < "3.5") || !rlang::is_installed("dblog")}
 DBItest::test_some("get_query_atomic")
 ```
 
@@ -173,7 +173,7 @@ It prints the DBI code that is executed as the tests are run, as seen above.
 
 Another way to scout for the reason of the problem is to review the sources of DBItest and relate the test name (that is printed with each failure) with the human-readable specification embedded with the test code.
 
-```{r location, error = !rlang::is_installed("dblog")}
+```{r location, error = (getRversion() < "3.5") || !rlang::is_installed("dblog")}
 testthat::with_reporter(
   c("location", "fail"),
   DBItest::test_some("get_query_atomic")
