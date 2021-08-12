@@ -35,7 +35,7 @@ spec_sql_append_table <- list(
     test_in <- trivial_df()
     dbCreateTable(con, table_name, test_in)
     dbAppendTable(con, table_name, test_in)
-    expect_error(dbAppendTable(con, table_name, data.frame(b = 2L), append = TRUE))
+    expect_error(dbAppendTable(con, table_name, data.frame(b = 2L)))
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
