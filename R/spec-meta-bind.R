@@ -305,17 +305,27 @@ spec_meta_bind <- list(
       skip("tweak: !time_typed")
     }
 
-    data_in <- as.difftime(c(1:3, NA), units = "secs")
+    data_in <- as.difftime(as.numeric(c(1:3, NA)), units = "secs")
     test_select_bind(con, ctx, data_in)
   },
 
-  #'   (also with units other than seconds)
+  #'   (also with units other than seconds
   bind_time_hours = function(ctx, con) {
     if (!isTRUE(ctx$tweaks$time_typed)) {
       skip("tweak: !time_typed")
     }
 
-    data_in <- as.difftime(c(1:3, NA), units = "hours")
+    data_in <- as.difftime(as.numeric(c(1:3, NA)), units = "hours")
+    test_select_bind(con, ctx, data_in)
+  },
+
+  #'   and with the value stored as integer)
+  bind_time_minutes_integer = function(ctx, con) {
+    if (!isTRUE(ctx$tweaks$time_typed)) {
+      skip("tweak: !time_typed")
+    }
+
+    data_in <- as.difftime(c(1:3, NA), units = "mins")
     test_select_bind(con, ctx, data_in)
   },
 
