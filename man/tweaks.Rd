@@ -107,7 +107,7 @@ value is \code{NULL}.}
 A function that creates an SQL expression for creating a table
 from an SQL expression.}
 
-\item{dbitest}{\verb{[character(1)]}\cr
+\item{dbitest_version}{\verb{[character(1)]}\cr
 Compatible DBItest version, default: "1.7.1".}
 }
 \description{
