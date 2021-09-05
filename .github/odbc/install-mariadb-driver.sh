@@ -14,14 +14,14 @@ ldd /usr/lib/libmaodbc.so
 wget https://downloads.mariadb.com/Connectors/c/connector-c-3.1.9/mariadb-connector-c-3.1.9-ubuntu-focal-amd64.tar.gz
 tar -xvzf mariadb-connector-c-3.1.9-ubuntu-focal-amd64.tar.gz
 cd mariadb-connector-c-3.1.9-ubuntu-focal-amd64
-sudo install -d /usr/lib/mariadb/
-sudo install -d /usr/lib/mariadb/plugin/
-sudo install lib/mariadb/plugin/auth_gssapi_client.so /usr/lib/mariadb/plugin/
-sudo install lib/mariadb/plugin/caching_sha2_password.so /usr/lib/mariadb/plugin/
-sudo install lib/mariadb/plugin/client_ed25519.so /usr/lib/mariadb/plugin/
-sudo install lib/mariadb/plugin/dialog.so /usr/lib/mariadb/plugin/
-sudo install lib/mariadb/plugin/mysql_clear_password.so /usr/lib/mariadb/plugin/
-sudo install lib/mariadb/plugin/sha256_password.so /usr/lib/mariadb/plugin/
+sudo install -d /usr/local/lib64/mariadb/
+sudo install -d /usr/local/lib64/mariadb/plugin/
+sudo install lib/mariadb/plugin/auth_gssapi_client.so /usr/local/lib64/mariadb/plugin/
+sudo install lib/mariadb/plugin/caching_sha2_password.so /usr/local/lib64/mariadb/plugin/
+sudo install lib/mariadb/plugin/client_ed25519.so /usr/local/lib64/mariadb/plugin/
+sudo install lib/mariadb/plugin/dialog.so /usr/local/lib64/mariadb/plugin/
+sudo install lib/mariadb/plugin/mysql_clear_password.so /usr/local/lib64/mariadb/plugin/
+sudo install lib/mariadb/plugin/sha256_password.so /usr/local/lib64/mariadb/plugin/
 cd ..
 
 popd
