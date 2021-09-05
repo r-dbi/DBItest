@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.1.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.1.9001</span>
       </span>
     </div>
 
@@ -119,6 +119,17 @@
       <small>Source: <a href='https://github.com/r-dbi/DBItest/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="dbitest-1719001-2021-09-05" class="section level1">
+<h1 class="page-header" data-toc-text="1.7.1.9001">
+<a href="#dbitest-1719001-2021-09-05" class="anchor" aria-hidden="true"></a>DBItest 1.7.1.9001 (2021-09-05)<small> Unreleased </small></h1>
+<ul><li>
+<code><a href="../reference/tweaks.html">tweaks()</a></code> gains <code>dbitest_version</code> argument to support targeting a specific version of the DBItest package. The default is 1.7.1 (<a href='https://github.com/r-dbi/DBItest/issues/236'>#236</a>).</li>
+<li>Improve testthat 3e compatibility: remove <code><a href="https://testthat.r-lib.org/reference/expect_is.html" class="external-link">testthat::expect_is()</a></code> and <code><a href="https://testthat.r-lib.org/reference/expect_that.html" class="external-link">testthat::expect_that()</a></code> from tests (<a href='https://github.com/r-dbi/DBItest/issues/231'>#231</a>, <a href='https://github.com/michaelquinn32'>@michaelquinn32</a>).</li>
+<li>New <code>bind_time_minutes_integer</code> test for integer durations.</li>
+<li>Decompose query used for testing <code>dbBind()</code>.</li>
+<li>
+<code>spec_sql_append_table</code> test: Remove bad argument.</li>
+</ul></div>
     <div id="dbitest-1719000-2021-04-26" class="section level1">
 <h1 class="page-header" data-toc-text="1.7.1.9000">
 <a href="#dbitest-1719000-2021-04-26" class="anchor" aria-hidden="true"></a>DBItest 1.7.1.9000 (2021-04-26)<small> Unreleased </small></h1>
