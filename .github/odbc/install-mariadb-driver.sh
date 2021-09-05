@@ -14,5 +14,6 @@ sudo install lib/mariadb/plugin/client_ed25519.so /usr/lib/mariadb/plugin/
 sudo install lib/mariadb/plugin/dialog.so /usr/lib/mariadb/plugin/
 sudo install lib/mariadb/plugin/mysql_clear_password.so /usr/lib/mariadb/plugin/
 sudo install lib/mariadb/plugin/sha256_password.so /usr/lib/mariadb/plugin/
+ldd /usr/lib/libmaodbc.so
 popd
 rm -r odbc_package
