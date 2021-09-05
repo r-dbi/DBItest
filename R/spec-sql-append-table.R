@@ -494,7 +494,7 @@ spec_sql_append_table <- list(
   },
 
   #' with a subset of the columns of the existing table.
-  append_table_value_subset = function(con, table_name) {
+  append_table_value_subset = function(ctx, con, table_name) {
     if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
       skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
     }
@@ -510,7 +510,7 @@ spec_sql_append_table <- list(
   },
 
   #' The order of the columns does not matter.
-  append_table_value_shuffle = function(con, table_name) {
+  append_table_value_shuffle = function(ctx, con, table_name) {
     if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
       skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
     }
@@ -523,7 +523,7 @@ spec_sql_append_table <- list(
     expect_equal_df(test_out, test_in)
   },
 
-  append_table_value_shuffle_subset = function(con, table_name) {
+  append_table_value_shuffle_subset = function(ctx, con, table_name) {
     if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
       skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
     }
