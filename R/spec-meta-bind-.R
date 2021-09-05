@@ -95,20 +95,22 @@ BindTester <- R6::R6Class(
       placeholder <- placeholder_fun(length(values))
       is_na <- vapply(values, is_na_or_null, logical(1))
       placeholder_values <- vapply(values, function(x) quote_literal(con, x[1]), character(1))
+      result_names <- letters[seq_along(values)]
 
       query <- paste0(
-        "SELECT CASE WHEN ",
+        "SELECT ",
         paste0(
+          "CASE WHEN ",
           ifelse(
             is_na,
             paste0("(", is_null_check(cast_fun(placeholder)), ")"),
             paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
           ),
-          collapse = " AND "
-        ),
-        " THEN ", ret_values[[1]],
-        " ELSE ", ret_values[[2]], " END",
-        " AS a"
+          " THEN ", ret_values[[1]],
+          " ELSE ", ret_values[[2]], " END",
+          " AS ", result_names,
+          collapse = ", "
+        )
       )
 
       dbSendQuery(con, query)
@@ -144,8 +146,12 @@ BindTester <- R6::R6Class(
     compare = function(rows) {
       expect_equal(nrow(rows), length(values[[1]]))
       if (nrow(rows) > 0) {
+        result_names <- letters[seq_along(values)]
         expected <- c(trivial_values(1), rep(trivial_values(2)[[2]], nrow(rows) - 1))
-        expect_equal(rows, data.frame(a = expected))
+        all_expected <- rep(list(expected), length(values))
+        result <- as.data.frame(setNames(all_expected, result_names))
+
+        expect_equal(rows, result)
       }
     },
     #

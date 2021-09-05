@@ -43,6 +43,7 @@ Suggests:
     RSQLite
 VignetteBuilder: 
     knitr
+Additional_repositories: https://r-dbi.r-universe.dev
 Remotes: 
     r-dbi/dblog
 Encoding: UTF-8

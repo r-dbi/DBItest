@@ -5,76 +5,32 @@
 - Same as previous version.
 
 
-# DBItest 1.7.1 (2021-04-26)
+# DBItest 1.7.1 (2021-07-30)
 
-- Same as previous version.
+## Features
 
-
-# DBItest 1.7.0.9010 (2021-04-26)
-
-- Requires DBI 1.1.1.
-
-
-# DBItest 1.7.0.9009 (2020-12-27)
-
-- New `create_table_as` tweak (#131).
-
-
-# DBItest 1.7.0.9008 (2020-12-25)
-
-- Test odbc as part of the backend tests (#228).
-- Fix input dataset in `"overwrite_table_missing"` test (#210, @martinstuder).
-- `test_some()` gains `dblog = TRUE` argument so that the code still runs without dblog (#226).
-- Use original test name to decide if a test is skipped (#225).
-- Dynamic build matrix for backends (#221).
-
-
-# DBItest 1.7.0.9007 (2020-12-22)
-
-- `test_some()` shows DBI code via dblog (#217).
-
-
-# DBItest 1.7.0.9006 (2020-12-22)
-
+- Many tests now emit simpler stack traces, because the connection is opened by the test driver and not by the test itself (#187). Reduce usage of `with_remove_test_table()` for better stack traces on error (#196). Remove `with_*connection()` (#193).
+- `test_some()` shows DBI code via dblog (#217) if `dblog = TRUE` (#226).
 - New `"bind_date_integer"`, `"bind_time_seconds"` and `"bind_time_hours"` tests (#218).
-- Compatibility with testthat 3.0.0 (#207).
-- Avoid rate limit error in GHA (#208).
-
-
-# DBItest 1.7.0.9005 (2020-12-05)
-
-- Fix reexport test: skip if package is not installed, remove checks for deprecated functions and functions not reexported (#203).
-- Switch to GitHub Actions (#201).
+- New `create_table_as` tweak (#131).
 - `"roundtrip_time"` and `"append_roundtrip_time"` tests now also test values of class `"difftime"` with units other than `"secs"` (#199).
 - All tables created by the tests have the `"dbit"` prefix. Almost all tests now use random table names to avoid collisions and unrelated test failures (#197).
-
-
-# DBItest 1.7.0.9004 (2020-10-26)
-
 - `"roundtrip_timestamp"` tests now accept a time zone set by the database backend (#178, #198).
-- Reduce usage of `with_remove_test_table()` for better stack traces on error (#196).
-- Remove `with_*connection()` (#193).
-
-
-# DBItest 1.7.0.9003 (2020-10-21)
-
-- Many tests now emit simpler stack traces, because the connection is opened by the test driver and not by the test itself (#187).
-
-
-# DBItest 1.7.0.9002 (2020-09-28)
-
 - Support more than one class of each type in DBI backend packages.
 
+## Bug fixes
 
-# DBItest 1.7.0.9001 (2020-08-26)
+- Fix input dataset in `"overwrite_table_missing"` test (#210, @martinstuder).
+- Use original test name to decide if a test is skipped (#225).
+- Fix reexport test: skip if package is not installed, remove checks for deprecated functions and functions not reexported (#203).
 
-- Ensure compatibility with dev testthat and current R.
+## Internal
 
-
-# DBItest 1.7.0.9000
-
-- No changes to previous versions.
-
+- Requires DBI 1.1.1.
+- Test odbc as part of the backend tests (#228).
+- Dynamic build matrix for backends (#221).
+- Compatibility with testthat 3.0.0 (#207).
+- Switch to GitHub Actions (#201).
 
 # DBItest 1.7.0
 
