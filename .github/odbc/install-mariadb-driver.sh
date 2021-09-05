@@ -1,3 +1,5 @@
+set -x
+
 # from https://mariadb.com/kb/en/about-mariadb-connector-odbc/#installing-mariadb-connectorodbc-on-debianubuntu
 mkdir odbc_package
 pushd odbc_package
