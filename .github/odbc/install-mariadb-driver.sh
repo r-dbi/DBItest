@@ -7,6 +7,13 @@ wget https://downloads.mariadb.com/Connectors/odbc/connector-odbc-3.1.9/mariadb-
 tar -xvzf mariadb-connector-odbc-3.1.9-ubuntu-focal-amd64.tar.gz
 cd mariadb-connector-odbc-3.1.9-ubuntu-focal-amd64
 sudo install lib/mariadb/libmaodbc.so /usr/lib/
+cd ..
+
+ldd /usr/lib/libmaodbc.so
+
+wget https://downloads.mariadb.com/Connectors/c/connector-c-3.1.9/mariadb-connector-c-3.1.9-ubuntu-focal-amd64.tar.gz
+tar -xvzf mariadb-connector-c-3.1.9-ubuntu-focal-amd64.tar.gz
+cd mariadb-connector-c-3.1.9-ubuntu-focal-amd64
 sudo install -d /usr/lib/mariadb/
 sudo install -d /usr/lib/mariadb/plugin/
 sudo install lib/mariadb/plugin/auth_gssapi_client.so /usr/lib/mariadb/plugin/
@@ -15,6 +22,7 @@ sudo install lib/mariadb/plugin/client_ed25519.so /usr/lib/mariadb/plugin/
 sudo install lib/mariadb/plugin/dialog.so /usr/lib/mariadb/plugin/
 sudo install lib/mariadb/plugin/mysql_clear_password.so /usr/lib/mariadb/plugin/
 sudo install lib/mariadb/plugin/sha256_password.so /usr/lib/mariadb/plugin/
-ldd /usr/lib/libmaodbc.so
+cd ..
+
 popd
 rm -r odbc_package
