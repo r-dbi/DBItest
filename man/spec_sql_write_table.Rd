@@ -76,9 +76,11 @@ A regular, non-temporary table is visible in a second connection
 and after reconnecting to the database.
 
 SQL keywords can be used freely in table names, column names, and data.
-Quotes, commas, and spaces can also be used in the data,
+Quotes, commas, spaces, and other special characters such as newlines and tabs,
+can also be used in the data,
 and, if the database supports non-syntactic identifiers,
-also for table names and column names.
+also for table names
+and column names.
 
 The following data types must be supported at least,
 and be read identically with \code{\link[=dbReadTable]{dbReadTable()}}:

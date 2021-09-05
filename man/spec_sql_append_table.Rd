@@ -24,10 +24,11 @@ unsupported data types,
 also raise an error.
 
 SQL keywords can be used freely in table names, column names, and data.
-Quotes, commas, spaces, newlines, and other special characters,
+Quotes, commas, spaces, and other special characters such as newlines and tabs,
 can also be used in the data,
 and, if the database supports non-syntactic identifiers,
-also for table names and column names.
+also for table names
+and column names.
 
 The following data types must be supported at least,
 and be read identically with \code{\link[=dbReadTable]{dbReadTable()}}:

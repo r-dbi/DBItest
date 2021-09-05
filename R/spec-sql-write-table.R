@@ -278,40 +278,61 @@ spec_sql_write_table <- list(
     test_table_roundtrip(con, tbl_in, name = "EXISTS")
   },
 
-  #' Quotes, commas, and spaces can also be used in the data,
+  #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
+  #' can also be used in the data,
+  roundtrip_quotes = function(ctx, con, table_name) {
+    tbl_in <- data.frame(
+      as.character(dbQuoteString(con, "")),
+      as.character(dbQuoteIdentifier(con, "")),
+      "with space",
+      "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
+      "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb",
+      stringsAsFactors = FALSE
+    )
+
+    names(tbl_in) <- letters[seq_along(tbl_in)]
+    test_table_roundtrip(con, tbl_in)
+  },
+
   #' and, if the database supports non-syntactic identifiers,
-  #' also for table names and column names.
-  roundtrip_quotes = function(ctx, con) {
-    if (!isTRUE(ctx$tweaks$strict_identifier)) {
-      table_names <- c(
-        as.character(dbQuoteIdentifier(con, "")),
-        as.character(dbQuoteString(con, "")),
-        "with space",
-        "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
-        "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb"
-      )
-    } else {
-      table_names <- "a"
+  #' also for table names
+  roundtrip_quotes_table_names = function(ctx, con) {
+    if (isTRUE(ctx$tweaks$strict_identifier)) {
+      skip("tweak: strict_identifier")
     }
+
+    table_names <- c(
+      as.character(dbQuoteIdentifier(con, "")),
+      as.character(dbQuoteString(con, "")),
+      "with space",
+      "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
+      "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb"
+    )
+
+    tbl_in <- trivial_df()
 
     for (table_name in table_names) {
-      tbl_in <- data.frame(
-        as.character(dbQuoteString(con, "")),
-        as.character(dbQuoteIdentifier(con, "")),
-        "with space",
-        "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
-        "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb",
-        stringsAsFactors = FALSE
-      )
-
-      if (!isTRUE(ctx$tweaks$strict_identifier)) {
-        names(tbl_in) <- rev(unname(unlist(tbl_in)))
-      } else {
-        names(tbl_in) <- letters[seq_along(tbl_in)]
-      }
-
-      test_table_roundtrip(con, tbl_in)
+      test_table_roundtrip_one(con, tbl_in, .add_na = "none")
     }
+  },
+
+  #' and column names.
+  roundtrip_quotes_column_names = function(ctx, con) {
+    if (isTRUE(ctx$tweaks$strict_identifier)) {
+      skip("tweak: strict_identifier")
+    }
+
+    column_names <- c(
+      as.character(dbQuoteIdentifier(con, "")),
+      as.character(dbQuoteString(con, "")),
+      "with space",
+      "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
+      "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb"
+    )
+
+    tbl_in <- trivial_df(length(column_names), column_names)
+
+    test_table_roundtrip_one(con, tbl_in, .add_na = "none")
   },
 
   #'
