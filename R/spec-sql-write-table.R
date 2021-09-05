@@ -441,7 +441,7 @@ spec_sql_write_table <- list(
     test_table_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
-        expect_is(unclass(tbl_out$a), "numeric")
+        expect_type(unclass(tbl_out$a), "double")
         tbl_out
       }
     )

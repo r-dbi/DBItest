@@ -17,7 +17,7 @@ spec_meta_get_statement <- list(
       dbSendQuery(con, query),
       {
         s <- dbGetStatement(res)
-        expect_is(s, "character")
+        expect_type(s, "character")
         expect_identical(s, query)
       }
     )
@@ -30,7 +30,7 @@ spec_meta_get_statement <- list(
       dbSendStatement(con, query),
       {
         s <- dbGetStatement(res)
-        expect_is(s, "character")
+        expect_type(s, "character")
         expect_identical(s, query)
       }
     )

@@ -14,7 +14,7 @@ spec_sql_quote_string <- list(
     simple <- "simple"
     simple_out <- dbQuoteString(con, simple)
     expect_error(as.character(simple_out), NA)
-    expect_is(as.character(simple_out), "character")
+    expect_type(as.character(simple_out), "character")
     expect_equal(length(simple_out), 1L)
   },
   #

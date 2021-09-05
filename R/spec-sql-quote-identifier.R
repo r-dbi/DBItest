@@ -13,7 +13,7 @@ spec_sql_quote_identifier <- list(
     #' `dbQuoteIdentifier()` returns an object that can be coerced to [character],
     simple_out <- dbQuoteIdentifier(con, "simple")
     expect_error(as.character(simple_out), NA)
-    expect_is(as.character(simple_out), "character")
+    expect_type(as.character(simple_out), "character")
   },
   #
   quote_identifier_vectorized = function(ctx, con) {

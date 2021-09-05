@@ -13,7 +13,7 @@ spec_sql_list_tables <- list(
   list_tables = function(ctx, con, table_name = "dbit07") {
     tables <- dbListTables(con)
     #' returns a character vector
-    expect_is(tables, "character")
+    expect_type(tables, "character")
     #' that enumerates all tables
     expect_false(table_name %in% tables)
 

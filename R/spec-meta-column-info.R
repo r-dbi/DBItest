@@ -19,7 +19,7 @@ spec_meta_column_info <- list(
       {
         fields <- dbColumnInfo(res)
         #' returns a data frame
-        expect_is(fields, "data.frame")
+        expect_s3_class(fields, "data.frame")
         #' with at least two columns `"name"` and `"type"` (in that order)
         expect_equal(names(fields)[1:2], c("name", "type"))
         #' (and optional columns that start with a dot).
@@ -30,7 +30,7 @@ spec_meta_column_info <- list(
         iris_ret <- dbFetch(res)
         expect_identical(fields$name, names(iris_ret))
         #' The `"type"` column is of type `character` and only for information.
-        expect_is(fields$type, "character")
+        expect_type(fields$type, "character")
         #' Do not compute on the `"type"` column, instead use `dbFetch(res, n = 0)`
         #' to create a zero-row data frame initialized with the correct data types.
       }
