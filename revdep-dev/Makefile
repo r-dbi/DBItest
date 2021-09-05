@@ -23,7 +23,7 @@ odbc-%: odbc
 
 duckdb:
 	# Use local checkout if available, otherwise clone from cwida GitHub
-	if [ -d ../../../$@ ]; then ln -s $$(realpath ../../../$@/tools/rpkg) $@; else git clone https://github.com/cwida/$@.git duckdb-core; ln -s duckdb-core/tools/rpkg $@; fi
+	if [ -d ../../../$@ ]; then ln -s $$(realpath ../../../$@/tools/rpkg) $@; else git clone https://github.com/duckdb/$@.git duckdb-core; ln -s duckdb-core/tools/rpkg $@; fi
 	ls -l
 	head $@/DESCRIPTION
 
