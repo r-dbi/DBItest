@@ -176,6 +176,9 @@ perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
 <li><p>If the result of a call to <code>dbQuoteIdentifier()</code>: no more quoting is done</p></li>
 </ul>
 
+<p>The <code>value</code> argument must be a data frame
+with a subset of the columns of the existing table if <code>append = TRUE</code>.
+The order of the columns does not matter with <code>append = TRUE</code>.</p>
 <p>If the <code>overwrite</code> argument is <code>TRUE</code>, an existing table of the same name
 will be overwritten.
 This argument doesn't change behavior if the table does not exist yet.</p>
@@ -188,9 +191,11 @@ Not all backends support this argument.
 A regular, non-temporary table is visible in a second connection
 and after reconnecting to the database.</p>
 <p>SQL keywords can be used freely in table names, column names, and data.
-Quotes, commas, and spaces can also be used in the data,
+Quotes, commas, spaces, and other special characters such as newlines and tabs,
+can also be used in the data,
 and, if the database supports non-syntactic identifiers,
-also for table names and column names.</p>
+also for table names
+and column names.</p>
 <p>The following data types must be supported at least,
 and be read identically with <code>dbReadTable()</code>:</p><ul>
 <li><p>integer</p></li>
