@@ -9,7 +9,7 @@
 scalar
 numeric.
 If the table does not exist,
-or the data frame with the new data has different column names,
+or the new data in \code{values} is not a data frame or has different column names,
 an error is raised; the remote table remains unchanged.
 
 An error is raised when calling this method for a closed
@@ -24,9 +24,11 @@ unsupported data types,
 also raise an error.
 
 SQL keywords can be used freely in table names, column names, and data.
-Quotes, commas, and spaces can also be used in the data,
+Quotes, commas, spaces, and other special characters such as newlines and tabs,
+can also be used in the data,
 and, if the database supports non-syntactic identifiers,
-also for table names and column names.
+also for table names
+and column names.
 
 The following data types must be supported at least,
 and be read identically with \code{\link[=dbReadTable]{dbReadTable()}}:
@@ -88,6 +90,10 @@ All other values for the \code{row.names} argument
 \code{NA},
 and a string)
 raise an error.
+
+The \code{value} argument must be a data frame
+with a subset of the columns of the existing table.
+The order of the columns does not matter.
 }
 
 \keyword{internal}

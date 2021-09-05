@@ -134,6 +134,61 @@ spec_sql_write_table <- list(
   },
 
   #'
+  #' The `value` argument must be a data frame
+  write_table_value_df = function(con, table_name) {
+    test_in <- trivial_df()
+    dbWriteTable(con, table_name, test_in)
+
+    test_out <- check_df(dbReadTable(con, table_name))
+    expect_equal_df(test_out, test_in)
+  },
+
+  #' with a subset of the columns of the existing table if `append = TRUE`.
+  write_table_value_subset = function(ctx, con, table_name) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
+
+    test_in <- trivial_df(3, letters[1:3])
+    dbCreateTable(con, table_name, test_in)
+    dbWriteTable(con, table_name, test_in[2], append = TRUE)
+
+    test_out <- check_df(dbReadTable(con, table_name))
+
+    test_in[c(1, 3)] <- NA_real_
+    expect_equal_df(test_out, test_in)
+  },
+
+  #' The order of the columns does not matter with `append = TRUE`.
+  write_table_value_shuffle = function(ctx, con, table_name) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
+
+    test_in <- trivial_df(3, letters[1:3])
+    dbCreateTable(con, table_name, test_in)
+    dbWriteTable(con, table_name, test_in[c(2, 3, 1)], append = TRUE)
+
+    test_out <- check_df(dbReadTable(con, table_name))
+    expect_equal_df(test_out, test_in)
+  },
+
+  write_table_value_shuffle_subset = function(ctx, con, table_name) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
+
+    test_in <- trivial_df(4, letters[1:4])
+    dbCreateTable(con, table_name, test_in)
+    dbWriteTable(con, table_name, test_in[c(4, 1, 3)], append = TRUE)
+
+    test_out <- check_df(dbReadTable(con, table_name))
+
+    test_in[2] <- NA_real_
+    expect_equal_df(test_out, test_in)
+  },
+
+  #'
   #' If the `overwrite` argument is `TRUE`, an existing table of the same name
   #' will be overwritten.
   overwrite_table = function(ctx, con, table_name) {
@@ -235,41 +290,65 @@ spec_sql_write_table <- list(
     test_table_roundtrip(con, tbl_in, name = "EXISTS")
   },
 
-  #' Quotes, commas, and spaces can also be used in the data,
+  #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
+  #' can also be used in the data,
+  roundtrip_quotes = function(ctx, con, table_name) {
+    tbl_in <- data.frame(
+      as.character(dbQuoteString(con, "")),
+      as.character(dbQuoteIdentifier(con, "")),
+      "with space",
+      "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
+      "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb",
+      stringsAsFactors = FALSE
+    )
+
+    names(tbl_in) <- letters[seq_along(tbl_in)]
+    test_table_roundtrip(con, tbl_in)
+  },
+
   #' and, if the database supports non-syntactic identifiers,
-  #' also for table names and column names.
-  roundtrip_quotes = function(ctx, con) {
-    if (!isTRUE(ctx$tweaks$strict_identifier)) {
-      table_names <- c(
-        as.character(dbQuoteIdentifier(con, "")),
-        as.character(dbQuoteString(con, "")),
-        "with space",
-        ","
-      )
-    } else {
-      table_names <- "a"
+  #' also for table names
+  roundtrip_quotes_table_names = function(ctx, con) {
+    if (isTRUE(ctx$tweaks$strict_identifier)) {
+      skip("tweak: strict_identifier")
     }
+
+    table_names <- c(
+      as.character(dbQuoteIdentifier(con, "")),
+      as.character(dbQuoteString(con, "")),
+      "with space",
+      "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
+      "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb"
+    )
+
+    tbl_in <- trivial_df()
 
     for (table_name in table_names) {
-      tbl_in <- data.frame(
-        a = as.character(dbQuoteString(con, "")),
-        b = as.character(dbQuoteIdentifier(con, "")),
-        c = "with space",
-        d = ",",
-        stringsAsFactors = FALSE
-      )
-
-      if (!isTRUE(ctx$tweaks$strict_identifier)) {
-        names(tbl_in) <- c(
-          as.character(dbQuoteIdentifier(con, "")),
-          as.character(dbQuoteString(con, "")),
-          "with space",
-          ","
-        )
-      }
-
-      test_table_roundtrip(con, tbl_in)
+      test_table_roundtrip_one(con, tbl_in, .add_na = "none")
     }
+  },
+
+  #' and column names.
+  roundtrip_quotes_column_names = function(ctx, con) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
+
+    if (isTRUE(ctx$tweaks$strict_identifier)) {
+      skip("tweak: strict_identifier")
+    }
+
+    column_names <- c(
+      as.character(dbQuoteIdentifier(con, "")),
+      as.character(dbQuoteString(con, "")),
+      "with space",
+      "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
+      "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb"
+    )
+
+    tbl_in <- trivial_df(length(column_names), column_names)
+
+    test_table_roundtrip_one(con, tbl_in, .add_na = "none")
   },
 
   #'

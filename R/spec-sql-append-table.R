@@ -29,8 +29,17 @@ spec_sql_append_table <- list(
     expect_error(dbAppendTable(con, table_name, data.frame(a = 2L)))
   },
 
-  #' or the data frame with the new data has different column names,
+  #' or the new data in `values` is not a data frame or has different column names,
   #' an error is raised; the remote table remains unchanged.
+  append_table_invalid_value = function(con, table_name) {
+    test_in <- trivial_df()
+    dbCreateTable(con, table_name, test_in)
+    expect_error(dbAppendTable(con, table_name, unclass(test_in)))
+
+    test_out <- check_df(dbReadTable(con, table_name))
+    expect_equal_df(test_out, test_in[0, , drop = FALSE])
+  },
+
   append_table_append_incompatible = function(con, table_name) {
     test_in <- trivial_df()
     dbCreateTable(con, table_name, test_in)
@@ -81,41 +90,61 @@ spec_sql_append_table <- list(
     test_table_roundtrip(use_append = TRUE, con, tbl_in, name = "EXISTS")
   },
 
-  #' Quotes, commas, and spaces can also be used in the data,
+  #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
+  #' can also be used in the data,
+  append_roundtrip_quotes = function(ctx, con, table_name) {
+    tbl_in <- data.frame(
+      as.character(dbQuoteString(con, "")),
+      as.character(dbQuoteIdentifier(con, "")),
+      "with space",
+      "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
+      "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb",
+      stringsAsFactors = FALSE
+    )
+
+    names(tbl_in) <- letters[seq_along(tbl_in)]
+    test_table_roundtrip(con, tbl_in, use_append = TRUE)
+  },
+
   #' and, if the database supports non-syntactic identifiers,
-  #' also for table names and column names.
-  append_roundtrip_quotes = function(ctx, con) {
-    if (!isTRUE(ctx$tweaks$strict_identifier)) {
-      table_names <- c(
-        as.character(dbQuoteIdentifier(con, "")),
-        as.character(dbQuoteString(con, "")),
-        "with space",
-        ","
-      )
-    } else {
-      table_names <- "a"
+  #' also for table names
+  append_roundtrip_quotes_table_names = function(ctx, con) {
+    if (isTRUE(ctx$tweaks$strict_identifier)) {
+      skip("tweak: strict_identifier")
     }
+
+    table_names <- c(
+      as.character(dbQuoteIdentifier(con, "")),
+      as.character(dbQuoteString(con, "")),
+      "with space",
+      "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
+      "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb"
+    )
+
+    tbl_in <- trivial_df()
 
     for (table_name in table_names) {
-      tbl_in <- data.frame(
-        a = as.character(dbQuoteString(con, "")),
-        b = as.character(dbQuoteIdentifier(con, "")),
-        c = "with space",
-        d = ",",
-        stringsAsFactors = FALSE
-      )
-
-      if (!isTRUE(ctx$tweaks$strict_identifier)) {
-        names(tbl_in) <- c(
-          as.character(dbQuoteIdentifier(con, "")),
-          as.character(dbQuoteString(con, "")),
-          "with space",
-          ","
-        )
-      }
-
-      test_table_roundtrip(use_append = TRUE, con, tbl_in)
+      test_table_roundtrip_one(con, tbl_in, use_append = TRUE, .add_na = FALSE)
     }
+  },
+
+  #' and column names.
+  append_roundtrip_quotes_column_names = function(ctx, con) {
+    if (isTRUE(ctx$tweaks$strict_identifier)) {
+      skip("tweak: strict_identifier")
+    }
+
+    column_names <- c(
+      as.character(dbQuoteIdentifier(con, "")),
+      as.character(dbQuoteString(con, "")),
+      "with space",
+      "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
+      "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb"
+    )
+
+    tbl_in <- trivial_df(length(column_names), column_names)
+
+    test_table_roundtrip_one(con, tbl_in, use_append = TRUE, .add_na = FALSE)
   },
 
   #'
@@ -452,6 +481,63 @@ spec_sql_append_table <- list(
 
     #' raise an error.
   },
+
+  #'
+  #' The `value` argument must be a data frame
+  append_table_value_df = function(con, table_name) {
+    test_in <- trivial_df()
+    dbCreateTable(con, table_name, test_in)
+    dbAppendTable(con, table_name, test_in)
+
+    test_out <- check_df(dbReadTable(con, table_name))
+    expect_equal_df(test_out, test_in)
+  },
+
+  #' with a subset of the columns of the existing table.
+  append_table_value_subset = function(ctx, con, table_name) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
+
+    test_in <- trivial_df(3, letters[1:3])
+    dbCreateTable(con, table_name, test_in)
+    dbAppendTable(con, table_name, test_in[2])
+
+    test_out <- check_df(dbReadTable(con, table_name))
+
+    test_in[c(1, 3)] <- NA_real_
+    expect_equal_df(test_out, test_in)
+  },
+
+  #' The order of the columns does not matter.
+  append_table_value_shuffle = function(ctx, con, table_name) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
+
+    test_in <- trivial_df(3, letters[1:3])
+    dbCreateTable(con, table_name, test_in)
+    dbAppendTable(con, table_name, test_in[c(2, 3, 1)])
+
+    test_out <- check_df(dbReadTable(con, table_name))
+    expect_equal_df(test_out, test_in)
+  },
+
+  append_table_value_shuffle_subset = function(ctx, con, table_name) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
+
+    test_in <- trivial_df(4, letters[1:4])
+    dbCreateTable(con, table_name, test_in)
+    dbAppendTable(con, table_name, test_in[c(4, 1, 3)])
+
+    test_out <- check_df(dbReadTable(con, table_name))
+
+    test_in[2] <- NA_real_
+    expect_equal_df(test_out, test_in)
+  },
+
   #
   NULL
 )
