@@ -2,7 +2,7 @@
 
 get_pkg_path <- function(ctx) {
   pkg_name <- package_name(ctx)
-  expect_is(pkg_name, "character")
+  expect_type(pkg_name, "character")
 
   pkg_path <- find.package(pkg_name)
   pkg_path

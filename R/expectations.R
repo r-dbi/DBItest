@@ -1,21 +1,25 @@
-arglist_is_empty <- function() {
-  function(x) {
-    expect_true(
-      is.null(formals(x)),
-      "has empty argument list"
-    )
-  }
+expect_arglist_is_empty <- function(object) {
+  act <- quasi_label(rlang::enquo(object), arg = "object")
+  act$formals <- formals(act$val)
+  expect(
+    is.null(act$formals),
+    sprintf("%s has an empty argument list.", act$lab)
+  )
+
+  invisible(act$val)
 }
 
-all_args_have_default_values <- function() {
-  function(x) {
-    args <- formals(x)
-    args <- args[names(args) != "..."]
-    expect_true(
-      all(vapply(args, function(x) if (is.null(x)) "NULL" else as.character(x), character(1L)) != ""),
-      "has arguments without default values"
-    )
-  }
+expect_all_args_have_default_values <- function(object) {
+  act <- quasi_label(rlang::enquo(object), arg = "object")
+  act$args <- formals(act$val)
+  act$args <- act$args[names(act$args) != "..."]
+  act$char_args <- vapply(act$args, as.character, character(1L))
+  expect(
+    all(nzchar(act$char_args, keepNA = FALSE)),
+    sprintf("%s has arguments without default values", act$lab)
+  )
+
+  invisible(act$val)
 }
 
 has_method <- function(method_name) {
