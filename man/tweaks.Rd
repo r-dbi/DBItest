@@ -25,7 +25,8 @@ tweaks(
   list_temporary_tables = TRUE,
   is_null_check = function(x) paste0("(", x, " IS NULL)"),
   create_table_as = function(table_name, query) paste0("CREATE TABLE ", table_name,
-    " AS ", query)
+    " AS ", query),
+  dbitest_version = "1.7.1"
 )
 }
 \arguments{
@@ -105,6 +106,9 @@ value is \code{NULL}.}
 \item{create_table_as}{\verb{[function(character(1), character(1))]}\cr
 A function that creates an SQL expression for creating a table
 from an SQL expression.}
+
+\item{dbitest_version}{\verb{[character(1)]}\cr
+Compatible DBItest version, default: "1.7.1".}
 }
 \description{
 The tweaks are a way to control the behavior of certain tests. Currently,

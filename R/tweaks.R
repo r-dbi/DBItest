@@ -110,6 +110,10 @@
     #'   from an SQL expression.
     "create_table_as" = function(table_name, query) paste0("CREATE TABLE ", table_name, " AS ", query),
 
+    #' @param dbitest_version `[character(1)]`\cr
+    #'   Compatible DBItest version, default: "1.7.1".
+    "dbitest_version" = "1.7.1",
+
     # Dummy argument
     NULL
   )
