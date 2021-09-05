@@ -1,13 +1,6 @@
 # Adapted from backends.yaml, with contents from odbc/db.yaml
 on:
   push:
-    branches:
-      - main
-      - master
-  pull_request:
-    branches:
-      - main
-      - master
   schedule:
     - cron:  '0 8 * * *'
 
@@ -166,6 +159,9 @@ jobs:
           ACCEPT_EULA=Y apt-get install -y msodbcsql17
           ln -s /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.*.so.* /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.so
         shell: sudo bash {0}
+
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
 
       - name: Install locally to avoid error with test_local()
         run: |
