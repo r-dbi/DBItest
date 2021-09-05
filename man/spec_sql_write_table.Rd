@@ -57,6 +57,10 @@ perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 \item If the result of a call to \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}: no more quoting is done
 }
 
+The \code{value} argument must be a data frame
+with a subset of the columns of the existing table if \code{append = TRUE}.
+The order of the columns does not matter with \code{append = TRUE}.
+
 If the \code{overwrite} argument is \code{TRUE}, an existing table of the same name
 will be overwritten.
 This argument doesn't change behavior if the table does not exist yet.
