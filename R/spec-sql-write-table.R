@@ -145,10 +145,6 @@ spec_sql_write_table <- list(
 
   #' with a subset of the columns of the existing table if `append = TRUE`.
   write_table_value_subset = function(ctx, con, table_name) {
-    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
-      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
-    }
-
     test_in <- trivial_df(3, letters[1:3])
     dbCreateTable(con, table_name, test_in)
     dbWriteTable(con, table_name, test_in[2], append = TRUE)
@@ -161,10 +157,6 @@ spec_sql_write_table <- list(
 
   #' The order of the columns does not matter with `append = TRUE`.
   write_table_value_shuffle = function(ctx, con, table_name) {
-    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
-      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
-    }
-
     test_in <- trivial_df(3, letters[1:3])
     dbCreateTable(con, table_name, test_in)
     dbWriteTable(con, table_name, test_in[c(2, 3, 1)], append = TRUE)
@@ -174,10 +166,6 @@ spec_sql_write_table <- list(
   },
 
   write_table_value_shuffle_subset = function(ctx, con, table_name) {
-    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
-      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
-    }
-
     test_in <- trivial_df(4, letters[1:4])
     dbCreateTable(con, table_name, test_in)
     dbWriteTable(con, table_name, test_in[c(4, 1, 3)], append = TRUE)
