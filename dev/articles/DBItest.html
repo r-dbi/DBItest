@@ -175,12 +175,12 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">DBItest</span><span class="fu">::</span><span class="fu"><a href="../reference/test_all.html">test_some</a></span><span class="op">(</span><span class="st">"get_query_atomic"</span><span class="op">)</span></code></pre></div>
 <pre><code>## drv1 &lt;- new("SQLiteDriver")
-## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/RtmpTZJTvF/DBItest2926355ceaa7.sqlite")
+## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/Rtmpkt4fKl/DBItest286f683253e8.sqlite")
 ## dbGetQuery(conn1, "SELECT 1.5 AS a")
 ## ##     a
 ## ## 1 1.5
 ## dbDisconnect(conn1)
-## Test passed 🥇</code></pre>
+## Test passed 🌈</code></pre>
 <p>DBItest relies heavily on metaprogramming. Unfortunately, this means that a failing test may give no indication of the reason for the failure. The <code><a href="../reference/test_all.html">test_some()</a></code> function now by default integrates the new experimental <a href="https://github.com/r-dbi/dblog" class="external-link">dblog package</a> package. It prints the DBI code that is executed as the tests are run, as seen above.</p>
 <p>Another way to scout for the reason of the problem is to review the sources of DBItest and relate the test name (that is printed with each failure) with the human-readable specification embedded with the test code.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -190,7 +190,7 @@
 <span class="op">)</span></code></pre></div>
 <pre><code>## drv1 &lt;- new("SQLiteDriver")
 ## Start test: DBItest: Result: get_query_atomic
-## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/RtmpTZJTvF/DBItest2926355ceaa7.sqlite")
+## conn1 &lt;- dbConnect(drv1, dbname = "/tmp/Rtmpkt4fKl/DBItest286f683253e8.sqlite")
 ##   run.R:70:11 [success]
 ## dbGetQuery(conn1, "SELECT 1.5 AS a")
 ## ##     a
