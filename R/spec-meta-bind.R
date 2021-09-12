@@ -246,6 +246,11 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, c(texts, NA))
   },
 
+  #'   (also with special characters such as spaces, newlines, quotes, and backslashes)
+  bind_character_escape = function(ctx, con) {
+    test_select_bind(con, ctx, c(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA))
+  },
+
   #' - [factor] (bound as character,
   bind_factor = function(ctx, con) {
     #' with warning)
