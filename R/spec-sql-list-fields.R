@@ -11,15 +11,15 @@ spec_sql_list_fields <- list(
   #' @return
   #' `dbListFields()`
   list_fields = function(ctx, con, table_name) {
-    iris <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris)
+    penguins <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins)
 
     fields <- dbListFields(con, table_name)
     #' returns a character vector
     expect_is(fields, "character")
     #' that enumerates all fields
     #' in the table in the correct order.
-    expect_identical(fields, names(iris))
+    expect_identical(fields, names(penguins))
   },
   #' This also works for temporary tables if supported by the database.
   list_fields_temporary = function(ctx, con, table_name) {

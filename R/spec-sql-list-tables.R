@@ -22,8 +22,8 @@ spec_sql_list_tables <- list(
     #' in the database.
 
     #' Tables added with [dbWriteTable()]
-    iris <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris)
+    penguins <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins)
 
     #' are part of the list.
     tables <- dbListTables(con)

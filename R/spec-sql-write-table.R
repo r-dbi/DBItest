@@ -180,44 +180,44 @@ spec_sql_write_table <- list(
   #' If the `overwrite` argument is `TRUE`, an existing table of the same name
   #' will be overwritten.
   overwrite_table = function(ctx, con, table_name) {
-    iris <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris)
+    penguins <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins)
     expect_error(
-      dbWriteTable(con, table_name, iris[1, ], overwrite = TRUE),
+      dbWriteTable(con, table_name, penguins[1, ], overwrite = TRUE),
       NA
     )
-    iris_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_df(iris_out, iris[1, ])
+    penguins_out <- check_df(dbReadTable(con, table_name))
+    expect_equal_df(penguins_out, penguins[1, ])
   },
 
   #' This argument doesn't change behavior if the table does not exist yet.
   overwrite_table_missing = function(ctx, con, table_name) {
-    iris_in <- get_iris(ctx)
+    penguins_in <- get_penguins(ctx)
     expect_error(
-      dbWriteTable(con, table_name, iris_in[1, ], overwrite = TRUE),
+      dbWriteTable(con, table_name, penguins_in[1, ], overwrite = TRUE),
       NA
     )
-    iris_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_df(iris_out, iris_in[1, ])
+    penguins_out <- check_df(dbReadTable(con, table_name))
+    expect_equal_df(penguins_out, penguins_in[1, ])
   },
 
   #'
   #' If the `append` argument is `TRUE`, the rows in an existing table are
   #' preserved, and the new data are appended.
   append_table = function(ctx, con, table_name) {
-    iris <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris)
-    expect_error(dbWriteTable(con, table_name, iris[1, ], append = TRUE), NA)
-    iris_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_df(iris_out, rbind(iris, iris[1, ]))
+    penguins <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins)
+    expect_error(dbWriteTable(con, table_name, penguins[1, ], append = TRUE), NA)
+    penguins_out <- check_df(dbReadTable(con, table_name))
+    expect_equal_df(penguins_out, rbind(penguins, penguins[1, ]))
   },
 
   #' If the table doesn't exist yet, it is created.
   append_table_new = function(ctx, con, table_name) {
-    iris <- get_iris(ctx)
-    expect_error(dbWriteTable(con, table_name, iris[1, ], append = TRUE), NA)
-    iris_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_df(iris_out, iris[1, ])
+    penguins <- get_penguins(ctx)
+    expect_error(dbWriteTable(con, table_name, penguins[1, ], append = TRUE), NA)
+    penguins_out <- check_df(dbReadTable(con, table_name))
+    expect_equal_df(penguins_out, penguins[1, ])
   },
 
   #'
@@ -229,10 +229,10 @@ spec_sql_write_table <- list(
       skip("tweak: temporary_tables")
     }
 
-    iris <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris, temporary = TRUE)
-    iris_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_df(iris_out, iris)
+    penguins <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins, temporary = TRUE)
+    penguins_out <- check_df(dbReadTable(con, table_name))
+    expect_equal_df(penguins_out, penguins)
 
     con2 <- local_connection(ctx)
     expect_error(dbReadTable(con2, table_name))
@@ -249,23 +249,23 @@ spec_sql_write_table <- list(
 
   #' A regular, non-temporary table is visible in a second connection
   table_visible_in_other_connection = function(ctx, con) {
-    iris30 <- get_iris(ctx)
+    penguins30 <- get_penguins(ctx)
 
     table_name <- "dbit09"
 
-    dbWriteTable(con, table_name, iris30)
-    iris_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_df(iris_out, iris30)
+    dbWriteTable(con, table_name, penguins30)
+    penguins_out <- check_df(dbReadTable(con, table_name))
+    expect_equal_df(penguins_out, penguins30)
 
     con2 <- local_connection(ctx)
-    expect_equal_df(dbReadTable(con2, table_name), iris30)
+    expect_equal_df(dbReadTable(con2, table_name), penguins30)
   },
   # second stage
   table_visible_in_other_connection = function(ctx, con, table_name = "dbit09") {
     #' and after reconnecting to the database.
-    iris30 <- get_iris(ctx)
+    penguins30 <- get_penguins(ctx)
 
-    expect_equal_df(check_df(dbReadTable(con, table_name)), iris30)
+    expect_equal_df(check_df(dbReadTable(con, table_name)), penguins30)
   },
 
   #'
@@ -650,14 +650,14 @@ spec_sql_write_table <- list(
     #'   even if the input data frame only has natural row names from 1 to `nrow(...)`.
     row.names <- TRUE
 
-    iris_in <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris_in, row.names = row.names)
-    iris_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
+    penguins_in <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins_in, row.names = row.names)
+    penguins_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
-    expect_true("row_names" %in% names(iris_out))
-    expect_true(all(rownames(iris_in) %in% iris_out$row_names))
-    expect_true(all(iris_out$row_names %in% rownames(iris_in)))
-    expect_equal_df(iris_out[names(iris_out) != "row_names"], iris_in)
+    expect_true("row_names" %in% names(penguins_out))
+    expect_true(all(rownames(penguins_in) %in% penguins_out$row_names))
+    expect_true(all(penguins_out$row_names %in% rownames(penguins_in)))
+    expect_equal_df(penguins_out[names(penguins_out) != "row_names"], penguins_in)
   },
   #
   write_table_row_names_na_exists = function(ctx, con, table_name) {
@@ -678,11 +678,11 @@ spec_sql_write_table <- list(
     #'   no extra column is created in the case of natural row names.
     row.names <- NA
 
-    iris_in <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris_in, row.names = row.names)
-    iris_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
+    penguins_in <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins_in, row.names = row.names)
+    penguins_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
-    expect_equal_df(iris_out, iris_in)
+    expect_equal_df(penguins_out, penguins_in)
   },
   #
   write_table_row_names_string_exists = function(ctx, con, table_name) {
@@ -705,14 +705,14 @@ spec_sql_write_table <- list(
     row.names <- "seq"
     #'   even if the input data frame only has natural row names.
 
-    iris_in <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris_in, row.names = row.names)
-    iris_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
+    penguins_in <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins_in, row.names = row.names)
+    penguins_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
-    expect_true("seq" %in% names(iris_out))
-    expect_true(all(iris_out$seq %in% rownames(iris_in)))
-    expect_true(all(rownames(iris_in) %in% iris_out$seq))
-    expect_equal_df(iris_out[names(iris_out) != "seq"], iris_in)
+    expect_true("seq" %in% names(penguins_out))
+    expect_true(all(penguins_out$seq %in% rownames(penguins_in)))
+    expect_true(all(rownames(penguins_in) %in% penguins_out$seq))
+    expect_equal_df(penguins_out[names(penguins_out) != "seq"], penguins_in)
   },
   #
   write_table_row_names_default = function(ctx, con, table_name) {

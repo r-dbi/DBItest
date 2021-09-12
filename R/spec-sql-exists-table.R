@@ -13,8 +13,8 @@ spec_sql_exists_table <- list(
   #' specified by the `name` argument exists, `FALSE` otherwise.
   exists_table = function(ctx, con, table_name = "dbit05") {
     expect_false(expect_visible(dbExistsTable(con, table_name)))
-    iris <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris)
+    penguins <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins)
 
     expect_true(expect_visible(dbExistsTable(con, table_name)))
   },
@@ -24,7 +24,7 @@ spec_sql_exists_table <- list(
     expect_false(expect_visible(dbExistsTable(con, table_name)))
   },
 
-  #' 
+  #'
   #' This includes temporary tables if supported by the database.
   exists_table_temporary = function(ctx, con, table_name) {
     expect_false(expect_visible(dbExistsTable(con, table_name)))
