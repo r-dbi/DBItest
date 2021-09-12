@@ -84,10 +84,10 @@ spec_sql_append_table <- list(
   #' SQL keywords can be used freely in table names, column names, and data.
   append_roundtrip_keywords = function(con) {
     tbl_in <- data.frame(
-      SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
+      select = "unique", from = "join", where = "order",
       stringsAsFactors = FALSE
     )
-    test_table_roundtrip(use_append = TRUE, con, tbl_in, name = "EXISTS")
+    test_table_roundtrip(use_append = TRUE, con, tbl_in, name = "exists")
   },
 
   #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
