@@ -13,11 +13,11 @@ spec_sql_read_table <- list(
   #' from the remote table, effectively the result of calling [dbGetQuery()]
   #' with `SELECT * FROM <name>`.
   read_table = function(ctx, con, table_name) {
-    iris_in <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris_in)
-    iris_out <- check_df(dbReadTable(con, table_name))
+    penguins_in <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins_in)
+    penguins_out <- check_df(dbReadTable(con, table_name))
 
-    expect_equal_df(iris_out, iris_in)
+    expect_equal_df(penguins_out, penguins_in)
   },
 
   #' An error is raised if the table does not exist.
@@ -27,12 +27,12 @@ spec_sql_read_table <- list(
 
   #' An empty table is returned as a data frame with zero rows.
   read_table_empty = function(ctx, con, table_name) {
-    iris_in <- get_iris(ctx)[integer(), ]
-    dbWriteTable(con, table_name, iris_in)
-    iris_out <- check_df(dbReadTable(con, table_name))
+    penguins_in <- get_penguins(ctx)[integer(), ]
+    dbWriteTable(con, table_name, penguins_in)
+    penguins_out <- check_df(dbReadTable(con, table_name))
 
-    expect_equal(nrow(iris_out), 0L)
-    expect_equal_df(iris_out, iris_in)
+    expect_equal(nrow(penguins_out), 0L)
+    expect_equal_df(penguins_out, penguins_in)
   },
 
   #'
@@ -70,8 +70,8 @@ spec_sql_read_table <- list(
     #'   an error is raised if no such column exists.
     row.names <- TRUE
 
-    iris_in <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris_in, row.names = NA)
+    penguins_in <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins_in, row.names = NA)
     expect_error(dbReadTable(con, table_name, row.names = row.names))
   },
   #
@@ -90,11 +90,11 @@ spec_sql_read_table <- list(
     #'   otherwise no translation occurs.
     row.names <- NA
 
-    iris_in <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris_in, row.names = FALSE)
-    iris_out <- check_df(dbReadTable(con, table_name, row.names = row.names))
+    penguins_in <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins_in, row.names = FALSE)
+    penguins_out <- check_df(dbReadTable(con, table_name, row.names = row.names))
 
-    expect_equal_df(iris_out, iris_in)
+    expect_equal_df(penguins_out, penguins_in)
   },
   #
   read_table_row_names_string_exists = function(con, table_name) {
@@ -119,8 +119,8 @@ spec_sql_read_table <- list(
     #'   an error is raised if no such column exists.
     row.names <- "missing"
 
-    iris_in <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris_in, row.names = FALSE)
+    penguins_in <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins_in, row.names = FALSE)
     expect_error(dbReadTable(con, table_name, row.names = row.names))
   },
   #'

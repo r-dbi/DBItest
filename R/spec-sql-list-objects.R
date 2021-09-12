@@ -37,8 +37,8 @@ spec_sql_list_objects <- list(
     #' (if prefix is omitted).
 
     #' Tables added with [dbWriteTable()]
-    iris <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris)
+    penguins <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins)
 
     #' are part of the data frame.
     objects <- dbListObjects(con)

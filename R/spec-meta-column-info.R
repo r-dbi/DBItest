@@ -11,8 +11,8 @@ spec_meta_column_info <- list(
   #' @return
   #' `dbColumnInfo()`
   column_info = function(ctx, con, table_name) {
-    iris <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris)
+    penguins <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins)
 
     with_result(
       dbSendQuery(con, paste0("SELECT * FROM ", table_name)),
@@ -27,8 +27,8 @@ spec_meta_column_info <- list(
 
         #' The `"name"` and `"type"` columns contain the names and types
         #' of the R columns of the data frame that is returned from [`dbFetch()`].
-        iris_ret <- dbFetch(res)
-        expect_identical(fields$name, names(iris_ret))
+        penguins_ret <- dbFetch(res)
+        expect_identical(fields$name, names(penguins_ret))
         #' The `"type"` column is of type `character` and only for information.
         expect_type(fields$type, "character")
         #' Do not compute on the `"type"` column, instead use `dbFetch(res, n = 0)`
