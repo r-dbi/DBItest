@@ -27,6 +27,7 @@ Imports:
     hms (>= 0.5.0),
     lubridate,
     methods,
+    palmerpenguins,
     R6,
     rlang (>= 0.2.0),
     testthat (>= 2.0.0),

@@ -113,7 +113,7 @@ spec_sql_create_table <- list(
       skip("tweak: temporary_tables")
     }
 
-    iris <- get_iris(ctx)[1:30, ]
+    iris <- get_iris(ctx)
     dbCreateTable(con, table_name, iris, temporary = TRUE)
     iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris[0, , drop = FALSE])
@@ -129,7 +129,7 @@ spec_sql_create_table <- list(
 
   #' A regular, non-temporary table is visible in a second connection
   create_table_visible_in_other_connection = function(ctx, con) {
-    iris <- get_iris(ctx)[1:30, ]
+    iris <- get_iris(ctx)
 
     table_name <- "dbit04"
     dbCreateTable(con, table_name, iris)
