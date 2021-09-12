@@ -183,22 +183,22 @@ spec_sql_write_table <- list(
     iris <- get_iris(ctx)
     dbWriteTable(con, table_name, iris)
     expect_error(
-      dbWriteTable(con, table_name, iris[1:10, ], overwrite = TRUE),
+      dbWriteTable(con, table_name, iris[1, ], overwrite = TRUE),
       NA
     )
     iris_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_df(iris_out, iris[1:10, ])
+    expect_equal_df(iris_out, iris[1, ])
   },
 
   #' This argument doesn't change behavior if the table does not exist yet.
   overwrite_table_missing = function(ctx, con, table_name) {
     iris_in <- get_iris(ctx)
     expect_error(
-      dbWriteTable(con, table_name, iris_in[1:10, ], overwrite = TRUE),
+      dbWriteTable(con, table_name, iris_in[1, ], overwrite = TRUE),
       NA
     )
     iris_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_df(iris_out, iris_in[1:10, ])
+    expect_equal_df(iris_out, iris_in[1, ])
   },
 
   #'
@@ -207,17 +207,17 @@ spec_sql_write_table <- list(
   append_table = function(ctx, con, table_name) {
     iris <- get_iris(ctx)
     dbWriteTable(con, table_name, iris)
-    expect_error(dbWriteTable(con, table_name, iris[1:10, ], append = TRUE), NA)
+    expect_error(dbWriteTable(con, table_name, iris[1, ], append = TRUE), NA)
     iris_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_df(iris_out, rbind(iris, iris[1:10, ]))
+    expect_equal_df(iris_out, rbind(iris, iris[1, ]))
   },
 
   #' If the table doesn't exist yet, it is created.
   append_table_new = function(ctx, con, table_name) {
     iris <- get_iris(ctx)
-    expect_error(dbWriteTable(con, table_name, iris[1:10, ], append = TRUE), NA)
+    expect_error(dbWriteTable(con, table_name, iris[1, ], append = TRUE), NA)
     iris_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_df(iris_out, iris[1:10, ])
+    expect_equal_df(iris_out, iris[1, ])
   },
 
   #'
@@ -229,7 +229,7 @@ spec_sql_write_table <- list(
       skip("tweak: temporary_tables")
     }
 
-    iris <- get_iris(ctx)[1:30, ]
+    iris <- get_iris(ctx)
     dbWriteTable(con, table_name, iris, temporary = TRUE)
     iris_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(iris_out, iris)
@@ -249,7 +249,7 @@ spec_sql_write_table <- list(
 
   #' A regular, non-temporary table is visible in a second connection
   table_visible_in_other_connection = function(ctx, con) {
-    iris30 <- get_iris(ctx)[1:30, ]
+    iris30 <- get_iris(ctx)
 
     table_name <- "dbit09"
 
@@ -263,7 +263,7 @@ spec_sql_write_table <- list(
   # second stage
   table_visible_in_other_connection = function(ctx, con, table_name = "dbit09") {
     #' and after reconnecting to the database.
-    iris30 <- get_iris(ctx)[1:30, ]
+    iris30 <- get_iris(ctx)
 
     expect_equal_df(check_df(dbReadTable(con, table_name)), iris30)
   },
