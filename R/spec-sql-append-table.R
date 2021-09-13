@@ -139,7 +139,7 @@ spec_sql_append_table <- list(
       as.character(dbQuoteString(con, "")),
       "with space",
       "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
-      "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb"
+      "a\\nb", "a\\tb", "a\\rb", "a\\bb", "a\\zb"
     )
 
     tbl_in <- trivial_df(length(column_names), column_names)
