@@ -1,6 +1,6 @@
 Package: DBItest
 Title: Testing DBI Backends
-Version: 1.7.1.9001
+Version: 1.7.1.9002
 Date: 2021-09-05
 Authors@R: 
     c(person(given = "Kirill",
