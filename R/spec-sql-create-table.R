@@ -151,10 +151,10 @@ spec_sql_create_table <- list(
   #' SQL keywords can be used freely in table names, column names, and data.
   create_roundtrip_keywords = function(ctx, con) {
     tbl_in <- data.frame(
-      SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
+      select = "unique", from = "join", where = "order",
       stringsAsFactors = FALSE
     )
-    test_table_roundtrip(con, tbl_in, name = "EXISTS")
+    test_table_roundtrip(con, tbl_in, name = "exists")
   },
 
   #' Quotes, commas, and spaces can also be used  for table names and column names,

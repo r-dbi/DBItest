@@ -84,10 +84,10 @@ spec_sql_append_table <- list(
   #' SQL keywords can be used freely in table names, column names, and data.
   append_roundtrip_keywords = function(con) {
     tbl_in <- data.frame(
-      SELECT = "UNIQUE", FROM = "JOIN", WHERE = "ORDER",
+      select = "unique", from = "join", where = "order",
       stringsAsFactors = FALSE
     )
-    test_table_roundtrip(use_append = TRUE, con, tbl_in, name = "EXISTS")
+    test_table_roundtrip(use_append = TRUE, con, tbl_in, name = "exists")
   },
 
   #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
@@ -139,7 +139,7 @@ spec_sql_append_table <- list(
       as.character(dbQuoteString(con, "")),
       "with space",
       "a,b", "a\nb", "a\tb", "a\rb", "a\bb",
-      "a\\Nb", "a\\tb", "a\\rb", "a\\bb", "a\\Zb"
+      "a\\nb", "a\\tb", "a\\rb", "a\\bb", "a\\zb"
     )
 
     tbl_in <- trivial_df(length(column_names), column_names)
@@ -377,9 +377,9 @@ spec_sql_append_table <- list(
     attr(local, "tzone") <- ""
     tbl_in <- data.frame(id = seq_along(local))
     tbl_in$local <- local
-    tbl_in$GMT <- lubridate::with_tz(local, tzone = "GMT")
-    tbl_in$PST8PDT <- lubridate::with_tz(local, tzone = "PST8PDT")
-    tbl_in$UTC <- lubridate::with_tz(local, tzone = "UTC")
+    tbl_in$gmt <- lubridate::with_tz(local, tzone = "GMT")
+    tbl_in$pst8pdt <- lubridate::with_tz(local, tzone = "PST8PDT")
+    tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
     #'   respecting the time zone but not necessarily preserving the
     #'   input time zone)
@@ -388,8 +388,8 @@ spec_sql_append_table <- list(
       con, tbl_in,
       transform = function(out) {
         dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
-        tz <- names(out)
-        tz[tz == "local"] <- ""
+        tz <- toupper(names(out))
+        tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
         out
       }
