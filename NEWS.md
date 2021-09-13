@@ -2,7 +2,6 @@
 
 # DBItest 1.7.1.9001 (2021-09-05)
 
-- `tweaks()` gains `dbitest_version` argument to support targeting a specific version of the DBItest package. The default is 1.7.1 (#236).
 - Improve testthat 3e compatibility: remove `testthat::expect_is()` and `testthat::expect_that()` from tests (#231, @michaelquinn32).
 - New `bind_time_minutes_integer` test for integer durations.
 - Decompose query used for testing `dbBind()`.

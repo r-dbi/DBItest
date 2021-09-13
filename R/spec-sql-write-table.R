@@ -318,10 +318,6 @@ spec_sql_write_table <- list(
 
   #' and column names.
   roundtrip_quotes_column_names = function(ctx, con) {
-    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
-      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
-    }
-
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       skip("tweak: strict_identifier")
     }
