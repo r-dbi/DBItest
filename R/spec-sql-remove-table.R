@@ -11,8 +11,8 @@ spec_sql_remove_table <- list(
   #' @return
   #' `dbRemoveTable()` returns `TRUE`, invisibly.
   remove_table_return = function(ctx, con, table_name) {
-    iris <- get_iris(ctx)
-    dbWriteTable(con, table_name, iris)
+    penguins <- get_penguins(ctx)
+    dbWriteTable(con, table_name, penguins)
 
     expect_invisible_true(dbRemoveTable(con, table_name))
   },

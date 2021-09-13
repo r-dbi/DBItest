@@ -116,12 +116,12 @@ with_rollback_on_error <- function(code, con = "con", env = parent.frame()) {
   )
 }
 
-get_iris <- function(ctx) {
-  datasets_iris <- datasets::iris
-  if (isTRUE(ctx$tweaks$strict_identifier)) {
-    names(datasets_iris) <- gsub(".", "_", names(datasets_iris), fixed = TRUE)
+get_penguins <- function(ctx) {
+  datasets_penguins <- unrowname(palmerpenguins::penguins[c(1, 153, 277), ])
+  if (!isTRUE(ctx$tweaks$strict_identifier)) {
+    names(datasets_penguins) <- gsub("_", ".", names(datasets_penguins), fixed = TRUE)
   }
-  datasets_iris
+  as.data.frame(datasets_penguins)
 }
 
 unrowname <- function(x) {
