@@ -377,9 +377,9 @@ spec_sql_append_table <- list(
     attr(local, "tzone") <- ""
     tbl_in <- data.frame(id = seq_along(local))
     tbl_in$local <- local
-    tbl_in$GMT <- lubridate::with_tz(local, tzone = "GMT")
-    tbl_in$PST8PDT <- lubridate::with_tz(local, tzone = "PST8PDT")
-    tbl_in$UTC <- lubridate::with_tz(local, tzone = "UTC")
+    tbl_in$gmt <- lubridate::with_tz(local, tzone = "GMT")
+    tbl_in$pst8pdt <- lubridate::with_tz(local, tzone = "PST8PDT")
+    tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
     #'   respecting the time zone but not necessarily preserving the
     #'   input time zone)
@@ -388,8 +388,8 @@ spec_sql_append_table <- list(
       con, tbl_in,
       transform = function(out) {
         dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
-        tz <- names(out)
-        tz[tz == "local"] <- ""
+        tz <- toupper(names(out))
+        tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
         out
       }
