@@ -140,7 +140,7 @@ spec_sql_create_table <- list(
     expect_equal_df(dbReadTable(con2, table_name), penguins[0, , drop = FALSE])
   },
   # second stage
-  create_table_visible_in_other_connection = function(con, table_name = "dbit04") {
+  create_table_visible_in_other_connection = function(ctx, con, table_name = "dbit04") {
     penguins <- get_penguins(ctx)
 
     #' and after reconnecting to the database.
