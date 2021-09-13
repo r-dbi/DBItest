@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.1.9001</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.1.9002</span>
       </span>
     </div>
 
@@ -119,6 +119,15 @@
       <small>Source: <a href='https://github.com/r-dbi/DBItest/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="dbitest-1719002-2021-09-13" class="section level1">
+<h1 class="page-header" data-toc-text="1.7.1.9002">
+<a href="#dbitest-1719002-2021-09-13" class="anchor" aria-hidden="true"></a>DBItest 1.7.1.9002 (2021-09-13)<small> Unreleased </small></h1>
+<ul><li>All column names are specified using lowercase on input, for compatibility with Redshift (<a href='https://github.com/r-dbi/DBItest/issues/234'>#234</a>).</li>
+<li>Use <code><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">palmerpenguins::penguins</a></code> instead of <code>iris</code> (<a href='https://github.com/r-dbi/DBItest/issues/241'>#241</a>).</li>
+<li>New <code>"bind_character_escape"</code> test for binding special characters (<a href='https://github.com/r-dbi/DBItest/issues/242'>#242</a>).</li>
+<li>Fix MySQL ODBC test on GitHub Actions (<a href='https://github.com/r-dbi/DBItest/issues/237'>#237</a>).</li>
+<li>Add specification for <code>value</code> argument to <code><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html" class="external-link">DBI::dbWriteTable()</a></code> (<a href='https://github.com/r-dbi/DBItest/issues/235'>#235</a>).</li>
+</ul></div>
     <div id="dbitest-1719001-2021-09-05" class="section level1">
 <h1 class="page-header" data-toc-text="1.7.1.9001">
 <a href="#dbitest-1719001-2021-09-05" class="anchor" aria-hidden="true"></a>DBItest 1.7.1.9001 (2021-09-05)<small> Unreleased </small></h1>
