@@ -1,5 +1,14 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# DBItest 1.7.1.9002 (2021-09-13)
+
+- All column names are specified using lowercase on input, for compatibility with Redshift (#234).
+- Use `palmerpenguins::penguins` instead of `iris` (#241).
+- New `"bind_character_escape"` test for binding special characters (#242).
+- Fix MySQL ODBC test on GitHub Actions (#237).
+- Add specification for `value` argument to `DBI::dbWriteTable()` (#235).
+
+
 # DBItest 1.7.1.9001 (2021-09-05)
 
 - `tweaks()` gains `dbitest_version` argument to support targeting a specific version of the DBItest package. The default is 1.7.1 (#236).
