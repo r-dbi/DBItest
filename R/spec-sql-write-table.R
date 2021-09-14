@@ -247,25 +247,34 @@ spec_sql_write_table <- list(
     expect_error(dbReadTable(con, table_name))
   },
 
-  #' A regular, non-temporary table is visible in a second connection
-  table_visible_in_other_connection = function(ctx, con) {
+  #' A regular, non-temporary table is visible in a second connection,
+  table_visible_in_other_connection = function(ctx, local_con) {
     penguins30 <- get_penguins(ctx)
 
     table_name <- "dbit09"
 
-    dbWriteTable(con, table_name, penguins30)
-    penguins_out <- check_df(dbReadTable(con, table_name))
+    dbWriteTable(local_con, table_name, penguins30)
+    penguins_out <- check_df(dbReadTable(local_con, table_name))
     expect_equal_df(penguins_out, penguins30)
 
     con2 <- local_connection(ctx)
     expect_equal_df(dbReadTable(con2, table_name), penguins30)
   },
   # second stage
-  table_visible_in_other_connection = function(ctx, con, table_name = "dbit09") {
+  table_visible_in_other_connection = function(ctx, con) {
+    #' in a pre-existing connection,
+    penguins30 <- get_penguins(ctx)
+
+    table_name <- "dbit09"
+
+    expect_equal_df(check_df(dbReadTable(con, table_name)), penguins30)
+  },
+  # third stage
+  table_visible_in_other_connection = function(ctx, local_con, table_name = "dbit09") {
     #' and after reconnecting to the database.
     penguins30 <- get_penguins(ctx)
 
-    expect_equal_df(check_df(dbReadTable(con, table_name)), penguins30)
+    expect_equal_df(check_df(dbReadTable(local_con, table_name)), penguins30)
   },
 
   #'

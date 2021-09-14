@@ -127,24 +127,33 @@ spec_sql_create_table <- list(
     expect_error(dbReadTable(con, table_name))
   },
 
-  #' A regular, non-temporary table is visible in a second connection
-  create_table_visible_in_other_connection = function(ctx, con) {
+  #' A regular, non-temporary table is visible in a second connection,
+  create_table_visible_in_other_connection = function(ctx, local_con) {
     penguins <- get_penguins(ctx)
 
     table_name <- "dbit04"
-    dbCreateTable(con, table_name, penguins)
-    penguins_out <- check_df(dbReadTable(con, table_name))
+    dbCreateTable(local_con, table_name, penguins)
+    penguins_out <- check_df(dbReadTable(local_con, table_name))
     expect_equal_df(penguins_out, penguins[0, , drop = FALSE])
 
     con2 <- local_connection(ctx)
     expect_equal_df(dbReadTable(con2, table_name), penguins[0, , drop = FALSE])
   },
   # second stage
-  create_table_visible_in_other_connection = function(ctx, con, table_name = "dbit04") {
+  create_table_visible_in_other_connection = function(ctx, con) {
+    penguins <- get_penguins(ctx)
+
+    table_name <- "dbit04"
+
+    #' in a pre-existing connection,
+    expect_equal_df(check_df(dbReadTable(con, table_name)), penguins[0, , drop = FALSE])
+  },
+  # third stage
+  create_table_visible_in_other_connection = function(ctx, local_con, table_name = "dbit04") {
     penguins <- get_penguins(ctx)
 
     #' and after reconnecting to the database.
-    expect_equal_df(check_df(dbReadTable(con, table_name)), penguins[0, , drop = FALSE])
+    expect_equal_df(check_df(dbReadTable(local_con, table_name)), penguins[0, , drop = FALSE])
   },
 
   #'

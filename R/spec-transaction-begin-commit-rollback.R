@@ -140,22 +140,22 @@ spec_transaction_begin_commit_rollback <- list(
     expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0L))
   },
   #
-  begin_write_disconnect = function(con) {
+  begin_write_disconnect = function(local_con) {
     table_name <- "dbit01"
     #'
     #' Disconnection from a connection with an open transaction
-    dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
+    dbWriteTable(local_con, table_name, data.frame(a = 0L), overwrite = TRUE)
 
-    dbBegin(con)
+    dbBegin(local_con)
 
-    dbWriteTable(con, table_name, data.frame(a = 1L), append = TRUE)
+    dbWriteTable(local_con, table_name, data.frame(a = 1L), append = TRUE)
   },
   #
-  begin_write_disconnect = function(con, table_name = "dbit01") {
+  begin_write_disconnect = function(local_con, table_name = "dbit01") {
     #' effectively rolls back the transaction.
     #' All data written in such a transaction must be removed after the
     #' transaction is rolled back.
-    expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0L))
+    expect_equal(check_df(dbReadTable(local_con, table_name)), data.frame(a = 0L))
   },
 
   #'
