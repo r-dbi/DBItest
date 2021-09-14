@@ -136,9 +136,9 @@ spec_sql_list_objects <- list(
     #' `prefix` argument set, all `table` values where `is_prefix` is
     #' `FALSE` can be used in a call to [dbExistsTable()] which returns
     #' `TRUE`.
-    for (schema in objects$table[objects$is_prefix]) {
+    for (schema in utils::head(objects$table[objects$is_prefix])) {
       sub_objects <- dbListObjects(con, prefix = schema)
-      for (sub_table in sub_objects$table[!sub_objects$is_prefix]) {
+      for (sub_table in utils::head(sub_objects$table[!sub_objects$is_prefix])) {
         # HACK HACK HACK for RMariaDB on OS X (#188)
         if (!identical(sub_table, Id(schema = "information_schema", table = "FILES"))) {
           # eval(bquote()) preserves the SQL class, even if it's not apparent

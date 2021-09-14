@@ -31,6 +31,7 @@ Imports:
     R6,
     rlang (>= 0.2.0),
     testthat (>= 2.0.0),
+    utils,
     withr,
     vctrs
 Suggests: 
