@@ -26,6 +26,10 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
   skipped <- get_skip_names(skip)
   skip_flag <- names(tests) %in% skipped
 
+  if (length(tests) > 0) {
+    global_con <- local_connection(ctx)
+  }
+
   ok <- vapply(
     seq_along(tests),
     function(test_idx) {
@@ -43,8 +47,12 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
           }
 
           if ("con" %in% names(fmls)) {
-            con <- local_connection(ctx)
-            args <- c(args, list(con = con))
+            args <- c(args, list(con = global_con))
+          }
+
+          if ("local_con" %in% names(fmls)) {
+            local_con <- local_connection(ctx)
+            args <- c(args, list(local_con = local_con))
           }
 
           if ("closed_con" %in% names(fmls)) {
@@ -63,7 +71,7 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
             } else {
               table_name <- fmls$table_name
             }
-            local_remove_test_table(con, table_name)
+            local_remove_test_table(global_con, table_name)
             args <- c(args, list(table_name = table_name))
           }
 
