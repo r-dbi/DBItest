@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# DBItest 1.7.1.9004 (2021-09-20)
+
+- `column_info_consistent` no longer tests mangling of column names (#181).
+
+
 # DBItest 1.7.1.9003 (2021-09-20)
 
 - Reuse database connection for most tests (#245).
