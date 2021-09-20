@@ -82,24 +82,7 @@ spec_meta_column_info <- list(
         data <- dbFetch(res)
         expect_identical(info$name, names(data))
         expect_equal(data[["a"]], 2.5)
-        #' unique
-        expect_equal(anyDuplicated(names(data)), 0)
         #' non-empty and non-`NA` names are assigned.
-        expect_false(anyNA(names(data)))
-        expect_true(all(names(data) != ""))
-      }
-    )
-    with_result(
-      #' In the case of a duplicate column name, the first occurrence
-      #' retains the original name, and unique names are assigned for
-      #' the other occurrences.
-      dbSendQuery(con, "SELECT 1.5 AS a, 2.5 AS a, 3.5 AS a"),
-      {
-        info <- dbColumnInfo(res)
-        data <- dbFetch(res)
-        expect_identical(info$name, names(data))
-        expect_equal(data[["a"]], 1.5)
-        expect_equal(anyDuplicated(names(data)), 0)
         expect_false(anyNA(names(data)))
         expect_true(all(names(data) != ""))
       }
