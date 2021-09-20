@@ -50,7 +50,8 @@ perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 If the \code{temporary} argument is \code{TRUE}, the table is not available in a
 second connection and is gone after reconnecting.
 Not all backends support this argument.
-A regular, non-temporary table is visible in a second connection
+A regular, non-temporary table is visible in a second connection,
+in a pre-existing connection,
 and after reconnecting to the database.
 
 SQL keywords can be used freely in table names, column names, and data.
