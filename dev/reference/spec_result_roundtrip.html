@@ -32,7 +32,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_result_roundtrip</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-result-roundtrip.R"><code>R/spec-result-roundtrip.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-result-roundtrip.R" class="external-link"><code>R/spec-result-roundtrip.R</code></a></small>
     <div class="hidden name"><code>spec_result_roundtrip.Rd</code></div>
     </div>
 
@@ -56,34 +56,34 @@
     </div>
 
 
-
+    <div id="ref-sections">
     <div id="specification">
-    <h2>Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
+    <h2>Specification</h2>
     
 
-<p>The column types of the returned data frame depend on the data returned:</p><ul><li><p><a href="https://rdrr.io/r/base/integer.html">integer</a> (or coercible to an integer) for integer values between -2^31 and 2^31 - 1,
-with <a href="https://rdrr.io/r/base/NA.html">NA</a> for SQL <code>NULL</code> values</p></li>
-<li><p><a href="https://rdrr.io/r/base/numeric.html">numeric</a> for numbers with a fractional component,
+<p>The column types of the returned data frame depend on the data returned:</p><ul><li><p><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a> (or coercible to an integer) for integer values between -2^31 and 2^31 - 1,
+with <a href="https://rdrr.io/r/base/NA.html" class="external-link">NA</a> for SQL <code>NULL</code> values</p></li>
+<li><p><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a> for numbers with a fractional component,
 with NA for SQL <code>NULL</code> values</p></li>
-<li><p><a href="https://rdrr.io/r/base/logical.html">logical</a> for Boolean values (some backends may return an integer);
+<li><p><a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a> for Boolean values (some backends may return an integer);
 with NA for SQL <code>NULL</code> values</p></li>
-<li><p><a href="https://rdrr.io/r/base/character.html">character</a> for text,
+<li><p><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a> for text,
 with NA for SQL <code>NULL</code> values</p></li>
-<li><p>lists of <a href="https://rdrr.io/r/base/raw.html">raw</a> for blobs
-with <a href="https://rdrr.io/r/base/NULL.html">NULL</a> entries for SQL NULL values</p></li>
-<li><p>coercible using <code><a href="https://rdrr.io/r/base/as.Date.html">as.Date()</a></code> for dates,
+<li><p>lists of <a href="https://rdrr.io/r/base/raw.html" class="external-link">raw</a> for blobs
+with <a href="https://rdrr.io/r/base/NULL.html" class="external-link">NULL</a> entries for SQL NULL values</p></li>
+<li><p>coercible using <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code> for dates,
 with NA for SQL <code>NULL</code> values
 (also applies to the return value of the SQL function <code>current_date</code>)</p></li>
-<li><p>coercible using <code><a href="https://hms.tidyverse.org/reference/hms.html">hms::as_hms()</a></code> for times,
+<li><p>coercible using <code><a href="https://hms.tidyverse.org/reference/hms.html" class="external-link">hms::as_hms()</a></code> for times,
 with NA for SQL <code>NULL</code> values
 (also applies to the return value of the SQL function <code>current_time</code>)</p></li>
-<li><p>coercible using <code><a href="https://rdrr.io/r/base/as.POSIXlt.html">as.POSIXct()</a></code> for timestamps,
+<li><p>coercible using <code><a href="https://rdrr.io/r/base/as.POSIXlt.html" class="external-link">as.POSIXct()</a></code> for timestamps,
 with NA for SQL <code>NULL</code> values
 (also applies to the return value of the SQL function <code>current_timestamp</code>)</p></li>
 </ul><p>If dates and timestamps are supported by the backend, the following R types are
-used:</p><ul><li><p><a href="https://rdrr.io/r/base/Dates.html">Date</a> for dates
+used:</p><ul><li><p><a href="https://rdrr.io/r/base/Dates.html" class="external-link">Date</a> for dates
 (also applies to the return value of the SQL function <code>current_date</code>)</p></li>
-<li><p><a href="https://rdrr.io/r/base/DateTimeClasses.html">POSIXct</a> for timestamps
+<li><p><a href="https://rdrr.io/r/base/DateTimeClasses.html" class="external-link">POSIXct</a> for timestamps
 (also applies to the return value of the SQL function <code>current_timestamp</code>)</p></li>
 </ul><p>R has no built-in type with lossless support for the full range of 64-bit
 or larger integers. If 64-bit integers are returned from a query,
@@ -96,6 +96,7 @@ to the true value</p></li>
 <li><p>Conversion to character always returns a lossless decimal representation
 of the data</p></li>
 </ul></div>
+    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

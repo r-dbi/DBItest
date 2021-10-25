@@ -32,7 +32,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_sql_quote_literal</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-quote-literal.R"><code>R/spec-sql-quote-literal.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-quote-literal.R" class="external-link"><code>R/spec-sql-quote-literal.R</code></a></small>
     <div class="hidden name"><code>spec_sql_quote_literal.Rd</code></div>
     </div>
 
@@ -56,10 +56,10 @@
     </div>
 
 
-
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>dbQuoteLiteral()</code> returns an object that can be coerced to <a href="https://rdrr.io/r/base/character.html">character</a>,
+    <h2>Value</h2>
+    <p><code>dbQuoteLiteral()</code> returns an object that can be coerced to <a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>,
 of the same length as the input.
 For an empty character vector this function returns a length-0 object.</p>
 <p>When passing the returned object again to <code>dbQuoteLiteral()</code>
@@ -70,7 +70,7 @@ Passing objects of class SQL should also return them unchanged.
 to achieve this behavior, but this is not required.)</p>
     </div>
     <div id="specification">
-    <h2>Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
+    <h2>Specification</h2>
     
 
 <p>The returned expression can be used in a <code>SELECT ...</code> query,
@@ -82,13 +82,14 @@ integer,
 numeric,
 string,
 and logical.
-If <code>x</code> is <code>NA</code>, the result must merely satisfy <code><a href="https://rdrr.io/r/base/NA.html">is.na()</a></code>.
+If <code>x</code> is <code>NA</code>, the result must merely satisfy <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code>.
 The literals <code>"NA"</code> or <code>"NULL"</code> are not treated specially.</p>
 <p><code>NA</code> should be translated to an unquoted SQL <code>NULL</code>,
 so that the query <code>SELECT * FROM (SELECT 1) a WHERE ... IS NULL</code>
 returns one row.</p>
 <p>Passing a list
 for the <code>x</code> argument raises an error.</p>
+    </div>
     </div>
 
   </div>

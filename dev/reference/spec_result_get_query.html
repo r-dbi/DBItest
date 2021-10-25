@@ -32,7 +32,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_result_get_query</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-result-get-query.R"><code>R/spec-result-get-query.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-result-get-query.R" class="external-link"><code>R/spec-result-get-query.R</code></a></small>
     <div class="hidden name"><code>spec_result_get_query.Rd</code></div>
     </div>
 
@@ -56,10 +56,10 @@
     </div>
 
 
-
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>dbGetQuery()</code> always returns a <a href="https://rdrr.io/r/base/data.frame.html">data.frame</a>
+    <h2>Value</h2>
+    <p><code>dbGetQuery()</code> always returns a <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>
 with as many rows as records were fetched and as many
 columns as fields in the result set,
 even if the result is a single value
@@ -74,7 +74,7 @@ greater or equal to -1 or Inf, an error is raised,
 but a subsequent call to <code>dbGetQuery()</code> with proper <code>n</code> argument succeeds.</p>
     </div>
     <div id="additional-arguments">
-    <h2>Additional arguments<a class="anchor" aria-label="anchor" href="#additional-arguments"></a></h2>
+    <h2>Additional arguments</h2>
     
 
 <p>The following arguments are not part of the <code>dbGetQuery()</code> generic
@@ -86,7 +86,7 @@ but are part of the DBI specification:</p><ul><li><p><code>n</code> (default: -1
 See the "Specification" and "Value" sections for details on their usage.</p>
     </div>
     <div id="specification">
-    <h2>Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
+    <h2>Specification</h2>
     
 
 
@@ -94,7 +94,7 @@ See the "Specification" and "Value" sections for details on their usage.</p>
 <p>The <code>n</code> argument specifies the number of rows to be fetched.
 If omitted, fetching multi-row queries with one
 or more columns returns the entire result.
-A value of <a href="https://rdrr.io/r/base/is.finite.html">Inf</a> for the <code>n</code> argument is supported
+A value of <a href="https://rdrr.io/r/base/is.finite.html" class="external-link">Inf</a> for the <code>n</code> argument is supported
 and also returns the full result.
 If more rows than available are fetched (by passing a too large value for
 <code>n</code>), the result is returned in full without warning.
@@ -105,7 +105,7 @@ no warning is issued.</p>
 <p>The <code>param</code> argument allows passing query parameters, see <code>dbBind()</code> for details.</p>
     </div>
     <div id="specification-for-the-immediate-argument">
-    <h2>Specification for the <code>immediate</code> argument<a class="anchor" aria-label="anchor" href="#specification-for-the-immediate-argument"></a></h2>
+    <h2>Specification for the <code>immediate</code> argument</h2>
     
 
 
@@ -134,6 +134,7 @@ the backend tries <code>immediate = TRUE</code> (and gives a message)</p></li>
 </ol></li>
 </ol></li>
 </ol></div>
+    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -32,7 +32,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_sql_unquote_identifier</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-unquote-identifier.R"><code>R/spec-sql-unquote-identifier.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-unquote-identifier.R" class="external-link"><code>R/spec-sql-unquote-identifier.R</code></a></small>
     <div class="hidden name"><code>spec_sql_unquote_identifier.Rd</code></div>
     </div>
 
@@ -56,9 +56,9 @@
     </div>
 
 
-
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p><code>dbUnquoteIdentifier()</code> returns a list of objects
 of the same length as the input.
 For an empty character vector this function returns a length-0 object.
@@ -73,7 +73,7 @@ to achieve this behavior, but this is not required.)</p>
 argument.</p>
     </div>
     <div id="specification">
-    <h2>Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
+    <h2>Specification</h2>
     
 
 <p>For any character vector of length one, quoting (with <code>dbQuoteIdentifier()</code>)
@@ -91,6 +91,7 @@ quoting the string.
 Similarly, unquoting expressions of the form <code>SQL("schema.table")</code>
 and then quoting gives the same result as quoting the identifier
 constructed by <code>Id(schema = "schema", table = "table")</code>.</p>
+    </div>
     </div>
 
   </div>

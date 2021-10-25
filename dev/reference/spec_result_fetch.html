@@ -32,7 +32,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_result_fetch</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-result-fetch.R"><code>R/spec-result-fetch.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-result-fetch.R" class="external-link"><code>R/spec-result-fetch.R</code></a></small>
     <div class="hidden name"><code>spec_result_fetch.Rd</code></div>
     </div>
 
@@ -56,10 +56,10 @@
     </div>
 
 
-
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>dbFetch()</code> always returns a <a href="https://rdrr.io/r/base/data.frame.html">data.frame</a>
+    <h2>Value</h2>
+    <p><code>dbFetch()</code> always returns a <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>
 with as many rows as records were fetched and as many
 columns as fields in the result set,
 even if the result is a single value
@@ -74,16 +74,16 @@ created by <code>dbSendStatement()</code>
 can be fetched and return an empty data frame, with a warning.</p>
     </div>
     <div id="specification">
-    <h2>Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
+    <h2>Specification</h2>
     
 
 <p>Fetching multi-row queries with one
 or more columns by default returns the entire result.
 Multi-row queries can also be fetched progressively
-by passing a whole number (<a href="https://rdrr.io/r/base/integer.html">integer</a>
-or <a href="https://rdrr.io/r/base/numeric.html">numeric</a>)
+by passing a whole number (<a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a>
+or <a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a>)
 as the <code>n</code> argument.
-A value of <a href="https://rdrr.io/r/base/is.finite.html">Inf</a> for the <code>n</code> argument is supported
+A value of <a href="https://rdrr.io/r/base/is.finite.html" class="external-link">Inf</a> for the <code>n</code> argument is supported
 and also returns the full result.
 If more rows than available are fetched, the result is returned in full
 without warning.
@@ -94,6 +94,7 @@ typed.
 Fetching fewer rows than available is permitted,
 no warning is issued when clearing the result set.</p>
 <p>A column named <code>row_names</code> is treated like any other column.</p>
+    </div>
     </div>
 
   </div>

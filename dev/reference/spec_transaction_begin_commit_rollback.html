@@ -32,7 +32,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_transaction_begin_commit_rollback</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-transaction-begin-commit-rollback.R"><code>R/spec-transaction-begin-commit-rollback.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-transaction-begin-commit-rollback.R" class="external-link"><code>R/spec-transaction-begin-commit-rollback.R</code></a></small>
     <div class="hidden name"><code>spec_transaction_begin_commit_rollback.Rd</code></div>
     </div>
 
@@ -56,9 +56,9 @@
     </div>
 
 
-
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p><code>dbBegin()</code>, <code>dbCommit()</code> and <code>dbRollback()</code> return <code>TRUE</code>, invisibly.
 The implementations are expected to raise an error in case of failure,
 but this is not tested.
@@ -72,7 +72,7 @@ an attempt to call <code>dbBegin()</code> twice
 yields an error.</p>
     </div>
     <div id="specification">
-    <h2>Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
+    <h2>Specification</h2>
     
 
 <p>Actual support for transactions may vary between backends.
@@ -101,6 +101,7 @@ functions. In particular, <span class="pkg">RSQLite</span> issues named transact
 with support for nesting
 if the <code>name</code> argument is set.</p>
 <p>The transaction isolation level is not specified by DBI.</p>
+    </div>
     </div>
 
   </div>

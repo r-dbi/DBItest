@@ -32,7 +32,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_sql_write_table</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-write-table.R"><code>R/spec-sql-write-table.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-write-table.R" class="external-link"><code>R/spec-sql-write-table.R</code></a></small>
     <div class="hidden name"><code>spec_sql_write_table.Rd</code></div>
     </div>
 
@@ -56,9 +56,9 @@
     </div>
 
 
-
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p><code>dbWriteTable()</code> returns <code>TRUE</code>, invisibly.
 If the table exists, and both <code>append</code> and <code>overwrite</code> arguments are unset,
 or <code>append = TRUE</code> and the data frame with the new data has different
@@ -81,7 +81,7 @@ incompatible columns)
 also raise an error.</p>
     </div>
     <div id="additional-arguments">
-    <h2>Additional arguments<a class="anchor" aria-label="anchor" href="#additional-arguments"></a></h2>
+    <h2>Additional arguments</h2>
     
 
 <p>The following arguments are not part of the <code>dbWriteTable()</code> generic
@@ -95,7 +95,7 @@ but are part of the DBI specification:</p><ul><li><p><code>row.names</code> (def
 See the "Specification" and "Value" sections for details on their usage.</p>
     </div>
     <div id="specification">
-    <h2>Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
+    <h2>Specification</h2>
     
 
 <p>The <code>name</code> argument is processed as follows,
@@ -141,7 +141,7 @@ before and after a non-empty string</p></li>
 <li><p>factor (returned as character)</p></li>
 <li><p>list of raw
 (if supported by the database)</p></li>
-<li><p>objects of type <a href="https://blob.tidyverse.org/reference/blob.html">blob::blob</a>
+<li><p>objects of type <a href="https://blob.tidyverse.org/reference/blob.html" class="external-link">blob::blob</a>
 (if supported by the database)</p></li>
 <li><p>date
 (if supported by the database;
@@ -160,7 +160,7 @@ one entry for each column.
 It indicates the SQL data type to be used for a new column.
 If a column is missed from <code>field.types</code>, the type is inferred
 from the input data with <code>dbDataType()</code>.</p>
-<p>The interpretation of <a href="https://rdrr.io/r/base/colnames.html">rownames</a> depends on the <code>row.names</code> argument,
+<p>The interpretation of <a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a> depends on the <code>row.names</code> argument,
 see <code>sqlRownamesToColumn()</code> for details:</p><ul><li><p>If <code>FALSE</code> or <code>NULL</code>, row names are ignored.</p></li>
 <li><p>If <code>TRUE</code>, row names are converted to a column named "row_names",
 even if the input data frame only has natural row names from 1 to <code>nrow(...)</code>.</p></li>
@@ -170,6 +170,7 @@ no extra column is created in the case of natural row names.</p></li>
 that contains the row names,
 even if the input data frame only has natural row names.</p></li>
 </ul><p>The default is <code>row.names = FALSE</code>.</p>
+    </div>
     </div>
 
   </div>

@@ -32,7 +32,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_driver_data_type</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-driver-data-type.R"><code>R/spec-driver-data-type.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-driver-data-type.R" class="external-link"><code>R/spec-driver-data-type.R</code></a></small>
     <div class="hidden name"><code>spec_driver_data_type.Rd</code></div>
     </div>
 
@@ -56,9 +56,9 @@
     </div>
 
 
-
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p><code>dbDataType()</code> returns the SQL type that corresponds to the <code>obj</code> argument
 as a non-empty
 character string.
@@ -68,7 +68,7 @@ An error is raised for invalid values for the <code>obj</code> argument such as 
 <code>NULL</code> value.</p>
     </div>
     <div id="specification">
-    <h2>Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
+    <h2>Specification</h2>
     
 
 <p>The backend can override the <code>dbDataType()</code> generic
@@ -78,21 +78,22 @@ To query the values returned by the default implementation,
 run <code>example(dbDataType, package = "DBI")</code>.
 If the backend needs to override this generic,
 it must accept all basic R data types as its second argument, namely
-<a href="https://rdrr.io/r/base/logical.html">logical</a>,
-<a href="https://rdrr.io/r/base/integer.html">integer</a>,
-<a href="https://rdrr.io/r/base/numeric.html">numeric</a>,
-<a href="https://rdrr.io/r/base/character.html">character</a>,
-dates (see <a href="https://rdrr.io/r/base/Dates.html">Dates</a>),
-date-time (see <a href="https://rdrr.io/r/base/DateTimeClasses.html">DateTimeClasses</a>),
-and <a href="https://rdrr.io/r/base/difftime.html">difftime</a>.
+<a href="https://rdrr.io/r/base/logical.html" class="external-link">logical</a>,
+<a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a>,
+<a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a>,
+<a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>,
+dates (see <a href="https://rdrr.io/r/base/Dates.html" class="external-link">Dates</a>),
+date-time (see <a href="https://rdrr.io/r/base/DateTimeClasses.html" class="external-link">DateTimeClasses</a>),
+and <a href="https://rdrr.io/r/base/difftime.html" class="external-link">difftime</a>.
 If the database supports blobs,
-this method also must accept lists of <a href="https://rdrr.io/r/base/raw.html">raw</a> vectors,
-and <a href="https://blob.tidyverse.org/reference/blob.html">blob::blob</a> objects.
-As-is objects (i.e., wrapped by <code><a href="https://rdrr.io/r/base/AsIs.html">I()</a></code>) must be
+this method also must accept lists of <a href="https://rdrr.io/r/base/raw.html" class="external-link">raw</a> vectors,
+and <a href="https://blob.tidyverse.org/reference/blob.html" class="external-link">blob::blob</a> objects.
+As-is objects (i.e., wrapped by <code><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I()</a></code>) must be
 supported and return the same results as their unwrapped counterparts.
-The SQL data type for <a href="https://rdrr.io/r/base/factor.html">factor</a>
-and <a href="https://rdrr.io/r/base/factor.html">ordered</a> is the same as for character.
+The SQL data type for <a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a>
+and <a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a> is the same as for character.
 The behavior for other object types is not specified.</p>
+    </div>
     </div>
 
   </div>

@@ -32,7 +32,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -47,148 +47,131 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/r-dbi/DBItest/blob/master/NEWS.md"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/r-dbi/DBItest/blob/master/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="dbitest-1719004-2021-09-20" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.1.9004">DBItest 1.7.1.9004 (2021-09-20)<a class="anchor" aria-label="anchor" href="#dbitest-1719004-2021-09-20"></a>
-<small> Unreleased </small></h1>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.7.1.9004" id="dbitest-1719004-2021-09-20">DBItest 1.7.1.9004 (2021-09-20)<a class="anchor" aria-label="anchor" href="#dbitest-1719004-2021-09-20"></a></h2>
 <ul><li>
-<code>column_info_consistent</code> no longer tests mangling of column names (<a href="https://github.com/r-dbi/DBItest/issues/181">#181</a>).</li>
+<code>column_info_consistent</code> no longer tests mangling of column names (<a href="https://github.com/r-dbi/DBItest/issues/181" class="external-link">#181</a>).</li>
 </ul></div>
-    <div id="dbitest-1719003-2021-09-20" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.1.9003">DBItest 1.7.1.9003 (2021-09-20)<a class="anchor" aria-label="anchor" href="#dbitest-1719003-2021-09-20"></a>
-<small> Unreleased </small></h1>
-<ul><li>Reuse database connection for most tests (<a href="https://github.com/r-dbi/DBItest/issues/245">#245</a>).</li>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.7.1.9003" id="dbitest-1719003-2021-09-20">DBItest 1.7.1.9003 (2021-09-20)<a class="anchor" aria-label="anchor" href="#dbitest-1719003-2021-09-20"></a></h2>
+<ul><li>Reuse database connection for most tests (<a href="https://github.com/r-dbi/DBItest/issues/245" class="external-link">#245</a>).</li>
 </ul></div>
-    <div id="dbitest-1719002-2021-09-13" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.1.9002">DBItest 1.7.1.9002 (2021-09-13)<a class="anchor" aria-label="anchor" href="#dbitest-1719002-2021-09-13"></a>
-<small> Unreleased </small></h1>
-<ul><li>All column names are specified using lowercase on input, for compatibility with Redshift (<a href="https://github.com/r-dbi/DBItest/issues/234">#234</a>).</li>
-<li>Use <code><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">palmerpenguins::penguins</a></code> instead of <code>iris</code> (<a href="https://github.com/r-dbi/DBItest/issues/241">#241</a>).</li>
-<li>New <code>"bind_character_escape"</code> test for binding special characters (<a href="https://github.com/r-dbi/DBItest/issues/242">#242</a>).</li>
-<li>Fix MySQL ODBC test on GitHub Actions (<a href="https://github.com/r-dbi/DBItest/issues/237">#237</a>).</li>
-<li>Add specification for <code>value</code> argument to <code><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html" class="external-link">DBI::dbWriteTable()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/235">#235</a>).</li>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.7.1.9002" id="dbitest-1719002-2021-09-13">DBItest 1.7.1.9002 (2021-09-13)<a class="anchor" aria-label="anchor" href="#dbitest-1719002-2021-09-13"></a></h2>
+<ul><li>All column names are specified using lowercase on input, for compatibility with Redshift (<a href="https://github.com/r-dbi/DBItest/issues/234" class="external-link">#234</a>).</li>
+<li>Use <code><a href="https://allisonhorst.github.io/palmerpenguins/reference/penguins.html" class="external-link">palmerpenguins::penguins</a></code> instead of <code>iris</code> (<a href="https://github.com/r-dbi/DBItest/issues/241" class="external-link">#241</a>).</li>
+<li>New <code>"bind_character_escape"</code> test for binding special characters (<a href="https://github.com/r-dbi/DBItest/issues/242" class="external-link">#242</a>).</li>
+<li>Fix MySQL ODBC test on GitHub Actions (<a href="https://github.com/r-dbi/DBItest/issues/237" class="external-link">#237</a>).</li>
+<li>Add specification for <code>value</code> argument to <code><a href="https://dbi.r-dbi.org/reference/dbWriteTable.html" class="external-link">DBI::dbWriteTable()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/235" class="external-link">#235</a>).</li>
 </ul></div>
-    <div id="dbitest-1719001-2021-09-05" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.1.9001">DBItest 1.7.1.9001 (2021-09-05)<a class="anchor" aria-label="anchor" href="#dbitest-1719001-2021-09-05"></a>
-<small> Unreleased </small></h1>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.7.1.9001" id="dbitest-1719001-2021-09-05">DBItest 1.7.1.9001 (2021-09-05)<a class="anchor" aria-label="anchor" href="#dbitest-1719001-2021-09-05"></a></h2>
 <ul><li>
-<code><a href="../reference/tweaks.html">tweaks()</a></code> gains <code>dbitest_version</code> argument to support targeting a specific version of the DBItest package. The default is 1.7.1 (<a href="https://github.com/r-dbi/DBItest/issues/236">#236</a>).</li>
-<li>Improve testthat 3e compatibility: remove <code><a href="https://testthat.r-lib.org/reference/expect_is.html" class="external-link">testthat::expect_is()</a></code> and <code><a href="https://testthat.r-lib.org/reference/expect_that.html" class="external-link">testthat::expect_that()</a></code> from tests (<a href="https://github.com/r-dbi/DBItest/issues/231">#231</a>, <a href="https://github.com/michaelquinn32">@michaelquinn32</a>).</li>
+<code><a href="../reference/tweaks.html">tweaks()</a></code> gains <code>dbitest_version</code> argument to support targeting a specific version of the DBItest package. The default is 1.7.1 (<a href="https://github.com/r-dbi/DBItest/issues/236" class="external-link">#236</a>).</li>
+<li>Improve testthat 3e compatibility: remove <code><a href="https://testthat.r-lib.org/reference/expect_is.html" class="external-link">testthat::expect_is()</a></code> and <code><a href="https://testthat.r-lib.org/reference/expect_that.html" class="external-link">testthat::expect_that()</a></code> from tests (<a href="https://github.com/r-dbi/DBItest/issues/231" class="external-link">#231</a>, <a href="https://github.com/michaelquinn32" class="external-link">@michaelquinn32</a>).</li>
 <li>New <code>bind_time_minutes_integer</code> test for integer durations.</li>
 <li>Decompose query used for testing <code>dbBind()</code>.</li>
 <li>
 <code>spec_sql_append_table</code> test: Remove bad argument.</li>
 </ul></div>
-    <div id="dbitest-1719000-2021-04-26" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.1.9000">DBItest 1.7.1.9000 (2021-04-26)<a class="anchor" aria-label="anchor" href="#dbitest-1719000-2021-04-26"></a>
-<small> Unreleased </small></h1>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.7.1.9000" id="dbitest-1719000-2021-04-26">DBItest 1.7.1.9000 (2021-04-26)<a class="anchor" aria-label="anchor" href="#dbitest-1719000-2021-04-26"></a></h2>
 <ul><li>Same as previous version.</li>
 </ul></div>
-    <div id="dbitest-171-2021-07-30" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.1">DBItest 1.7.1 (2021-07-30)<a class="anchor" aria-label="anchor" href="#dbitest-171-2021-07-30"></a>
-<small> 2021-07-31 </small></h1>
-<div id="features" class="section level2">
-<h2>Features<a class="anchor" aria-label="anchor" href="#features"></a>
-</h2>
-<ul><li>Many tests now emit simpler stack traces, because the connection is opened by the test driver and not by the test itself (<a href="https://github.com/r-dbi/DBItest/issues/187">#187</a>). Reduce usage of <code>with_remove_test_table()</code> for better stack traces on error (<a href="https://github.com/r-dbi/DBItest/issues/196">#196</a>). Remove <code>with_*connection()</code> (<a href="https://github.com/r-dbi/DBItest/issues/193">#193</a>).</li>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.7.1" id="dbitest-171-2021-07-30">DBItest 1.7.1 (2021-07-30)<small>2021-07-31</small><a class="anchor" aria-label="anchor" href="#dbitest-171-2021-07-30"></a></h2>
+<div class="section level3">
+<h3 id="features-1-7-1">Features<a class="anchor" aria-label="anchor" href="#features-1-7-1"></a></h3>
+<ul><li>Many tests now emit simpler stack traces, because the connection is opened by the test driver and not by the test itself (<a href="https://github.com/r-dbi/DBItest/issues/187" class="external-link">#187</a>). Reduce usage of <code>with_remove_test_table()</code> for better stack traces on error (<a href="https://github.com/r-dbi/DBItest/issues/196" class="external-link">#196</a>). Remove <code>with_*connection()</code> (<a href="https://github.com/r-dbi/DBItest/issues/193" class="external-link">#193</a>).</li>
 <li>
-<code><a href="../reference/test_all.html">test_some()</a></code> shows DBI code via dblog (<a href="https://github.com/r-dbi/DBItest/issues/217">#217</a>) if <code>dblog = TRUE</code> (<a href="https://github.com/r-dbi/DBItest/issues/226">#226</a>).</li>
-<li>New <code>"bind_date_integer"</code>, <code>"bind_time_seconds"</code> and <code>"bind_time_hours"</code> tests (<a href="https://github.com/r-dbi/DBItest/issues/218">#218</a>).</li>
-<li>New <code>create_table_as</code> tweak (<a href="https://github.com/r-dbi/DBItest/issues/131">#131</a>).</li>
+<code><a href="../reference/test_all.html">test_some()</a></code> shows DBI code via dblog (<a href="https://github.com/r-dbi/DBItest/issues/217" class="external-link">#217</a>) if <code>dblog = TRUE</code> (<a href="https://github.com/r-dbi/DBItest/issues/226" class="external-link">#226</a>).</li>
+<li>New <code>"bind_date_integer"</code>, <code>"bind_time_seconds"</code> and <code>"bind_time_hours"</code> tests (<a href="https://github.com/r-dbi/DBItest/issues/218" class="external-link">#218</a>).</li>
+<li>New <code>create_table_as</code> tweak (<a href="https://github.com/r-dbi/DBItest/issues/131" class="external-link">#131</a>).</li>
 <li>
-<code>"roundtrip_time"</code> and <code>"append_roundtrip_time"</code> tests now also test values of class <code>"difftime"</code> with units other than <code>"secs"</code> (<a href="https://github.com/r-dbi/DBItest/issues/199">#199</a>).</li>
-<li>All tables created by the tests have the <code>"dbit"</code> prefix. Almost all tests now use random table names to avoid collisions and unrelated test failures (<a href="https://github.com/r-dbi/DBItest/issues/197">#197</a>).</li>
+<code>"roundtrip_time"</code> and <code>"append_roundtrip_time"</code> tests now also test values of class <code>"difftime"</code> with units other than <code>"secs"</code> (<a href="https://github.com/r-dbi/DBItest/issues/199" class="external-link">#199</a>).</li>
+<li>All tables created by the tests have the <code>"dbit"</code> prefix. Almost all tests now use random table names to avoid collisions and unrelated test failures (<a href="https://github.com/r-dbi/DBItest/issues/197" class="external-link">#197</a>).</li>
 <li>
-<code>"roundtrip_timestamp"</code> tests now accept a time zone set by the database backend (<a href="https://github.com/r-dbi/DBItest/issues/178">#178</a>, <a href="https://github.com/r-dbi/DBItest/issues/198">#198</a>).</li>
+<code>"roundtrip_timestamp"</code> tests now accept a time zone set by the database backend (<a href="https://github.com/r-dbi/DBItest/issues/178" class="external-link">#178</a>, <a href="https://github.com/r-dbi/DBItest/issues/198" class="external-link">#198</a>).</li>
 <li>Support more than one class of each type in DBI backend packages.</li>
 </ul></div>
-<div id="bug-fixes" class="section level2">
-<h2>Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes"></a>
-</h2>
-<ul><li>Fix input dataset in <code>"overwrite_table_missing"</code> test (<a href="https://github.com/r-dbi/DBItest/issues/210">#210</a>, <a href="https://github.com/martinstuder">@martinstuder</a>).</li>
-<li>Use original test name to decide if a test is skipped (<a href="https://github.com/r-dbi/DBItest/issues/225">#225</a>).</li>
-<li>Fix reexport test: skip if package is not installed, remove checks for deprecated functions and functions not reexported (<a href="https://github.com/r-dbi/DBItest/issues/203">#203</a>).</li>
+<div class="section level3">
+<h3 id="bug-fixes-1-7-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-7-1"></a></h3>
+<ul><li>Fix input dataset in <code>"overwrite_table_missing"</code> test (<a href="https://github.com/r-dbi/DBItest/issues/210" class="external-link">#210</a>, <a href="https://github.com/martinstuder" class="external-link">@martinstuder</a>).</li>
+<li>Use original test name to decide if a test is skipped (<a href="https://github.com/r-dbi/DBItest/issues/225" class="external-link">#225</a>).</li>
+<li>Fix reexport test: skip if package is not installed, remove checks for deprecated functions and functions not reexported (<a href="https://github.com/r-dbi/DBItest/issues/203" class="external-link">#203</a>).</li>
 </ul></div>
-<div id="internal" class="section level2">
-<h2>Internal<a class="anchor" aria-label="anchor" href="#internal"></a>
-</h2>
+<div class="section level3">
+<h3 id="internal-1-7-1">Internal<a class="anchor" aria-label="anchor" href="#internal-1-7-1"></a></h3>
 <ul><li>Requires DBI 1.1.1.</li>
-<li>Test odbc as part of the backend tests (<a href="https://github.com/r-dbi/DBItest/issues/228">#228</a>).</li>
-<li>Dynamic build matrix for backends (<a href="https://github.com/r-dbi/DBItest/issues/221">#221</a>).</li>
-<li>Compatibility with testthat 3.0.0 (<a href="https://github.com/r-dbi/DBItest/issues/207">#207</a>).</li>
-<li>Switch to GitHub Actions (<a href="https://github.com/r-dbi/DBItest/issues/201">#201</a>).</li>
+<li>Test odbc as part of the backend tests (<a href="https://github.com/r-dbi/DBItest/issues/228" class="external-link">#228</a>).</li>
+<li>Dynamic build matrix for backends (<a href="https://github.com/r-dbi/DBItest/issues/221" class="external-link">#221</a>).</li>
+<li>Compatibility with testthat 3.0.0 (<a href="https://github.com/r-dbi/DBItest/issues/207" class="external-link">#207</a>).</li>
+<li>Switch to GitHub Actions (<a href="https://github.com/r-dbi/DBItest/issues/201" class="external-link">#201</a>).</li>
 </ul></div>
 </div>
-    <div id="dbitest-170" class="section level1">
-<h1 class="page-header" data-toc-text="1.7.0">DBItest 1.7.0<a class="anchor" aria-label="anchor" href="#dbitest-170"></a>
-<small> 2019-12-16 </small></h1>
-<div id="specifications" class="section level2">
-<h2>Specifications<a class="anchor" aria-label="anchor" href="#specifications"></a>
-</h2>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.7.0" id="dbitest-170">DBItest 1.7.0<small>2019-12-16</small><a class="anchor" aria-label="anchor" href="#dbitest-170"></a></h2>
+<div class="section level3">
+<h3 id="specifications-1-7-0">Specifications<a class="anchor" aria-label="anchor" href="#specifications-1-7-0"></a></h3>
 <ul><li>Specify tests for <code>dbGetInfo()</code>.</li>
 <li>Specify <code>immediate</code> argument (r-dbi/DBI#268).</li>
-<li>Specify <code>dbCreateTable()</code> and <code>dbAppendTable()</code> (<a href="https://github.com/r-dbi/DBItest/issues/169">#169</a>).</li>
+<li>Specify <code>dbCreateTable()</code> and <code>dbAppendTable()</code> (<a href="https://github.com/r-dbi/DBItest/issues/169" class="external-link">#169</a>).</li>
 <li>New <code>unquote_identifier_table_schema</code> test: Identifiers of the form <code>table.schema</code> can be processed with <code>dbUnquoteIdentifier()</code>.</li>
-<li>Fix <code>has_completed_statement</code> test (<a href="https://github.com/r-dbi/DBItest/issues/176">#176</a>).</li>
+<li>Fix <code>has_completed_statement</code> test (<a href="https://github.com/r-dbi/DBItest/issues/176" class="external-link">#176</a>).</li>
 </ul></div>
-<div id="testing-infrastructure" class="section level2">
-<h2>Testing infrastructure<a class="anchor" aria-label="anchor" href="#testing-infrastructure"></a>
-</h2>
-<ul><li>Document how to run tests externally and how to debug tests (<a href="https://github.com/r-dbi/DBItest/issues/165">#165</a>).</li>
+<div class="section level3">
+<h3 id="testing-infrastructure-1-7-0">Testing infrastructure<a class="anchor" aria-label="anchor" href="#testing-infrastructure-1-7-0"></a></h3>
+<ul><li>Document how to run tests externally and how to debug tests (<a href="https://github.com/r-dbi/DBItest/issues/165" class="external-link">#165</a>).</li>
 <li>
 <code>test_*()</code> gain new <code>run_only = NULL</code> argument that allow restricting the tests to be run with a positive match. <code><a href="../reference/test_all.html">test_some()</a></code> uses <code>run_only</code> instead of constructing a regular expression with negative lookahead. This helps troubleshooting a single test with <code>testthat::set_reporter(DebugReporter$new())</code> .</li>
 <li>
 <code><a href="../reference/context.html">make_context()</a></code> gains <code>default_skip</code> argument and uses the <code>DBIConnector</code> class.</li>
-<li>Support <code>NULL</code> default value in driver constructor (<a href="https://github.com/r-dbi/DBItest/issues/171">#171</a>).</li>
+<li>Support <code>NULL</code> default value in driver constructor (<a href="https://github.com/r-dbi/DBItest/issues/171" class="external-link">#171</a>).</li>
 </ul></div>
-<div id="internal-1" class="section level2">
-<h2>Internal<a class="anchor" aria-label="anchor" href="#internal-1"></a>
-</h2>
-<ul><li>Fulfill CII badge requirements (<a href="https://github.com/r-dbi/DBItest/issues/179">#179</a>, <a href="https://github.com/TSchiefer">@TSchiefer</a>).</li>
+<div class="section level3">
+<h3 id="internal-1-7-0">Internal<a class="anchor" aria-label="anchor" href="#internal-1-7-0"></a></h3>
+<ul><li>Fulfill CII badge requirements (<a href="https://github.com/r-dbi/DBItest/issues/179" class="external-link">#179</a>, <a href="https://github.com/TSchiefer" class="external-link">@TSchiefer</a>).</li>
 <li>Use debugme.</li>
 <li>Require R 3.2.</li>
 <li>Avoid subsetting vectors out of bounds, for consistency with vctrs.</li>
 </ul></div>
 </div>
-    <div id="dbitest-160-2018-05-03" class="section level1">
-<h1 class="page-header" data-toc-text="1.6.0">DBItest 1.6.0 (2018-05-03)<a class="anchor" aria-label="anchor" href="#dbitest-160-2018-05-03"></a>
-<small> Unreleased </small></h1>
-<div id="new-checks" class="section level2">
-<h2>New checks<a class="anchor" aria-label="anchor" href="#new-checks"></a>
-</h2>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.6.0" id="dbitest-160-2018-05-03">DBItest 1.6.0 (2018-05-03)<a class="anchor" aria-label="anchor" href="#dbitest-160-2018-05-03"></a></h2>
+<div class="section level3">
+<h3 id="new-checks-1-6-0">New checks<a class="anchor" aria-label="anchor" href="#new-checks-1-6-0"></a></h3>
 <ul><li>Now checking that <code>Id()</code> is reexported.</li>
 <li>Support <code>temporary</code> argument in <code>dbRemoveTable()</code> (default: <code>FALSE</code>) (r-dbi/DBI#141).</li>
-<li>Added specification for the behavior in case of duplicate column names (<a href="https://github.com/r-dbi/DBItest/issues/137">#137</a>).</li>
-<li>The <code>bigint</code> argument to <code>dbConnect()</code> is now specified. Accepts <code>"integer64"</code>, <code>"integer"</code>, <code>"numeric"</code> and <code>"character"</code>, large integers are returned as values of that type (<a href="https://github.com/r-dbi/DBItest/issues/133">#133</a>).</li>
+<li>Added specification for the behavior in case of duplicate column names (<a href="https://github.com/r-dbi/DBItest/issues/137" class="external-link">#137</a>).</li>
+<li>The <code>bigint</code> argument to <code>dbConnect()</code> is now specified. Accepts <code>"integer64"</code>, <code>"integer"</code>, <code>"numeric"</code> and <code>"character"</code>, large integers are returned as values of that type (<a href="https://github.com/r-dbi/DBItest/issues/133" class="external-link">#133</a>).</li>
 <li>Add specification for partially filled <code>field.types</code> argument.</li>
 <li>Specify <code>dbRemoveTable(fail_if_missing = FALSE)</code> (r-dbi/DBI#197).</li>
 <li>Add specification for <code>dbColumnInfo()</code> (r-dbi/DBI#75).</li>
 <li>Add specification for <code>dbListFields()</code> (r-dbi/DBI#75).</li>
-<li>Test that named parameters are actually matched by name in <code>dbBind()</code>, by shuffling them (<a href="https://github.com/r-dbi/DBItest/issues/138">#138</a>).</li>
-<li>Explicitly specify default <code>row.names = FALSE</code> for <code>dbReadTable()</code> and <code>dbWriteTable()</code> (<a href="https://github.com/r-dbi/DBItest/issues/139">#139</a>).</li>
-<li>Add specification for writing 64-bit values, backends must support roundtripping values returned from the database (<a href="https://github.com/r-dbi/DBItest/issues/146">#146</a>).</li>
-<li>Add specification for the <code>params</code> argument to <code>dbGetQuery()</code>, <code>dbSendQuery()</code>, <code>dbExecute()</code> and <code>dbSendStatement()</code> (<a href="https://github.com/r-dbi/DBItest/issues/159">#159</a>).</li>
+<li>Test that named parameters are actually matched by name in <code>dbBind()</code>, by shuffling them (<a href="https://github.com/r-dbi/DBItest/issues/138" class="external-link">#138</a>).</li>
+<li>Explicitly specify default <code>row.names = FALSE</code> for <code>dbReadTable()</code> and <code>dbWriteTable()</code> (<a href="https://github.com/r-dbi/DBItest/issues/139" class="external-link">#139</a>).</li>
+<li>Add specification for writing 64-bit values, backends must support roundtripping values returned from the database (<a href="https://github.com/r-dbi/DBItest/issues/146" class="external-link">#146</a>).</li>
+<li>Add specification for the <code>params</code> argument to <code>dbGetQuery()</code>, <code>dbSendQuery()</code>, <code>dbExecute()</code> and <code>dbSendStatement()</code> (<a href="https://github.com/r-dbi/DBItest/issues/159" class="external-link">#159</a>).</li>
 <li>Add test for <code>dbQuoteIdentifier()</code>: “The names of the input argument are preserved in the output” (r-lib/DBI#173).</li>
 <li>Blob tests now also read and write zero bytes (00).</li>
 <li>Add string encoded in Latin-1 to the character tests.</li>
 <li>Added test for <code>dbIsValid()</code> on stale connections.</li>
 </ul></div>
-<div id="removed-checks" class="section level2">
-<h2>Removed checks<a class="anchor" aria-label="anchor" href="#removed-checks"></a>
-</h2>
+<div class="section level3">
+<h3 id="removed-checks-1-6-0">Removed checks<a class="anchor" aria-label="anchor" href="#removed-checks-1-6-0"></a></h3>
 <ul><li>Don’t test selecting untyped <code>NULL</code> anymore.</li>
 <li>Full interface compliance doesn’t require a method for <code>dbGetInfo(DBIDriver)</code> for now.</li>
-<li>Remove <code>"cannot_forget_disconnect"</code> test that fails on R-devel (<a href="https://github.com/r-dbi/DBItest/issues/150">#150</a>).</li>
+<li>Remove <code>"cannot_forget_disconnect"</code> test that fails on R-devel (<a href="https://github.com/r-dbi/DBItest/issues/150" class="external-link">#150</a>).</li>
 <li>Methods without <code>db</code> prefix are not checked for ellipsis in the signature anymore.</li>
-<li>Don’t specify <code>Inf</code> and <code>NaN</code> for lack of consistent support across DBMS (<a href="https://github.com/r-dbi/DBItest/issues/142">#142</a>).</li>
+<li>Don’t specify <code>Inf</code> and <code>NaN</code> for lack of consistent support across DBMS (<a href="https://github.com/r-dbi/DBItest/issues/142" class="external-link">#142</a>).</li>
 </ul></div>
-<div id="updatedcorrected-checks" class="section level2">
-<h2>Updated/corrected checks<a class="anchor" aria-label="anchor" href="#updatedcorrected-checks"></a>
-</h2>
+<div class="section level3">
+<h3 id="updatedcorrected-checks-1-6-0">Updated/corrected checks<a class="anchor" aria-label="anchor" href="#updatedcorrected-checks-1-6-0"></a></h3>
 <ul><li>Fix query that is supposed to generate a syntax error.</li>
-<li>Fix typo (<a href="https://github.com/r-dbi/DBItest/issues/147">#147</a>, <a href="https://github.com/jonmcalder">@jonmcalder</a>).</li>
+<li>Fix typo (<a href="https://github.com/r-dbi/DBItest/issues/147" class="external-link">#147</a>, <a href="https://github.com/jonmcalder" class="external-link">@jonmcalder</a>).</li>
 <li>Implement <code>POSIXlt</code> bind test correctly.</li>
 <li>Improve error detection for <code>dbBind()</code>.</li>
 <li>Redesign tests for <code>dbBind()</code>, now queries of the form <code>SELECT CASE WHEN (? = ?) AND (? IS NULL) THEN 1.5 ELSE 2.5</code> are issued. The original tests were inappropriate for RMariaDB, because an untyped placeholder is returned as a blob.</li>
@@ -196,200 +179,181 @@
 <li>Fix timestamp tests for RMariaDB.</li>
 <li>Fix string constants.</li>
 <li>The <code>"roundtrip_timestamp"</code> test now correctly handles timezone information. The output timezone is ignored.</li>
-<li>Clear result in <code>spec_meta_get_info_result</code> (<a href="https://github.com/r-dbi/DBItest/issues/143">#143</a>).</li>
+<li>Clear result in <code>spec_meta_get_info_result</code> (<a href="https://github.com/r-dbi/DBItest/issues/143" class="external-link">#143</a>).</li>
 <li>Use named argument for <code>n</code> in <code>dbGetQuery()</code> call.</li>
 <li>Minor fixes.</li>
 </ul></div>
-<div id="tweaks" class="section level2">
-<h2>Tweaks<a class="anchor" aria-label="anchor" href="#tweaks"></a>
-</h2>
+<div class="section level3">
+<h3 id="tweaks-1-6-0">Tweaks<a class="anchor" aria-label="anchor" href="#tweaks-1-6-0"></a></h3>
 <ul><li>New tweak <code>blob_cast</code> allows specifying a conversion function to the BLOB data type.</li>
 <li>New <code>is_null_check</code> tweak that allows specifying a function that is used when checking values for <code>NULL</code>. Required for RPostgres.</li>
 <li>New <code>list_temporary_tables</code> tweak that can be enabled independently of <code>temporary_tables</code> to indicate that the DBMS does not support listing temporary tables.</li>
 </ul></div>
-<div id="infrastructure" class="section level2">
-<h2>Infrastructure<a class="anchor" aria-label="anchor" href="#infrastructure"></a>
-</h2>
+<div class="section level3">
+<h3 id="infrastructure-1-6-0">Infrastructure<a class="anchor" aria-label="anchor" href="#infrastructure-1-6-0"></a></h3>
 <ul><li>Allow running only a subset of tests in <code><a href="../reference/test_all.html">test_all()</a></code> by specifying an environment variable.</li>
 <li>
 <code><a href="../reference/test_all.html">test_all()</a></code> and <code><a href="../reference/test_all.html">test_some()</a></code> return <code>NULL</code> invisibly.</li>
 </ul></div>
-<div id="internals" class="section level2">
-<h2>Internals<a class="anchor" aria-label="anchor" href="#internals"></a>
-</h2>
+<div class="section level3">
+<h3 id="internals-1-6-0">Internals<a class="anchor" aria-label="anchor" href="#internals-1-6-0"></a></h3>
 <ul><li>Compatibility code if <code><a href="https://dbi.r-dbi.org/reference/dbQuoteLiteral.html" class="external-link">DBI::dbQuoteLiteral()</a></code> is unavailable.</li>
 <li>New <code>trivial_query()</code> replaces many hard-coded queries and uses non-integer values for better compatibility with RMariaDB.</li>
-<li>Convert factor to character for iris data (<a href="https://github.com/r-dbi/DBItest/issues/141">#141</a>).</li>
+<li>Convert factor to character for iris data (<a href="https://github.com/r-dbi/DBItest/issues/141" class="external-link">#141</a>).</li>
 </ul></div>
 </div>
-    <div id="dbitest-15-2-2018-01-26" class="section level1">
-<h1 class="page-header" data-toc-text="1.5-2">DBItest 1.5-2 (2018-01-26)<a class="anchor" aria-label="anchor" href="#dbitest-15-2-2018-01-26"></a>
-<small> 2018-01-25 </small></h1>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.5-2" id="dbitest-15-2-2018-01-26">DBItest 1.5-2 (2018-01-26)<small>2018-01-25</small><a class="anchor" aria-label="anchor" href="#dbitest-15-2-2018-01-26"></a></h2>
 <ul><li>Fix test that fails with “noLD”.</li>
 <li>Fix NOTEs on R-devel.</li>
 </ul></div>
-    <div id="dbitest-15-1-2017-12-10" class="section level1">
-<h1 class="page-header" data-toc-text="1.5-1">DBItest 1.5-1 (2017-12-10)<a class="anchor" aria-label="anchor" href="#dbitest-15-1-2017-12-10"></a>
-<small> 2017-12-11 </small></h1>
-<ul><li>Remove <code>"cannot_forget_disconnect"</code> test that fails on R-devel (<a href="https://github.com/r-dbi/DBItest/issues/150">#150</a>).</li>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.5-1" id="dbitest-15-1-2017-12-10">DBItest 1.5-1 (2017-12-10)<small>2017-12-11</small><a class="anchor" aria-label="anchor" href="#dbitest-15-1-2017-12-10"></a></h2>
+<ul><li>Remove <code>"cannot_forget_disconnect"</code> test that fails on R-devel (<a href="https://github.com/r-dbi/DBItest/issues/150" class="external-link">#150</a>).</li>
 </ul></div>
-    <div id="dbitest-15-2017-06-18" class="section level1">
-<h1 class="page-header" data-toc-text="1.5">DBItest 1.5 (2017-06-18)<a class="anchor" aria-label="anchor" href="#dbitest-15-2017-06-18"></a>
-<small> 2017-06-19 </small></h1>
-<p>Finalize specification. Most tests now come with a corresponding prose, only those where the behavior is not finally decided don’t have a prose version yet (<a href="https://github.com/r-dbi/DBItest/issues/88">#88</a>).</p>
-<div id="new-tests" class="section level2">
-<h2>New tests<a class="anchor" aria-label="anchor" href="#new-tests"></a>
-</h2>
-<ul><li>Test behavior of methods in presence of placeholders (<a href="https://github.com/r-dbi/DBItest/issues/120">#120</a>).</li>
-<li>Test column name mismatch behavior for appending tables (<a href="https://github.com/r-dbi/DBItest/issues/93">#93</a>).</li>
-<li>Test that <code>dbBind()</code> against factor works but raises a warning (<a href="https://github.com/r-dbi/DBItest/issues/91">#91</a>).</li>
-<li>Test roundtrip of alternating empty and non-empty strings (<a href="https://github.com/r-dbi/DBItest/issues/42">#42</a>).</li>
-<li>Test multiple columns of different types in one statement or table (<a href="https://github.com/r-dbi/DBItest/issues/35">#35</a>).</li>
-<li>Test <code>field.types</code> argument to <code>dbWriteTable()</code> (<a href="https://github.com/r-dbi/DBItest/issues/12">#12</a>).</li>
-<li>Added tests for invalid or closed connection argument to all methods that expect a connection as first argument (<a href="https://github.com/r-dbi/DBItest/issues/117">#117</a>).</li>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.5" id="dbitest-15-2017-06-18">DBItest 1.5 (2017-06-18)<small>2017-06-19</small><a class="anchor" aria-label="anchor" href="#dbitest-15-2017-06-18"></a></h2>
+<p>Finalize specification. Most tests now come with a corresponding prose, only those where the behavior is not finally decided don’t have a prose version yet (<a href="https://github.com/r-dbi/DBItest/issues/88" class="external-link">#88</a>).</p>
+<div class="section level3">
+<h3 id="new-tests-1-5">New tests<a class="anchor" aria-label="anchor" href="#new-tests-1-5"></a></h3>
+<ul><li>Test behavior of methods in presence of placeholders (<a href="https://github.com/r-dbi/DBItest/issues/120" class="external-link">#120</a>).</li>
+<li>Test column name mismatch behavior for appending tables (<a href="https://github.com/r-dbi/DBItest/issues/93" class="external-link">#93</a>).</li>
+<li>Test that <code>dbBind()</code> against factor works but raises a warning (<a href="https://github.com/r-dbi/DBItest/issues/91" class="external-link">#91</a>).</li>
+<li>Test roundtrip of alternating empty and non-empty strings (<a href="https://github.com/r-dbi/DBItest/issues/42" class="external-link">#42</a>).</li>
+<li>Test multiple columns of different types in one statement or table (<a href="https://github.com/r-dbi/DBItest/issues/35" class="external-link">#35</a>).</li>
+<li>Test <code>field.types</code> argument to <code>dbWriteTable()</code> (<a href="https://github.com/r-dbi/DBItest/issues/12" class="external-link">#12</a>).</li>
+<li>Added tests for invalid or closed connection argument to all methods that expect a connection as first argument (<a href="https://github.com/r-dbi/DBItest/issues/117" class="external-link">#117</a>).</li>
 <li>Enabled test that tests a missing <code>dbDisconnect()</code>.</li>
 <li>Add test for unambiguous escaping of identifiers (rstats-db/RSQLite#123).</li>
-<li>Reenable tests for visibility (<a href="https://github.com/r-dbi/DBItest/issues/89">#89</a>).</li>
+<li>Reenable tests for visibility (<a href="https://github.com/r-dbi/DBItest/issues/89" class="external-link">#89</a>).</li>
 <li>Fix and specify 64-bit roundtrip test.</li>
-<li>64-bit integers only need to be coercible to <code>numeric</code> and <code>character</code> (<a href="https://github.com/r-dbi/DBItest/issues/74">#74</a>).</li>
-<li>Added roundtrip test for time values (<a href="https://github.com/r-dbi/DBItest/issues/14">#14</a>).</li>
-<li>Added tweaks for handling date, time, timestamp, … (<a href="https://github.com/r-dbi/DBItest/issues/53">#53</a>, <a href="https://github.com/r-dbi/DBItest/issues/76">#76</a>).</li>
-<li>Test that <code>dbFetch()</code> on update-only query returns warning (<a href="https://github.com/r-dbi/DBItest/issues/66">#66</a>).</li>
+<li>64-bit integers only need to be coercible to <code>numeric</code> and <code>character</code> (<a href="https://github.com/r-dbi/DBItest/issues/74" class="external-link">#74</a>).</li>
+<li>Added roundtrip test for time values (<a href="https://github.com/r-dbi/DBItest/issues/14" class="external-link">#14</a>).</li>
+<li>Added tweaks for handling date, time, timestamp, … (<a href="https://github.com/r-dbi/DBItest/issues/53" class="external-link">#53</a>, <a href="https://github.com/r-dbi/DBItest/issues/76" class="external-link">#76</a>).</li>
+<li>Test that <code>dbFetch()</code> on update-only query returns warning (<a href="https://github.com/r-dbi/DBItest/issues/66" class="external-link">#66</a>).</li>
 </ul></div>
-<div id="adapted-tests" class="section level2">
-<h2>Adapted tests<a class="anchor" aria-label="anchor" href="#adapted-tests"></a>
-</h2>
+<div class="section level3">
+<h3 id="adapted-tests-1-5">Adapted tests<a class="anchor" aria-label="anchor" href="#adapted-tests-1-5"></a></h3>
 <ul><li>
 <code>NULL</code> is a valid value for the <code>row.names</code> argument, same as <code>FALSE</code>.</li>
-<li>A column named <code>row_names</code> receives no special handling (<a href="https://github.com/r-dbi/DBItest/issues/54">#54</a>).</li>
+<li>A column named <code>row_names</code> receives no special handling (<a href="https://github.com/r-dbi/DBItest/issues/54" class="external-link">#54</a>).</li>
 <li>A warning (not an error anymore) is expected when calling <code>dbDisconnect()</code> on a closed or invalid connection.</li>
 <li>
 <code>row.names = FALSE</code> is now the default for methods that read or write tables.</li>
-<li>Add <code>NA</code> to beginning and end of columns in table roundtrip tests (<a href="https://github.com/r-dbi/DBItest/issues/24">#24</a>).</li>
-<li>Stricter tests for confusion of named and unnamed SQL parameters and placeholders (<a href="https://github.com/r-dbi/DBItest/issues/107">#107</a>).</li>
+<li>Add <code>NA</code> to beginning and end of columns in table roundtrip tests (<a href="https://github.com/r-dbi/DBItest/issues/24" class="external-link">#24</a>).</li>
+<li>Stricter tests for confusion of named and unnamed SQL parameters and placeholders (<a href="https://github.com/r-dbi/DBItest/issues/107" class="external-link">#107</a>).</li>
 <li>Also check names of all returned data frames.</li>
-<li>The return value for all calls to <code>dbGetQuery()</code>, <code>dbFetch()</code>, and <code>dbReadTable()</code> is now checked for consistency (all columns have the same length, length matches number of rows) (<a href="https://github.com/r-dbi/DBItest/issues/126">#126</a>).</li>
+<li>The return value for all calls to <code>dbGetQuery()</code>, <code>dbFetch()</code>, and <code>dbReadTable()</code> is now checked for consistency (all columns have the same length, length matches number of rows) (<a href="https://github.com/r-dbi/DBItest/issues/126" class="external-link">#126</a>).</li>
 <li>Removed stress tests that start a new session.</li>
-<li>Allow <code>hms</code> (or other subclasses of <code>difftime</code>) to be returned as time class (<a href="https://github.com/r-dbi/DBItest/issues/135">#135</a>, <a href="https://github.com/jimhester">@jimhester</a>).</li>
-<li>Test that dates are of type <code>numeric</code> (<a href="https://github.com/r-dbi/DBItest/issues/99">#99</a>, <a href="https://github.com/jimhester">@jimhester</a>).</li>
-<li>Replace <code>POSIXlt</code> by <code>POSIXct</code> (<a href="https://github.com/r-dbi/DBItest/issues/100">#100</a>, <a href="https://github.com/jimhester">@jimhester</a>).</li>
-<li>Use <code>"PST8PDT"</code> instead of <code>"PST"</code> as time zone (<a href="https://github.com/r-dbi/DBItest/issues/110">#110</a>, <a href="https://github.com/thrasibule">@thrasibule</a>).</li>
-<li>Added tests for support of <code>blob</code> objects (input and output), but backends are not required to return <code>blob</code> objects (<a href="https://github.com/r-dbi/DBItest/issues/98">#98</a>).</li>
+<li>Allow <code>hms</code> (or other subclasses of <code>difftime</code>) to be returned as time class (<a href="https://github.com/r-dbi/DBItest/issues/135" class="external-link">#135</a>, <a href="https://github.com/jimhester" class="external-link">@jimhester</a>).</li>
+<li>Test that dates are of type <code>numeric</code> (<a href="https://github.com/r-dbi/DBItest/issues/99" class="external-link">#99</a>, <a href="https://github.com/jimhester" class="external-link">@jimhester</a>).</li>
+<li>Replace <code>POSIXlt</code> by <code>POSIXct</code> (<a href="https://github.com/r-dbi/DBItest/issues/100" class="external-link">#100</a>, <a href="https://github.com/jimhester" class="external-link">@jimhester</a>).</li>
+<li>Use <code>"PST8PDT"</code> instead of <code>"PST"</code> as time zone (<a href="https://github.com/r-dbi/DBItest/issues/110" class="external-link">#110</a>, <a href="https://github.com/thrasibule" class="external-link">@thrasibule</a>).</li>
+<li>Added tests for support of <code>blob</code> objects (input and output), but backends are not required to return <code>blob</code> objects (<a href="https://github.com/r-dbi/DBItest/issues/98" class="external-link">#98</a>).</li>
 <li>The <code>logical_return</code>, <code>date_typed</code> and <code>timestamp_typed</code> tweaks are respected by the bind tests.</li>
 <li>Fixed tests involving time comparison; now uses UTC timezone and compares against a <code>difftime</code>.</li>
-<li>Tests for roundtrip of character values now includes tabs, in addition to many other special characters (<a href="https://github.com/r-dbi/DBItest/issues/85">#85</a>).</li>
+<li>Tests for roundtrip of character values now includes tabs, in addition to many other special characters (<a href="https://github.com/r-dbi/DBItest/issues/85" class="external-link">#85</a>).</li>
 <li>Make sure at least one table exists in the <code>dbListTables()</code> test.</li>
 <li>Fix roundtrip tests for raw columns: now expecting <code>NULL</code> and not <code>NA</code> entries for SQL NULL values.</li>
 <li>Fix <code>expect_equal_df()</code> for list columns.</li>
-<li>Testing that a warning is given if the user forgets to call <code>dbDisconnect()</code> or <code>dbClearResult()</code> (<a href="https://github.com/r-dbi/DBItest/issues/103">#103</a>).</li>
-<li>Numeric roundtrip accepts conversion of <code>NaN</code> to <code>NA</code> (<a href="https://github.com/r-dbi/DBItest/issues/79">#79</a>).</li>
+<li>Testing that a warning is given if the user forgets to call <code>dbDisconnect()</code> or <code>dbClearResult()</code> (<a href="https://github.com/r-dbi/DBItest/issues/103" class="external-link">#103</a>).</li>
+<li>Numeric roundtrip accepts conversion of <code>NaN</code> to <code>NA</code> (<a href="https://github.com/r-dbi/DBItest/issues/79" class="external-link">#79</a>).</li>
 </ul></div>
-<div id="internal-2" class="section level2">
-<h2>Internal<a class="anchor" aria-label="anchor" href="#internal-2"></a>
-</h2>
+<div class="section level3">
+<h3 id="internal-1-5">Internal<a class="anchor" aria-label="anchor" href="#internal-1-5"></a></h3>
 <ul><li>Fix R CMD check errors.</li>
-<li>Internal consistency checks (<a href="https://github.com/r-dbi/DBItest/issues/114">#114</a>).</li>
-<li>Skip patterns that don’t match any of the tests now raise a warning (<a href="https://github.com/r-dbi/DBItest/issues/84">#84</a>).</li>
-<li>New <code><a href="../reference/test_all.html">test_some()</a></code> to test individual tests (<a href="https://github.com/r-dbi/DBItest/issues/136">#136</a>).</li>
-<li>Use desc instead of devtools (<a href="https://github.com/r-dbi/DBItest/issues/40">#40</a>).</li>
-<li>All unexpected warnings are now reported as test failures (<a href="https://github.com/r-dbi/DBItest/issues/113">#113</a>).</li>
+<li>Internal consistency checks (<a href="https://github.com/r-dbi/DBItest/issues/114" class="external-link">#114</a>).</li>
+<li>Skip patterns that don’t match any of the tests now raise a warning (<a href="https://github.com/r-dbi/DBItest/issues/84" class="external-link">#84</a>).</li>
+<li>New <code><a href="../reference/test_all.html">test_some()</a></code> to test individual tests (<a href="https://github.com/r-dbi/DBItest/issues/136" class="external-link">#136</a>).</li>
+<li>Use desc instead of devtools (<a href="https://github.com/r-dbi/DBItest/issues/40" class="external-link">#40</a>).</li>
+<li>All unexpected warnings are now reported as test failures (<a href="https://github.com/r-dbi/DBItest/issues/113" class="external-link">#113</a>).</li>
 <li>
 <code>DBItest_tweaks</code> class gains a <code>$</code> method, accessing an undefined tweak now raises an error.</li>
 <li>The arguments of the <code><a href="../reference/tweaks.html">tweaks()</a></code> function now have default values that further describe their intended usage.</li>
 <li>New <code>with_closed_connection(ctx = ctx, )</code>, <code>with_invalid_connection(ctx = ctx, )</code>, <code>with_result()</code> and <code>with_remove_test_table()</code> helpers, and <code>expect_visible()</code>, <code>expect_inbisible_true()</code>, and <code>expect_equal_df()</code> expectations for more concise tests.</li>
 </ul></div>
 </div>
-    <div id="dbitest-14-2016-12-02" class="section level1">
-<h1 class="page-header" data-toc-text="1.4">DBItest 1.4 (2016-12-02)<a class="anchor" aria-label="anchor" href="#dbitest-14-2016-12-02"></a>
-<small> 2016-12-03 </small></h1>
-<div id="dbi-specification" class="section level2">
-<h2>DBI specification<a class="anchor" aria-label="anchor" href="#dbi-specification"></a>
-</h2>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.4" id="dbitest-14-2016-12-02">DBItest 1.4 (2016-12-02)<small>2016-12-03</small><a class="anchor" aria-label="anchor" href="#dbitest-14-2016-12-02"></a></h2>
+<div class="section level3">
+<h3 id="dbi-specification-1-4">DBI specification<a class="anchor" aria-label="anchor" href="#dbi-specification-1-4"></a></h3>
 <ul><li>Use markdown in documentation.</li>
-<li>Description of parametrized queries and statements (<a href="https://github.com/r-dbi/DBItest/issues/88">#88</a>).</li>
+<li>Description of parametrized queries and statements (<a href="https://github.com/r-dbi/DBItest/issues/88" class="external-link">#88</a>).</li>
 <li>New hidden <code>DBIspec-wip</code> page for work-in-progress documentation.</li>
 <li>Get rid of “Format” and “Usage” sections, and aliases, in the specs.</li>
 </ul></div>
-<div id="tests" class="section level2">
-<h2>Tests<a class="anchor" aria-label="anchor" href="#tests"></a>
-</h2>
+<div class="section level3">
+<h3 id="tests-1-4">Tests<a class="anchor" aria-label="anchor" href="#tests-1-4"></a></h3>
 <ul><li>Not testing for presence of <code>max.connections</code> element in <code>dbGetInfo(Driver)</code> (rstats-db/DBI#56).</li>
-<li>Test multi-row binding for queries and statements (<a href="https://github.com/r-dbi/DBItest/issues/96">#96</a>).</li>
+<li>Test multi-row binding for queries and statements (<a href="https://github.com/r-dbi/DBItest/issues/96" class="external-link">#96</a>).</li>
 <li>New <code>ellipsis</code> check that verifies that all implemented DBI methods contain <code>...</code> in their formals. This excludes <code>show()</code> and all methods defined in this or other packages.</li>
-<li>Refactored <code>bind_</code> tests to use the new <code>parameter_pattern</code> tweak (<a href="https://github.com/r-dbi/DBItest/issues/95">#95</a>).</li>
-<li>Rough draft of transaction tests (<a href="https://github.com/r-dbi/DBItest/issues/36">#36</a>).</li>
+<li>Refactored <code>bind_</code> tests to use the new <code>parameter_pattern</code> tweak (<a href="https://github.com/r-dbi/DBItest/issues/95" class="external-link">#95</a>).</li>
+<li>Rough draft of transaction tests (<a href="https://github.com/r-dbi/DBItest/issues/36" class="external-link">#36</a>).</li>
 <li>New <code>fetch_zero_rows</code> test, split from <code>fetch_premature_close</code>.</li>
 <li>The “compliance” test tests that the backend package exports exactly one subclass of each DBI virtual class.</li>
-<li>Document and enhance test for <code>dbDataType("DBIDriver", "ANY")</code> (<a href="https://github.com/r-dbi/DBItest/issues/88">#88</a>).</li>
+<li>Document and enhance test for <code>dbDataType("DBIDriver", "ANY")</code> (<a href="https://github.com/r-dbi/DBItest/issues/88" class="external-link">#88</a>).</li>
 <li>Minor corrections for “bind” tests.</li>
 </ul></div>
-<div id="internal-3" class="section level2">
-<h2>Internal<a class="anchor" aria-label="anchor" href="#internal-3"></a>
-</h2>
-<ul><li>Isolate stress tests from main test suite (<a href="https://github.com/r-dbi/DBItest/issues/92">#92</a>).</li>
-<li>Refactor test specification in smaller modules, isolated from actual test execution (<a href="https://github.com/r-dbi/DBItest/issues/81">#81</a>). This breaks the documentation of the tests, which will be substituted by a DBI specification in prose.</li>
+<div class="section level3">
+<h3 id="internal-1-4">Internal<a class="anchor" aria-label="anchor" href="#internal-1-4"></a></h3>
+<ul><li>Isolate stress tests from main test suite (<a href="https://github.com/r-dbi/DBItest/issues/92" class="external-link">#92</a>).</li>
+<li>Refactor test specification in smaller modules, isolated from actual test execution (<a href="https://github.com/r-dbi/DBItest/issues/81" class="external-link">#81</a>). This breaks the documentation of the tests, which will be substituted by a DBI specification in prose.</li>
 <li>Align description of binding with code.</li>
 <li>Refactor tests for <code>dbBind()</code>, test is run by <code>BindTester</code> class, and behavior is specified by members and by instances of the new <code>BindTesterExtra</code> class.</li>
-<li>The <code>skip</code> argument to the <code>test_()</code> functions is again evaluated with <code>perl = TRUE</code> to support negative lookaheads (<a href="https://github.com/r-dbi/DBItest/issues/33">#33</a>).</li>
+<li>The <code>skip</code> argument to the <code>test_()</code> functions is again evaluated with <code>perl = TRUE</code> to support negative lookaheads (<a href="https://github.com/r-dbi/DBItest/issues/33" class="external-link">#33</a>).</li>
 <li>Use <code>dbSendStatement()</code> and <code>dbExecute()</code> where appropriate.</li>
-<li>Avoid empty subsections in Rd documentation to satisfy <code>R CMD check</code> (<a href="https://github.com/r-dbi/DBItest/issues/81">#81</a>).</li>
+<li>Avoid empty subsections in Rd documentation to satisfy <code>R CMD check</code> (<a href="https://github.com/r-dbi/DBItest/issues/81" class="external-link">#81</a>).</li>
 </ul></div>
 </div>
-    <div id="dbitest-13-2016-07-07" class="section level1">
-<h1 class="page-header" data-toc-text="1.3">DBItest 1.3 (2016-07-07)<a class="anchor" aria-label="anchor" href="#dbitest-13-2016-07-07"></a>
-<small> 2016-07-07 </small></h1>
-<div id="bug-fixes-1" class="section level2">
-<h2>Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1"></a>
-</h2>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.3" id="dbitest-13-2016-07-07">DBItest 1.3 (2016-07-07)<small>2016-07-07</small><a class="anchor" aria-label="anchor" href="#dbitest-13-2016-07-07"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-1-3">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-3"></a></h3>
 <ul><li>Fix <code>read_table</code> test when the backend actually returns the data in a different order.</li>
 </ul></div>
-<div id="new-tests-1" class="section level2">
-<h2>New tests<a class="anchor" aria-label="anchor" href="#new-tests-1"></a>
-</h2>
-<ul><li>Test <code>dbDataType()</code> on connections (<a href="https://github.com/r-dbi/DBItest/issues/69">#69</a>, <a href="https://github.com/r-dbi/DBItest/issues/75">#75</a>, <a href="https://github.com/imanuelcostigan">@imanuelcostigan</a>).</li>
-<li>Check returned strings for UTF-8 encoding (<a href="https://github.com/r-dbi/DBItest/issues/72">#72</a>).</li>
-<li>Repeated <code>dbBind()</code> + <code>dbFetch()</code> on the same result set (<a href="https://github.com/r-dbi/DBItest/issues/51">#51</a>).</li>
+<div class="section level3">
+<h3 id="new-tests-1-3">New tests<a class="anchor" aria-label="anchor" href="#new-tests-1-3"></a></h3>
+<ul><li>Test <code>dbDataType()</code> on connections (<a href="https://github.com/r-dbi/DBItest/issues/69" class="external-link">#69</a>, <a href="https://github.com/r-dbi/DBItest/issues/75" class="external-link">#75</a>, <a href="https://github.com/imanuelcostigan" class="external-link">@imanuelcostigan</a>).</li>
+<li>Check returned strings for UTF-8 encoding (<a href="https://github.com/r-dbi/DBItest/issues/72" class="external-link">#72</a>).</li>
+<li>Repeated <code>dbBind()</code> + <code>dbFetch()</code> on the same result set (<a href="https://github.com/r-dbi/DBItest/issues/51" class="external-link">#51</a>).</li>
 </ul></div>
-<div id="features-1" class="section level2">
-<h2>Features<a class="anchor" aria-label="anchor" href="#features-1"></a>
-</h2>
+<div class="section level3">
+<h3 id="features-1-3">Features<a class="anchor" aria-label="anchor" href="#features-1-3"></a></h3>
 <ul><li>
-<code><a href="../reference/tweaks.html">tweaks()</a></code> gains an <code>...</code> as first argument to support future/deprecated tweaks (with a warning), and also to avoid unnamed arguments (<a href="https://github.com/r-dbi/DBItest/issues/83">#83</a>).</li>
+<code><a href="../reference/tweaks.html">tweaks()</a></code> gains an <code>...</code> as first argument to support future/deprecated tweaks (with a warning), and also to avoid unnamed arguments (<a href="https://github.com/r-dbi/DBItest/issues/83" class="external-link">#83</a>).</li>
 <li>
-<code>testthat</code> now shows a more accurate location for the source of errors, failures, and skips (<a href="https://github.com/r-dbi/DBItest/issues/78">#78</a>).</li>
+<code>testthat</code> now shows a more accurate location for the source of errors, failures, and skips (<a href="https://github.com/r-dbi/DBItest/issues/78" class="external-link">#78</a>).</li>
 <li>Aggregate skipped tests, only one <code>skip()</code> call per test function.</li>
-<li>Indicate that some tests are optional in documentation (<a href="https://github.com/r-dbi/DBItest/issues/15">#15</a>).</li>
+<li>Indicate that some tests are optional in documentation (<a href="https://github.com/r-dbi/DBItest/issues/15" class="external-link">#15</a>).</li>
 </ul></div>
-<div id="internal-4" class="section level2">
-<h2>Internal<a class="anchor" aria-label="anchor" href="#internal-4"></a>
-</h2>
+<div class="section level3">
+<h3 id="internal-1-3">Internal<a class="anchor" aria-label="anchor" href="#internal-1-3"></a></h3>
 <ul><li>New <code>constructor_relax_args</code> tweak, currently not queried.</li>
 <li>The <code>ctx</code> argument is now explicit in the test functions.</li>
 <li>Change underscores to dashes in file names.</li>
 <li>Remove <code>testthat</code> compatibility hack.</li>
 <li>New <code>all_have_utf8_or_ascii_encoding()</code> which vectorizes <code>has_utf8_or_ascii_encoding()</code>.</li>
-<li>Test on AppVeyor (<a href="https://github.com/r-dbi/DBItest/issues/73">#73</a>).</li>
+<li>Test on AppVeyor (<a href="https://github.com/r-dbi/DBItest/issues/73" class="external-link">#73</a>).</li>
 <li>Work around regression in R 3.3.0 (fix scheduled for R 3.3.1) which affected stress tests.</li>
 </ul></div>
 </div>
-    <div id="dbitest-12-2016-05-21" class="section level1">
-<h1 class="page-header" data-toc-text="1.2">DBItest 1.2 (2016-05-21)<a class="anchor" aria-label="anchor" href="#dbitest-12-2016-05-21"></a>
-<small> 2016-05-24 </small></h1>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.2" id="dbitest-12-2016-05-21">DBItest 1.2 (2016-05-21)<small>2016-05-24</small><a class="anchor" aria-label="anchor" href="#dbitest-12-2016-05-21"></a></h2>
 <ul><li>Infrastructure
-<ul><li>Support names for contexts (<a href="https://github.com/hoesler">@hoesler</a>, <a href="https://github.com/r-dbi/DBItest/issues/67">#67</a>).</li>
-<li>The <code>skip</code> argument to the test functions is now treated as a Perl regular expression to allow negative lookahead. Use <code>skip = "(?!test_regex).*"</code> to choose a single test to run (<a href="https://github.com/r-dbi/DBItest/issues/33">#33</a>).</li>
-<li>Added encoding arguments to non-ASCII string constants (<a href="https://github.com/r-dbi/DBItest/issues/60">#60</a>, <a href="https://github.com/hoesler">@hoesler</a>).</li>
+<ul><li>Support names for contexts (<a href="https://github.com/hoesler" class="external-link">@hoesler</a>, <a href="https://github.com/r-dbi/DBItest/issues/67" class="external-link">#67</a>).</li>
+<li>The <code>skip</code> argument to the test functions is now treated as a Perl regular expression to allow negative lookahead. Use <code>skip = "(?!test_regex).*"</code> to choose a single test to run (<a href="https://github.com/r-dbi/DBItest/issues/33" class="external-link">#33</a>).</li>
+<li>Added encoding arguments to non-ASCII string constants (<a href="https://github.com/r-dbi/DBItest/issues/60" class="external-link">#60</a>, <a href="https://github.com/hoesler" class="external-link">@hoesler</a>).</li>
 </ul></li>
 <li>Improve tests
 <ul><li>
-<code>simultaneous_connections</code> test always closes all connections on exit (<a href="https://github.com/hoesler">@hoesler</a>, <a href="https://github.com/r-dbi/DBItest/issues/68">#68</a>).</li>
-<li>More generic compliance check (<a href="https://github.com/hoesler">@hoesler</a>, <a href="https://github.com/r-dbi/DBItest/issues/61">#61</a>).</li>
-<li>Update documentation to reflect test condition (<a href="https://github.com/imanuelcostigan">@imanuelcostigan</a>, <a href="https://github.com/r-dbi/DBItest/issues/70">#70</a>).</li>
+<code>simultaneous_connections</code> test always closes all connections on exit (<a href="https://github.com/hoesler" class="external-link">@hoesler</a>, <a href="https://github.com/r-dbi/DBItest/issues/68" class="external-link">#68</a>).</li>
+<li>More generic compliance check (<a href="https://github.com/hoesler" class="external-link">@hoesler</a>, <a href="https://github.com/r-dbi/DBItest/issues/61" class="external-link">#61</a>).</li>
+<li>Update documentation to reflect test condition (<a href="https://github.com/imanuelcostigan" class="external-link">@imanuelcostigan</a>, <a href="https://github.com/r-dbi/DBItest/issues/70" class="external-link">#70</a>).</li>
 </ul></li>
 <li>
 <code>testthat</code> dependency
 <ul><li>Import all of <code>testthat</code> to avoid <code>R CMD check</code> warnings.</li>
-<li>Compatibility with dev version of <code>testthat</code> (<a href="https://github.com/r-dbi/DBItest/issues/62">#62</a>).</li>
+<li>Compatibility with dev version of <code>testthat</code> (<a href="https://github.com/r-dbi/DBItest/issues/62" class="external-link">#62</a>).</li>
 </ul></li>
 <li>Improve Travis builds
 <ul><li>Use container-based builds on Travis.</li>
@@ -397,11 +361,10 @@
 <li>Install <code>DBI</code> and <code>testthat</code> from GitHub.</li>
 </ul></li>
 </ul></div>
-    <div id="version-11-2016-02-12" class="section level1">
-<h1 class="page-header" data-toc-text="1.1">Version 1.1 (2016-02-12)<a class="anchor" aria-label="anchor" href="#version-11-2016-02-12"></a>
-<small> Unreleased </small></h1>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.1" id="version-11-2016-02-12">Version 1.1 (2016-02-12)<a class="anchor" aria-label="anchor" href="#version-11-2016-02-12"></a></h2>
 <ul><li>New feature: tweaks
-<ul><li>New argument <code>tweaks</code> to <code><a href="../reference/context.html">make_context()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/49">#49</a>).</li>
+<ul><li>New argument <code>tweaks</code> to <code><a href="../reference/context.html">make_context()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/49" class="external-link">#49</a>).</li>
 <li>New <code><a href="../reference/tweaks.html">tweaks()</a></code>, essentially constructs a named list of tweaks but with predefined and documented argument names.</li>
 <li>
 <code>constructor_name</code>, respected by the <code>constructor.*</code> tests.</li>
@@ -418,16 +381,16 @@
 <ul><li>
 <code>dbGetInfo(Result)</code> (rstats-db/DBI#55).</li>
 <li>
-<code>dbListFields()</code> (<a href="https://github.com/r-dbi/DBItest/issues/26">#26</a>).</li>
+<code>dbListFields()</code> (<a href="https://github.com/r-dbi/DBItest/issues/26" class="external-link">#26</a>).</li>
 <li>New <code>package_name</code> test in <code><a href="../reference/test_getting_started.html">test_getting_started()</a></code>.</li>
 </ul></li>
 <li>Improved tests
-<ul><li>Stress test now installs package in temporary library (before loading <code>DBI</code>) using <code>R CMD INSTALL</code> before loading DBI (rstats-db/RSQLite#128, <a href="https://github.com/r-dbi/DBItest/issues/48">#48</a>).</li>
+<ul><li>Stress test now installs package in temporary library (before loading <code>DBI</code>) using <code>R CMD INSTALL</code> before loading DBI (rstats-db/RSQLite#128, <a href="https://github.com/r-dbi/DBItest/issues/48" class="external-link">#48</a>).</li>
 <li>Row count is now tested for equality but not identity, so that backends can return a numeric value &gt; 2^31 at their discretion.</li>
 <li>Call <code>dbRemoveTable()</code> instead of issuing <code>DROP</code> requests, the latter might be unsupported.</li>
 <li>Use subqueries in queries that use <code>WHERE</code>.</li>
 <li>Test that <code>dbClearResult()</code> on a closed result set raises a warning.</li>
-<li>Expect a warning instead of an error for double disconnect (<a href="https://github.com/r-dbi/DBItest/issues/50">#50</a>).</li>
+<li>Expect a warning instead of an error for double disconnect (<a href="https://github.com/r-dbi/DBItest/issues/50" class="external-link">#50</a>).</li>
 <li>Move connection test that requires <code>dbFetch()</code> to <code><a href="../reference/test_result.html">test_result()</a></code>.</li>
 <li>Split <code>can_connect_and_disconnect</code> test.</li>
 <li>Expect <code>DBI</code> to be in <code>Imports</code>, not in <code>Depends</code>.</li>
@@ -439,7 +402,7 @@
 <ul><li>Fix broken tests for quoting.</li>
 </ul></li>
 <li>Self-testing
-<ul><li>Test <code>RPostgres</code>, <code>RMySQL</code>, <code>RSQLite</code> and <code>RKazam</code> as part of the Travis-CI tests (<a href="https://github.com/r-dbi/DBItest/issues/52">#52</a>).</li>
+<ul><li>Test <code>RPostgres</code>, <code>RMySQL</code>, <code>RSQLite</code> and <code>RKazam</code> as part of the Travis-CI tests (<a href="https://github.com/r-dbi/DBItest/issues/52" class="external-link">#52</a>).</li>
 <li>Travis CI now installs rstats-db/DBI, updated namespace imports (<code>dbiCheckCompliance()</code>, <code>dbListResults()</code>).</li>
 <li>Use fork of <code>testthat</code>.</li>
 </ul></li>
@@ -452,9 +415,8 @@
 <li>Use unqualified calls to <code>dbBind()</code> again</li>
 </ul></li>
 </ul></div>
-    <div id="version-10-2015-12-17" class="section level1">
-<h1 class="page-header" data-toc-text="1.0">Version 1.0 (2015-12-17)<a class="anchor" aria-label="anchor" href="#version-10-2015-12-17"></a>
-<small> Unreleased </small></h1>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.0" id="version-10-2015-12-17">Version 1.0 (2015-12-17)<a class="anchor" aria-label="anchor" href="#version-10-2015-12-17"></a></h2>
 <ul><li>CRAN release
 <ul><li>Eliminate errors on win-builder</li>
 <li>Satisfy R CMD check</li>
@@ -463,40 +425,38 @@
 <li>Move <code>devtools</code> package from “Imports” to “Suggests”</li>
 </ul></li>
 </ul></div>
-    <div id="version-03-2015-11-15" class="section level1">
-<h1 class="page-header" data-toc-text="0.3">Version 0.3 (2015-11-15)<a class="anchor" aria-label="anchor" href="#version-03-2015-11-15"></a>
-<small> Unreleased </small></h1>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.3" id="version-03-2015-11-15">Version 0.3 (2015-11-15)<a class="anchor" aria-label="anchor" href="#version-03-2015-11-15"></a></h2>
 <ul><li>Feature-complete, ready for review</li>
 <li>Tests from the proposal
 <ul><li>Add missing methods to compliance check</li>
-<li>Add simple read-only test (<a href="https://github.com/r-dbi/DBItest/issues/27">#27</a>)</li>
-<li>Add stress tests for repeated load/unload (with and without connecting) in new R session (<a href="https://github.com/r-dbi/DBItest/issues/2">#2</a>),</li>
-<li>Migrate all tests from existing backends (<a href="https://github.com/r-dbi/DBItest/issues/28">#28</a>)</li>
+<li>Add simple read-only test (<a href="https://github.com/r-dbi/DBItest/issues/27" class="external-link">#27</a>)</li>
+<li>Add stress tests for repeated load/unload (with and without connecting) in new R session (<a href="https://github.com/r-dbi/DBItest/issues/2" class="external-link">#2</a>),</li>
+<li>Migrate all tests from existing backends (<a href="https://github.com/r-dbi/DBItest/issues/28" class="external-link">#28</a>)</li>
 <li>Refactor <code>data_</code> tests to use a worker function <code>test_select()</code>
 </li>
 <li>Test tables with <code>NA</code> values above and below the non-<code>NA</code> value in <code>data_</code> tests</li>
-<li>Test return values and error conditions for <code>dbBind()</code> and <code>dbClearResult()</code> (<a href="https://github.com/r-dbi/DBItest/issues/31">#31</a>)</li>
-<li>Test vectorization of <code>dbQuoteString()</code> and <code>dbQuoteIdentifier()</code> (<a href="https://github.com/r-dbi/DBItest/issues/18">#18</a>)</li>
-<li>Test that dates have <code>integer</code> as underlying data type (<a href="https://github.com/r-dbi/DBItest/issues/9">#9</a>)</li>
-<li>Roundtrip tests sort output table to be sure (<a href="https://github.com/r-dbi/DBItest/issues/32">#32</a>)</li>
-<li>Test <code>NA</code> to <code>NULL</code> conversion in <code>dbQuoteString()</code>, and false friends (<a href="https://github.com/r-dbi/DBItest/issues/23">#23</a>)</li>
-<li>Enhance test for <code>dbQuoteIdentifier()</code> (<a href="https://github.com/r-dbi/DBItest/issues/30">#30</a>)</li>
+<li>Test return values and error conditions for <code>dbBind()</code> and <code>dbClearResult()</code> (<a href="https://github.com/r-dbi/DBItest/issues/31" class="external-link">#31</a>)</li>
+<li>Test vectorization of <code>dbQuoteString()</code> and <code>dbQuoteIdentifier()</code> (<a href="https://github.com/r-dbi/DBItest/issues/18" class="external-link">#18</a>)</li>
+<li>Test that dates have <code>integer</code> as underlying data type (<a href="https://github.com/r-dbi/DBItest/issues/9" class="external-link">#9</a>)</li>
+<li>Roundtrip tests sort output table to be sure (<a href="https://github.com/r-dbi/DBItest/issues/32" class="external-link">#32</a>)</li>
+<li>Test <code>NA</code> to <code>NULL</code> conversion in <code>dbQuoteString()</code>, and false friends (<a href="https://github.com/r-dbi/DBItest/issues/23" class="external-link">#23</a>)</li>
+<li>Enhance test for <code>dbQuoteIdentifier()</code> (<a href="https://github.com/r-dbi/DBItest/issues/30" class="external-link">#30</a>)</li>
 </ul></li>
 <li>Style
-<ul><li>Avoid using <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> for date and time columns (<a href="https://github.com/r-dbi/DBItest/issues/10">#10</a>)</li>
-<li>Use <code>expect_identical()</code> instead of <code>expect_equal()</code> in many places (<a href="https://github.com/r-dbi/DBItest/issues/13">#13</a>)</li>
-<li>Catch all errors in <code><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit()</a></code> handlers via <code>expect_error()</code> (<a href="https://github.com/r-dbi/DBItest/issues/20">#20</a>).</li>
-<li>Combine “meta” tests into new <code><a href="../reference/test_meta.html">test_meta()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/37">#37</a>)</li>
+<ul><li>Avoid using <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> for date and time columns (<a href="https://github.com/r-dbi/DBItest/issues/10" class="external-link">#10</a>)</li>
+<li>Use <code>expect_identical()</code> instead of <code>expect_equal()</code> in many places (<a href="https://github.com/r-dbi/DBItest/issues/13" class="external-link">#13</a>)</li>
+<li>Catch all errors in <code><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit()</a></code> handlers via <code>expect_error()</code> (<a href="https://github.com/r-dbi/DBItest/issues/20" class="external-link">#20</a>).</li>
+<li>Combine “meta” tests into new <code><a href="../reference/test_meta.html">test_meta()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/37" class="external-link">#37</a>)</li>
 </ul></li>
 <li>Documentation
-<ul><li>New “test” vignette (<a href="https://github.com/r-dbi/DBItest/issues/16">#16</a>)</li>
-<li>Add package documentation (<a href="https://github.com/r-dbi/DBItest/issues/38">#38</a>)</li>
+<ul><li>New “test” vignette (<a href="https://github.com/r-dbi/DBItest/issues/16" class="external-link">#16</a>)</li>
+<li>Add package documentation (<a href="https://github.com/r-dbi/DBItest/issues/38" class="external-link">#38</a>)</li>
 </ul></li>
 <li>Same as 0.2-5</li>
 </ul></div>
-    <div id="version-02-2015-11-11" class="section level1">
-<h1 class="page-header" data-toc-text="0.2">Version 0.2 (2015-11-11)<a class="anchor" aria-label="anchor" href="#version-02-2015-11-11"></a>
-<small> Unreleased </small></h1>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.2" id="version-02-2015-11-11">Version 0.2 (2015-11-11)<a class="anchor" aria-label="anchor" href="#version-02-2015-11-11"></a></h2>
 <ul><li>Tests from the proposal
 <ul><li>SQL</li>
 <li>Metadata</li>
@@ -504,11 +464,11 @@
 </ul></li>
 <li>Migrate most of the tests from RMySQL</li>
 <li>Test improvements
-<ul><li>Test BLOB data type (<a href="https://github.com/r-dbi/DBItest/issues/17">#17</a>)</li>
-<li>Check actual availability of type returned by <code>dbDataType()</code> (<a href="https://github.com/r-dbi/DBItest/issues/19">#19</a>)</li>
+<ul><li>Test BLOB data type (<a href="https://github.com/r-dbi/DBItest/issues/17" class="external-link">#17</a>)</li>
+<li>Check actual availability of type returned by <code>dbDataType()</code> (<a href="https://github.com/r-dbi/DBItest/issues/19" class="external-link">#19</a>)</li>
 </ul></li>
 <li>Testing infrastructure
-<ul><li>Disambiguate test names (<a href="https://github.com/r-dbi/DBItest/issues/21">#21</a>)</li>
+<ul><li>Disambiguate test names (<a href="https://github.com/r-dbi/DBItest/issues/21" class="external-link">#21</a>)</li>
 <li>Use regex matching for deciding skipped tests, skip regex must match the entire test name</li>
 </ul></li>
 <li>Documentation
@@ -519,9 +479,8 @@
 <li>Move repository to rstats-db namespace</li>
 <li>Same as 0.1-6</li>
 </ul></div>
-    <div id="version-01-2015-10-11" class="section level1">
-<h1 class="page-header" data-toc-text="0.1">Version 0.1 (2015-10-11)<a class="anchor" aria-label="anchor" href="#version-01-2015-10-11"></a>
-<small> Unreleased </small></h1>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.1" id="version-01-2015-10-11">Version 0.1 (2015-10-11)<a class="anchor" aria-label="anchor" href="#version-01-2015-10-11"></a></h2>
 <ul><li>First GitHub release</li>
 <li>Builds successfully on Travis</li>
 <li>Testing infrastructure

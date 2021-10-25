@@ -36,7 +36,7 @@ test_some() allows testing one or more tests.'><meta name="robots" content="noin
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -51,7 +51,7 @@ test_some() allows testing one or more tests.'><meta name="robots" content="noin
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Run all tests</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/test-all.R"><code>R/test-all.R</code></a>, <a href="https://github.com/r-dbi/DBItest/blob/master/R/test-getting-started.R"><code>R/test-getting-started.R</code></a>, <a href="https://github.com/r-dbi/DBItest/blob/master/R/test-driver.R"><code>R/test-driver.R</code></a>, and 7 more</small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/test-all.R" class="external-link"><code>R/test-all.R</code></a>, <a href="https://github.com/r-dbi/DBItest/blob/master/R/test-getting-started.R" class="external-link"><code>R/test-getting-started.R</code></a>, <a href="https://github.com/r-dbi/DBItest/blob/master/R/test-driver.R" class="external-link"><code>R/test-driver.R</code></a>, and 7 more</small>
     <div class="hidden name"><code>test_all.Rd</code></div>
     </div>
 
@@ -67,36 +67,33 @@ value to run only <code><a href="test_result.html">test_result()</a></code>.</p>
 
 <span class="fu">test_some</span><span class="op">(</span><span class="va">test</span>, ctx <span class="op">=</span> <span class="fu"><a href="context.html">get_default_context</a></span><span class="op">(</span><span class="op">)</span>, dblog <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>skip</th>
-      <td><p><code>[character()]</code><br> A vector of regular expressions to match
+    <h2>Arguments</h2>
+    
+
+<dl><dt>skip</dt><dd><p><code>[character()]</code><br> A vector of regular expressions to match
 against test names; skip test if matching any.
-The regular expressions are matched against the entire test name.</p></td>
-    </tr><tr><th>run_only</th>
-      <td><p><code>[character()]</code><br> A vector of regular expressions to match
+The regular expressions are matched against the entire test name.</p></dd>
+</dl><dl><dt>run_only</dt><dd><p><code>[character()]</code><br> A vector of regular expressions to match
 against test names; run only these tests.
-The regular expressions are matched against the entire test name.</p></td>
-    </tr><tr><th>ctx</th>
-      <td><p><code>[DBItest_context]</code><br> A test context as created by
-<code><a href="context.html">make_context()</a></code>.</p></td>
-    </tr><tr><th>test</th>
-      <td><p><code>[character]</code><br>
+The regular expressions are matched against the entire test name.</p></dd>
+</dl><dl><dt>ctx</dt><dd><p><code>[DBItest_context]</code><br> A test context as created by
+<code><a href="context.html">make_context()</a></code>.</p></dd>
+</dl><dl><dt>test</dt><dd><p><code>[character]</code><br>
 A character vector of regular expressions
 describing the tests to run.
-The regular expressions are matched against the entire test name.</p></td>
-    </tr><tr><th>dblog</th>
-      <td><p><code>[logical(1)]</code><br>
-Set to <code>FALSE</code> to disable dblog integration.</p></td>
-    </tr></table></div>
-
+The regular expressions are matched against the entire test name.</p></dd>
+</dl><dl><dt>dblog</dt><dd><p><code>[logical(1)]</code><br>
+Set to <code>FALSE</code> to disable dblog integration.</p></dd>
+</dl></div>
     <div id="details">
-    <h2>Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <h2>Details</h2>
     <p>Internally <code>^</code> and <code>$</code> are used as prefix and suffix around the
 regular expressions passed in the <code>skip</code> and <code>run_only</code> arguments.</p>
     </div>
     <div id="tests">
-    <h2>Tests<a class="anchor" aria-label="anchor" href="#tests"></a></h2>
+    <h2>Tests</h2>
     
 
 <p>This function runs the following tests, except the stress tests:</p>
@@ -127,6 +124,7 @@ Test full compliance to DBI</p>
 
 <p><code><a href="test_stress.html">test_stress()</a></code>:
 Stress tests (not tested with <code>test_all</code>)</p>
+    </div>
     </div>
 
   </div>

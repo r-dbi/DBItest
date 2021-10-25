@@ -35,7 +35,7 @@ tweaks argument in a make_context() call."><meta name="robots" content="noindex"
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -50,7 +50,7 @@ tweaks argument in a make_context() call."><meta name="robots" content="noindex"
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Tweaks for DBI tests</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/tweaks.R"><code>R/tweaks.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/tweaks.R" class="external-link"><code>R/tweaks.R</code></a></small>
     <div class="hidden name"><code>tweaks.Rd</code></div>
     </div>
 
@@ -68,111 +68,93 @@ are affected by which tweaks. This function is usually called to set the
   strict_identifier <span class="op">=</span> <span class="cn">FALSE</span>,
   omit_blob_tests <span class="op">=</span> <span class="cn">FALSE</span>,
   current_needs_parens <span class="op">=</span> <span class="cn">FALSE</span>,
-  union <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">x</span>, collapse <span class="op">=</span> <span class="st">" UNION "</span><span class="op">)</span>,
+  union <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">x</span>, collapse <span class="op">=</span> <span class="st">" UNION "</span><span class="op">)</span>,
   placeholder_pattern <span class="op">=</span> <span class="cn">NULL</span>,
   logical_return <span class="op">=</span> <span class="va">identity</span>,
-  date_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"date('"</span>, <span class="va">x</span>, <span class="st">"')"</span><span class="op">)</span>,
-  time_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"time('"</span>, <span class="va">x</span>, <span class="st">"')"</span><span class="op">)</span>,
-  timestamp_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"timestamp('"</span>, <span class="va">x</span>, <span class="st">"')"</span><span class="op">)</span>,
+  date_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"date('"</span>, <span class="va">x</span>, <span class="st">"')"</span><span class="op">)</span>,
+  time_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"time('"</span>, <span class="va">x</span>, <span class="st">"')"</span><span class="op">)</span>,
+  timestamp_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"timestamp('"</span>, <span class="va">x</span>, <span class="st">"')"</span><span class="op">)</span>,
   blob_cast <span class="op">=</span> <span class="va">identity</span>,
   date_typed <span class="op">=</span> <span class="cn">TRUE</span>,
   time_typed <span class="op">=</span> <span class="cn">TRUE</span>,
   timestamp_typed <span class="op">=</span> <span class="cn">TRUE</span>,
   temporary_tables <span class="op">=</span> <span class="cn">TRUE</span>,
   list_temporary_tables <span class="op">=</span> <span class="cn">TRUE</span>,
-  is_null_check <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"("</span>, <span class="va">x</span>, <span class="st">" IS NULL)"</span><span class="op">)</span>,
-  create_table_as <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">table_name</span>, <span class="va">query</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"CREATE TABLE "</span>, <span class="va">table_name</span>,
+  is_null_check <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"("</span>, <span class="va">x</span>, <span class="st">" IS NULL)"</span><span class="op">)</span>,
+  create_table_as <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">table_name</span>, <span class="va">query</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"CREATE TABLE "</span>, <span class="va">table_name</span>,
     <span class="st">" AS "</span>, <span class="va">query</span><span class="op">)</span>,
   dbitest_version <span class="op">=</span> <span class="st">"1.7.1"</span>
 <span class="op">)</span></code></pre></div>
 
+    <div id="ref-sections">
     <div id="arguments">
-    <h2>Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>...</th>
-      <td><p><code>[any]</code><br>
+    <h2>Arguments</h2>
+    
+
+<dl><dt>...</dt><dd><p><code>[any]</code><br>
 Unknown tweaks are accepted, with a warning.  The ellipsis
-also makes sure that you only can pass named arguments.</p></td>
-    </tr><tr><th>constructor_name</th>
-      <td><p><code>[character(1)]</code><br>
-Name of the function that constructs the <code>Driver</code> object.</p></td>
-    </tr><tr><th>constructor_relax_args</th>
-      <td><p><code>[logical(1)]</code><br>
+also makes sure that you only can pass named arguments.</p></dd>
+</dl><dl><dt>constructor_name</dt><dd><p><code>[character(1)]</code><br>
+Name of the function that constructs the <code>Driver</code> object.</p></dd>
+</dl><dl><dt>constructor_relax_args</dt><dd><p><code>[logical(1)]</code><br>
 If <code>TRUE</code>, allow a driver constructor with default values for all
 arguments; otherwise, require a constructor with empty argument list
-(default).</p></td>
-    </tr><tr><th>strict_identifier</th>
-      <td><p><code>[logical(1)]</code><br>
+(default).</p></dd>
+</dl><dl><dt>strict_identifier</dt><dd><p><code>[logical(1)]</code><br>
 Set to <code>TRUE</code> if the DBMS does not support arbitrarily-named
-identifiers even when quoting is used.</p></td>
-    </tr><tr><th>omit_blob_tests</th>
-      <td><p><code>[logical(1)]</code><br>
+identifiers even when quoting is used.</p></dd>
+</dl><dl><dt>omit_blob_tests</dt><dd><p><code>[logical(1)]</code><br>
 Set to <code>TRUE</code> if the DBMS does not support a <code>BLOB</code> data
-type.</p></td>
-    </tr><tr><th>current_needs_parens</th>
-      <td><p><code>[logical(1)]</code><br>
+type.</p></dd>
+</dl><dl><dt>current_needs_parens</dt><dd><p><code>[logical(1)]</code><br>
 Set to <code>TRUE</code> if the SQL functions <code>current_date</code>,
-<code>current_time</code>, and <code>current_timestamp</code> require parentheses.</p></td>
-    </tr><tr><th>union</th>
-      <td><p><code>[function(character)]</code><br>
+<code>current_time</code>, and <code>current_timestamp</code> require parentheses.</p></dd>
+</dl><dl><dt>union</dt><dd><p><code>[function(character)]</code><br>
 Function that combines several subqueries into one so that the
-resulting query returns the concatenated results of the subqueries</p></td>
-    </tr><tr><th>placeholder_pattern</th>
-      <td><p><code>[character]</code><br>
+resulting query returns the concatenated results of the subqueries</p></dd>
+</dl><dl><dt>placeholder_pattern</dt><dd><p><code>[character]</code><br>
 A pattern for placeholders used in <code>dbBind()</code>, e.g.,
 <code>"?"</code>, <code>"$1"</code>, or <code>":name"</code>. See
-<code><a href="make_placeholder_fun.html">make_placeholder_fun()</a></code> for details.</p></td>
-    </tr><tr><th>logical_return</th>
-      <td><p><code>[function(logical)]</code><br>
+<code><a href="make_placeholder_fun.html">make_placeholder_fun()</a></code> for details.</p></dd>
+</dl><dl><dt>logical_return</dt><dd><p><code>[function(logical)]</code><br>
 A vectorized function that converts logical values to the data type
-returned by the DBI backend.</p></td>
-    </tr><tr><th>date_cast</th>
-      <td><p><code>[function(character)]</code><br>
+returned by the DBI backend.</p></dd>
+</dl><dl><dt>date_cast</dt><dd><p><code>[function(character)]</code><br>
 A vectorized function that creates an SQL expression for coercing a
-string to a date value.</p></td>
-    </tr><tr><th>time_cast</th>
-      <td><p><code>[function(character)]</code><br>
+string to a date value.</p></dd>
+</dl><dl><dt>time_cast</dt><dd><p><code>[function(character)]</code><br>
 A vectorized function that creates an SQL expression for coercing a
-string to a time value.</p></td>
-    </tr><tr><th>timestamp_cast</th>
-      <td><p><code>[function(character)]</code><br>
+string to a time value.</p></dd>
+</dl><dl><dt>timestamp_cast</dt><dd><p><code>[function(character)]</code><br>
 A vectorized function that creates an SQL expression for coercing a
-string to a timestamp value.</p></td>
-    </tr><tr><th>blob_cast</th>
-      <td><p><code>[function(character)]</code><br>
+string to a timestamp value.</p></dd>
+</dl><dl><dt>blob_cast</dt><dd><p><code>[function(character)]</code><br>
 A vectorized function that creates an SQL expression for coercing a
-string to a blob value.</p></td>
-    </tr><tr><th>date_typed</th>
-      <td><p><code>[logical(1L)]</code><br>
-Set to <code>FALSE</code> if the DBMS doesn't support a dedicated type for dates.</p></td>
-    </tr><tr><th>time_typed</th>
-      <td><p><code>[logical(1L)]</code><br>
-Set to <code>FALSE</code> if the DBMS doesn't support a dedicated type for times.</p></td>
-    </tr><tr><th>timestamp_typed</th>
-      <td><p><code>[logical(1L)]</code><br>
+string to a blob value.</p></dd>
+</dl><dl><dt>date_typed</dt><dd><p><code>[logical(1L)]</code><br>
+Set to <code>FALSE</code> if the DBMS doesn't support a dedicated type for dates.</p></dd>
+</dl><dl><dt>time_typed</dt><dd><p><code>[logical(1L)]</code><br>
+Set to <code>FALSE</code> if the DBMS doesn't support a dedicated type for times.</p></dd>
+</dl><dl><dt>timestamp_typed</dt><dd><p><code>[logical(1L)]</code><br>
 Set to <code>FALSE</code> if the DBMS doesn't support a dedicated type for
-timestamps.</p></td>
-    </tr><tr><th>temporary_tables</th>
-      <td><p><code>[logical(1L)]</code><br>
-Set to <code>FALSE</code> if the DBMS doesn't support temporary tables.</p></td>
-    </tr><tr><th>list_temporary_tables</th>
-      <td><p><code>[logical(1L)]</code><br>
-Set to <code>FALSE</code> if the DBMS doesn't support listing temporary tables.</p></td>
-    </tr><tr><th>is_null_check</th>
-      <td><p><code>[function(character)]</code><br>
+timestamps.</p></dd>
+</dl><dl><dt>temporary_tables</dt><dd><p><code>[logical(1L)]</code><br>
+Set to <code>FALSE</code> if the DBMS doesn't support temporary tables.</p></dd>
+</dl><dl><dt>list_temporary_tables</dt><dd><p><code>[logical(1L)]</code><br>
+Set to <code>FALSE</code> if the DBMS doesn't support listing temporary tables.</p></dd>
+</dl><dl><dt>is_null_check</dt><dd><p><code>[function(character)]</code><br>
 A vectorized function that creates an SQL expression for checking if a
-value is <code>NULL</code>.</p></td>
-    </tr><tr><th>create_table_as</th>
-      <td><p><code>[function(character(1), character(1))]</code><br>
+value is <code>NULL</code>.</p></dd>
+</dl><dl><dt>create_table_as</dt><dd><p><code>[function(character(1), character(1))]</code><br>
 A function that creates an SQL expression for creating a table
-from an SQL expression.</p></td>
-    </tr><tr><th>dbitest_version</th>
-      <td><p><code>[character(1)]</code><br>
-Compatible DBItest version, default: "1.7.1".</p></td>
-    </tr></table></div>
-
+from an SQL expression.</p></dd>
+</dl><dl><dt>dbitest_version</dt><dd><p><code>[character(1)]</code><br>
+Compatible DBItest version, default: "1.7.1".</p></dd>
+</dl></div>
+    </div>
 
     <div id="examples">
-    <h2>Examples<a class="anchor" aria-label="anchor" href="#examples"></a></h2>
+    <h2>Examples</h2>
     <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu"><a href="context.html">make_context</a></span><span class="op">(</span><span class="va">...</span>, tweaks <span class="op">=</span> <span class="fu">tweaks</span><span class="op">(</span>strict_identifier <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>

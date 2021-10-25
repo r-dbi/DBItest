@@ -32,7 +32,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_result_clear_result</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-result-clear-result.R"><code>R/spec-result-clear-result.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-result-clear-result.R" class="external-link"><code>R/spec-result-clear-result.R</code></a></small>
     <div class="hidden name"><code>spec_result_clear_result.Rd</code></div>
     </div>
 
@@ -56,9 +56,9 @@
     </div>
 
 
-
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p><code>dbClearResult()</code> returns <code>TRUE</code>, invisibly, for result sets obtained from
 both <code>dbSendQuery()</code>
 and <code>dbSendStatement()</code>.
@@ -66,13 +66,14 @@ An attempt to close an already closed result set issues a warning
 in both cases.</p>
     </div>
     <div id="specification">
-    <h2>Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
+    <h2>Specification</h2>
     
 
 <p><code>dbClearResult()</code> frees all resources associated with retrieving
 the result of a query or update operation.
 The DBI backend can expect a call to <code>dbClearResult()</code> for each
 <code>dbSendQuery()</code> or <code>dbSendStatement()</code> call.</p>
+    </div>
     </div>
 
   </div>

@@ -32,7 +32,7 @@
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul><ul class="nav navbar-nav navbar-right"><li>
-  <a href="https://github.com/r-dbi/DBItest/">
+  <a href="https://github.com/r-dbi/DBItest/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_sql_remove_table</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-remove-table.R"><code>R/spec-sql-remove-table.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-remove-table.R" class="external-link"><code>R/spec-sql-remove-table.R</code></a></small>
     <div class="hidden name"><code>spec_sql_remove_table.Rd</code></div>
     </div>
 
@@ -56,9 +56,9 @@
     </div>
 
 
-
+    <div id="ref-sections">
     <div id="value">
-    <h2>Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <h2>Value</h2>
     <p><code>dbRemoveTable()</code> returns <code>TRUE</code>, invisibly.
 If the table does not exist, an error is raised.
 An attempt to remove a view with this function may result in an error.</p>
@@ -69,7 +69,7 @@ if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>
 or if this results in a non-scalar.</p>
     </div>
     <div id="additional-arguments">
-    <h2>Additional arguments<a class="anchor" aria-label="anchor" href="#additional-arguments"></a></h2>
+    <h2>Additional arguments</h2>
     
 
 <p>The following arguments are not part of the <code>dbRemoveTable()</code> generic
@@ -85,7 +85,7 @@ In particular, permanent tables of the same name are left untouched.</p>
 succeeds if the table does not exist.</p>
     </div>
     <div id="specification">
-    <h2>Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
+    <h2>Specification</h2>
     
 
 <p>A table removed by <code>dbRemoveTable()</code> doesn't appear in the list of tables
@@ -99,6 +99,7 @@ quoting,
 perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
 <li><p>If the result of a call to <code>dbQuoteIdentifier()</code>: no more quoting is done</p></li>
 </ul></div>
+    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
