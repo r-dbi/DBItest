@@ -49,7 +49,7 @@ spec_meta_get_info_result"><meta name="robots" content="noindex"><!-- mathjax --
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_driver_get_info</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-driver-get-info.R" class="external-link"><code>R/spec-driver-get-info.R</code></a>, <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-connection-get-info.R" class="external-link"><code>R/spec-connection-get-info.R</code></a>, <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-meta-get-info-result.R" class="external-link"><code>R/spec-meta-get-info-result.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/spec-driver-get-info.R" class="external-link"><code>R/spec-driver-get-info.R</code></a>, <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/spec-connection-get-info.R" class="external-link"><code>R/spec-connection-get-info.R</code></a>, <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/spec-meta-get-info-result.R" class="external-link"><code>R/spec-meta-get-info-result.R</code></a></small>
     <div class="hidden name"><code>spec_get_info.Rd</code></div>
     </div>
 
@@ -63,12 +63,10 @@ spec_meta_get_info_result"><meta name="robots" content="noindex"><!-- mathjax --
     <div id="ref-sections">
     <div id="value">
     <h2>Value</h2>
-    <p>For objects of class DBIDriver, <code>dbGetInfo()</code>
-returns a named list
+    <p>For objects of class DBIDriver, <code>dbGetInfo()</code>returns a named list
 that contains at least the following components:</p><ul><li><p><code>driver.version</code>: the package version of the DBI backend,</p></li>
 <li><p><code>client.version</code>: the version of the DBMS client library.</p></li>
-</ul><p>For objects of class DBIConnection, <code>dbGetInfo()</code>
-returns a named list
+</ul><p>For objects of class DBIConnection, <code>dbGetInfo()</code>returns a named list
 that contains at least the following components:</p><ul><li><p><code>db.version</code>: version of the database server,</p></li>
 <li><p><code>dbname</code>: database name,</p></li>
 <li><p><code>username</code>: username to connect to the database,</p></li>
@@ -76,8 +74,7 @@ that contains at least the following components:</p><ul><li><p><code>db.version<
 <li><p><code>port</code>: port on the database server.
 It must not contain a <code>password</code> component.
 Components that are not applicable should be set to <code>NA</code>.</p></li>
-</ul><p>For objects of class DBIResult, <code>dbGetInfo()</code>
-returns a named list
+</ul><p>For objects of class DBIResult, <code>dbGetInfo()</code>returns a named list
 that contains at least the following components:</p><ul><li><p><code>statatment</code>: the statement used with <code>dbSendQuery()</code> or <code>dbExecute()</code>,
 as returned by <code>dbGetStatement()</code>,</p></li>
 <li><p><code>row.count</code>: the number of rows fetched so far (for queries),

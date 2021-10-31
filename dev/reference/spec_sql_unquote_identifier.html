@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_sql_unquote_identifier</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-unquote-identifier.R" class="external-link"><code>R/spec-sql-unquote-identifier.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/spec-sql-unquote-identifier.R" class="external-link"><code>R/spec-sql-unquote-identifier.R</code></a></small>
     <div class="hidden name"><code>spec_sql_unquote_identifier.Rd</code></div>
     </div>
 
@@ -64,13 +64,11 @@ of the same length as the input.
 For an empty character vector this function returns a length-0 object.
 The names of the input argument are preserved in the output.
 When passing the first element of a returned object again to
-<code>dbUnquoteIdentifier()</code> as <code>x</code>
-argument, it is returned unchanged (but wrapped in a list).
+<code>dbUnquoteIdentifier()</code> as <code>x</code>argument, it is returned unchanged (but wrapped in a list).
 Passing objects of class Id should also return them unchanged (but wrapped in a list).
 (For backends it may be most convenient to return Id objects
-to achieve this behavior, but this is not required.)</p>
-<p>An error is raised if plain character vectors are passed as the <code>x</code>
-argument.</p>
+to achieve this behavior, but this is not required.)
+An error is raised if plain character vectors are passed as the <code>x</code>argument.</p>
     </div>
     <div id="specification">
     <h2>Specification</h2>

@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_sql_write_table</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-write-table.R" class="external-link"><code>R/spec-sql-write-table.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/spec-sql-write-table.R" class="external-link"><code>R/spec-sql-write-table.R</code></a></small>
     <div class="hidden name"><code>spec_sql_write_table.Rd</code></div>
     </div>
 
@@ -63,15 +63,13 @@
 If the table exists, and both <code>append</code> and <code>overwrite</code> arguments are unset,
 or <code>append = TRUE</code> and the data frame with the new data has different
 column names,
-an error is raised; the remote table remains unchanged.</p>
-<p>An error is raised when calling this method for a closed
+an error is raised; the remote table remains unchanged.
+An error is raised when calling this method for a closed
 or invalid connection.
 An error is also raised
-if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>
-or if this results in a non-scalar.
+if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>or if this results in a non-scalar.
 Invalid values for the additional arguments <code>row.names</code>,
-<code>overwrite</code>, <code>append</code>, <code>field.types</code>, and <code>temporary</code>
-(non-scalars,
+<code>overwrite</code>, <code>append</code>, <code>field.types</code>, and <code>temporary</code>(non-scalars,
 unsupported data types,
 <code>NA</code>,
 incompatible values,

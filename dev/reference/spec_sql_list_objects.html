@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_sql_list_objects</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-list-objects.R" class="external-link"><code>R/spec-sql-list-objects.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/spec-sql-list-objects.R" class="external-link"><code>R/spec-sql-list-objects.R</code></a></small>
     <div class="hidden name"><code>spec_sql_list_objects.Rd</code></div>
     </div>
 
@@ -59,8 +59,7 @@
     <div id="ref-sections">
     <div id="value">
     <h2>Value</h2>
-    <p><code>dbListObjects()</code>
-returns a data frame
+    <p><code>dbListObjects()</code>returns a data frame
 with columns
 <code>table</code> and <code>is_prefix</code> (in that order),
 optionally with other columns with a dot (<code>.</code>) prefix.
@@ -71,12 +70,11 @@ This data frame contains one row for each object (schema, table
 and view)
 accessible from the prefix (if passed) or from the global namespace
 (if prefix is omitted).
-Tables added with <code>dbWriteTable()</code>
-are part of the data frame.
+Tables added with <code>dbWriteTable()</code>are part of the data frame.
 As soon a table is removed from the database,
-it is also removed from the data frame of database objects.</p>
-<p>The same applies to temporary objects if supported by the database.</p>
-<p>The returned names are suitable for quoting with <code>dbQuoteIdentifier()</code>.
+it is also removed from the data frame of database objects.
+The same applies to temporary objects if supported by the database.
+The returned names are suitable for quoting with <code>dbQuoteIdentifier()</code>.
 An error is raised when calling this method for a closed
 or invalid connection.</p>
     </div>

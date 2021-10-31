@@ -51,7 +51,7 @@ test_some() allows testing one or more tests.'><meta name="robots" content="noin
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Run all tests</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/test-all.R" class="external-link"><code>R/test-all.R</code></a>, <a href="https://github.com/r-dbi/DBItest/blob/master/R/test-getting-started.R" class="external-link"><code>R/test-getting-started.R</code></a>, <a href="https://github.com/r-dbi/DBItest/blob/master/R/test-driver.R" class="external-link"><code>R/test-driver.R</code></a>, and 7 more</small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/test-all.R" class="external-link"><code>R/test-all.R</code></a>, <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/test-getting-started.R" class="external-link"><code>R/test-getting-started.R</code></a>, <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/test-driver.R" class="external-link"><code>R/test-driver.R</code></a>, and 7 more</small>
     <div class="hidden name"><code>test_all.Rd</code></div>
     </div>
 
@@ -70,21 +70,24 @@ value to run only <code><a href="test_result.html">test_result()</a></code>.</p>
     <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
-    
-
-<dl><dt>skip</dt><dd><p><code>[character()]</code><br> A vector of regular expressions to match
+    <dl><dt>skip</dt>
+<dd><p><code>[character()]</code><br> A vector of regular expressions to match
 against test names; skip test if matching any.
 The regular expressions are matched against the entire test name.</p></dd>
-</dl><dl><dt>run_only</dt><dd><p><code>[character()]</code><br> A vector of regular expressions to match
+<dt>run_only</dt>
+<dd><p><code>[character()]</code><br> A vector of regular expressions to match
 against test names; run only these tests.
 The regular expressions are matched against the entire test name.</p></dd>
-</dl><dl><dt>ctx</dt><dd><p><code>[DBItest_context]</code><br> A test context as created by
+<dt>ctx</dt>
+<dd><p><code>[DBItest_context]</code><br> A test context as created by
 <code><a href="context.html">make_context()</a></code>.</p></dd>
-</dl><dl><dt>test</dt><dd><p><code>[character]</code><br>
+<dt>test</dt>
+<dd><p><code>[character]</code><br>
 A character vector of regular expressions
 describing the tests to run.
 The regular expressions are matched against the entire test name.</p></dd>
-</dl><dl><dt>dblog</dt><dd><p><code>[logical(1)]</code><br>
+<dt>dblog</dt>
+<dd><p><code>[logical(1)]</code><br>
 Set to <code>FALSE</code> to disable dblog integration.</p></dd>
 </dl></div>
     <div id="details">

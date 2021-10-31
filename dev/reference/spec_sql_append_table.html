@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_sql_append_table</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-append-table.R" class="external-link"><code>R/spec-sql-append-table.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/spec-sql-append-table.R" class="external-link"><code>R/spec-sql-append-table.R</code></a></small>
     <div class="hidden name"><code>spec_sql_append_table.Rd</code></div>
     </div>
 
@@ -64,24 +64,23 @@ scalar
 numeric.
 If the table does not exist,
 or the new data in <code>values</code> is not a data frame or has different column names,
-an error is raised; the remote table remains unchanged.</p>
-<p>An error is raised when calling this method for a closed
+an error is raised; the remote table remains unchanged.
+An error is raised when calling this method for a closed
 or invalid connection.
 An error is also raised
-if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>
-or if this results in a non-scalar.
+if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>or if this results in a non-scalar.
 Invalid values for the <code>row.names</code> argument
 (non-scalars,
 unsupported data types,
 <code>NA</code>)
-also raise an error.</p>
-<p>SQL keywords can be used freely in table names, column names, and data.
+also raise an error.
+SQL keywords can be used freely in table names, column names, and data.
 Quotes, commas, spaces, and other special characters such as newlines and tabs,
 can also be used in the data,
 and, if the database supports non-syntactic identifiers,
 also for table names
-and column names.</p>
-<p>The following data types must be supported at least,
+and column names.
+The following data types must be supported at least,
 and be read identically with <code>dbReadTable()</code>:</p><ul><li><p>integer</p></li>
 <li><p>numeric
 (the behavior for <code>Inf</code> and <code>NaN</code> is not specified)</p></li>

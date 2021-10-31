@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_result_fetch</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-result-fetch.R" class="external-link"><code>R/spec-result-fetch.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/spec-result-fetch.R" class="external-link"><code>R/spec-result-fetch.R</code></a></small>
     <div class="hidden name"><code>spec_result_fetch.Rd</code></div>
     </div>
 
@@ -59,8 +59,7 @@
     <div id="ref-sections">
     <div id="value">
     <h2>Value</h2>
-    <p><code>dbFetch()</code> always returns a <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>
-with as many rows as records were fetched and as many
+    <p><code>dbFetch()</code> always returns a <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a>with as many rows as records were fetched and as many
 columns as fields in the result set,
 even if the result is a single value
 or has one
@@ -70,8 +69,7 @@ If the <code>n</code> argument is not an atomic whole number
 greater or equal to -1 or Inf, an error is raised,
 but a subsequent call to <code>dbFetch()</code> with proper <code>n</code> argument succeeds.
 Calling <code>dbFetch()</code> on a result set from a data manipulation query
-created by <code>dbSendStatement()</code>
-can be fetched and return an empty data frame, with a warning.</p>
+created by <code>dbSendStatement()</code>can be fetched and return an empty data frame, with a warning.</p>
     </div>
     <div id="specification">
     <h2>Specification</h2>

@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_meta_column_info</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-meta-column-info.R" class="external-link"><code>R/spec-meta-column-info.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/spec-meta-column-info.R" class="external-link"><code>R/spec-meta-column-info.R</code></a></small>
     <div class="hidden name"><code>spec_meta_column_info.Rd</code></div>
     </div>
 
@@ -59,16 +59,14 @@
     <div id="ref-sections">
     <div id="value">
     <h2>Value</h2>
-    <p><code>dbColumnInfo()</code>
-returns a data frame
+    <p><code>dbColumnInfo()</code>returns a data frame
 with at least two columns <code>"name"</code> and <code>"type"</code> (in that order)
 (and optional columns that start with a dot).
 The <code>"name"</code> and <code>"type"</code> columns contain the names and types
 of the R columns of the data frame that is returned from <code>dbFetch()</code>.
 The <code>"type"</code> column is of type <code>character</code> and only for information.
-Do not compute on the <code>"type"</code> column, instead use <code>dbFetch(res, n = 0)</code>
-to create a zero-row data frame initialized with the correct data types.</p>
-<p>An attempt to query columns for a closed result set raises an error.</p>
+Do not compute on the <code>"type"</code> column, instead use <code>dbFetch(res, n = 0)</code>to create a zero-row data frame initialized with the correct data types.
+An attempt to query columns for a closed result set raises an error.</p>
     </div>
     <div id="specification">
     <h2>Specification</h2>

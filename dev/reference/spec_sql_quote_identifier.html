@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_sql_quote_identifier</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-quote-identifier.R" class="external-link"><code>R/spec-sql-quote-identifier.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/spec-sql-quote-identifier.R" class="external-link"><code>R/spec-sql-quote-identifier.R</code></a></small>
     <div class="hidden name"><code>spec_sql_quote_identifier.Rd</code></div>
     </div>
 
@@ -63,13 +63,11 @@
 of the same length as the input.
 For an empty character vector this function returns a length-0 object.
 The names of the input argument are preserved in the output.
-When passing the returned object again to <code>dbQuoteIdentifier()</code>
-as <code>x</code>
-argument, it is returned unchanged.
+When passing the returned object again to <code>dbQuoteIdentifier()</code>as <code>x</code>argument, it is returned unchanged.
 Passing objects of class SQL should also return them unchanged.
 (For backends it may be most convenient to return SQL objects
-to achieve this behavior, but this is not required.)</p>
-<p>An error is raised if the input contains <code>NA</code>,
+to achieve this behavior, but this is not required.)
+An error is raised if the input contains <code>NA</code>,
 but not for an empty string.</p>
     </div>
     <div id="specification">

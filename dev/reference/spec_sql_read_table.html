@@ -47,7 +47,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>spec_sql_read_table</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/master/R/spec-sql-read-table.R" class="external-link"><code>R/spec-sql-read-table.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-dbi/DBItest/blob/HEAD/R/spec-sql-read-table.R" class="external-link"><code>R/spec-sql-read-table.R</code></a></small>
     <div class="hidden name"><code>spec_sql_read_table.Rd</code></div>
     </div>
 
@@ -60,11 +60,10 @@
     <div id="value">
     <h2>Value</h2>
     <p><code>dbReadTable()</code> returns a data frame that contains the complete data
-from the remote table, effectively the result of calling <code>dbGetQuery()</code>
-with <code>SELECT * FROM &lt;name&gt;</code>.
+from the remote table, effectively the result of calling <code>dbGetQuery()</code>with <code>SELECT * FROM &lt;name&gt;</code>.
 An error is raised if the table does not exist.
-An empty table is returned as a data frame with zero rows.</p>
-<p>The presence of <a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a> depends on the <code>row.names</code> argument,
+An empty table is returned as a data frame with zero rows.
+The presence of <a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a> depends on the <code>row.names</code> argument,
 see <code>sqlColumnToRownames()</code> for details:</p><ul><li><p>If <code>FALSE</code> or <code>NULL</code>, the returned data frame doesn't have row names.</p></li>
 <li><p>If <code>TRUE</code>, a column named "row_names" is converted to row names,
 an error is raised if no such column exists.</p></li>
@@ -73,19 +72,17 @@ otherwise no translation occurs.</p></li>
 <li><p>If a string, this specifies the name of the column in the remote table
 that contains the row names,
 an error is raised if no such column exists.</p></li>
-</ul><p>The default is <code>row.names = FALSE</code>.</p>
-<p>If the database supports identifiers with special characters,
+</ul><p>The default is <code>row.names = FALSE</code>.
+If the database supports identifiers with special characters,
 the columns in the returned data frame are converted to valid R
 identifiers
 if the <code>check.names</code> argument is <code>TRUE</code>,
-If <code>check.names = FALSE</code>, the returned table has non-syntactic column names without quotes.</p>
-<p>An error is raised when calling this method for a closed
+If <code>check.names = FALSE</code>, the returned table has non-syntactic column names without quotes.
+An error is raised when calling this method for a closed
 or invalid connection.
 An error is raised
-if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>
-or if this results in a non-scalar.
-Unsupported values for <code>row.names</code> and <code>check.names</code>
-(non-scalars,
+if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>or if this results in a non-scalar.
+Unsupported values for <code>row.names</code> and <code>check.names</code>(non-scalars,
 unsupported data types,
 <code>NA</code> for <code>check.names</code>)
 also raise an error.</p>
