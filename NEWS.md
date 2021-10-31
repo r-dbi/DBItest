@@ -27,7 +27,7 @@
 - Compatibility with testthat 3.0.0 (#207).
 - Switch to GitHub Actions (#201).
 
-# DBItest 1.7.0
+# DBItest 1.7.0 (2019-12-16)
 
 ## Specifications
 
