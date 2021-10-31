@@ -1,37 +1,45 @@
 all: test
 
-TESTTHAT_REPORTER ?= 'check'
+TESTTHAT_REPORTER ?= testthat::ProgressReporter\$$new(max_failures = Inf, update_interval = Inf)
 
-REVDEP := RMariaDB RSQLite RPostgres RKazam
-LOAD_TARGETS := $(patsubst %,load-%,${REVDEP})
+# The REVDEP definition also decides what is run on GitHub Actions in backends.yaml
+REVDEP := RMariaDB RSQLite RPostgres RKazam duckdb odbc-SQLServer odbc-MySQL odbc-PostgreSQL odbc-SQLite
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
 
 LIB_DIR := $(shell Rscript -e "cat(.libPaths()[1])")
 
-${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION ${LOAD_TARGETS}
+${LIB_DIR}/DBItest/DESCRIPTION: ../R/*.R ../DESCRIPTION
 	R CMD INSTALL ..
 
 install: ${LIB_DIR}/DBItest/DESCRIPTION
 
-RKazam RSQLite RPostgres RMySQL RMariaDB:
-	# Use local checkout if available, otherwise clone from rstats-db GitHub
-	if [ -d ../../$@/$@-pkg ]; then ln -s $(realpath ../../$@/$@-pkg) $@; else if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/rstats-db/$@.git; Rscript -e "devtools::install_deps('$@', dependencies = TRUE)"; fi; fi
+RKazam RSQLite RPostgres RMySQL RMariaDB odbc:
+	# Use local checkout if available, otherwise clone from r-dbi GitHub
+	if [ -d ../../$@ ]; then ln -s $$(realpath ../../$@) .; else git clone https://github.com/r-dbi/$@.git; fi
+	head $@/DESCRIPTION
+
+odbc-%: odbc
+	@true
+
+duckdb:
+	# Use local checkout if available, otherwise clone from cwida GitHub
+	if [ -d ../../../$@ ]; then ln -s $$(realpath ../../../$@/tools/rpkg) $@; else git clone https://github.com/cwida/$@.git duckdb-core; ln -s duckdb-core/tools/rpkg $@; fi
+	ls -l
+	head $@/DESCRIPTION
 
 bigrquery:
 	# Use local checkout if available, otherwise clone from GitHub
-	if [ -d ../../$@ ]; then ln -s $(realpath ../../$@) .; else git clone https://github.com/krlmlr/$@.git -b feature/dbi-test; Rscript -e "devtools::install_deps('$@', dependencies = TRUE)"; fi
+	if [ -d ../../$@ ]; then ln -s $$(realpath ../../$@) .; else git clone https://github.com/krlmlr/$@.git -b feature/dbi-test; Rscript -e "devtools::install_deps('$@', dependencies = TRUE)"; fi
 
 test: ${TEST_TARGETS}
 
-safe-load-%:
-	Rscript -e "devtools::load_all('$*')"
-
-# Necessary because of https://github.com/hadley/devtools/issues/1070
-load-%: %
-	make --quiet -j1 safe-load-$*
-
-test-%: install load-% %
-	Rscript -e "options(crayon.enabled=TRUE); devtools::test('$*', filter = 'DBItest', reporter = ${TESTTHAT_REPORTER})"
+# https://stackoverflow.com/a/42449998/946850
+test-%: install %
+	@echo
+	@echo
+	@echo "\033[1m=== $* ===\033[0m"
+	@echo
+	DBITEST_BACKENDS=true Rscript -e 'target <- "$*"; if (grepl(".*-.*", target)) { pkg <- sub("-.*", "", target); filter = sub(".*-", "", target) } else { pkg <- target; filter <- "DBItest" }; options(crayon.enabled = TRUE); testthat::test_local(pkg, filter = filter, stop_on_failure = TRUE, reporter = '"${TESTTHAT_REPORTER}"')'
 
 clean:
 	rm -rf ${REVDEP}

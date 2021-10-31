@@ -4,15 +4,15 @@
 #' @keywords internal
 #' @inherit test_data_type
 spec_driver_data_type <- list(
-  data_type_formals = function(ctx) {
+  data_type_formals = function() {
     # <establish formals of described function>
     expect_equal(names(formals(dbDataType)), c("dbObj", "obj", "..."))
   },
-
+  #
   data_type_driver = function(ctx) {
     test_data_type(ctx, ctx$drv)
   },
-
+  #
   NULL
 )
 
@@ -54,7 +54,8 @@ test_data_type <- function(ctx, dbObj) {
   #' it must accept all basic R data types as its second argument, namely
   expect_has_data_type <- function(value) {
     eval(bquote(
-      expect_error(check_data_type(.(value)), NA)))
+      expect_error(check_data_type(.(value)), NA)
+    ))
   }
 
   expected_data_types <- list(
@@ -98,19 +99,27 @@ test_data_type <- function(ctx, dbObj) {
       if (!is.null(value)) {
         eval(bquote(
           expect_error(
-            expect_identical(dbDataType(dbObj, I(.(value))),
-                             dbDataType(dbObj, .(value))),
-            NA)))
+            expect_identical(
+              dbDataType(dbObj, I(.(value))),
+              dbDataType(dbObj, .(value))
+            ),
+            NA
+          )
+        ))
       }
     }
   )
 
   #' The SQL data type for [factor]
-  expect_identical(dbDataType(dbObj, letters),
-                   dbDataType(dbObj, factor(letters)))
+  expect_identical(
+    dbDataType(dbObj, letters),
+    dbDataType(dbObj, factor(letters))
+  )
   #' and [ordered] is the same as for character.
-  expect_identical(dbDataType(dbObj, letters),
-                   dbDataType(dbObj, ordered(letters)))
+  expect_identical(
+    dbDataType(dbObj, letters),
+    dbDataType(dbObj, ordered(letters))
+  )
 
   #' The behavior for other object types is not specified.
 }

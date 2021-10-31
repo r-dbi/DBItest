@@ -9,7 +9,7 @@
 \usage{
 test_all(skip = NULL, run_only = NULL, ctx = get_default_context())
 
-test_some(test, ctx = get_default_context())
+test_some(test, ctx = get_default_context(), dblog = TRUE)
 }
 \arguments{
 \item{skip}{\verb{[character()]}\cr A vector of regular expressions to match
@@ -23,9 +23,13 @@ The regular expressions are matched against the entire test name.}
 \item{ctx}{\verb{[DBItest_context]}\cr A test context as created by
 \code{\link[=make_context]{make_context()}}.}
 
-\item{test}{\verb{[character]}\cr A character vector of regular expressions
+\item{test}{\verb{[character]}\cr
+A character vector of regular expressions
 describing the tests to run.
 The regular expressions are matched against the entire test name.}
+
+\item{dblog}{\verb{[logical(1)]}\cr
+Set to \code{FALSE} to disable dblog integration.}
 }
 \description{
 \code{test_all()} calls all tests defined in this package (see the section

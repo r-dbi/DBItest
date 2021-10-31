@@ -55,7 +55,7 @@ make_context(
     .drv = RSQLite::SQLite(),
     .conn_args = list(dbname = tempfile("DBItest", fileext = ".sqlite"))
   ),
-  tweaks = DBItest::tweaks(
+  tweaks = tweaks(
     constructor_relax_args = TRUE,
     placeholder_pattern = c("?", "$1", "$name", ":name"),
     date_cast = function(x) paste0("'", x, "'"),

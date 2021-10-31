@@ -6,182 +6,157 @@ spec_result_roundtrip <- list(
   #' @section Specification:
   #' The column types of the returned data frame depend on the data returned:
   #' - [integer] (or coercible to an integer) for integer values between -2^31 and 2^31 - 1,
-  data_integer = function(ctx) {
-    with_connection({
-      #' with [NA] for SQL `NULL` values
-      test_select_with_null(.ctx = ctx, con, 1L ~ equals_one, -100L ~ equals_minus_100)
-    })
+  data_integer = function(ctx, con) {
+    #' with [NA] for SQL `NULL` values
+    test_select_with_null(.ctx = ctx, con, 1L ~ equals_one, -100L ~ equals_minus_100)
   },
 
   #' - [numeric] for numbers with a fractional component,
-  data_numeric = function(ctx) {
-    with_connection({
-      #' with NA for SQL `NULL` values
-      test_select_with_null(.ctx = ctx, con, 1.5, -100.5)
-    })
+  data_numeric = function(ctx, con) {
+    #' with NA for SQL `NULL` values
+    test_select_with_null(.ctx = ctx, con, 1.5, -100.5)
   },
 
   #' - [logical] for Boolean values (some backends may return an integer);
-  data_logical = function(ctx) {
-    with_connection({
-      int_values <- 1:0
-      values <- ctx$tweaks$logical_return(as.logical(int_values))
+  data_logical = function(ctx, con) {
+    int_values <- 1:0
+    values <- ctx$tweaks$logical_return(as.logical(int_values))
 
-      sql_names <- paste0("CAST(", int_values, " AS ", dbDataType(con, logical()), ")")
+    sql_names <- paste0("CAST(", int_values, " AS ", dbDataType(con, logical()), ")")
 
-      #' with NA for SQL `NULL` values
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
-    })
+    #' with NA for SQL `NULL` values
+    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
   },
 
   #' - [character] for text,
-  data_character = function(ctx) {
-    with_connection({
-      values <- texts
-      test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
-      sql_names <- as.character(dbQuoteString(con, values))
+  data_character = function(ctx, con) {
+    values <- texts
+    test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
+    sql_names <- as.character(dbQuoteString(con, values))
 
-      #' with NA for SQL `NULL` values
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(test_funs, sql_names))
-    })
+    #' with NA for SQL `NULL` values
+    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
+    test_select_with_null(.ctx = ctx, con, .dots = setNames(test_funs, sql_names))
   },
 
   #' - lists of [raw] for blobs
-  data_raw = function(ctx) {
+  data_raw = function(ctx, con) {
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }
 
-    with_connection({
-      values <- list(is_raw_list)
-      sql_names <- ctx$tweaks$blob_cast(quote_literal(con, list(raw(1))))
+    values <- list(is_raw_list)
+    sql_names <- ctx$tweaks$blob_cast(quote_literal(con, list(raw(1))))
 
-      #' with [NULL] entries for SQL NULL values
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
-    })
+    #' with [NULL] entries for SQL NULL values
+    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
   },
 
   #' - coercible using [as.Date()] for dates,
-  data_date = function(ctx) {
-    with_connection({
-      char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
-      values <- as_date_equals_to(as.Date(char_values))
-      sql_names <- ctx$tweaks$date_cast(char_values)
+  data_date = function(ctx, con) {
+    char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
+    values <- as_date_equals_to(as.Date(char_values))
+    sql_names <- ctx$tweaks$date_cast(char_values)
 
-      #' with NA for SQL `NULL` values
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
-    })
+    #' with NA for SQL `NULL` values
+    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
   },
 
   #'   (also applies to the return value of the SQL function `current_date`)
-  data_date_current = function(ctx) {
-    with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "current_date" ~ is_roughly_current_date)
-    })
+  data_date_current = function(ctx, con) {
+    test_select_with_null(
+      .ctx = ctx, con,
+      "current_date" ~ is_roughly_current_date
+    )
   },
 
   #' - coercible using [hms::as_hms()] for times,
-  data_time = function(ctx) {
-    with_connection({
-      char_values <- c("00:00:00", "12:34:56")
-      time_values <- as_hms_equals_to(hms::as_hms(char_values))
-      sql_names <- ctx$tweaks$time_cast(char_values)
+  data_time = function(ctx, con) {
+    char_values <- c("00:00:00", "12:34:56")
+    time_values <- as_hms_equals_to(hms::as_hms(char_values))
+    sql_names <- ctx$tweaks$time_cast(char_values)
 
-      #' with NA for SQL `NULL` values
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
-    })
+    #' with NA for SQL `NULL` values
+    test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
   },
 
   #'   (also applies to the return value of the SQL function `current_time`)
-  data_time_current = function(ctx) {
-    with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "current_time" ~ coercible_to_time)
-    })
+  data_time_current = function(ctx, con) {
+    test_select_with_null(
+      .ctx = ctx, con,
+      "current_time" ~ coercible_to_time
+    )
   },
 
   #' - coercible using [as.POSIXct()] for timestamps,
-  data_timestamp = function(ctx) {
-    with_connection({
-      char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
-      time_values <- rep(list(coercible_to_timestamp), 2L)
-      sql_names <- ctx$tweaks$timestamp_cast(char_values)
+  data_timestamp = function(ctx, con) {
+    char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
+    time_values <- rep(list(coercible_to_timestamp), 2L)
+    sql_names <- ctx$tweaks$timestamp_cast(char_values)
 
-      #' with NA for SQL `NULL` values
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
-    })
+    #' with NA for SQL `NULL` values
+    test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
   },
 
   #'   (also applies to the return value of the SQL function `current_timestamp`)
-  data_timestamp_current = function(ctx) {
-    with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "current_timestamp" ~ is_roughly_current_timestamp)
-    })
+  data_timestamp_current = function(ctx, con) {
+    test_select_with_null(
+      .ctx = ctx, con,
+      "current_timestamp" ~ is_roughly_current_timestamp
+    )
   },
 
   #'
   #' If dates and timestamps are supported by the backend, the following R types are
   #' used:
   #' - [Date] for dates
-  data_date_typed = function(ctx) {
+  data_date_typed = function(ctx, con) {
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
 
-    with_connection({
-      char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
-      values <- lapply(char_values, as_numeric_date)
-      sql_names <- ctx$tweaks$date_cast(char_values)
+    char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
+    values <- lapply(char_values, as_numeric_date)
+    sql_names <- ctx$tweaks$date_cast(char_values)
 
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
-    })
+    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
   },
 
   #'   (also applies to the return value of the SQL function `current_date`)
-  data_date_current_typed = function(ctx) {
+  data_date_current_typed = function(ctx, con) {
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
 
-    with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "current_date" ~ is_roughly_current_date_typed)
-    })
+    test_select_with_null(
+      .ctx = ctx, con,
+      "current_date" ~ is_roughly_current_date_typed
+    )
   },
 
   #' - [POSIXct] for timestamps
-  data_timestamp_typed = function(ctx) {
+  data_timestamp_typed = function(ctx, con) {
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
 
-    with_connection({
-      char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
-      timestamp_values <- rep(list(is_timestamp), 2L)
-      sql_names <- ctx$tweaks$timestamp_cast(char_values)
+    char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
+    timestamp_values <- rep(list(is_timestamp), 2L)
+    sql_names <- ctx$tweaks$timestamp_cast(char_values)
 
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
-    })
+    test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
   },
 
   #'   (also applies to the return value of the SQL function `current_timestamp`)
-  data_timestamp_current_typed = function(ctx) {
+  data_timestamp_current_typed = function(ctx, con) {
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
 
-    with_connection({
-      test_select_with_null(
-        .ctx = ctx, con,
-        "current_timestamp" ~ is_roughly_current_timestamp_typed)
-    })
+    test_select_with_null(
+      .ctx = ctx, con,
+      "current_timestamp" ~ is_roughly_current_timestamp_typed
+    )
   },
 
   #'
@@ -193,39 +168,45 @@ spec_result_roundtrip <- list(
   #'   package)
   #' - Coercion to numeric always returns a number that is as close as possible
   #'   to the true value
-  data_64_bit_numeric = function(ctx) {
-    with_connection({
-      char_values <- c("10000000000", "-10000000000")
-      test_values <- as_numeric_identical_to(as.numeric(char_values))
+  data_64_bit_numeric = function(ctx, con) {
+    char_values <- c("10000000000", "-10000000000")
+    test_values <- as_numeric_identical_to(as.numeric(char_values))
 
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
-    })
+    test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
   },
 
   #' - Loss of precision when converting to numeric gives a warning
-  data_64_bit_numeric_warning = function(ctx) {
-    with_connection({
-      char_values <- c(" 1234567890123456789", "-1234567890123456789")
-      num_values <- as.numeric(char_values)
-      test_values <- as_numeric_equals_to(num_values)
+  data_64_bit_numeric_warning = function(ctx, con) {
+    char_values <- c(" 1234567890123456789", "-1234567890123456789")
+    num_values <- as.numeric(char_values)
+    test_values <- as_numeric_equals_to(num_values)
 
+    suppressWarnings(
       expect_warning(
-        test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
+        test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "none")
       )
-    })
+    )
+    suppressWarnings(
+      expect_warning(
+        test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "above")
+      )
+    )
+    suppressWarnings(
+      expect_warning(
+        test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "below")
+      )
+    )
   },
 
   #' - Conversion to character always returns a lossless decimal representation
   #'   of the data
-  data_64_bit_lossless = function(ctx) {
-    with_connection({
-      char_values <- c("1234567890123456789", "-1234567890123456789")
-      test_values <- as_character_equals_to(char_values)
+  data_64_bit_lossless = function(ctx, con) {
+    char_values <- c("1234567890123456789", "-1234567890123456789")
+    test_values <- as_character_equals_to(char_values)
 
-      test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
-    })
+    test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
   },
-
+  #
   NULL
 )
 
@@ -236,9 +217,8 @@ test_select_with_null <- function(...) {
   test_select(..., .add_null = "below")
 }
 
-# NB: .table = TRUE will not work in bigrquery
 test_select <- function(con, ..., .dots = NULL, .add_null = "none",
-                        .table = FALSE, .ctx, .envir = parent.frame()) {
+                        .ctx, .envir = parent.frame()) {
   values <- c(list(...), .dots)
 
   value_is_formula <- vapply(values, is.call, logical(1L))
@@ -257,17 +237,23 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
   }
 
   if (isTRUE(.ctx$tweaks$current_needs_parens)) {
-    sql_values <- gsub("^(current_(?:date|time|timestamp))$", "\\1()",
-                       sql_values)
+    sql_values <- gsub(
+      "^(current_(?:date|time|timestamp))$", "\\1()",
+      sql_values
+    )
   }
 
   sql_names <- letters[seq_along(sql_values)]
 
-  query <- paste("SELECT",
-                 paste(sql_values, "as", sql_names, collapse = ", "))
+  query <- paste(
+    "SELECT",
+    paste(sql_values, "as", sql_names, collapse = ", ")
+  )
   if (.add_null != "none") {
-    query_null <- paste("SELECT",
-                        paste("NULL as", sql_names, collapse = ", "))
+    query_null <- paste(
+      "SELECT",
+      paste("NULL as", sql_names, collapse = ", ")
+    )
     query <- c(query, query_null)
     if (.add_null == "above") {
       query <- rev(query)
@@ -276,15 +262,7 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
     query <- union(.ctx = .ctx, query)
   }
 
-  if (.table) {
-    with_remove_test_table({
-      query <- paste("CREATE TABLE test AS", query)
-      dbExecute(con, query)
-      rows <- check_df(dbReadTable(con, "test"))
-    })
-  } else {
-    rows <- check_df(dbGetQuery(con, query))
-  }
+  rows <- check_df(dbGetQuery(con, query))
 
   if (.add_null != "none") {
     rows <- rows[order(rows$id), -(length(sql_names) + 1L), drop = FALSE]
@@ -329,17 +307,18 @@ all_have_utf8_or_ascii_encoding <- function(x) {
 }
 
 has_utf8_or_ascii_encoding <- function(x) {
-  if (Encoding(x) == "UTF-8")
+  if (Encoding(x) == "UTF-8") {
     TRUE
-  else if (Encoding(x) == "unknown") {
+  } else if (Encoding(x) == "unknown") {
     # Characters encoded as "unknown" must be ASCII only, and remain "unknown"
     # after attempting to assign an encoding. From ?Encoding :
     # > ASCII strings will never be marked with a declared encoding, since their
     # > representation is the same in all supported encodings.
     Encoding(x) <- "UTF-8"
     Encoding(x) == "unknown"
-  } else
+  } else {
     FALSE
+  }
 }
 
 is_raw_list <- function(x) {
@@ -427,38 +406,5 @@ as_numeric_date <- function(d) {
 }
 
 quote_literal <- function(con, x) {
-  if (exists("dbQuoteLiteral", getNamespace("DBI"))) {
-    DBI::dbQuoteLiteral(con, x)
-  } else {
-    if (is(x, "SQL"))
-      return(x)
-    if (is.factor(x))
-      return(dbQuoteString(con, as.character(x)))
-    if (is.character(x))
-      return(dbQuoteString(con, x))
-    if (inherits(x, "POSIXt")) {
-      return(dbQuoteString(con, strftime(as.POSIXct(x), "%Y%m%d%H%M%S", tz = "UTC")))
-    }
-    if (inherits(x, "Date"))
-      return(dbQuoteString(con, as.character(x, usetz = TRUE)))
-    if (is.list(x)) {
-      blob_data <- vapply(x, function(x) {
-        if (is.null(x))
-          "NULL"
-        else if (is.raw(x))
-          paste0("X'", paste(format(x), collapse = ""),
-                 "'")
-        else {
-          stop("Lists must contain raw vectors or NULL",
-               call. = FALSE)
-        }
-      }, character(1))
-      return(SQL(blob_data))
-    }
-    if (is.logical(x))
-      x <- as.numeric(x)
-    x <- as.character(x)
-    x[is.na(x)] <- "NULL"
-    SQL(x)
-  }
+  DBI::dbQuoteLiteral(con, x)
 }

@@ -93,7 +93,9 @@ total number of rows affected if binding non-scalar parameters.
 \code{dbBind()} also accepts repeated calls on the same result set
 for both queries
 and data manipulation statements,
-even if no results are fetched between calls to \code{dbBind()}.
+even if no results are fetched between calls to \code{dbBind()},
+for both queries
+and data manipulation statements.
 
 If the placeholders in the query are named,
 their order in the \code{params} argument is not important.
@@ -107,8 +109,11 @@ At least the following data types are accepted on input (including \link{NA}):
 \item \link{factor} (bound as character,
 with warning)
 \item \link{Date}
+(also when stored internally as integer)
 \item \link{POSIXct} timestamps
 \item \link{POSIXlt} timestamps
+\item \link{difftime} values
+(also with units other than seconds)
 \item lists of \link{raw} for blobs (with \code{NULL} entries for SQL NULL values)
 \item objects of type \link[blob:blob]{blob::blob}
 }

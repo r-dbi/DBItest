@@ -24,16 +24,20 @@ run_bind_tester$fun <- function() {
   #'    store the returned [DBIResult-class] object in a variable.
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
-  if (is_query())
+  if (is_query()) {
     res <- send_query()
-  else
+  } else {
     res <- send_statement()
+  }
 
   #'    It is good practice to register a call to [dbClearResult()] via
   #'    [on.exit()] right after calling `dbSendQuery()` or `dbSendStatement()`
   #'    (see the last enumeration item).
-  if (extra_obj$is_premature_clear()) dbClearResult(res)
-  else on.exit(expect_error(dbClearResult(res), NA))
+  if (extra_obj$is_premature_clear()) {
+    dbClearResult(res)
+  } else {
+    on.exit(expect_error(dbClearResult(res), NA))
+  }
 
   #'    Until `dbBind()` has been called, the returned result set object has the
   #'    following behavior:
@@ -65,14 +69,18 @@ run_bind_tester$fun <- function() {
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
   bind(res, bind_values)
-  if (!is.na(extra_obj$bind_error())) return()
+  if (!is.na(extra_obj$bind_error())) {
+    return()
+  }
 
   # Safety net: returning early if dbBind() should have thrown an error but
   # didn't
-  if (!identical(bind_values, extra_obj$patch_bind_values(bind_values)))
+  if (!identical(bind_values, extra_obj$patch_bind_values(bind_values))) {
     return()
-  if (extra_obj$is_premature_clear())
+  }
+  if (extra_obj$is_premature_clear()) {
     return()
+  }
 
   #' 1. Retrieve the data or the number of affected rows from the `DBIResult` object.
   retrieve <- function() {

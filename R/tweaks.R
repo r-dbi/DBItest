@@ -105,6 +105,11 @@
     #'   value is `NULL`.
     "is_null_check" = function(x) paste0("(", x, " IS NULL)"),
 
+    #' @param create_table_as `[function(character(1), character(1))]`\cr
+    #'   A function that creates an SQL expression for creating a table
+    #'   from an SQL expression.
+    "create_table_as" = function(table_name, query) paste0("CREATE TABLE ", table_name, " AS ", query),
+
     # Dummy argument
     NULL
   )
@@ -118,21 +123,24 @@ make_tweaks <- function(envir = parent.frame()) {
   tweak_quoted <- c(tweak_quoted)
   list_call <- as.call(c(quote(list), tweak_quoted))
 
-  fun <- eval(bquote(function() {
-    unknown <- list(...)
-    if (length(unknown) > 0) {
-      if (is.null(names(unknown)) || any(names(unknown) == "")) {
-        warning("All tweaks must be named", call. = FALSE)
-      } else {
-        warning("Unknown tweaks: ", paste(names(unknown), collapse = ", "),
-                call. = FALSE)
+  fun <- eval(bquote(
+    function() {
+      unknown <- list(...)
+      if (length(unknown) > 0) {
+        if (is.null(names(unknown)) || any(names(unknown) == "")) {
+          warning("All tweaks must be named", call. = FALSE)
+        } else {
+          warning("Unknown tweaks: ", paste(names(unknown), collapse = ", "),
+            call. = FALSE
+          )
+        }
       }
-    }
-    ret <- .(list_call)
-    ret <- ret[!vapply(ret, is.null, logical(1L))]
-    structure(ret, class = "DBItest_tweaks")
-  }
-  , as.environment(list(list_call = list_call))))
+      ret <- .(list_call)
+      ret <- ret[!vapply(ret, is.null, logical(1L))]
+      structure(ret, class = "DBItest_tweaks")
+    },
+    as.environment(list(list_call = list_call))
+  ))
 
   formals(fun) <- fmls
   environment(fun) <- envir
@@ -154,7 +162,8 @@ format.DBItest_tweaks <- function(x, ...) {
       function(name, value) {
         paste0("  ", name, ": ", format(value)[[1]])
       },
-      names(x), unclass(x)))
+      names(x), unclass(x)
+    ))
   )
 }
 

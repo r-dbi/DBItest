@@ -1,5 +1,8 @@
+#' spec_compliance_methods
+#' @usage NULL
 #' @format NULL
 #' @importFrom callr r
+#' @keywords internal
 #' @section DBI classes and methods:
 spec_compliance_methods <- list(
   #' A backend defines three classes,
@@ -28,7 +31,7 @@ spec_compliance_methods <- list(
         extends(class, dbi_class) && getClass(class)@virtual == FALSE
       }, getClasses(where))
 
-      expect_equal(length(classes), 1)
+      expect_gte(length(classes), 1)
 
       class <- classes[[1]]
 
@@ -39,6 +42,7 @@ spec_compliance_methods <- list(
         expect_has_class_method(method, class, args, where)
       }, names(key_methods[[name]]), key_methods[[name]])
     })
+    #
   },
 
   #' All methods defined in \pkg{DBI} are reexported (so that the package can
@@ -51,11 +55,21 @@ spec_compliance_methods <- list(
 
     dbi_generics <- grep("^[.]__T__db", getNamespaceExports(dbi), value = TRUE)
     . <- gsub("^[.]__T__(.*):DBI$", "\\1", dbi_generics)
-    . <- setdiff(., c("dbListConnections", "dbSetDataMappings", "dbGetException", "dbCallProc", "dbGetConnectArgs"))
+    . <- setdiff(., c(
+      "dbDriver",
+      "dbUnloadDriver",
+      "dbListConnections",
+      "dbListResults",
+      "dbSetDataMappings",
+      "dbGetException",
+      "dbCallProc",
+      "dbGetConnectArgs"
+    ))
     . <- c(., "Id")
     dbi_names <- .
 
-    exported_names <- callr::r(
+    # Suppressing warning "... may not be available when loading"
+    exported_names <- suppressWarnings(callr::r(
       function(pkg) {
         tryCatch(
           getNamespaceExports(getNamespace(pkg)),
@@ -63,13 +77,15 @@ spec_compliance_methods <- list(
         )
       },
       args = list(pkg = pkg)
-    )
+    ))
 
     # Guard against scenarios where package is not installed
-    if (length(exported_names) > 0) {
-      missing <- setdiff(dbi_names, exported_names)
-      expect_equal(paste(missing, collapse = ", "), "")
+    if (length(exported_names) == 0) {
+      skip("reexport: package must be installed for this test")
     }
+
+    missing <- setdiff(dbi_names, exported_names)
+    expect_equal(paste(missing, collapse = ", "), "")
   },
 
   #' and have an ellipsis `...` in their formals for extensibility.
@@ -82,7 +98,7 @@ spec_compliance_methods <- list(
     methods <- methods[grep("^db", names(methods))]
     Map(expect_ellipsis_in_formals, methods, names(methods))
   },
-
+  #
   NULL
 )
 

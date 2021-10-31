@@ -11,55 +11,44 @@ get_pkg_path <- function(ctx) {
 utils::globalVariables("con")
 utils::globalVariables("con2")
 
-# Expects a variable "ctx" in the environment env,
-# evaluates the code inside local() after defining a variable "con"
-# (can be overridden by specifying con argument)
-# that points to a newly opened connection. Disconnects on exit.
-with_connection <- function(code, con = "con", extra_args = list(), env = parent.frame()) {
-  quo <- enquo(code)
-
-  con <- as.name(con)
-
-  data <- list2(!!con := connect(get("ctx", env), !!!extra_args))
-  on.exit(try_silent(dbDisconnect(data[[1]])), add = TRUE)
-
-  eval_tidy(quo, data)
+local_connection <- function(ctx, ..., .local_envir = parent.frame()) {
+  con <- connect(ctx, ...)
+  withr::local_db_connection(con, .local_envir = .local_envir)
 }
 
-# Expects a variable "ctx" in the environment env,
-# evaluates the code inside local() after defining a variable "con"
-# (can be overridden by specifying con argument)
-# that points to a newly opened and then closed connection. Disconnects on exit.
-with_closed_connection <- function(code, con = "con", env = parent.frame()) {
+local_closed_connection <- function(ctx, ...) {
+  con <- connect(ctx, ...)
+  dbDisconnect(con)
+  con
+}
+
+local_invalid_connection <- function(ctx, ...) {
+  con <- connect(ctx, ...)
+  dbDisconnect(con)
+  unserialize(serialize(con, NULL))
+}
+
+local_remove_test_table <- function(con, name, ..., .local_envir = parent.frame()) {
+  withr::defer(try_silent(dbRemoveTable(con, name)), envir = .local_envir)
+}
+
+with_remove_test_table <- function(code, name = "test", con = "con", env = parent.frame()) {
   code_sub <- substitute(code)
 
   con <- as.name(con)
 
-  eval(bquote({
-    .(con) <- connect(ctx)
-    dbDisconnect(.(con))
-    local(.(code_sub))
-  }
-  ), envir = env)
-}
-
-# Expects a variable "ctx" in the environment env,
-# evaluates the code inside local() after defining a variable "con"
-# (can be overridden by specifying con argument)
-# that points to a newly opened but invalidated connection. Disconnects on exit.
-with_invalid_connection <- function(code, con = "con", env = parent.frame()) {
-  code_sub <- substitute(code)
-
-  stopifnot(con != "..con")
-  con <- as.name(con)
-
-  eval(bquote({
-    ..con <- connect(ctx)
-    on.exit(dbDisconnect(..con), add = TRUE)
-    .(con) <- unserialize(serialize(..con, NULL))
-    local(.(code_sub))
-  }
-  ), envir = env)
+  eval(
+    bquote({
+      on.exit(
+        try_silent(
+          dbRemoveTable(.(con), .(name))
+        ),
+        add = TRUE
+      )
+      local(.(code_sub))
+    }),
+    envir = env
+  )
 }
 
 # Evaluates the code inside local() after defining a variable "res"
@@ -71,12 +60,14 @@ with_result <- function(query, code, res = "res", env = parent.frame()) {
 
   res <- as.name(res)
 
-  eval(bquote({
-    .(res) <- .(query_sub)
-    on.exit(dbClearResult(.(res)), add = TRUE)
-    local(.(code_sub))
-  }
-  ), envir = env)
+  eval(
+    bquote({
+      .(res) <- .(query_sub)
+      on.exit(dbClearResult(.(res)), add = TRUE)
+      local(.(code_sub))
+    }),
+    envir = env
+  )
 }
 
 # Evaluates the code inside local() after defining a variable "con"
@@ -88,16 +79,18 @@ with_remove_test_table <- function(code, name = "test", con = "con", env = paren
 
   con <- as.name(con)
 
-  eval(bquote({
-    on.exit(
-      try_silent(
-        dbExecute(.(con), paste0("DROP TABLE ", dbQuoteIdentifier(.(con), .(name))))
-      ),
-      add = TRUE
-    )
-    local(.(code_sub))
-  }
-  ), envir = env)
+  eval(
+    bquote({
+      on.exit(
+        try_silent(
+          dbRemoveTable(.(con), .(name))
+        ),
+        add = TRUE
+      )
+      local(.(code_sub))
+    }),
+    envir = env
+  )
 }
 
 # Evaluates the code inside local() after defining a variable "con"
@@ -108,22 +101,23 @@ with_rollback_on_error <- function(code, con = "con", env = parent.frame()) {
 
   con <- as.name(con)
 
-  eval(bquote({
-    on.exit(
-      try_silent(
-        dbRollback(.(con))
-      ),
-      add = TRUE
-    )
-    local(.(code_sub))
-    on.exit(NULL, add = FALSE)
-  }
-  ), envir = env)
+  eval(
+    bquote({
+      on.exit(
+        try_silent(
+          dbRollback(.(con))
+        ),
+        add = TRUE
+      )
+      local(.(code_sub))
+      on.exit(NULL, add = FALSE)
+    }),
+    envir = env
+  )
 }
 
 get_iris <- function(ctx) {
   datasets_iris <- datasets::iris
-  iris$Species <- as.character(iris$Species)
   if (isTRUE(ctx$tweaks$strict_identifier)) {
     names(datasets_iris) <- gsub(".", "_", names(datasets_iris), fixed = TRUE)
   }
@@ -136,7 +130,8 @@ unrowname <- function(x) {
 }
 
 random_table_name <- function(n = 10) {
-  paste0(sample(letters, n, replace = TRUE), collapse = "")
+  # FIXME: Use parallel-safe sequence of numbers
+  paste0("dbit", paste(sample(letters, n, replace = TRUE), collapse = ""))
 }
 
 compact <- function(x) {
@@ -151,7 +146,8 @@ expand_char <- function(...) {
 try_silent <- function(code) {
   tryCatch(
     code,
-    error = function(e) NULL)
+    error = function(e) NULL
+  )
 }
 
 check_df <- function(df) {

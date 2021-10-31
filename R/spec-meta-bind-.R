@@ -12,10 +12,11 @@ test_select_bind <- function(con, ctx, ...) {
 
 get_placeholder_funs <- function(ctx) {
   placeholder_fun <- ctx$tweaks$placeholder_pattern
-  if (is.character(placeholder_fun))
+  if (is.character(placeholder_fun)) {
     placeholder_fun <- lapply(placeholder_fun, make_placeholder_fun)
-  else if (is.function(placeholder_fun))
+  } else if (is.function(placeholder_fun)) {
     placeholder_fun <- list(placeholder_fun)
+  }
 
   if (length(placeholder_fun) == 0) {
     skip("Use the placeholder_pattern tweak, or skip all 'bind_.*' tests")
@@ -40,13 +41,13 @@ test_select_bind_one <- function(con, placeholder_fun, is_null_check, values,
 }
 
 new_extra_imp <- function(extra) {
-  if (is.environment(extra))
+  if (is.environment(extra)) {
     extra$new()
-  else if (length(extra) == 0)
+  } else if (length(extra) == 0) {
     new_extra_imp_one("none")
-  else if (length(extra) == 1)
+  } else if (length(extra) == 1) {
     new_extra_imp_one(extra)
-  else {
+  } else {
     stop("need BindTesterExtraMulti")
     # BindTesterExtraMulti$new(lapply(extra, new_extra_imp_one))
   }
@@ -68,13 +69,13 @@ new_extra_imp_one <- function(extra) {
 BindTester <- R6::R6Class(
   "BindTester",
   portable = FALSE,
-
+  #
   public = list(
     initialize = function(con) {
       self$con <- con
     },
     run = run_bind_tester$fun,
-
+    #
     con = NULL,
     placeholder_fun = NULL,
     is_null_check = NULL,
@@ -83,12 +84,12 @@ BindTester <- R6::R6Class(
     query = TRUE,
     extra_obj = NULL
   ),
-
+  #
   private = list(
     is_query = function() {
       query
     },
-
+    #
     send_query = function() {
       ret_values <- trivial_values(2)
       placeholder <- placeholder_fun(length(values))
@@ -112,7 +113,7 @@ BindTester <- R6::R6Class(
 
       dbSendQuery(con, query)
     },
-
+    #
     send_statement = function() {
       data <- data.frame(a = rep(1:5, 1:5))
       data$b <- seq_along(data$a)
@@ -123,20 +124,23 @@ BindTester <- R6::R6Class(
       placeholder <- placeholder_fun(length(values))
       statement <- paste0(
         "UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ",
-        paste(value_names, " = ", placeholder, collapse = " AND "))
+        paste(value_names, " = ", placeholder, collapse = " AND ")
+      )
 
       dbSendStatement(con, statement)
     },
-
+    #
     bind = function(res, bind_values) {
       bind_values <- extra_obj$patch_bind_values(bind_values)
       bind_error <- extra_obj$bind_error()
       expect_error(bind_res <- withVisible(dbBind(res, bind_values)), bind_error)
 
-      if (is.na(bind_error)) extra_obj$check_return_value(bind_res, res)
+      if (is.na(bind_error) && exists("bind_res")) {
+        extra_obj$check_return_value(bind_res, res)
+      }
       invisible()
     },
-
+    #
     compare = function(rows) {
       expect_equal(nrow(rows), length(values[[1]]))
       if (nrow(rows) > 0) {
@@ -144,7 +148,7 @@ BindTester <- R6::R6Class(
         expect_equal(rows, data.frame(a = expected))
       }
     },
-
+    #
     compare_affected = function(rows_affected, values) {
       expect_equal(rows_affected, sum(values[[1]]))
     }

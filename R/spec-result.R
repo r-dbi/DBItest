@@ -22,8 +22,8 @@ union <- function(..., .order_by = NULL, .ctx) {
   query
 }
 
-trivial_statement <- function(table_name = "test") {
-  paste0("CREATE TABLE ", table_name, " AS ", trivial_query())
+trivial_statement <- function(ctx, table_name) {
+  ctx$tweaks$create_table_as(table_name, trivial_query())
 }
 
 trivial_query <- function(n = 1L, column = "a", .order_by = NULL, .ctx = NULL) {

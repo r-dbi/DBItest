@@ -10,14 +10,16 @@ s4_methods <- function(env, pkg_fun = NULL) {
 
 
   res <- Map(
-    generics@.Data[ok], generics@package[ok], USE.NAMES = TRUE,
+    generics@.Data[ok], generics@package[ok],
+    USE.NAMES = TRUE,
     f = function(name, package) {
       what <- methods::methodsPackageMetaName("T", paste(name, package, sep = ":"))
 
       table <- get(what, envir = env)
 
       mget(ls(table, all.names = TRUE), envir = table)
-    })
+    }
+  )
   unlist(res, recursive = FALSE)
 }
 
@@ -40,8 +42,9 @@ s4_unwrap <- function(s4_method) {
     local_def <- method_body[[2]]
     if (inherits(local_def, "<-") && local_def[[2]] == quote(.local)) {
       local_fun <- local_def[[3]]
-      if (inherits(local_fun, "function"))
+      if (inherits(local_fun, "function")) {
         return(local_fun)
+      }
     }
   }
 

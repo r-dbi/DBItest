@@ -1,5 +1,8 @@
+#' spec_getting_started
+#' @usage NULL
 #' @format NULL
 #' @importFrom desc desc_get_deps
+#' @keywords internal
 #' @section Definition:
 spec_getting_started <- list(
   package_dependencies = function(ctx) {
@@ -15,7 +18,7 @@ spec_getting_started <- list(
     expect_true("methods" %in% pkg_imports)
     #' packages.
   },
-
+  #
   package_name = function(ctx) {
     pkg_name <- package_name(ctx)
 
@@ -24,6 +27,6 @@ spec_getting_started <- list(
     #' to the backend author to adopt this convention or not.
     expect_match(pkg_name, "^R")
   },
-
+  #
   NULL
 )
