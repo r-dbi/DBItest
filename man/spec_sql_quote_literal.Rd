@@ -7,7 +7,15 @@
 \value{
 \code{dbQuoteLiteral()} returns an object that can be coerced to \link{character},
 of the same length as the input.
-For an empty character vector this function returns a length-0 object.
+For an empty
+integer,
+numeric,
+character,
+logical,
+date,
+time,
+or blob vector,
+this function returns a length-0 object.
 
 When passing the returned object again to \code{dbQuoteLiteral()}
 as \code{x}
