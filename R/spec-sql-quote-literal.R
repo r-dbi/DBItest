@@ -25,6 +25,10 @@ spec_sql_quote_literal <- list(
   },
   #
   quote_literal_empty = function(con) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
+
     #' For an empty
     #' integer,
     expect_equal(length(dbQuoteLiteral(con, integer())), 0L)
