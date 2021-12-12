@@ -22,10 +22,29 @@ spec_sql_quote_literal <- list(
     #' of the same length as the input.
     letters_out <- dbQuoteLiteral(con, letters)
     expect_equal(length(letters_out), length(letters))
+  },
+  #
+  quote_literal_empty = function(ctx, con) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
 
-    #' For an empty character vector this function returns a length-0 object.
-    empty_out <- dbQuoteLiteral(con, character())
-    expect_equal(length(empty_out), 0L)
+    #' For an empty
+    #' integer,
+    expect_equal(length(dbQuoteLiteral(con, integer())), 0L)
+    #' numeric,
+    expect_equal(length(dbQuoteLiteral(con, numeric())), 0L)
+    #' character,
+    expect_equal(length(dbQuoteLiteral(con, character())), 0L)
+    #' logical,
+    expect_equal(length(dbQuoteLiteral(con, logical())), 0L)
+    #' date,
+    expect_equal(length(dbQuoteLiteral(con, Sys.Date()[0])), 0L)
+    #' time,
+    expect_equal(length(dbQuoteLiteral(con, Sys.time()[0])), 0L)
+    #' or blob vector,
+    expect_equal(length(dbQuoteLiteral(con, list())), 0L)
+    #' this function returns a length-0 object.
   },
   #
   quote_literal_double = function(con) {
