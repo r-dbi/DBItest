@@ -60,7 +60,15 @@
     <h2>Value</h2>
     <p><code>dbQuoteLiteral()</code> returns an object that can be coerced to <a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>,
 of the same length as the input.
-For an empty character vector this function returns a length-0 object.
+For an empty
+integer,
+numeric,
+character,
+logical,
+date,
+time,
+or blob vector,
+this function returns a length-0 object.
 When passing the returned object again to <code>dbQuoteLiteral()</code>as <code>x</code>argument, it is returned unchanged.
 Passing objects of class SQL should also return them unchanged.
 (For backends it may be most convenient to return SQL objects
