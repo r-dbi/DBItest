@@ -66,19 +66,18 @@ spec_sql_exists_table <- list(
     }
 
     for (table_name in table_names) {
-      with_remove_test_table(name = table_name, {
-        expect_false(dbExistsTable(con, table_name))
+      local_remove_test_table(con, table_name)
+      expect_false(dbExistsTable(con, table_name))
 
-        test_in <- data.frame(a = 1L)
-        dbWriteTable(con, table_name, test_in)
+      test_in <- data.frame(a = 1L)
+      dbWriteTable(con, table_name, test_in)
 
-        #' - If an unquoted table name as string: `dbExistsTable()` will do the
-        #'   quoting,
-        expect_true(dbExistsTable(con, table_name))
-        #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
-        #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
-        expect_true(dbExistsTable(con, dbQuoteIdentifier(con, table_name)))
-      })
+      #' - If an unquoted table name as string: `dbExistsTable()` will do the
+      #'   quoting,
+      expect_true(dbExistsTable(con, table_name))
+      #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
+      #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
+      expect_true(dbExistsTable(con, dbQuoteIdentifier(con, table_name)))
     }
   },
 
