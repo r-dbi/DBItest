@@ -76,17 +76,16 @@ spec_result_send_statement <- list(
   send_statement_only_one_result_set = function(ctx, con, table_name) {
     res1 <- dbSendStatement(con, trivial_statement(ctx, table_name))
     other_table_name <- random_table_name()
-    with_remove_test_table(name = other_table_name, {
-      #' issuing a second query invalidates an already open result set
-      #' and raises a warning.
-      query <- ctx$tweaks$create_table_as(other_table_name, "SELECT 1 AS a")
-      expect_warning(res2 <- dbSendStatement(con, query))
-      expect_false(dbIsValid(res1))
-      #' The newly opened result set is valid
-      expect_true(dbIsValid(res2))
-      #' and must be cleared with `dbClearResult()`.
-      dbClearResult(res2)
-    })
+    local_remove_test_table(con, other_table_name)
+    #' issuing a second query invalidates an already open result set
+    #' and raises a warning.
+    query <- ctx$tweaks$create_table_as(other_table_name, "SELECT 1 AS a")
+    expect_warning(res2 <- dbSendStatement(con, query))
+    expect_false(dbIsValid(res1))
+    #' The newly opened result set is valid
+    expect_true(dbIsValid(res2))
+    #' and must be cleared with `dbClearResult()`.
+    dbClearResult(res2)
   },
 
   #' @section Additional arguments:
@@ -105,18 +104,17 @@ spec_result_send_statement <- list(
   send_statement_params = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
 
-    table_name <- random_table_name()
     for (placeholder_fun in placeholder_funs) {
-      with_remove_test_table(name = table_name, {
-        dbWriteTable(con, table_name, data.frame(a = as.numeric(1:3)))
-        placeholder <- placeholder_fun(1)
-        query <- paste0("DELETE FROM ", table_name, " WHERE a > ", placeholder)
-        values <- 1.5
-        params <- stats::setNames(list(values), names(placeholder))
-        rs <- dbSendStatement(con, query, params = params)
-        expect_equal(dbGetRowsAffected(rs), 2, info = placeholder)
-        dbClearResult(rs)
-      })
+      table_name <- random_table_name()
+      local_remove_test_table(con, table_name)
+      dbWriteTable(con, table_name, data.frame(a = as.numeric(1:3)))
+      placeholder <- placeholder_fun(1)
+      query <- paste0("DELETE FROM ", table_name, " WHERE a > ", placeholder)
+      values <- 1.5
+      params <- stats::setNames(list(values), names(placeholder))
+      rs <- dbSendStatement(con, query, params = params)
+      expect_equal(dbGetRowsAffected(rs), 2, info = placeholder)
+      dbClearResult(rs)
     }
   },
 

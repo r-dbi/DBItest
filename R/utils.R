@@ -42,34 +42,12 @@ local_result <- function(query, frame = rlang::caller_env()) {
 
 # Calls `try_silent(dbRemoveTable())` after exiting `frame`.
 local_remove_test_table <- function(con, name, frame = rlang::caller_env()) {
+  table_name <- dbQuoteIdentifier(con, name)
   withr::defer(
     try_silent(
-      dbRemoveTable(con, name)
+      dbRemoveTable(con, table_name)
     ),
     envir = frame
-  )
-}
-
-# Evaluates the code inside local() after defining a variable "con"
-# (can be overridden by specifying con argument)
-# that points to a connection. Removes the table specified by name on exit,
-# if it exists.
-with_remove_test_table <- function(code, name = "test", con = "con", env = parent.frame()) {
-  code_sub <- substitute(code)
-
-  con <- as.name(con)
-
-  eval(
-    bquote({
-      on.exit(
-        try_silent(
-          dbRemoveTable(.(con), .(name))
-        ),
-        add = TRUE
-      )
-      local(.(code_sub))
-    }),
-    envir = env
   )
 }
 

@@ -87,13 +87,12 @@ spec_sql_create_table <- list(
     for (table_name in table_names) {
       test_in <- trivial_df()
 
-      with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
-        #' - If an unquoted table name as string: `dbCreateTable()` will do the quoting,
-        dbCreateTable(con, table_name, test_in)
-        test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
-        expect_equal_df(test_out, test_in[0, , drop = FALSE])
-        #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
-      })
+      local_remove_test_table(con, table_name)
+      #' - If an unquoted table name as string: `dbCreateTable()` will do the quoting,
+      dbCreateTable(con, table_name, test_in)
+      test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
+      expect_equal_df(test_out, test_in[0, , drop = FALSE])
+      #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
     }
   },
 
@@ -112,11 +111,10 @@ spec_sql_create_table <- list(
     for (table_name in table_names) {
       test_in <- trivial_df()
 
-      with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
-        dbCreateTable(con, dbQuoteIdentifier(con, table_name), test_in)
-        test_out <- check_df(dbReadTable(con, table_name))
-        expect_equal_df(test_out, test_in[0, , drop = FALSE])
-      })
+      local_remove_test_table(con, table_name)
+      dbCreateTable(con, dbQuoteIdentifier(con, table_name), test_in)
+      test_out <- check_df(dbReadTable(con, table_name))
+      expect_equal_df(test_out, test_in[0, , drop = FALSE])
     }
   },
 

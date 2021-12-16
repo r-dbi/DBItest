@@ -116,13 +116,12 @@ spec_sql_write_table <- list(
 
     for (table_name in table_names) {
       test_in <- data.frame(a = 1)
-      with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
-        #' - If an unquoted table name as string: `dbWriteTable()` will do the quoting,
-        dbWriteTable(con, table_name, test_in)
-        test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
-        expect_equal_df(test_out, test_in)
-        #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
-      })
+      local_remove_test_table(con, table_name)
+      #' - If an unquoted table name as string: `dbWriteTable()` will do the quoting,
+      dbWriteTable(con, table_name, test_in)
+      test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
+      expect_equal_df(test_out, test_in)
+      #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
     }
   },
 
@@ -141,11 +140,10 @@ spec_sql_write_table <- list(
     for (table_name in table_names) {
       test_in <- data.frame(a = 1)
 
-      with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
-        dbWriteTable(con, dbQuoteIdentifier(con, table_name), test_in)
-        test_out <- check_df(dbReadTable(con, table_name))
-        expect_equal_df(test_out, test_in)
-      })
+      local_remove_test_table(con, table_name)
+      dbWriteTable(con, dbQuoteIdentifier(con, table_name), test_in)
+      test_out <- check_df(dbReadTable(con, table_name))
+      expect_equal_df(test_out, test_in)
     }
   },
 
@@ -712,16 +710,15 @@ spec_sql_write_table <- list(
   #' see [sqlRownamesToColumn()] for details:
   write_table_row_names_false = function(ctx, con) {
     #' - If `FALSE` or `NULL`, row names are ignored.
-    table_name <- random_table_name()
     for (row.names in list(FALSE, NULL)) {
-      with_remove_test_table(name = table_name, {
-        mtcars_in <- datasets::mtcars
-        dbWriteTable(con, table_name, mtcars_in, row.names = row.names)
-        mtcars_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
+      table_name <- random_table_name()
+      local_remove_test_table(con, table_name)
+      mtcars_in <- datasets::mtcars
+      dbWriteTable(con, table_name, mtcars_in, row.names = row.names)
+      mtcars_out <- check_df(dbReadTable(con, table_name, row.names = FALSE))
 
-        expect_false("row_names" %in% names(mtcars_out))
-        expect_equal_df(mtcars_out, unrowname(mtcars_in))
-      })
+      expect_false("row_names" %in% names(mtcars_out))
+      expect_equal_df(mtcars_out, unrowname(mtcars_in))
     }
   },
   #
