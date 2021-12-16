@@ -104,18 +104,17 @@ spec_result_send_statement <- list(
   send_statement_params = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
 
-    table_name <- random_table_name()
     for (placeholder_fun in placeholder_funs) {
-      with_remove_test_table(name = table_name, {
-        dbWriteTable(con, table_name, data.frame(a = as.numeric(1:3)))
-        placeholder <- placeholder_fun(1)
-        query <- paste0("DELETE FROM ", table_name, " WHERE a > ", placeholder)
-        values <- 1.5
-        params <- stats::setNames(list(values), names(placeholder))
-        rs <- dbSendStatement(con, query, params = params)
-        expect_equal(dbGetRowsAffected(rs), 2, info = placeholder)
-        dbClearResult(rs)
-      })
+      table_name <- random_table_name()
+      local_remove_test_table(con, table_name)
+      dbWriteTable(con, table_name, data.frame(a = as.numeric(1:3)))
+      placeholder <- placeholder_fun(1)
+      query <- paste0("DELETE FROM ", table_name, " WHERE a > ", placeholder)
+      values <- 1.5
+      params <- stats::setNames(list(values), names(placeholder))
+      rs <- dbSendStatement(con, query, params = params)
+      expect_equal(dbGetRowsAffected(rs), 2, info = placeholder)
+      dbClearResult(rs)
     }
   },
 
