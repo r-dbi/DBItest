@@ -51,23 +51,16 @@ with_remove_test_table <- function(code, name = "test", con = "con", env = paren
   )
 }
 
-# Evaluates the code inside local() after defining a variable "res"
-# (can be overridden by specifying con argument)
-# that points to a result set created by query. Clears on exit.
-with_result <- function(query, code, res = "res", env = parent.frame()) {
-  code_sub <- substitute(code)
-  query_sub <- substitute(query)
-
-  res <- as.name(res)
-
-  eval(
-    bquote({
-      .(res) <- .(query_sub)
-      on.exit(dbClearResult(.(res)), add = TRUE)
-      local(.(code_sub))
-    }),
-    envir = env
+# Calls `dbClearResult()` on `query` after exiting `frame`.
+local_result <- function(query, frame = rlang::caller_env()) {
+  res <- query
+  withr::defer(
+    {
+      dbClearResult(res)
+    },
+    envir = frame
   )
+  res
 }
 
 # Evaluates the code inside local() after defining a variable "con"

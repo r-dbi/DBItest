@@ -39,7 +39,6 @@ spec_sql_append_table <- list(
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in[0, , drop = FALSE])
   },
-
   append_table_append_incompatible = function(con, table_name) {
     test_in <- trivial_df()
     dbCreateTable(con, table_name, test_in)
@@ -584,6 +583,7 @@ spec_sql_append_table <- list(
     expect_equal_df(test_out, test_in)
   },
 
+  #
   append_table_value_shuffle_subset = function(ctx, con, table_name) {
     test_in <- trivial_df(4, letters[1:4])
     dbCreateTable(con, table_name, test_in)

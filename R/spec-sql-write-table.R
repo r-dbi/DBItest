@@ -165,6 +165,7 @@ spec_sql_write_table <- list(
     expect_equal_df(test_out, test_in)
   },
 
+  #
   write_table_value_shuffle_subset = function(ctx, con, table_name) {
     test_in <- trivial_df(4, letters[1:4])
     dbCreateTable(con, table_name, test_in)

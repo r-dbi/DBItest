@@ -27,12 +27,10 @@ spec_meta_bind <- list(
   },
   #
   bind_empty = function(con) {
-    with_result(
-      #' Calling `dbBind()` for a query without parameters
-      dbSendQuery(con, trivial_query()),
-      #' raises an error.
-      expect_error(dbBind(res, list()))
-    )
+    #' Calling `dbBind()` for a query without parameters
+    res <- local_result(dbSendQuery(con, trivial_query()))
+    #' raises an error.
+    expect_error(dbBind(res, list()))
   },
   #
   bind_too_many = function(ctx, con) {

@@ -54,8 +54,7 @@ new_extra_imp <- function(extra) {
 }
 
 new_extra_imp_one <- function(extra) {
-  extra_imp <- switch(
-    extra,
+  extra_imp <- switch(extra,
     none = BindTesterExtra,
     stop("Unknown extra: ", extra, call. = FALSE)
   )
