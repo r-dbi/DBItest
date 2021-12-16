@@ -63,15 +63,15 @@ spec_result_execute <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
 
     for (placeholder_fun in placeholder_funs) {
-      with_remove_test_table(name = table_name, {
-        dbWriteTable(con, table_name, data.frame(a = as.numeric(1:3)))
-        placeholder <- placeholder_fun(1)
-        query <- paste0("DELETE FROM ", table_name, " WHERE a > ", placeholder)
-        values <- 1.5
-        params <- stats::setNames(list(values), names(placeholder))
-        ret <- dbExecute(con, query, params = params)
-        expect_equal(ret, 2, info = placeholder)
-      })
+      table_name <- random_table_name()
+      local_remove_test_table(con, table_name)
+      dbWriteTable(con, table_name, data.frame(a = as.numeric(1:3)))
+      placeholder <- placeholder_fun(1)
+      query <- paste0("DELETE FROM ", table_name, " WHERE a > ", placeholder)
+      values <- 1.5
+      params <- stats::setNames(list(values), names(placeholder))
+      ret <- dbExecute(con, query, params = params)
+      expect_equal(ret, 2, info = placeholder)
     }
   },
 
