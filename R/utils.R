@@ -42,9 +42,10 @@ local_result <- function(query, frame = rlang::caller_env()) {
 
 # Calls `try_silent(dbRemoveTable())` after exiting `frame`.
 local_remove_test_table <- function(con, name, frame = rlang::caller_env()) {
+  table_name <- dbQuoteIdentifier(con, name)
   withr::defer(
     try_silent(
-      dbRemoveTable(con, name)
+      dbRemoveTable(con, table_name)
     ),
     envir = frame
   )
