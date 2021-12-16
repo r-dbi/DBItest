@@ -62,7 +62,10 @@ spec_meta_column_info <- list(
     #' with the data returned by `dbFetch()`.
     data <- dbFetch(res)
     expect_identical(info$name, names(data))
+  },
 
+  #'
+  column_info_consistent_unnamed = function(ctx, con) {
     #' If the query returns unnamed columns,
     res <- local_result(dbSendQuery(con, "SELECT 1.5, 2.5 AS a, 1.5, 3.5"))
     info <- dbColumnInfo(res)
@@ -72,7 +75,10 @@ spec_meta_column_info <- list(
     #' non-empty and non-`NA` names are assigned.
     expect_false(anyNA(names(data)))
     expect_true(all(names(data) != ""))
+  },
 
+  #'
+  column_info_consistent_keywords = function(ctx, con) {
     #' Column names that correspond to SQL or R keywords are left unchanged.
     res <- local_result(dbSendQuery(con, paste0("SELECT 1.5 AS ", dbQuoteIdentifier(con, "for"))))
     info <- dbColumnInfo(res)

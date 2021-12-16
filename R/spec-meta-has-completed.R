@@ -45,8 +45,10 @@ spec_meta_has_completed <- list(
     #' but the result value is `TRUE` after trying to fetch only one row.
     check_df(dbFetch(res, 1))
     expect_true(expect_visible(dbHasCompleted(res)))
+  },
 
-
+  #' @section Specification:
+  has_completed_query_spec_partial = function(con) {
     #' Similarly, for a query with a result set of length n,
     res <- local_result(dbSendQuery(con, trivial_query()))
     #' the return value is unspecified after fetching n rows,
