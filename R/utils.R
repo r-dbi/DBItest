@@ -51,29 +51,6 @@ local_remove_test_table <- function(con, name, frame = rlang::caller_env()) {
   )
 }
 
-# Evaluates the code inside local() after defining a variable "con"
-# (can be overridden by specifying con argument)
-# that points to a result set created by query. Clears on exit.
-with_rollback_on_error <- function(code, con = "con", env = parent.frame()) {
-  code_sub <- substitute(code)
-
-  con <- as.name(con)
-
-  eval(
-    bquote({
-      on.exit(
-        try_silent(
-          dbRollback(.(con))
-        ),
-        add = TRUE
-      )
-      local(.(code_sub))
-      on.exit(NULL, add = FALSE)
-    }),
-    envir = env
-  )
-}
-
 get_penguins <- function(ctx) {
   datasets_penguins <- unrowname(palmerpenguins::penguins[c(1, 153, 277), ])
   if (!isTRUE(ctx$tweaks$strict_identifier)) {

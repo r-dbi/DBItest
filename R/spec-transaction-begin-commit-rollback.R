@@ -22,9 +22,11 @@ spec_transaction_begin_commit_rollback <- list(
   #' `dbBegin()`, `dbCommit()` and `dbRollback()` return `TRUE`, invisibly.
   begin_commit_return_value = function(con) {
     expect_invisible_true(dbBegin(con))
-    with_rollback_on_error({
-      expect_invisible_true(dbCommit(con))
+    on.exit({
+      dbRollback(con)
     })
+    expect_invisible_true(dbCommit(con))
+    on.exit(NULL)
   },
   #
   begin_rollback_return_value = function(con) {
@@ -63,11 +65,13 @@ spec_transaction_begin_commit_rollback <- list(
     #' Nested transactions are not supported by DBI,
     #' an attempt to call `dbBegin()` twice
     dbBegin(con)
-    with_rollback_on_error({
-      #' yields an error.
-      expect_error(dbBegin(con))
-      dbCommit(con)
+    on.exit({
+      dbRollback(con)
     })
+    #' yields an error.
+    expect_error(dbBegin(con))
+    dbCommit(con)
+    on.exit(NULL)
   },
 
   #' @section Specification:
@@ -95,16 +99,19 @@ spec_transaction_begin_commit_rollback <- list(
     dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
 
     dbBegin(con)
-    with_rollback_on_error({
-      #' but is created during the transaction
-      dbExecute(con, paste0("INSERT INTO ", table_name, " (a) VALUES (1)"))
-
-      #' must exist
-      expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0:1))
-
-      #' both during
-      dbCommit(con)
+    on.exit({
+      dbRollback(con)
     })
+
+    #' but is created during the transaction
+    dbExecute(con, paste0("INSERT INTO ", table_name, " (a) VALUES (1)"))
+
+    #' must exist
+    expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0:1))
+
+    #' both during
+    dbCommit(con)
+    on.exit(NULL)
 
     #' and after the transaction,
     expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0:1))
