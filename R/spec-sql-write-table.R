@@ -512,8 +512,35 @@ spec_sql_write_table <- list(
       skip("tweak: !date_typed")
     }
 
-    #'   returned as `Date`)
+    #'   returned as `Date`),
     tbl_in <- data.frame(a = as_numeric_date(c(Sys.Date() + 1:5)))
+    test_table_roundtrip(
+      con, tbl_in,
+      transform = function(tbl_out) {
+        expect_type(unclass(tbl_out$a), "double")
+        tbl_out
+      }
+    )
+  },
+
+  #'   also for dates prior to 1970 or 1900 or after 2038
+  roundtrip_date_extended = function(ctx, con) {
+    if (!isTRUE(ctx$tweaks$date_typed)) {
+      skip("tweak: !date_typed")
+    }
+
+    tbl_in <- data.frame(a = as_numeric_date(c(
+      "1811-11-11",
+      "1899-12-31",
+      "1900-01-01",
+      "1950-05-05",
+      "1969-12-31",
+      "1970-01-01",
+      "2037-01-01",
+      "2038-01-01",
+      "2040-01-01",
+      "2999-09-09"
+    )))
     test_table_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
@@ -564,6 +591,46 @@ spec_sql_write_table <- list(
         86400 * 90, 86400 * 180, 86400 * 270,
         1e9, 5e9
       )
+    attr(local, "tzone") <- ""
+    tbl_in <- data.frame(id = seq_along(local))
+    tbl_in$local <- local
+    tbl_in$gmt <- lubridate::with_tz(local, tzone = "GMT")
+    tbl_in$pst8pdt <- lubridate::with_tz(local, tzone = "PST8PDT")
+    tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
+
+    #'   respecting the time zone but not necessarily preserving the
+    #'   input time zone),
+    test_table_roundtrip(
+      con, tbl_in,
+      transform = function(out) {
+        dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
+        tz <- toupper(names(out))
+        tz[tz == "LOCAL"] <- ""
+        out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
+        out
+      }
+    )
+  },
+
+  #'   also for timestamps prior to 1970 or 1900 or after 2038
+  roundtrip_timestamp_extended = function(ctx, con) {
+    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
+      skip("tweak: !timestamp_typed")
+    }
+
+    local <- as.POSIXct(c(
+      "1811-11-11",
+      "1899-12-31",
+      "1900-01-01",
+      "1950-05-05",
+      "1969-12-31",
+      "1970-01-01",
+      "2037-01-01",
+      "2038-01-01",
+      "2040-01-01",
+      "2999-09-09"
+    ))
+
     attr(local, "tzone") <- ""
     tbl_in <- data.frame(id = seq_along(local))
     tbl_in$local <- local
