@@ -99,6 +99,10 @@ spec_sql_create_table <- list(
 
   #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
   create_table_name_quoted = function(ctx, con) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
+
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
     } else {
