@@ -52,7 +52,7 @@ with_remove_test_table <- function(code, name = "test", con = "con", env = paren
 }
 
 # Calls `dbClearResult()` on `query` after exiting `frame`.
-local_result <- function(query, frame = caller_env()) {
+local_result <- function(query, frame = rlang::caller_env()) {
   res <- query
   withr::defer(
     {
