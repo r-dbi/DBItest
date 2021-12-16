@@ -18,8 +18,8 @@ spec_meta_get_rows_affected <- list(
       "DELETE FROM ", dbQuoteIdentifier(con, table_name), " ",
       "WHERE a < 6"
     )
+    #' issued with [dbSendStatement()].
     with_result(
-      #' issued with [dbSendStatement()].
       dbSendStatement(con, query),
       {
         rc <- dbGetRowsAffected(res)
@@ -35,8 +35,8 @@ spec_meta_get_rows_affected <- list(
   #
   rows_affected_query = function(con) {
     query <- trivial_query()
+    #' For queries issued with [dbSendQuery()],
     with_result(
-      #' For queries issued with [dbSendQuery()],
       dbSendQuery(con, query),
       {
         rc <- dbGetRowsAffected(res)

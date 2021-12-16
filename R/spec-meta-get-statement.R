@@ -12,8 +12,8 @@ spec_meta_get_statement <- list(
   #' `dbGetStatement()` returns a string, the query used in
   get_statement_query = function(con) {
     query <- trivial_query()
+    #' either [dbSendQuery()]
     with_result(
-      #' either [dbSendQuery()]
       dbSendQuery(con, query),
       {
         s <- dbGetStatement(res)
@@ -25,8 +25,8 @@ spec_meta_get_statement <- list(
   #
   get_statement_statement = function(con, table_name) {
     query <- paste0("CREATE TABLE ", table_name, " (a integer)")
+    #' or [dbSendStatement()].
     with_result(
-      #' or [dbSendStatement()].
       dbSendStatement(con, query),
       {
         s <- dbGetStatement(res)

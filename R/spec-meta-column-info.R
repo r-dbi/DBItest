@@ -74,8 +74,8 @@ spec_meta_column_info <- list(
         expect_identical(info$name, names(data))
       }
     )
+    #' If the query returns unnamed columns,
     with_result(
-      #' If the query returns unnamed columns,
       dbSendQuery(con, "SELECT 1.5, 2.5 AS a, 1.5, 3.5"),
       {
         info <- dbColumnInfo(res)
@@ -87,8 +87,8 @@ spec_meta_column_info <- list(
         expect_true(all(names(data) != ""))
       }
     )
+    #' Column names that correspond to SQL or R keywords are left unchanged.
     with_result(
-      #' Column names that correspond to SQL or R keywords are left unchanged.
       dbSendQuery(con, paste0("SELECT 1.5 AS ", dbQuoteIdentifier(con, "for"))),
       {
         info <- dbColumnInfo(res)

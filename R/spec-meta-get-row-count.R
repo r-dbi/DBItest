@@ -13,8 +13,8 @@ spec_meta_get_row_count <- list(
   #' the number of rows fetched so far.
   row_count_query = function(con) {
     query <- trivial_query()
+    #' After calling [dbSendQuery()],
     with_result(
-      #' After calling [dbSendQuery()],
       dbSendQuery(con, query),
       {
         rc <- dbGetRowCount(res)
@@ -70,9 +70,9 @@ spec_meta_get_row_count <- list(
   #
   row_count_statement = function(con, table_name) {
     query <- paste0("CREATE TABLE ", table_name, " (a integer)")
+    #' For data manipulation statements issued with
+    #' [dbSendStatement()],
     with_result(
-      #' For data manipulation statements issued with
-      #' [dbSendStatement()],
       dbSendStatement(con, query),
       {
         rc <- dbGetRowCount(res)

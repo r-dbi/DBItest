@@ -27,8 +27,8 @@ spec_meta_bind <- list(
   },
   #
   bind_empty = function(con) {
+    #' Calling `dbBind()` for a query without parameters
     with_result(
-      #' Calling `dbBind()` for a query without parameters
       dbSendQuery(con, trivial_query()),
       #' raises an error.
       expect_error(dbBind(res, list()))
