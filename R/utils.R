@@ -32,25 +32,6 @@ local_remove_test_table <- function(con, name, ..., .local_envir = parent.frame(
   withr::defer(try_silent(dbRemoveTable(con, name)), envir = .local_envir)
 }
 
-with_remove_test_table <- function(code, name = "test", con = "con", env = parent.frame()) {
-  code_sub <- substitute(code)
-
-  con <- as.name(con)
-
-  eval(
-    bquote({
-      on.exit(
-        try_silent(
-          dbRemoveTable(.(con), .(name))
-        ),
-        add = TRUE
-      )
-      local(.(code_sub))
-    }),
-    envir = env
-  )
-}
-
 # Calls `dbClearResult()` on `query` after exiting `frame`.
 local_result <- function(query, frame = rlang::caller_env()) {
   res <- query
