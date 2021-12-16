@@ -94,9 +94,25 @@ spec_sql_create_table <- list(
         expect_equal_df(test_out, test_in[0, , drop = FALSE])
         #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
       })
+    }
+  },
+
+  #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
+  create_table_name_quoted = function(ctx, con) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
+
+    if (isTRUE(ctx$tweaks$strict_identifier)) {
+      table_names <- "a"
+    } else {
+      table_names <- c("a", "with spaces", "with,comma")
+    }
+
+    for (table_name in table_names) {
+      test_in <- trivial_df()
 
       with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
-        #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
         dbCreateTable(con, dbQuoteIdentifier(con, table_name), test_in)
         test_out <- check_df(dbReadTable(con, table_name))
         expect_equal_df(test_out, test_in[0, , drop = FALSE])
