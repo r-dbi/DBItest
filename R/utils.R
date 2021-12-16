@@ -60,6 +60,7 @@ local_result <- function(query, frame = rlang::caller_env()) {
     },
     envir = frame
   )
+  res
 }
 
 # Evaluates the code inside local() after defining a variable "con"
