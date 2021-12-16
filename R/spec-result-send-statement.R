@@ -65,7 +65,10 @@ spec_result_send_statement <- list(
     on.exit(dbDisconnect(con))
     expect_warning(dbSendStatement(con, trivial_query()), NA)
 
-    expect_warning({ dbDisconnect(con); gc() })
+    expect_warning({
+      dbDisconnect(con)
+      gc()
+    })
     on.exit(NULL)
   },
 
