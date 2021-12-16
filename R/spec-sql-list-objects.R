@@ -78,12 +78,11 @@ spec_sql_list_objects <- list(
     }
 
     for (table_name in table_names) {
-      with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
-        dbWriteTable(con, dbQuoteIdentifier(con, table_name), data.frame(a = 2L))
-        objects <- dbListObjects(con)
-        quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
-        expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
-      })
+      local_remove_test_table(con, table_name)
+      dbWriteTable(con, dbQuoteIdentifier(con, table_name), data.frame(a = 2L))
+      objects <- dbListObjects(con)
+      quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
+      expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
     }
   },
 

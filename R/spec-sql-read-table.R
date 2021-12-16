@@ -225,19 +225,18 @@ spec_sql_read_table <- list(
     }
 
     for (table_name in table_names) {
-      with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
-        test_in <- data.frame(a = 1L)
-        dbWriteTable(con, table_name, test_in)
+      local_remove_test_table(con, table_name)
+      test_in <- data.frame(a = 1L)
+      dbWriteTable(con, table_name, test_in)
 
-        #' - If an unquoted table name as string: `dbReadTable()` will do the
-        #'   quoting,
-        test_out <- check_df(dbReadTable(con, table_name))
-        expect_equal_df(test_out, test_in)
-        #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
-        #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
-        test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
-        expect_equal_df(test_out, test_in)
-      })
+      #' - If an unquoted table name as string: `dbReadTable()` will do the
+      #'   quoting,
+      test_out <- check_df(dbReadTable(con, table_name))
+      expect_equal_df(test_out, test_in)
+      #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
+      #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
+      test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
+      expect_equal_df(test_out, test_in)
     }
   },
   #
