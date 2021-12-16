@@ -15,39 +15,30 @@ spec_result_fetch <- list(
   #' even if the result is a single value
   fetch_atomic = function(con) {
     query <- trivial_query()
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         rows <- check_df(dbFetch(res))
         expect_equal(rows, data.frame(a = 1.5))
-      }
-    )
+
   },
 
   #' or has one
   fetch_one_row = function(con) {
     query <- trivial_query(3, letters[1:3])
     result <- trivial_df(3, letters[1:3])
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         rows <- check_df(dbFetch(res))
         expect_identical(rows, result)
-      }
-    )
+
   },
 
   #' or zero rows.
   fetch_zero_rows = function(con) {
     query <-
       "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         rows <- check_df(dbFetch(res))
         expect_identical(class(rows), "data.frame")
-      }
-    )
+
   },
 
   #' An attempt to fetch from a closed result set raises an error.
@@ -64,29 +55,23 @@ spec_result_fetch <- list(
   #' greater or equal to -1 or Inf, an error is raised,
   fetch_n_bad = function(con) {
     query <- trivial_query()
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         expect_error(dbFetch(res, -2))
         expect_error(dbFetch(res, 1.5))
         expect_error(dbFetch(res, integer()))
         expect_error(dbFetch(res, 1:3))
         expect_error(dbFetch(res, NA_integer_))
-      }
-    )
+
   },
 
   #' but a subsequent call to `dbFetch()` with proper `n` argument succeeds.
   fetch_n_good_after_bad = function(con) {
     query <- trivial_query()
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         expect_error(dbFetch(res, NA_integer_))
         rows <- check_df(dbFetch(res))
         expect_equal(rows, data.frame(a = 1.5))
-      }
-    )
+
   },
 
   #' Calling `dbFetch()` on a result set from a data manipulation query
@@ -95,13 +80,10 @@ spec_result_fetch <- list(
   fetch_no_return_value = function(con, table_name) {
     query <- paste0("CREATE TABLE ", table_name, " (a integer)")
 
-    with_result(
-      dbSendStatement(con, query),
-      {
+    res <- local_result(dbSendStatement(con, query))
         expect_warning(rows <- check_df(dbFetch(res)))
         expect_identical(rows, data.frame())
-      }
-    )
+
   },
 
   #' @section Specification:
@@ -110,13 +92,10 @@ spec_result_fetch <- list(
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(3)
 
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         rows <- check_df(dbFetch(res))
         expect_identical(rows, result)
-      }
-    )
+
   },
 
   #' or more columns by default returns the entire result.
@@ -125,13 +104,10 @@ spec_result_fetch <- list(
       .ctx = ctx, paste("SELECT", 1:5 + 0.5, "AS a,", 4:0 + 0.5, "AS b"), .order_by = "a"
     )
 
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         rows <- check_df(dbFetch(res))
         expect_identical(rows, data.frame(a = 1:5 + 0.5, b = 4:0 + 0.5))
-      }
-    )
+
   },
 
   #' Multi-row queries can also be fetched progressively
@@ -139,9 +115,7 @@ spec_result_fetch <- list(
     query <- trivial_query(25, .ctx = ctx, .order_by = "a")
     result <- trivial_df(25)
 
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         #' by passing a whole number ([integer]
         rows <- check_df(dbFetch(res, 10L))
         expect_identical(rows, unrowname(result[1:10, , drop = FALSE]))
@@ -153,8 +127,7 @@ spec_result_fetch <- list(
         #' as the `n` argument.
         rows <- check_df(dbFetch(res, n = 5))
         expect_identical(rows, unrowname(result[21:25, , drop = FALSE]))
-      }
-    )
+
   },
 
   #' A value of [Inf] for the `n` argument is supported
@@ -163,13 +136,10 @@ spec_result_fetch <- list(
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(3)
 
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         rows <- check_df(dbFetch(res, n = Inf))
         expect_identical(rows, result)
-      }
-    )
+
   },
 
   #' If more rows than available are fetched, the result is returned in full
@@ -178,17 +148,14 @@ spec_result_fetch <- list(
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(3)
 
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         rows <- check_df(dbFetch(res, 5L))
         expect_identical(rows, result)
         #' If fewer rows than requested are returned, further fetches will
         #' return a data frame with zero rows.
         rows <- check_df(dbFetch(res))
         expect_identical(rows, result[0, , drop = FALSE])
-      }
-    )
+
   },
 
   #' If zero rows are fetched, the columns of the data frame are still fully
@@ -197,13 +164,10 @@ spec_result_fetch <- list(
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(0)
 
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         rows <- check_df(dbFetch(res, 0L))
         expect_identical(rows, result)
-      }
-    )
+
   },
 
   #' Fetching fewer rows than available is permitted,
@@ -212,13 +176,10 @@ spec_result_fetch <- list(
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(2)
 
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         rows <- check_df(dbFetch(res, 2L))
         expect_identical(rows, result)
-      }
-    )
+
   },
 
   #'
@@ -227,14 +188,11 @@ spec_result_fetch <- list(
     query <- trivial_query(column = "row_names")
     result <- trivial_df(column = "row_names")
 
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         rows <- check_df(dbFetch(res))
         expect_identical(rows, result)
         expect_identical(.row_names_info(rows), -1L)
-      }
-    )
+
   },
   #
   NULL

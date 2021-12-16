@@ -19,9 +19,7 @@ spec_meta_get_rows_affected <- list(
       "WHERE a < 6"
     )
     #' issued with [dbSendStatement()].
-    with_result(
-      dbSendStatement(con, query),
-      {
+    res <- local_result(dbSendStatement(con, query))
         rc <- dbGetRowsAffected(res)
         #' The value is available directly after the call
         expect_equal(rc, 5L)
@@ -29,16 +27,13 @@ spec_meta_get_rows_affected <- list(
         rc <- dbGetRowsAffected(res)
         #' and does not change after calling [dbFetch()].
         expect_equal(rc, 5L)
-      }
-    )
+
   },
   #
   rows_affected_query = function(con) {
     query <- trivial_query()
     #' For queries issued with [dbSendQuery()],
-    with_result(
-      dbSendQuery(con, query),
-      {
+    res <- local_result(dbSendQuery(con, query))
         rc <- dbGetRowsAffected(res)
         #' zero is returned before
         expect_equal(rc, 0L)
@@ -46,8 +41,7 @@ spec_meta_get_rows_affected <- list(
         rc <- dbGetRowsAffected(res)
         #' and after the call to `dbFetch()`.
         expect_equal(rc, 0L)
-      }
-    )
+
   },
   #
   get_rows_affected_error = function(con, table_name) {
