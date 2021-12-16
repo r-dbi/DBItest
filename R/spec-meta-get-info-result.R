@@ -8,7 +8,7 @@ spec_meta_get_info_result <- list(
     #' @return
     #' For objects of class [DBIResult-class], `dbGetInfo()`
     info <- res <- local_result(dbSendQuery(con, trivial_query()))
-      dbGetInfo(res)
+    dbGetInfo(res)
 
     #' returns a named list
     expect_type(info, "list")

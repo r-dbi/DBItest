@@ -14,20 +14,18 @@ spec_meta_get_statement <- list(
     query <- trivial_query()
     #' either [dbSendQuery()]
     res <- local_result(dbSendQuery(con, query))
-        s <- dbGetStatement(res)
-        expect_type(s, "character")
-        expect_identical(s, query)
-
+    s <- dbGetStatement(res)
+    expect_type(s, "character")
+    expect_identical(s, query)
   },
   #
   get_statement_statement = function(con, table_name) {
     query <- paste0("CREATE TABLE ", table_name, " (a integer)")
     #' or [dbSendStatement()].
     res <- local_result(dbSendStatement(con, query))
-        s <- dbGetStatement(res)
-        expect_type(s, "character")
-        expect_identical(s, query)
-
+    s <- dbGetStatement(res)
+    expect_type(s, "character")
+    expect_identical(s, query)
   },
   #
   get_statement_error = function(con) {
