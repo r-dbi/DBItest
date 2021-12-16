@@ -506,6 +506,10 @@ spec_sql_append_table <- list(
 
   #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
   append_table_name_quoted = function(ctx, con) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
+
     #' to support databases that allow non-syntactic names for their objects:
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
