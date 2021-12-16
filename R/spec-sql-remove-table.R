@@ -149,10 +149,20 @@ spec_sql_remove_table <- list(
         #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
       })
     }
+  },
+
+  #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
+  remove_table_name_quoted = function(ctx, con) {
+    if (isTRUE(ctx$tweaks$strict_identifier)) {
+      table_names <- "a"
+    } else {
+      table_names <- c("a", "with spaces", "with,comma")
+    }
+
+    test_in <- data.frame(a = 1L)
 
     for (table_name in table_names) {
       with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
-        #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
         dbWriteTable(con, table_name, test_in)
         expect_true(dbRemoveTable(con, dbQuoteIdentifier(con, table_name)))
       })

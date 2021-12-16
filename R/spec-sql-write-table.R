@@ -123,9 +123,21 @@ spec_sql_write_table <- list(
         expect_equal_df(test_out, test_in)
         #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
       })
+    }
+  },
+
+  #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
+  write_table_name_quoted = function(ctx, con) {
+    if (isTRUE(ctx$tweaks$strict_identifier)) {
+      table_names <- "a"
+    } else {
+      table_names <- c("a", "with spaces", "with,comma")
+    }
+
+    for (table_name in table_names) {
+      test_in <- data.frame(a = 1)
 
       with_remove_test_table(name = dbQuoteIdentifier(con, table_name), {
-        #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
         dbWriteTable(con, dbQuoteIdentifier(con, table_name), test_in)
         test_out <- check_df(dbReadTable(con, table_name))
         expect_equal_df(test_out, test_in)
