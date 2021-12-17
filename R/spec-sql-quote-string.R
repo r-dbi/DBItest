@@ -2,7 +2,7 @@
 #' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_sql_quote_string <- list(
   quote_string_formals = function() {
     # <establish formals of described functions>

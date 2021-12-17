@@ -2,7 +2,7 @@
 #' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_sql_read_table <- list(
   read_table_formals = function() {
     # <establish formals of described functions>

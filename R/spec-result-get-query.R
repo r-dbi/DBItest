@@ -2,7 +2,7 @@
 #' @family result specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_result_get_query <- list(
   get_query_formals = function() {
     # <establish formals of described functions>

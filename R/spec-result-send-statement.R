@@ -2,7 +2,7 @@
 #' @family result specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_result_send_statement <- list(
   send_statement_formals = function() {
     # <establish formals of described functions>

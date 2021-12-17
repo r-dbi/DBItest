@@ -2,7 +2,7 @@
 #' @family result specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_result_send_query <- list(
   send_query_formals = function() {
     # <establish formals of described functions>

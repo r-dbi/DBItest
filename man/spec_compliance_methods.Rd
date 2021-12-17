@@ -23,4 +23,3 @@ and have an ellipsis \code{...} in their formals for extensibility.
 }
 
 \concept{compliance specifications}
-\keyword{internal}

@@ -48,4 +48,3 @@ Other meta specifications:
 \code{\link{spec_meta_is_valid}}
 }
 \concept{meta specifications}
-\keyword{internal}

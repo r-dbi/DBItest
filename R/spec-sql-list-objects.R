@@ -2,7 +2,7 @@
 #' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_sql_list_objects <- list(
   list_objects_formals = function() {
     # <establish formals of described functions>

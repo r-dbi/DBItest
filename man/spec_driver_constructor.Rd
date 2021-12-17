@@ -28,4 +28,3 @@ Other driver specifications:
 \code{\link{spec_get_info}}
 }
 \concept{driver specifications}
-\keyword{internal}

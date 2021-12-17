@@ -2,7 +2,7 @@
 #' @family meta specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_meta_get_statement <- list(
   get_statement_formals = function() {
     # <establish formals of described functions>

@@ -38,4 +38,3 @@ Other transaction specifications:
 \code{\link{spec_transaction_begin_commit_rollback}}
 }
 \concept{transaction specifications}
-\keyword{internal}

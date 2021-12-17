@@ -2,7 +2,7 @@
 #' @family result specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_result_execute <- list(
   execute_formals = function() {
     # <establish formals of described functions>

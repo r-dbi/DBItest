@@ -2,7 +2,7 @@
 #' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_sql_unquote_identifier <- list(
   unquote_identifier_formals = function() {
     # <establish formals of described functions>

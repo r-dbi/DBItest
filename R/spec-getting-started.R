@@ -3,7 +3,7 @@
 #' @usage NULL
 #' @format NULL
 #' @importFrom desc desc_get_deps
-#' @keywords internal
+#' @keywords NULL
 #' @section Definition:
 spec_getting_started <- list(
   package_dependencies = function(ctx) {

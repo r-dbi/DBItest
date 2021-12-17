@@ -2,7 +2,7 @@
 #' @family driver specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 #' @inherit test_data_type
 spec_driver_data_type <- list(
   data_type_formals = function() {

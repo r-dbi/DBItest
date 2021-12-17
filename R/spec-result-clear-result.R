@@ -2,7 +2,7 @@
 #' @family result specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_result_clear_result <- list(
   clear_result_formals = function() {
     # <establish formals of described functions>

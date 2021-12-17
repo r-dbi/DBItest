@@ -2,7 +2,7 @@
 #' @family transaction specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_transaction_begin_commit_rollback <- list(
   begin_formals = function() {
     # <establish formals of described functions>

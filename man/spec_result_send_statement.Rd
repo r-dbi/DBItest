@@ -112,4 +112,3 @@ Other result specifications:
 \code{\link{spec_result_send_query}}
 }
 \concept{result specifications}
-\keyword{internal}

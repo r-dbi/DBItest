@@ -73,4 +73,3 @@ Other meta specifications:
 \concept{connection specifications}
 \concept{driver specifications}
 \concept{meta specifications}
-\keyword{internal}

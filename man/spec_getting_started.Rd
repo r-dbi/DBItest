@@ -19,4 +19,3 @@ to the backend author to adopt this convention or not.
 }
 
 \concept{getting specifications}
-\keyword{internal}

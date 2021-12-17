@@ -2,7 +2,7 @@
 #' @family meta specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_meta_get_rows_affected <- list(
   get_rows_affected_formals = function() {
     # <establish formals of described functions>

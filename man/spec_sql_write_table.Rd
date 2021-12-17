@@ -168,4 +168,3 @@ Other sql specifications:
 \code{\link{spec_sql_unquote_identifier}}
 }
 \concept{sql specifications}
-\keyword{internal}

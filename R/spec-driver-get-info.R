@@ -2,7 +2,7 @@
 #' @family driver specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 #' @name spec_get_info
 spec_driver_get_info <- list(
   #' @return

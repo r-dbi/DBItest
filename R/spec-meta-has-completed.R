@@ -2,7 +2,7 @@
 #' @family meta specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_meta_has_completed <- list(
   has_completed_formals = function() {
     # <establish formals of described functions>

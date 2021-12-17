@@ -2,7 +2,7 @@
 #' @family transaction specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_transaction_with_transaction <- list(
   with_transaction_formals = function() {
     # <establish formals of described functions>

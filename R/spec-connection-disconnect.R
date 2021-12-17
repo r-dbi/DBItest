@@ -2,7 +2,7 @@
 #' @family connection specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_connection_disconnect <- list(
   disconnect_formals = function() {
     # <establish formals of described functions>

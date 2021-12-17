@@ -36,4 +36,3 @@ Other meta specifications:
 \code{\link{spec_meta_has_completed}}
 }
 \concept{meta specifications}
-\keyword{internal}

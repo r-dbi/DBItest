@@ -2,7 +2,7 @@
 #' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 #' @importFrom lubridate with_tz
 spec_sql_write_table <- list(
   write_table_formals = function() {

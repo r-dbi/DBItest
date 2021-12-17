@@ -56,4 +56,3 @@ Other sql specifications:
 \code{\link{spec_sql_write_table}}
 }
 \concept{sql specifications}
-\keyword{internal}

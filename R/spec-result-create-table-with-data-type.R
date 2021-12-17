@@ -2,7 +2,7 @@
 #' @family result specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_result_create_table_with_data_type <- list(
   #' @section Specification:
   #' All data types returned by `dbDataType()` are usable in an SQL statement
