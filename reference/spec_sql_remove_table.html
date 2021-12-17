@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -56,16 +56,21 @@
     </div>
 
 
-    <div id="ref-sections">
     <div id="value">
     <h2>Value</h2>
-    <p><code>dbRemoveTable()</code> returns <code>TRUE</code>, invisibly.
-If the table does not exist, an error is raised.
-An attempt to remove a view with this function may result in an error.
-An error is raised when calling this method for a closed
+    <p><code>dbRemoveTable()</code> returns <code>TRUE</code>, invisibly.</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+<p>If the table does not exist, an error is raised.
+An attempt to remove a view with this function may result in an error.</p>
+<p>An error is raised when calling this method for a closed
 or invalid connection.
 An error is also raised
-if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>or if this results in a non-scalar.</p>
+if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>
+or if this results in a non-scalar.</p>
     </div>
     <div id="additional-arguments">
     <h2>Additional arguments</h2>
@@ -98,6 +103,21 @@ quoting,
 perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
 <li><p>If the result of a call to <code>dbQuoteIdentifier()</code>: no more quoting is done</p></li>
 </ul></div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other sql specifications: 
+<code><a href="spec_sql_append_table.html">spec_sql_append_table</a></code>,
+<code><a href="spec_sql_create_table.html">spec_sql_create_table</a></code>,
+<code><a href="spec_sql_exists_table.html">spec_sql_exists_table</a></code>,
+<code><a href="spec_sql_list_fields.html">spec_sql_list_fields</a></code>,
+<code><a href="spec_sql_list_objects.html">spec_sql_list_objects</a></code>,
+<code><a href="spec_sql_list_tables.html">spec_sql_list_tables</a></code>,
+<code><a href="spec_sql_quote_identifier.html">spec_sql_quote_identifier</a></code>,
+<code><a href="spec_sql_quote_literal.html">spec_sql_quote_literal</a></code>,
+<code><a href="spec_sql_quote_string.html">spec_sql_quote_string</a></code>,
+<code><a href="spec_sql_read_table.html">spec_sql_read_table</a></code>,
+<code><a href="spec_sql_unquote_identifier.html">spec_sql_unquote_identifier</a></code>,
+<code><a href="spec_sql_write_table.html">spec_sql_write_table</a></code></p></div>
     </div>
 
   </div>
@@ -112,7 +132,7 @@ perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
 </div>
 
       </footer></div>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -56,12 +56,16 @@
     </div>
 
 
-    <div id="ref-sections">
     <div id="value">
     <h2>Value</h2>
     <p><code>dbClearResult()</code> returns <code>TRUE</code>, invisibly, for result sets obtained from
-both <code>dbSendQuery()</code>and <code>dbSendStatement()</code>.
-An attempt to close an already closed result set issues a warning
+both <code>dbSendQuery()</code>and <code>dbSendStatement()</code>.</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+<p>An attempt to close an already closed result set issues a warning
 in both cases.</p>
     </div>
     <div id="specification">
@@ -73,6 +77,16 @@ the result of a query or update operation.
 The DBI backend can expect a call to <code>dbClearResult()</code> for each
 <code>dbSendQuery()</code> or <code>dbSendStatement()</code> call.</p>
     </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other result specifications: 
+<code><a href="spec_result_create_table_with_data_type.html">spec_result_create_table_with_data_type</a></code>,
+<code><a href="spec_result_execute.html">spec_result_execute</a></code>,
+<code><a href="spec_result_fetch.html">spec_result_fetch</a></code>,
+<code><a href="spec_result_get_query.html">spec_result_get_query</a></code>,
+<code><a href="spec_result_roundtrip.html">spec_result_roundtrip</a></code>,
+<code><a href="spec_result_send_query.html">spec_result_send_query</a></code>,
+<code><a href="spec_result_send_statement.html">spec_result_send_statement</a></code></p></div>
     </div>
 
   </div>
@@ -87,7 +101,7 @@ The DBI backend can expect a call to <code>dbClearResult()</code> for each
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
 </div>
 
       </footer></div>

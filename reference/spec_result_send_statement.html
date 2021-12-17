@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -56,7 +56,6 @@
     </div>
 
 
-    <div id="ref-sections">
     <div id="value">
     <h2>Value</h2>
     <p><code>dbSendStatement()</code> returns
@@ -64,13 +63,20 @@ an S4 object that inherits from DBIResult.
 The result set can be used with <code>dbGetRowsAffected()</code> to
 determine the number of rows affected by the query.
 Once you have finished using a result, make sure to clear it
-with <code>dbClearResult()</code>.
-An error is raised when issuing a statement over a closed
+with <code>dbClearResult()</code>.</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+<p>An error is raised when issuing a statement over a closed
 or invalid connection,
 or if the statement is not a non-<code>NA</code> string.
 An error is also raised if the syntax of the query is invalid
 and all query parameters are given (by passing the <code>params</code> argument)
 or the <code>immediate</code> argument is set to <code>TRUE</code>.</p>
+
+
     </div>
     <div id="specification">
     <h2>Specification</h2>
@@ -131,6 +137,16 @@ the backend tries <code>immediate = TRUE</code> (and gives a message)</p></li>
 </ol></li>
 </ol></li>
 </ol></div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other result specifications: 
+<code><a href="spec_result_clear_result.html">spec_result_clear_result</a></code>,
+<code><a href="spec_result_create_table_with_data_type.html">spec_result_create_table_with_data_type</a></code>,
+<code><a href="spec_result_execute.html">spec_result_execute</a></code>,
+<code><a href="spec_result_fetch.html">spec_result_fetch</a></code>,
+<code><a href="spec_result_get_query.html">spec_result_get_query</a></code>,
+<code><a href="spec_result_roundtrip.html">spec_result_roundtrip</a></code>,
+<code><a href="spec_result_send_query.html">spec_result_send_query</a></code></p></div>
     </div>
 
   </div>
@@ -145,7 +161,7 @@ the backend tries <code>immediate = TRUE</code> (and gives a message)</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
 </div>
 
       </footer></div>

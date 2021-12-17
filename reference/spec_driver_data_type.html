@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -56,15 +56,19 @@
     </div>
 
 
-    <div id="ref-sections">
     <div id="value">
     <h2>Value</h2>
     <p><code>dbDataType()</code> returns the SQL type that corresponds to the <code>obj</code> argument
 as a non-empty
 character string.
 For data frames, a character vector with one element per column
-is returned.
-An error is raised for invalid values for the <code>obj</code> argument such as a
+is returned.</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+<p>An error is raised for invalid values for the <code>obj</code> argument such as a
 <code>NULL</code> value.</p>
     </div>
     <div id="specification">
@@ -94,6 +98,12 @@ The SQL data type for <a href="https://rdrr.io/r/base/factor.html" class="extern
 and <a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a> is the same as for character.
 The behavior for other object types is not specified.</p>
     </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other driver specifications: 
+<code><a href="spec_driver_connect.html">spec_driver_connect</a></code>,
+<code><a href="spec_driver_constructor.html">spec_driver_constructor</a></code>,
+<code><a href="spec_get_info.html">spec_get_info</a></code></p></div>
     </div>
 
   </div>
@@ -108,7 +118,7 @@ The behavior for other object types is not specified.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
 </div>
 
       </footer></div>

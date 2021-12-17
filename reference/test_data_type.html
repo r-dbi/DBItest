@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -55,9 +55,10 @@
     <p>test_data_type</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">test_data_type</span><span class="op">(</span><span class="va">ctx</span>, <span class="va">dbObj</span><span class="op">)</span></code></pre></div>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">test_data_type</span><span class="op">(</span><span class="va">ctx</span>, <span class="va">dbObj</span><span class="op">)</span></code></pre></div>
+    </div>
 
-    <div id="ref-sections">
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>ctx, dbObj</dt>
@@ -69,8 +70,13 @@
 as a non-empty
 character string.
 For data frames, a character vector with one element per column
-is returned.
-An error is raised for invalid values for the <code>obj</code> argument such as a
+is returned.</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+<p>An error is raised for invalid values for the <code>obj</code> argument such as a
 <code>NULL</code> value.</p>
     </div>
     <div id="specification">
@@ -100,7 +106,6 @@ The SQL data type for <a href="https://rdrr.io/r/base/factor.html" class="extern
 and <a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a> is the same as for character.
 The behavior for other object types is not specified.</p>
     </div>
-    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -114,7 +119,7 @@ The behavior for other object types is not specified.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
 </div>
 
       </footer></div>

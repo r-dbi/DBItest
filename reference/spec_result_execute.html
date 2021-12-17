@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
       </span>
     </div>
 
@@ -56,15 +56,19 @@
     </div>
 
 
-    <div id="ref-sections">
     <div id="value">
     <h2>Value</h2>
     <p><code>dbExecute()</code> always returns a
 scalar
 numeric
 that specifies the number of rows affected
-by the statement.
-An error is raised when issuing a statement over a closed
+by the statement.</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+<p>An error is raised when issuing a statement over a closed
 or invalid connection,
 if the syntax of the statement is invalid,
 or if the statement is not a non-<code>NA</code> string.</p>
@@ -117,6 +121,16 @@ the backend tries <code>immediate = TRUE</code> (and gives a message)</p></li>
 </ol></li>
 </ol></li>
 </ol></div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other result specifications: 
+<code><a href="spec_result_clear_result.html">spec_result_clear_result</a></code>,
+<code><a href="spec_result_create_table_with_data_type.html">spec_result_create_table_with_data_type</a></code>,
+<code><a href="spec_result_fetch.html">spec_result_fetch</a></code>,
+<code><a href="spec_result_get_query.html">spec_result_get_query</a></code>,
+<code><a href="spec_result_roundtrip.html">spec_result_roundtrip</a></code>,
+<code><a href="spec_result_send_query.html">spec_result_send_query</a></code>,
+<code><a href="spec_result_send_statement.html">spec_result_send_statement</a></code></p></div>
     </div>
 
   </div>
@@ -131,7 +145,7 @@ the backend tries <code>immediate = TRUE</code> (and gives a message)</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
 </div>
 
       </footer></div>
