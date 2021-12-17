@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![rcc](https://github.com/r-dbi/DBItest/workflows/rcc/badge.svg)](https://github.com/r-dbi/DBItest/actions)
-[![Codecov test coverage](https://codecov.io/gh/r-dbi/DBItest/branch/master/graph/badge.svg)](https://codecov.io/gh/r-dbi/DBItest?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/r-dbi/DBItest/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-dbi/DBItest?branch=main)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/DBItest)](https://cran.r-project.org/package=DBItest)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3503/badge)](https://bestpractices.coreinfrastructure.org/projects/3503)
 <!-- badges: end -->
