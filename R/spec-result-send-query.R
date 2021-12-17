@@ -1,7 +1,8 @@
 #' spec_result_send_query
+#' @family result specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_result_send_query <- list(
   send_query_formals = function() {
     # <establish formals of described functions>
@@ -21,6 +22,8 @@ spec_result_send_query <- list(
     dbClearResult(res)
   },
 
+  #'
+  #' @section Failure modes:
   #' An error is raised when issuing a query over a closed
   send_query_closed_connection = function(ctx, closed_con) {
     expect_error(dbSendQuery(closed_con, trivial_query()))
@@ -41,6 +44,8 @@ spec_result_send_query <- list(
   #' An error is also raised if the syntax of the query is invalid
   #' and all query parameters are given (by passing the `params` argument)
   #' or the `immediate` argument is set to `TRUE`.
+  #'
+  #' @section Failure modes:
   send_query_syntax_error = function(con) {
     expect_error(dbSendQuery(con, "SELLECT", params = list()))
     expect_error(dbSendQuery(con, "SELLECT", immediate = TRUE))

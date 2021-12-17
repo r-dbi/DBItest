@@ -44,9 +44,28 @@ The literals \code{"NA"} or \code{"NULL"} are not treated specially.
 \code{NA} should be translated to an unquoted SQL \code{NULL},
 so that the query \verb{SELECT * FROM (SELECT 1) a WHERE ... IS NULL}
 returns one row.
+}
+
+\section{Failure modes}{
+
 
 Passing a list
 for the \code{x} argument raises an error.
 }
 
-\keyword{internal}
+\seealso{
+Other sql specifications: 
+\code{\link{spec_sql_append_table}},
+\code{\link{spec_sql_create_table}},
+\code{\link{spec_sql_exists_table}},
+\code{\link{spec_sql_list_fields}},
+\code{\link{spec_sql_list_objects}},
+\code{\link{spec_sql_list_tables}},
+\code{\link{spec_sql_quote_identifier}},
+\code{\link{spec_sql_quote_string}},
+\code{\link{spec_sql_read_table}},
+\code{\link{spec_sql_remove_table}},
+\code{\link{spec_sql_unquote_identifier}},
+\code{\link{spec_sql_write_table}}
+}
+\concept{sql specifications}

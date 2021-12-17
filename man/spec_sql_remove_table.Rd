@@ -6,6 +6,12 @@
 \title{spec_sql_remove_table}
 \value{
 \code{dbRemoveTable()} returns \code{TRUE}, invisibly.
+}
+\description{
+spec_sql_remove_table
+}
+\section{Failure modes}{
+
 If the table does not exist, an error is raised.
 An attempt to remove a view with this function may result in an error.
 
@@ -15,9 +21,7 @@ An error is also raised
 if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}
 or if this results in a non-scalar.
 }
-\description{
-spec_sql_remove_table
-}
+
 \section{Additional arguments}{
 
 The following arguments are not part of the \code{dbRemoveTable()} generic
@@ -57,4 +61,19 @@ perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 }
 }
 
-\keyword{internal}
+\seealso{
+Other sql specifications: 
+\code{\link{spec_sql_append_table}},
+\code{\link{spec_sql_create_table}},
+\code{\link{spec_sql_exists_table}},
+\code{\link{spec_sql_list_fields}},
+\code{\link{spec_sql_list_objects}},
+\code{\link{spec_sql_list_tables}},
+\code{\link{spec_sql_quote_identifier}},
+\code{\link{spec_sql_quote_literal}},
+\code{\link{spec_sql_quote_string}},
+\code{\link{spec_sql_read_table}},
+\code{\link{spec_sql_unquote_identifier}},
+\code{\link{spec_sql_write_table}}
+}
+\concept{sql specifications}

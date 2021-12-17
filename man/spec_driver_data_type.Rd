@@ -10,12 +10,16 @@ as a non-empty
 character string.
 For data frames, a character vector with one element per column
 is returned.
-An error is raised for invalid values for the \code{obj} argument such as a
-\code{NULL} value.
 }
 \description{
 spec_driver_data_type
 }
+\section{Failure modes}{
+
+An error is raised for invalid values for the \code{obj} argument such as a
+\code{NULL} value.
+}
+
 \section{Specification}{
 
 The backend can override the \code{\link[=dbDataType]{dbDataType()}} generic
@@ -43,4 +47,10 @@ and \link{ordered} is the same as for character.
 The behavior for other object types is not specified.
 }
 
-\keyword{internal}
+\seealso{
+Other driver specifications: 
+\code{\link{spec_driver_connect}},
+\code{\link{spec_driver_constructor}},
+\code{\link{spec_get_info}}
+}
+\concept{driver specifications}

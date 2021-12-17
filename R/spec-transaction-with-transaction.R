@@ -1,7 +1,8 @@
 #' spec_transaction_with_transaction
+#' @family transaction specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_transaction_with_transaction <- list(
   with_transaction_formals = function() {
     # <establish formals of described functions>
@@ -15,6 +16,8 @@ spec_transaction_with_transaction <- list(
     expect_identical(dbWithTransaction(con, name), name)
   },
 
+  #'
+  #' @section Failure modes:
   #' Failure to initiate the transaction
   #' (e.g., if the connection is closed
   with_transaction_error_closed = function(ctx, closed_con) {

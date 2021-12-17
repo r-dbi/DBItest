@@ -1,7 +1,8 @@
 #' spec_sql_list_objects
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_sql_list_objects <- list(
   list_objects_formals = function() {
     # <establish formals of described functions>
@@ -86,6 +87,8 @@ spec_sql_list_objects <- list(
     }
   },
 
+  #'
+  #' @section Failure modes:
   #' An error is raised when calling this method for a closed
   list_objects_closed_connection = function(ctx, closed_con) {
     expect_error(dbListObjects(closed_con))

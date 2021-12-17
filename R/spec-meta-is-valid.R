@@ -1,7 +1,8 @@
 #' spec_meta_is_valid
+#' @family meta specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_meta_is_valid <- list(
   is_valid_formals = function() {
     # <establish formals of described functions>

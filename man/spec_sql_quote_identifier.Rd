@@ -15,13 +15,17 @@ argument, it is returned unchanged.
 Passing objects of class \link{SQL} should also return them unchanged.
 (For backends it may be most convenient to return \link{SQL} objects
 to achieve this behavior, but this is not required.)
-
-An error is raised if the input contains \code{NA},
-but not for an empty string.
 }
 \description{
 spec_sql_quote_identifier
 }
+\section{Failure modes}{
+
+
+An error is raised if the input contains \code{NA},
+but not for an empty string.
+}
+
 \section{Specification}{
 
 Calling \code{\link[=dbGetQuery]{dbGetQuery()}} for a query of the format \verb{SELECT 1 AS ...}
@@ -46,4 +50,19 @@ should be performed only when executing a query,
 and not by \code{dbQuoteIdentifier()}.
 }
 
-\keyword{internal}
+\seealso{
+Other sql specifications: 
+\code{\link{spec_sql_append_table}},
+\code{\link{spec_sql_create_table}},
+\code{\link{spec_sql_exists_table}},
+\code{\link{spec_sql_list_fields}},
+\code{\link{spec_sql_list_objects}},
+\code{\link{spec_sql_list_tables}},
+\code{\link{spec_sql_quote_literal}},
+\code{\link{spec_sql_quote_string}},
+\code{\link{spec_sql_read_table}},
+\code{\link{spec_sql_remove_table}},
+\code{\link{spec_sql_unquote_identifier}},
+\code{\link{spec_sql_write_table}}
+}
+\concept{sql specifications}

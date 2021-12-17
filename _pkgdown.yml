@@ -15,22 +15,54 @@ reference:
 - title: Test setup
   desc: Functions to include in a backend to enable DBI tests.
   contents:
-  - '`DBItest-package`'
-  - '`make_context`'
-  - '`tweaks`'
+  - DBItest-package
+  - make_context
+  - tweaks
 
 - title: Test runners
   desc: Functions that run a set of tests.
   contents:
-  - '`test_all`'
-  - '`test_getting_started`'
-  - '`test_driver`'
-  - '`test_connection`'
-  - '`test_result`'
-  - '`test_sql`'
-  - '`test_meta`'
-  - '`test_transaction`'
-  - '`test_compliance`'
+    - test_all
+
+- title: Getting started
+  contents:
+    - test_getting_started
+    - starts_with("spec_getting_started")
+
+- title: The "Driver" class
+  contents:
+    - test_driver
+    - starts_with("spec_driver")
+
+- title: The "Connection" class
+  contents:
+    - test_connection
+    - starts_with("spec_connection")
+
+- title: The "Result" class
+  contents:
+    - test_result
+    - starts_with("spec_result")
+
+- title: SQL methods
+  contents:
+    - test_sql
+    - starts_with("spec_sql")
+
+- title: Metadata functions
+  contents:
+    - test_meta
+    - starts_with("spec_meta")
+
+- title: Transaction functions
+  contents:
+    - test_transaction
+    - starts_with("spec_transaction")
+
+- title: Full compliance to DBI
+  contents:
+    - test_compliance
+    - starts_with("spec_compliance")
 
 development:
   mode: auto

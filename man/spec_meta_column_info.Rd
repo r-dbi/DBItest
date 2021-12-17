@@ -14,12 +14,15 @@ of the R columns of the data frame that is returned from \code{\link[=dbFetch]{d
 The \code{"type"} column is of type \code{character} and only for information.
 Do not compute on the \code{"type"} column, instead use \code{dbFetch(res, n = 0)}
 to create a zero-row data frame initialized with the correct data types.
-
-An attempt to query columns for a closed result set raises an error.
 }
 \description{
 spec_meta_column_info
 }
+\section{Failure modes}{
+
+An attempt to query columns for a closed result set raises an error.
+}
+
 \section{Specification}{
 
 
@@ -27,9 +30,21 @@ A column named \code{row_names} is treated like any other column.
 
 The column names are always consistent
 with the data returned by \code{dbFetch()}.
+
 If the query returns unnamed columns,
 non-empty and non-\code{NA} names are assigned.
+
 Column names that correspond to SQL or R keywords are left unchanged.
 }
 
-\keyword{internal}
+\seealso{
+Other meta specifications: 
+\code{\link{spec_get_info}},
+\code{\link{spec_meta_bind}},
+\code{\link{spec_meta_get_row_count}},
+\code{\link{spec_meta_get_rows_affected}},
+\code{\link{spec_meta_get_statement}},
+\code{\link{spec_meta_has_completed}},
+\code{\link{spec_meta_is_valid}}
+}
+\concept{meta specifications}

@@ -11,6 +11,12 @@ columns as fields in the result set,
 even if the result is a single value
 or has one
 or zero rows.
+}
+\description{
+spec_result_fetch
+}
+\section{Failure modes}{
+
 An attempt to fetch from a closed result set raises an error.
 If the \code{n} argument is not an atomic whole number
 greater or equal to -1 or Inf, an error is raised,
@@ -19,9 +25,7 @@ Calling \code{dbFetch()} on a result set from a data manipulation query
 created by \code{\link[=dbSendStatement]{dbSendStatement()}}
 can be fetched and return an empty data frame, with a warning.
 }
-\description{
-spec_result_fetch
-}
+
 \section{Specification}{
 
 Fetching multi-row queries with one
@@ -44,4 +48,14 @@ no warning is issued when clearing the result set.
 A column named \code{row_names} is treated like any other column.
 }
 
-\keyword{internal}
+\seealso{
+Other result specifications: 
+\code{\link{spec_result_clear_result}},
+\code{\link{spec_result_create_table_with_data_type}},
+\code{\link{spec_result_execute}},
+\code{\link{spec_result_get_query}},
+\code{\link{spec_result_roundtrip}},
+\code{\link{spec_result_send_query}},
+\code{\link{spec_result_send_statement}}
+}
+\concept{result specifications}

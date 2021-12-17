@@ -1,7 +1,8 @@
 #' spec_meta_get_row_count
+#' @family meta specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_meta_get_row_count <- list(
   get_row_count_formals = function() {
     # <establish formals of described functions>
@@ -69,7 +70,8 @@ spec_meta_get_row_count <- list(
     #' and after calling `dbFetch()`.
     expect_equal(rc, 0L)
   },
-  #
+  #'
+  #' @section Failure modes:
   get_row_count_error = function(con) {
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)

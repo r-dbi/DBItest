@@ -1,7 +1,8 @@
 #' spec_meta_column_info
+#' @family meta specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_meta_column_info <- list(
   column_info_formals = function() {
     # <establish formals of described functions>
@@ -35,6 +36,7 @@ spec_meta_column_info <- list(
 
 
   #'
+  #' @section Failure modes:
   #' An attempt to query columns for a closed result set raises an error.
   column_info_closed = function(con) {
     query <- trivial_query()

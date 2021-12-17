@@ -18,10 +18,29 @@ it is also removed from the list of database tables.
 The same applies to temporary tables if supported by the database.
 
 The returned names are suitable for quoting with \code{dbQuoteIdentifier()}.
-An error is raised when calling this method for a closed
-or invalid connection.
 }
 \description{
 spec_sql_list_tables
 }
-\keyword{internal}
+\section{Failure modes}{
+
+An error is raised when calling this method for a closed
+or invalid connection.
+}
+
+\seealso{
+Other sql specifications: 
+\code{\link{spec_sql_append_table}},
+\code{\link{spec_sql_create_table}},
+\code{\link{spec_sql_exists_table}},
+\code{\link{spec_sql_list_fields}},
+\code{\link{spec_sql_list_objects}},
+\code{\link{spec_sql_quote_identifier}},
+\code{\link{spec_sql_quote_literal}},
+\code{\link{spec_sql_quote_string}},
+\code{\link{spec_sql_read_table}},
+\code{\link{spec_sql_remove_table}},
+\code{\link{spec_sql_unquote_identifier}},
+\code{\link{spec_sql_write_table}}
+}
+\concept{sql specifications}

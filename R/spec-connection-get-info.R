@@ -1,7 +1,8 @@
 #' spec_connection_get_info
+#' @family connection specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 #' @rdname spec_get_info
 spec_connection_get_info <- list(
   #' @return

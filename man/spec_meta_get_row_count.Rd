@@ -21,10 +21,24 @@ For data manipulation statements issued with
 \code{\link[=dbSendStatement]{dbSendStatement()}},
 zero is returned before
 and after calling \code{dbFetch()}.
-Attempting to get the row count for a result set cleared with
-\code{\link[=dbClearResult]{dbClearResult()}} gives an error.
 }
 \description{
 spec_meta_get_row_count
 }
-\keyword{internal}
+\section{Failure modes}{
+
+Attempting to get the row count for a result set cleared with
+\code{\link[=dbClearResult]{dbClearResult()}} gives an error.
+}
+
+\seealso{
+Other meta specifications: 
+\code{\link{spec_get_info}},
+\code{\link{spec_meta_bind}},
+\code{\link{spec_meta_column_info}},
+\code{\link{spec_meta_get_rows_affected}},
+\code{\link{spec_meta_get_statement}},
+\code{\link{spec_meta_has_completed}},
+\code{\link{spec_meta_is_valid}}
+}
+\concept{meta specifications}

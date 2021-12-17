@@ -15,13 +15,17 @@ argument, it is returned unchanged (but wrapped in a list).
 Passing objects of class \link{Id} should also return them unchanged (but wrapped in a list).
 (For backends it may be most convenient to return \link{Id} objects
 to achieve this behavior, but this is not required.)
-
-An error is raised if plain character vectors are passed as the \code{x}
-argument.
 }
 \description{
 spec_sql_unquote_identifier
 }
+\section{Failure modes}{
+
+
+An error is raised if plain character vectors are passed as the \code{x}
+argument.
+}
+
 \section{Specification}{
 
 For any character vector of length one, quoting (with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}})
@@ -42,4 +46,19 @@ and then quoting gives the same result as quoting the identifier
 constructed by \code{Id(schema = "schema", table = "table")}.
 }
 
-\keyword{internal}
+\seealso{
+Other sql specifications: 
+\code{\link{spec_sql_append_table}},
+\code{\link{spec_sql_create_table}},
+\code{\link{spec_sql_exists_table}},
+\code{\link{spec_sql_list_fields}},
+\code{\link{spec_sql_list_objects}},
+\code{\link{spec_sql_list_tables}},
+\code{\link{spec_sql_quote_identifier}},
+\code{\link{spec_sql_quote_literal}},
+\code{\link{spec_sql_quote_string}},
+\code{\link{spec_sql_read_table}},
+\code{\link{spec_sql_remove_table}},
+\code{\link{spec_sql_write_table}}
+}
+\concept{sql specifications}

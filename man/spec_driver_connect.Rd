@@ -43,4 +43,10 @@ and \code{\link[=as.character]{as.character()}}
 }
 }
 
-\keyword{internal}
+\seealso{
+Other driver specifications: 
+\code{\link{spec_driver_constructor}},
+\code{\link{spec_driver_data_type}},
+\code{\link{spec_get_info}}
+}
+\concept{driver specifications}

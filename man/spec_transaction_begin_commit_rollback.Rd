@@ -6,6 +6,12 @@
 \title{spec_transaction_begin_commit_rollback}
 \value{
 \code{dbBegin()}, \code{dbCommit()} and \code{dbRollback()} return \code{TRUE}, invisibly.
+}
+\description{
+spec_transaction_begin_commit_rollback
+}
+\section{Failure modes}{
+
 The implementations are expected to raise an error in case of failure,
 but this is not tested.
 In any way, all generics throw an error with a closed
@@ -17,9 +23,7 @@ Nested transactions are not supported by DBI,
 an attempt to call \code{dbBegin()} twice
 yields an error.
 }
-\description{
-spec_transaction_begin_commit_rollback
-}
+
 \section{Specification}{
 
 Actual support for transactions may vary between backends.
@@ -54,4 +58,8 @@ if the \code{name} argument is set.
 The transaction isolation level is not specified by DBI.
 }
 
-\keyword{internal}
+\seealso{
+Other transaction specifications: 
+\code{\link{spec_transaction_with_transaction}}
+}
+\concept{transaction specifications}

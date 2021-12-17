@@ -52,4 +52,24 @@ spec_connection_get_info
 
 spec_meta_get_info_result
 }
-\keyword{internal}
+\seealso{
+Other driver specifications: 
+\code{\link{spec_driver_connect}},
+\code{\link{spec_driver_constructor}},
+\code{\link{spec_driver_data_type}}
+
+Other connection specifications: 
+\code{\link{spec_connection_disconnect}}
+
+Other meta specifications: 
+\code{\link{spec_meta_bind}},
+\code{\link{spec_meta_column_info}},
+\code{\link{spec_meta_get_row_count}},
+\code{\link{spec_meta_get_rows_affected}},
+\code{\link{spec_meta_get_statement}},
+\code{\link{spec_meta_has_completed}},
+\code{\link{spec_meta_is_valid}}
+}
+\concept{connection specifications}
+\concept{driver specifications}
+\concept{meta specifications}

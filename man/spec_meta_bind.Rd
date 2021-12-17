@@ -10,25 +10,6 @@ invisibly,
 for queries issued by \code{\link[=dbSendQuery]{dbSendQuery()}}
 and also for data manipulation statements issued by
 \code{\link[=dbSendStatement]{dbSendStatement()}}.
-Calling \code{dbBind()} for a query without parameters
-raises an error.
-Binding too many
-or not enough values,
-or parameters with wrong names
-or unequal length,
-also raises an error.
-If the placeholders in the query are named,
-all parameter values must have names
-(which must not be empty
-or \code{NA}),
-and vice versa,
-otherwise an error is raised.
-The behavior for mixing placeholders of different types
-(in particular mixing positional and named placeholders)
-is not specified.
-
-Calling \code{dbBind()} on a result set already cleared by \code{\link[=dbClearResult]{dbClearResult()}}
-also raises an error.
 }
 \description{
 spec_meta_bind
@@ -121,4 +102,46 @@ and with the value stored as integer)
 }
 }
 
-\keyword{internal}
+\section{Failure modes}{
+
+Calling \code{dbBind()} for a query without parameters
+raises an error.
+Binding too many
+or not enough values,
+or parameters with wrong names
+or unequal length,
+also raises an error.
+If the placeholders in the query are named,
+all parameter values must have names
+(which must not be empty
+or \code{NA}),
+and vice versa,
+otherwise an error is raised.
+The behavior for mixing placeholders of different types
+(in particular mixing positional and named placeholders)
+is not specified.
+
+Calling \code{dbBind()} on a result set already cleared by \code{\link[=dbClearResult]{dbClearResult()}}
+also raises an error.
+}
+
+\seealso{
+Other meta specifications: 
+\code{\link{spec_get_info}},
+\code{\link{spec_meta_column_info}},
+\code{\link{spec_meta_get_row_count}},
+\code{\link{spec_meta_get_rows_affected}},
+\code{\link{spec_meta_get_statement}},
+\code{\link{spec_meta_has_completed}},
+\code{\link{spec_meta_is_valid}}
+
+Other meta specifications: 
+\code{\link{spec_get_info}},
+\code{\link{spec_meta_column_info}},
+\code{\link{spec_meta_get_row_count}},
+\code{\link{spec_meta_get_rows_affected}},
+\code{\link{spec_meta_get_statement}},
+\code{\link{spec_meta_has_completed}},
+\code{\link{spec_meta_is_valid}}
+}
+\concept{meta specifications}

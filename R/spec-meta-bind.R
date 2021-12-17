@@ -1,7 +1,8 @@
 #' spec_meta_bind
+#' @family meta specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_meta_bind <- list(
   bind_formals = function() {
     # <establish formals of described functions>
@@ -25,7 +26,8 @@ spec_meta_bind <- list(
     #' [dbSendStatement()].
     test_select_bind(con, ctx, 1L, extra = extra, query = FALSE)
   },
-  #
+  #'
+  #' @section Failure modes:
   bind_empty = function(con) {
     #' Calling `dbBind()` for a query without parameters
     res <- local_result(dbSendQuery(con, trivial_query()))

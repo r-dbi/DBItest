@@ -1,7 +1,8 @@
 #' spec_meta_has_completed
+#' @family meta specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_meta_has_completed <- list(
   has_completed_formals = function() {
     # <establish formals of described functions>
@@ -26,7 +27,8 @@ spec_meta_has_completed <- list(
     #' `dbHasCompleted()` always returns `TRUE`.
     expect_true(expect_visible(dbHasCompleted(res)))
   },
-  #
+  #'
+  #' @section Failure modes:
   has_completed_error = function(con) {
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)

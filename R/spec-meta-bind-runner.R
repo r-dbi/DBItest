@@ -1,10 +1,11 @@
 run_bind_tester <- list()
 
 #' spec_meta_bind
+#' @family meta specifications
 #' @name spec_meta_bind
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 #' @section Specification:
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'

@@ -1,7 +1,8 @@
 #' spec_sql_quote_identifier
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_sql_quote_identifier <- list(
   quote_identifier_formals = function() {
     # <establish formals of described functions>
@@ -52,7 +53,8 @@ spec_sql_quote_identifier <- list(
     #' (For backends it may be most convenient to return [SQL] objects
     #' to achieve this behavior, but this is not required.)
   },
-  #
+  #'
+  #' @section Failure modes:
   quote_identifier_error = function(ctx, con) {
     #'
     #' An error is raised if the input contains `NA`,

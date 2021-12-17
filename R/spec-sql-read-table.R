@@ -1,7 +1,8 @@
 #' spec_sql_read_table
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_sql_read_table <- list(
   read_table_formals = function() {
     # <establish formals of described functions>
@@ -20,11 +21,14 @@ spec_sql_read_table <- list(
     expect_equal_df(penguins_out, penguins_in)
   },
 
+  #'
+  #' @section Failure modes:
   #' An error is raised if the table does not exist.
   read_table_missing = function(con, table_name) {
     expect_error(dbReadTable(con, table_name))
   },
 
+  #' @return
   #' An empty table is returned as a data frame with zero rows.
   read_table_empty = function(ctx, con, table_name) {
     penguins_in <- get_penguins(ctx)[integer(), ]
@@ -55,7 +59,7 @@ spec_sql_read_table <- list(
   },
   #
   read_table_row_names_true_exists = function(con, table_name) {
-    #' - If `TRUE`, a column named "row_names" is converted to row names,
+    #' - If `TRUE`, a column named "row_names" is converted to row names.
     row.names <- TRUE
 
     mtcars_in <- datasets::mtcars
@@ -64,9 +68,10 @@ spec_sql_read_table <- list(
 
     expect_equal_df(mtcars_out, mtcars_in)
   },
-  #
+  #'
+  #' @section Failure modes:
+  #' An error is raised if `row.names` is `TRUE` and no "row_names" column exists,
   read_table_row_names_true_missing = function(ctx, con, table_name) {
-    #'   an error is raised if no such column exists.
     row.names <- TRUE
 
     penguins_in <- get_penguins(ctx)
@@ -75,6 +80,7 @@ spec_sql_read_table <- list(
   },
   #
   read_table_row_names_na_exists = function(con, table_name) {
+    #' @return
     #' - If `NA`, a column named "row_names" is converted to row names if it exists,
     row.names <- NA
 
@@ -98,7 +104,7 @@ spec_sql_read_table <- list(
   #
   read_table_row_names_string_exists = function(con, table_name) {
     #' - If a string, this specifies the name of the column in the remote table
-    #'   that contains the row names,
+    #'   that contains the row names.
     row.names <- "make_model"
 
     mtcars_in <- datasets::mtcars
@@ -113,19 +119,19 @@ spec_sql_read_table <- list(
     expect_true(all(rownames(mtcars_out) %in% mtcars_in$make_model))
     expect_equal_df(unrowname(mtcars_out), mtcars_in[names(mtcars_in) != "make_model"])
   },
-  #
+  #'
+  #' @section Failure modes:
+  #' An error is raised if `row.names` is set to a string and and no corresponding column exists.
   read_table_row_names_string_missing = function(ctx, con, table_name) {
-    #'   an error is raised if no such column exists.
     row.names <- "missing"
 
     penguins_in <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins_in, row.names = FALSE)
     expect_error(dbReadTable(con, table_name, row.names = row.names))
   },
-  #'
 
   read_table_row_names_default = function(con, table_name) {
-    #'
+    #' @return
     #' The default is `row.names = FALSE`.
     #'
     mtcars_in <- datasets::mtcars
@@ -139,6 +145,7 @@ spec_sql_read_table <- list(
   },
   #
   read_table_check_names = function(ctx, con, table_name) {
+    #'
     #' If the database supports identifiers with special characters,
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       skip("tweak: strict_identifier")
@@ -171,6 +178,7 @@ spec_sql_read_table <- list(
   },
 
   #'
+  #' @section Failure modes:
   #' An error is raised when calling this method for a closed
   read_table_closed_connection = function(ctx, con, table_name) {
     dbWriteTable(con, table_name, data.frame(a = 1))

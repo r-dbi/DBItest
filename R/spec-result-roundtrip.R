@@ -1,7 +1,8 @@
 #' spec_result_roundtrip
+#' @family result specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_result_roundtrip <- list(
   #' @section Specification:
   #' The column types of the returned data frame depend on the data returned:

@@ -11,6 +11,12 @@ that enumerates all fields
 in the table in the correct order.
 This also works for temporary tables if supported by the database.
 The returned names are suitable for quoting with \code{dbQuoteIdentifier()}.
+}
+\description{
+spec_sql_list_fields
+}
+\section{Failure modes}{
+
 If the table does not exist, an error is raised.
 Invalid types for the \code{name} argument
 (e.g., \code{character} of length not equal to one,
@@ -19,9 +25,7 @@ lead to an error.
 An error is also raised when calling this method for a closed
 or invalid connection.
 }
-\description{
-spec_sql_list_fields
-}
+
 \section{Specification}{
 
 
@@ -36,4 +40,19 @@ The \code{name} argument can be
 A column named \code{row_names} is treated like any other column.
 }
 
-\keyword{internal}
+\seealso{
+Other sql specifications: 
+\code{\link{spec_sql_append_table}},
+\code{\link{spec_sql_create_table}},
+\code{\link{spec_sql_exists_table}},
+\code{\link{spec_sql_list_objects}},
+\code{\link{spec_sql_list_tables}},
+\code{\link{spec_sql_quote_identifier}},
+\code{\link{spec_sql_quote_literal}},
+\code{\link{spec_sql_quote_string}},
+\code{\link{spec_sql_read_table}},
+\code{\link{spec_sql_remove_table}},
+\code{\link{spec_sql_unquote_identifier}},
+\code{\link{spec_sql_write_table}}
+}
+\concept{sql specifications}

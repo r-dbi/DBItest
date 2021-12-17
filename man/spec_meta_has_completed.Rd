@@ -11,12 +11,16 @@ For a query initiated by \code{\link[=dbSendQuery]{dbSendQuery()}} with non-empt
 and \code{TRUE} after calling \code{\link[=dbFetch]{dbFetch()}} without limit.
 For a query initiated by \code{\link[=dbSendStatement]{dbSendStatement()}},
 \code{dbHasCompleted()} always returns \code{TRUE}.
-Attempting to query completion status for a result set cleared with
-\code{\link[=dbClearResult]{dbClearResult()}} gives an error.
 }
 \description{
 spec_meta_has_completed
 }
+\section{Failure modes}{
+
+Attempting to query completion status for a result set cleared with
+\code{\link[=dbClearResult]{dbClearResult()}} gives an error.
+}
+
 \section{Specification}{
 
 The completion status for a query is only guaranteed to be set to
@@ -24,10 +28,22 @@ The completion status for a query is only guaranteed to be set to
 Therefore, for a query with an empty result set,
 the initial return value is unspecified,
 but the result value is \code{TRUE} after trying to fetch only one row.
+
+
 Similarly, for a query with a result set of length n,
 the return value is unspecified after fetching n rows,
 but the result value is \code{TRUE} after trying to fetch only one more
 row.
 }
 
-\keyword{internal}
+\seealso{
+Other meta specifications: 
+\code{\link{spec_get_info}},
+\code{\link{spec_meta_bind}},
+\code{\link{spec_meta_column_info}},
+\code{\link{spec_meta_get_row_count}},
+\code{\link{spec_meta_get_rows_affected}},
+\code{\link{spec_meta_get_statement}},
+\code{\link{spec_meta_is_valid}}
+}
+\concept{meta specifications}

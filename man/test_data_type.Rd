@@ -15,12 +15,16 @@ as a non-empty
 character string.
 For data frames, a character vector with one element per column
 is returned.
-An error is raised for invalid values for the \code{obj} argument such as a
-\code{NULL} value.
 }
 \description{
 test_data_type
 }
+\section{Failure modes}{
+
+An error is raised for invalid values for the \code{obj} argument such as a
+\code{NULL} value.
+}
+
 \section{Specification}{
 
 The backend can override the \code{\link[=dbDataType]{dbDataType()}} generic

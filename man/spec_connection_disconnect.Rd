@@ -10,7 +10,7 @@
 \description{
 spec_connection_disconnect
 }
-\section{Specification}{
+\section{Failure modes}{
 
 A warning is issued on garbage collection when a connection has been
 released without calling \code{dbDisconnect()},
@@ -20,4 +20,8 @@ already disconnected
 or invalid connection.
 }
 
-\keyword{internal}
+\seealso{
+Other connection specifications: 
+\code{\link{spec_get_info}}
+}
+\concept{connection specifications}

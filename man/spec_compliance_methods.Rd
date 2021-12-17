@@ -22,4 +22,4 @@ be used without having to attach \pkg{DBI}),
 and have an ellipsis \code{...} in their formals for extensibility.
 }
 
-\keyword{internal}
+\concept{compliance specifications}

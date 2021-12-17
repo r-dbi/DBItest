@@ -1,7 +1,8 @@
 #' spec_result_get_query
+#' @family result specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_result_get_query <- list(
   get_query_formals = function() {
     # <establish formals of described functions>
@@ -40,7 +41,8 @@ spec_result_get_query <- list(
     expect_identical(dim(rows), c(0L, 3L))
   },
 
-
+  #'
+  #' @section Failure modes:
   #' An error is raised when issuing a query over a closed
   get_query_closed_connection = function(ctx, closed_con) {
     expect_error(dbGetQuery(closed_con, trivial_query()))

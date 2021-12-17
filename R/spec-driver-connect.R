@@ -1,7 +1,8 @@
 #' spec_driver_connect
+#' @family driver specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_driver_connect <- list(
   connect_formals = function() {
     # <establish formals of described functions>

@@ -8,12 +8,16 @@
 \code{dbClearResult()} returns \code{TRUE}, invisibly, for result sets obtained from
 both \code{dbSendQuery()}
 and \code{dbSendStatement()}.
-An attempt to close an already closed result set issues a warning
-in both cases.
 }
 \description{
 spec_result_clear_result
 }
+\section{Failure modes}{
+
+An attempt to close an already closed result set issues a warning
+in both cases.
+}
+
 \section{Specification}{
 
 \code{dbClearResult()} frees all resources associated with retrieving
@@ -22,4 +26,14 @@ The DBI backend can expect a call to \code{dbClearResult()} for each
 \code{\link[=dbSendQuery]{dbSendQuery()}} or \code{\link[=dbSendStatement]{dbSendStatement()}} call.
 }
 
-\keyword{internal}
+\seealso{
+Other result specifications: 
+\code{\link{spec_result_create_table_with_data_type}},
+\code{\link{spec_result_execute}},
+\code{\link{spec_result_fetch}},
+\code{\link{spec_result_get_query}},
+\code{\link{spec_result_roundtrip}},
+\code{\link{spec_result_send_query}},
+\code{\link{spec_result_send_statement}}
+}
+\concept{result specifications}

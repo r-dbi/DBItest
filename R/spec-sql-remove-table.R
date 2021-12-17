@@ -1,7 +1,8 @@
 #' spec_sql_remove_table
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_sql_remove_table <- list(
   remove_table_formals = function() {
     # <establish formals of described functions>
@@ -17,6 +18,8 @@ spec_sql_remove_table <- list(
     expect_invisible_true(dbRemoveTable(con, table_name))
   },
 
+  #'
+  #' @section Failure modes:
   #' If the table does not exist, an error is raised.
   remove_table_missing = function(con, table_name) {
     expect_error(dbRemoveTable(con, table_name))

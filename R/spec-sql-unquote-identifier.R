@@ -1,7 +1,8 @@
 #' spec_sql_unquote_identifier
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_sql_unquote_identifier <- list(
   unquote_identifier_formals = function() {
     # <establish formals of described functions>
@@ -51,7 +52,8 @@ spec_sql_unquote_identifier <- list(
     #' (For backends it may be most convenient to return [Id] objects
     #' to achieve this behavior, but this is not required.)
   },
-  #
+  #'
+  #' @section Failure modes:
   unquote_identifier_error = function(ctx, con) {
     #'
     #' An error is raised if plain character vectors are passed as the `x`

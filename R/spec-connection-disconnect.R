@@ -1,7 +1,8 @@
 #' spec_connection_disconnect
+#' @family connection specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_connection_disconnect <- list(
   disconnect_formals = function() {
     # <establish formals of described functions>
@@ -15,7 +16,8 @@ spec_connection_disconnect <- list(
     expect_invisible_true(dbDisconnect(con))
   },
 
-  #' @section Specification:
+  #'
+  #' @section Failure modes:
   #' A warning is issued on garbage collection when a connection has been
   #' released without calling `dbDisconnect()`,
   #' but this cannot be tested automatically.

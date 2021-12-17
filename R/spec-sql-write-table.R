@@ -1,7 +1,8 @@
 #' spec_sql_write_table
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 #' @importFrom lubridate with_tz
 spec_sql_write_table <- list(
   write_table_formals = function() {
@@ -15,6 +16,8 @@ spec_sql_write_table <- list(
     expect_invisible_true(dbWriteTable(con, table_name, data.frame(a = 1L)))
   },
 
+  #'
+  #' @section Failure modes:
   #' If the table exists, and both `append` and `overwrite` arguments are unset,
   write_table_overwrite = function(con, table_name) {
     test_in <- data.frame(a = 1L)

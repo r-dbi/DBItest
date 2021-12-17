@@ -1,7 +1,8 @@
 #' spec_result_send_statement
+#' @family result specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_result_send_statement <- list(
   send_statement_formals = function() {
     # <establish formals of described functions>
@@ -22,6 +23,8 @@ spec_result_send_statement <- list(
     dbClearResult(res)
   },
 
+  #'
+  #' @section Failure modes:
   #' An error is raised when issuing a statement over a closed
   send_statement_closed_connection = function(ctx, closed_con) {
     table_name <- "dbit10"
@@ -44,6 +47,8 @@ spec_result_send_statement <- list(
   #' An error is also raised if the syntax of the query is invalid
   #' and all query parameters are given (by passing the `params` argument)
   #' or the `immediate` argument is set to `TRUE`.
+  #'
+  #' @section Failure modes:
   send_statement_syntax_error = function(con) {
     expect_error(dbSendStatement(con, "CREATTE", params = list()))
     expect_error(dbSendStatement(con, "CREATTE", immediate = TRUE))

@@ -1,7 +1,8 @@
 #' spec_result_fetch
+#' @family result specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_result_fetch <- list(
   fetch_formals = function() {
     # <establish formals of described functions>
@@ -38,6 +39,8 @@ spec_result_fetch <- list(
     expect_identical(class(rows), "data.frame")
   },
 
+  #'
+  #' @section Failure modes:
   #' An attempt to fetch from a closed result set raises an error.
   fetch_closed = function(con) {
     query <- trivial_query()

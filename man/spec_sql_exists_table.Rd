@@ -9,6 +9,11 @@
 specified by the \code{name} argument exists, \code{FALSE} otherwise.
 
 This includes temporary tables if supported by the database.
+}
+\description{
+spec_sql_exists_table
+}
+\section{Failure modes}{
 
 An error is raised when calling this method for a closed
 or invalid connection.
@@ -16,9 +21,7 @@ An error is also raised
 if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}
 or if this results in a non-scalar.
 }
-\description{
-spec_sql_exists_table
-}
+
 \section{Specification}{
 
 The \code{name} argument is processed as follows,
@@ -33,4 +36,19 @@ perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 For all tables listed by \code{\link[=dbListTables]{dbListTables()}}, \code{dbExistsTable()} returns \code{TRUE}.
 }
 
-\keyword{internal}
+\seealso{
+Other sql specifications: 
+\code{\link{spec_sql_append_table}},
+\code{\link{spec_sql_create_table}},
+\code{\link{spec_sql_list_fields}},
+\code{\link{spec_sql_list_objects}},
+\code{\link{spec_sql_list_tables}},
+\code{\link{spec_sql_quote_identifier}},
+\code{\link{spec_sql_quote_literal}},
+\code{\link{spec_sql_quote_string}},
+\code{\link{spec_sql_read_table}},
+\code{\link{spec_sql_remove_table}},
+\code{\link{spec_sql_unquote_identifier}},
+\code{\link{spec_sql_write_table}}
+}
+\concept{sql specifications}

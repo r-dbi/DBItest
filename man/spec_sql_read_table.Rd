@@ -8,20 +8,21 @@
 \code{dbReadTable()} returns a data frame that contains the complete data
 from the remote table, effectively the result of calling \code{\link[=dbGetQuery]{dbGetQuery()}}
 with \verb{SELECT * FROM <name>}.
-An error is raised if the table does not exist.
+
 An empty table is returned as a data frame with zero rows.
 
 The presence of \link{rownames} depends on the \code{row.names} argument,
 see \code{\link[=sqlColumnToRownames]{sqlColumnToRownames()}} for details:
 \itemize{
 \item If \code{FALSE} or \code{NULL}, the returned data frame doesn't have row names.
-\item If \code{TRUE}, a column named "row_names" is converted to row names,
-an error is raised if no such column exists.
+\item If \code{TRUE}, a column named "row_names" is converted to row names.
+}
+
+\itemize{
 \item If \code{NA}, a column named "row_names" is converted to row names if it exists,
 otherwise no translation occurs.
 \item If a string, this specifies the name of the column in the remote table
-that contains the row names,
-an error is raised if no such column exists.
+that contains the row names.
 }
 
 The default is \code{row.names = FALSE}.
@@ -31,6 +32,20 @@ the columns in the returned data frame are converted to valid R
 identifiers
 if the \code{check.names} argument is \code{TRUE},
 If \code{check.names = FALSE}, the returned table has non-syntactic column names without quotes.
+}
+\description{
+spec_sql_read_table
+}
+\section{Failure modes}{
+
+An error is raised if the table does not exist.
+
+
+An error is raised if \code{row.names} is \code{TRUE} and no "row_names" column exists,
+
+
+An error is raised if \code{row.names} is set to a string and and no corresponding column exists.
+
 
 An error is raised when calling this method for a closed
 or invalid connection.
@@ -43,9 +58,7 @@ unsupported data types,
 \code{NA} for \code{check.names})
 also raise an error.
 }
-\description{
-spec_sql_read_table
-}
+
 \section{Additional arguments}{
 
 The following arguments are not part of the \code{dbReadTable()} generic
@@ -72,4 +85,19 @@ perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 }
 }
 
-\keyword{internal}
+\seealso{
+Other sql specifications: 
+\code{\link{spec_sql_append_table}},
+\code{\link{spec_sql_create_table}},
+\code{\link{spec_sql_exists_table}},
+\code{\link{spec_sql_list_fields}},
+\code{\link{spec_sql_list_objects}},
+\code{\link{spec_sql_list_tables}},
+\code{\link{spec_sql_quote_identifier}},
+\code{\link{spec_sql_quote_literal}},
+\code{\link{spec_sql_quote_string}},
+\code{\link{spec_sql_remove_table}},
+\code{\link{spec_sql_unquote_identifier}},
+\code{\link{spec_sql_write_table}}
+}
+\concept{sql specifications}

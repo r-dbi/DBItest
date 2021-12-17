@@ -11,6 +11,12 @@ columns as fields in the result set,
 even if the result is a single value
 or has one
 or zero rows.
+}
+\description{
+spec_result_get_query
+}
+\section{Failure modes}{
+
 An error is raised when issuing a query over a closed
 or invalid connection,
 if the syntax of the query is invalid,
@@ -19,9 +25,7 @@ If the \code{n} argument is not an atomic whole number
 greater or equal to -1 or Inf, an error is raised,
 but a subsequent call to \code{dbGetQuery()} with proper \code{n} argument succeeds.
 }
-\description{
-spec_result_get_query
-}
+
 \section{Additional arguments}{
 
 The following arguments are not part of the \code{dbGetQuery()} generic
@@ -99,4 +103,14 @@ the backend tries \code{immediate = TRUE} (and gives a message)
 }
 }
 
-\keyword{internal}
+\seealso{
+Other result specifications: 
+\code{\link{spec_result_clear_result}},
+\code{\link{spec_result_create_table_with_data_type}},
+\code{\link{spec_result_execute}},
+\code{\link{spec_result_fetch}},
+\code{\link{spec_result_roundtrip}},
+\code{\link{spec_result_send_query}},
+\code{\link{spec_result_send_statement}}
+}
+\concept{result specifications}

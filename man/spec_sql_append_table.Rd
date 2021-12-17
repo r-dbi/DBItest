@@ -8,6 +8,12 @@
 \code{dbAppendTable()} returns a
 scalar
 numeric.
+}
+\description{
+spec_sql_append_table
+}
+\section{Failure modes}{
+
 If the table does not exist,
 or the new data in \code{values} is not a data frame or has different column names,
 an error is raised; the remote table remains unchanged.
@@ -22,6 +28,16 @@ Invalid values for the \code{row.names} argument
 unsupported data types,
 \code{NA})
 also raise an error.
+
+
+Passing a \code{value} argument different to \code{NULL} to the \code{row.names} argument
+(in particular \code{TRUE},
+\code{NA},
+and a string)
+raises an error.
+}
+
+\section{Specification}{
 
 SQL keywords can be used freely in table names, column names, and data.
 Quotes, commas, spaces, and other special characters such as newlines and tabs,
@@ -58,6 +74,7 @@ with a warning)
 \item date
 (if supported by the database;
 returned as \code{Date})
+also for dates prior to 1970 or 1900 or after 2038
 \item time
 (if supported by the database;
 returned as objects that inherit from \code{difftime})
@@ -65,15 +82,14 @@ returned as objects that inherit from \code{difftime})
 (if supported by the database;
 returned as \code{POSIXct}
 respecting the time zone but not necessarily preserving the
+input time zone),
+also for timestamps prior to 1970 or 1900 or after 2038
+respecting the time zone but not necessarily preserving the
 input time zone)
 }
 
 Mixing column types in the same table is supported.
-}
-\description{
-spec_sql_append_table
-}
-\section{Specification}{
+
 
 The \code{name} argument is processed as follows,
 to support databases that allow non-syntactic names for their objects:
@@ -81,19 +97,31 @@ to support databases that allow non-syntactic names for their objects:
 \item If an unquoted table name as string: \code{dbAppendTable()} will do the quoting,
 perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 \item If the result of a call to \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}: no more quoting is done
+to support databases that allow non-syntactic names for their objects:
 }
 
 The \code{row.names} argument must be \code{NULL}, the default value.
 Row names are ignored.
-All other values for the \code{row.names} argument
-(in particular \code{TRUE},
-\code{NA},
-and a string)
-raise an error.
+
 
 The \code{value} argument must be a data frame
 with a subset of the columns of the existing table.
 The order of the columns does not matter.
 }
 
-\keyword{internal}
+\seealso{
+Other sql specifications: 
+\code{\link{spec_sql_create_table}},
+\code{\link{spec_sql_exists_table}},
+\code{\link{spec_sql_list_fields}},
+\code{\link{spec_sql_list_objects}},
+\code{\link{spec_sql_list_tables}},
+\code{\link{spec_sql_quote_identifier}},
+\code{\link{spec_sql_quote_literal}},
+\code{\link{spec_sql_quote_string}},
+\code{\link{spec_sql_read_table}},
+\code{\link{spec_sql_remove_table}},
+\code{\link{spec_sql_unquote_identifier}},
+\code{\link{spec_sql_write_table}}
+}
+\concept{sql specifications}

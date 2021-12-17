@@ -1,7 +1,8 @@
 #' spec_result_execute
+#' @family result specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_result_execute <- list(
   execute_formals = function() {
     # <establish formals of described functions>
@@ -22,6 +23,8 @@ spec_result_execute <- list(
     #' by the statement.
   },
 
+  #'
+  #' @section Failure modes:
   #' An error is raised when issuing a statement over a closed
   execute_closed_connection = function(ctx, closed_con) {
     table_name <- "dbit12"

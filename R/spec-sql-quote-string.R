@@ -1,7 +1,8 @@
 #' spec_sql_quote_string
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_sql_quote_string <- list(
   quote_string_formals = function() {
     # <establish formals of described functions>
@@ -127,7 +128,8 @@ spec_sql_quote_string <- list(
     #' returns one row.
     expect_equal(nrow(rows), 1L)
   },
-  #
+  #'
+  #' @section Failure modes:
   quote_string_error = function(ctx, con) {
     #'
     #' Passing a numeric,

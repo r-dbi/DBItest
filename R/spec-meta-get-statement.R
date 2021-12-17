@@ -1,7 +1,8 @@
 #' spec_meta_get_statement
+#' @family meta specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_meta_get_statement <- list(
   get_statement_formals = function() {
     # <establish formals of described functions>
@@ -27,7 +28,8 @@ spec_meta_get_statement <- list(
     expect_type(s, "character")
     expect_identical(s, query)
   },
-  #
+  #'
+  #' @section Failure modes:
   get_statement_error = function(con) {
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)

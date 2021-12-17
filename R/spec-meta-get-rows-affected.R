@@ -1,7 +1,8 @@
 #' spec_meta_get_rows_affected
+#' @family meta specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_meta_get_rows_affected <- list(
   get_rows_affected_formals = function() {
     # <establish formals of described functions>
@@ -41,7 +42,8 @@ spec_meta_get_rows_affected <- list(
     #' and after the call to `dbFetch()`.
     expect_equal(rc, 0L)
   },
-  #
+  #'
+  #' @section Failure modes:
   get_rows_affected_error = function(con, table_name) {
     query <- paste0(
       "CREATE TABLE ", dbQuoteIdentifier(con, table_name), " (a integer)"

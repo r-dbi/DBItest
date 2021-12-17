@@ -1,7 +1,8 @@
 #' spec_sql_list_tables
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
-#' @keywords internal
+#' @keywords NULL
 spec_sql_list_tables <- list(
   list_tables_formals = function() {
     # <establish formals of described functions>
@@ -65,6 +66,8 @@ spec_sql_list_tables <- list(
     }
   },
 
+  #'
+  #' @section Failure modes:
   #' An error is raised when calling this method for a closed
   list_tables_closed_connection = function(ctx, closed_con) {
     expect_error(dbListTables(closed_con))
