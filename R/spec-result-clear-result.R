@@ -23,6 +23,8 @@ spec_result_clear_result <- list(
     expect_invisible_true(dbClearResult(res))
   },
 
+  #'
+  #' @section Error behavior:
   #' An attempt to close an already closed result set issues a warning
   cannot_clear_result_twice_query = function(con) {
     res <- dbSendQuery(con, trivial_query())

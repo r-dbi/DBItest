@@ -15,13 +15,17 @@ argument, it is returned unchanged.
 Passing objects of class \link{SQL} should also return them unchanged.
 (For backends it may be most convenient to return \link{SQL} objects
 to achieve this behavior, but this is not required.)
-
-An error is raised if the input contains \code{NA},
-but not for an empty string.
 }
 \description{
 spec_sql_quote_identifier
 }
+\section{Error behavior}{
+
+
+An error is raised if the input contains \code{NA},
+but not for an empty string.
+}
+
 \section{Specification}{
 
 Calling \code{\link[=dbGetQuery]{dbGetQuery()}} for a query of the format \verb{SELECT 1 AS ...}

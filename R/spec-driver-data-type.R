@@ -40,6 +40,8 @@ test_data_type <- function(ctx, dbObj) {
     }))
   }
 
+  #'
+  #' @section Error behavior:
   #' An error is raised for invalid values for the `obj` argument such as a
   #' `NULL` value.
   expect_error(dbDataType(dbObj, NULL))

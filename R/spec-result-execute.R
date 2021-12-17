@@ -23,6 +23,8 @@ spec_result_execute <- list(
     #' by the statement.
   },
 
+  #'
+  #' @section Error behavior:
   #' An error is raised when issuing a statement over a closed
   execute_closed_connection = function(ctx, closed_con) {
     table_name <- "dbit12"
@@ -36,8 +38,6 @@ spec_result_execute <- list(
   },
 
   #' if the syntax of the statement is invalid,
-  #'
-  #' @section Error behavior:
   execute_syntax_error = function(con) {
     expect_error(dbExecute(con, "CREATTE"))
   },

@@ -10,14 +10,18 @@ scalar
 numeric
 that specifies the number of rows affected
 by the statement.
+}
+\description{
+spec_result_execute
+}
+\section{Error behavior}{
+
 An error is raised when issuing a statement over a closed
 or invalid connection,
 if the syntax of the statement is invalid,
 or if the statement is not a non-\code{NA} string.
 }
-\description{
-spec_result_execute
-}
+
 \section{Additional arguments}{
 
 The following arguments are not part of the \code{dbExecute()} generic

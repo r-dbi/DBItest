@@ -6,15 +6,19 @@
 \title{spec_transaction_with_transaction}
 \value{
 \code{dbWithTransaction()} returns the value of the executed code.
+}
+\description{
+spec_transaction_with_transaction
+}
+\section{Error behavior}{
+
 Failure to initiate the transaction
 (e.g., if the connection is closed
 or invalid
 of if \code{\link[=dbBegin]{dbBegin()}} has been called already)
 gives an error.
 }
-\description{
-spec_transaction_with_transaction
-}
+
 \section{Specification}{
 
 \code{dbWithTransaction()} initiates a transaction with \code{dbBegin()}, executes

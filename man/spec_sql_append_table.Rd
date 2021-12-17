@@ -8,6 +8,12 @@
 \code{dbAppendTable()} returns a
 scalar
 numeric.
+}
+\description{
+spec_sql_append_table
+}
+\section{Error behavior}{
+
 If the table does not exist,
 or the new data in \code{values} is not a data frame or has different column names,
 an error is raised; the remote table remains unchanged.
@@ -22,6 +28,16 @@ Invalid values for the \code{row.names} argument
 unsupported data types,
 \code{NA})
 also raise an error.
+
+
+Passing a \code{value} argument different to \code{NULL} to the \code{row.names} argument
+(in particular \code{TRUE},
+\code{NA},
+and a string)
+raises an error.
+}
+
+\section{Specification}{
 
 SQL keywords can be used freely in table names, column names, and data.
 Quotes, commas, spaces, and other special characters such as newlines and tabs,
@@ -73,11 +89,7 @@ input time zone)
 }
 
 Mixing column types in the same table is supported.
-}
-\description{
-spec_sql_append_table
-}
-\section{Specification}{
+
 
 The \code{name} argument is processed as follows,
 to support databases that allow non-syntactic names for their objects:
@@ -90,11 +102,7 @@ to support databases that allow non-syntactic names for their objects:
 
 The \code{row.names} argument must be \code{NULL}, the default value.
 Row names are ignored.
-All other values for the \code{row.names} argument
-(in particular \code{TRUE},
-\code{NA},
-and a string)
-raise an error.
+
 
 The \code{value} argument must be a data frame
 with a subset of the columns of the existing table.

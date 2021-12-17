@@ -15,13 +15,17 @@ argument, it is returned unchanged (but wrapped in a list).
 Passing objects of class \link{Id} should also return them unchanged (but wrapped in a list).
 (For backends it may be most convenient to return \link{Id} objects
 to achieve this behavior, but this is not required.)
-
-An error is raised if plain character vectors are passed as the \code{x}
-argument.
 }
 \description{
 spec_sql_unquote_identifier
 }
+\section{Error behavior}{
+
+
+An error is raised if plain character vectors are passed as the \code{x}
+argument.
+}
+
 \section{Specification}{
 
 For any character vector of length one, quoting (with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}})

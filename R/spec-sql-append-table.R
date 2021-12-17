@@ -22,6 +22,8 @@ spec_sql_append_table <- list(
     expect_true(is.numeric(ret))
   },
 
+  #'
+  #' @section Error behavior:
   #' If the table does not exist,
   append_table_missing = function(con, table_name) {
     expect_false(dbExistsTable(con, table_name))
@@ -62,8 +64,6 @@ spec_sql_append_table <- list(
   },
 
   #' An error is also raised
-  #'
-  #' @section Error behavior:
   append_table_error = function(con, table_name) {
     test_in <- data.frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
@@ -83,6 +83,7 @@ spec_sql_append_table <- list(
   },
 
   #'
+  #' @section Specification:
   #' SQL keywords can be used freely in table names, column names, and data.
   append_roundtrip_keywords = function(con) {
     tbl_in <- data.frame(
@@ -555,7 +556,9 @@ spec_sql_append_table <- list(
   },
   #
   append_table_row_names_non_null = function(con, table_name) {
-    #' All other values for the `row.names` argument
+    #'
+    #' @section Error behavior:
+    #' Passing a `value` argument different to `NULL` to the `row.names` argument
     mtcars_in <- datasets::mtcars
     dbCreateTable(con, table_name, mtcars_in)
 
@@ -566,10 +569,11 @@ spec_sql_append_table <- list(
     #' and a string)
     expect_error(dbAppendTable(con, table_name, mtcars_in, row.names = "make_model"))
 
-    #' raise an error.
+    #' raises an error.
   },
 
   #'
+  #' @section Specification:
   #' The `value` argument must be a data frame
   append_table_value_df = function(con, table_name) {
     test_in <- trivial_df()

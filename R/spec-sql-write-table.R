@@ -16,6 +16,8 @@ spec_sql_write_table <- list(
     expect_invisible_true(dbWriteTable(con, table_name, data.frame(a = 1L)))
   },
 
+  #'
+  #' @section Error behavior:
   #' If the table exists, and both `append` and `overwrite` arguments are unset,
   write_table_overwrite = function(con, table_name) {
     test_in <- data.frame(a = 1L)
@@ -50,8 +52,6 @@ spec_sql_write_table <- list(
   },
 
   #' An error is also raised
-  #'
-  #' @section Error behavior:
   write_table_error = function(ctx, con, table_name) {
     test_in <- data.frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()]

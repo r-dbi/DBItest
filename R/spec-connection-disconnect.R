@@ -16,7 +16,8 @@ spec_connection_disconnect <- list(
     expect_invisible_true(dbDisconnect(con))
   },
 
-  #' @section Specification:
+  #'
+  #' @section Error behavior:
   #' A warning is issued on garbage collection when a connection has been
   #' released without calling `dbDisconnect()`,
   #' but this cannot be tested automatically.

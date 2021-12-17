@@ -23,6 +23,8 @@ spec_result_send_statement <- list(
     dbClearResult(res)
   },
 
+  #'
+  #' @section Error behavior:
   #' An error is raised when issuing a statement over a closed
   send_statement_closed_connection = function(ctx, closed_con) {
     table_name <- "dbit10"

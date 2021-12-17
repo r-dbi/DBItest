@@ -18,6 +18,8 @@ spec_sql_remove_table <- list(
     expect_invisible_true(dbRemoveTable(con, table_name))
   },
 
+  #'
+  #' @section Error behavior:
   #' If the table does not exist, an error is raised.
   remove_table_missing = function(con, table_name) {
     expect_error(dbRemoveTable(con, table_name))
@@ -41,8 +43,6 @@ spec_sql_remove_table <- list(
   },
 
   #' An error is also raised
-  #'
-  #' @section Error behavior:
   remove_table_error = function(con, table_name) {
     dbWriteTable(con, table_name, data.frame(a = 1L))
     #' if `name` cannot be processed with [dbQuoteIdentifier()]

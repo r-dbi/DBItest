@@ -8,12 +8,16 @@
 \code{dbGetStatement()} returns a string, the query used in
 either \code{\link[=dbSendQuery]{dbSendQuery()}}
 or \code{\link[=dbSendStatement]{dbSendStatement()}}.
-Attempting to query the statement for a result set cleared with
-\code{\link[=dbClearResult]{dbClearResult()}} gives an error.
 }
 \description{
 spec_meta_get_statement
 }
+\section{Error behavior}{
+
+Attempting to query the statement for a result set cleared with
+\code{\link[=dbClearResult]{dbClearResult()}} gives an error.
+}
+
 \seealso{
 Other meta specifications: 
 \code{\link{spec_get_info}},

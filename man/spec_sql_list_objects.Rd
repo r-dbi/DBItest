@@ -25,12 +25,16 @@ it is also removed from the data frame of database objects.
 The same applies to temporary objects if supported by the database.
 
 The returned names are suitable for quoting with \code{dbQuoteIdentifier()}.
-An error is raised when calling this method for a closed
-or invalid connection.
 }
 \description{
 spec_sql_list_objects
 }
+\section{Error behavior}{
+
+An error is raised when calling this method for a closed
+or invalid connection.
+}
+
 \section{Specification}{
 
 The \code{table} object can be quoted with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}.

@@ -18,12 +18,16 @@ it is also removed from the list of database tables.
 The same applies to temporary tables if supported by the database.
 
 The returned names are suitable for quoting with \code{dbQuoteIdentifier()}.
-An error is raised when calling this method for a closed
-or invalid connection.
 }
 \description{
 spec_sql_list_tables
 }
+\section{Error behavior}{
+
+An error is raised when calling this method for a closed
+or invalid connection.
+}
+
 \seealso{
 Other sql specifications: 
 \code{\link{spec_sql_append_table}},

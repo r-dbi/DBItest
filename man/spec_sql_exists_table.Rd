@@ -9,6 +9,11 @@
 specified by the \code{name} argument exists, \code{FALSE} otherwise.
 
 This includes temporary tables if supported by the database.
+}
+\description{
+spec_sql_exists_table
+}
+\section{Error behavior}{
 
 An error is raised when calling this method for a closed
 or invalid connection.
@@ -16,9 +21,7 @@ An error is also raised
 if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}
 or if this results in a non-scalar.
 }
-\description{
-spec_sql_exists_table
-}
+
 \section{Specification}{
 
 The \code{name} argument is processed as follows,

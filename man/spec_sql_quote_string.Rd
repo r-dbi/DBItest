@@ -41,6 +41,10 @@ The strings \code{"NA"} or \code{"NULL"} are not treated specially.
 \code{NA} should be translated to an unquoted SQL \code{NULL},
 so that the query \verb{SELECT * FROM (SELECT 1) a WHERE ... IS NULL}
 returns one row.
+}
+
+\section{Error behavior}{
+
 
 Passing a numeric,
 integer,

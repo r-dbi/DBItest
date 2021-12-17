@@ -37,6 +37,7 @@ spec_sql_exists_table <- list(
   },
 
   #'
+  #' @section Error behavior:
   #' An error is raised when calling this method for a closed
   exists_table_closed_connection = function(ctx, closed_con) {
     expect_error(dbExistsTable(closed_con, "test"))
@@ -48,8 +49,6 @@ spec_sql_exists_table <- list(
   },
 
   #' An error is also raised
-  #'
-  #' @section Error behavior:
   exists_table_error = function(con, table_name) {
     dbWriteTable(con, table_name, data.frame(a = 1L))
     #' if `name` cannot be processed with [dbQuoteIdentifier()]

@@ -11,12 +11,16 @@ For a query initiated by \code{\link[=dbSendQuery]{dbSendQuery()}} with non-empt
 and \code{TRUE} after calling \code{\link[=dbFetch]{dbFetch()}} without limit.
 For a query initiated by \code{\link[=dbSendStatement]{dbSendStatement()}},
 \code{dbHasCompleted()} always returns \code{TRUE}.
-Attempting to query completion status for a result set cleared with
-\code{\link[=dbClearResult]{dbClearResult()}} gives an error.
 }
 \description{
 spec_meta_has_completed
 }
+\section{Error behavior}{
+
+Attempting to query completion status for a result set cleared with
+\code{\link[=dbClearResult]{dbClearResult()}} gives an error.
+}
+
 \section{Specification}{
 
 The completion status for a query is only guaranteed to be set to

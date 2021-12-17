@@ -6,6 +6,12 @@
 \title{spec_sql_create_table}
 \value{
 \code{dbCreateTable()} returns \code{TRUE}, invisibly.
+}
+\description{
+spec_sql_create_table
+}
+\section{Error behavior}{
+
 If the table exists, an error is raised; the remote table remains unchanged.
 
 An error is raised when calling this method for a closed
@@ -21,9 +27,7 @@ incompatible values,
 duplicate names)
 also raise an error.
 }
-\description{
-spec_sql_create_table
-}
+
 \section{Additional arguments}{
 
 The following arguments are not part of the \code{dbCreateTable()} generic

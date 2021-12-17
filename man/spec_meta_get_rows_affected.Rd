@@ -13,12 +13,16 @@ and does not change after calling \code{\link[=dbFetch]{dbFetch()}}.
 For queries issued with \code{\link[=dbSendQuery]{dbSendQuery()}},
 zero is returned before
 and after the call to \code{dbFetch()}.
-Attempting to get the rows affected for a result set cleared with
-\code{\link[=dbClearResult]{dbClearResult()}} gives an error.
 }
 \description{
 spec_meta_get_rows_affected
 }
+\section{Error behavior}{
+
+Attempting to get the rows affected for a result set cleared with
+\code{\link[=dbClearResult]{dbClearResult()}} gives an error.
+}
+
 \seealso{
 Other meta specifications: 
 \code{\link{spec_get_info}},

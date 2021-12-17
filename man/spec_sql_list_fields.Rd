@@ -11,6 +11,12 @@ that enumerates all fields
 in the table in the correct order.
 This also works for temporary tables if supported by the database.
 The returned names are suitable for quoting with \code{dbQuoteIdentifier()}.
+}
+\description{
+spec_sql_list_fields
+}
+\section{Error behavior}{
+
 If the table does not exist, an error is raised.
 Invalid types for the \code{name} argument
 (e.g., \code{character} of length not equal to one,
@@ -19,9 +25,7 @@ lead to an error.
 An error is also raised when calling this method for a closed
 or invalid connection.
 }
-\description{
-spec_sql_list_fields
-}
+
 \section{Specification}{
 
 

@@ -6,6 +6,12 @@
 \title{spec_sql_write_table}
 \value{
 \code{dbWriteTable()} returns \code{TRUE}, invisibly.
+}
+\description{
+spec_sql_write_table
+}
+\section{Error behavior}{
+
 If the table exists, and both \code{append} and \code{overwrite} arguments are unset,
 or \code{append = TRUE} and the data frame with the new data has different
 column names,
@@ -27,9 +33,7 @@ or missing names,
 incompatible columns)
 also raise an error.
 }
-\description{
-spec_sql_write_table
-}
+
 \section{Additional arguments}{
 
 The following arguments are not part of the \code{dbWriteTable()} generic

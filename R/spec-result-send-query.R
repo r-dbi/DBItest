@@ -22,6 +22,8 @@ spec_result_send_query <- list(
     dbClearResult(res)
   },
 
+  #'
+  #' @section Error behavior:
   #' An error is raised when issuing a query over a closed
   send_query_closed_connection = function(ctx, closed_con) {
     expect_error(dbSendQuery(closed_con, trivial_query()))

@@ -10,16 +10,22 @@ an S4 object that inherits from \linkS4class{DBIResult}.
 The result set can be used with \code{\link[=dbFetch]{dbFetch()}} to extract records.
 Once you have finished using a result, make sure to clear it
 with \code{\link[=dbClearResult]{dbClearResult()}}.
+}
+\description{
+spec_result_send_query
+}
+\section{Error behavior}{
+
 An error is raised when issuing a query over a closed
 or invalid connection,
 or if the query is not a non-\code{NA} string.
 An error is also raised if the syntax of the query is invalid
 and all query parameters are given (by passing the \code{params} argument)
 or the \code{immediate} argument is set to \code{TRUE}.
+
+
 }
-\description{
-spec_result_send_query
-}
+
 \section{Additional arguments}{
 
 The following arguments are not part of the \code{dbSendQuery()} generic

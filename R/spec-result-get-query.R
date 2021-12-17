@@ -41,7 +41,8 @@ spec_result_get_query <- list(
     expect_identical(dim(rows), c(0L, 3L))
   },
 
-
+  #'
+  #' @section Error behavior:
   #' An error is raised when issuing a query over a closed
   get_query_closed_connection = function(ctx, closed_con) {
     expect_error(dbGetQuery(closed_con, trivial_query()))
@@ -53,8 +54,6 @@ spec_result_get_query <- list(
   },
 
   #' if the syntax of the query is invalid,
-  #'
-  #' @section Error behavior:
   get_query_syntax_error = function(con) {
     expect_error(dbGetQuery(con, "SELLECT"))
   },

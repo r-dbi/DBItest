@@ -11,16 +11,22 @@ The result set can be used with \code{\link[=dbGetRowsAffected]{dbGetRowsAffecte
 determine the number of rows affected by the query.
 Once you have finished using a result, make sure to clear it
 with \code{\link[=dbClearResult]{dbClearResult()}}.
+}
+\description{
+spec_result_send_statement
+}
+\section{Error behavior}{
+
 An error is raised when issuing a statement over a closed
 or invalid connection,
 or if the statement is not a non-\code{NA} string.
 An error is also raised if the syntax of the query is invalid
 and all query parameters are given (by passing the \code{params} argument)
 or the \code{immediate} argument is set to \code{TRUE}.
+
+
 }
-\description{
-spec_result_send_statement
-}
+
 \section{Specification}{
 
 No warnings occur under normal conditions.

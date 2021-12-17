@@ -39,6 +39,8 @@ spec_result_fetch <- list(
     expect_identical(class(rows), "data.frame")
   },
 
+  #'
+  #' @section Error behavior:
   #' An attempt to fetch from a closed result set raises an error.
   fetch_closed = function(con) {
     query <- trivial_query()

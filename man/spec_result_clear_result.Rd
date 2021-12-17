@@ -8,12 +8,16 @@
 \code{dbClearResult()} returns \code{TRUE}, invisibly, for result sets obtained from
 both \code{dbSendQuery()}
 and \code{dbSendStatement()}.
-An attempt to close an already closed result set issues a warning
-in both cases.
 }
 \description{
 spec_result_clear_result
 }
+\section{Error behavior}{
+
+An attempt to close an already closed result set issues a warning
+in both cases.
+}
+
 \section{Specification}{
 
 \code{dbClearResult()} frees all resources associated with retrieving
