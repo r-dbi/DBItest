@@ -1,5 +1,20 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# DBItest 1.7.1.9005 (2021-12-17)
+
+- Improve documentation: list `spec_` objects in pkgdown help index, add cross references (#128).
+- Inline `with_rollback_on_error()` (#184, #253).
+- `local_remove_test_tables()` (#184, #251).
+- Replace internal `with_result()` with `local_result()` for better error traces (#184, #250).
+- New `roundtrip_date_extended`, `roundtrip_timestamp_extended`, `append_roundtrip_date_extended` and `append_roundtrip_timestamp_extended` checks test dates between 1800 and 2999 (#148, #249).
+- New `quote_literal_empty` test (#248).
+- Use only lower-case column names for Redshift compatibility.
+- Reduce parallelism
+- Also check dev on cran-* branches
+- Update hash key for dev
+- Remove R 3.3
+
+
 # DBItest 1.7.1.9004 (2021-09-20)
 
 - `column_info_consistent` no longer tests mangling of column names (#181).
