@@ -65,9 +65,25 @@ The value is available directly after the call
 and does not change after calling <code>dbFetch()</code>.
 For queries issued with <code>dbSendQuery()</code>,
 zero is returned before
-and after the call to <code>dbFetch()</code>.
-Attempting to get the rows affected for a result set cleared with
+and after the call to <code>dbFetch()</code>.</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+<p>Attempting to get the rows affected for a result set cleared with
 <code>dbClearResult()</code> gives an error.</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other meta specifications: 
+<code><a href="spec_get_info.html">spec_get_info</a></code>,
+<code><a href="spec_meta_bind.html">spec_meta_bind</a></code>,
+<code><a href="spec_meta_column_info.html">spec_meta_column_info</a></code>,
+<code><a href="spec_meta_get_row_count.html">spec_meta_get_row_count</a></code>,
+<code><a href="spec_meta_get_statement.html">spec_meta_get_statement</a></code>,
+<code><a href="spec_meta_has_completed.html">spec_meta_has_completed</a></code>,
+<code><a href="spec_meta_is_valid.html">spec_meta_is_valid</a></code></p></div>
     </div>
 
   </div>

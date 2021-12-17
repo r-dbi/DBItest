@@ -73,8 +73,13 @@ Tables added with <code>dbWriteTable()</code>are part of the data frame.
 As soon a table is removed from the database,
 it is also removed from the data frame of database objects.
 The same applies to temporary objects if supported by the database.
-The returned names are suitable for quoting with <code>dbQuoteIdentifier()</code>.
-An error is raised when calling this method for a closed
+The returned names are suitable for quoting with <code>dbQuoteIdentifier()</code>.</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+<p>An error is raised when calling this method for a closed
 or invalid connection.</p>
     </div>
     <div id="specification">
@@ -97,6 +102,22 @@ For the data frame returned from a <code>dbListObject()</code> call with the
 <code>prefix</code> argument set, all <code>table</code> values where <code>is_prefix</code> is
 <code>FALSE</code> can be used in a call to <code>dbExistsTable()</code> which returns
 <code>TRUE</code>.</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other sql specifications: 
+<code><a href="spec_sql_append_table.html">spec_sql_append_table</a></code>,
+<code><a href="spec_sql_create_table.html">spec_sql_create_table</a></code>,
+<code><a href="spec_sql_exists_table.html">spec_sql_exists_table</a></code>,
+<code><a href="spec_sql_list_fields.html">spec_sql_list_fields</a></code>,
+<code><a href="spec_sql_list_tables.html">spec_sql_list_tables</a></code>,
+<code><a href="spec_sql_quote_identifier.html">spec_sql_quote_identifier</a></code>,
+<code><a href="spec_sql_quote_literal.html">spec_sql_quote_literal</a></code>,
+<code><a href="spec_sql_quote_string.html">spec_sql_quote_string</a></code>,
+<code><a href="spec_sql_read_table.html">spec_sql_read_table</a></code>,
+<code><a href="spec_sql_remove_table.html">spec_sql_remove_table</a></code>,
+<code><a href="spec_sql_unquote_identifier.html">spec_sql_unquote_identifier</a></code>,
+<code><a href="spec_sql_write_table.html">spec_sql_write_table</a></code></p></div>
     </div>
 
   </div>

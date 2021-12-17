@@ -66,8 +66,15 @@ When passing the first element of a returned object again to
 <code>dbUnquoteIdentifier()</code> as <code>x</code>argument, it is returned unchanged (but wrapped in a list).
 Passing objects of class Id should also return them unchanged (but wrapped in a list).
 (For backends it may be most convenient to return Id objects
-to achieve this behavior, but this is not required.)
-An error is raised if plain character vectors are passed as the <code>x</code>argument.</p>
+to achieve this behavior, but this is not required.)</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+
+<p>An error is raised if plain character vectors are passed as the <code>x</code>
+argument.</p>
     </div>
     <div id="specification">
     <h2>Specification</h2>
@@ -88,6 +95,22 @@ quoting the string.
 Similarly, unquoting expressions of the form <code>SQL("schema.table")</code>
 and then quoting gives the same result as quoting the identifier
 constructed by <code>Id(schema = "schema", table = "table")</code>.</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other sql specifications: 
+<code><a href="spec_sql_append_table.html">spec_sql_append_table</a></code>,
+<code><a href="spec_sql_create_table.html">spec_sql_create_table</a></code>,
+<code><a href="spec_sql_exists_table.html">spec_sql_exists_table</a></code>,
+<code><a href="spec_sql_list_fields.html">spec_sql_list_fields</a></code>,
+<code><a href="spec_sql_list_objects.html">spec_sql_list_objects</a></code>,
+<code><a href="spec_sql_list_tables.html">spec_sql_list_tables</a></code>,
+<code><a href="spec_sql_quote_identifier.html">spec_sql_quote_identifier</a></code>,
+<code><a href="spec_sql_quote_literal.html">spec_sql_quote_literal</a></code>,
+<code><a href="spec_sql_quote_string.html">spec_sql_quote_string</a></code>,
+<code><a href="spec_sql_read_table.html">spec_sql_read_table</a></code>,
+<code><a href="spec_sql_remove_table.html">spec_sql_remove_table</a></code>,
+<code><a href="spec_sql_write_table.html">spec_sql_write_table</a></code></p></div>
     </div>
 
   </div>

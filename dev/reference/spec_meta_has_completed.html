@@ -63,8 +63,13 @@ For a query initiated by <code>dbSendQuery()</code> with non-empty result set,
 <code>dbHasCompleted()</code> returns <code>FALSE</code> initially
 and <code>TRUE</code> after calling <code>dbFetch()</code> without limit.
 For a query initiated by <code>dbSendStatement()</code>,
-<code>dbHasCompleted()</code> always returns <code>TRUE</code>.
-Attempting to query completion status for a result set cleared with
+<code>dbHasCompleted()</code> always returns <code>TRUE</code>.</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+<p>Attempting to query completion status for a result set cleared with
 <code>dbClearResult()</code> gives an error.</p>
     </div>
     <div id="specification">
@@ -75,11 +80,23 @@ Attempting to query completion status for a result set cleared with
 <code>FALSE</code> after attempting to fetch past the end of the entire result.
 Therefore, for a query with an empty result set,
 the initial return value is unspecified,
-but the result value is <code>TRUE</code> after trying to fetch only one row.
-Similarly, for a query with a result set of length n,
+but the result value is <code>TRUE</code> after trying to fetch only one row.</p>
+
+<p>Similarly, for a query with a result set of length n,
 the return value is unspecified after fetching n rows,
 but the result value is <code>TRUE</code> after trying to fetch only one more
 row.</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other meta specifications: 
+<code><a href="spec_get_info.html">spec_get_info</a></code>,
+<code><a href="spec_meta_bind.html">spec_meta_bind</a></code>,
+<code><a href="spec_meta_column_info.html">spec_meta_column_info</a></code>,
+<code><a href="spec_meta_get_row_count.html">spec_meta_get_row_count</a></code>,
+<code><a href="spec_meta_get_rows_affected.html">spec_meta_get_rows_affected</a></code>,
+<code><a href="spec_meta_get_statement.html">spec_meta_get_statement</a></code>,
+<code><a href="spec_meta_is_valid.html">spec_meta_is_valid</a></code></p></div>
     </div>
 
   </div>

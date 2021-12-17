@@ -60,28 +60,38 @@
     <h2>Value</h2>
     <p><code>dbReadTable()</code> returns a data frame that contains the complete data
 from the remote table, effectively the result of calling <code>dbGetQuery()</code>with <code>SELECT * FROM &lt;name&gt;</code>.
-An error is raised if the table does not exist.
 An empty table is returned as a data frame with zero rows.
 The presence of <a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a> depends on the <code>row.names</code> argument,
 see <code>sqlColumnToRownames()</code> for details:</p><ul><li><p>If <code>FALSE</code> or <code>NULL</code>, the returned data frame doesn't have row names.</p></li>
-<li><p>If <code>TRUE</code>, a column named "row_names" is converted to row names,
-an error is raised if no such column exists.</p></li>
-<li><p>If <code>NA</code>, a column named "row_names" is converted to row names if it exists,
+<li><p>If <code>TRUE</code>, a column named "row_names" is converted to row names.</p></li>
+</ul><ul><li><p>If <code>NA</code>, a column named "row_names" is converted to row names if it exists,
 otherwise no translation occurs.</p></li>
 <li><p>If a string, this specifies the name of the column in the remote table
-that contains the row names,
-an error is raised if no such column exists.</p></li>
+that contains the row names.</p></li>
 </ul><p>The default is <code>row.names = FALSE</code>.
 If the database supports identifiers with special characters,
 the columns in the returned data frame are converted to valid R
 identifiers
 if the <code>check.names</code> argument is <code>TRUE</code>,
-If <code>check.names = FALSE</code>, the returned table has non-syntactic column names without quotes.
-An error is raised when calling this method for a closed
+If <code>check.names = FALSE</code>, the returned table has non-syntactic column names without quotes.</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+<p>An error is raised if the table does not exist.</p>
+
+<p>An error is raised if <code>row.names</code> is <code>TRUE</code> and no "row_names" column exists,</p>
+
+<p>An error is raised if <code>row.names</code> is set to a string and and no corresponding column exists.</p>
+
+<p>An error is raised when calling this method for a closed
 or invalid connection.
 An error is raised
-if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>or if this results in a non-scalar.
-Unsupported values for <code>row.names</code> and <code>check.names</code>(non-scalars,
+if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>
+or if this results in a non-scalar.
+Unsupported values for <code>row.names</code> and <code>check.names</code>
+(non-scalars,
 unsupported data types,
 <code>NA</code> for <code>check.names</code>)
 also raise an error.</p>
@@ -107,6 +117,22 @@ quoting,
 perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
 <li><p>If the result of a call to <code>dbQuoteIdentifier()</code>: no more quoting is done</p></li>
 </ul></div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other sql specifications: 
+<code><a href="spec_sql_append_table.html">spec_sql_append_table</a></code>,
+<code><a href="spec_sql_create_table.html">spec_sql_create_table</a></code>,
+<code><a href="spec_sql_exists_table.html">spec_sql_exists_table</a></code>,
+<code><a href="spec_sql_list_fields.html">spec_sql_list_fields</a></code>,
+<code><a href="spec_sql_list_objects.html">spec_sql_list_objects</a></code>,
+<code><a href="spec_sql_list_tables.html">spec_sql_list_tables</a></code>,
+<code><a href="spec_sql_quote_identifier.html">spec_sql_quote_identifier</a></code>,
+<code><a href="spec_sql_quote_literal.html">spec_sql_quote_literal</a></code>,
+<code><a href="spec_sql_quote_string.html">spec_sql_quote_string</a></code>,
+<code><a href="spec_sql_remove_table.html">spec_sql_remove_table</a></code>,
+<code><a href="spec_sql_unquote_identifier.html">spec_sql_unquote_identifier</a></code>,
+<code><a href="spec_sql_write_table.html">spec_sql_write_table</a></code></p></div>
+    </div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

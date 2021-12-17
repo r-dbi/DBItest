@@ -62,8 +62,13 @@
 that enumerates all fields
 in the table in the correct order.
 This also works for temporary tables if supported by the database.
-The returned names are suitable for quoting with <code>dbQuoteIdentifier()</code>.
-If the table does not exist, an error is raised.
+The returned names are suitable for quoting with <code>dbQuoteIdentifier()</code>.</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+<p>If the table does not exist, an error is raised.
 Invalid types for the <code>name</code> argument
 (e.g., <code>character</code> of length not equal to one,
 or numeric)
@@ -81,6 +86,22 @@ or invalid connection.</p>
 <li><p>a value from the <code>table</code> column from the return value of
 <code>dbListObjects()</code> where <code>is_prefix</code> is <code>FALSE</code></p></li>
 </ul><p>A column named <code>row_names</code> is treated like any other column.</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other sql specifications: 
+<code><a href="spec_sql_append_table.html">spec_sql_append_table</a></code>,
+<code><a href="spec_sql_create_table.html">spec_sql_create_table</a></code>,
+<code><a href="spec_sql_exists_table.html">spec_sql_exists_table</a></code>,
+<code><a href="spec_sql_list_objects.html">spec_sql_list_objects</a></code>,
+<code><a href="spec_sql_list_tables.html">spec_sql_list_tables</a></code>,
+<code><a href="spec_sql_quote_identifier.html">spec_sql_quote_identifier</a></code>,
+<code><a href="spec_sql_quote_literal.html">spec_sql_quote_literal</a></code>,
+<code><a href="spec_sql_quote_string.html">spec_sql_quote_string</a></code>,
+<code><a href="spec_sql_read_table.html">spec_sql_read_table</a></code>,
+<code><a href="spec_sql_remove_table.html">spec_sql_remove_table</a></code>,
+<code><a href="spec_sql_unquote_identifier.html">spec_sql_unquote_identifier</a></code>,
+<code><a href="spec_sql_write_table.html">spec_sql_write_table</a></code></p></div>
     </div>
 
   </div>

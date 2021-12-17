@@ -58,8 +58,13 @@
 
     <div id="value">
     <h2>Value</h2>
-    <p><code>dbWithTransaction()</code> returns the value of the executed code.
-Failure to initiate the transaction
+    <p><code>dbWithTransaction()</code> returns the value of the executed code.</p>
+    </div>
+    <div id="failure-modes">
+    <h2>Failure modes</h2>
+    
+
+<p>Failure to initiate the transaction
 (e.g., if the connection is closed
 or invalid
 of if <code>dbBegin()</code> has been called already)
@@ -79,6 +84,11 @@ transaction is silently aborted.
 All side effects caused by the code
 (such as the creation of new variables)
 propagate to the calling environment.</p>
+    </div>
+    <div id="see-also">
+    <h2>See also</h2>
+    <div class="dont-index"><p>Other transaction specifications: 
+<code><a href="spec_transaction_begin_commit_rollback.html">spec_transaction_begin_commit_rollback</a></code></p></div>
     </div>
 
   </div>
