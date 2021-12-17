@@ -42,6 +42,8 @@ spec_result_send_query <- list(
   #' An error is also raised if the syntax of the query is invalid
   #' and all query parameters are given (by passing the `params` argument)
   #' or the `immediate` argument is set to `TRUE`.
+  #'
+  #' @section Error behavior:
   send_query_syntax_error = function(con) {
     expect_error(dbSendQuery(con, "SELLECT", params = list()))
     expect_error(dbSendQuery(con, "SELLECT", immediate = TRUE))

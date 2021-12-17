@@ -187,6 +187,8 @@ spec_sql_read_table <- list(
   },
 
   #' An error is raised
+  #'
+  #' @section Error behavior:
   read_table_error = function(ctx, con, table_name) {
     dbWriteTable(con, table_name, data.frame(a = 1L))
     #' if `name` cannot be processed with [dbQuoteIdentifier()]

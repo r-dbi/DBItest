@@ -138,7 +138,8 @@ spec_sql_quote_literal <- list(
     #' returns one row.
     expect_equal(nrow(rows), 1L)
   },
-  #
+  #'
+  #' @section Error behavior:
   quote_literal_error = function(ctx, con) {
     #'
     #' Passing a list

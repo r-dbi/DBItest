@@ -52,7 +52,8 @@ spec_sql_unquote_identifier <- list(
     #' (For backends it may be most convenient to return [Id] objects
     #' to achieve this behavior, but this is not required.)
   },
-  #
+  #'
+  #' @section Error behavior:
   unquote_identifier_error = function(ctx, con) {
     #'
     #' An error is raised if plain character vectors are passed as the `x`

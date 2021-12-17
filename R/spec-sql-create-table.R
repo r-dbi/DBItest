@@ -39,6 +39,8 @@ spec_sql_create_table <- list(
   },
 
   #' An error is also raised
+  #'
+  #' @section Error behavior:
   create_table_error = function(ctx, con, table_name) {
     test_in <- data.frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()]

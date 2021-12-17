@@ -50,6 +50,8 @@ spec_sql_write_table <- list(
   },
 
   #' An error is also raised
+  #'
+  #' @section Error behavior:
   write_table_error = function(ctx, con, table_name) {
     test_in <- data.frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()]

@@ -53,6 +53,8 @@ spec_result_get_query <- list(
   },
 
   #' if the syntax of the query is invalid,
+  #'
+  #' @section Error behavior:
   get_query_syntax_error = function(con) {
     expect_error(dbGetQuery(con, "SELLECT"))
   },

@@ -70,7 +70,8 @@ spec_meta_get_row_count <- list(
     #' and after calling `dbFetch()`.
     expect_equal(rc, 0L)
   },
-  #
+  #'
+  #' @section Error behavior:
   get_row_count_error = function(con) {
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)

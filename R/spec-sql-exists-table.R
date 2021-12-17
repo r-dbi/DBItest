@@ -48,6 +48,8 @@ spec_sql_exists_table <- list(
   },
 
   #' An error is also raised
+  #'
+  #' @section Error behavior:
   exists_table_error = function(con, table_name) {
     dbWriteTable(con, table_name, data.frame(a = 1L))
     #' if `name` cannot be processed with [dbQuoteIdentifier()]

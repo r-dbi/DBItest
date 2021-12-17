@@ -62,6 +62,8 @@ spec_sql_append_table <- list(
   },
 
   #' An error is also raised
+  #'
+  #' @section Error behavior:
   append_table_error = function(con, table_name) {
     test_in <- data.frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()]

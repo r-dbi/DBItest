@@ -36,6 +36,8 @@ spec_result_execute <- list(
   },
 
   #' if the syntax of the statement is invalid,
+  #'
+  #' @section Error behavior:
   execute_syntax_error = function(con) {
     expect_error(dbExecute(con, "CREATTE"))
   },
