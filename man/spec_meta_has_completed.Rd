@@ -24,6 +24,8 @@ The completion status for a query is only guaranteed to be set to
 Therefore, for a query with an empty result set,
 the initial return value is unspecified,
 but the result value is \code{TRUE} after trying to fetch only one row.
+
+
 Similarly, for a query with a result set of length n,
 the return value is unspecified after fetching n rows,
 but the result value is \code{TRUE} after trying to fetch only one more

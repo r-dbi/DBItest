@@ -58,12 +58,16 @@ with a warning)
 \item date
 (if supported by the database;
 returned as \code{Date})
+also for dates prior to 1970 or 1900 or after 2038
 \item time
 (if supported by the database;
 returned as objects that inherit from \code{difftime})
 \item timestamp
 (if supported by the database;
 returned as \code{POSIXct}
+respecting the time zone but not necessarily preserving the
+input time zone),
+also for timestamps prior to 1970 or 1900 or after 2038
 respecting the time zone but not necessarily preserving the
 input time zone)
 }
@@ -81,6 +85,7 @@ to support databases that allow non-syntactic names for their objects:
 \item If an unquoted table name as string: \code{dbAppendTable()} will do the quoting,
 perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 \item If the result of a call to \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}: no more quoting is done
+to support databases that allow non-syntactic names for their objects:
 }
 
 The \code{row.names} argument must be \code{NULL}, the default value.
