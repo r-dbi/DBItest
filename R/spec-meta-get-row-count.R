@@ -1,4 +1,5 @@
 #' spec_meta_get_row_count
+#' @family meta specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

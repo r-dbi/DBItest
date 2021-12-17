@@ -1,4 +1,5 @@
 #' spec_result_send_statement
+#' @family result specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

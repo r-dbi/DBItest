@@ -121,4 +121,24 @@ and with the value stored as integer)
 }
 }
 
+\seealso{
+Other meta specifications: 
+\code{\link{spec_get_info}},
+\code{\link{spec_meta_column_info}},
+\code{\link{spec_meta_get_row_count}},
+\code{\link{spec_meta_get_rows_affected}},
+\code{\link{spec_meta_get_statement}},
+\code{\link{spec_meta_has_completed}},
+\code{\link{spec_meta_is_valid}}
+
+Other meta specifications: 
+\code{\link{spec_get_info}},
+\code{\link{spec_meta_column_info}},
+\code{\link{spec_meta_get_row_count}},
+\code{\link{spec_meta_get_rows_affected}},
+\code{\link{spec_meta_get_statement}},
+\code{\link{spec_meta_has_completed}},
+\code{\link{spec_meta_is_valid}}
+}
+\concept{meta specifications}
 \keyword{internal}

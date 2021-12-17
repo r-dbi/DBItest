@@ -1,4 +1,5 @@
 #' spec_transaction_with_transaction
+#' @family transaction specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

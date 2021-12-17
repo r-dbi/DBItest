@@ -14,4 +14,15 @@ Attempting to query the statement for a result set cleared with
 \description{
 spec_meta_get_statement
 }
+\seealso{
+Other meta specifications: 
+\code{\link{spec_get_info}},
+\code{\link{spec_meta_bind}},
+\code{\link{spec_meta_column_info}},
+\code{\link{spec_meta_get_row_count}},
+\code{\link{spec_meta_get_rows_affected}},
+\code{\link{spec_meta_has_completed}},
+\code{\link{spec_meta_is_valid}}
+}
+\concept{meta specifications}
 \keyword{internal}

@@ -1,4 +1,5 @@
 #' spec_driver_constructor
+#' @family driver specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

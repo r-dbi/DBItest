@@ -1,4 +1,5 @@
 #' spec_compliance_methods
+#' @family compliance specifications
 #' @usage NULL
 #' @format NULL
 #' @importFrom callr r

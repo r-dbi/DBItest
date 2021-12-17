@@ -1,4 +1,5 @@
 #' spec_transaction_begin_commit_rollback
+#' @family transaction specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

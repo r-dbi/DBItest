@@ -1,4 +1,5 @@
 #' spec_sql_list_tables
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

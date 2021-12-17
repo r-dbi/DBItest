@@ -43,4 +43,11 @@ and \link{ordered} is the same as for character.
 The behavior for other object types is not specified.
 }
 
+\seealso{
+Other driver specifications: 
+\code{\link{spec_driver_connect}},
+\code{\link{spec_driver_constructor}},
+\code{\link{spec_get_info}}
+}
+\concept{driver specifications}
 \keyword{internal}

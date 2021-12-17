@@ -1,4 +1,5 @@
 #' spec_connection_disconnect
+#' @family connection specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

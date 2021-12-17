@@ -1,4 +1,5 @@
 #' spec_sql_quote_literal
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

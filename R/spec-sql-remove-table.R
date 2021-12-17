@@ -1,4 +1,5 @@
 #' spec_sql_remove_table
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

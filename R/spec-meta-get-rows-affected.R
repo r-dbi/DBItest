@@ -1,4 +1,5 @@
 #' spec_meta_get_rows_affected
+#' @family meta specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

@@ -44,4 +44,15 @@ no warning is issued when clearing the result set.
 A column named \code{row_names} is treated like any other column.
 }
 
+\seealso{
+Other result specifications: 
+\code{\link{spec_result_clear_result}},
+\code{\link{spec_result_create_table_with_data_type}},
+\code{\link{spec_result_execute}},
+\code{\link{spec_result_get_query}},
+\code{\link{spec_result_roundtrip}},
+\code{\link{spec_result_send_query}},
+\code{\link{spec_result_send_statement}}
+}
+\concept{result specifications}
 \keyword{internal}

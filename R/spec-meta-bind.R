@@ -1,4 +1,5 @@
 #' spec_meta_bind
+#' @family meta specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

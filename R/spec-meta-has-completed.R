@@ -1,4 +1,5 @@
 #' spec_meta_has_completed
+#' @family meta specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

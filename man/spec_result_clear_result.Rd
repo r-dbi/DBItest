@@ -22,4 +22,15 @@ The DBI backend can expect a call to \code{dbClearResult()} for each
 \code{\link[=dbSendQuery]{dbSendQuery()}} or \code{\link[=dbSendStatement]{dbSendStatement()}} call.
 }
 
+\seealso{
+Other result specifications: 
+\code{\link{spec_result_create_table_with_data_type}},
+\code{\link{spec_result_execute}},
+\code{\link{spec_result_fetch}},
+\code{\link{spec_result_get_query}},
+\code{\link{spec_result_roundtrip}},
+\code{\link{spec_result_send_query}},
+\code{\link{spec_result_send_statement}}
+}
+\concept{result specifications}
 \keyword{internal}

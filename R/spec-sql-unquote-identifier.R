@@ -1,4 +1,5 @@
 #' spec_sql_unquote_identifier
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

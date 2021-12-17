@@ -18,4 +18,5 @@ For better or worse, the names of many existing backends start with
 to the backend author to adopt this convention or not.
 }
 
+\concept{getting specifications}
 \keyword{internal}

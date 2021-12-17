@@ -1,4 +1,5 @@
 #' spec_connection_get_info
+#' @family connection specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

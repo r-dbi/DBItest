@@ -1,4 +1,5 @@
 #' spec_result_roundtrip
+#' @family result specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

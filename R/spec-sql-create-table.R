@@ -1,4 +1,5 @@
 #' spec_sql_create_table
+#' @family sql specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

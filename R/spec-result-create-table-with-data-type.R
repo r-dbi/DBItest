@@ -1,4 +1,5 @@
 #' spec_result_create_table_with_data_type
+#' @family result specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords internal

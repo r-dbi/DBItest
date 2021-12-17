@@ -1,6 +1,7 @@
 run_bind_tester <- list()
 
 #' spec_meta_bind
+#' @family meta specifications
 #' @name spec_meta_bind
 #' @usage NULL
 #' @format NULL
