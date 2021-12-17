@@ -88,7 +88,7 @@ spec_sql_list_objects <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An error is raised when calling this method for a closed
   list_objects_closed_connection = function(ctx, closed_con) {
     expect_error(dbListObjects(closed_con))

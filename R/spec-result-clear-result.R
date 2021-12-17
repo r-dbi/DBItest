@@ -24,7 +24,7 @@ spec_result_clear_result <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An attempt to close an already closed result set issues a warning
   cannot_clear_result_twice_query = function(con) {
     res <- dbSendQuery(con, trivial_query())

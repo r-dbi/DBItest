@@ -36,7 +36,7 @@ spec_meta_column_info <- list(
 
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An attempt to query columns for a closed result set raises an error.
   column_info_closed = function(con) {
     query <- trivial_query()

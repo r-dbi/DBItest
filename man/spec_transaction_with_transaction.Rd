@@ -10,7 +10,7 @@
 \description{
 spec_transaction_with_transaction
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 Failure to initiate the transaction
 (e.g., if the connection is closed

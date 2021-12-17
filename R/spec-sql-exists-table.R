@@ -37,7 +37,7 @@ spec_sql_exists_table <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An error is raised when calling this method for a closed
   exists_table_closed_connection = function(ctx, closed_con) {
     expect_error(dbExistsTable(closed_con, "test"))

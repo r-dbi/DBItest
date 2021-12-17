@@ -24,7 +24,7 @@ spec_result_execute <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An error is raised when issuing a statement over a closed
   execute_closed_connection = function(ctx, closed_con) {
     table_name <- "dbit12"

@@ -35,7 +35,7 @@ spec_sql_list_fields <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' If the table does not exist, an error is raised.
   list_fields_wrong_table = function(con) {
     name <- "missing"

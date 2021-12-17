@@ -36,7 +36,7 @@ spec_transaction_begin_commit_rollback <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' The implementations are expected to raise an error in case of failure,
   #' but this is not tested.
   begin_commit_closed = function(ctx, closed_con) {

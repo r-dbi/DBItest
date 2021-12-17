@@ -19,7 +19,7 @@ is returned.
 \description{
 test_data_type
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 An error is raised for invalid values for the \code{obj} argument such as a
 \code{NULL} value.

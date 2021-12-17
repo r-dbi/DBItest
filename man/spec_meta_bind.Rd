@@ -102,7 +102,7 @@ and with the value stored as integer)
 }
 }
 
-\section{Error behavior}{
+\section{Failure modes}{
 
 Calling \code{dbBind()} for a query without parameters
 raises an error.

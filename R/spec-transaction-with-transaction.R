@@ -17,7 +17,7 @@ spec_transaction_with_transaction <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' Failure to initiate the transaction
   #' (e.g., if the connection is closed
   with_transaction_error_closed = function(ctx, closed_con) {

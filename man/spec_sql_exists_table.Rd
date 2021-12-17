@@ -13,7 +13,7 @@ This includes temporary tables if supported by the database.
 \description{
 spec_sql_exists_table
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 An error is raised when calling this method for a closed
 or invalid connection.

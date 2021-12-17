@@ -12,7 +12,7 @@ and \code{dbSendStatement()}.
 \description{
 spec_result_clear_result
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 An attempt to close an already closed result set issues a warning
 in both cases.

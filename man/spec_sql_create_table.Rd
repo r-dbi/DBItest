@@ -10,7 +10,7 @@
 \description{
 spec_sql_create_table
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 If the table exists, an error is raised; the remote table remains unchanged.
 

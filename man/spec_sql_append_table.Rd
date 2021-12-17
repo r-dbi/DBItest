@@ -12,7 +12,7 @@ numeric.
 \description{
 spec_sql_append_table
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 If the table does not exist,
 or the new data in \code{values} is not a data frame or has different column names,

@@ -17,7 +17,7 @@ spec_sql_write_table <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' If the table exists, and both `append` and `overwrite` arguments are unset,
   write_table_overwrite = function(con, table_name) {
     test_in <- data.frame(a = 1L)

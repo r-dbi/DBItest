@@ -10,7 +10,7 @@
 \description{
 spec_sql_remove_table
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 If the table does not exist, an error is raised.
 An attempt to remove a view with this function may result in an error.

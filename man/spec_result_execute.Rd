@@ -14,7 +14,7 @@ by the statement.
 \description{
 spec_result_execute
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 An error is raised when issuing a statement over a closed
 or invalid connection,

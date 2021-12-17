@@ -29,7 +29,7 @@ spec_meta_get_statement <- list(
     expect_identical(s, query)
   },
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   get_statement_error = function(con) {
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)

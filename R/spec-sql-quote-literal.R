@@ -139,7 +139,7 @@ spec_sql_quote_literal <- list(
     expect_equal(nrow(rows), 1L)
   },
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   quote_literal_error = function(ctx, con) {
     #'
     #' Passing a list

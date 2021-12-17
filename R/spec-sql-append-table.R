@@ -23,7 +23,7 @@ spec_sql_append_table <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' If the table does not exist,
   append_table_missing = function(con, table_name) {
     expect_false(dbExistsTable(con, table_name))
@@ -557,7 +557,7 @@ spec_sql_append_table <- list(
   #
   append_table_row_names_non_null = function(con, table_name) {
     #'
-    #' @section Error behavior:
+    #' @section Failure modes:
     #' Passing a `value` argument different to `NULL` to the `row.names` argument
     mtcars_in <- datasets::mtcars
     dbCreateTable(con, table_name, mtcars_in)

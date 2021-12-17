@@ -24,7 +24,7 @@ spec_result_send_statement <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An error is raised when issuing a statement over a closed
   send_statement_closed_connection = function(ctx, closed_con) {
     table_name <- "dbit10"
@@ -48,7 +48,7 @@ spec_result_send_statement <- list(
   #' and all query parameters are given (by passing the `params` argument)
   #' or the `immediate` argument is set to `TRUE`.
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   send_statement_syntax_error = function(con) {
     expect_error(dbSendStatement(con, "CREATTE", params = list()))
     expect_error(dbSendStatement(con, "CREATTE", immediate = TRUE))

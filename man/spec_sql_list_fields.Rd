@@ -15,7 +15,7 @@ The returned names are suitable for quoting with \code{dbQuoteIdentifier()}.
 \description{
 spec_sql_list_fields
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 If the table does not exist, an error is raised.
 Invalid types for the \code{name} argument

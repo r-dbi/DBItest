@@ -28,7 +28,7 @@ spec_meta_has_completed <- list(
     expect_true(expect_visible(dbHasCompleted(res)))
   },
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   has_completed_error = function(con) {
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)

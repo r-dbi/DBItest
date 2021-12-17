@@ -22,7 +22,7 @@ spec_sql_read_table <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An error is raised if the table does not exist.
   read_table_missing = function(con, table_name) {
     expect_error(dbReadTable(con, table_name))
@@ -69,7 +69,7 @@ spec_sql_read_table <- list(
     expect_equal_df(mtcars_out, mtcars_in)
   },
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An error is raised if `row.names` is `TRUE` and no "row_names" column exists,
   read_table_row_names_true_missing = function(ctx, con, table_name) {
     row.names <- TRUE
@@ -120,7 +120,7 @@ spec_sql_read_table <- list(
     expect_equal_df(unrowname(mtcars_out), mtcars_in[names(mtcars_in) != "make_model"])
   },
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An error is raised if `row.names` is set to a string and and no corresponding column exists.
   read_table_row_names_string_missing = function(ctx, con, table_name) {
     row.names <- "missing"
@@ -178,7 +178,7 @@ spec_sql_read_table <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An error is raised when calling this method for a closed
   read_table_closed_connection = function(ctx, con, table_name) {
     dbWriteTable(con, table_name, data.frame(a = 1))

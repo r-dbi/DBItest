@@ -54,7 +54,7 @@ spec_sql_quote_identifier <- list(
     #' to achieve this behavior, but this is not required.)
   },
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   quote_identifier_error = function(ctx, con) {
     #'
     #' An error is raised if the input contains `NA`,

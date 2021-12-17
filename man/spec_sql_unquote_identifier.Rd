@@ -19,7 +19,7 @@ to achieve this behavior, but this is not required.)
 \description{
 spec_sql_unquote_identifier
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 
 An error is raised if plain character vectors are passed as the \code{x}

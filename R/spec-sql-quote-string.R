@@ -129,7 +129,7 @@ spec_sql_quote_string <- list(
     expect_equal(nrow(rows), 1L)
   },
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   quote_string_error = function(ctx, con) {
     #'
     #' Passing a numeric,

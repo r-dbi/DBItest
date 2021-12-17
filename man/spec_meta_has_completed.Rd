@@ -15,7 +15,7 @@ For a query initiated by \code{\link[=dbSendStatement]{dbSendStatement()}},
 \description{
 spec_meta_has_completed
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 Attempting to query completion status for a result set cleared with
 \code{\link[=dbClearResult]{dbClearResult()}} gives an error.

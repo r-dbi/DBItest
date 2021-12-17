@@ -46,7 +46,7 @@ so that the query \verb{SELECT * FROM (SELECT 1) a WHERE ... IS NULL}
 returns one row.
 }
 
-\section{Error behavior}{
+\section{Failure modes}{
 
 
 Passing a list

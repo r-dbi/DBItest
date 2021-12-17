@@ -10,7 +10,7 @@
 \description{
 spec_transaction_begin_commit_rollback
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 The implementations are expected to raise an error in case of failure,
 but this is not tested.

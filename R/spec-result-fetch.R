@@ -40,7 +40,7 @@ spec_result_fetch <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An attempt to fetch from a closed result set raises an error.
   fetch_closed = function(con) {
     query <- trivial_query()

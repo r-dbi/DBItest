@@ -10,7 +10,7 @@
 \description{
 spec_connection_disconnect
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 A warning is issued on garbage collection when a connection has been
 released without calling \code{dbDisconnect()},

@@ -15,7 +15,7 @@ or zero rows.
 \description{
 spec_result_fetch
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 An attempt to fetch from a closed result set raises an error.
 If the \code{n} argument is not an atomic whole number

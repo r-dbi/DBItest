@@ -18,7 +18,7 @@ to create a zero-row data frame initialized with the correct data types.
 \description{
 spec_meta_column_info
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 An attempt to query columns for a closed result set raises an error.
 }

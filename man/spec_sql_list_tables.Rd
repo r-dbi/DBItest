@@ -22,7 +22,7 @@ The returned names are suitable for quoting with \code{dbQuoteIdentifier()}.
 \description{
 spec_sql_list_tables
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 An error is raised when calling this method for a closed
 or invalid connection.

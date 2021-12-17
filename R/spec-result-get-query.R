@@ -42,7 +42,7 @@ spec_result_get_query <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An error is raised when issuing a query over a closed
   get_query_closed_connection = function(ctx, closed_con) {
     expect_error(dbGetQuery(closed_con, trivial_query()))

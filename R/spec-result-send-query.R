@@ -23,7 +23,7 @@ spec_result_send_query <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' An error is raised when issuing a query over a closed
   send_query_closed_connection = function(ctx, closed_con) {
     expect_error(dbSendQuery(closed_con, trivial_query()))
@@ -45,7 +45,7 @@ spec_result_send_query <- list(
   #' and all query parameters are given (by passing the `params` argument)
   #' or the `immediate` argument is set to `TRUE`.
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   send_query_syntax_error = function(con) {
     expect_error(dbSendQuery(con, "SELLECT", params = list()))
     expect_error(dbSendQuery(con, "SELLECT", immediate = TRUE))

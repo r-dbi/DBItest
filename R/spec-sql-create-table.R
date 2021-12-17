@@ -16,7 +16,7 @@ spec_sql_create_table <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' If the table exists, an error is raised; the remote table remains unchanged.
   create_table_overwrite = function(con, table_name) {
     test_in <- trivial_df()

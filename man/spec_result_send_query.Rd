@@ -14,7 +14,7 @@ with \code{\link[=dbClearResult]{dbClearResult()}}.
 \description{
 spec_result_send_query
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 An error is raised when issuing a query over a closed
 or invalid connection,

@@ -15,7 +15,7 @@ or zero rows.
 \description{
 spec_result_get_query
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 An error is raised when issuing a query over a closed
 or invalid connection,

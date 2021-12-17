@@ -25,7 +25,7 @@ and after calling \code{dbFetch()}.
 \description{
 spec_meta_get_row_count
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 Attempting to get the row count for a result set cleared with
 \code{\link[=dbClearResult]{dbClearResult()}} gives an error.

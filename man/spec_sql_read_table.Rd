@@ -36,7 +36,7 @@ If \code{check.names = FALSE}, the returned table has non-syntactic column names
 \description{
 spec_sql_read_table
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 An error is raised if the table does not exist.
 

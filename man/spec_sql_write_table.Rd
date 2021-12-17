@@ -10,7 +10,7 @@
 \description{
 spec_sql_write_table
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 If the table exists, and both \code{append} and \code{overwrite} arguments are unset,
 or \code{append = TRUE} and the data frame with the new data has different

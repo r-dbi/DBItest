@@ -17,7 +17,7 @@ and after the call to \code{dbFetch()}.
 \description{
 spec_meta_get_rows_affected
 }
-\section{Error behavior}{
+\section{Failure modes}{
 
 Attempting to get the rows affected for a result set cleared with
 \code{\link[=dbClearResult]{dbClearResult()}} gives an error.

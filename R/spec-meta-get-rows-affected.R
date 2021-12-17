@@ -43,7 +43,7 @@ spec_meta_get_rows_affected <- list(
     expect_equal(rc, 0L)
   },
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   get_rows_affected_error = function(con, table_name) {
     query <- paste0(
       "CREATE TABLE ", dbQuoteIdentifier(con, table_name), " (a integer)"

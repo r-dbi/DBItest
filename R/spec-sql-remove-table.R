@@ -19,7 +19,7 @@ spec_sql_remove_table <- list(
   },
 
   #'
-  #' @section Error behavior:
+  #' @section Failure modes:
   #' If the table does not exist, an error is raised.
   remove_table_missing = function(con, table_name) {
     expect_error(dbRemoveTable(con, table_name))
