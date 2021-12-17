@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.1.9004</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.1.9005</span>
       </span>
     </div>
 
@@ -50,6 +50,21 @@
       <small>Source: <a href="https://github.com/r-dbi/DBItest/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.7.1.9005" id="dbitest-1719005-2021-12-17">DBItest 1.7.1.9005 (2021-12-17)<a class="anchor" aria-label="anchor" href="#dbitest-1719005-2021-12-17"></a></h2>
+<ul><li>Improve documentation: list <code>spec_</code> objects in pkgdown help index, add cross references (<a href="https://github.com/r-dbi/DBItest/issues/128" class="external-link">#128</a>).</li>
+<li>Inline <code>with_rollback_on_error()</code> (<a href="https://github.com/r-dbi/DBItest/issues/184" class="external-link">#184</a>, <a href="https://github.com/r-dbi/DBItest/issues/253" class="external-link">#253</a>).</li>
+<li>
+<code>local_remove_test_tables()</code> (<a href="https://github.com/r-dbi/DBItest/issues/184" class="external-link">#184</a>, <a href="https://github.com/r-dbi/DBItest/issues/251" class="external-link">#251</a>).</li>
+<li>Replace internal <code>with_result()</code> with <code>local_result()</code> for better error traces (<a href="https://github.com/r-dbi/DBItest/issues/184" class="external-link">#184</a>, <a href="https://github.com/r-dbi/DBItest/issues/250" class="external-link">#250</a>).</li>
+<li>New <code>roundtrip_date_extended</code>, <code>roundtrip_timestamp_extended</code>, <code>append_roundtrip_date_extended</code> and <code>append_roundtrip_timestamp_extended</code> checks test dates between 1800 and 2999 (<a href="https://github.com/r-dbi/DBItest/issues/148" class="external-link">#148</a>, <a href="https://github.com/r-dbi/DBItest/issues/249" class="external-link">#249</a>).</li>
+<li>New <code>quote_literal_empty</code> test (<a href="https://github.com/r-dbi/DBItest/issues/248" class="external-link">#248</a>).</li>
+<li>Use only lower-case column names for Redshift compatibility.</li>
+<li>Reduce parallelism</li>
+<li>Also check dev on cran-* branches</li>
+<li>Update hash key for dev</li>
+<li>Remove R 3.3</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.7.1.9004" id="dbitest-1719004-2021-09-20">DBItest 1.7.1.9004 (2021-09-20)<a class="anchor" aria-label="anchor" href="#dbitest-1719004-2021-09-20"></a></h2>
 <ul><li>
