@@ -2,55 +2,33 @@
 
 # DBItest 1.7.2 (2021-12-17)
 
-- Same as previous version.
-
-
-# DBItest 1.7.1.9005 (2021-12-17)
-
-- Improve documentation: list `spec_` objects in pkgdown help index, add cross references (#128).
-- Inline `with_rollback_on_error()` (#184, #253).
-- `local_remove_test_tables()` (#184, #251).
-- Replace internal `with_result()` with `local_result()` for better error traces (#184, #250).
-- New `roundtrip_date_extended`, `roundtrip_timestamp_extended`, `append_roundtrip_date_extended` and `append_roundtrip_timestamp_extended` checks test dates between 1800 and 2999 (#148, #249).
-- New `quote_literal_empty` test (#248).
-- Use only lower-case column names for Redshift compatibility.
-- Reduce parallelism
-- Also check dev on cran-* branches
-- Update hash key for dev
-- Remove R 3.3
-
-
-# DBItest 1.7.1.9004 (2021-09-20)
-
-- `column_info_consistent` no longer tests mangling of column names (#181).
-
-
-# DBItest 1.7.1.9003 (2021-09-20)
-
-- Reuse database connection for most tests (#245).
-
-
-# DBItest 1.7.1.9002 (2021-09-13)
-
-- All column names are specified using lowercase on input, for compatibility with Redshift (#234).
-- Use `palmerpenguins::penguins` instead of `iris` (#241).
-- New `"bind_character_escape"` test for binding special characters (#242).
-- Fix MySQL ODBC test on GitHub Actions (#237).
-- Add specification for `value` argument to `DBI::dbWriteTable()` (#235).
-
-
-# DBItest 1.7.1.9001 (2021-09-05)
+## Features
 
 - `tweaks()` gains `dbitest_version` argument to support targeting a specific version of the DBItest package. The default is 1.7.1 (#236).
-- Improve testthat 3e compatibility: remove `testthat::expect_is()` and `testthat::expect_that()` from tests (#231, @michaelquinn32).
+- Reuse database connection for most tests (#245).
+- New `roundtrip_date_extended`, `roundtrip_timestamp_extended`, `append_roundtrip_date_extended` and `append_roundtrip_timestamp_extended` test dates between 1800 and 2999 (#148, #249).
+- New `quote_literal_empty` test (#248).
+- New `bind_character_escape` test for binding special characters (#242).
 - New `bind_time_minutes_integer` test for integer durations.
-- Decompose query used for testing `dbBind()`.
+
+## Bug fixes
+
+- All column names are specified using lowercase on input, for compatibility with Redshift (#234).
+- `column_info_consistent` no longer tests mangling of column names (#181).
 - `spec_sql_append_table` test: Remove bad argument.
 
+## Documentation
 
-# DBItest 1.7.1.9000 (2021-04-26)
+- Improve documentation: list `spec_` objects in pkgdown help index, add cross references (#128).
+- Add specification for `value` argument to `DBI::dbWriteTable()` (#235).
 
-- Same as previous version.
+## Internal
+
+- Replace internal `with_result()`, `with_remove_test_tables()` and `with_rollback_on_error()` for better error traces (#184, #250, #251, #253).
+- Use `palmerpenguins::penguins` instead of `iris` (#241).
+- Fix MySQL ODBC test on GitHub Actions (#237).
+- Improve testthat 3e compatibility: remove `testthat::expect_is()` and `testthat::expect_that()` from tests (#231, @michaelquinn32).
+- Decompose query used for testing `dbBind()`.
 
 
 # DBItest 1.7.1 (2021-07-30)
