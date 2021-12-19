@@ -51,9 +51,9 @@ jobs:
 
       - uses: ./.github/workflows/custom/after-install
 
-      - uses: ./.github/workflows/roxygenize
-
       - uses: ./.github/workflows/style
+
+      - uses: ./.github/workflows/roxygenize
 
       - id: commit
         uses: ./.github/workflows/commit
@@ -93,6 +93,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           install-r: false
           cache-version: pkgdown-1
+          needs: website
           extra-packages: r-lib/pkgdown local::.
 
       - uses: ./.github/workflows/custom/after-install
