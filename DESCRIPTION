@@ -130,5 +130,3 @@ Collate:
     'zzz.R'
 Config/autostyle/scope: line_breaks
 Config/autostyle/strict: false
-Config/autostyle/scope: line_breaks
-Config/autostyle/strict: false
