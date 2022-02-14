@@ -14,7 +14,7 @@ spec_sql_list_objects <- list(
   list_objects = function(ctx, con, table_name = "dbit06") {
     objects <- dbListObjects(con)
     #' returns a data frame
-    expect_is(objects, "data.frame")
+    expect_s3_class(objects, "data.frame")
     #' with columns
     cols <- c("table", "is_prefix")
     #' `table` and `is_prefix` (in that order),
@@ -28,7 +28,7 @@ spec_sql_list_objects <- list(
     expect_error(lapply(objects$table, dbQuoteIdentifier, conn = con), NA)
 
     #' The `is_prefix` column is a logical.
-    expect_is(objects$is_prefix, "logical")
+    expect_type(objects$is_prefix, "logical")
 
     #' This data frame contains one row for each object (schema, table
     expect_false(table_name %in% objects)
