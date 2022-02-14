@@ -86,7 +86,7 @@ try_silent <- function(code) {
 }
 
 check_df <- function(df) {
-  expect_is(df, "data.frame")
+  expect_s3_class(df, "data.frame")
   if (length(df) >= 1L) {
     lengths <- vapply(df, length, integer(1L), USE.NAMES = FALSE)
     expect_equal(diff(lengths), rep(0L, length(lengths) - 1L))
