@@ -121,7 +121,7 @@ spec_sql_read_table <- list(
   },
   #'
   #' @section Failure modes:
-  #' An error is raised if `row.names` is set to a string and and no corresponding column exists.
+  #' An error is raised if `row.names` is set to a string and no corresponding column exists.
   read_table_row_names_string_missing = function(ctx, con, table_name) {
     row.names <- "missing"
 
