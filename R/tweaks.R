@@ -11,7 +11,8 @@
 #' \dontrun{
 #' make_context(..., tweaks = tweaks(strict_identifier = TRUE))
 #' }
-{ # nolint
+{
+  # nolint
   tweak_names <- alist(
     #' @param ... `[any]`\cr
     #'   Unknown tweaks are accepted, with a warning.  The ellipsis
