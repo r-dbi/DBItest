@@ -330,7 +330,7 @@ spec_sql_append_table <- list(
       use_append = TRUE,
       con, tbl_in,
       transform = function(tbl_out) {
-        expect_is(unclass(tbl_out$a), "numeric")
+        expect_type(unclass(tbl_out$a), "double")
         tbl_out
       }
     )

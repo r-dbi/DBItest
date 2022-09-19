@@ -23,7 +23,7 @@ spec_driver_connect <- list(
     #' A [format()] method is defined for the connection object.
     desc <- format(con)
     #' It returns a string that consists of a single line of text.
-    expect_is(desc, "character")
+    expect_type(desc, "character")
     expect_length(desc, 1)
     expect_false(grepl("\n", desc, fixed = TRUE))
   },

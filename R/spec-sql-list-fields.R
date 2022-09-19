@@ -17,7 +17,7 @@ spec_sql_list_fields <- list(
 
     fields <- dbListFields(con, table_name)
     #' returns a character vector
-    expect_is(fields, "character")
+    expect_type(fields, "character")
     #' that enumerates all fields
     #' in the table in the correct order.
     expect_identical(fields, names(penguins))

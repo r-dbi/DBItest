@@ -14,7 +14,7 @@ spec_sql_unquote_identifier <- list(
     #' `dbUnquoteIdentifier()` returns a list of objects
     simple_in <- dbQuoteIdentifier(con, "simple")
     simple_out <- dbUnquoteIdentifier(con, simple_in)
-    expect_is(simple_out, "list")
+    expect_type(simple_out, "list")
   },
   #
   unquote_identifier_vectorized = function(ctx, con) {
