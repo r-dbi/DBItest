@@ -62,10 +62,18 @@ spec_meta_get_info_result"><meta name="robots" content="noindex"><!-- mathjax --
 
     <div id="value">
     <h2>Value</h2>
-    <p>For objects of class DBIDriver, <code>dbGetInfo()</code>returns a named list
+    
+
+<p>For objects of class DBIDriver, <code>dbGetInfo()</code></p>
+
+
+<p>returns a named list
 that contains at least the following components:</p><ul><li><p><code>driver.version</code>: the package version of the DBI backend,</p></li>
 <li><p><code>client.version</code>: the version of the DBMS client library.</p></li>
-</ul><p>For objects of class DBIConnection, <code>dbGetInfo()</code>returns a named list
+</ul><p>For objects of class DBIConnection, <code>dbGetInfo()</code></p>
+
+
+<p>returns a named list
 that contains at least the following components:</p><ul><li><p><code>db.version</code>: version of the database server,</p></li>
 <li><p><code>dbname</code>: database name,</p></li>
 <li><p><code>username</code>: username to connect to the database,</p></li>
@@ -73,7 +81,10 @@ that contains at least the following components:</p><ul><li><p><code>db.version<
 <li><p><code>port</code>: port on the database server.
 It must not contain a <code>password</code> component.
 Components that are not applicable should be set to <code>NA</code>.</p></li>
-</ul><p>For objects of class DBIResult, <code>dbGetInfo()</code>returns a named list
+</ul><p>For objects of class DBIResult, <code>dbGetInfo()</code></p>
+
+
+<p>returns a named list
 that contains at least the following components:</p><ul><li><p><code>statatment</code>: the statement used with <code>dbSendQuery()</code> or <code>dbExecute()</code>,
 as returned by <code>dbGetStatement()</code>,</p></li>
 <li><p><code>row.count</code>: the number of rows fetched so far (for queries),
@@ -114,7 +125,7 @@ as returned by <code>dbHasCompleted()</code>.</p></li>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

@@ -56,18 +56,18 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">make_context</span><span class="op">(</span>
-  <span class="va">drv</span>,
-  connect_args <span class="op">=</span> <span class="cn">NULL</span>,
-  set_as_default <span class="op">=</span> <span class="cn">TRUE</span>,
-  tweaks <span class="op">=</span> <span class="cn">NULL</span>,
-  name <span class="op">=</span> <span class="cn">NULL</span>,
-  default_skip <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span>
-
-<span class="fu">set_default_context</span><span class="op">(</span><span class="va">ctx</span><span class="op">)</span>
-
-<span class="fu">get_default_context</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_context</span><span class="op">(</span></span>
+<span>  <span class="va">drv</span>,</span>
+<span>  connect_args <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  set_as_default <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  tweaks <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  default_skip <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">set_default_context</span><span class="op">(</span><span class="va">ctx</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">get_default_context</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -76,56 +76,71 @@
 <dd><p><code>[DBIConnector]</code><br>
 An object of class DBIConnector that describes how to connect
 to the database.</p></dd>
+
+
 <dt>connect_args</dt>
 <dd><p><code>[named list]</code><br> Deprecated.</p></dd>
+
+
 <dt>set_as_default</dt>
 <dd><p><code>[logical(1)]</code><br> Should the created context be
 set as default context?</p></dd>
+
+
 <dt>tweaks</dt>
 <dd><p><code>[DBItest_tweaks]</code><br> Tweaks as constructed by the
 <code><a href="tweaks.html">tweaks()</a></code> function.</p></dd>
+
+
 <dt>name</dt>
 <dd><p><code>[character]</code><br> An optional name of the context which will
 be used in test messages.</p></dd>
+
+
 <dt>default_skip</dt>
 <dd><p><code>[character]</code><br> Default value of <code>skip</code> argument
 to <code><a href="test_all.html">test_all()</a></code>  and other testing functions.</p></dd>
+
+
 <dt>ctx</dt>
 <dd><p><code>[DBItest_context]</code><br> A test context.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>[DBItest_context]</code><br> A test context, for
+    
+
+<p><code>[DBItest_context]</code><br> A test context, for
 <code>set_default_context</code> the previous default context (invisibly) or
 <code>NULL</code>.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">make_context</span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu">new</span><span class="op">(</span></span>
-<span class="r-in">    <span class="st">"DBIConnector"</span>,</span>
-<span class="r-in">    .drv <span class="op">=</span> <span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">    .conn_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>dbname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"DBItest"</span>, fileext <span class="op">=</span> <span class="st">".sqlite"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  tweaks <span class="op">=</span> <span class="fu"><a href="tweaks.html">tweaks</a></span><span class="op">(</span></span>
-<span class="r-in">    constructor_relax_args <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">    placeholder_pattern <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"?"</span>, <span class="st">"$1"</span>, <span class="st">"$name"</span>, <span class="st">":name"</span><span class="op">)</span>,</span>
-<span class="r-in">    date_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="va">x</span>, <span class="st">"'"</span><span class="op">)</span>,</span>
-<span class="r-in">    time_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="va">x</span>, <span class="st">"'"</span><span class="op">)</span>,</span>
-<span class="r-in">    timestamp_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="va">x</span>, <span class="st">"'"</span><span class="op">)</span>,</span>
-<span class="r-in">    logical_return <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span>
-<span class="r-in">    date_typed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">    time_typed <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span class="r-in">    timestamp_typed <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  default_skip <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"roundtrip_date"</span>, <span class="st">"roundtrip_timestamp"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">make_context</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu">new</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="st">"DBIConnector"</span>,</span></span>
+<span class="r-in"><span>    .drv <span class="op">=</span> <span class="fu">RSQLite</span><span class="fu">::</span><span class="fu"><a href="https://rsqlite.r-dbi.org/reference/SQLite.html" class="external-link">SQLite</a></span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    .conn_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>dbname <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempfile</a></span><span class="op">(</span><span class="st">"DBItest"</span>, fileext <span class="op">=</span> <span class="st">".sqlite"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  tweaks <span class="op">=</span> <span class="fu"><a href="tweaks.html">tweaks</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    constructor_relax_args <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>    placeholder_pattern <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"?"</span>, <span class="st">"$1"</span>, <span class="st">"$name"</span>, <span class="st">":name"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    date_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="va">x</span>, <span class="st">"'"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    time_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="va">x</span>, <span class="st">"'"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    timestamp_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"'"</span>, <span class="va">x</span>, <span class="st">"'"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    logical_return <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    date_typed <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>    time_typed <span class="op">=</span> <span class="cn">FALSE</span>,</span></span>
+<span class="r-in"><span>    timestamp_typed <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  default_skip <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"roundtrip_date"</span>, <span class="st">"roundtrip_timestamp"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $cnr</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;DBIConnector&gt;&lt;SQLiteDriver&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Arguments:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $dbname</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmpSOJsSa/DBItest19ac115c33aa.sqlite"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "/tmp/RtmppKeOb7/DBItest1b8838c241ab.sqlite"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $drv</span>
@@ -175,7 +190,7 @@ to <code><a href="test_all.html">test_all()</a></code>  and other testing functi
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

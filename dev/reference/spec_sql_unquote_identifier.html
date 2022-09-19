@@ -58,12 +58,17 @@
 
     <div id="value">
     <h2>Value</h2>
-    <p><code>dbUnquoteIdentifier()</code> returns a list of objects
+    
+
+<p><code>dbUnquoteIdentifier()</code> returns a list of objects
 of the same length as the input.
 For an empty character vector this function returns a length-0 object.
 The names of the input argument are preserved in the output.
 When passing the first element of a returned object again to
-<code>dbUnquoteIdentifier()</code> as <code>x</code>argument, it is returned unchanged (but wrapped in a list).
+<code>dbUnquoteIdentifier()</code> as <code>x</code></p>
+
+
+<p>argument, it is returned unchanged (but wrapped in a list).
 Passing objects of class Id should also return them unchanged (but wrapped in a list).
 (For backends it may be most convenient to return Id objects
 to achieve this behavior, but this is not required.)</p>
@@ -125,7 +130,7 @@ constructed by <code>Id(schema = "schema", table = "table")</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>
