@@ -37,3 +37,10 @@ test_that("all specs used", {
   new_names <- setdiff(defined_spec_names, names(spec_all))
   expect_equal(new_names, rep("", length(new_names)))
 })
+
+test_that("nested is the same as flat", {
+  expect_equal(
+    gsub("^[^.]+[.]", "", names(compact(unlist(nested_spec_all)))),
+    names(compact(spec_all))
+  )
+})
