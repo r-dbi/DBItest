@@ -41,10 +41,7 @@ expect_visible <- function(code) {
 expect_invisible_true <- function(code) {
   ret <- withVisible(code)
   expect_true(ret$value)
-
-  test_that("Visibility", {
-    expect_false(ret$visible)
-  })
+  expect_false(ret$visible)
 
   invisible(ret$value)
 }
