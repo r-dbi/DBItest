@@ -20,7 +20,7 @@ fetch_dbi_generics <- function() {
 create_generics <- function() {
   dbi_names <- fetch_dbi_generics()
   text <- paste0(
-    "# Created by create_generics(), do not edit by hand\nall_dbi_generics <- function () {\n  c(\n",
+    "# Created by create_generics(), do not edit by hand\nall_dbi_generics <- function() {\n  c(\n",
     paste0('    "', dbi_names, '",\n', collapse = ""),
     "    NULL\n  )\n}"
   )
