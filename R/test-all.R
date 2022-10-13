@@ -52,7 +52,7 @@ test_some <- function(test, ctx = get_default_context(), dblog = TRUE) {
     ctx$drv <- ctx$cnr@.drv
   }
 
-  test_all(run_only = test, ctx = ctx)
+  test_all(run_only = test, skip = character(), ctx = ctx)
 
   if (dblog && is_interactive()) {
     clipr::write_clip(logger$retrieve())
