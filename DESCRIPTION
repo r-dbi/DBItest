@@ -55,7 +55,9 @@ RoxygenNote: 7.2.1
 Collate: 
     'DBItest.R'
     'context.R'
+    'dbi.R'
     'expectations.R'
+    'generics.R'
     'import-dbi.R'
     'import-testthat.R'
     'run.R'

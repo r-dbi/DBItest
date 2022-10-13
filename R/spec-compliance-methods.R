@@ -52,33 +52,8 @@ spec_compliance_methods <- list(
     pkg <- package_name(ctx)
 
     where <- asNamespace(pkg)
-    dbi <- asNamespace("DBI")
 
-    dbi_generics <- grep("^[.]__T__db", getNamespaceExports(dbi), value = TRUE)
-    clean_dbi_generics <- gsub("^[.]__T__(.*):DBI$", "\\1", dbi_generics)
-    active_dbi_generics <- setdiff(clean_dbi_generics, c(
-      "dbDriver",
-      "dbUnloadDriver",
-      "dbListConnections",
-      "dbListResults",
-      "dbSetDataMappings",
-      "dbGetException",
-      "dbCallProc",
-      "dbGetConnectArgs"
-    ))
-    dbi_names <- c(active_dbi_generics, "Id")
-
-    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.3") {
-      dbi_names <- setdiff(dbi_names, c(
-        "dbGetStream",
-        "dbAppendStream",
-        "dbStream",
-        "dbWriteStream",
-        "dbSendQueryStream",
-        "dbStreamTable",
-        "dbCreateFromStream"
-      ))
-    }
+    dbi_names <- dbi_generics(ctx$tweaks$dbitest_version)
 
     # Suppressing warning "... may not be available when loading"
     exported_names <- suppressWarnings(callr::r(
