@@ -52,22 +52,8 @@ spec_compliance_methods <- list(
     pkg <- package_name(ctx)
 
     where <- asNamespace(pkg)
-    dbi <- asNamespace("DBI")
 
-    dbi_generics <- grep("^[.]__T__db", getNamespaceExports(dbi), value = TRUE)
-    . <- gsub("^[.]__T__(.*):DBI$", "\\1", dbi_generics)
-    . <- setdiff(., c(
-      "dbDriver",
-      "dbUnloadDriver",
-      "dbListConnections",
-      "dbListResults",
-      "dbSetDataMappings",
-      "dbGetException",
-      "dbCallProc",
-      "dbGetConnectArgs"
-    ))
-    . <- c(., "Id")
-    dbi_names <- .
+    dbi_names <- dbi_generics(ctx$tweaks$dbitest_version)
 
     # Suppressing warning "... may not be available when loading"
     exported_names <- suppressWarnings(callr::r(
