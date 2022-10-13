@@ -103,16 +103,6 @@ spec_sql_list_objects <- list(
   list_objects_features = function(ctx, con) {
     objects <- dbListObjects(con)
 
-    #' The `table` object can be quoted with [dbQuoteIdentifier()].
-    sql <- lapply(objects$table, dbQuoteIdentifier, conn = con)
-    #' The result of quoting can be passed to [dbUnquoteIdentifier()].
-    unquoted <- vapply(sql, dbUnquoteIdentifier, conn = con, list(1))
-    #' The unquoted results are equal to the original `table` object.
-    expect_equal(unquoted, unclass(objects$table))
-    #' (For backends it may be convenient to use the [Id] class, but this is
-    #' not required.)
-
-    #'
     #' The `prefix` column indicates if the `table` value refers to a table
     #' or a prefix.
     #' For a call with the default `prefix = NULL`, the `table`
@@ -126,6 +116,21 @@ spec_sql_list_objects <- list(
     )
     all_tables <- dbQuoteIdentifier(con, dbListTables(con))
     expect_equal(sort(non_prefix_objects), sort(as.character(all_tables)))
+
+    #'
+    #' The `table` object can be quoted with [dbQuoteIdentifier()].
+    sql <- lapply(objects$table[!objects$is_prefix], dbQuoteIdentifier, conn = con)
+    #' The result of quoting can be passed to [dbUnquoteIdentifier()].
+    #' (We have to assume that the resulting identifier is a table, because one
+    #' cannot always tell from a quoted identifier alone whether it is a table
+    #' or a schema for example. As a consequence, the quote-unquote roundtrip
+    #' only works for tables (possibly schema-qualified), but not for other
+    #' database objects like schemata or columns.)
+    unquoted <- vapply(sql, dbUnquoteIdentifier, conn = con, list(1))
+    #' The unquoted results are equal to the original `table` object.
+    expect_equal(unquoted, unclass(objects$table[!objects$is_prefix]))
+    #' (For backends it may be convenient to use the [Id] class, but this is
+    #' not required.)
 
     if (!any(objects$is_prefix)) {
       skip("No schemas available")
