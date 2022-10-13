@@ -1,3 +1,4 @@
+#' @export
 get_pkg_path <- function(ctx) {
   pkg_name <- package_name(ctx)
   expect_type(pkg_name, "character")
@@ -9,6 +10,7 @@ get_pkg_path <- function(ctx) {
 utils::globalVariables("con")
 utils::globalVariables("con2")
 
+#' @export
 local_connection <- function(ctx, ..., .local_envir = parent.frame()) {
   con <- connect(ctx, ...)
   withr::local_db_connection(con, .local_envir = .local_envir)
@@ -72,6 +74,7 @@ compact <- function(x) {
 }
 
 
+#' @export
 try_silent <- function(code) {
   tryCatch(
     code,

@@ -78,10 +78,12 @@ get_default_context <- function() {
   .ctx_env$default_context
 }
 
+#' @export
 package_name <- function(ctx) {
   attr(class(ctx$drv), "package")
 }
 
+#' @export
 connect <- function(ctx, ...) {
   quos <- enquos(...)
   eval_tidy(quo(dbConnect(ctx$cnr, !!!quos)))

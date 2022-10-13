@@ -28,6 +28,7 @@ trivial_statement <- function(ctx, table_name) {
   ctx$tweaks$create_table_as(table_name, trivial_query())
 }
 
+#' @export
 trivial_query <- function(n = 1L, column = "a", .order_by = NULL, .ctx = NULL) {
   value <- trivial_values(n)
   if (length(column) == n) {
