@@ -8,8 +8,8 @@ spec_meta <- c(
   spec_meta_get_row_count,
   spec_meta_get_rows_affected,
   spec_meta_get_info_result,
-
+  #
   # no 64-bit or time input data type yet
-
+  #
   NULL
 )

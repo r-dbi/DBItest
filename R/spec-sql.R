@@ -12,5 +12,7 @@ spec_sql <- c(
   spec_sql_exists_table,
   spec_sql_remove_table,
   spec_sql_list_objects,
-  spec_sql_list_fields
+  spec_sql_list_fields,
+  #
+  NULL
 )

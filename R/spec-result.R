@@ -7,7 +7,9 @@ spec_result <- c(
   spec_result_send_statement,
   spec_result_execute,
   spec_result_create_table_with_data_type,
-  spec_result_roundtrip
+  spec_result_roundtrip,
+  #
+  NULL
 )
 
 
