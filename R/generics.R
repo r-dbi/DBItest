@@ -1,5 +1,5 @@
 # Created by create_generics(), do not edit by hand
-all_dbi_generics <- function () {
+all_dbi_generics <- function() {
   c(
     "dbAppendStream",
     "dbAppendTable",
