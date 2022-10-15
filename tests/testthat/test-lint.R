@@ -1,5 +1,3 @@
-context("lint")
-
 test_that("lintr is happy", {
   skip_on_cran()
 

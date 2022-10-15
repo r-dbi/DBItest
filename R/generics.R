@@ -1,6 +1,7 @@
 # Created by create_generics(), do not edit by hand
 all_dbi_generics <- function() {
   c(
+    "Id",
     "dbAppendStream",
     "dbAppendTable",
     "dbBegin",
@@ -44,7 +45,6 @@ all_dbi_generics <- function() {
     "dbWithTransaction",
     "dbWriteStream",
     "dbWriteTable",
-    "Id",
     NULL
   )
 }

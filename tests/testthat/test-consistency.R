@@ -1,5 +1,3 @@
-context("consistency")
-
 test_that("no unnamed specs", {
   tests <- spec_all[!vapply(spec_all, is.null, logical(1L))]
   vicinity <- NULL

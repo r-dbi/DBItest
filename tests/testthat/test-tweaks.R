@@ -1,5 +1,3 @@
-context("tweaks")
-
 test_that("tweaks work as expected", {
   expect_true(names(formals(tweaks))[[1]] == "...")
   expect_warning(tweaks(`_oooops` = 42, `_darn` = -1), "_oooops, _darn")

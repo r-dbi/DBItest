@@ -254,13 +254,13 @@ spec_meta_bind <- list(
   #' - [factor] (bound as character,
   bind_factor = function(ctx, con) {
     #' with warning)
-    expect_warning(
+    suppressWarnings(expect_warning(
       test_select_bind(
         con,
         ctx,
         lapply(c(texts, NA_character_), factor)
       )
-    )
+    ))
   },
 
   #' - [Date]
