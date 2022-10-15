@@ -53,6 +53,7 @@ local_remove_test_table <- function(con, name, frame = rlang::caller_env()) {
   )
 }
 
+#' @export
 get_penguins <- function(ctx) {
   datasets_penguins <- unrowname(palmerpenguins::penguins[c(1, 153, 277), ])
   if (!isTRUE(ctx$tweaks$strict_identifier)) {
@@ -61,6 +62,7 @@ get_penguins <- function(ctx) {
   as.data.frame(datasets_penguins)
 }
 
+#' @export
 unrowname <- function(x) {
   rownames(x) <- NULL
   x

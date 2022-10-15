@@ -48,6 +48,7 @@ expect_invisible_true <- function(code) {
   invisible(ret$value)
 }
 
+#' @export
 expect_equal_df <- function(actual, expected) {
   factor_cols <- vapply(expected, is.factor, logical(1L))
   expected[factor_cols] <- lapply(expected[factor_cols], as.character)
