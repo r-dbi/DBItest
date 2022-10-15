@@ -72,8 +72,7 @@ get_dbitest_test <- function(fun, name) {
     return(NULL)
   }
 
-  all_code <- format_body(fun)
-  body_code <- all_code[seq2(2, length(all_code) - 1)]
+  body_code <- format_body(fun)
 
   c(
     paste0('test_that("', name, '", {'),
@@ -82,8 +81,8 @@ get_dbitest_test <- function(fun, name) {
   )
 }
 
-format_body <- function(body) {
-  construct <- constructive::construct(body)
+format_body <- function(fun) {
+  construct <- constructive::construct(fun, check = TRUE, ignore_function_env = TRUE)
   flat <- unlist(strsplit(format(construct$code), "\n", fixed = TRUE))
-  trimws(flat, "right")
+  trimws(flat[seq2(2, length(flat) - 1)], "right")
 }
