@@ -68,7 +68,7 @@ get_dbitest_test <- function(fun, name) {
   }
 
   # FIXME: make more inclusive
-  if (!all(names(formals(fun)) %in% c("ctx"))) {
+  if (!all(names(formals(fun)) %in% c("ctx", "con"))) {
     return(NULL)
   }
 
