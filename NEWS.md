@@ -1,5 +1,28 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# DBItest 1.7.2.9001 (2022-10-15)
+
+## Bug fixes
+
+- Correct cleanup even if `dbIsValid()` is not implemented.
+
+## Features
+
+- Use and enable compatibility with testthat edition 3 (#263, #268).
+
+- Adapt to new Arrow DBI generics (#265).
+
+- Better stack traces for visibility tests.
+
+- `dbQuoteIdentifier()` roundtrip is tested for tables only (@dpprdan, #256).
+
+- `test_some()` ignores skipped tests defined for the package.
+
+## Chore
+
+- Complete removal of `expect_is()` (@MichaelChirico, #257).
+
+
 # DBItest 1.7.2.9000 (2021-12-17)
 
 - Same as previous version.
