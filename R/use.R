@@ -44,6 +44,7 @@ use_dbitest <- function(path) {
     "get_placeholder_funs",
     "has_utf8_or_ascii_encoding",
     #
+    "sql_union",
     "trivial_query",
     "trivial_df",
     "trivial_values",

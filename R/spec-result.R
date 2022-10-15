@@ -15,6 +15,7 @@ spec_result <- c(
 
 # Helpers -----------------------------------------------------------------
 
+#' @export
 sql_union <- function(..., .order_by = NULL, .ctx) {
   query <- .ctx$tweaks$union(c(...))
 
