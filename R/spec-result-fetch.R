@@ -96,7 +96,7 @@ spec_result_fetch <- list(
 
   fetch_multi_row_multi_column = function(ctx, con) {
     #' or more columns by default returns the entire result.
-    query <- union(
+    query <- sql_union(
       .ctx = ctx, paste("SELECT", 1:5 + 0.5, "AS a,", 4:0 + 0.5, "AS b"), .order_by = "a"
     )
 

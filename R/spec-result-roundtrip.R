@@ -260,7 +260,7 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
       query <- rev(query)
     }
     query <- paste0(query, ", ", 1:2, " as id")
-    query <- union(.ctx = .ctx, query)
+    query <- sql_union(.ctx = .ctx, query)
   }
 
   rows <- check_df(dbGetQuery(con, query))
