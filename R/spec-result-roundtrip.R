@@ -46,6 +46,10 @@ spec_result_roundtrip <- list(
       skip("tweak: omit_blob_tests")
     }
 
+    is_raw_list <- function(x) {
+      is.list(x) && is.raw(x[[1L]])
+    }
+
     values <- list(is_raw_list)
     sql_names <- ctx$tweaks$blob_cast(DBI::dbQuoteLiteral(con, list(raw(1))))
 
@@ -320,10 +324,6 @@ has_utf8_or_ascii_encoding <- function(x) {
   } else {
     FALSE
   }
-}
-
-is_raw_list <- function(x) {
-  is.list(x) && is.raw(x[[1L]])
 }
 
 coercible_to_date <- function(x) {
