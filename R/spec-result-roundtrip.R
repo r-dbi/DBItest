@@ -97,6 +97,11 @@ spec_result_roundtrip <- list(
 
   data_timestamp = function(ctx, con) {
     #' - coercible using [as.POSIXct()] for timestamps,
+    coercible_to_timestamp <- function(x) {
+      x_timestamp <- try_silent(as.POSIXct(x))
+      !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
+    }
+
     char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
     time_values <- rep(list(coercible_to_timestamp), 2L)
     sql_names <- ctx$tweaks$timestamp_cast(char_values)
@@ -109,7 +114,14 @@ spec_result_roundtrip <- list(
     #'   (also applies to the return value of the SQL function `current_timestamp`)
     test_select_with_null(
       .ctx = ctx, con,
-      "current_timestamp" ~ is_roughly_current_timestamp
+      "current_timestamp" ~ function(x) {
+        coercible_to_timestamp <- function(x) {
+          x_timestamp <- try_silent(as.POSIXct(x))
+          !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
+        }
+
+        coercible_to_timestamp(x) && (Sys.time() - as.POSIXct(x, tz = "UTC") <= hms::hms(2))
+      }
     )
   },
 
@@ -352,11 +364,6 @@ coercible_to_time <- function(x) {
   !is.null(x_hms) && all(is.na(x) == is.na(x_hms))
 }
 
-coercible_to_timestamp <- function(x) {
-  x_timestamp <- try_silent(as.POSIXct(x))
-  !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
-}
-
 as_timestamp_equals_to <- function(x) {
   lapply(x, function(xx) {
     function(value) as.POSIXct(value) == xx
@@ -379,10 +386,6 @@ as_character_equals_to <- function(x) {
   lapply(x, function(xx) {
     function(value) as.character(value) == xx
   })
-}
-
-is_roughly_current_timestamp <- function(x) {
-  coercible_to_timestamp(x) && (Sys.time() - as.POSIXct(x, tz = "UTC") <= hms::hms(2))
 }
 
 is_date <- function(x) {
