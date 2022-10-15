@@ -232,6 +232,12 @@ spec_result_roundtrip <- list(
   #' - Conversion to character always returns a lossless decimal representation
   #'   of the data
   data_64_bit_lossless = function(ctx, con) {
+    as_character_equals_to <- function(x) {
+      lapply(x, function(xx) {
+        function(value) as.character(value) == xx
+      })
+    }
+
     char_values <- c("1234567890123456789", "-1234567890123456789")
     test_values <- as_character_equals_to(char_values)
 
@@ -379,12 +385,6 @@ coercible_to_time <- function(x) {
 as_timestamp_equals_to <- function(x) {
   lapply(x, function(xx) {
     function(value) as.POSIXct(value) == xx
-  })
-}
-
-as_character_equals_to <- function(x) {
-  lapply(x, function(xx) {
-    function(value) as.character(value) == xx
   })
 }
 
