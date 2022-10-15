@@ -9,11 +9,11 @@ spec_meta_is_valid <- list(
     expect_equal(names(formals(dbIsValid)), c("dbObj", "..."))
   },
 
-  #' @return
-  #' `dbIsValid()` returns a logical scalar,
-  #' `TRUE` if the object specified by `dbObj` is valid,
-  #' `FALSE` otherwise.
   is_valid_connection = function(ctx) {
+    #' @return
+    #' `dbIsValid()` returns a logical scalar,
+    #' `TRUE` if the object specified by `dbObj` is valid,
+    #' `FALSE` otherwise.
     con <- connect(ctx)
     #' A [DBIConnection-class] object is initially valid,
     expect_true(expect_visible(dbIsValid(con)))

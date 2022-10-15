@@ -9,9 +9,9 @@ spec_meta_column_info <- list(
     expect_equal(names(formals(dbColumnInfo)), c("res", "..."))
   },
 
-  #' @return
-  #' `dbColumnInfo()`
   column_info = function(ctx, con, table_name) {
+    #' @return
+    #' `dbColumnInfo()`
     penguins <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins)
 
@@ -36,9 +36,9 @@ spec_meta_column_info <- list(
 
 
   #'
-  #' @section Failure modes:
-  #' An attempt to query columns for a closed result set raises an error.
   column_info_closed = function(con) {
+    #' @section Failure modes:
+    #' An attempt to query columns for a closed result set raises an error.
     query <- trivial_query()
 
     res <- dbSendQuery(con, query)
@@ -47,10 +47,10 @@ spec_meta_column_info <- list(
     expect_error(dbColumnInfo(res))
   },
 
-  #' @section Specification:
-  #'
-  #' A column named `row_names` is treated like any other column.
   column_info_row_names = function(con, table_name) {
+    #' @section Specification:
+    #'
+    #' A column named `row_names` is treated like any other column.
     dbWriteTable(con, table_name, data.frame(a = 1L, row_names = 2L))
     res <- local_result(dbSendQuery(con, paste0("SELECT * FROM ", table_name)))
     expect_identical(dbColumnInfo(res)$name, c("a", "row_names"))

@@ -9,9 +9,9 @@ spec_meta_has_completed <- list(
     expect_equal(names(formals(dbHasCompleted)), c("res", "..."))
   },
 
-  #' @return
-  #' `dbHasCompleted()` returns a logical scalar.
   has_completed_query = function(con) {
+    #' @return
+    #' `dbHasCompleted()` returns a logical scalar.
     #' For a query initiated by [dbSendQuery()] with non-empty result set,
     res <- local_result(dbSendQuery(con, trivial_query()))
     #' `dbHasCompleted()` returns `FALSE` initially
@@ -28,8 +28,8 @@ spec_meta_has_completed <- list(
     expect_true(expect_visible(dbHasCompleted(res)))
   },
   #'
-  #' @section Failure modes:
   has_completed_error = function(con) {
+    #' @section Failure modes:
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
     #' Attempting to query completion status for a result set cleared with
@@ -37,8 +37,8 @@ spec_meta_has_completed <- list(
     expect_error(dbHasCompleted(res))
   },
 
-  #' @section Specification:
   has_completed_query_spec = function(con) {
+    #' @section Specification:
     #' The completion status for a query is only guaranteed to be set to
     #' `FALSE` after attempting to fetch past the end of the entire result.
     #' Therefore, for a query with an empty result set,
@@ -49,8 +49,8 @@ spec_meta_has_completed <- list(
     expect_true(expect_visible(dbHasCompleted(res)))
   },
 
-  #' @section Specification:
   has_completed_query_spec_partial = function(con) {
+    #' @section Specification:
     #' Similarly, for a query with a result set of length n,
     res <- local_result(dbSendQuery(con, trivial_query()))
     #' the return value is unspecified after fetching n rows,

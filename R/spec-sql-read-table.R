@@ -9,11 +9,11 @@ spec_sql_read_table <- list(
     expect_equal(names(formals(dbReadTable)), c("conn", "name", "..."))
   },
 
-  #' @return
-  #' `dbReadTable()` returns a data frame that contains the complete data
-  #' from the remote table, effectively the result of calling [dbGetQuery()]
-  #' with `SELECT * FROM <name>`.
   read_table = function(ctx, con, table_name) {
+    #' @return
+    #' `dbReadTable()` returns a data frame that contains the complete data
+    #' from the remote table, effectively the result of calling [dbGetQuery()]
+    #' with `SELECT * FROM <name>`.
     penguins_in <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins_in)
     penguins_out <- check_df(dbReadTable(con, table_name))
@@ -22,15 +22,15 @@ spec_sql_read_table <- list(
   },
 
   #'
-  #' @section Failure modes:
-  #' An error is raised if the table does not exist.
   read_table_missing = function(con, table_name) {
+    #' @section Failure modes:
+    #' An error is raised if the table does not exist.
     expect_error(dbReadTable(con, table_name))
   },
 
-  #' @return
-  #' An empty table is returned as a data frame with zero rows.
   read_table_empty = function(ctx, con, table_name) {
+    #' @return
+    #' An empty table is returned as a data frame with zero rows.
     penguins_in <- get_penguins(ctx)[integer(), ]
     dbWriteTable(con, table_name, penguins_in)
     penguins_out <- check_df(dbReadTable(con, table_name))
@@ -40,9 +40,9 @@ spec_sql_read_table <- list(
   },
 
   #'
-  #' The presence of [rownames] depends on the `row.names` argument,
-  #' see [sqlColumnToRownames()] for details:
   read_table_row_names_false = function(con) {
+    #' The presence of [rownames] depends on the `row.names` argument,
+    #' see [sqlColumnToRownames()] for details:
     #' - If `FALSE` or `NULL`, the returned data frame doesn't have row names.
     for (row.names in list(FALSE, NULL)) {
       table_name <- random_table_name()
@@ -69,9 +69,9 @@ spec_sql_read_table <- list(
     expect_equal_df(mtcars_out, mtcars_in)
   },
   #'
-  #' @section Failure modes:
-  #' An error is raised if `row.names` is `TRUE` and no "row_names" column exists,
   read_table_row_names_true_missing = function(ctx, con, table_name) {
+    #' @section Failure modes:
+    #' An error is raised if `row.names` is `TRUE` and no "row_names" column exists,
     row.names <- TRUE
 
     penguins_in <- get_penguins(ctx)
@@ -120,9 +120,9 @@ spec_sql_read_table <- list(
     expect_equal_df(unrowname(mtcars_out), mtcars_in[names(mtcars_in) != "make_model"])
   },
   #'
-  #' @section Failure modes:
-  #' An error is raised if `row.names` is set to a string and no corresponding column exists.
   read_table_row_names_string_missing = function(ctx, con, table_name) {
+    #' @section Failure modes:
+    #' An error is raised if `row.names` is set to a string and no corresponding column exists.
     row.names <- "missing"
 
     penguins_in <- get_penguins(ctx)
@@ -144,8 +144,8 @@ spec_sql_read_table <- list(
     expect_equal_df(mtcars_out[names(mtcars_out) != "row_names"], unrowname(mtcars_in))
   },
   #
+  #'
   read_table_check_names = function(ctx, con, table_name) {
-    #'
     #' If the database supports identifiers with special characters,
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       skip("tweak: strict_identifier")
@@ -178,23 +178,23 @@ spec_sql_read_table <- list(
   },
 
   #'
-  #' @section Failure modes:
-  #' An error is raised when calling this method for a closed
   read_table_closed_connection = function(ctx, con, table_name) {
+    #' @section Failure modes:
+    #' An error is raised when calling this method for a closed
     dbWriteTable(con, table_name, data.frame(a = 1))
     con2 <- local_closed_connection(ctx = ctx)
     expect_error(dbReadTable(con2, table_name))
   },
 
-  #' or invalid connection.
   read_table_invalid_connection = function(ctx, con, table_name) {
+    #' or invalid connection.
     dbWriteTable(con, table_name, data.frame(a = 1))
     con2 <- local_invalid_connection(ctx)
     expect_error(dbReadTable(con2, table_name))
   },
 
-  #' An error is raised
   read_table_error = function(ctx, con, table_name) {
+    #' An error is raised
     dbWriteTable(con, table_name, data.frame(a = 1L))
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
     expect_error(dbReadTable(con, NA))
@@ -222,9 +222,9 @@ spec_sql_read_table <- list(
   #' They must be provided as named arguments.
   #' See the "Value" section for details on their usage.
 
-  #' @section Specification:
-  #' The `name` argument is processed as follows,
   read_table_name = function(ctx, con) {
+    #' @section Specification:
+    #' The `name` argument is processed as follows,
     #' to support databases that allow non-syntactic names for their objects:
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"

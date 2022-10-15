@@ -9,10 +9,10 @@ spec_meta_get_row_count <- list(
     expect_equal(names(formals(dbGetRowCount)), c("res", "..."))
   },
 
-  #' @return
-  #' `dbGetRowCount()` returns a scalar number (integer or numeric),
-  #' the number of rows fetched so far.
   row_count_query = function(con) {
+    #' @return
+    #' `dbGetRowCount()` returns a scalar number (integer or numeric),
+    #' the number of rows fetched so far.
     query <- trivial_query()
     #' After calling [dbSendQuery()],
     res <- local_result(dbSendQuery(con, query))
@@ -71,8 +71,8 @@ spec_meta_get_row_count <- list(
     expect_equal(rc, 0L)
   },
   #'
-  #' @section Failure modes:
   get_row_count_error = function(con) {
+    #' @section Failure modes:
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
     #' Attempting to get the row count for a result set cleared with

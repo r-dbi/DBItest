@@ -3,8 +3,8 @@
 #' @section Connection:
 #' \subsection{Stress tests}{
 spec_stress_connection <- list(
-  #' Open 50 simultaneous connections
   simultaneous_connections = function(ctx) {
+    #' Open 50 simultaneous connections
     cons <- list()
     on.exit(try_silent(lapply(cons, dbDisconnect)), add = TRUE)
     for (i in seq_len(50L)) {
@@ -16,8 +16,8 @@ spec_stress_connection <- list(
     expect_true(all(inherit_from_connection))
   },
 
-  #' Open and close 50 connections
   stress_connections = function(ctx) {
+    #' Open and close 50 connections
     for (i in seq_len(50L)) {
       con <- connect(ctx)
       expect_s4_class(con, "DBIConnection")

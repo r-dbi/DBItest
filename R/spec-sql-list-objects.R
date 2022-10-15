@@ -9,9 +9,9 @@ spec_sql_list_objects <- list(
     expect_equal(names(formals(dbListObjects)), c("conn", "prefix", "..."))
   },
 
-  #' @return
-  #' `dbListObjects()`
   list_objects = function(ctx, con, table_name = "dbit06") {
+    #' @return
+    #' `dbListObjects()`
     objects <- dbListObjects(con)
     #' returns a data frame
     expect_s3_class(objects, "data.frame")
@@ -58,8 +58,8 @@ spec_sql_list_objects <- list(
   },
 
   #'
-  #' The same applies to temporary objects if supported by the database.
   list_objects_temporary = function(ctx, con, table_name) {
+    #' The same applies to temporary objects if supported by the database.
     if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
       dbWriteTable(con, table_name, data.frame(a = 1L), temporary = TRUE)
 
@@ -70,8 +70,8 @@ spec_sql_list_objects <- list(
   },
 
   #'
-  #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
   list_objects_quote = function(ctx, con) {
+    #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
     } else {
@@ -88,19 +88,19 @@ spec_sql_list_objects <- list(
   },
 
   #'
-  #' @section Failure modes:
-  #' An error is raised when calling this method for a closed
   list_objects_closed_connection = function(ctx, closed_con) {
+    #' @section Failure modes:
+    #' An error is raised when calling this method for a closed
     expect_error(dbListObjects(closed_con))
   },
 
-  #' or invalid connection.
   list_objects_invalid_connection = function(ctx, invalid_con) {
+    #' or invalid connection.
     expect_error(dbListObjects(invalid_con))
   },
 
-  #' @section Specification:
   list_objects_features = function(ctx, con) {
+    #' @section Specification:
     objects <- dbListObjects(con)
 
     #' The `prefix` column indicates if the `table` value refers to a table

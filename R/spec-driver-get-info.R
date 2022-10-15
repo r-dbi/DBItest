@@ -5,9 +5,9 @@
 #' @keywords NULL
 #' @name spec_get_info
 spec_driver_get_info <- list(
-  #' @return
-  #' For objects of class [DBIDriver-class], `dbGetInfo()`
   get_info_driver = function(ctx) {
+    #' @return
+    #' For objects of class [DBIDriver-class], `dbGetInfo()`
     info <- dbGetInfo(ctx$drv)
 
     #' returns a named list
