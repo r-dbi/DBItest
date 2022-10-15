@@ -122,18 +122,16 @@ spec_result_roundtrip <- list(
 
   data_timestamp_current = function(ctx, con) {
     #'   (also applies to the return value of the SQL function `current_timestamp`)
-    coercible_to_timestamp <- function(x) {
-      x_timestamp <- try_silent(as.POSIXct(x))
-      !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
-    }
-
-    is_roughly_current_timestamp <- function(x) {
-      coercible_to_timestamp(x) && (Sys.time() - as.POSIXct(x, tz = "UTC") <= hms::hms(2))
-    }
-
     test_select_with_null(
       .ctx = ctx, con,
-      "current_timestamp" ~ is_roughly_current_timestamp
+      "current_timestamp" ~ function(x) {
+        coercible_to_timestamp <- function(x) {
+          x_timestamp <- try_silent(as.POSIXct(x))
+          !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
+        }
+
+        coercible_to_timestamp(x) && (Sys.time() - as.POSIXct(x, tz = "UTC") <= hms::hms(2))
+      }
     )
   },
 
