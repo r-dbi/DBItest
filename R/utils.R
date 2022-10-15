@@ -93,3 +93,7 @@ check_df <- function(df) {
 
   df
 }
+
+check_stream <- function(stream) {
+  check_df(as.data.frame(stream))
+}
