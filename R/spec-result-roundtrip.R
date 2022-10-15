@@ -73,6 +73,12 @@ spec_result_roundtrip <- list(
 
   data_time = function(ctx, con) {
     #' - coercible using [hms::as_hms()] for times,
+    as_hms_equals_to <- function(x) {
+      lapply(x, function(xx) {
+        function(value) hms::as_hms(value) == xx
+      })
+    }
+
     char_values <- c("00:00:00", "12:34:56")
     time_values <- as_hms_equals_to(hms::as_hms(char_values))
     sql_names <- ctx$tweaks$time_cast(char_values)
@@ -344,12 +350,6 @@ is_roughly_current_date <- function(x) {
 coercible_to_time <- function(x) {
   x_hms <- try_silent(hms::as_hms(x))
   !is.null(x_hms) && all(is.na(x) == is.na(x_hms))
-}
-
-as_hms_equals_to <- function(x) {
-  lapply(x, function(xx) {
-    function(value) hms::as_hms(value) == xx
-  })
 }
 
 coercible_to_timestamp <- function(x) {
