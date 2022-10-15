@@ -12,7 +12,6 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
     "DBItest", if (!is.null(ctx$name)) paste0("[", ctx$name, "]"),
     ": ", test_suite
   )
-  context(test_context)
 
   tests <- tests[!vapply(tests, is.null, logical(1L))]
   tests <- get_run_only_tests(tests, run_only)
