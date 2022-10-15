@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.2.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.2.9001</span>
       </span>
     </div>
 
@@ -50,6 +50,23 @@
       <small>Source: <a href="https://github.com/r-dbi/DBItest/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.7.2.9001" id="dbitest-1729001-2022-10-15">DBItest 1.7.2.9001 (2022-10-15)<a class="anchor" aria-label="anchor" href="#dbitest-1729001-2022-10-15"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-1-7-2-9001">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-7-2-9001"></a></h3>
+<ul><li>Correct cleanup even if <code>dbIsValid()</code> is not implemented.</li></ul></div>
+<div class="section level3">
+<h3 id="features-1-7-2-9001">Features<a class="anchor" aria-label="anchor" href="#features-1-7-2-9001"></a></h3>
+<ul><li><p>Use and enable compatibility with testthat edition 3 (<a href="https://github.com/r-dbi/DBItest/issues/263" class="external-link">#263</a>, <a href="https://github.com/r-dbi/DBItest/issues/268" class="external-link">#268</a>).</p></li>
+<li><p>Adapt to new Arrow DBI generics (<a href="https://github.com/r-dbi/DBItest/issues/265" class="external-link">#265</a>).</p></li>
+<li><p>Better stack traces for visibility tests.</p></li>
+<li><p><code>dbQuoteIdentifier()</code> roundtrip is tested for tables only (<a href="https://github.com/dpprdan" class="external-link">@dpprdan</a>, <a href="https://github.com/r-dbi/DBItest/issues/256" class="external-link">#256</a>).</p></li>
+<li><p><code><a href="../reference/test_all.html">test_some()</a></code> ignores skipped tests defined for the package.</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="chore-1-7-2-9001">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-2-9001"></a></h3>
+<ul><li>Complete removal of <code>expect_is()</code> (<a href="https://github.com/MichaelChirico" class="external-link">@MichaelChirico</a>, <a href="https://github.com/r-dbi/DBItest/issues/257" class="external-link">#257</a>).</li></ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.7.2.9000" id="dbitest-1729000-2021-12-17">DBItest 1.7.2.9000 (2021-12-17)<a class="anchor" aria-label="anchor" href="#dbitest-1729000-2021-12-17"></a></h2>
 <ul><li>Same as previous version.</li></ul></div>
