@@ -18,6 +18,8 @@ fetch_dbi_generics <- function() {
 }
 
 create_generics <- function() {
+  withr::local_collate("C")
+
   dbi_names <- fetch_dbi_generics()
   text <- paste0(
     "# Created by create_generics(), do not edit by hand\nall_dbi_generics <- function() {\n  c(\n",
