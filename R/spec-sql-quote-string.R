@@ -67,6 +67,11 @@ spec_sql_quote_string <- list(
       expect_identical(unlist(unname(x_out)), x)
     }
 
+    expand_char <- function(...) {
+      df <- expand.grid(..., stringsAsFactors = FALSE)
+      do.call(paste0, df)
+    }
+
     test_chars <- c(
       #' even if `x` contains
       "",

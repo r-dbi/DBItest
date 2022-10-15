@@ -71,10 +71,6 @@ compact <- function(x) {
   x[!vapply(x, is.null, logical(1L))]
 }
 
-expand_char <- function(...) {
-  df <- expand.grid(..., stringsAsFactors = FALSE)
-  do.call(paste0, df)
-}
 
 try_silent <- function(code) {
   tryCatch(
