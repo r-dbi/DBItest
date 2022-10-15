@@ -230,8 +230,8 @@ spec_sql_append_table <- list(
   append_roundtrip_character = function(con) {
     #' - character (in both UTF-8
     tbl_in <- data.frame(
-      id = seq_along(texts),
-      a = c(texts),
+      id = seq_along(get_texts()),
+      a = get_texts(),
       stringsAsFactors = FALSE
     )
     test_table_roundtrip(use_append = TRUE, con, tbl_in)
@@ -240,7 +240,7 @@ spec_sql_append_table <- list(
   append_roundtrip_character_native = function(con) {
     #'   and native encodings),
     tbl_in <- data.frame(
-      a = c(enc2native(texts)),
+      a = c(enc2native(get_texts())),
       stringsAsFactors = FALSE
     )
     test_table_roundtrip(use_append = TRUE, con, tbl_in)
@@ -267,7 +267,7 @@ spec_sql_append_table <- list(
   append_roundtrip_factor = function(con) {
     #' - factor (returned as character,
     tbl_in <- data.frame(
-      a = factor(c(texts))
+      a = factor(get_texts())
     )
     tbl_exp <- tbl_in
     tbl_exp$a <- as.character(tbl_exp$a)
