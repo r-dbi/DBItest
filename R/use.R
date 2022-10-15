@@ -25,6 +25,7 @@ use_dbitest <- function(path) {
   usethis::use_import_from("DBItest", c(
     "get_default_context",
     "local_connection",
+    "local_result",
     "connect",
     "trivial_query",
     "try_silent",
@@ -38,6 +39,14 @@ use_dbitest <- function(path) {
     "expect_has_class_method",
     "get_key_methods",
     "dbi_generics",
+    "check_df",
+    "test_select_bind",
+    "new_bind_tester_extra",
+    "random_table_name",
+    "local_remove_test_table",
+    "get_placeholder_funs",
+    "trivial_df",
+    "test_select_with_null",
     NULL
   ))
 
@@ -52,7 +61,9 @@ use_dbitest_spec <- function(spec, name) {
   path <- file.path("tests/testthat", paste0("test-dbitest-", name, ".R"))
   header <- c(
     "# Created by DBItest::use_dbitest(), do not edit by hand",
-    "ctx <- get_default_context()"
+    "ctx <- get_default_context()",
+    "con <- local_connection(ctx)",
+    NULL
   )
 
   tests <- compact(map2(spec, names(spec), get_dbitest_test))

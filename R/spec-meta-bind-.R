@@ -1,5 +1,6 @@
 # Helpers -----------------------------------------------------------------
 
+#' @export
 test_select_bind <- function(con, ctx, ...) {
   lapply(
     get_placeholder_funs(ctx),
@@ -10,6 +11,7 @@ test_select_bind <- function(con, ctx, ...) {
   )
 }
 
+#' @export
 get_placeholder_funs <- function(ctx) {
   placeholder_fun <- ctx$tweaks$placeholder_pattern
   if (is.character(placeholder_fun)) {

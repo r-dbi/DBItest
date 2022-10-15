@@ -29,6 +29,7 @@ local_invalid_connection <- function(ctx, ...) {
 }
 
 # Calls `dbClearResult()` on `query` after exiting `frame`.
+#' @export
 local_result <- function(query, frame = rlang::caller_env()) {
   res <- query
   withr::defer(
@@ -41,6 +42,7 @@ local_result <- function(query, frame = rlang::caller_env()) {
 }
 
 # Calls `try_silent(dbRemoveTable())` after exiting `frame`.
+#' @export
 local_remove_test_table <- function(con, name, frame = rlang::caller_env()) {
   table_name <- dbQuoteIdentifier(con, name)
   withr::defer(
@@ -64,6 +66,7 @@ unrowname <- function(x) {
   x
 }
 
+#' @export
 random_table_name <- function(n = 10) {
   # FIXME: Use parallel-safe sequence of numbers
   paste0("dbit", paste(sample(letters, n, replace = TRUE), collapse = ""))
@@ -82,6 +85,7 @@ try_silent <- function(code) {
   )
 }
 
+#' @export
 check_df <- function(df) {
   expect_s3_class(df, "data.frame")
   if (length(df) >= 1L) {

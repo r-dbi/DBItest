@@ -48,6 +48,7 @@ trivial_values <- function(n = 1L) {
   seq_len(n) + 0.5
 }
 
+#' @export
 trivial_df <- function(n = 1L, column = "a") {
   values <- trivial_values(n)
   if (length(column) == 1) {

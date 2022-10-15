@@ -260,6 +260,7 @@ spec_result_roundtrip <- list(
 )
 
 
+#' @export
 test_select_with_null <- function(...) {
   test_select(..., .add_null = "none")
   test_select(..., .add_null = "above")
