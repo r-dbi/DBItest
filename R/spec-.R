@@ -1,7 +1,7 @@
 # reverse order
 
 # Script to create new spec files from subspec names read from clipboard:
-# xclip -out -se c | sed 's/,//' | for i in $(cat); do f=$(echo $i | sed 's/_/-/g;s/$/.R/'); echo "$i <- list(" > R/$f; echo ")" >> R/$f; echo "#' @include $f"; done | tac
+# pbpaste | gsed 's/,//' | for i in $(cat); do f=$(echo $i | gsed 's/_/-/g;s/$/.R/'); echo "$i <- list(" > R/$f; echo ")" >> R/$f; echo "#' @include $f"; done | tac | pbcopy
 #
 # Example input:
 # test_xxx_1,
@@ -17,6 +17,7 @@
 ##### Aggregators
 #' @include spec-compliance.R
 #' @include spec-transaction.R
+#' @include spec-arrow.R
 #' @include spec-meta.R
 #' @include spec-sql.R
 #' @include spec-result.R
@@ -28,6 +29,17 @@
 #' @include spec-sql-list-fields.R
 #' @include spec-connection-get-info.R
 #' @include spec-driver-get-info.R
+##### Arrow
+#' @include spec-arrow-roundtrip.R
+#' @include spec-arrow-bind.R
+#' @include spec-arrow-append-stream.R
+#' @include spec-arrow-create-from-stream.R
+#' @include spec-arrow-write-stream.R
+#' @include spec-arrow-stream-table.R
+#' @include spec-arrow-get-stream.R
+#' @include spec-arrow-clear-result.R
+#' @include spec-arrow-stream.R
+#' @include spec-arrow-send-query-stream.R
 ##### Method specs
 #' @include spec-transaction-with-transaction.R
 #' @include spec-transaction-begin-commit-rollback.R
