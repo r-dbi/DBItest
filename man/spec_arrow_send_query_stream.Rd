@@ -21,4 +21,8 @@ or invalid connection,
 or if the query is not a non-\code{NA} string.
 }
 
+\seealso{
+Other Arrow specifications: 
+\code{\link{spec_arrow_stream}}
+}
 \concept{Arrow specifications}
