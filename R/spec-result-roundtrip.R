@@ -198,6 +198,12 @@ spec_result_roundtrip <- list(
   #' - Coercion to numeric always returns a number that is as close as possible
   #'   to the true value
   data_64_bit_numeric = function(ctx, con) {
+    as_numeric_identical_to <- function(x) {
+      lapply(x, function(xx) {
+        function(value) as.numeric(value) == xx
+      })
+    }
+
     char_values <- c("10000000000", "-10000000000")
     test_values <- as_numeric_identical_to(as.numeric(char_values))
 
@@ -367,12 +373,6 @@ coercible_to_time <- function(x) {
 as_timestamp_equals_to <- function(x) {
   lapply(x, function(xx) {
     function(value) as.POSIXct(value) == xx
-  })
-}
-
-as_numeric_identical_to <- function(x) {
-  lapply(x, function(xx) {
-    function(value) as.numeric(value) == xx
   })
 }
 
