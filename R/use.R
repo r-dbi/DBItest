@@ -46,6 +46,7 @@ use_dbitest <- function(path) {
     "local_remove_test_table",
     "get_placeholder_funs",
     "trivial_df",
+    "trivial_values",
     "test_select_with_null",
     "get_texts",
     NULL

@@ -44,6 +44,7 @@ trivial_query <- function(n = 1L, column = "a", .order_by = NULL, .ctx = NULL) {
   query
 }
 
+#' @export
 trivial_values <- function(n = 1L) {
   seq_len(n) + 0.5
 }
