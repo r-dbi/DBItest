@@ -202,6 +202,12 @@ spec_result_roundtrip <- list(
 
   #' - Loss of precision when converting to numeric gives a warning
   data_64_bit_numeric_warning = function(ctx, con) {
+    as_numeric_equals_to <- function(x) {
+      lapply(x, function(xx) {
+        function(value) isTRUE(all.equal(as.numeric(value), xx))
+      })
+    }
+
     char_values <- c(" 1234567890123456789", "-1234567890123456789")
     num_values <- as.numeric(char_values)
     test_values <- as_numeric_equals_to(num_values)
@@ -373,12 +379,6 @@ coercible_to_time <- function(x) {
 as_timestamp_equals_to <- function(x) {
   lapply(x, function(xx) {
     function(value) as.POSIXct(value) == xx
-  })
-}
-
-as_numeric_equals_to <- function(x) {
-  lapply(x, function(xx) {
-    function(value) isTRUE(all.equal(as.numeric(value), xx))
   })
 }
 
