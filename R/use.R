@@ -47,6 +47,7 @@ use_dbitest <- function(path) {
     "get_placeholder_funs",
     "trivial_df",
     "test_select_with_null",
+    "get_texts",
     NULL
   ))
 
