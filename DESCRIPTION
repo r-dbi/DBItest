@@ -56,6 +56,7 @@ Collate:
     'DBItest.R'
     'context.R'
     'dbi.R'
+    'dummy.R'
     'expectations.R'
     'generics.R'
     'import-dbi.R'
