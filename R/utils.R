@@ -1,5 +1,3 @@
-`%||%` <- function(a, b) if (is.null(a)) b else a
-
 get_pkg_path <- function(ctx) {
   pkg_name <- package_name(ctx)
   expect_type(pkg_name, "character")
@@ -73,10 +71,6 @@ compact <- function(x) {
   x[!vapply(x, is.null, logical(1L))]
 }
 
-expand_char <- function(...) {
-  df <- expand.grid(..., stringsAsFactors = FALSE)
-  do.call(paste0, df)
-}
 
 try_silent <- function(code) {
   tryCatch(

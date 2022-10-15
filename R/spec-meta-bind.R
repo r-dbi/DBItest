@@ -243,7 +243,7 @@ spec_meta_bind <- list(
 
   bind_character = function(ctx, con) {
     #' - [character]
-    test_select_bind(con, ctx, c(texts, NA))
+    test_select_bind(con, ctx, c(get_texts(), NA))
   },
 
   bind_character_escape = function(ctx, con) {
@@ -258,7 +258,7 @@ spec_meta_bind <- list(
       test_select_bind(
         con,
         ctx,
-        lapply(c(texts, NA_character_), factor)
+        lapply(c(get_texts(), NA_character_), factor)
       )
     ))
   },

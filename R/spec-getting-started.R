@@ -2,7 +2,6 @@
 #' @family getting specifications
 #' @usage NULL
 #' @format NULL
-#' @importFrom desc desc_get_deps
 #' @keywords NULL
 #' @section Definition:
 spec_getting_started <- list(
@@ -10,7 +9,7 @@ spec_getting_started <- list(
     #' A DBI backend is an R package
     pkg_path <- get_pkg_path(ctx)
 
-    pkg_deps_df <- desc_get_deps(pkg_path)
+    pkg_deps_df <- desc::desc_get_deps(pkg_path)
     pkg_imports <- pkg_deps_df$package[pkg_deps_df$type == "Imports"]
 
     #' which imports the \pkg{DBI}

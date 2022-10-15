@@ -8,4 +8,6 @@ text_chinese <- "\u6211\u662f\u8c01"
 
 text_ascii <- iconv("ASCII", to = "ASCII")
 
-texts <- c(text_cyrillic, text_latin, text_latin_encoded, text_chinese, text_ascii)
+get_texts <- function() {
+  c(text_cyrillic, text_latin, text_latin_encoded, text_chinese, text_ascii)
+}

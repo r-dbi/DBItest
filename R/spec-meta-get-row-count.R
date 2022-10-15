@@ -27,7 +27,7 @@ spec_meta_get_row_count <- list(
   },
   #
   row_count_query_limited = function(ctx, con) {
-    query <- union(.ctx = ctx, trivial_query(), "SELECT 2", "SELECT 3")
+    query <- sql_union(.ctx = ctx, trivial_query(), "SELECT 2", "SELECT 3")
     res <- local_result(dbSendQuery(con, query))
     rc1 <- dbGetRowCount(res)
     expect_equal(rc1, 0L)
@@ -44,7 +44,7 @@ spec_meta_get_row_count <- list(
   #
   row_count_query_empty = function(ctx, con) {
     #' For queries with an empty result set,
-    query <- union(
+    query <- sql_union(
       .ctx = ctx, "SELECT * FROM (SELECT 1 as a) a WHERE (0 = 1)"
     )
     res <- local_result(dbSendQuery(con, query))
