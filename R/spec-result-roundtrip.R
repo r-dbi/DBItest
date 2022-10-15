@@ -4,22 +4,22 @@
 #' @format NULL
 #' @keywords NULL
 spec_result_roundtrip <- list(
-  #' @section Specification:
-  #' The column types of the returned data frame depend on the data returned:
-  #' - [integer] (or coercible to an integer) for integer values between -2^31 and 2^31 - 1,
   data_integer = function(ctx, con) {
+    #' @section Specification:
+    #' The column types of the returned data frame depend on the data returned:
+    #' - [integer] (or coercible to an integer) for integer values between -2^31 and 2^31 - 1,
     #' with [NA] for SQL `NULL` values
     test_select_with_null(.ctx = ctx, con, 1L ~ equals_one, -100L ~ equals_minus_100)
   },
 
-  #' - [numeric] for numbers with a fractional component,
   data_numeric = function(ctx, con) {
+    #' - [numeric] for numbers with a fractional component,
     #' with NA for SQL `NULL` values
     test_select_with_null(.ctx = ctx, con, 1.5, -100.5)
   },
 
-  #' - [logical] for Boolean values (some backends may return an integer);
   data_logical = function(ctx, con) {
+    #' - [logical] for Boolean values (some backends may return an integer);
     int_values <- 1:0
     values <- ctx$tweaks$logical_return(as.logical(int_values))
 
@@ -29,8 +29,8 @@ spec_result_roundtrip <- list(
     test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
   },
 
-  #' - [character] for text,
   data_character = function(ctx, con) {
+    #' - [character] for text,
     values <- texts
     test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
     sql_names <- as.character(dbQuoteString(con, values))
@@ -40,8 +40,8 @@ spec_result_roundtrip <- list(
     test_select_with_null(.ctx = ctx, con, .dots = setNames(test_funs, sql_names))
   },
 
-  #' - lists of [raw] for blobs
   data_raw = function(ctx, con) {
+    #' - lists of [raw] for blobs
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }
@@ -53,8 +53,8 @@ spec_result_roundtrip <- list(
     test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
   },
 
-  #' - coercible using [as.Date()] for dates,
   data_date = function(ctx, con) {
+    #' - coercible using [as.Date()] for dates,
     char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
     values <- as_date_equals_to(as.Date(char_values))
     sql_names <- ctx$tweaks$date_cast(char_values)
@@ -63,16 +63,16 @@ spec_result_roundtrip <- list(
     test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
   },
 
-  #'   (also applies to the return value of the SQL function `current_date`)
   data_date_current = function(ctx, con) {
+    #'   (also applies to the return value of the SQL function `current_date`)
     test_select_with_null(
       .ctx = ctx, con,
       "current_date" ~ is_roughly_current_date
     )
   },
 
-  #' - coercible using [hms::as_hms()] for times,
   data_time = function(ctx, con) {
+    #' - coercible using [hms::as_hms()] for times,
     char_values <- c("00:00:00", "12:34:56")
     time_values <- as_hms_equals_to(hms::as_hms(char_values))
     sql_names <- ctx$tweaks$time_cast(char_values)
@@ -81,16 +81,16 @@ spec_result_roundtrip <- list(
     test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
   },
 
-  #'   (also applies to the return value of the SQL function `current_time`)
   data_time_current = function(ctx, con) {
+    #'   (also applies to the return value of the SQL function `current_time`)
     test_select_with_null(
       .ctx = ctx, con,
       "current_time" ~ coercible_to_time
     )
   },
 
-  #' - coercible using [as.POSIXct()] for timestamps,
   data_timestamp = function(ctx, con) {
+    #' - coercible using [as.POSIXct()] for timestamps,
     char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
     time_values <- rep(list(coercible_to_timestamp), 2L)
     sql_names <- ctx$tweaks$timestamp_cast(char_values)
@@ -99,8 +99,8 @@ spec_result_roundtrip <- list(
     test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
   },
 
-  #'   (also applies to the return value of the SQL function `current_timestamp`)
   data_timestamp_current = function(ctx, con) {
+    #'   (also applies to the return value of the SQL function `current_timestamp`)
     test_select_with_null(
       .ctx = ctx, con,
       "current_timestamp" ~ is_roughly_current_timestamp
@@ -108,10 +108,10 @@ spec_result_roundtrip <- list(
   },
 
   #'
-  #' If dates and timestamps are supported by the backend, the following R types are
-  #' used:
-  #' - [Date] for dates
   data_date_typed = function(ctx, con) {
+    #' If dates and timestamps are supported by the backend, the following R types are
+    #' used:
+    #' - [Date] for dates
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
@@ -123,8 +123,8 @@ spec_result_roundtrip <- list(
     test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
   },
 
-  #'   (also applies to the return value of the SQL function `current_date`)
   data_date_current_typed = function(ctx, con) {
+    #'   (also applies to the return value of the SQL function `current_date`)
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
@@ -135,8 +135,8 @@ spec_result_roundtrip <- list(
     )
   },
 
-  #' - [POSIXct] for timestamps
   data_timestamp_typed = function(ctx, con) {
+    #' - [POSIXct] for timestamps
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
@@ -148,8 +148,8 @@ spec_result_roundtrip <- list(
     test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
   },
 
-  #'   (also applies to the return value of the SQL function `current_timestamp`)
   data_timestamp_current_typed = function(ctx, con) {
+    #'   (also applies to the return value of the SQL function `current_timestamp`)
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }

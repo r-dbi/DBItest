@@ -9,8 +9,8 @@ spec_sql_quote_string <- list(
     expect_equal(names(formals(dbQuoteString)), c("conn", "x", "..."))
   },
 
-  #' @return
   quote_string_return = function(con) {
+    #' @return
     #' `dbQuoteString()` returns an object that can be coerced to [character],
     simple <- "simple"
     simple_out <- dbQuoteString(con, simple)
@@ -54,8 +54,8 @@ spec_sql_quote_string <- list(
     #' to achieve this behavior, but this is not required.)
   },
 
-  #' @section Specification:
   quote_string_roundtrip = function(ctx, con) {
+    #' @section Specification:
     do_test_string <- function(x) {
       #' The returned expression can be used in a `SELECT ...` query,
       query <- paste0("SELECT ", paste(dbQuoteString(con, x), collapse = ", "))
@@ -119,8 +119,8 @@ spec_sql_quote_string <- list(
     expect_identical(rows$quoted_na, as.character(na))
   },
   #
+  #'
   quote_string_na_is_null = function(ctx, con) {
-    #'
     #' `NA` should be translated to an unquoted SQL `NULL`,
     null <- dbQuoteString(con, NA_character_)
     #' so that the query `SELECT * FROM (SELECT 1) a WHERE ... IS NULL`
@@ -129,8 +129,8 @@ spec_sql_quote_string <- list(
     expect_equal(nrow(rows), 1L)
   },
   #'
-  #' @section Failure modes:
   quote_string_error = function(ctx, con) {
+    #' @section Failure modes:
     #'
     #' Passing a numeric,
     expect_error(dbQuoteString(con, c(1, 2, 3)))

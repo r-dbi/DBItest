@@ -9,9 +9,9 @@ spec_result_send_query <- list(
     expect_equal(names(formals(dbSendQuery)), c("conn", "statement", "..."))
   },
 
-  #' @return
-  #' `dbSendQuery()` returns
   send_query_trivial = function(con) {
+    #' @return
+    #' `dbSendQuery()` returns
     res <- expect_visible(dbSendQuery(con, trivial_query()))
     #' an S4 object that inherits from [DBIResult-class].
     expect_s4_class(res, "DBIResult")
@@ -23,30 +23,30 @@ spec_result_send_query <- list(
   },
 
   #'
-  #' @section Failure modes:
-  #' An error is raised when issuing a query over a closed
   send_query_closed_connection = function(ctx, closed_con) {
+    #' @section Failure modes:
+    #' An error is raised when issuing a query over a closed
     expect_error(dbSendQuery(closed_con, trivial_query()))
   },
 
-  #' or invalid connection,
   send_query_invalid_connection = function(ctx, invalid_con) {
+    #' or invalid connection,
     expect_error(dbSendQuery(invalid_con, trivial_query()))
   },
 
-  #' or if the query is not a non-`NA` string.
   send_query_non_string = function(con) {
+    #' or if the query is not a non-`NA` string.
     expect_error(dbSendQuery(con, character()))
     expect_error(dbSendQuery(con, letters))
     expect_error(dbSendQuery(con, NA_character_))
   },
 
-  #' An error is also raised if the syntax of the query is invalid
-  #' and all query parameters are given (by passing the `params` argument)
-  #' or the `immediate` argument is set to `TRUE`.
-  #'
-  #' @section Failure modes:
   send_query_syntax_error = function(con) {
+    #' An error is also raised if the syntax of the query is invalid
+    #' and all query parameters are given (by passing the `params` argument)
+    #' or the `immediate` argument is set to `TRUE`.
+    #'
+    #' @section Failure modes:
     expect_error(dbSendQuery(con, "SELLECT", params = list()))
     expect_error(dbSendQuery(con, "SELLECT", immediate = TRUE))
   },
@@ -60,8 +60,8 @@ spec_result_send_query <- list(
   #' They must be provided as named arguments.
   #' See the "Specification" sections for details on their usage.
 
-  #' @section Specification:
   send_query_result_valid = function(con) {
+    #' @section Specification:
     #' No warnings occur under normal conditions.
     expect_warning(res <- dbSendQuery(con, trivial_query()), NA)
     #' When done, the DBIResult object must be cleared with a call to
@@ -84,8 +84,8 @@ spec_result_send_query <- list(
   },
 
   #'
-  #' If the backend supports only one open result set per connection,
   send_query_only_one_result_set = function(con) {
+    #' If the backend supports only one open result set per connection,
     res1 <- dbSendQuery(con, trivial_query())
     #' issuing a second query invalidates an already open result set
     #' and raises a warning.
@@ -98,8 +98,8 @@ spec_result_send_query <- list(
   },
 
   #'
-  #' The `param` argument allows passing query parameters, see [dbBind()] for details.
   send_query_params = function(ctx, con) {
+    #' The `param` argument allows passing query parameters, see [dbBind()] for details.
     placeholder_funs <- get_placeholder_funs(ctx)
 
     for (placeholder_fun in placeholder_funs) {
@@ -114,8 +114,8 @@ spec_result_send_query <- list(
     }
   },
 
-  #' @inheritSection spec_result_get_query Specification for the `immediate` argument
   send_query_immediate = function(con, table_name) {
+    #' @inheritSection spec_result_get_query Specification for the `immediate` argument
     res <- expect_visible(dbSendQuery(con, trivial_query(), immediate = TRUE))
     expect_s4_class(res, "DBIResult")
     expect_error(dbGetRowsAffected(res), NA)

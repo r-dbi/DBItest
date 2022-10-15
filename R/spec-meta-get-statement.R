@@ -9,9 +9,9 @@ spec_meta_get_statement <- list(
     expect_equal(names(formals(dbGetStatement)), c("res", "..."))
   },
 
-  #' @return
-  #' `dbGetStatement()` returns a string, the query used in
   get_statement_query = function(con) {
+    #' @return
+    #' `dbGetStatement()` returns a string, the query used in
     query <- trivial_query()
     #' either [dbSendQuery()]
     res <- local_result(dbSendQuery(con, query))
@@ -29,8 +29,8 @@ spec_meta_get_statement <- list(
     expect_identical(s, query)
   },
   #'
-  #' @section Failure modes:
   get_statement_error = function(con) {
+    #' @section Failure modes:
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
     #' Attempting to query the statement for a result set cleared with

@@ -19,9 +19,9 @@ spec_transaction_begin_commit_rollback <- list(
     expect_equal(names(formals(dbRollback)), c("conn", "..."))
   },
 
-  #' @return
-  #' `dbBegin()`, `dbCommit()` and `dbRollback()` return `TRUE`, invisibly.
   begin_commit_return_value = function(con) {
+    #' @return
+    #' `dbBegin()`, `dbCommit()` and `dbRollback()` return `TRUE`, invisibly.
     expect_invisible_true(dbBegin(con))
     on.exit({
       dbRollback(con)
@@ -36,10 +36,10 @@ spec_transaction_begin_commit_rollback <- list(
   },
 
   #'
-  #' @section Failure modes:
-  #' The implementations are expected to raise an error in case of failure,
-  #' but this is not tested.
   begin_commit_closed = function(ctx, closed_con) {
+    #' @section Failure modes:
+    #' The implementations are expected to raise an error in case of failure,
+    #' but this is not tested.
     #' In any way, all generics throw an error with a closed
     expect_error(dbBegin(closed_con))
     expect_error(dbCommit(closed_con))
@@ -77,9 +77,9 @@ spec_transaction_begin_commit_rollback <- list(
     on.exit(NULL)
   },
 
-  #' @section Specification:
-  #' Actual support for transactions may vary between backends.
   begin_commit = function(con) {
+    #' @section Specification:
+    #' Actual support for transactions may vary between backends.
     #' A transaction is initiated by a call to `dbBegin()`
     dbBegin(con)
     #' and committed by a call to `dbCommit()`.
@@ -94,8 +94,8 @@ spec_transaction_begin_commit_rollback <- list(
     if (!success) dbRollback(con)
   },
 
-  #' Data written in a transaction must persist after the transaction is committed.
   begin_write_commit = function(con) {
+    #' Data written in a transaction must persist after the transaction is committed.
     #' For example, a record that is missing when the transaction is started
 
     table_name <- "dbit00"
@@ -126,17 +126,17 @@ spec_transaction_begin_commit_rollback <- list(
     expect_equal(check_df(dbReadTable(con, table_name)), data.frame(a = 0:1))
   },
   #
+  #'
   begin_rollback = function(con) {
-    #'
     #' A transaction
     dbBegin(con)
     #' can also be aborted with `dbRollback()`.
     expect_error(dbRollback(con), NA)
   },
 
-  #' All data written in such a transaction must be removed after the
-  #' transaction is rolled back.
   begin_write_rollback = function(con, table_name) {
+    #' All data written in such a transaction must be removed after the
+    #' transaction is rolled back.
     #' For example, a record that is missing when the transaction is started
     dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
 

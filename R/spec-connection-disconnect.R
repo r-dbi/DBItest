@@ -9,8 +9,8 @@ spec_connection_disconnect <- list(
     expect_equal(names(formals(dbDisconnect)), c("conn", "..."))
   },
 
-  #' @return
   can_disconnect = function(ctx) {
+    #' @return
     con <- connect(ctx)
     #' `dbDisconnect()` returns `TRUE`, invisibly.
     expect_invisible_true(dbDisconnect(con))
@@ -22,14 +22,14 @@ spec_connection_disconnect <- list(
   #' released without calling `dbDisconnect()`,
   #' but this cannot be tested automatically.
 
-  #' A warning is issued immediately when calling `dbDisconnect()` on an
-  #' already disconnected
   disconnect_closed_connection = function(ctx, closed_con) {
+    #' A warning is issued immediately when calling `dbDisconnect()` on an
+    #' already disconnected
     expect_warning(dbDisconnect(closed_con))
   },
 
-  #' or invalid connection.
   disconnect_invalid_connection = function(ctx, invalid_con) {
+    #' or invalid connection.
     expect_warning(dbDisconnect(invalid_con))
   },
   #

@@ -5,9 +5,9 @@
 #' @keywords NULL
 #' @rdname spec_get_info
 spec_connection_get_info <- list(
-  #' @return
-  #' For objects of class [DBIConnection-class], `dbGetInfo()`
   get_info_connection = function(con) {
+    #' @return
+    #' For objects of class [DBIConnection-class], `dbGetInfo()`
     info <- dbGetInfo(con)
     #' returns a named list
     expect_type(info, "list")

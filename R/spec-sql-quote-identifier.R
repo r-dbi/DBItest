@@ -9,8 +9,8 @@ spec_sql_quote_identifier <- list(
     expect_equal(names(formals(dbQuoteIdentifier)), c("conn", "x", "..."))
   },
 
-  #' @return
   quote_identifier_return = function(con) {
+    #' @return
     #' `dbQuoteIdentifier()` returns an object that can be coerced to [character],
     simple_out <- dbQuoteIdentifier(con, "simple")
     expect_error(as.character(simple_out), NA)
@@ -54,8 +54,8 @@ spec_sql_quote_identifier <- list(
     #' to achieve this behavior, but this is not required.)
   },
   #'
-  #' @section Failure modes:
   quote_identifier_error = function(ctx, con) {
+    #' @section Failure modes:
     #'
     #' An error is raised if the input contains `NA`,
     expect_error(dbQuoteIdentifier(con, NA))
@@ -65,10 +65,10 @@ spec_sql_quote_identifier <- list(
     expect_error(dbQuoteIdentifier(con, ""), NA)
   },
 
-  #' @section Specification:
-  #' Calling [dbGetQuery()] for a query of the format `SELECT 1 AS ...`
-  #' returns a data frame with the identifier, unquoted, as column name.
   quote_identifier = function(ctx, con) {
+    #' @section Specification:
+    #' Calling [dbGetQuery()] for a query of the format `SELECT 1 AS ...`
+    #' returns a data frame with the identifier, unquoted, as column name.
     #' Quoted identifiers can be used as table and column names in SQL queries,
     simple <- dbQuoteIdentifier(con, "simple")
 
@@ -84,9 +84,9 @@ spec_sql_quote_identifier <- list(
     expect_identical(unlist(unname(rows)), 1.5)
   },
 
-  #' The method must use a quoting mechanism that is unambiguously different
-  #' from the quoting mechanism used for strings, so that a query like
   quote_identifier_string = function(ctx, con) {
+    #' The method must use a quoting mechanism that is unambiguously different
+    #' from the quoting mechanism used for strings, so that a query like
     #' `SELECT ... FROM (SELECT 1 AS ...)`
     query <- paste0(
       "SELECT ", dbQuoteIdentifier(con, "b"), " FROM (",
@@ -97,8 +97,8 @@ spec_sql_quote_identifier <- list(
     eval(bquote(expect_error(dbGetQuery(con, .(query)))))
   },
   #
+  #'
   quote_identifier_special = function(ctx, con) {
-    #'
     #' The method can quote column names that
     #' contain special characters such as a space,
     with_space_in <- "with space"

@@ -9,8 +9,8 @@ spec_meta_bind <- list(
     expect_equal(names(formals(dbBind)), c("res", "params", "..."))
   },
 
-  #' @return
   bind_return_value = function(ctx, con) {
+    #' @return
     extra <- new_bind_tester_extra(
       check_return_value = function(bind_res, res) {
         #' `dbBind()` returns the result set,
@@ -27,8 +27,8 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, 1L, extra = extra, query = FALSE)
   },
   #'
-  #' @section Failure modes:
   bind_empty = function(con) {
+    #' @section Failure modes:
     #' Calling `dbBind()` for a query without parameters
     res <- local_result(dbSendQuery(con, trivial_query()))
     #' raises an error.
@@ -90,8 +90,8 @@ spec_meta_bind <- list(
     )
   },
 
-  #' If the placeholders in the query are named,
   bind_named_param_unnamed_placeholders = function(ctx, con) {
+    #' If the placeholders in the query are named,
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {
         #' all parameter values must have names
@@ -130,8 +130,8 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, list(1L, 2L), extra = extra)
   },
 
-  #' and vice versa,
   bind_unnamed_param_named_placeholders = function(ctx, con) {
+    #' and vice versa,
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {
         stats::setNames(bind_values, letters[seq_along(bind_values)])
@@ -160,9 +160,9 @@ spec_meta_bind <- list(
     )
   },
 
-  #' @section Specification:
-  #' The elements of the `params` argument do not need to be scalars,
   bind_multi_row = function(ctx, con) {
+    #' @section Specification:
+    #' The elements of the `params` argument do not need to be scalars,
     #' vectors of arbitrary length
     test_select_bind(con, ctx, list(1:3))
   },
@@ -211,8 +211,8 @@ spec_meta_bind <- list(
   },
 
   #'
-  #' If the placeholders in the query are named,
   bind_named_param_shuffle = function(ctx, con) {
+    #' If the placeholders in the query are named,
     extra <- new_bind_tester_extra(
       patch_bind_values = function(bind_values) {
         #' their order in the `params` argument is not important.
@@ -225,34 +225,34 @@ spec_meta_bind <- list(
   },
 
   #'
-  #' At least the following data types are accepted on input (including [NA]):
-  #' - [integer]
   bind_integer = function(ctx, con) {
+    #' At least the following data types are accepted on input (including [NA]):
+    #' - [integer]
     test_select_bind(con, ctx, c(1:3, NA))
   },
 
-  #' - [numeric]
   bind_numeric = function(ctx, con) {
+    #' - [numeric]
     test_select_bind(con, ctx, c(1:3 + 0.5, NA))
   },
 
-  #' - [logical] for Boolean values
   bind_logical = function(ctx, con) {
+    #' - [logical] for Boolean values
     test_select_bind(con, ctx, c(TRUE, FALSE, NA))
   },
 
-  #' - [character]
   bind_character = function(ctx, con) {
+    #' - [character]
     test_select_bind(con, ctx, c(texts, NA))
   },
 
-  #'   (also with special characters such as spaces, newlines, quotes, and backslashes)
   bind_character_escape = function(ctx, con) {
+    #'   (also with special characters such as spaces, newlines, quotes, and backslashes)
     test_select_bind(con, ctx, c(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA))
   },
 
-  #' - [factor] (bound as character,
   bind_factor = function(ctx, con) {
+    #' - [factor] (bound as character,
     #' with warning)
     suppressWarnings(expect_warning(
       test_select_bind(
@@ -263,8 +263,8 @@ spec_meta_bind <- list(
     ))
   },
 
-  #' - [Date]
   bind_date = function(ctx, con) {
+    #' - [Date]
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
@@ -272,8 +272,8 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, c(Sys.Date() + 0:2, NA))
   },
 
-  #'   (also when stored internally as integer)
   bind_date_integer = function(ctx, con) {
+    #'   (also when stored internally as integer)
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
@@ -281,8 +281,8 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, structure(c(18618:18620, NA), class = "Date"))
   },
 
-  #' - [POSIXct] timestamps
   bind_timestamp = function(ctx, con) {
+    #' - [POSIXct] timestamps
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
@@ -291,8 +291,8 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, data_in)
   },
 
-  #' - [POSIXlt] timestamps
   bind_timestamp_lt = function(ctx, con) {
+    #' - [POSIXlt] timestamps
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
@@ -304,8 +304,8 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, data_in)
   },
 
-  #' - [difftime] values
   bind_time_seconds = function(ctx, con) {
+    #' - [difftime] values
     if (!isTRUE(ctx$tweaks$time_typed)) {
       skip("tweak: !time_typed")
     }
@@ -314,8 +314,8 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, data_in)
   },
 
-  #'   (also with units other than seconds
   bind_time_hours = function(ctx, con) {
+    #'   (also with units other than seconds
     if (!isTRUE(ctx$tweaks$time_typed)) {
       skip("tweak: !time_typed")
     }
@@ -324,8 +324,8 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, data_in)
   },
 
-  #'   and with the value stored as integer)
   bind_time_minutes_integer = function(ctx, con) {
+    #'   and with the value stored as integer)
     if (!isTRUE(ctx$tweaks$time_typed)) {
       skip("tweak: !time_typed")
     }
@@ -334,8 +334,8 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, data_in)
   },
 
-  #' - lists of [raw] for blobs (with `NULL` entries for SQL NULL values)
   bind_raw = function(ctx, con) {
+    #' - lists of [raw] for blobs (with `NULL` entries for SQL NULL values)
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }
@@ -347,8 +347,8 @@ spec_meta_bind <- list(
     )
   },
 
-  #' - objects of type [blob::blob]
   bind_blob = function(ctx, con) {
+    #' - objects of type [blob::blob]
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }

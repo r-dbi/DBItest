@@ -10,16 +10,16 @@ spec_sql_write_table <- list(
     expect_equal(names(formals(dbWriteTable)), c("conn", "name", "value", "..."))
   },
 
-  #' @return
-  #' `dbWriteTable()` returns `TRUE`, invisibly.
   write_table_return = function(con, table_name) {
+    #' @return
+    #' `dbWriteTable()` returns `TRUE`, invisibly.
     expect_invisible_true(dbWriteTable(con, table_name, data.frame(a = 1L)))
   },
 
   #'
-  #' @section Failure modes:
-  #' If the table exists, and both `append` and `overwrite` arguments are unset,
   write_table_overwrite = function(con, table_name) {
+    #' @section Failure modes:
+    #' If the table exists, and both `append` and `overwrite` arguments are unset,
     test_in <- data.frame(a = 1L)
     dbWriteTable(con, table_name, test_in)
     expect_error(dbWriteTable(con, table_name, data.frame(a = 2L)))
@@ -28,10 +28,10 @@ spec_sql_write_table <- list(
     expect_equal_df(test_out, test_in)
   },
 
-  #' or `append = TRUE` and the data frame with the new data has different
-  #' column names,
-  #' an error is raised; the remote table remains unchanged.
   write_table_append_incompatible = function(con, table_name) {
+    #' or `append = TRUE` and the data frame with the new data has different
+    #' column names,
+    #' an error is raised; the remote table remains unchanged.
     test_in <- data.frame(a = 1L)
     dbWriteTable(con, table_name, test_in)
     expect_error(dbWriteTable(con, table_name, data.frame(b = 2L), append = TRUE))
@@ -41,18 +41,18 @@ spec_sql_write_table <- list(
   },
 
   #'
-  #' An error is raised when calling this method for a closed
   write_table_closed_connection = function(ctx, closed_con) {
+    #' An error is raised when calling this method for a closed
     expect_error(dbWriteTable(closed_con, "test", data.frame(a = 1)))
   },
 
-  #' or invalid connection.
   write_table_invalid_connection = function(ctx, invalid_con) {
+    #' or invalid connection.
     expect_error(dbWriteTable(invalid_con, "test", data.frame(a = 1)))
   },
 
-  #' An error is also raised
   write_table_error = function(ctx, con, table_name) {
+    #' An error is also raised
     test_in <- data.frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
     expect_error(dbWriteTable(con, NA, test_in))
@@ -107,9 +107,9 @@ spec_sql_write_table <- list(
   #' They must be provided as named arguments.
   #' See the "Specification" and "Value" sections for details on their usage.
 
-  #' @section Specification:
-  #' The `name` argument is processed as follows,
   write_table_name = function(ctx, con) {
+    #' @section Specification:
+    #' The `name` argument is processed as follows,
     #' to support databases that allow non-syntactic names for their objects:
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
@@ -128,8 +128,8 @@ spec_sql_write_table <- list(
     }
   },
 
-  #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
   write_table_name_quoted = function(ctx, con) {
+    #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
     if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
       skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
     }
@@ -151,8 +151,8 @@ spec_sql_write_table <- list(
   },
 
   #'
-  #' The `value` argument must be a data frame
   write_table_value_df = function(con, table_name) {
+    #' The `value` argument must be a data frame
     test_in <- trivial_df()
     dbWriteTable(con, table_name, test_in)
 
@@ -160,8 +160,8 @@ spec_sql_write_table <- list(
     expect_equal_df(test_out, test_in)
   },
 
-  #' with a subset of the columns of the existing table if `append = TRUE`.
   write_table_value_subset = function(ctx, con, table_name) {
+    #' with a subset of the columns of the existing table if `append = TRUE`.
     test_in <- trivial_df(3, letters[1:3])
     dbCreateTable(con, table_name, test_in)
     dbWriteTable(con, table_name, test_in[2], append = TRUE)
@@ -172,8 +172,8 @@ spec_sql_write_table <- list(
     expect_equal_df(test_out, test_in)
   },
 
-  #' The order of the columns does not matter with `append = TRUE`.
   write_table_value_shuffle = function(ctx, con, table_name) {
+    #' The order of the columns does not matter with `append = TRUE`.
     test_in <- trivial_df(3, letters[1:3])
     dbCreateTable(con, table_name, test_in)
     dbWriteTable(con, table_name, test_in[c(2, 3, 1)], append = TRUE)
@@ -195,9 +195,9 @@ spec_sql_write_table <- list(
   },
 
   #'
-  #' If the `overwrite` argument is `TRUE`, an existing table of the same name
-  #' will be overwritten.
   overwrite_table = function(ctx, con, table_name) {
+    #' If the `overwrite` argument is `TRUE`, an existing table of the same name
+    #' will be overwritten.
     penguins <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins)
     expect_error(
@@ -208,8 +208,8 @@ spec_sql_write_table <- list(
     expect_equal_df(penguins_out, penguins[1, ])
   },
 
-  #' This argument doesn't change behavior if the table does not exist yet.
   overwrite_table_missing = function(ctx, con, table_name) {
+    #' This argument doesn't change behavior if the table does not exist yet.
     penguins_in <- get_penguins(ctx)
     expect_error(
       dbWriteTable(con, table_name, penguins_in[1, ], overwrite = TRUE),
@@ -220,9 +220,9 @@ spec_sql_write_table <- list(
   },
 
   #'
-  #' If the `append` argument is `TRUE`, the rows in an existing table are
-  #' preserved, and the new data are appended.
   append_table = function(ctx, con, table_name) {
+    #' If the `append` argument is `TRUE`, the rows in an existing table are
+    #' preserved, and the new data are appended.
     penguins <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins)
     expect_error(dbWriteTable(con, table_name, penguins[1, ], append = TRUE), NA)
@@ -230,8 +230,8 @@ spec_sql_write_table <- list(
     expect_equal_df(penguins_out, rbind(penguins, penguins[1, ]))
   },
 
-  #' If the table doesn't exist yet, it is created.
   append_table_new = function(ctx, con, table_name) {
+    #' If the table doesn't exist yet, it is created.
     penguins <- get_penguins(ctx)
     expect_error(dbWriteTable(con, table_name, penguins[1, ], append = TRUE), NA)
     penguins_out <- check_df(dbReadTable(con, table_name))
@@ -239,9 +239,9 @@ spec_sql_write_table <- list(
   },
 
   #'
-  #' If the `temporary` argument is `TRUE`, the table is not available in a
-  #' second connection and is gone after reconnecting.
   temporary_table = function(ctx, con, table_name = "dbit08") {
+    #' If the `temporary` argument is `TRUE`, the table is not available in a
+    #' second connection and is gone after reconnecting.
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
@@ -265,8 +265,8 @@ spec_sql_write_table <- list(
     expect_error(dbReadTable(con, table_name))
   },
 
-  #' A regular, non-temporary table is visible in a second connection,
   table_visible_in_other_connection = function(ctx, local_con) {
+    #' A regular, non-temporary table is visible in a second connection,
     penguins30 <- get_penguins(ctx)
 
     table_name <- "dbit09"
@@ -296,8 +296,8 @@ spec_sql_write_table <- list(
   },
 
   #'
-  #' SQL keywords can be used freely in table names, column names, and data.
   roundtrip_keywords = function(ctx, con) {
+    #' SQL keywords can be used freely in table names, column names, and data.
     tbl_in <- data.frame(
       select = "unique", from = "join", where = "order",
       stringsAsFactors = FALSE
@@ -305,9 +305,9 @@ spec_sql_write_table <- list(
     test_table_roundtrip(con, tbl_in, name = "exists")
   },
 
-  #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
-  #' can also be used in the data,
   roundtrip_quotes = function(ctx, con, table_name) {
+    #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
+    #' can also be used in the data,
     tbl_in <- data.frame(
       as.character(dbQuoteString(con, "")),
       as.character(dbQuoteIdentifier(con, "")),
@@ -321,9 +321,9 @@ spec_sql_write_table <- list(
     test_table_roundtrip(con, tbl_in)
   },
 
-  #' and, if the database supports non-syntactic identifiers,
-  #' also for table names
   roundtrip_quotes_table_names = function(ctx, con) {
+    #' and, if the database supports non-syntactic identifiers,
+    #' also for table names
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       skip("tweak: strict_identifier")
     }
@@ -343,8 +343,8 @@ spec_sql_write_table <- list(
     }
   },
 
-  #' and column names.
   roundtrip_quotes_column_names = function(ctx, con) {
+    #' and column names.
     if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
       skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
     }
@@ -367,31 +367,31 @@ spec_sql_write_table <- list(
   },
 
   #'
-  #' The following data types must be supported at least,
-  #' and be read identically with [dbReadTable()]:
-  #' - integer
   roundtrip_integer = function(ctx, con) {
+    #' The following data types must be supported at least,
+    #' and be read identically with [dbReadTable()]:
+    #' - integer
     tbl_in <- data.frame(a = c(1:5))
     test_table_roundtrip(con, tbl_in)
   },
 
-  #' - numeric
   roundtrip_numeric = function(ctx, con) {
+    #' - numeric
     tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
     test_table_roundtrip(con, tbl_in)
     #'   (the behavior for `Inf` and `NaN` is not specified)
   },
 
-  #' - logical
   roundtrip_logical = function(ctx, con) {
+    #' - logical
     tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
     tbl_exp <- tbl_in
     tbl_exp$a <- ctx$tweaks$logical_return(tbl_exp$a)
     test_table_roundtrip(con, tbl_in, tbl_exp)
   },
 
-  #' - `NA` as NULL
   roundtrip_null = function(ctx, con) {
+    #' - `NA` as NULL
     tbl_in <- data.frame(a = NA)
     test_table_roundtrip(
       con, tbl_in,
@@ -440,8 +440,8 @@ spec_sql_write_table <- list(
     test_table_roundtrip(con, tbl_out, tbl_expected = tbl_out)
   },
 
-  #' - character (in both UTF-8
   roundtrip_character = function(ctx, con) {
+    #' - character (in both UTF-8
     tbl_in <- data.frame(
       id = seq_along(texts),
       a = c(texts),
@@ -450,8 +450,8 @@ spec_sql_write_table <- list(
     test_table_roundtrip(con, tbl_in)
   },
 
-  #'   and native encodings),
   roundtrip_character_native = function(ctx, con) {
+    #'   and native encodings),
     tbl_in <- data.frame(
       a = c(enc2native(texts)),
       stringsAsFactors = FALSE
@@ -459,8 +459,8 @@ spec_sql_write_table <- list(
     test_table_roundtrip(con, tbl_in)
   },
 
-  #'   supporting empty strings
   roundtrip_character_empty = function(ctx, con) {
+    #'   supporting empty strings
     tbl_in <- data.frame(
       a = c("", "a"),
       stringsAsFactors = FALSE
@@ -468,8 +468,8 @@ spec_sql_write_table <- list(
     test_table_roundtrip(con, tbl_in)
   },
 
-  #'   before and after a non-empty string
   roundtrip_character_empty_after = function(ctx, con) {
+    #'   before and after a non-empty string
     tbl_in <- data.frame(
       a = c("a", ""),
       stringsAsFactors = FALSE
@@ -477,8 +477,8 @@ spec_sql_write_table <- list(
     test_table_roundtrip(con, tbl_in)
   },
 
-  #' - factor (returned as character)
   roundtrip_factor = function(ctx, con) {
+    #' - factor (returned as character)
     tbl_in <- data.frame(
       a = factor(c(texts))
     )
@@ -487,8 +487,8 @@ spec_sql_write_table <- list(
     test_table_roundtrip(con, tbl_in, tbl_exp)
   },
 
-  #' - list of raw
   roundtrip_raw = function(ctx, con) {
+    #' - list of raw
     #'   (if supported by the database)
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
@@ -506,8 +506,8 @@ spec_sql_write_table <- list(
     )
   },
 
-  #' - objects of type [blob::blob]
   roundtrip_blob = function(ctx, con) {
+    #' - objects of type [blob::blob]
     #'   (if supported by the database)
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
@@ -523,8 +523,8 @@ spec_sql_write_table <- list(
     )
   },
 
-  #' - date
   roundtrip_date = function(ctx, con) {
+    #' - date
     #'   (if supported by the database;
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
@@ -541,8 +541,8 @@ spec_sql_write_table <- list(
     )
   },
 
-  #'   also for dates prior to 1970 or 1900 or after 2038
   roundtrip_date_extended = function(ctx, con) {
+    #'   also for dates prior to 1970 or 1900 or after 2038
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
@@ -568,8 +568,8 @@ spec_sql_write_table <- list(
     )
   },
 
-  #' - time
   roundtrip_time = function(ctx, con) {
+    #' - time
     #'   (if supported by the database;
     if (!isTRUE(ctx$tweaks$time_typed)) {
       skip("tweak: !time_typed")
@@ -595,8 +595,8 @@ spec_sql_write_table <- list(
     )
   },
 
-  #' - timestamp
   roundtrip_timestamp = function(ctx, con) {
+    #' - timestamp
     #'   (if supported by the database;
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
@@ -630,8 +630,8 @@ spec_sql_write_table <- list(
     )
   },
 
-  #'   also for timestamps prior to 1970 or 1900 or after 2038
   roundtrip_timestamp_extended = function(ctx, con) {
+    #'   also for timestamps prior to 1970 or 1900 or after 2038
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
@@ -671,8 +671,8 @@ spec_sql_write_table <- list(
   },
 
   #'
-  #' Mixing column types in the same table is supported.
   roundtrip_mixed = function(ctx, con) {
+    #' Mixing column types in the same table is supported.
     data <- list("a", 1L, 1.5)
     data <- lapply(data, c, NA)
     expanded <- expand.grid(a = data, b = data, c = data)
@@ -687,10 +687,10 @@ spec_sql_write_table <- list(
   },
 
   #'
-  #' The `field.types` argument must be a named character vector with at most
-  #' one entry for each column.
-  #' It indicates the SQL data type to be used for a new column.
   roundtrip_field_types = function(ctx, con) {
+    #' The `field.types` argument must be a named character vector with at most
+    #' one entry for each column.
+    #' It indicates the SQL data type to be used for a new column.
     tbl_in <- data.frame(a = numeric(), b = character())
     #' If a column is missed from `field.types`, the type is inferred
     #' from the input data with [dbDataType()].
@@ -709,9 +709,9 @@ spec_sql_write_table <- list(
   },
 
   #'
-  #' The interpretation of [rownames] depends on the `row.names` argument,
-  #' see [sqlRownamesToColumn()] for details:
   write_table_row_names_false = function(ctx, con) {
+    #' The interpretation of [rownames] depends on the `row.names` argument,
+    #' see [sqlRownamesToColumn()] for details:
     #' - If `FALSE` or `NULL`, row names are ignored.
     for (row.names in list(FALSE, NULL)) {
       table_name <- random_table_name()
@@ -808,8 +808,8 @@ spec_sql_write_table <- list(
     expect_equal_df(penguins_out[names(penguins_out) != "seq"], penguins_in)
   },
   #
+  #'
   write_table_row_names_default = function(ctx, con, table_name) {
-    #'
     #' The default is `row.names = FALSE`.
     mtcars_in <- datasets::mtcars
     dbWriteTable(con, table_name, mtcars_in)

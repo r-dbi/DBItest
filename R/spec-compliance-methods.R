@@ -6,8 +6,8 @@
 #' @keywords NULL
 #' @section DBI classes and methods:
 spec_compliance_methods <- list(
-  #' A backend defines three classes,
   compliance = function(ctx) {
+    #' A backend defines three classes,
     #' which are subclasses of
     expect_identical(
       names(key_methods),
@@ -46,9 +46,9 @@ spec_compliance_methods <- list(
     #
   },
 
-  #' All methods defined in \pkg{DBI} are reexported (so that the package can
-  #' be used without having to attach \pkg{DBI}),
   reexport = function(ctx) {
+    #' All methods defined in \pkg{DBI} are reexported (so that the package can
+    #' be used without having to attach \pkg{DBI}),
     pkg <- package_name(ctx)
 
     where <- asNamespace(pkg)
@@ -75,8 +75,8 @@ spec_compliance_methods <- list(
     expect_equal(paste(missing, collapse = ", "), "")
   },
 
-  #' and have an ellipsis `...` in their formals for extensibility.
   ellipsis = function(ctx) {
+    #' and have an ellipsis `...` in their formals for extensibility.
     pkg <- package_name(ctx)
 
     where <- asNamespace(pkg)

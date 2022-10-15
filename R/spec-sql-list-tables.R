@@ -9,9 +9,9 @@ spec_sql_list_tables <- list(
     expect_equal(names(formals(dbListTables)), c("conn", "..."))
   },
 
-  #' @return
-  #' `dbListTables()`
   list_tables = function(ctx, con, table_name = "dbit07") {
+    #' @return
+    #' `dbListTables()`
     tables <- dbListTables(con)
     #' returns a character vector
     expect_type(tables, "character")
@@ -39,8 +39,8 @@ spec_sql_list_tables <- list(
     expect_false(table_name %in% tables)
   },
   #'
-  #' The same applies to temporary tables if supported by the database.
   list_tables_temporary = function(ctx, con, table_name) {
+    #' The same applies to temporary tables if supported by the database.
     if (isTRUE(ctx$tweaks$temporary_tables) && isTRUE(ctx$tweaks$list_temporary_tables)) {
       dbWriteTable(con, table_name, data.frame(a = 1L), temporary = TRUE)
       tables <- dbListTables(con)
@@ -49,8 +49,8 @@ spec_sql_list_tables <- list(
   },
 
   #'
-  #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
   list_tables_quote = function(ctx, con) {
+    #' The returned names are suitable for quoting with `dbQuoteIdentifier()`.
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
     } else {
@@ -67,14 +67,14 @@ spec_sql_list_tables <- list(
   },
 
   #'
-  #' @section Failure modes:
-  #' An error is raised when calling this method for a closed
   list_tables_closed_connection = function(ctx, closed_con) {
+    #' @section Failure modes:
+    #' An error is raised when calling this method for a closed
     expect_error(dbListTables(closed_con))
   },
 
-  #' or invalid connection.
   list_tables_invalid_connection = function(ctx, invalid_con) {
+    #' or invalid connection.
     expect_error(dbListTables(invalid_con))
   },
   #
