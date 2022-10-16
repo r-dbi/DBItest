@@ -40,6 +40,7 @@ Other result specifications:
 \code{\link{spec_result_send_statement}}
 
 Other Arrow specifications: 
+\code{\link{spec_arrow_get_stream}},
 \code{\link{spec_arrow_send_query_stream}},
 \code{\link{spec_arrow_stream}}
 }
