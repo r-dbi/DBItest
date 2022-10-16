@@ -443,8 +443,8 @@ spec_sql_write_table <- list(
   roundtrip_character = function(ctx, con) {
     #' - character (in both UTF-8
     tbl_in <- data.frame(
-      id = seq_along(texts),
-      a = c(texts),
+      id = seq_along(get_texts()),
+      a = get_texts(),
       stringsAsFactors = FALSE
     )
     test_table_roundtrip(con, tbl_in)
@@ -453,7 +453,7 @@ spec_sql_write_table <- list(
   roundtrip_character_native = function(ctx, con) {
     #'   and native encodings),
     tbl_in <- data.frame(
-      a = c(enc2native(texts)),
+      a = c(enc2native(get_texts())),
       stringsAsFactors = FALSE
     )
     test_table_roundtrip(con, tbl_in)
@@ -480,7 +480,7 @@ spec_sql_write_table <- list(
   roundtrip_factor = function(ctx, con) {
     #' - factor (returned as character)
     tbl_in <- data.frame(
-      a = factor(c(texts))
+      a = factor(get_texts())
     )
     tbl_exp <- tbl_in
     tbl_exp$a <- as.character(tbl_exp$a)

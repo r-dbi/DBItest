@@ -31,7 +31,7 @@ spec_result_roundtrip <- list(
 
   data_character = function(ctx, con) {
     #' - [character] for text,
-    values <- texts
+    values <- get_texts()
     test_funs <- rep(list(has_utf8_or_ascii_encoding), length(values))
     sql_names <- as.character(dbQuoteString(con, values))
 
