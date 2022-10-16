@@ -59,6 +59,12 @@ spec_result_roundtrip <- list(
 
   data_date = function(ctx, con) {
     #' - coercible using [as.Date()] for dates,
+    as_date_equals_to <- function(x) {
+      lapply(x, function(xx) {
+        function(value) as.Date(value) == xx
+      })
+    }
+
     char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
     values <- as_date_equals_to(as.Date(char_values))
     sql_names <- ctx$tweaks$date_cast(char_values)
@@ -329,12 +335,6 @@ has_utf8_or_ascii_encoding <- function(x) {
 coercible_to_date <- function(x) {
   x_date <- try_silent(as.Date(x))
   !is.null(x_date) && all(is.na(x) == is.na(x_date))
-}
-
-as_date_equals_to <- function(x) {
-  lapply(x, function(xx) {
-    function(value) as.Date(value) == xx
-  })
 }
 
 is_roughly_current_date <- function(x) {
