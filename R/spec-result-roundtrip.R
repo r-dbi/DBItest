@@ -83,6 +83,12 @@ spec_result_roundtrip <- list(
 
   data_time = function(ctx, con) {
     #' - coercible using [hms::as_hms()] for times,
+    as_hms_equals_to <- function(x) {
+      lapply(x, function(xx) {
+        function(value) hms::as_hms(value) == xx
+      })
+    }
+
     char_values <- c("00:00:00", "12:34:56")
     time_values <- as_hms_equals_to(hms::as_hms(char_values))
     sql_names <- ctx$tweaks$time_cast(char_values)
@@ -101,6 +107,11 @@ spec_result_roundtrip <- list(
 
   data_timestamp = function(ctx, con) {
     #' - coercible using [as.POSIXct()] for timestamps,
+    coercible_to_timestamp <- function(x) {
+      x_timestamp <- try_silent(as.POSIXct(x))
+      !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
+    }
+
     char_values <- c("2015-10-11 00:00:00", "2015-10-11 12:34:56")
     time_values <- rep(list(coercible_to_timestamp), 2L)
     sql_names <- ctx$tweaks$timestamp_cast(char_values)
@@ -113,7 +124,14 @@ spec_result_roundtrip <- list(
     #'   (also applies to the return value of the SQL function `current_timestamp`)
     test_select_with_null(
       .ctx = ctx, con,
-      "current_timestamp" ~ is_roughly_current_timestamp
+      "current_timestamp" ~ function(x) {
+        coercible_to_timestamp <- function(x) {
+          x_timestamp <- try_silent(as.POSIXct(x))
+          !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
+        }
+
+        coercible_to_timestamp(x) && (Sys.time() - as.POSIXct(x, tz = "UTC") <= hms::hms(2))
+      }
     )
   },
 
@@ -180,6 +198,12 @@ spec_result_roundtrip <- list(
   #' - Coercion to numeric always returns a number that is as close as possible
   #'   to the true value
   data_64_bit_numeric = function(ctx, con) {
+    as_numeric_identical_to <- function(x) {
+      lapply(x, function(xx) {
+        function(value) as.numeric(value) == xx
+      })
+    }
+
     char_values <- c("10000000000", "-10000000000")
     test_values <- as_numeric_identical_to(as.numeric(char_values))
 
@@ -188,6 +212,12 @@ spec_result_roundtrip <- list(
 
   #' - Loss of precision when converting to numeric gives a warning
   data_64_bit_numeric_warning = function(ctx, con) {
+    as_numeric_equals_to <- function(x) {
+      lapply(x, function(xx) {
+        function(value) isTRUE(all.equal(as.numeric(value), xx))
+      })
+    }
+
     char_values <- c(" 1234567890123456789", "-1234567890123456789")
     num_values <- as.numeric(char_values)
     test_values <- as_numeric_equals_to(num_values)
@@ -212,6 +242,12 @@ spec_result_roundtrip <- list(
   #' - Conversion to character always returns a lossless decimal representation
   #'   of the data
   data_64_bit_lossless = function(ctx, con) {
+    as_character_equals_to <- function(x) {
+      lapply(x, function(xx) {
+        function(value) as.character(value) == xx
+      })
+    }
+
     char_values <- c("1234567890123456789", "-1234567890123456789")
     test_values <- as_character_equals_to(char_values)
 
@@ -346,43 +382,10 @@ coercible_to_time <- function(x) {
   !is.null(x_hms) && all(is.na(x) == is.na(x_hms))
 }
 
-as_hms_equals_to <- function(x) {
-  lapply(x, function(xx) {
-    function(value) hms::as_hms(value) == xx
-  })
-}
-
-coercible_to_timestamp <- function(x) {
-  x_timestamp <- try_silent(as.POSIXct(x))
-  !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
-}
-
 as_timestamp_equals_to <- function(x) {
   lapply(x, function(xx) {
     function(value) as.POSIXct(value) == xx
   })
-}
-
-as_numeric_identical_to <- function(x) {
-  lapply(x, function(xx) {
-    function(value) as.numeric(value) == xx
-  })
-}
-
-as_numeric_equals_to <- function(x) {
-  lapply(x, function(xx) {
-    function(value) isTRUE(all.equal(as.numeric(value), xx))
-  })
-}
-
-as_character_equals_to <- function(x) {
-  lapply(x, function(xx) {
-    function(value) as.character(value) == xx
-  })
-}
-
-is_roughly_current_timestamp <- function(x) {
-  coercible_to_timestamp(x) && (Sys.time() - as.POSIXct(x, tz = "UTC") <= hms::hms(2))
 }
 
 is_date <- function(x) {
