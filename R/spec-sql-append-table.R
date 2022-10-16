@@ -88,7 +88,7 @@ spec_sql_append_table <- list(
       select = "unique", from = "join", where = "order",
       stringsAsFactors = FALSE
     )
-    test_table_roundtrip(use_append = TRUE, con, tbl_in, name = "exists")
+    append_table_test_roundtrip(con, tbl_in, name = "exists")
   },
 
   append_roundtrip_quotes = function(ctx, con, table_name) {
@@ -104,7 +104,7 @@ spec_sql_append_table <- list(
     )
 
     names(tbl_in) <- letters[seq_along(tbl_in)]
-    test_table_roundtrip(con, tbl_in, use_append = TRUE)
+    append_table_test_roundtrip(con, tbl_in)
   },
 
   append_roundtrip_quotes_table_names = function(ctx, con) {
@@ -125,7 +125,7 @@ spec_sql_append_table <- list(
     tbl_in <- trivial_df()
 
     for (table_name in table_names) {
-      test_table_roundtrip_one(con, tbl_in, use_append = TRUE, .add_na = FALSE)
+      append_table_test_roundtrip_one(con, tbl_in, .add_na = FALSE)
     }
   },
 
@@ -145,7 +145,7 @@ spec_sql_append_table <- list(
 
     tbl_in <- trivial_df(length(column_names), column_names)
 
-    test_table_roundtrip_one(con, tbl_in, use_append = TRUE, .add_na = FALSE)
+    append_table_test_roundtrip_one(con, tbl_in, .add_na = FALSE)
   },
 
   #'
@@ -154,13 +154,13 @@ spec_sql_append_table <- list(
     #' and be read identically with [dbReadTable()]:
     #' - integer
     tbl_in <- data.frame(a = c(1:5))
-    test_table_roundtrip(use_append = TRUE, con, tbl_in)
+    append_table_test_roundtrip(con, tbl_in)
   },
 
   append_roundtrip_numeric = function(con) {
     #' - numeric
     tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
-    test_table_roundtrip(use_append = TRUE, con, tbl_in)
+    append_table_test_roundtrip(con, tbl_in)
     #'   (the behavior for `Inf` and `NaN` is not specified)
   },
 
@@ -169,14 +169,13 @@ spec_sql_append_table <- list(
     tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
     tbl_exp <- tbl_in
     tbl_exp$a <- ctx$tweaks$logical_return(tbl_exp$a)
-    test_table_roundtrip(use_append = TRUE, con, tbl_in, tbl_exp)
+    append_table_test_roundtrip(con, tbl_in, tbl_exp)
   },
 
   append_roundtrip_null = function(con) {
     #' - `NA` as NULL
     tbl_in <- data.frame(a = NA)
-    test_table_roundtrip(
-      use_append = TRUE,
+    append_table_test_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
         tbl_out$a <- as.logical(tbl_out$a) # Plain NA is of type logical
@@ -188,8 +187,7 @@ spec_sql_append_table <- list(
   #' - 64-bit values (using `"bigint"` as field type); the result can be
   append_roundtrip_64_bit_numeric = function(ctx, con) {
     tbl_in <- data.frame(a = c(-1e14, 1e15))
-    test_table_roundtrip(
-      use_append = TRUE,
+    append_table_test_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
         #'     - converted to a numeric, which may lose precision,
@@ -204,8 +202,7 @@ spec_sql_append_table <- list(
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     tbl_exp <- tbl_in
     tbl_exp$a <- format(tbl_exp$a, scientific = FALSE)
-    test_table_roundtrip(
-      use_append = TRUE,
+    append_table_test_roundtrip(
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
         #'     - converted a character vector, which gives the full decimal
@@ -222,7 +219,7 @@ spec_sql_append_table <- list(
     dbWriteTable(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
     tbl_out <- dbReadTable(con, table_name)
     #'     - written to another table and read again unchanged
-    test_table_roundtrip(use_append = TRUE, con, tbl_out, tbl_expected = tbl_out)
+    append_table_test_roundtrip(con, tbl_out, tbl_expected = tbl_out)
   },
 
   append_roundtrip_character = function(con) {
@@ -232,7 +229,7 @@ spec_sql_append_table <- list(
       a = get_texts(),
       stringsAsFactors = FALSE
     )
-    test_table_roundtrip(use_append = TRUE, con, tbl_in)
+    append_table_test_roundtrip(con, tbl_in)
   },
 
   append_roundtrip_character_native = function(con) {
@@ -241,7 +238,7 @@ spec_sql_append_table <- list(
       a = c(enc2native(get_texts())),
       stringsAsFactors = FALSE
     )
-    test_table_roundtrip(use_append = TRUE, con, tbl_in)
+    append_table_test_roundtrip(con, tbl_in)
   },
 
   append_roundtrip_character_empty = function(con) {
@@ -250,7 +247,7 @@ spec_sql_append_table <- list(
       a = c("", "a"),
       stringsAsFactors = FALSE
     )
-    test_table_roundtrip(use_append = TRUE, con, tbl_in)
+    append_table_test_roundtrip(con, tbl_in)
   },
 
   append_roundtrip_character_empty_after = function(con) {
@@ -259,7 +256,7 @@ spec_sql_append_table <- list(
       a = c("a", ""),
       stringsAsFactors = FALSE
     )
-    test_table_roundtrip(use_append = TRUE, con, tbl_in)
+    append_table_test_roundtrip(con, tbl_in)
   },
 
   append_roundtrip_factor = function(con) {
@@ -272,7 +269,7 @@ spec_sql_append_table <- list(
     #'     with a warning)
     suppressWarnings(
       expect_warning(
-        test_table_roundtrip(use_append = TRUE, con, tbl_in, tbl_exp)
+        append_table_test_roundtrip(con, tbl_in, tbl_exp)
       )
     )
   },
@@ -287,8 +284,7 @@ spec_sql_append_table <- list(
     tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
     tbl_exp <- tbl_in
     tbl_exp$a <- blob::as_blob(unclass(tbl_in$a))
-    test_table_roundtrip(
-      use_append = TRUE,
+    append_table_test_roundtrip(
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
         tbl_out$a <- blob::as_blob(tbl_out$a)
@@ -305,8 +301,7 @@ spec_sql_append_table <- list(
     }
 
     tbl_in <- data.frame(id = 1L, a = blob::blob(as.raw(0:10)))
-    test_table_roundtrip(
-      use_append = TRUE,
+    append_table_test_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
         tbl_out$a <- blob::as_blob(tbl_out$a)
@@ -324,8 +319,7 @@ spec_sql_append_table <- list(
 
     #'   returned as `Date`)
     tbl_in <- data.frame(a = as_numeric_date(c(Sys.Date() + 1:5)))
-    test_table_roundtrip(
-      use_append = TRUE,
+    append_table_test_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
         expect_type(unclass(tbl_out$a), "double")
@@ -352,8 +346,7 @@ spec_sql_append_table <- list(
       "2040-01-01",
       "2999-09-09"
     )))
-    test_table_roundtrip(
-      use_append = TRUE,
+    append_table_test_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
         expect_type(unclass(tbl_out$a), "double")
@@ -376,7 +369,7 @@ spec_sql_append_table <- list(
     tbl_exp$a <- hms::as_hms(tbl_exp$a)
     tbl_exp$b <- hms::as_hms(tbl_exp$b)
 
-    test_table_roundtrip(
+    append_table_test_roundtrip(
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
         #'   returned as objects that inherit from `difftime`)
@@ -412,8 +405,7 @@ spec_sql_append_table <- list(
 
     #'   respecting the time zone but not necessarily preserving the
     #'   input time zone),
-    test_table_roundtrip(
-      use_append = TRUE,
+    append_table_test_roundtrip(
       con, tbl_in,
       transform = function(out) {
         dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
@@ -453,8 +445,7 @@ spec_sql_append_table <- list(
 
     #'   respecting the time zone but not necessarily preserving the
     #'   input time zone)
-    test_table_roundtrip(
-      use_append = TRUE,
+    append_table_test_roundtrip(
       con, tbl_in,
       transform = function(out) {
         dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
@@ -479,7 +470,7 @@ spec_sql_append_table <- list(
       }
     )
 
-    lapply(tbl_in_list, test_table_roundtrip, con = con)
+    lapply(tbl_in_list, append_table_test_roundtrip, con = con)
   },
 
   append_table_name = function(ctx, con) {
@@ -617,3 +608,37 @@ spec_sql_append_table <- list(
   #
   NULL
 )
+
+
+append_table_test_roundtrip <- function(...) {
+  append_table_test_roundtrip_one(..., .add_na = "none")
+  append_table_test_roundtrip_one(..., .add_na = "above")
+  append_table_test_roundtrip_one(..., .add_na = "below")
+}
+
+append_table_test_roundtrip_one <- function(
+                                            con, tbl_in, tbl_expected = tbl_in, transform = identity, name = NULL,
+                                            field.types = NULL, .add_na = "none"
+) {
+  force(tbl_expected)
+  if (.add_na == "above") {
+    tbl_in <- add_na_above(tbl_in)
+    tbl_expected <- add_na_above(tbl_expected)
+  } else if (.add_na == "below") {
+    tbl_in <- add_na_below(tbl_in)
+    tbl_expected <- add_na_below(tbl_expected)
+  }
+
+  if (is.null(name)) {
+    name <- random_table_name()
+  }
+
+  local_remove_test_table(con, name = name)
+
+  dbCreateTable(con, name, field.types %||% tbl_in)
+  dbAppendTable(con, name, tbl_in)
+
+  tbl_read <- check_df(dbReadTable(con, name, check.names = FALSE))
+  tbl_out <- transform(tbl_read)
+  expect_equal_df(tbl_out, tbl_expected)
+}
