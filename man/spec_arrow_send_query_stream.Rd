@@ -24,7 +24,9 @@ or if the query is not a non-\code{NA} string.
 \seealso{
 Other Arrow specifications: 
 \code{\link{spec_arrow_get_stream}},
+\code{\link{spec_arrow_stream_table}},
 \code{\link{spec_arrow_stream}},
+\code{\link{spec_arrow_write_stream}},
 \code{\link{spec_result_clear_result}}
 }
 \concept{Arrow specifications}
