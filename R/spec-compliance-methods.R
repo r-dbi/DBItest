@@ -8,6 +8,8 @@
 spec_compliance_methods <- list(
   compliance = function(ctx) {
     #' A backend defines three classes,
+    key_methods <- get_key_methods()
+
     #' which are subclasses of
     expect_identical(
       names(key_methods),
@@ -108,37 +110,39 @@ expect_ellipsis_in_formals <- function(method, name) {
   }))
 }
 
-key_methods <- list(
-  Driver = list(
-    "dbConnect" = NULL,
-    "dbDataType" = NULL
-  ),
-  Connection = list(
-    "dbDisconnect" = NULL,
-    "dbGetInfo" = NULL,
-    "dbSendQuery" = "character",
-    "dbListFields" = "character",
-    "dbListTables" = NULL,
-    "dbReadTable" = "character",
-    "dbWriteTable" = c("character", "data.frame"),
-    "dbExistsTable" = "character",
-    "dbRemoveTable" = "character",
-    "dbBegin" = NULL,
-    "dbCommit" = NULL,
-    "dbRollback" = NULL,
-    "dbIsValid" = NULL,
-    "dbQuoteString" = "character",
-    "dbQuoteIdentifier" = "character"
-  ),
-  Result = list(
-    "dbIsValid" = NULL,
-    "dbFetch" = NULL,
-    "dbClearResult" = NULL,
-    "dbColumnInfo" = NULL,
-    "dbGetRowsAffected" = NULL,
-    "dbGetRowCount" = NULL,
-    "dbHasCompleted" = NULL,
-    "dbGetStatement" = NULL,
-    "dbBind" = NULL
+get_key_methods <- function() {
+  list(
+    Driver = list(
+      "dbConnect" = NULL,
+      "dbDataType" = NULL
+    ),
+    Connection = list(
+      "dbDisconnect" = NULL,
+      "dbGetInfo" = NULL,
+      "dbSendQuery" = "character",
+      "dbListFields" = "character",
+      "dbListTables" = NULL,
+      "dbReadTable" = "character",
+      "dbWriteTable" = c("character", "data.frame"),
+      "dbExistsTable" = "character",
+      "dbRemoveTable" = "character",
+      "dbBegin" = NULL,
+      "dbCommit" = NULL,
+      "dbRollback" = NULL,
+      "dbIsValid" = NULL,
+      "dbQuoteString" = "character",
+      "dbQuoteIdentifier" = "character"
+    ),
+    Result = list(
+      "dbIsValid" = NULL,
+      "dbFetch" = NULL,
+      "dbClearResult" = NULL,
+      "dbColumnInfo" = NULL,
+      "dbGetRowsAffected" = NULL,
+      "dbGetRowCount" = NULL,
+      "dbHasCompleted" = NULL,
+      "dbGetStatement" = NULL,
+      "dbBind" = NULL
+    )
   )
-)
+}
