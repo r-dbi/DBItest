@@ -47,7 +47,7 @@ spec_result_roundtrip <- list(
     }
 
     values <- list(is_raw_list)
-    sql_names <- ctx$tweaks$blob_cast(quote_literal(con, list(raw(1))))
+    sql_names <- ctx$tweaks$blob_cast(DBI::dbQuoteLiteral(con, list(raw(1))))
 
     #' with [NULL] entries for SQL NULL values
     test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
@@ -404,8 +404,4 @@ is_roughly_current_timestamp_typed <- function(x) {
 as_numeric_date <- function(d) {
   d <- as.Date(d)
   structure(as.numeric(unclass(d)), class = class(d))
-}
-
-quote_literal <- function(con, x) {
-  DBI::dbQuoteLiteral(con, x)
 }
