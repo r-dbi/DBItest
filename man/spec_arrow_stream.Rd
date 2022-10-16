@@ -33,6 +33,7 @@ The chunk size is implementation-specific.
 
 \seealso{
 Other Arrow specifications: 
-\code{\link{spec_arrow_send_query_stream}}
+\code{\link{spec_arrow_send_query_stream}},
+\code{\link{spec_result_clear_result}}
 }
 \concept{Arrow specifications}

@@ -104,7 +104,6 @@ Collate:
     'spec-transaction-with-transaction.R'
     'spec-arrow-send-query-stream.R'
     'spec-arrow-stream.R'
-    'spec-arrow-clear-result.R'
     'spec-arrow-get-stream.R'
     'spec-arrow-stream-table.R'
     'spec-arrow-write-stream.R'

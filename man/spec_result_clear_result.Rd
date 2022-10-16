@@ -6,8 +6,9 @@
 \title{spec_result_clear_result}
 \value{
 \code{dbClearResult()} returns \code{TRUE}, invisibly, for result sets obtained from
-both \code{dbSendQuery()}
-and \code{dbSendStatement()}.
+\code{dbSendQuery()},
+\code{dbSendStatement()},
+or \code{dbSendQueryStream()},
 }
 \description{
 spec_result_clear_result
@@ -15,7 +16,9 @@ spec_result_clear_result
 \section{Failure modes}{
 
 An attempt to close an already closed result set issues a warning
-in both cases.
+for \code{dbSendQuery()},
+\code{dbSendStatement()},
+and \code{dbSendQueryStream()},
 }
 
 \section{Specification}{
@@ -35,5 +38,10 @@ Other result specifications:
 \code{\link{spec_result_roundtrip}},
 \code{\link{spec_result_send_query}},
 \code{\link{spec_result_send_statement}}
+
+Other Arrow specifications: 
+\code{\link{spec_arrow_send_query_stream}},
+\code{\link{spec_arrow_stream}}
 }
+\concept{Arrow specifications}
 \concept{result specifications}

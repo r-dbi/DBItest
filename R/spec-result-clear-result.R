@@ -1,5 +1,6 @@
 #' spec_result_clear_result
 #' @family result specifications
+#' @family Arrow specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords NULL
@@ -12,14 +13,20 @@ spec_result_clear_result <- list(
   clear_result_return_query = function(con) {
     #' @return
     #' `dbClearResult()` returns `TRUE`, invisibly, for result sets obtained from
-    #' both `dbSendQuery()`
+    #' `dbSendQuery()`,
     res <- dbSendQuery(con, trivial_query())
     expect_invisible_true(dbClearResult(res))
   },
 
   clear_result_return_statement = function(ctx, con, table_name) {
-    #' and `dbSendStatement()`.
+    #' `dbSendStatement()`,
     res <- dbSendStatement(con, ctx$tweaks$create_table_as(table_name, "SELECT 1"))
+    expect_invisible_true(dbClearResult(res))
+  },
+
+  clear_result_return_query_stream = function(ctx, con, table_name) {
+    #' or `dbSendQueryStream()`,
+    res <- dbSendQueryStream(con, ctx$tweaks$create_table_as(table_name, "SELECT 1"))
     expect_invisible_true(dbClearResult(res))
   },
 
@@ -27,14 +34,22 @@ spec_result_clear_result <- list(
   cannot_clear_result_twice_query = function(con) {
     #' @section Failure modes:
     #' An attempt to close an already closed result set issues a warning
+    #' for `dbSendQuery()`,
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
     expect_warning(expect_invisible_true(dbClearResult(res)))
   },
 
   cannot_clear_result_twice_statement = function(ctx, con, table_name) {
-    #' in both cases.
+    #' `dbSendStatement()`,
     res <- dbSendStatement(con, ctx$tweaks$create_table_as(table_name, "SELECT 1"))
+    dbClearResult(res)
+    expect_warning(expect_invisible_true(dbClearResult(res)))
+  },
+
+  cannot_clear_result_twice_query_stream = function(ctx, con, table_name) {
+    #' and `dbSendQueryStream()`,
+    res <- dbSendQueryStream(con, ctx$tweaks$create_table_as(table_name, "SELECT 1"))
     dbClearResult(res)
     expect_warning(expect_invisible_true(dbClearResult(res)))
   },

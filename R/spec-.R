@@ -37,7 +37,6 @@
 #' @include spec-arrow-write-stream.R
 #' @include spec-arrow-stream-table.R
 #' @include spec-arrow-get-stream.R
-#' @include spec-arrow-clear-result.R
 #' @include spec-arrow-stream.R
 #' @include spec-arrow-send-query-stream.R
 ##### Method specs
