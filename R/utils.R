@@ -1,5 +1,3 @@
-`%||%` <- function(a, b) if (is.null(a)) b else a
-
 get_pkg_path <- function(ctx) {
   pkg_name <- package_name(ctx)
   expect_type(pkg_name, "character")
