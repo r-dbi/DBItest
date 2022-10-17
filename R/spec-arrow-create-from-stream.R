@@ -6,7 +6,7 @@
 spec_arrow_create_from_stream <- list(
   arrow_create_from_stream_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbCreateFromStream)), c("conn", "name", "fields", "...", "row.names", "temporary"))
+    expect_equal(names(formals(dbCreateFromStream)), c("conn", "name", "value", "...", "temporary"))
   },
 
   arrow_create_from_stream_return = function(con, table_name) {
@@ -19,10 +19,10 @@ spec_arrow_create_from_stream <- list(
   arrow_create_from_stream_overwrite = function(con, table_name) {
     #' @section Failure modes:
     #' If the table exists, an error is raised; the remote table remains unchanged.
-    test_in <- stream_frame(trivial_df())
+    test_in <- trivial_df()
 
-    dbCreateFromStream(con, table_name, test_in)
-    dbAppendTable(con, table_name, test_in)
+    dbCreateFromStream(con, table_name, test_in %>% stream_frame())
+    dbAppendStream(con, table_name, test_in %>% stream_frame())
     expect_error(dbCreateFromStream(con, table_name, stream_frame(b = 1L)))
 
     test_out <- check_df(dbReadTable(con, table_name))
@@ -85,11 +85,11 @@ spec_arrow_create_from_stream <- list(
     }
 
     for (table_name in table_names) {
-      test_in <- stream_frame(trivial_df())
+      test_in <- trivial_df()
 
       local_remove_test_table(con, table_name)
       #' - If an unquoted table name as string: `dbCreateFromStream()` will do the quoting,
-      dbCreateFromStream(con, table_name, test_in)
+      dbCreateFromStream(con, table_name, test_in %>% stream_frame())
       test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
       expect_equal_df(test_out, test_in[0, , drop = FALSE])
       #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
@@ -109,10 +109,10 @@ spec_arrow_create_from_stream <- list(
     }
 
     for (table_name in table_names) {
-      test_in <- stream_frame(trivial_df())
+      test_in <- trivial_df()
 
       local_remove_test_table(con, table_name)
-      dbCreateFromStream(con, dbQuoteIdentifier(con, table_name), test_in)
+      dbCreateFromStream(con, dbQuoteIdentifier(con, table_name), test_in %>% stream_frame())
       test_out <- check_df(dbReadTable(con, table_name))
       expect_equal_df(test_out, test_in[0, , drop = FALSE])
     }
@@ -173,7 +173,7 @@ spec_arrow_create_from_stream <- list(
   #'
   arrow_create_from_stream_roundtrip_keywords = function(ctx, con) {
     #' SQL keywords can be used freely in table names, column names, and data.
-    tbl_in <- stream_frame(
+    tbl_in <- data.frame(
       select = "unique", from = "join", where = "order",
       stringsAsFactors = FALSE
     )
@@ -195,7 +195,7 @@ spec_arrow_create_from_stream <- list(
     )
 
     for (table_name in table_names) {
-      tbl_in <- stream_frame(trivial_df(4, table_names))
+      tbl_in <- data.frame(trivial_df(4, table_names))
 
       test_table_roundtrip(con, tbl_in, use_append = TRUE)
     }
