@@ -40,6 +40,7 @@ perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 
 \seealso{
 Other Arrow specifications: 
+\code{\link{spec_arrow_create_from_stream}},
 \code{\link{spec_arrow_get_stream}},
 \code{\link{spec_arrow_send_query_stream}},
 \code{\link{spec_arrow_stream}},
