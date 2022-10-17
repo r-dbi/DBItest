@@ -25,7 +25,7 @@ spec_sql_read_table <- list(
   read_table_missing = function(con, table_name) {
     #' @section Failure modes:
     #' An error is raised if the table does not exist.
-    expect_false(dbExistsTable(con, table_name))
+    stopifnot(!dbExistsTable(con, table_name))
     expect_error(dbReadTable(con, table_name))
   },
 
