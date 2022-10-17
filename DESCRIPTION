@@ -136,6 +136,7 @@ Collate:
     'test-sql.R'
     'test-meta.R'
     'test-transaction.R'
+    'test-arrow.R'
     'test-compliance.R'
     'test-stress.R'
     'tweaks.R'

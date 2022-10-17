@@ -23,6 +23,7 @@ Test the "Connection" class
 }
 \seealso{
 Other tests: 
+\code{\link{test_arrow}()},
 \code{\link{test_compliance}()},
 \code{\link{test_driver}()},
 \code{\link{test_getting_started}()},

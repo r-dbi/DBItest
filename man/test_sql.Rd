@@ -23,6 +23,7 @@ Test SQL methods
 }
 \seealso{
 Other tests: 
+\code{\link{test_arrow}()},
 \code{\link{test_compliance}()},
 \code{\link{test_connection}()},
 \code{\link{test_driver}()},
