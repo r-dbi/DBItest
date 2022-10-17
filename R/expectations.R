@@ -79,3 +79,7 @@ expect_equal_df <- function(actual, expected) {
 
   expect_identical(actual, expected)
 }
+
+expect_equal_stream <- function(actual, expected) {
+  expect_equal_df(as.data.frame(actual), as.data.frame(expected))
+}
