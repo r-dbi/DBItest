@@ -719,10 +719,11 @@ test_stream_roundtrip <- function(...) {
 }
 
 test_stream_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity,
-                                      name = NULL, field.types = NULL, use_append = FALSE, .add_na = "none") {
+                                      name = NULL, use_append = FALSE, .add_na = "none") {
 
-  stopifnot(is.null(field.types))
-  stopifnot(identical(transform, identity))
+  # Need data frames here because streams can be collected only once
+  stopifnot(is.data.frame(tbl_in))
+  stopifnot(is.data.frame(tbl_expected))
 
   force(tbl_expected)
   if (.add_na == "above") {
@@ -740,10 +741,10 @@ test_stream_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transf
   local_remove_test_table(con, name = name)
 
   if (use_append) {
-    dbCreateFromStream(con, name, tbl_in)
-    dbAppendStream(con, name, tbl_in)
+    dbCreateFromStream(con, name, tbl_in %>% stream_frame())
+    dbAppendStream(con, name, tbl_in %>% stream_frame())
   } else {
-    dbWriteStream(con, name, tbl_in, field.types = field.types)
+    dbWriteStream(con, name, tbl_in %>% stream_frame(), field.types = field.types)
   }
 
   tbl_read <- check_df(dbReadTable(con, name, check.names = FALSE))
