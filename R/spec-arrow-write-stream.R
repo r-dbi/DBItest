@@ -719,7 +719,7 @@ test_stream_roundtrip <- function(...) {
 }
 
 test_stream_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity,
-                                      name = NULL, field.types = NULL, .add_na = "none") {
+                                      name = NULL, field.types = NULL, use_append = FALSE, .add_na = "none") {
 
   stopifnot(is.null(field.types))
   stopifnot(identical(transform, identity))
@@ -739,7 +739,12 @@ test_stream_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transf
 
   local_remove_test_table(con, name = name)
 
-  dbWriteStream(con, name, tbl_in, field.types = field.types)
+  if (use_append) {
+    dbCreateFromStream(con, name, tbl_in)
+    dbAppendStream(con, name, tbl_in)
+  } else {
+    dbWriteStream(con, name, tbl_in, field.types = field.types)
+  }
 
   tbl_read <- check_df(dbReadTable(con, name, check.names = FALSE))
   tbl_out <- transform(tbl_read)

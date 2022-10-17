@@ -65,6 +65,7 @@ if the database supports non-syntactic identifiers.
 
 \seealso{
 Other Arrow specifications: 
+\code{\link{spec_arrow_append_stream}},
 \code{\link{spec_arrow_get_stream}},
 \code{\link{spec_arrow_send_query_stream}},
 \code{\link{spec_arrow_stream_table}},

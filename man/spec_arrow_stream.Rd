@@ -33,6 +33,7 @@ The chunk size is implementation-specific.
 
 \seealso{
 Other Arrow specifications: 
+\code{\link{spec_arrow_append_stream}},
 \code{\link{spec_arrow_create_from_stream}},
 \code{\link{spec_arrow_get_stream}},
 \code{\link{spec_arrow_send_query_stream}},
