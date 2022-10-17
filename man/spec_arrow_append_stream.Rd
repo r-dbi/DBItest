@@ -23,13 +23,6 @@ or invalid connection.
 An error is also raised
 if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}
 or if this results in a non-scalar.
-
-
-Passing a \code{value} argument different to \code{NULL} to the \code{row.names} argument
-(in particular \code{TRUE},
-\code{NA},
-and a string)
-raises an error.
 }
 
 \section{Specification}{
@@ -94,9 +87,6 @@ perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 \item If the result of a call to \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}: no more quoting is done
 to support databases that allow non-syntactic names for their objects:
 }
-
-The \code{row.names} argument must be \code{NULL}, the default value.
-Row names are ignored.
 
 
 The \code{value} argument must be a data frame
