@@ -12,3 +12,16 @@ spec_arrow <- c(
   #
   NULL
 )
+
+stream_frame <- function(..., .select = NULL) {
+  data <- data.frame(...)
+  out <- arrow::as_record_batch_reader(data)
+
+  if (!is.null(.select)) {
+    out <-
+      out %>%
+      dplyr::select({{ .select }})
+  }
+
+  out
+}
