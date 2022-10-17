@@ -180,7 +180,7 @@ spec_sql_create_table <- list(
       select = "unique", from = "join", where = "order",
       stringsAsFactors = FALSE
     )
-    test_table_roundtrip(con, tbl_in, name = "exists")
+    test_table_roundtrip(con, tbl_in, name = "exists", use_append = TRUE)
   },
 
   create_roundtrip_quotes = function(ctx, con) {
@@ -207,7 +207,7 @@ spec_sql_create_table <- list(
         ","
       )
 
-      test_table_roundtrip(con, tbl_in)
+      test_table_roundtrip(con, tbl_in, use_append = TRUE)
     }
   },
 
