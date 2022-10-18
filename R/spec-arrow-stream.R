@@ -6,7 +6,7 @@
 spec_arrow_stream <- list(
   arrow_stream_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbStream)), c("res", "n", "..."))
+    expect_equal(names(formals(dbStream)), c("res", "..."))
   },
 
   arrow_stream_atomic = function(con) {
@@ -87,7 +87,7 @@ spec_arrow_stream <- list(
     rbr <- arrow::as_record_batch_reader(stream)
 
     #' The chunk size is implementation-specific.
-    out <- rbr$read_next_batch()
+    out <- as.data.frame(rbr$read_next_batch())
     expect_equal(out, head(result, nrow(out)))
   },
 
