@@ -1,5 +1,14 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# DBItest 1.7.2.9002 (2022-10-18)
+
+## Chore
+
+- Bump minimum DBI version to 1.1.3.
+
+- Refactor DBI tests in preparation for inlining them.
+
+
 # DBItest 1.7.2.9001 (2022-10-15)
 
 ## Bug fixes
