@@ -6,13 +6,13 @@
 spec_arrow_send_query_stream <- list(
   arrow_send_query_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbSendQueryStreamStream)), c("conn", "statement", "..."))
+    expect_equal(names(formals(dbSendQueryStream)), c("conn", "statement", "..."))
   },
 
   arrow_send_query_trivial = function(con) {
     #' @return
     #' `dbSendQueryStream()` returns
-    res <- expect_visible(dbSendQueryStreamStream(con, trivial_query()))
+    res <- expect_visible(dbSendQueryStream(con, trivial_query()))
     #' an S4 object that inherits from [DBIResultStream-class].
     expect_s4_class(res, "DBIResultStream")
     #' The result set can be used with [dbStream()] to extract records.
