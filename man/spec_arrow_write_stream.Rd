@@ -5,7 +5,7 @@
 \alias{spec_arrow_write_stream}
 \title{spec_arrow_write_stream}
 \value{
-\code{dbStreamTable()} returns \code{TRUE}, invisibly.
+\code{dbWriteStream()} returns \code{TRUE}, invisibly.
 }
 \description{
 spec_arrow_write_stream
@@ -22,8 +22,8 @@ or invalid connection.
 An error is also raised
 if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}
 or if this results in a non-scalar.
-Invalid values for the additional arguments \code{row.names},
-\code{overwrite}, \code{append}, \code{field.types}, and \code{temporary}
+Invalid values for the additional arguments
+\code{overwrite}, \code{append}, and \code{temporary}
 (non-scalars,
 unsupported data types,
 \code{NA},
@@ -36,14 +36,12 @@ also raise an error.
 
 \section{Additional arguments}{
 
-The following arguments are not part of the \code{dbStreamTable()} generic
+The following arguments are not part of the \code{dbWriteStream()} generic
 (to improve compatibility across backends)
 but are part of the DBI specification:
 \itemize{
-\item \code{row.names} (default: \code{FALSE})
 \item \code{overwrite} (default: \code{FALSE})
 \item \code{append} (default: \code{FALSE})
-\item \code{field.types} (default: \code{NULL})
 \item \code{temporary} (default: \code{FALSE})
 }
 
@@ -56,7 +54,7 @@ See the "Specification" and "Value" sections for details on their usage.
 The \code{name} argument is processed as follows,
 to support databases that allow non-syntactic names for their objects:
 \itemize{
-\item If an unquoted table name as string: \code{dbStreamTable()} will do the quoting,
+\item If an unquoted table name as string: \code{dbWriteStream()} will do the quoting,
 perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 \item If the result of a call to \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}: no more quoting is done
 }
@@ -129,12 +127,6 @@ input time zone)
 }
 
 Mixing column types in the same table is supported.
-
-The \code{field.types} argument must be a named character vector with at most
-one entry for each column.
-It indicates the SQL data type to be used for a new column.
-If a column is missed from \code{field.types}, the type is inferred
-from the input data with \code{\link[=dbDataType]{dbDataType()}}.
 }
 
 \seealso{

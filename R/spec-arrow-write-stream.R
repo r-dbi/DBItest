@@ -7,22 +7,22 @@
 spec_arrow_write_stream <- list(
   arrow_write_stream_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbStreamTable)), c("conn", "name", "value", "..."))
+    expect_equal(names(formals(dbWriteStream)), c("conn", "name", "value", "..."))
   },
 
   arrow_write_stream_return = function(con, table_name) {
     #' @return
-    #' `dbStreamTable()` returns `TRUE`, invisibly.
-    expect_invisible_true(dbStreamTable(con, table_name, stream_frame(a = 1L)))
+    #' `dbWriteStream()` returns `TRUE`, invisibly.
+    expect_invisible_true(dbWriteStream(con, table_name, stream_frame(a = 1L)))
   },
 
   #'
   arrow_write_stream_overwrite = function(con, table_name) {
     #' @section Failure modes:
     #' If the table exists, and both `append` and `overwrite` arguments are unset,
-    test_in <- stream_frame(a = 1L)
-    dbStreamTable(con, table_name, test_in)
-    expect_error(dbStreamTable(con, table_name, stream_frame(a = 2L)))
+    test_in <- data.frame(a = 1L)
+    dbWriteStream(con, table_name, test_in %>% stream_frame())
+    expect_error(dbWriteStream(con, table_name, stream_frame(a = 2L)))
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
@@ -32,9 +32,9 @@ spec_arrow_write_stream <- list(
     #' or `append = TRUE` and the data frame with the new data has different
     #' column names,
     #' an error is raised; the remote table remains unchanged.
-    test_in <- stream_frame(a = 1L)
-    dbStreamTable(con, table_name, test_in)
-    expect_error(dbStreamTable(con, table_name, stream_frame(b = 2L), append = TRUE))
+    test_in <- data.frame(a = 1L)
+    dbWriteStream(con, table_name, test_in %>% stream_frame())
+    expect_error(dbWriteStream(con, table_name, stream_frame(b = 2L), append = TRUE))
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
@@ -43,65 +43,57 @@ spec_arrow_write_stream <- list(
   #'
   arrow_write_stream_closed_connection = function(ctx, closed_con) {
     #' An error is raised when calling this method for a closed
-    expect_error(dbStreamTable(closed_con, "test", stream_frame(a = 1)))
+    expect_error(dbWriteStream(closed_con, "test", stream_frame(a = 1)))
   },
 
   arrow_write_stream_invalid_connection = function(ctx, invalid_con) {
     #' or invalid connection.
-    expect_error(dbStreamTable(invalid_con, "test", stream_frame(a = 1)))
+    expect_error(dbWriteStream(invalid_con, "test", stream_frame(a = 1)))
   },
 
   arrow_write_stream_error = function(ctx, con, table_name) {
     #' An error is also raised
     test_in <- stream_frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
-    expect_error(dbStreamTable(con, NA, test_in))
+    expect_error(dbWriteStream(con, NA, test_in %>% stream_frame()))
     #' or if this results in a non-scalar.
-    expect_error(dbStreamTable(con, c(table_name, table_name), test_in))
+    expect_error(dbWriteStream(con, c(table_name, table_name), test_in %>% stream_frame()))
 
-    #' Invalid values for the additional arguments `row.names`,
-    #' `overwrite`, `append`, `field.types`, and `temporary`
+    #' Invalid values for the additional arguments
+    #' `overwrite`, `append`, and `temporary`
     #' (non-scalars,
-    expect_error(dbStreamTable(con, table_name, test_in, row.names = letters))
-    expect_error(dbStreamTable(con, table_name, test_in, overwrite = c(TRUE, FALSE)))
-    expect_error(dbStreamTable(con, table_name, test_in, append = c(TRUE, FALSE)))
-    expect_error(dbStreamTable(con, table_name, test_in, temporary = c(TRUE, FALSE)))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), overwrite = c(TRUE, FALSE)))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), append = c(TRUE, FALSE)))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), temporary = c(TRUE, FALSE)))
     #' unsupported data types,
-    expect_error(dbStreamTable(con, table_name, test_in, row.names = list(1L)))
-    expect_error(dbStreamTable(con, table_name, test_in, overwrite = 1L))
-    expect_error(dbStreamTable(con, table_name, test_in, append = 1L))
-    expect_error(dbStreamTable(con, table_name, test_in, field.types = 1L))
-    expect_error(dbStreamTable(con, table_name, test_in, temporary = 1L))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), overwrite = 1L))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), append = 1L))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), temporary = 1L))
     #' `NA`,
-    expect_error(dbStreamTable(con, table_name, test_in, overwrite = NA))
-    expect_error(dbStreamTable(con, table_name, test_in, append = NA))
-    expect_error(dbStreamTable(con, table_name, test_in, field.types = NA))
-    expect_error(dbStreamTable(con, table_name, test_in, temporary = NA))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), overwrite = NA))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), append = NA))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), temporary = NA))
     #' incompatible values,
-    expect_error(dbStreamTable(con, table_name, test_in, field.types = letters))
-    expect_error(dbStreamTable(con, table_name, test_in, field.types = c(b = "INTEGER")))
-    expect_error(dbStreamTable(con, table_name, test_in, overwrite = TRUE, append = TRUE))
-    expect_error(dbStreamTable(con, table_name, test_in, append = TRUE, field.types = c(a = "INTEGER")))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), overwrite = TRUE, append = TRUE))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), append = TRUE))
     #' duplicate
-    expect_error(dbStreamTable(con, table_name, test_in, field.types = c(a = "INTEGER", a = "INTEGER")))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame()))
     #' or missing names,
-    expect_error(dbStreamTable(con, table_name, test_in, field.types = c("INTEGER")))
+    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame()))
 
     #' incompatible columns)
-    dbStreamTable(con, table_name, test_in)
-    expect_error(dbStreamTable(con, table_name, stream_frame(b = 2L, c = 3L), append = TRUE))
+    dbWriteStream(con, table_name, test_in %>% stream_frame())
+    expect_error(dbWriteStream(con, table_name, stream_frame(b = 2L, c = 3L), append = TRUE))
 
     #' also raise an error.
   },
 
   #' @section Additional arguments:
-  #' The following arguments are not part of the `dbStreamTable()` generic
+  #' The following arguments are not part of the `dbWriteStream()` generic
   #' (to improve compatibility across backends)
   #' but are part of the DBI specification:
-  #' - `row.names` (default: `FALSE`)
   #' - `overwrite` (default: `FALSE`)
   #' - `append` (default: `FALSE`)
-  #' - `field.types` (default: `NULL`)
   #' - `temporary` (default: `FALSE`)
   #'
   #' They must be provided as named arguments.
@@ -118,10 +110,10 @@ spec_arrow_write_stream <- list(
     }
 
     for (table_name in table_names) {
-      test_in <- stream_frame(a = 1)
+      test_in <- data.frame(a = 1)
       local_remove_test_table(con, table_name)
-      #' - If an unquoted table name as string: `dbStreamTable()` will do the quoting,
-      dbStreamTable(con, table_name, test_in)
+      #' - If an unquoted table name as string: `dbWriteStream()` will do the quoting,
+      dbWriteStream(con, table_name, test_in %>% stream_frame())
       test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
       expect_equal_df(test_out, test_in)
       #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
@@ -141,10 +133,10 @@ spec_arrow_write_stream <- list(
     }
 
     for (table_name in table_names) {
-      test_in <- stream_frame(a = 1)
+      test_in <- data.frame(a = 1)
 
       local_remove_test_table(con, table_name)
-      dbStreamTable(con, dbQuoteIdentifier(con, table_name), test_in)
+      dbWriteStream(con, dbQuoteIdentifier(con, table_name), test_in %>% stream_frame())
       test_out <- check_df(dbReadTable(con, table_name))
       expect_equal_df(test_out, test_in)
     }
@@ -154,7 +146,7 @@ spec_arrow_write_stream <- list(
   arrow_write_stream_value_df = function(con, table_name) {
     #' The `value` argument must be a data frame
     test_in <- trivial_df()
-    dbStreamTable(con, table_name, test_in)
+    dbWriteStream(con, table_name, test_in %>% stream_frame())
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
@@ -164,7 +156,7 @@ spec_arrow_write_stream <- list(
     #' with a subset of the columns of the existing table if `append = TRUE`.
     test_in <- trivial_df(3, letters[1:3])
     dbCreateTable(con, table_name, test_in)
-    dbStreamTable(con, table_name, test_in[2], append = TRUE)
+    dbWriteStream(con, table_name, test_in[2] %>% stream_frame(), append = TRUE)
 
     test_out <- check_df(dbReadTable(con, table_name))
 
@@ -176,7 +168,7 @@ spec_arrow_write_stream <- list(
     #' The order of the columns does not matter with `append = TRUE`.
     test_in <- trivial_df(3, letters[1:3])
     dbCreateTable(con, table_name, test_in)
-    dbStreamTable(con, table_name, test_in[c(2, 3, 1)], append = TRUE)
+    dbWriteStream(con, table_name, test_in[c(2, 3, 1)] %>% stream_frame(), append = TRUE)
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
@@ -186,7 +178,7 @@ spec_arrow_write_stream <- list(
   arrow_write_stream_value_shuffle_subset = function(ctx, con, table_name) {
     test_in <- trivial_df(4, letters[1:4])
     dbCreateTable(con, table_name, test_in)
-    dbStreamTable(con, table_name, test_in[c(4, 1, 3)], append = TRUE)
+    dbWriteStream(con, table_name, test_in[c(4, 1, 3)] %>% stream_frame(), append = TRUE)
 
     test_out <- check_df(dbReadTable(con, table_name))
 
@@ -199,9 +191,9 @@ spec_arrow_write_stream <- list(
     #' If the `overwrite` argument is `TRUE`, an existing table of the same name
     #' will be overwritten.
     penguins <- get_penguins(ctx)
-    dbStreamTable(con, table_name, penguins)
+    dbWriteStream(con, table_name, penguins)
     expect_error(
-      dbStreamTable(con, table_name, penguins[1, ], overwrite = TRUE),
+      dbWriteStream(con, table_name, penguins[1, ] %>% stream_frame(), overwrite = TRUE),
       NA
     )
     penguins_out <- check_df(dbReadTable(con, table_name))
@@ -212,7 +204,7 @@ spec_arrow_write_stream <- list(
     #' This argument doesn't change behavior if the table does not exist yet.
     penguins_in <- get_penguins(ctx)
     expect_error(
-      dbStreamTable(con, table_name, penguins_in[1, ], overwrite = TRUE),
+      dbWriteStream(con, table_name, penguins_in[1, ] %>% stream_frame(), overwrite = TRUE),
       NA
     )
     penguins_out <- check_df(dbReadTable(con, table_name))
@@ -224,8 +216,8 @@ spec_arrow_write_stream <- list(
     #' If the `append` argument is `TRUE`, the rows in an existing table are
     #' preserved, and the new data are appended.
     penguins <- get_penguins(ctx)
-    dbStreamTable(con, table_name, penguins)
-    expect_error(dbStreamTable(con, table_name, penguins[1, ], append = TRUE), NA)
+    dbWriteStream(con, table_name, penguins)
+    expect_error(dbWriteStream(con, table_name, penguins[1, ] %>% stream_frame(), append = TRUE), NA)
     penguins_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(penguins_out, rbind(penguins, penguins[1, ]))
   },
@@ -233,7 +225,7 @@ spec_arrow_write_stream <- list(
   arrow_write_stream_append_new = function(ctx, con, table_name) {
     #' If the table doesn't exist yet, it is created.
     penguins <- get_penguins(ctx)
-    expect_error(dbStreamTable(con, table_name, penguins[1, ], append = TRUE), NA)
+    expect_error(dbWriteStream(con, table_name, penguins[1, ] %>% stream_frame(), append = TRUE), NA)
     penguins_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(penguins_out, penguins[1, ])
   },
@@ -248,7 +240,7 @@ spec_arrow_write_stream <- list(
     }
 
     penguins <- get_penguins(ctx)
-    dbStreamTable(con, table_name, penguins, temporary = TRUE)
+    dbWriteStream(con, table_name, penguins %>% stream_frame(), temporary = TRUE)
     penguins_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(penguins_out, penguins)
 
@@ -271,7 +263,7 @@ spec_arrow_write_stream <- list(
 
     table_name <- "dbit09"
 
-    dbStreamTable(local_con, table_name, penguins30)
+    dbWriteStream(local_con, table_name, penguins30 %>% stream_frame())
     penguins_out <- check_df(dbReadTable(local_con, table_name))
     expect_equal_df(penguins_out, penguins30)
 
@@ -298,7 +290,7 @@ spec_arrow_write_stream <- list(
   #'
   arrow_write_stream_roundtrip_keywords = function(ctx, con) {
     #' SQL keywords can be used freely in table names, column names, and data.
-    tbl_in <- stream_frame(
+    tbl_in <- data.frame(
       select = "unique", from = "join", where = "order",
       stringsAsFactors = FALSE
     )
@@ -308,7 +300,7 @@ spec_arrow_write_stream <- list(
   arrow_write_stream_roundtrip_quotes = function(ctx, con, table_name) {
     #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
     #' can also be used in the data,
-    tbl_in <- stream_frame(
+    tbl_in <- data.frame(
       as.character(dbQuoteString(con, "")),
       as.character(dbQuoteIdentifier(con, "")),
       "with space",
@@ -371,20 +363,20 @@ spec_arrow_write_stream <- list(
     #' The following data types must be supported at least,
     #' and be read identically with [dbReadTable()]:
     #' - integer
-    tbl_in <- stream_frame(a = c(1:5))
+    tbl_in <- data.frame(a = c(1:5))
     test_stream_roundtrip(con, tbl_in)
   },
 
   arrow_write_stream_roundtrip_numeric = function(ctx, con) {
     #' - numeric
-    tbl_in <- stream_frame(a = c(seq(1, 3, by = 0.5)))
+    tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
     test_stream_roundtrip(con, tbl_in)
     #'   (the behavior for `Inf` and `NaN` is not specified)
   },
 
   arrow_write_stream_roundtrip_logical = function(ctx, con) {
     #' - logical
-    tbl_in <- stream_frame(a = c(TRUE, FALSE, NA))
+    tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
     tbl_exp <- tbl_in
     tbl_exp$a <- ctx$tweaks$logical_return(tbl_exp$a)
     test_stream_roundtrip(con, tbl_in, tbl_exp)
@@ -392,7 +384,7 @@ spec_arrow_write_stream <- list(
 
   arrow_write_stream_roundtrip_null = function(ctx, con) {
     #' - `NA` as NULL
-    tbl_in <- stream_frame(a = NA)
+    tbl_in <- data.frame(a = NA)
     test_stream_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
@@ -404,20 +396,19 @@ spec_arrow_write_stream <- list(
 
   #' - 64-bit values (using `"bigint"` as field type); the result can be
   arrow_write_stream_roundtrip_64_bit_numeric = function(ctx, con) {
-    tbl_in <- stream_frame(a = c(-1e14, 1e15))
+    tbl_in <- data.frame(a = c(-1e14, 1e15))
     test_stream_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
         #'     - converted to a numeric, which may lose precision,
         tbl_out$a <- as.numeric(tbl_out$a)
         tbl_out
-      },
-      field.types = c(a = "BIGINT")
+      }
     )
   },
   #
   arrow_write_stream_roundtrip_64_bit_character = function(ctx, con) {
-    tbl_in <- stream_frame(a = c(-1e14, 1e15))
+    tbl_in <- data.frame(a = c(-1e14, 1e15))
     tbl_exp <- tbl_in
     tbl_exp$a <- format(tbl_exp$a, scientific = FALSE)
     test_stream_roundtrip(
@@ -427,14 +418,13 @@ spec_arrow_write_stream <- list(
         #'       representation
         tbl_out$a <- as.character(tbl_out$a)
         tbl_out
-      },
-      field.types = c(a = "BIGINT")
+      }
     )
   },
   #
   arrow_write_stream_roundtrip_64_bit_roundtrip = function(con, table_name) {
-    tbl_in <- stream_frame(a = c(-1e14, 1e15))
-    dbStreamTable(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
+    tbl_in <- data.frame(a = c(-1e14, 1e15))
+    dbWriteStream(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
     tbl_out <- dbReadTable(con, table_name)
     #'     - written to another table and read again unchanged
     test_stream_roundtrip(con, tbl_out, tbl_expected = tbl_out)
@@ -442,7 +432,7 @@ spec_arrow_write_stream <- list(
 
   arrow_write_stream_roundtrip_character = function(ctx, con) {
     #' - character (in both UTF-8
-    tbl_in <- stream_frame(
+    tbl_in <- data.frame(
       id = seq_along(get_texts()),
       a = get_texts(),
       stringsAsFactors = FALSE
@@ -452,7 +442,7 @@ spec_arrow_write_stream <- list(
 
   arrow_write_stream_roundtrip_character_native = function(ctx, con) {
     #'   and native encodings),
-    tbl_in <- stream_frame(
+    tbl_in <- data.frame(
       a = c(enc2native(get_texts())),
       stringsAsFactors = FALSE
     )
@@ -461,7 +451,7 @@ spec_arrow_write_stream <- list(
 
   arrow_write_stream_roundtrip_character_empty = function(ctx, con) {
     #'   supporting empty strings
-    tbl_in <- stream_frame(
+    tbl_in <- data.frame(
       a = c("", "a"),
       stringsAsFactors = FALSE
     )
@@ -470,7 +460,7 @@ spec_arrow_write_stream <- list(
 
   arrow_write_stream_roundtrip_character_empty_after = function(ctx, con) {
     #'   before and after a non-empty string
-    tbl_in <- stream_frame(
+    tbl_in <- data.frame(
       a = c("a", ""),
       stringsAsFactors = FALSE
     )
@@ -479,7 +469,7 @@ spec_arrow_write_stream <- list(
 
   arrow_write_stream_roundtrip_factor = function(ctx, con) {
     #' - factor (returned as character)
-    tbl_in <- stream_frame(
+    tbl_in <- data.frame(
       a = factor(get_texts())
     )
     tbl_exp <- tbl_in
@@ -494,7 +484,7 @@ spec_arrow_write_stream <- list(
       skip("tweak: omit_blob_tests")
     }
 
-    tbl_in <- stream_frame(id = 1L, a = I(list(as.raw(0:10))))
+    tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
     tbl_exp <- tbl_in
     tbl_exp$a <- blob::as_blob(unclass(tbl_in$a))
     test_stream_roundtrip(
@@ -513,7 +503,7 @@ spec_arrow_write_stream <- list(
       skip("tweak: omit_blob_tests")
     }
 
-    tbl_in <- stream_frame(id = 1L, a = blob::blob(as.raw(0:10)))
+    tbl_in <- data.frame(id = 1L, a = blob::blob(as.raw(0:10)))
     test_stream_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
@@ -531,7 +521,7 @@ spec_arrow_write_stream <- list(
     }
 
     #'   returned as `Date`),
-    tbl_in <- stream_frame(a = as_numeric_date(c(Sys.Date() + 1:5)))
+    tbl_in <- data.frame(a = as_numeric_date(c(Sys.Date() + 1:5)))
     test_stream_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
@@ -547,7 +537,7 @@ spec_arrow_write_stream <- list(
       skip("tweak: !date_typed")
     }
 
-    tbl_in <- stream_frame(a = as_numeric_date(c(
+    tbl_in <- data.frame(a = as_numeric_date(c(
       "1811-11-11",
       "1899-12-31",
       "1900-01-01",
@@ -575,7 +565,7 @@ spec_arrow_write_stream <- list(
       skip("tweak: !time_typed")
     }
 
-    tbl_in <- stream_frame(a = hms::hms(minutes = 1:5))
+    tbl_in <- data.frame(a = hms::hms(minutes = 1:5))
     tbl_in$b <- .difftime(as.numeric(tbl_in$a) / 60, "mins")
 
     tbl_exp <- tbl_in
@@ -610,7 +600,7 @@ spec_arrow_write_stream <- list(
         1e9, 5e9
       )
     attr(local, "tzone") <- ""
-    tbl_in <- stream_frame(id = seq_along(local))
+    tbl_in <- data.frame(id = seq_along(local))
     tbl_in$local <- local
     tbl_in$gmt <- lubridate::with_tz(local, tzone = "GMT")
     tbl_in$pst8pdt <- lubridate::with_tz(local, tzone = "PST8PDT")
@@ -650,7 +640,7 @@ spec_arrow_write_stream <- list(
     ))
 
     attr(local, "tzone") <- ""
-    tbl_in <- stream_frame(id = seq_along(local))
+    tbl_in <- data.frame(id = seq_along(local))
     tbl_in$local <- local
     tbl_in$gmt <- lubridate::with_tz(local, tzone = "GMT")
     tbl_in$pst8pdt <- lubridate::with_tz(local, tzone = "PST8PDT")
@@ -679,33 +669,11 @@ spec_arrow_write_stream <- list(
     tbl_in_list <- lapply(
       seq_len(nrow(expanded)),
       function(i) {
-        as_stream_frame(lapply(expanded[i, ], unlist, recursive = FALSE))
+        as.data.frame(lapply(expanded[i, ], unlist, recursive = FALSE))
       }
     )
 
     lapply(tbl_in_list, test_stream_roundtrip, con = con)
-  },
-
-  #'
-  arrow_write_stream_roundtrip_field_types = function(ctx, con) {
-    #' The `field.types` argument must be a named character vector with at most
-    #' one entry for each column.
-    #' It indicates the SQL data type to be used for a new column.
-    tbl_in <- stream_frame(a = numeric(), b = character())
-    #' If a column is missed from `field.types`, the type is inferred
-    #' from the input data with [dbDataType()].
-    tbl_exp <- stream_frame(a = integer(), b = character())
-    test_stream_roundtrip(
-      con, tbl_in, tbl_exp,
-      field.types = c(a = "INTEGER")
-    )
-
-    tbl_in <- stream_frame(a = numeric(), b = integer())
-    tbl_exp <- stream_frame(a = integer(), b = numeric())
-    test_stream_roundtrip(
-      con, tbl_in, tbl_exp,
-      field.types = c(b = "REAL", a = "INTEGER")
-    )
   },
 
   #
