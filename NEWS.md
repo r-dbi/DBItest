@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# DBItest 1.7.3.9000 (2022-10-18)
+
+- Internal changes only.
+
+
 # DBItest 1.7.3 (2022-10-18)
 
 - Same as previous version.
