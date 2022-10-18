@@ -2,37 +2,9 @@
 
 # DBItest 1.7.3 (2022-10-18)
 
-- Same as previous version.
-
-
-# DBItest 1.7.2.9004 (2022-10-18)
-
-- Internal changes only.
-
-
-# DBItest 1.7.2.9003 (2022-10-18)
-
-- Internal changes only.
-
-
-# DBItest 1.7.2.9002 (2022-10-18)
-
-## Chore
-
-- Bump minimum DBI version to 1.1.3.
-
-- Refactor DBI tests in preparation for inlining them.
-
-
-# DBItest 1.7.2.9001 (2022-10-15)
-
-## Bug fixes
-
-- Correct cleanup even if `dbIsValid()` is not implemented.
-
 ## Features
 
-- Use and enable compatibility with testthat edition 3 (#263, #268).
+- Use and enable compatibility with testthat edition 3 (#263, #268). Complete removal of `expect_is()` (@MichaelChirico, #257).
 
 - Adapt to new Arrow DBI generics (#265).
 
@@ -40,16 +12,17 @@
 
 - `dbQuoteIdentifier()` roundtrip is tested for tables only (@dpprdan, #256).
 
-- `test_some()` ignores skipped tests defined for the package.
+- `test_some()` also tests a test if it would normally be skipped.
 
 ## Chore
 
-- Complete removal of `expect_is()` (@MichaelChirico, #257).
+- Bump minimum DBI version to 1.1.3.
 
+- Refactor DBI tests in preparation for inlining them.
 
-# DBItest 1.7.2.9000 (2021-12-17)
+## Bug fixes
 
-- Same as previous version.
+- Correct cleanup even if `dbIsValid()` is not implemented.
 
 
 # DBItest 1.7.2 (2021-12-17)
