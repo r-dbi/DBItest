@@ -14,7 +14,7 @@ spec_arrow <- c(
 )
 
 stream_frame <- function(..., .select = NULL) {
-  data <- data.frame(...)
+  data <- data.frame(..., stringsAsFactors = FALSE)
   out <- arrow::as_record_batch_reader(data)
 
   if (!is.null(.select)) {
