@@ -78,7 +78,7 @@ spec_arrow_get_stream <- list(
     rbr <- arrow::as_record_batch_reader(stream)
 
     #' The chunk size is implementation-specific.
-    out <- rbr$read_next_batch()
+    out <- as.data.frame(rbr$read_next_batch())
     expect_equal(out, head(result, nrow(out)))
   },
 
