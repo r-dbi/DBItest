@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.3</span>
       </span>
     </div>
 
@@ -58,18 +58,29 @@
 
     <div id="value">
     <h2>Value</h2>
-    <p><code>dbReadTable()</code> returns a data frame that contains the complete data
-from the remote table, effectively the result of calling <code>dbGetQuery()</code>with <code>SELECT * FROM &lt;name&gt;</code>.
-An empty table is returned as a data frame with zero rows.
-The presence of <a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a> depends on the <code>row.names</code> argument,
+    
+
+<p><code>dbReadTable()</code> returns a data frame that contains the complete data
+from the remote table, effectively the result of calling <code>dbGetQuery()</code></p>
+
+
+<p>with <code>SELECT * FROM &lt;name&gt;</code>.</p>
+
+
+<p>An empty table is returned as a data frame with zero rows.</p>
+
+
+<p>The presence of <a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a> depends on the <code>row.names</code> argument,
 see <code>sqlColumnToRownames()</code> for details:</p><ul><li><p>If <code>FALSE</code> or <code>NULL</code>, the returned data frame doesn't have row names.</p></li>
 <li><p>If <code>TRUE</code>, a column named "row_names" is converted to row names.</p></li>
 </ul><ul><li><p>If <code>NA</code>, a column named "row_names" is converted to row names if it exists,
 otherwise no translation occurs.</p></li>
 <li><p>If a string, this specifies the name of the column in the remote table
 that contains the row names.</p></li>
-</ul><p>The default is <code>row.names = FALSE</code>.
-If the database supports identifiers with special characters,
+</ul><p>The default is <code>row.names = FALSE</code>.</p>
+
+
+<p>If the database supports identifiers with special characters,
 the columns in the returned data frame are converted to valid R
 identifiers
 if the <code>check.names</code> argument is <code>TRUE</code>,
@@ -83,7 +94,7 @@ If <code>check.names = FALSE</code>, the returned table has non-syntactic column
 
 <p>An error is raised if <code>row.names</code> is <code>TRUE</code> and no "row_names" column exists,</p>
 
-<p>An error is raised if <code>row.names</code> is set to a string and and no corresponding column exists.</p>
+<p>An error is raised if <code>row.names</code> is set to a string and no corresponding column exists.</p>
 
 <p>An error is raised when calling this method for a closed
 or invalid connection.
@@ -142,11 +153,11 @@ perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.r-consortium.org" class="external-link">R Consortium</a>.</p>
+  <p></p><p>Developed by <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, R Consortium.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

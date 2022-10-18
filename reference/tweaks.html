@@ -20,7 +20,7 @@ tweaks argument in a make_context() call."><!-- mathjax --><script src="https://
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.3</span>
       </span>
     </div>
 
@@ -62,30 +62,30 @@ are affected by which tweaks. This function is usually called to set the
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tweaks</span><span class="op">(</span>
-  <span class="va">...</span>,
-  constructor_name <span class="op">=</span> <span class="cn">NULL</span>,
-  constructor_relax_args <span class="op">=</span> <span class="cn">FALSE</span>,
-  strict_identifier <span class="op">=</span> <span class="cn">FALSE</span>,
-  omit_blob_tests <span class="op">=</span> <span class="cn">FALSE</span>,
-  current_needs_parens <span class="op">=</span> <span class="cn">FALSE</span>,
-  union <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">x</span>, collapse <span class="op">=</span> <span class="st">" UNION "</span><span class="op">)</span>,
-  placeholder_pattern <span class="op">=</span> <span class="cn">NULL</span>,
-  logical_return <span class="op">=</span> <span class="va">identity</span>,
-  date_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"date('"</span>, <span class="va">x</span>, <span class="st">"')"</span><span class="op">)</span>,
-  time_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"time('"</span>, <span class="va">x</span>, <span class="st">"')"</span><span class="op">)</span>,
-  timestamp_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"timestamp('"</span>, <span class="va">x</span>, <span class="st">"')"</span><span class="op">)</span>,
-  blob_cast <span class="op">=</span> <span class="va">identity</span>,
-  date_typed <span class="op">=</span> <span class="cn">TRUE</span>,
-  time_typed <span class="op">=</span> <span class="cn">TRUE</span>,
-  timestamp_typed <span class="op">=</span> <span class="cn">TRUE</span>,
-  temporary_tables <span class="op">=</span> <span class="cn">TRUE</span>,
-  list_temporary_tables <span class="op">=</span> <span class="cn">TRUE</span>,
-  is_null_check <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"("</span>, <span class="va">x</span>, <span class="st">" IS NULL)"</span><span class="op">)</span>,
-  create_table_as <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">table_name</span>, <span class="va">query</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"CREATE TABLE "</span>, <span class="va">table_name</span>,
-    <span class="st">" AS "</span>, <span class="va">query</span><span class="op">)</span>,
-  dbitest_version <span class="op">=</span> <span class="st">"1.7.1"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tweaks</span><span class="op">(</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  constructor_name <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  constructor_relax_args <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  strict_identifier <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  omit_blob_tests <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  current_needs_parens <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  union <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="va">x</span>, collapse <span class="op">=</span> <span class="st">" UNION "</span><span class="op">)</span>,</span>
+<span>  placeholder_pattern <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  logical_return <span class="op">=</span> <span class="va">identity</span>,</span>
+<span>  date_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"date('"</span>, <span class="va">x</span>, <span class="st">"')"</span><span class="op">)</span>,</span>
+<span>  time_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"time('"</span>, <span class="va">x</span>, <span class="st">"')"</span><span class="op">)</span>,</span>
+<span>  timestamp_cast <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"timestamp('"</span>, <span class="va">x</span>, <span class="st">"')"</span><span class="op">)</span>,</span>
+<span>  blob_cast <span class="op">=</span> <span class="va">identity</span>,</span>
+<span>  date_typed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  time_typed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  timestamp_typed <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  temporary_tables <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  list_temporary_tables <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  is_null_check <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"("</span>, <span class="va">x</span>, <span class="st">" IS NULL)"</span><span class="op">)</span>,</span>
+<span>  create_table_as <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">table_name</span>, <span class="va">query</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"CREATE TABLE "</span>, <span class="va">table_name</span>,</span>
+<span>    <span class="st">" AS "</span>, <span class="va">query</span><span class="op">)</span>,</span>
+<span>  dbitest_version <span class="op">=</span> <span class="st">"1.7.1"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -94,89 +94,130 @@ are affected by which tweaks. This function is usually called to set the
 <dd><p><code>[any]</code><br>
 Unknown tweaks are accepted, with a warning.  The ellipsis
 also makes sure that you only can pass named arguments.</p></dd>
+
+
 <dt>constructor_name</dt>
 <dd><p><code>[character(1)]</code><br>
 Name of the function that constructs the <code>Driver</code> object.</p></dd>
+
+
 <dt>constructor_relax_args</dt>
 <dd><p><code>[logical(1)]</code><br>
 If <code>TRUE</code>, allow a driver constructor with default values for all
 arguments; otherwise, require a constructor with empty argument list
 (default).</p></dd>
+
+
 <dt>strict_identifier</dt>
 <dd><p><code>[logical(1)]</code><br>
 Set to <code>TRUE</code> if the DBMS does not support arbitrarily-named
 identifiers even when quoting is used.</p></dd>
+
+
 <dt>omit_blob_tests</dt>
 <dd><p><code>[logical(1)]</code><br>
 Set to <code>TRUE</code> if the DBMS does not support a <code>BLOB</code> data
 type.</p></dd>
+
+
 <dt>current_needs_parens</dt>
 <dd><p><code>[logical(1)]</code><br>
 Set to <code>TRUE</code> if the SQL functions <code>current_date</code>,
 <code>current_time</code>, and <code>current_timestamp</code> require parentheses.</p></dd>
+
+
 <dt>union</dt>
 <dd><p><code>[function(character)]</code><br>
 Function that combines several subqueries into one so that the
 resulting query returns the concatenated results of the subqueries</p></dd>
+
+
 <dt>placeholder_pattern</dt>
 <dd><p><code>[character]</code><br>
 A pattern for placeholders used in <code>dbBind()</code>, e.g.,
 <code>"?"</code>, <code>"$1"</code>, or <code>":name"</code>. See
 <code><a href="make_placeholder_fun.html">make_placeholder_fun()</a></code> for details.</p></dd>
+
+
 <dt>logical_return</dt>
 <dd><p><code>[function(logical)]</code><br>
 A vectorized function that converts logical values to the data type
 returned by the DBI backend.</p></dd>
+
+
 <dt>date_cast</dt>
 <dd><p><code>[function(character)]</code><br>
 A vectorized function that creates an SQL expression for coercing a
 string to a date value.</p></dd>
+
+
 <dt>time_cast</dt>
 <dd><p><code>[function(character)]</code><br>
 A vectorized function that creates an SQL expression for coercing a
 string to a time value.</p></dd>
+
+
 <dt>timestamp_cast</dt>
 <dd><p><code>[function(character)]</code><br>
 A vectorized function that creates an SQL expression for coercing a
 string to a timestamp value.</p></dd>
+
+
 <dt>blob_cast</dt>
 <dd><p><code>[function(character)]</code><br>
 A vectorized function that creates an SQL expression for coercing a
 string to a blob value.</p></dd>
+
+
 <dt>date_typed</dt>
 <dd><p><code>[logical(1L)]</code><br>
 Set to <code>FALSE</code> if the DBMS doesn't support a dedicated type for dates.</p></dd>
+
+
 <dt>time_typed</dt>
 <dd><p><code>[logical(1L)]</code><br>
 Set to <code>FALSE</code> if the DBMS doesn't support a dedicated type for times.</p></dd>
+
+
 <dt>timestamp_typed</dt>
 <dd><p><code>[logical(1L)]</code><br>
 Set to <code>FALSE</code> if the DBMS doesn't support a dedicated type for
 timestamps.</p></dd>
+
+
 <dt>temporary_tables</dt>
 <dd><p><code>[logical(1L)]</code><br>
 Set to <code>FALSE</code> if the DBMS doesn't support temporary tables.</p></dd>
+
+
 <dt>list_temporary_tables</dt>
 <dd><p><code>[logical(1L)]</code><br>
 Set to <code>FALSE</code> if the DBMS doesn't support listing temporary tables.</p></dd>
+
+
 <dt>is_null_check</dt>
 <dd><p><code>[function(character)]</code><br>
 A vectorized function that creates an SQL expression for checking if a
 value is <code>NULL</code>.</p></dd>
+
+
 <dt>create_table_as</dt>
 <dd><p><code>[function(character(1), character(1))]</code><br>
 A function that creates an SQL expression for creating a table
 from an SQL expression.</p></dd>
+
+
 <dt>dbitest_version</dt>
 <dd><p><code>[character(1)]</code><br>
 Compatible DBItest version, default: "1.7.1".</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="context.html">make_context</a></span><span class="op">(</span><span class="va">...</span>, tweaks <span class="op">=</span> <span class="fu">tweaks</span><span class="op">(</span>strict_identifier <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="context.html">make_context</a></span><span class="op">(</span><span class="va">...</span>, tweaks <span class="op">=</span> <span class="fu">tweaks</span><span class="op">(</span>strict_identifier <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -187,11 +228,11 @@ Compatible DBItest version, default: "1.7.1".</p></dd>
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, <a href="https://www.r-consortium.org" class="external-link">R Consortium</a>.</p>
+  <p></p><p>Developed by <a href="https://krlmlr.info" class="external-link">Kirill Müller</a>, R Consortium.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>
