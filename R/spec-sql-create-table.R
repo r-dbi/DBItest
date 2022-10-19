@@ -198,14 +198,7 @@ spec_sql_create_table <- list(
     )
 
     for (table_name in table_names) {
-      tbl_in <- trivial_df(4, letters[1:4])
-
-      names(tbl_in) <- c(
-        as.character(dbQuoteIdentifier(con, "")),
-        as.character(dbQuoteString(con, "")),
-        "with space",
-        ","
-      )
+      tbl_in <- trivial_df(4, table_names)
 
       test_table_roundtrip(con, tbl_in)
     }
