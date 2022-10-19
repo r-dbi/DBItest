@@ -2,6 +2,7 @@
 all_dbi_generics <- function() {
   c(
     "Id",
+    "dbAppendStream",
     "dbAppendTable",
     "dbBegin",
     "dbBind",
@@ -10,6 +11,7 @@ all_dbi_generics <- function() {
     "dbColumnInfo",
     "dbCommit",
     "dbConnect",
+    "dbCreateFromStream",
     "dbCreateTable",
     "dbDataType",
     "dbDisconnect",
@@ -21,6 +23,7 @@ all_dbi_generics <- function() {
     "dbGetRowCount",
     "dbGetRowsAffected",
     "dbGetStatement",
+    "dbGetStream",
     "dbHasCompleted",
     "dbIsReadOnly",
     "dbIsValid",
@@ -34,9 +37,13 @@ all_dbi_generics <- function() {
     "dbRemoveTable",
     "dbRollback",
     "dbSendQuery",
+    "dbSendQueryStream",
     "dbSendStatement",
+    "dbStream",
+    "dbStreamTable",
     "dbUnquoteIdentifier",
     "dbWithTransaction",
+    "dbWriteStream",
     "dbWriteTable",
     NULL
   )
