@@ -45,7 +45,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes: 
-    r-dbi/dblog
+    r-dbi/DBI
 Additional_repositories: https://r-dbi.r-universe.dev
 Config/autostyle/scope: line_breaks
 Config/autostyle/strict: false
