@@ -1,7 +1,7 @@
 Package: DBItest
 Title: Testing DBI Backends
-Version: 1.7.2.9001
-Date: 2022-10-15
+Version: 1.7.3.9000
+Date: 2022-10-18
 Authors@R: 
     c(person(given = "Kirill",
              family = "M\u00fcller",
@@ -22,7 +22,7 @@ Depends:
 Imports: 
     blob (>= 1.2.0),
     callr,
-    DBI (>= 1.1.1),
+    DBI (>= 1.1.3),
     desc,
     hms (>= 0.5.0),
     lubridate,
@@ -135,3 +135,4 @@ Collate:
 Config/autostyle/scope: line_breaks
 Config/autostyle/strict: false
 Config/testthat/edition: 3
+Config/gha/extra-packages: r-dbi/dblog
