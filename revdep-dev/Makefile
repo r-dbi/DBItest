@@ -3,7 +3,7 @@ all: test
 TESTTHAT_REPORTER ?= testthat::ProgressReporter\$$new(max_failures = Inf, update_interval = Inf)
 
 # The REVDEP definition also decides what is run on GitHub Actions in backends.yaml
-REVDEP := RMariaDB RSQLite RPostgres RKazam duckdb odbc-SQLServer odbc-MySQL odbc-PostgreSQL odbc-SQLite
+REVDEP := RMariaDB RSQLite RPostgres RKazam duckdb odbc-SQLServer odbc-PostgreSQL odbc-SQLite
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
 
 LIB_DIR := $(shell Rscript -e "cat(.libPaths()[1])")
