@@ -22,6 +22,7 @@ Imports:
     desc,
     hms (>= 0.5.0),
     lubridate,
+    magrittr,
     methods,
     palmerpenguins,
     R6,
