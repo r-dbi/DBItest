@@ -34,7 +34,7 @@ dbi_generics <- function(version) {
 
   generics <- all_dbi_generics()
 
-  if (version < as.package_version("1.7.3")) {
+  if (version < "1.7.4") {
     generics <- setdiff(generics, c(
       "dbGetStream",
       "dbAppendStream",
