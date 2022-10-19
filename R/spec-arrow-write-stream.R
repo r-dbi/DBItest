@@ -17,7 +17,7 @@ spec_arrow_write_stream <- list(
   },
 
   #'
-  arrow_write_stream_overwrite = function(con, table_name) {
+  arrow_write_stream_error_overwrite = function(con, table_name) {
     #' @section Failure modes:
     #' If the table exists, and both `append` and `overwrite` arguments are unset,
     test_in <- data.frame(a = 1L)
