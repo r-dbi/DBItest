@@ -2,12 +2,12 @@
 # Can't be run as part of commits
 on:
   schedule:
-    - cron:  '5 0 * * *' # 05:00 UTC every day only run on main branch
+    - cron: "5 0 * * *" # 05:00 UTC every day only run on main branch
   push:
     branches:
-    - "cran-*"
+      - "cran-*"
     tags:
-    - "v*"
+      - "v*"
 
 name: rcc dev
 
@@ -61,7 +61,6 @@ jobs:
 
     strategy:
       fail-fast: false
-      matrix: ${{fromJson(needs.matrix.outputs.matrix)}}
 
     steps:
       - uses: actions/checkout@v2
@@ -97,8 +96,8 @@ jobs:
 
   R-CMD-check-dev:
     needs:
-    - matrix
-    - R-CMD-check-base
+      - matrix
+      - R-CMD-check-base
 
     runs-on: ubuntu-18.04
 
