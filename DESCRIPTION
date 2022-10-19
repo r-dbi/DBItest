@@ -32,10 +32,12 @@ Imports:
     vctrs,
     withr
 Suggests: 
+    arrow,
     clipr,
     dblog (>= 0.0.0.9008),
     debugme,
     devtools,
+    dplyr,
     knitr,
     lintr,
     rmarkdown,
