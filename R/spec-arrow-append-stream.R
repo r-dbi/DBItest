@@ -75,6 +75,8 @@ spec_arrow_append_stream <- list(
 
   #'
   arrow_append_stream_roundtrip_keywords = function(con) {
+    skip("Requires dbBind() on RMariaDB")
+
     #' @section Specification:
     #' SQL keywords can be used freely in table names, column names, and data.
     tbl_in <- data.frame(
@@ -85,6 +87,8 @@ spec_arrow_append_stream <- list(
   },
 
   arrow_append_stream_roundtrip_quotes = function(ctx, con, table_name) {
+    skip("Requires dbBind() on RMariaDB")
+
     #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
     #' can also be used in the data,
     tbl_in <- data.frame(
@@ -211,6 +215,8 @@ spec_arrow_append_stream <- list(
   },
   #
   arrow_append_stream_roundtrip_64_bit_roundtrip = function(con, table_name) {
+    skip("Requires dbBind() on RMariaDB")
+
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     dbWriteTable(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
     tbl_out <- dbReadTable(con, table_name)
@@ -219,6 +225,8 @@ spec_arrow_append_stream <- list(
   },
 
   arrow_append_stream_roundtrip_character = function(con) {
+    skip("Requires dbBind() on RMariaDB")
+
     #' - character (in both UTF-8
     tbl_in <- data.frame(
       id = seq_along(get_texts()),
@@ -229,6 +237,8 @@ spec_arrow_append_stream <- list(
   },
 
   arrow_append_stream_roundtrip_character_native = function(con) {
+    skip("Requires dbBind() on RMariaDB")
+
     #'   and native encodings),
     tbl_in <- data.frame(
       a = c(enc2native(get_texts())),

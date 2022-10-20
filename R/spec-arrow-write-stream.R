@@ -192,6 +192,8 @@ spec_arrow_write_stream <- list(
 
   #'
   arrow_write_stream_overwrite = function(ctx, con, table_name) {
+    skip("Requires dbBind() on RMariaDB")
+
     #' If the `overwrite` argument is `TRUE`, an existing table of the same name
     #' will be overwritten.
     penguins <- get_penguins(ctx)
@@ -205,6 +207,8 @@ spec_arrow_write_stream <- list(
   },
 
   arrow_write_stream_overwrite_missing = function(ctx, con, table_name) {
+    skip("Requires dbBind() on RMariaDB")
+
     #' This argument doesn't change behavior if the table does not exist yet.
     penguins_in <- get_penguins(ctx)
     expect_error(
@@ -217,6 +221,8 @@ spec_arrow_write_stream <- list(
 
   #'
   arrow_write_stream_append = function(ctx, con, table_name) {
+    skip("Requires dbBind() on RMariaDB")
+
     #' If the `append` argument is `TRUE`, the rows in an existing table are
     #' preserved, and the new data are appended.
     penguins <- get_penguins(ctx)
@@ -305,6 +311,8 @@ spec_arrow_write_stream <- list(
 
   #'
   arrow_write_stream_roundtrip_keywords = function(ctx, con) {
+    skip("Requires dbBind() on RMariaDB")
+
     #' SQL keywords can be used freely in table names, column names, and data.
     tbl_in <- data.frame(
       select = "unique", from = "join", where = "order",
@@ -314,6 +322,8 @@ spec_arrow_write_stream <- list(
   },
 
   arrow_write_stream_roundtrip_quotes = function(ctx, con, table_name) {
+    skip("Requires dbBind() on RMariaDB")
+
     #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
     #' can also be used in the data,
     tbl_in <- data.frame(
@@ -453,6 +463,8 @@ spec_arrow_write_stream <- list(
   },
 
   arrow_write_stream_roundtrip_character = function(ctx, con) {
+    skip("Requires dbBind() on RMariaDB")
+
     #' - character (in both UTF-8
     tbl_in <- data.frame(
       id = seq_along(get_texts()),
@@ -463,6 +475,8 @@ spec_arrow_write_stream <- list(
   },
 
   arrow_write_stream_roundtrip_character_native = function(ctx, con) {
+    skip("Requires dbBind() on RMariaDB")
+
     #'   and native encodings),
     tbl_in <- data.frame(
       a = c(enc2native(get_texts())),
