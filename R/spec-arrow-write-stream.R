@@ -753,7 +753,7 @@ test_stream_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transf
     dbCreateFromStream(con, name, tbl_in %>% stream_frame())
     dbAppendStream(con, name, tbl_in %>% stream_frame())
   } else {
-    dbWriteStream(con, name, tbl_in %>% stream_frame(), field.types = field.types)
+    dbWriteStream(con, name, tbl_in %>% stream_frame())
   }
 
   tbl_read <- check_df(dbReadTable(con, name, check.names = FALSE))
