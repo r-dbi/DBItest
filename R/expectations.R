@@ -79,3 +79,9 @@ expect_equal_df <- function(actual, expected) {
 
   expect_identical(actual, expected)
 }
+
+skip_if_not_dbitest <- function(ctx, version) {
+  if (as.package_version(ctx$tweaks$dbitest_version) < version) {
+    skip(paste0("tweak: dbitest_version: required: ", version, ", available: ", ctx$tweaks$dbitest_version))
+  }
+}

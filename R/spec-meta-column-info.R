@@ -69,9 +69,7 @@ spec_meta_column_info <- list(
   #'
   column_info_consistent_unnamed = function(ctx, con) {
     # odbc package
-    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
-      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
-    }
+    skip_if_not_dbitest(ctx, "1.7.2")
 
     #' If the query returns unnamed columns,
     res <- local_result(dbSendQuery(con, "SELECT 1.5, 2.5 AS a, 1.5, 3.5"))
