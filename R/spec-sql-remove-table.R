@@ -155,9 +155,7 @@ spec_sql_remove_table <- list(
 
   remove_table_name_quoted = function(ctx, con) {
     #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
-    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
-      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
-    }
+    skip_if_not_dbitest(ctx, "1.7.2")
 
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
