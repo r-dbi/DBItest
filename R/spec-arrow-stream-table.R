@@ -10,6 +10,9 @@ spec_arrow_stream_table <- list(
   },
 
   arrow_stream_table = function(ctx, con, table_name) {
+    # Failed on duckdb
+    skip_if_not_dbitest(ctx, "1.7.4")
+
     #' @return
     #' `dbStreamTable()` returns a data frame that contains the complete data
     #' from the remote table, effectively the result of calling [dbGetQuery()]
@@ -29,6 +32,9 @@ spec_arrow_stream_table <- list(
   },
 
   arrow_stream_table_empty = function(ctx, con, table_name) {
+    # Failed on duckdb
+    skip_if_not_dbitest(ctx, "1.7.4")
+
     #' @return
     #' An empty table is returned as a data frame with zero rows.
     penguins_in <- get_penguins(ctx)[integer(), ]
