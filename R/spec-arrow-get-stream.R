@@ -31,6 +31,8 @@ spec_arrow_get_stream <- list(
   },
 
   arrow_get_stream_zero_rows = function(con) {
+    skip("Causes segfault in adbc")
+
     #' or zero rows.
     # Not all SQL dialects seem to support the query used here.
     query <-

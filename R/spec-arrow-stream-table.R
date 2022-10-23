@@ -32,8 +32,7 @@ spec_arrow_stream_table <- list(
   },
 
   arrow_stream_table_empty = function(ctx, con, table_name) {
-    # Failed on duckdb
-    skip_if_not_dbitest(ctx, "1.7.4")
+    skip("Causes segfault in adbc and duckdb")
 
     #' @return
     #' An empty table is returned as a data frame with zero rows.

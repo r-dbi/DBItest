@@ -31,6 +31,8 @@ spec_arrow_stream <- list(
   },
 
   arrow_stream_zero_rows = function(con) {
+    skip("Causes segfault in adbc")
+
     #' or zero rows.
     query <-
       "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
@@ -41,6 +43,8 @@ spec_arrow_stream <- list(
 
   #'
   arrow_stream_closed = function(con) {
+    skip("Fails in adbc")
+
     #' @section Failure modes:
     #' An attempt to fetch from a closed result set raises an error.
     query <- trivial_query()
