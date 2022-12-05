@@ -26,9 +26,7 @@ spec_sql_append_table <- list(
   append_table_missing = function(con, table_name) {
     #' @section Failure modes:
     #' If the table does not exist,
-    expect_false(dbExistsTable(con, table_name))
-
-    test_in <- trivial_df()
+    stopifnot(!dbExistsTable(con, table_name))
     expect_error(dbAppendTable(con, table_name, data.frame(a = 2L)))
   },
 

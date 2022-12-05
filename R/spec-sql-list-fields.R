@@ -40,7 +40,7 @@ spec_sql_list_fields <- list(
     #' If the table does not exist, an error is raised.
     name <- "missing"
 
-    expect_false(dbExistsTable(con, name))
+    stopifnot(!dbExistsTable(con, name))
     expect_error(dbListFields(con, name))
   },
 
