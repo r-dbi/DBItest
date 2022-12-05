@@ -1,4 +1,5 @@
 # http://stackoverflow.com/a/39880324/946850
+#' @export
 s4_methods <- function(env, pkg_fun = NULL) {
   generics <- methods::getGenerics(env)
 

@@ -15,6 +15,7 @@ spec_result <- c(
 
 # Helpers -----------------------------------------------------------------
 
+#' @export
 sql_union <- function(..., .order_by = NULL, .ctx) {
   query <- .ctx$tweaks$union(c(...))
 
@@ -28,6 +29,7 @@ trivial_statement <- function(ctx, table_name) {
   ctx$tweaks$create_table_as(table_name, trivial_query())
 }
 
+#' @export
 trivial_query <- function(n = 1L, column = "a", .order_by = NULL, .ctx = NULL) {
   value <- trivial_values(n)
   if (length(column) == n) {
@@ -43,10 +45,12 @@ trivial_query <- function(n = 1L, column = "a", .order_by = NULL, .ctx = NULL) {
   query
 }
 
+#' @export
 trivial_values <- function(n = 1L) {
   seq_len(n) + 0.5
 }
 
+#' @export
 trivial_df <- function(n = 1L, column = "a") {
   values <- trivial_values(n)
   if (length(column) == 1) {

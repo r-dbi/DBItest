@@ -1,3 +1,4 @@
+#' @export
 get_pkg_path <- function(ctx) {
   pkg_name <- package_name(ctx)
   expect_type(pkg_name, "character")
@@ -9,6 +10,7 @@ get_pkg_path <- function(ctx) {
 utils::globalVariables("con")
 utils::globalVariables("con2")
 
+#' @export
 local_connection <- function(ctx, ..., .local_envir = parent.frame()) {
   con <- connect(ctx, ...)
   withr::local_db_connection(con, .local_envir = .local_envir)
@@ -27,6 +29,7 @@ local_invalid_connection <- function(ctx, ...) {
 }
 
 # Calls `dbClearResult()` on `query` after exiting `frame`.
+#' @export
 local_result <- function(query, frame = rlang::caller_env()) {
   res <- query
   withr::defer(
@@ -39,6 +42,7 @@ local_result <- function(query, frame = rlang::caller_env()) {
 }
 
 # Calls `try_silent(dbRemoveTable())` after exiting `frame`.
+#' @export
 local_remove_test_table <- function(con, name, frame = rlang::caller_env()) {
   table_name <- dbQuoteIdentifier(con, name)
   withr::defer(
@@ -49,6 +53,7 @@ local_remove_test_table <- function(con, name, frame = rlang::caller_env()) {
   )
 }
 
+#' @export
 get_penguins <- function(ctx) {
   datasets_penguins <- unrowname(palmerpenguins::penguins[c(1, 153, 277), ])
   if (!isTRUE(ctx$tweaks$strict_identifier)) {
@@ -57,11 +62,13 @@ get_penguins <- function(ctx) {
   as.data.frame(datasets_penguins)
 }
 
+#' @export
 unrowname <- function(x) {
   rownames(x) <- NULL
   x
 }
 
+#' @export
 random_table_name <- function(n = 10) {
   # FIXME: Use parallel-safe sequence of numbers
   paste0("dbit", paste(sample(letters, n, replace = TRUE), collapse = ""))
@@ -72,6 +79,7 @@ compact <- function(x) {
 }
 
 
+#' @export
 try_silent <- function(code) {
   tryCatch(
     code,
@@ -79,6 +87,7 @@ try_silent <- function(code) {
   )
 }
 
+#' @export
 check_df <- function(df) {
   expect_s3_class(df, "data.frame")
   if (length(df) >= 1L) {

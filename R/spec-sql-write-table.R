@@ -818,12 +818,14 @@ spec_sql_write_table <- list(
   NULL
 )
 
+#' @export
 test_table_roundtrip <- function(...) {
   test_table_roundtrip_one(..., .add_na = "none")
   test_table_roundtrip_one(..., .add_na = "above")
   test_table_roundtrip_one(..., .add_na = "below")
 }
 
+#' @export
 test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity,
                                      name = NULL, field.types = NULL, use_append = FALSE, .add_na = "none") {
   force(tbl_expected)

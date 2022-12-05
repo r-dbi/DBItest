@@ -129,6 +129,7 @@ Collate:
     'test-compliance.R'
     'test-stress.R'
     'tweaks.R'
+    'use.R'
     'utf8.R'
     'utils.R'
     'zzz.R'
