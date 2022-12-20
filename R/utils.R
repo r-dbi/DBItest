@@ -95,5 +95,6 @@ check_df <- function(df) {
 }
 
 check_stream <- function(stream) {
-  check_df(as.data.frame(stream))
+  # Arrow returns a tibble when it shouldn't
+  check_df(as.data.frame(as.data.frame(stream)))
 }
