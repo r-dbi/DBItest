@@ -51,9 +51,10 @@ local_remove_test_table <- function(con, name, frame = rlang::caller_env()) {
 
 get_penguins <- function(ctx) {
   datasets_penguins <- unrowname(palmerpenguins::penguins[c(1, 153, 277), ])
-  if (!isTRUE(ctx$tweaks$strict_identifier)) {
-    names(datasets_penguins) <- gsub("_", ".", names(datasets_penguins), fixed = TRUE)
-  }
+  # FIXME: better handling of DBI backends that do support factors
+  datasets_penguins$species <- as.character(datasets_penguins$species)
+  datasets_penguins$island <- as.character(datasets_penguins$island)
+  datasets_penguins$sex <- as.character(datasets_penguins$sex)
   as.data.frame(datasets_penguins)
 }
 
