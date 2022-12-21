@@ -1,99 +1,99 @@
-#' spec_arrow_write_stream
+#' spec_arrow_write_table_arrow
 #' @family Arrow specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords NULL
 #' @importFrom lubridate with_tz
-spec_arrow_write_stream <- list(
-  arrow_write_stream_formals = function() {
+spec_arrow_write_table_arrow <- list(
+  arrow_write_table_arrow_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbWriteStream)), c("conn", "name", "value", "..."))
+    expect_equal(names(formals(dbWriteTableArrow)), c("conn", "name", "value", "..."))
   },
 
-  arrow_write_stream_return = function(con, table_name) {
+  arrow_write_table_arrow_return = function(con, table_name) {
     #' @return
-    #' `dbWriteStream()` returns `TRUE`, invisibly.
-    expect_invisible_true(dbWriteStream(con, table_name, stream_frame(a = 1L)))
+    #' `dbWriteTableArrow()` returns `TRUE`, invisibly.
+    expect_invisible_true(dbWriteTableArrow(con, table_name, stream_frame(a = 1L)))
   },
 
   #'
-  arrow_write_stream_error_overwrite = function(con, table_name) {
+  arrow_write_table_arrow_error_overwrite = function(con, table_name) {
     skip("Failed in SQLite")
 
     #' @section Failure modes:
     #' If the table exists, and both `append` and `overwrite` arguments are unset,
     test_in <- data.frame(a = 1L)
-    dbWriteStream(con, table_name, test_in %>% stream_frame())
-    expect_error(dbWriteStream(con, table_name, stream_frame(a = 2L)))
+    dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(a = 2L)))
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
   },
 
-  arrow_write_stream_append_incompatible = function(con, table_name) {
+  arrow_write_table_arrow_append_incompatible = function(con, table_name) {
     #' or `append = TRUE` and the data frame with the new data has different
     #' column names,
     #' an error is raised; the remote table remains unchanged.
     test_in <- data.frame(a = 1L)
-    dbWriteStream(con, table_name, test_in %>% stream_frame())
-    expect_error(dbWriteStream(con, table_name, stream_frame(b = 2L), append = TRUE))
+    dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(b = 2L), append = TRUE))
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
   },
 
   #'
-  arrow_write_stream_closed_connection = function(ctx, closed_con) {
+  arrow_write_table_arrow_closed_connection = function(ctx, closed_con) {
     #' An error is raised when calling this method for a closed
-    expect_error(dbWriteStream(closed_con, "test", stream_frame(a = 1)))
+    expect_error(dbWriteTableArrow(closed_con, "test", stream_frame(a = 1)))
   },
 
-  arrow_write_stream_invalid_connection = function(ctx, invalid_con) {
+  arrow_write_table_arrow_invalid_connection = function(ctx, invalid_con) {
     #' or invalid connection.
-    expect_error(dbWriteStream(invalid_con, "test", stream_frame(a = 1)))
+    expect_error(dbWriteTableArrow(invalid_con, "test", stream_frame(a = 1)))
   },
 
-  arrow_write_stream_error = function(ctx, con, table_name) {
+  arrow_write_table_arrow_error = function(ctx, con, table_name) {
     skip("Failed in SQLite")
 
     #' An error is also raised
     test_in <- stream_frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
-    expect_error(dbWriteStream(con, NA, test_in %>% stream_frame()))
+    expect_error(dbWriteTableArrow(con, NA, test_in %>% stream_frame()))
     #' or if this results in a non-scalar.
-    expect_error(dbWriteStream(con, c(table_name, table_name), test_in %>% stream_frame()))
+    expect_error(dbWriteTableArrow(con, c(table_name, table_name), test_in %>% stream_frame()))
 
     #' Invalid values for the additional arguments
     #' `overwrite`, `append`, and `temporary`
     #' (non-scalars,
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), overwrite = c(TRUE, FALSE)))
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), append = c(TRUE, FALSE)))
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), temporary = c(TRUE, FALSE)))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), overwrite = c(TRUE, FALSE)))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), append = c(TRUE, FALSE)))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), temporary = c(TRUE, FALSE)))
     #' unsupported data types,
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), overwrite = 1L))
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), append = 1L))
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), temporary = 1L))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), overwrite = 1L))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), append = 1L))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), temporary = 1L))
     #' `NA`,
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), overwrite = NA))
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), append = NA))
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), temporary = NA))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), overwrite = NA))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), append = NA))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), temporary = NA))
     #' incompatible values,
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), overwrite = TRUE, append = TRUE))
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame(), append = TRUE))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), overwrite = TRUE, append = TRUE))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), append = TRUE))
     #' duplicate
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame()))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame()))
     #' or missing names,
-    expect_error(dbWriteStream(con, table_name, test_in %>% stream_frame()))
+    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame()))
 
     #' incompatible columns)
-    dbWriteStream(con, table_name, test_in %>% stream_frame())
-    expect_error(dbWriteStream(con, table_name, stream_frame(b = 2L, c = 3L), append = TRUE))
+    dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(b = 2L, c = 3L), append = TRUE))
 
     #' also raise an error.
   },
 
   #' @section Additional arguments:
-  #' The following arguments are not part of the `dbWriteStream()` generic
+  #' The following arguments are not part of the `dbWriteTableArrow()` generic
   #' (to improve compatibility across backends)
   #' but are part of the DBI specification:
   #' - `overwrite` (default: `FALSE`)
@@ -103,7 +103,7 @@ spec_arrow_write_stream <- list(
   #' They must be provided as named arguments.
   #' See the "Specification" and "Value" sections for details on their usage.
 
-  arrow_write_stream_name = function(ctx, con) {
+  arrow_write_table_arrow_name = function(ctx, con) {
     #' @section Specification:
     #' The `name` argument is processed as follows,
     #' to support databases that allow non-syntactic names for their objects:
@@ -116,15 +116,15 @@ spec_arrow_write_stream <- list(
     for (table_name in table_names) {
       test_in <- data.frame(a = 1)
       local_remove_test_table(con, table_name)
-      #' - If an unquoted table name as string: `dbWriteStream()` will do the quoting,
-      dbWriteStream(con, table_name, test_in %>% stream_frame())
+      #' - If an unquoted table name as string: `dbWriteTableArrow()` will do the quoting,
+      dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
       test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
       expect_equal_df(test_out, test_in)
       #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
     }
   },
 
-  arrow_write_stream_name_quoted = function(ctx, con) {
+  arrow_write_table_arrow_name_quoted = function(ctx, con) {
     #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
     if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
       skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
@@ -140,27 +140,27 @@ spec_arrow_write_stream <- list(
       test_in <- data.frame(a = 1)
 
       local_remove_test_table(con, table_name)
-      dbWriteStream(con, dbQuoteIdentifier(con, table_name), test_in %>% stream_frame())
+      dbWriteTableArrow(con, dbQuoteIdentifier(con, table_name), test_in %>% stream_frame())
       test_out <- check_df(dbReadTable(con, table_name))
       expect_equal_df(test_out, test_in)
     }
   },
 
   #'
-  arrow_write_stream_value_df = function(con, table_name) {
+  arrow_write_table_arrow_value_df = function(con, table_name) {
     #' The `value` argument must be a data frame
     test_in <- trivial_df()
-    dbWriteStream(con, table_name, test_in %>% stream_frame())
+    dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
   },
 
-  arrow_write_stream_value_subset = function(ctx, con, table_name) {
+  arrow_write_table_arrow_value_subset = function(ctx, con, table_name) {
     #' with a subset of the columns of the existing table if `append = TRUE`.
     test_in <- trivial_df(3, letters[1:3])
     dbCreateTable(con, table_name, test_in)
-    dbWriteStream(con, table_name, test_in[2] %>% stream_frame(), append = TRUE)
+    dbWriteTableArrow(con, table_name, test_in[2] %>% stream_frame(), append = TRUE)
 
     test_out <- check_df(dbReadTable(con, table_name))
 
@@ -168,21 +168,21 @@ spec_arrow_write_stream <- list(
     expect_equal_df(test_out, test_in)
   },
 
-  arrow_write_stream_value_shuffle = function(ctx, con, table_name) {
+  arrow_write_table_arrow_value_shuffle = function(ctx, con, table_name) {
     #' The order of the columns does not matter with `append = TRUE`.
     test_in <- trivial_df(3, letters[1:3])
     dbCreateTable(con, table_name, test_in)
-    dbWriteStream(con, table_name, test_in[c(2, 3, 1)] %>% stream_frame(), append = TRUE)
+    dbWriteTableArrow(con, table_name, test_in[c(2, 3, 1)] %>% stream_frame(), append = TRUE)
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
   },
 
   #
-  arrow_write_stream_value_shuffle_subset = function(ctx, con, table_name) {
+  arrow_write_table_arrow_value_shuffle_subset = function(ctx, con, table_name) {
     test_in <- trivial_df(4, letters[1:4])
     dbCreateTable(con, table_name, test_in)
-    dbWriteStream(con, table_name, test_in[c(4, 1, 3)] %>% stream_frame(), append = TRUE)
+    dbWriteTableArrow(con, table_name, test_in[c(4, 1, 3)] %>% stream_frame(), append = TRUE)
 
     test_out <- check_df(dbReadTable(con, table_name))
 
@@ -191,28 +191,28 @@ spec_arrow_write_stream <- list(
   },
 
   #'
-  arrow_write_stream_overwrite = function(ctx, con, table_name) {
+  arrow_write_table_arrow_overwrite = function(ctx, con, table_name) {
     skip("Requires dbBind() on RMariaDB")
 
     #' If the `overwrite` argument is `TRUE`, an existing table of the same name
     #' will be overwritten.
     penguins <- get_penguins(ctx)
-    dbWriteStream(con, table_name, penguins)
+    dbWriteTableArrow(con, table_name, penguins)
     expect_error(
-      dbWriteStream(con, table_name, penguins[1, ] %>% stream_frame(), overwrite = TRUE),
+      dbWriteTableArrow(con, table_name, penguins[1, ] %>% stream_frame(), overwrite = TRUE),
       NA
     )
     penguins_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(penguins_out, penguins[1, ])
   },
 
-  arrow_write_stream_overwrite_missing = function(ctx, con, table_name) {
+  arrow_write_table_arrow_overwrite_missing = function(ctx, con, table_name) {
     skip("Requires dbBind() on RMariaDB")
 
     #' This argument doesn't change behavior if the table does not exist yet.
     penguins_in <- get_penguins(ctx)
     expect_error(
-      dbWriteStream(con, table_name, penguins_in[1, ] %>% stream_frame(), overwrite = TRUE),
+      dbWriteTableArrow(con, table_name, penguins_in[1, ] %>% stream_frame(), overwrite = TRUE),
       NA
     )
     penguins_out <- check_df(dbReadTable(con, table_name))
@@ -220,30 +220,30 @@ spec_arrow_write_stream <- list(
   },
 
   #'
-  arrow_write_stream_append = function(ctx, con, table_name) {
+  arrow_write_table_arrow_append = function(ctx, con, table_name) {
     skip("Requires dbBind() on RMariaDB")
 
     #' If the `append` argument is `TRUE`, the rows in an existing table are
     #' preserved, and the new data are appended.
     penguins <- get_penguins(ctx)
-    dbWriteStream(con, table_name, penguins)
-    expect_error(dbWriteStream(con, table_name, penguins[1, ] %>% stream_frame(), append = TRUE), NA)
+    dbWriteTableArrow(con, table_name, penguins)
+    expect_error(dbWriteTableArrow(con, table_name, penguins[1, ] %>% stream_frame(), append = TRUE), NA)
     penguins_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(penguins_out, rbind(penguins, penguins[1, ]))
   },
 
-  arrow_write_stream_append_new = function(ctx, con, table_name) {
+  arrow_write_table_arrow_append_new = function(ctx, con, table_name) {
     skip("Failed in SQLite")
 
     #' If the table doesn't exist yet, it is created.
     penguins <- get_penguins(ctx)
-    expect_error(dbWriteStream(con, table_name, penguins[1, ] %>% stream_frame(), append = TRUE), NA)
+    expect_error(dbWriteTableArrow(con, table_name, penguins[1, ] %>% stream_frame(), append = TRUE), NA)
     penguins_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(penguins_out, penguins[1, ])
   },
 
   #'
-  arrow_write_stream_temporary = function(ctx, con, table_name = "dbit08") {
+  arrow_write_table_arrow_temporary = function(ctx, con, table_name = "dbit08") {
     skip("Failed in SQLite")
 
     #' If the `temporary` argument is `TRUE`, the table is not available in a
@@ -254,7 +254,7 @@ spec_arrow_write_stream <- list(
     }
 
     penguins <- get_penguins(ctx)
-    dbWriteStream(con, table_name, penguins %>% stream_frame(), temporary = TRUE)
+    dbWriteTableArrow(con, table_name, penguins %>% stream_frame(), temporary = TRUE)
     penguins_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(penguins_out, penguins)
 
@@ -262,7 +262,7 @@ spec_arrow_write_stream <- list(
     expect_error(dbReadTable(con2, table_name))
   },
   # second stage
-  arrow_write_stream_temporary = function(ctx, con) {
+  arrow_write_table_arrow_temporary = function(ctx, con) {
     skip("Failed in SQLite")
 
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
@@ -273,7 +273,7 @@ spec_arrow_write_stream <- list(
     expect_error(dbReadTable(con, table_name))
   },
 
-  arrow_write_stream_visible_in_other_connection = function(ctx, local_con) {
+  arrow_write_table_arrow_visible_in_other_connection = function(ctx, local_con) {
     skip("Failed in SQLite")
 
     #' A regular, non-temporary table is visible in a second connection,
@@ -281,7 +281,7 @@ spec_arrow_write_stream <- list(
 
     table_name <- "dbit09"
 
-    dbWriteStream(local_con, table_name, penguins30 %>% stream_frame())
+    dbWriteTableArrow(local_con, table_name, penguins30 %>% stream_frame())
     penguins_out <- check_df(dbReadTable(local_con, table_name))
     expect_equal_df(penguins_out, penguins30)
 
@@ -289,7 +289,7 @@ spec_arrow_write_stream <- list(
     expect_equal_df(dbReadTable(con2, table_name), penguins30)
   },
   # second stage
-  arrow_write_stream_visible_in_other_connection = function(ctx, con) {
+  arrow_write_table_arrow_visible_in_other_connection = function(ctx, con) {
     skip("Failed in SQLite")
 
     #' in a pre-existing connection,
@@ -300,7 +300,7 @@ spec_arrow_write_stream <- list(
     expect_equal_df(check_df(dbReadTable(con, table_name)), penguins30)
   },
   # third stage
-  arrow_write_stream_visible_in_other_connection = function(ctx, local_con, table_name = "dbit09") {
+  arrow_write_table_arrow_visible_in_other_connection = function(ctx, local_con, table_name = "dbit09") {
     skip("Failed in SQLite")
 
     #' and after reconnecting to the database.
@@ -310,7 +310,7 @@ spec_arrow_write_stream <- list(
   },
 
   #'
-  arrow_write_stream_roundtrip_keywords = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_keywords = function(ctx, con) {
     skip("Requires dbBind() on RMariaDB")
 
     #' SQL keywords can be used freely in table names, column names, and data.
@@ -318,10 +318,10 @@ spec_arrow_write_stream <- list(
       select = "unique", from = "join", where = "order",
       stringsAsFactors = FALSE
     )
-    test_stream_roundtrip(con, tbl_in, name = "exists")
+    test_arrow_roundtrip(con, tbl_in, name = "exists")
   },
 
-  arrow_write_stream_roundtrip_quotes = function(ctx, con, table_name) {
+  arrow_write_table_arrow_roundtrip_quotes = function(ctx, con, table_name) {
     skip("Requires dbBind() on RMariaDB")
 
     #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
@@ -336,10 +336,10 @@ spec_arrow_write_stream <- list(
     )
 
     names(tbl_in) <- letters[seq_along(tbl_in)]
-    test_stream_roundtrip(con, tbl_in)
+    test_arrow_roundtrip(con, tbl_in)
   },
 
-  arrow_write_stream_roundtrip_quotes_table_names = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_quotes_table_names = function(ctx, con) {
     #' and, if the database supports non-syntactic identifiers,
     #' also for table names
     if (isTRUE(ctx$tweaks$strict_identifier)) {
@@ -357,11 +357,11 @@ spec_arrow_write_stream <- list(
     tbl_in <- trivial_df()
 
     for (table_name in table_names) {
-      test_stream_roundtrip_one(con, tbl_in, .add_na = "none")
+      test_arrow_roundtrip_one(con, tbl_in, .add_na = "none")
     }
   },
 
-  arrow_write_stream_roundtrip_quotes_column_names = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_quotes_column_names = function(ctx, con) {
     skip("Failed in SQLite")
 
     #' and column names.
@@ -383,39 +383,39 @@ spec_arrow_write_stream <- list(
 
     tbl_in <- trivial_df(length(column_names), column_names)
 
-    test_stream_roundtrip_one(con, tbl_in, .add_na = "none")
+    test_arrow_roundtrip_one(con, tbl_in, .add_na = "none")
   },
 
   #'
-  arrow_write_stream_roundtrip_integer = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_integer = function(ctx, con) {
     #' The following data types must be supported at least,
     #' and be read identically with [dbReadTable()]:
     #' - integer
     tbl_in <- data.frame(a = c(1:5))
-    test_stream_roundtrip(con, tbl_in)
+    test_arrow_roundtrip(con, tbl_in)
   },
 
-  arrow_write_stream_roundtrip_numeric = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_numeric = function(ctx, con) {
     #' - numeric
     tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
-    test_stream_roundtrip(con, tbl_in)
+    test_arrow_roundtrip(con, tbl_in)
     #'   (the behavior for `Inf` and `NaN` is not specified)
   },
 
-  arrow_write_stream_roundtrip_logical = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_logical = function(ctx, con) {
     skip("Fails in adbc")
 
     #' - logical
     tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
     tbl_exp <- tbl_in
     tbl_exp$a <- ctx$tweaks$logical_return(tbl_exp$a)
-    test_stream_roundtrip(con, tbl_in, tbl_exp)
+    test_arrow_roundtrip(con, tbl_in, tbl_exp)
   },
 
-  arrow_write_stream_roundtrip_null = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_null = function(ctx, con) {
     #' - `NA` as NULL
     tbl_in <- data.frame(a = NA)
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
         tbl_out$a <- as.logical(tbl_out$a) # Plain NA is of type logical
@@ -425,9 +425,9 @@ spec_arrow_write_stream <- list(
   },
 
   #' - 64-bit values (using `"bigint"` as field type); the result can be
-  arrow_write_stream_roundtrip_64_bit_numeric = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_64_bit_numeric = function(ctx, con) {
     tbl_in <- data.frame(a = c(-1e14, 1e15))
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
         #'     - converted to a numeric, which may lose precision,
@@ -437,13 +437,13 @@ spec_arrow_write_stream <- list(
     )
   },
   #
-  arrow_write_stream_roundtrip_64_bit_character = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_64_bit_character = function(ctx, con) {
     skip("Failed in SQLite")
 
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     tbl_exp <- tbl_in
     tbl_exp$a <- format(tbl_exp$a, scientific = FALSE)
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
         #'     - converted a character vector, which gives the full decimal
@@ -454,17 +454,17 @@ spec_arrow_write_stream <- list(
     )
   },
   #
-  arrow_write_stream_roundtrip_64_bit_roundtrip = function(con, table_name) {
+  arrow_write_table_arrow_roundtrip_64_bit_roundtrip = function(con, table_name) {
     skip("Failed in SQLite")
 
     tbl_in <- data.frame(a = c(-1e14, 1e15))
-    dbWriteStream(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
+    dbWriteTableArrow(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
     tbl_out <- dbReadTable(con, table_name)
     #'     - written to another table and read again unchanged
-    test_stream_roundtrip(con, tbl_out, tbl_expected = tbl_out)
+    test_arrow_roundtrip(con, tbl_out, tbl_expected = tbl_out)
   },
 
-  arrow_write_stream_roundtrip_character = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_character = function(ctx, con) {
     skip("Requires dbBind() on RMariaDB")
 
     #' - character (in both UTF-8
@@ -473,10 +473,10 @@ spec_arrow_write_stream <- list(
       a = get_texts(),
       stringsAsFactors = FALSE
     )
-    test_stream_roundtrip(con, tbl_in)
+    test_arrow_roundtrip(con, tbl_in)
   },
 
-  arrow_write_stream_roundtrip_character_native = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_character_native = function(ctx, con) {
     skip("Requires dbBind() on RMariaDB")
 
     #'   and native encodings),
@@ -484,28 +484,28 @@ spec_arrow_write_stream <- list(
       a = c(enc2native(get_texts())),
       stringsAsFactors = FALSE
     )
-    test_stream_roundtrip(con, tbl_in)
+    test_arrow_roundtrip(con, tbl_in)
   },
 
-  arrow_write_stream_roundtrip_character_empty = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_character_empty = function(ctx, con) {
     #'   supporting empty strings
     tbl_in <- data.frame(
       a = c("", "a"),
       stringsAsFactors = FALSE
     )
-    test_stream_roundtrip(con, tbl_in)
+    test_arrow_roundtrip(con, tbl_in)
   },
 
-  arrow_write_stream_roundtrip_character_empty_after = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_character_empty_after = function(ctx, con) {
     #'   before and after a non-empty string
     tbl_in <- data.frame(
       a = c("a", ""),
       stringsAsFactors = FALSE
     )
-    test_stream_roundtrip(con, tbl_in)
+    test_arrow_roundtrip(con, tbl_in)
   },
 
-  arrow_write_stream_roundtrip_factor = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_factor = function(ctx, con) {
     skip("Failed in SQLite")
 
     #' - factor (returned as character)
@@ -514,10 +514,10 @@ spec_arrow_write_stream <- list(
     )
     tbl_exp <- tbl_in
     tbl_exp$a <- as.character(tbl_exp$a)
-    test_stream_roundtrip(con, tbl_in, tbl_exp)
+    test_arrow_roundtrip(con, tbl_in, tbl_exp)
   },
 
-  arrow_write_stream_roundtrip_raw = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_raw = function(ctx, con) {
     skip("Failed in SQLite")
 
     #' - list of raw
@@ -529,7 +529,7 @@ spec_arrow_write_stream <- list(
     tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
     tbl_exp <- tbl_in
     tbl_exp$a <- blob::as_blob(unclass(tbl_in$a))
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
         tbl_out$a <- blob::as_blob(tbl_out$a)
@@ -538,7 +538,7 @@ spec_arrow_write_stream <- list(
     )
   },
 
-  arrow_write_stream_roundtrip_blob = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_blob = function(ctx, con) {
     skip("Failed in SQLite")
 
     #' - objects of type [blob::blob]
@@ -548,7 +548,7 @@ spec_arrow_write_stream <- list(
     }
 
     tbl_in <- data.frame(id = 1L, a = blob::blob(as.raw(0:10)))
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
         tbl_out$a <- blob::as_blob(tbl_out$a)
@@ -557,7 +557,7 @@ spec_arrow_write_stream <- list(
     )
   },
 
-  arrow_write_stream_roundtrip_date = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_date = function(ctx, con) {
     #' - date
     #'   (if supported by the database;
     if (!isTRUE(ctx$tweaks$date_typed)) {
@@ -566,7 +566,7 @@ spec_arrow_write_stream <- list(
 
     #'   returned as `Date`),
     tbl_in <- data.frame(a = as_numeric_date(c(Sys.Date() + 1:5)))
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
         expect_type(unclass(tbl_out$a), "double")
@@ -575,7 +575,7 @@ spec_arrow_write_stream <- list(
     )
   },
 
-  arrow_write_stream_roundtrip_date_extended = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_date_extended = function(ctx, con) {
     #'   also for dates prior to 1970 or 1900 or after 2038
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
@@ -593,7 +593,7 @@ spec_arrow_write_stream <- list(
       "2040-01-01",
       "2999-09-09"
     )))
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       con, tbl_in,
       transform = function(tbl_out) {
         expect_type(unclass(tbl_out$a), "double")
@@ -602,7 +602,7 @@ spec_arrow_write_stream <- list(
     )
   },
 
-  arrow_write_stream_roundtrip_time = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_time = function(ctx, con) {
     #' - time
     #'   (if supported by the database;
     if (!isTRUE(ctx$tweaks$time_typed)) {
@@ -616,7 +616,7 @@ spec_arrow_write_stream <- list(
     tbl_exp$a <- hms::as_hms(tbl_exp$a)
     tbl_exp$b <- hms::as_hms(tbl_exp$b)
 
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
         #'   returned as objects that inherit from `difftime`)
@@ -629,7 +629,7 @@ spec_arrow_write_stream <- list(
     )
   },
 
-  arrow_write_stream_roundtrip_timestamp = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_timestamp = function(ctx, con) {
     skip("Fails in adbc")
 
     #' - timestamp
@@ -654,7 +654,7 @@ spec_arrow_write_stream <- list(
 
     #'   respecting the time zone but not necessarily preserving the
     #'   input time zone),
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       con, tbl_in,
       transform = function(out) {
         dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
@@ -666,7 +666,7 @@ spec_arrow_write_stream <- list(
     )
   },
 
-  arrow_write_stream_roundtrip_timestamp_extended = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_timestamp_extended = function(ctx, con) {
     skip("Fails in adbc")
 
     #'   also for timestamps prior to 1970 or 1900 or after 2038
@@ -696,7 +696,7 @@ spec_arrow_write_stream <- list(
 
     #'   respecting the time zone but not necessarily preserving the
     #'   input time zone)
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       con, tbl_in,
       transform = function(out) {
         dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
@@ -709,7 +709,7 @@ spec_arrow_write_stream <- list(
   },
 
   #'
-  arrow_write_stream_roundtrip_mixed = function(ctx, con) {
+  arrow_write_table_arrow_roundtrip_mixed = function(ctx, con) {
     #' Mixing column types in the same table is supported.
     data <- list("a", 1L, 1.5)
     data <- lapply(data, c, NA)
@@ -721,20 +721,20 @@ spec_arrow_write_stream <- list(
       }
     )
 
-    lapply(tbl_in_list, test_stream_roundtrip, con = con)
+    lapply(tbl_in_list, test_arrow_roundtrip, con = con)
   },
 
   #
   NULL
 )
 
-test_stream_roundtrip <- function(...) {
-  test_stream_roundtrip_one(..., .add_na = "none")
-  test_stream_roundtrip_one(..., .add_na = "above")
-  test_stream_roundtrip_one(..., .add_na = "below")
+test_arrow_roundtrip <- function(...) {
+  test_arrow_roundtrip_one(..., .add_na = "none")
+  test_arrow_roundtrip_one(..., .add_na = "above")
+  test_arrow_roundtrip_one(..., .add_na = "below")
 }
 
-test_stream_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity,
+test_arrow_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity,
                                       name = NULL, use_append = FALSE, .add_na = "none") {
   # Need data frames here because streams can be collected only once
   stopifnot(is.data.frame(tbl_in))
@@ -756,10 +756,10 @@ test_stream_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transf
   local_remove_test_table(con, name = name)
 
   if (use_append) {
-    dbCreateFromStream(con, name, tbl_in %>% stream_frame())
-    dbAppendStream(con, name, tbl_in %>% stream_frame())
+    dbCreateTableArrow(con, name, tbl_in %>% stream_frame())
+    dbAppendTableArrow(con, name, tbl_in %>% stream_frame())
   } else {
-    dbWriteStream(con, name, tbl_in %>% stream_frame())
+    dbWriteTableArrow(con, name, tbl_in %>% stream_frame())
   }
 
   tbl_read <- check_df(dbReadTable(con, name, check.names = FALSE))

@@ -24,12 +24,12 @@ spec_result_clear_result <- list(
     expect_invisible_true(dbClearResult(res))
   },
 
-  clear_result_return_query_stream = function(ctx, con, table_name) {
+  clear_result_return_query_arrow = function(ctx, con, table_name) {
     # Failed on SQL Server
     skip_if_not_dbitest(ctx, "1.7.4")
 
-    #' or `dbSendQueryStream()`,
-    res <- dbSendQueryStream(con, ctx$tweaks$create_table_as(table_name, "SELECT 1"))
+    #' or `dbSendQueryArrow()`,
+    res <- dbSendQueryArrow(con, ctx$tweaks$create_table_as(table_name, "SELECT 1"))
     expect_invisible_true(dbClearResult(res))
   },
 
@@ -50,12 +50,12 @@ spec_result_clear_result <- list(
     expect_warning(expect_invisible_true(dbClearResult(res)))
   },
 
-  cannot_clear_result_twice_query_stream = function(ctx, con, table_name) {
+  cannot_clear_result_twice_query_arrow = function(ctx, con, table_name) {
     # Failed on SQL Server
     skip_if_not_dbitest(ctx, "1.7.4")
 
-    #' and `dbSendQueryStream()`,
-    res <- dbSendQueryStream(con, ctx$tweaks$create_table_as(table_name, "SELECT 1"))
+    #' and `dbSendQueryArrow()`,
+    res <- dbSendQueryArrow(con, ctx$tweaks$create_table_as(table_name, "SELECT 1"))
     dbClearResult(res)
     expect_warning(expect_invisible_true(dbClearResult(res)))
   },

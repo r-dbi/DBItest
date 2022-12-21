@@ -1,22 +1,22 @@
-#' spec_arrow_append_stream
+#' spec_arrow_append_table_arrow
 #' @family Arrow specifications
 #' @usage NULL
 #' @format NULL
 #' @keywords NULL
-spec_arrow_append_stream <- list(
-  arrow_append_stream_formals = function() {
+spec_arrow_append_table_arrow <- list(
+  arrow_append_table_arrow_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbAppendStream)), c("conn", "name", "value", "..."))
+    expect_equal(names(formals(dbAppendTableArrow)), c("conn", "name", "value", "..."))
   },
 
-  arrow_append_stream_return = function(con, table_name) {
+  arrow_append_table_arrow_return = function(con, table_name) {
     skip("Failed in SQLite")
 
     #' @return
-    #' `dbAppendStream()` returns a
+    #' `dbAppendTableArrow()` returns a
     test_in <- stream_frame(trivial_df())
-    dbCreateFromStream(con, table_name, test_in)
-    ret <- dbAppendStream(con, table_name, test_in)
+    dbCreateTableArrow(con, table_name, test_in)
+    ret <- dbAppendTableArrow(con, table_name, test_in)
 
     #' scalar
     expect_equal(length(ret), 1)
@@ -25,56 +25,56 @@ spec_arrow_append_stream <- list(
   },
 
   #'
-  arrow_append_stream_missing = function(con, table_name) {
+  arrow_append_table_arrow_missing = function(con, table_name) {
     #' @section Failure modes:
     #' If the table does not exist,
     expect_false(dbExistsTable(con, table_name))
-    expect_error(dbAppendStream(con, table_name, stream_frame(a = 2L)))
+    expect_error(dbAppendTableArrow(con, table_name, stream_frame(a = 2L)))
   },
 
-  arrow_append_stream_invalid_value = function(con, table_name) {
+  arrow_append_table_arrow_invalid_value = function(con, table_name) {
     #' or the new data in `values` is not a data frame or has different column names,
     #' an error is raised; the remote table remains unchanged.
     test_in <- trivial_df()
-    dbCreateFromStream(con, table_name, test_in %>% stream_frame())
-    expect_error(dbAppendStream(con, table_name, test_in %>% stream_frame() %>% unclass()))
+    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
+    expect_error(dbAppendTableArrow(con, table_name, test_in %>% stream_frame() %>% unclass()))
 
     test_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_stream(test_out, test_in[0, , drop = FALSE])
+    expect_equal_arrow(test_out, test_in[0, , drop = FALSE])
   },
 
-  arrow_append_stream_append_incompatible = function(con, table_name) {
+  arrow_append_table_arrow_append_incompatible = function(con, table_name) {
     test_in <- trivial_df()
-    dbCreateFromStream(con, table_name, test_in %>% stream_frame())
-    dbAppendStream(con, table_name, test_in %>% stream_frame())
-    expect_error(dbAppendStream(con, table_name, stream_frame(b = 2L)))
+    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
+    dbAppendTableArrow(con, table_name, test_in %>% stream_frame())
+    expect_error(dbAppendTableArrow(con, table_name, stream_frame(b = 2L)))
 
     test_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_stream(test_out, test_in)
+    expect_equal_arrow(test_out, test_in)
   },
 
   #'
-  arrow_append_stream_closed_connection = function(ctx, closed_con) {
+  arrow_append_table_arrow_closed_connection = function(ctx, closed_con) {
     #' An error is raised when calling this method for a closed
-    expect_error(dbAppendStream(closed_con, "test", stream_frame(a = 1)))
+    expect_error(dbAppendTableArrow(closed_con, "test", stream_frame(a = 1)))
   },
 
-  arrow_append_stream_invalid_connection = function(ctx, invalid_con) {
+  arrow_append_table_arrow_invalid_connection = function(ctx, invalid_con) {
     #' or invalid connection.
-    expect_error(dbAppendStream(invalid_con, "test", stream_frame(a = 1)))
+    expect_error(dbAppendTableArrow(invalid_con, "test", stream_frame(a = 1)))
   },
 
-  arrow_append_stream_error = function(con, table_name) {
+  arrow_append_table_arrow_error = function(con, table_name) {
     #' An error is also raised
     test_in <- stream_frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
-    expect_error(dbAppendStream(con, NA, test_in))
+    expect_error(dbAppendTableArrow(con, NA, test_in))
     #' or if this results in a non-scalar.
-    expect_error(dbAppendStream(con, c("test", "test"), test_in))
+    expect_error(dbAppendTableArrow(con, c("test", "test"), test_in))
   },
 
   #'
-  arrow_append_stream_roundtrip_keywords = function(con) {
+  arrow_append_table_arrow_roundtrip_keywords = function(con) {
     skip("Requires dbBind() on RMariaDB")
 
     #' @section Specification:
@@ -83,10 +83,10 @@ spec_arrow_append_stream <- list(
       select = "unique", from = "join", where = "order",
       stringsAsFactors = FALSE
     )
-    test_stream_roundtrip(use_append = TRUE, con, tbl_in, name = "exists")
+    test_arrow_roundtrip(use_append = TRUE, con, tbl_in, name = "exists")
   },
 
-  arrow_append_stream_roundtrip_quotes = function(ctx, con, table_name) {
+  arrow_append_table_arrow_roundtrip_quotes = function(ctx, con, table_name) {
     skip("Requires dbBind() on RMariaDB")
 
     #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
@@ -101,10 +101,10 @@ spec_arrow_append_stream <- list(
     )
 
     names(tbl_in) <- letters[seq_along(tbl_in)]
-    test_stream_roundtrip(con, tbl_in, use_append = TRUE)
+    test_arrow_roundtrip(con, tbl_in, use_append = TRUE)
   },
 
-  arrow_append_stream_roundtrip_quotes_table_names = function(ctx, con) {
+  arrow_append_table_arrow_roundtrip_quotes_table_names = function(ctx, con) {
     #' and, if the database supports non-syntactic identifiers,
     #' also for table names
     if (isTRUE(ctx$tweaks$strict_identifier)) {
@@ -122,11 +122,11 @@ spec_arrow_append_stream <- list(
     tbl_in <- data.frame(trivial_df())
 
     for (table_name in table_names) {
-      test_stream_roundtrip_one(con, tbl_in, use_append = TRUE, .add_na = FALSE)
+      test_arrow_roundtrip_one(con, tbl_in, use_append = TRUE, .add_na = FALSE)
     }
   },
 
-  arrow_append_stream_roundtrip_quotes_column_names = function(ctx, con) {
+  arrow_append_table_arrow_roundtrip_quotes_column_names = function(ctx, con) {
     #' and column names.
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       skip("tweak: strict_identifier")
@@ -142,39 +142,39 @@ spec_arrow_append_stream <- list(
 
     tbl_in <- data.frame(trivial_df(length(column_names), column_names))
 
-    test_stream_roundtrip_one(con, tbl_in, use_append = TRUE, .add_na = FALSE)
+    test_arrow_roundtrip_one(con, tbl_in, use_append = TRUE, .add_na = FALSE)
   },
 
   #'
-  arrow_append_stream_roundtrip_integer = function(con) {
+  arrow_append_table_arrow_roundtrip_integer = function(con) {
     #' The following data types must be supported at least,
     #' and be read identically with [dbReadTable()]:
     #' - integer
     tbl_in <- data.frame(a = c(1:5))
-    test_stream_roundtrip(use_append = TRUE, con, tbl_in)
+    test_arrow_roundtrip(use_append = TRUE, con, tbl_in)
   },
 
-  arrow_append_stream_roundtrip_numeric = function(con) {
+  arrow_append_table_arrow_roundtrip_numeric = function(con) {
     #' - numeric
     tbl_in <- data.frame(a = c(seq(1, 3, by = 0.5)))
-    test_stream_roundtrip(use_append = TRUE, con, tbl_in)
+    test_arrow_roundtrip(use_append = TRUE, con, tbl_in)
     #'   (the behavior for `Inf` and `NaN` is not specified)
   },
 
-  arrow_append_stream_roundtrip_logical = function(ctx, con) {
+  arrow_append_table_arrow_roundtrip_logical = function(ctx, con) {
     skip("Fails in adbc")
 
     #' - logical
     tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
     tbl_exp <- tbl_in
     tbl_exp$a <- ctx$tweaks$logical_return(tbl_exp$a)
-    test_stream_roundtrip(use_append = TRUE, con, tbl_in, tbl_exp)
+    test_arrow_roundtrip(use_append = TRUE, con, tbl_in, tbl_exp)
   },
 
-  arrow_append_stream_roundtrip_null = function(con) {
+  arrow_append_table_arrow_roundtrip_null = function(con) {
     #' - `NA` as NULL
     tbl_in <- data.frame(a = NA)
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in,
       transform = function(tbl_out) {
@@ -185,9 +185,9 @@ spec_arrow_append_stream <- list(
   },
 
   #' - 64-bit values (using `"bigint"` as field type); the result can be
-  arrow_append_stream_roundtrip_64_bit_numeric = function(ctx, con) {
+  arrow_append_table_arrow_roundtrip_64_bit_numeric = function(ctx, con) {
     tbl_in <- data.frame(a = c(-1e14, 1e15))
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in,
       transform = function(tbl_out) {
@@ -198,13 +198,13 @@ spec_arrow_append_stream <- list(
     )
   },
   #
-  arrow_append_stream_roundtrip_64_bit_character = function(ctx, con) {
+  arrow_append_table_arrow_roundtrip_64_bit_character = function(ctx, con) {
     skip("Failed in SQLite")
 
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     tbl_exp <- tbl_in
     tbl_exp$a <- format(tbl_exp$a, scientific = FALSE)
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
@@ -216,17 +216,17 @@ spec_arrow_append_stream <- list(
     )
   },
   #
-  arrow_append_stream_roundtrip_64_bit_roundtrip = function(con, table_name) {
+  arrow_append_table_arrow_roundtrip_64_bit_roundtrip = function(con, table_name) {
     skip("Requires dbBind() on RMariaDB")
 
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     dbWriteTable(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
     tbl_out <- dbReadTable(con, table_name)
     #'     - written to another table and read again unchanged
-    test_stream_roundtrip(use_append = TRUE, con, tbl_out, tbl_expected = tbl_out)
+    test_arrow_roundtrip(use_append = TRUE, con, tbl_out, tbl_expected = tbl_out)
   },
 
-  arrow_append_stream_roundtrip_character = function(con) {
+  arrow_append_table_arrow_roundtrip_character = function(con) {
     skip("Requires dbBind() on RMariaDB")
 
     #' - character (in both UTF-8
@@ -235,10 +235,10 @@ spec_arrow_append_stream <- list(
       a = get_texts(),
       stringsAsFactors = FALSE
     )
-    test_stream_roundtrip(use_append = TRUE, con, tbl_in)
+    test_arrow_roundtrip(use_append = TRUE, con, tbl_in)
   },
 
-  arrow_append_stream_roundtrip_character_native = function(con) {
+  arrow_append_table_arrow_roundtrip_character_native = function(con) {
     skip("Requires dbBind() on RMariaDB")
 
     #'   and native encodings),
@@ -246,28 +246,28 @@ spec_arrow_append_stream <- list(
       a = c(enc2native(get_texts())),
       stringsAsFactors = FALSE
     )
-    test_stream_roundtrip(use_append = TRUE, con, tbl_in)
+    test_arrow_roundtrip(use_append = TRUE, con, tbl_in)
   },
 
-  arrow_append_stream_roundtrip_character_empty = function(con) {
+  arrow_append_table_arrow_roundtrip_character_empty = function(con) {
     #'   supporting empty strings
     tbl_in <- data.frame(
       a = c("", "a"),
       stringsAsFactors = FALSE
     )
-    test_stream_roundtrip(use_append = TRUE, con, tbl_in)
+    test_arrow_roundtrip(use_append = TRUE, con, tbl_in)
   },
 
-  arrow_append_stream_roundtrip_character_empty_after = function(con) {
+  arrow_append_table_arrow_roundtrip_character_empty_after = function(con) {
     #'   (before and after non-empty strings)
     tbl_in <- data.frame(
       a = c("a", ""),
       stringsAsFactors = FALSE
     )
-    test_stream_roundtrip(use_append = TRUE, con, tbl_in)
+    test_arrow_roundtrip(use_append = TRUE, con, tbl_in)
   },
 
-  arrow_append_stream_roundtrip_factor = function(con) {
+  arrow_append_table_arrow_roundtrip_factor = function(con) {
     skip("Failed in SQLite")
 
     #' - factor (returned as character,
@@ -279,12 +279,12 @@ spec_arrow_append_stream <- list(
     #'     with a warning)
     suppressWarnings(
       expect_warning(
-        test_stream_roundtrip(use_append = TRUE, con, tbl_in, tbl_exp)
+        test_arrow_roundtrip(use_append = TRUE, con, tbl_in, tbl_exp)
       )
     )
   },
 
-  arrow_append_stream_roundtrip_raw = function(ctx, con) {
+  arrow_append_table_arrow_roundtrip_raw = function(ctx, con) {
     skip("Failed in SQLite")
 
     #' - list of raw
@@ -296,7 +296,7 @@ spec_arrow_append_stream <- list(
     tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
     tbl_exp <- tbl_in
     tbl_exp$a <- blob::as_blob(unclass(tbl_in$a))
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
@@ -306,7 +306,7 @@ spec_arrow_append_stream <- list(
     )
   },
 
-  arrow_append_stream_roundtrip_blob = function(ctx, con) {
+  arrow_append_table_arrow_roundtrip_blob = function(ctx, con) {
     skip("Failed in SQLite")
 
     #' - objects of type [blob::blob]
@@ -316,7 +316,7 @@ spec_arrow_append_stream <- list(
     }
 
     tbl_in <- data.frame(id = 1L, a = blob::blob(as.raw(0:10)))
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in,
       transform = function(tbl_out) {
@@ -326,7 +326,7 @@ spec_arrow_append_stream <- list(
     )
   },
 
-  arrow_append_stream_roundtrip_date = function(ctx, con) {
+  arrow_append_table_arrow_roundtrip_date = function(ctx, con) {
     #' - date
     #'   (if supported by the database;
     if (!isTRUE(ctx$tweaks$date_typed)) {
@@ -335,7 +335,7 @@ spec_arrow_append_stream <- list(
 
     #'   returned as `Date`)
     tbl_in <- data.frame(a = as_numeric_date(c(Sys.Date() + 1:5)))
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in,
       transform = function(tbl_out) {
@@ -345,7 +345,7 @@ spec_arrow_append_stream <- list(
     )
   },
 
-  arrow_append_stream_roundtrip_date_extended = function(ctx, con) {
+  arrow_append_table_arrow_roundtrip_date_extended = function(ctx, con) {
     #'   also for dates prior to 1970 or 1900 or after 2038
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
@@ -363,7 +363,7 @@ spec_arrow_append_stream <- list(
       "2040-01-01",
       "2999-09-09"
     )))
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in,
       transform = function(tbl_out) {
@@ -373,7 +373,7 @@ spec_arrow_append_stream <- list(
     )
   },
 
-  arrow_append_stream_roundtrip_time = function(ctx, con) {
+  arrow_append_table_arrow_roundtrip_time = function(ctx, con) {
     #' - time
     #'   (if supported by the database;
     if (!isTRUE(ctx$tweaks$time_typed)) {
@@ -387,7 +387,7 @@ spec_arrow_append_stream <- list(
     tbl_exp$a <- hms::as_hms(tbl_exp$a)
     tbl_exp$b <- hms::as_hms(tbl_exp$b)
 
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
         #'   returned as objects that inherit from `difftime`)
@@ -400,7 +400,7 @@ spec_arrow_append_stream <- list(
     )
   },
 
-  arrow_append_stream_roundtrip_timestamp = function(ctx, con) {
+  arrow_append_table_arrow_roundtrip_timestamp = function(ctx, con) {
     skip("Fails in adbc")
 
     #' - timestamp
@@ -425,7 +425,7 @@ spec_arrow_append_stream <- list(
 
     #'   respecting the time zone but not necessarily preserving the
     #'   input time zone),
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in,
       transform = function(out) {
@@ -438,7 +438,7 @@ spec_arrow_append_stream <- list(
     )
   },
 
-  arrow_append_stream_roundtrip_timestamp_extended = function(ctx, con) {
+  arrow_append_table_arrow_roundtrip_timestamp_extended = function(ctx, con) {
     skip("Fails in adbc")
 
     #'   also for timestamps prior to 1970 or 1900 or after 2038
@@ -468,7 +468,7 @@ spec_arrow_append_stream <- list(
 
     #'   respecting the time zone but not necessarily preserving the
     #'   input time zone)
-    test_stream_roundtrip(
+    test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in,
       transform = function(out) {
@@ -482,7 +482,7 @@ spec_arrow_append_stream <- list(
   },
 
   #'
-  arrow_append_stream_roundtrip_mixed = function(con) {
+  arrow_append_table_arrow_roundtrip_mixed = function(con) {
     #' Mixing column types in the same table is supported.
     data <- list("a", 1L, 1.5)
     data <- lapply(data, c, NA)
@@ -494,10 +494,10 @@ spec_arrow_append_stream <- list(
       }
     )
 
-    lapply(tbl_in_list, test_stream_roundtrip, con = con)
+    lapply(tbl_in_list, test_arrow_roundtrip, con = con)
   },
 
-  arrow_append_stream_name = function(ctx, con) {
+  arrow_append_table_arrow_name = function(ctx, con) {
     #' @section Specification:
     #' The `name` argument is processed as follows,
     #' to support databases that allow non-syntactic names for their objects:
@@ -511,16 +511,16 @@ spec_arrow_append_stream <- list(
       test_in <- trivial_df()
 
       local_remove_test_table(con, table_name)
-      #' - If an unquoted table name as string: `dbAppendStream()` will do the quoting,
-      dbCreateFromStream(con, table_name, test_in %>% stream_frame())
-      dbAppendStream(con, table_name, test_in %>% stream_frame())
+      #' - If an unquoted table name as string: `dbAppendTableArrow()` will do the quoting,
+      dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
+      dbAppendTableArrow(con, table_name, test_in %>% stream_frame())
       test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
-      expect_equal_stream(test_out, test_in)
+      expect_equal_arrow(test_out, test_in)
       #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
     }
   },
 
-  arrow_append_stream_name_quoted = function(ctx, con) {
+  arrow_append_table_arrow_name_quoted = function(ctx, con) {
     #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
     if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
       skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
@@ -537,56 +537,56 @@ spec_arrow_append_stream <- list(
       test_in <- trivial_df()
 
       local_remove_test_table(con, table_name)
-      dbCreateFromStream(con, dbQuoteIdentifier(con, table_name), test_in %>% stream_frame())
-      dbAppendStream(con, dbQuoteIdentifier(con, table_name), test_in %>% stream_frame())
+      dbCreateTableArrow(con, dbQuoteIdentifier(con, table_name), test_in %>% stream_frame())
+      dbAppendTableArrow(con, dbQuoteIdentifier(con, table_name), test_in %>% stream_frame())
       test_out <- check_df(dbReadTable(con, table_name))
-      expect_equal_stream(test_out, test_in)
+      expect_equal_arrow(test_out, test_in)
     }
   },
 
   #'
-  arrow_append_stream_value_df = function(con, table_name) {
+  arrow_append_table_arrow_value_df = function(con, table_name) {
     #' @section Specification:
     #' The `value` argument must be a data frame
     test_in <- trivial_df()
-    dbCreateFromStream(con, table_name, test_in %>% stream_frame())
-    dbAppendStream(con, table_name, test_in %>% stream_frame())
+    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
+    dbAppendTableArrow(con, table_name, test_in %>% stream_frame())
 
     test_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_stream(test_out, test_in)
+    expect_equal_arrow(test_out, test_in)
   },
 
-  arrow_append_stream_value_subset = function(ctx, con, table_name) {
+  arrow_append_table_arrow_value_subset = function(ctx, con, table_name) {
     #' with a subset of the columns of the existing table.
     test_in <- trivial_df(3, letters[1:3])
-    dbCreateFromStream(con, table_name, test_in %>% stream_frame())
-    dbAppendStream(con, table_name, test_in %>% stream_frame(.select = c(2)))
+    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
+    dbAppendTableArrow(con, table_name, test_in %>% stream_frame(.select = c(2)))
 
     test_out <- check_df(dbReadTable(con, table_name))
 
     test_in[c(1, 3)] <- NA_real_
-    expect_equal_stream(test_out, test_in)
+    expect_equal_arrow(test_out, test_in)
   },
 
-  arrow_append_stream_value_shuffle = function(ctx, con, table_name) {
+  arrow_append_table_arrow_value_shuffle = function(ctx, con, table_name) {
     #' The order of the columns does not matter.
     test_in <- trivial_df(3, letters[1:3])
-    dbCreateFromStream(con, table_name, test_in %>% stream_frame())
-    dbAppendStream(con, table_name, test_in %>% stream_frame(.select = c(2, 3, 1)))
+    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
+    dbAppendTableArrow(con, table_name, test_in %>% stream_frame(.select = c(2, 3, 1)))
 
     test_out <- check_df(dbReadTable(con, table_name))
-    expect_equal_stream(test_out, test_in)
+    expect_equal_arrow(test_out, test_in)
   },
 
   #
-  arrow_append_stream_value_shuffle_subset = function(ctx, con, table_name) {
+  arrow_append_table_arrow_value_shuffle_subset = function(ctx, con, table_name) {
     test_in <- trivial_df(4, letters[1:4])
-    dbCreateFromStream(con, table_name, test_in %>% stream_frame())
-    dbAppendStream(con, table_name, test_in %>% stream_frame(.select = c(4, 1, 3)))
+    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
+    dbAppendTableArrow(con, table_name, test_in %>% stream_frame(.select = c(4, 1, 3)))
 
     test_out <- check_df(dbReadTable(con, table_name))
     test_in[2] <- NA_real_
-    expect_equal_stream(test_out, test_in)
+    expect_equal_arrow(test_out, test_in)
   },
 
   #

@@ -8,7 +8,7 @@
 \code{dbClearResult()} returns \code{TRUE}, invisibly, for result sets obtained from
 \code{dbSendQuery()},
 \code{dbSendStatement()},
-or \code{dbSendQueryStream()},
+or \code{dbSendQueryArrow()},
 }
 \description{
 spec_result_clear_result
@@ -18,7 +18,7 @@ spec_result_clear_result
 An attempt to close an already closed result set issues a warning
 for \code{dbSendQuery()},
 \code{dbSendStatement()},
-and \code{dbSendQueryStream()},
+and \code{dbSendQueryArrow()},
 }
 
 \section{Specification}{
@@ -40,13 +40,13 @@ Other result specifications:
 \code{\link{spec_result_send_statement}}
 
 Other Arrow specifications: 
-\code{\link{spec_arrow_append_stream}},
-\code{\link{spec_arrow_create_from_stream}},
-\code{\link{spec_arrow_get_stream}},
-\code{\link{spec_arrow_send_query_stream}},
-\code{\link{spec_arrow_stream_table}},
-\code{\link{spec_arrow_stream}},
-\code{\link{spec_arrow_write_stream}}
+\code{\link{spec_arrow_append_table_arrow}},
+\code{\link{spec_arrow_create_table_arrow}},
+\code{\link{spec_arrow_get_query_arrow}},
+\code{\link{spec_arrow_send_query_arrow}},
+\code{\link{spec_arrow_read_table_arrow}},
+\code{\link{spec_arrow_fetch_arrow}},
+\code{\link{spec_arrow_write_table_arrow}}
 }
 \concept{Arrow specifications}
 \concept{result specifications}

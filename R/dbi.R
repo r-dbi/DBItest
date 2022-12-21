@@ -36,13 +36,13 @@ dbi_generics <- function(version) {
 
   if (version < "1.7.4") {
     generics <- setdiff(generics, c(
-      "dbGetStream",
-      "dbAppendStream",
-      "dbStream",
-      "dbWriteStream",
-      "dbSendQueryStream",
-      "dbStreamTable",
-      "dbCreateFromStream"
+      "dbGetQueryArrow",
+      "dbAppendTableArrow",
+      "dbFetchArrow",
+      "dbWriteTableArrow",
+      "dbSendQueryArrow",
+      "dbReadTableArrow",
+      "dbCreateTableArrow"
     ))
   }
 

@@ -32,13 +32,13 @@
 ##### Arrow
 #' @include spec-arrow-roundtrip.R
 #' @include spec-arrow-bind.R
-#' @include spec-arrow-append-stream.R
-#' @include spec-arrow-create-from-stream.R
-#' @include spec-arrow-write-stream.R
-#' @include spec-arrow-stream-table.R
-#' @include spec-arrow-get-stream.R
-#' @include spec-arrow-stream.R
-#' @include spec-arrow-send-query-stream.R
+#' @include spec-arrow-append-table-arrow.R
+#' @include spec-arrow-create-table-arrow.R
+#' @include spec-arrow-write-table-arrow.R
+#' @include spec-arrow-read-table-arrow.R
+#' @include spec-arrow-get-query-arrow.R
+#' @include spec-arrow-fetch-arrow.R
+#' @include spec-arrow-send-query-arrow.R
 ##### Method specs
 #' @include spec-transaction-with-transaction.R
 #' @include spec-transaction-begin-commit-rollback.R
