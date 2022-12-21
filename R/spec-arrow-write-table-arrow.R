@@ -735,7 +735,7 @@ test_arrow_roundtrip <- function(...) {
 }
 
 test_arrow_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity,
-                                      name = NULL, use_append = FALSE, .add_na = "none") {
+                                     name = NULL, use_append = FALSE, .add_na = "none") {
   # Need data frames here because streams can be collected only once
   stopifnot(is.data.frame(tbl_in))
   stopifnot(is.data.frame(tbl_expected))
