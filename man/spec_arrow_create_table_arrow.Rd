@@ -66,10 +66,10 @@ if the database supports non-syntactic identifiers.
 \seealso{
 Other Arrow specifications: 
 \code{\link{spec_arrow_append_table_arrow}},
-\code{\link{spec_arrow_get_query_arrow}},
-\code{\link{spec_arrow_send_query_arrow}},
-\code{\link{spec_arrow_read_table_arrow}},
 \code{\link{spec_arrow_fetch_arrow}},
+\code{\link{spec_arrow_get_query_arrow}},
+\code{\link{spec_arrow_read_table_arrow}},
+\code{\link{spec_arrow_send_query_arrow}},
 \code{\link{spec_arrow_write_table_arrow}},
 \code{\link{spec_result_clear_result}}
 }
