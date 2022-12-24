@@ -1,5 +1,42 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# DBItest 1.7.3.9001 (2022-12-24)
+
+## Bug fixes
+
+- Fix `create_roundtrip_keywords` and `create_roundtrip_quotes` tests (#283).
+
+## Features
+
+- New `skip_if_not_dbitest()` (#289).
+
+- Reenable ODBC MySQL tests (#288).
+
+- Tweak read_table_missing test (#285).
+
+- `reexport` test uses interface for dev DBI if the backend is compatible with DBItest > 1.7.3.
+
+This reverts commit bbb444486d0b663a89e66dd61c8b5a97c8e18651.
+
+## Chore
+
+- Refactor: Prefer functions over constants (#270).
+
+- Make better use of `trivial_df()` (#284).
+
+## Uncategorized
+
+- Merge pull request #280 from r-dbi/f-ref-3.
+
+
+
+- Merge remote-tracking branch 'refs/remotes/origin/main'.
+
+
+- Merged cran-1.7.3 into main.
+
+
+
 # DBItest 1.7.3.9000 (2022-10-18)
 
 - Internal changes only.
