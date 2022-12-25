@@ -59,6 +59,11 @@ reference:
     - test_transaction
     - starts_with("spec_transaction")
 
+- title: Arrow functions
+  contents:
+    - test_arrow
+    - starts_with("spec_arrow")
+
 - title: Full compliance to DBI
   contents:
     - test_compliance

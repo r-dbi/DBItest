@@ -24,6 +24,7 @@ and test-first development right from the start.
 }
 \seealso{
 Other tests: 
+\code{\link{test_arrow}()},
 \code{\link{test_compliance}()},
 \code{\link{test_connection}()},
 \code{\link{test_driver}()},

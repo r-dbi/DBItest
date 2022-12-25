@@ -18,10 +18,11 @@ Depends:
 Imports: 
     blob (>= 1.2.0),
     callr,
-    DBI (>= 1.1.3),
+    DBI (>= 1.1.3.9004),
     desc,
     hms (>= 0.5.0),
     lubridate,
+    magrittr,
     methods,
     palmerpenguins,
     R6,
@@ -31,10 +32,12 @@ Imports:
     vctrs,
     withr
 Suggests: 
+    arrow,
     clipr,
     dblog (>= 0.0.0.9008),
     debugme,
     devtools,
+    dplyr,
     knitr,
     lintr,
     rmarkdown,
@@ -42,7 +45,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes: 
-    r-dbi/dblog
+    r-dbi/DBI
 Additional_repositories: https://r-dbi.r-universe.dev
 Config/autostyle/scope: line_breaks
 Config/autostyle/strict: false
@@ -102,6 +105,15 @@ Collate:
     'spec-meta-get-rows-affected.R'
     'spec-transaction-begin-commit-rollback.R'
     'spec-transaction-with-transaction.R'
+    'spec-arrow-send-query-arrow.R'
+    'spec-arrow-fetch-arrow.R'
+    'spec-arrow-get-query-arrow.R'
+    'spec-arrow-read-table-arrow.R'
+    'spec-arrow-write-table-arrow.R'
+    'spec-arrow-create-table-arrow.R'
+    'spec-arrow-append-table-arrow.R'
+    'spec-arrow-bind.R'
+    'spec-arrow-roundtrip.R'
     'spec-driver-get-info.R'
     'spec-connection-get-info.R'
     'spec-sql-list-fields.R'
@@ -112,6 +124,7 @@ Collate:
     'spec-result.R'
     'spec-sql.R'
     'spec-meta.R'
+    'spec-arrow.R'
     'spec-transaction.R'
     'spec-compliance.R'
     'spec-stress-connection.R'
@@ -126,6 +139,7 @@ Collate:
     'test-sql.R'
     'test-meta.R'
     'test-transaction.R'
+    'test-arrow.R'
     'test-compliance.R'
     'test-stress.R'
     'tweaks.R'

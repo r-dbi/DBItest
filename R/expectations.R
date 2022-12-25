@@ -80,6 +80,10 @@ expect_equal_df <- function(actual, expected) {
   expect_identical(actual, expected)
 }
 
+expect_equal_arrow <- function(actual, expected) {
+  expect_equal_df(as.data.frame(actual), as.data.frame(expected))
+}
+
 skip_if_not_dbitest <- function(ctx, version) {
   if (as.package_version(ctx$tweaks$dbitest_version) < version) {
     skip(paste0("tweak: dbitest_version: required: ", version, ", available: ", ctx$tweaks$dbitest_version))

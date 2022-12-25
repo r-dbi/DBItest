@@ -6,6 +6,7 @@ spec_all <- c(
   spec_sql,
   spec_meta,
   spec_transaction,
+  spec_arrow,
   spec_compliance,
   spec_stress
 )
