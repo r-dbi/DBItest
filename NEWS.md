@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# DBItest 1.7.3.9002 (2022-12-26)
+
+## Features
+
+- Basic tests for the new `db*Arrow()` interface (#287).
+
+
 # DBItest 1.7.3.9001 (2022-12-24)
 
 ## Bug fixes
