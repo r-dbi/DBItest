@@ -1,4 +1,9 @@
-<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+<!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
+
+# DBItest 1.7.3.9004 (2023-03-21)
+
+- Internal changes only.
+
 
 # DBItest 1.7.3.9003 (2022-12-30)
 
