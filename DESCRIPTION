@@ -32,7 +32,6 @@ Imports:
     vctrs,
     withr
 Suggests: 
-    arrow,
     clipr,
     dblog (>= 0.0.0.9008),
     debugme,
@@ -40,6 +39,7 @@ Suggests:
     dplyr,
     knitr,
     lintr,
+    nanoarrow,
     rmarkdown,
     RSQLite
 VignetteBuilder: 

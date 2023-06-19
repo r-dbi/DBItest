@@ -79,8 +79,8 @@ spec_arrow_fetch_arrow <- list(
 
   arrow_fetch_arrow_record_batch_reader = function(ctx, con) {
     #' The object returned by `dbFetchArrow()` can also be passed to
-    #' [arrow::as_record_batch_reader()] to create an Arrow
-    #' RecordBatchReader object that can be used to read the result set
+    #' [nanoarrow::as_nanoarrow_array_stream()] to create a nanoarrow
+    #' array stream object that can be used to read the result set
     #' in batches.
     query <- trivial_query(25, .ctx = ctx, .order_by = "a")
     result <- trivial_df(25)
@@ -88,11 +88,11 @@ spec_arrow_fetch_arrow <- list(
     res <- local_result(dbSendQueryArrow(con, query))
     stream <- dbFetchArrow(res)
 
-    rbr <- arrow::as_record_batch_reader(stream)
+    rbr <- nanoarrow::as_nanoarrow_array_stream(stream)
 
     #' The chunk size is implementation-specific.
     # Arrow returns a tibble when it shouldn't
-    out <- as.data.frame(as.data.frame(rbr$read_next_batch()))
+    out <- as.data.frame(as.data.frame(rbr$get_next()))
     expect_equal(out, head(result, nrow(out)))
   },
 
