@@ -24,6 +24,7 @@ Imports:
     lubridate,
     magrittr,
     methods,
+    nanoarrow,
     palmerpenguins,
     R6,
     rlang (>= 0.2.0),
@@ -39,7 +40,6 @@ Suggests:
     dplyr,
     knitr,
     lintr,
-    nanoarrow,
     rmarkdown,
     RSQLite
 VignetteBuilder: 
