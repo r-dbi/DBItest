@@ -1,5 +1,14 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.7.3.9006 (2023-08-30)
+
+## Chore
+
+- Try fixing odbc workflows.
+
+- Bump dependencies in GitHub actions.
+
+
 # DBItest 1.7.3.9005 (2023-03-24)
 
 - Internal changes only.
