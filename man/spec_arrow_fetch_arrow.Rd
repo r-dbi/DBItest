@@ -25,8 +25,8 @@ An attempt to fetch from a closed result set raises an error.
 Fetching multi-row queries with one
 or more columns by default returns the entire result.
 The object returned by \code{dbFetchArrow()} can also be passed to
-\code{\link[arrow:as_record_batch_reader]{arrow::as_record_batch_reader()}} to create an Arrow
-RecordBatchReader object that can be used to read the result set
+\code{\link[nanoarrow:as_nanoarrow_array_stream]{nanoarrow::as_nanoarrow_array_stream()}} to create a nanoarrow
+array stream object that can be used to read the result set
 in batches.
 The chunk size is implementation-specific.
 }

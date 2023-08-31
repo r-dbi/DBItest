@@ -24,6 +24,7 @@ Imports:
     lubridate,
     magrittr,
     methods,
+    nanoarrow,
     palmerpenguins,
     R6,
     rlang (>= 0.2.0),
@@ -32,7 +33,6 @@ Imports:
     vctrs,
     withr
 Suggests: 
-    arrow,
     clipr,
     dblog (>= 0.0.0.9008),
     debugme,
