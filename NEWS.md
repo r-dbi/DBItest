@@ -1,5 +1,16 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.7.3.9007 (2023-09-01)
+
+## Features
+
+- Switch to nanoarrow (#291).
+
+## Chore
+
+- Fix CI/CD (#295).
+
+
 # DBItest 1.7.3.9006 (2023-08-30)
 
 ## Chore
