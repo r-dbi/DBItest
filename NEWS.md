@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.7.3.9008 (2023-09-25)
+
+## Chore
+
+- Simplify workflow.
+
+
 # DBItest 1.7.3.9007 (2023-09-01)
 
 ## Features
