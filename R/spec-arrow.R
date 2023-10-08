@@ -13,13 +13,21 @@ spec_arrow <- c(
   NULL
 )
 
+utils::globalVariables("select")
+
 stream_frame <- function(..., .select = NULL) {
+  if (!is_installed("dplyr")) {
+    skip("dplyr is not installed")
+  }
+
   data <- data.frame(..., stringsAsFactors = FALSE)
 
-  if (!is.null(.select)) {
+  select <- enquo(.select)
+
+  if (!quo_is_null(.select)) {
     data <-
       data %>%
-      dplyr::select({{ .select }})
+      dplyr::select(!!select)
   }
 
   out <- nanoarrow::as_nanoarrow_array_stream(data)
