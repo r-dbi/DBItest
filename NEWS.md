@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.7.3.9009 (2023-10-09)
+
+## Bug fixes
+
+- Skip test if dplyr is not installed.
+
+
 # DBItest 1.7.3.9008 (2023-09-25)
 
 ## Chore
