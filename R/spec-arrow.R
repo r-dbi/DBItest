@@ -24,7 +24,7 @@ stream_frame <- function(..., .select = NULL) {
 
   select <- enquo(.select)
 
-  if (!quo_is_null(.select)) {
+  if (!quo_is_null(select)) {
     data <-
       data %>%
       dplyr::select(!!select)
