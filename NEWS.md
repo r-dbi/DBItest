@@ -1,5 +1,16 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.7.3.9010 (2023-10-30)
+
+## Bug fixes
+
+- Typo.
+
+## Chore
+
+- Adapt to changed duckdb directory.
+
+
 # DBItest 1.7.3.9009 (2023-10-09)
 
 ## Bug fixes
