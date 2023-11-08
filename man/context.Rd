@@ -49,6 +49,7 @@ to \code{\link[=test_all]{test_all()}}  and other testing functions.}
 Create a test context, set and query the default context.
 }
 \examples{
+\dontshow{if (requireNamespace("RSQLite", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 make_context(
   new(
     "DBIConnector",
@@ -68,4 +69,5 @@ make_context(
   ),
   default_skip = c("roundtrip_date", "roundtrip_timestamp")
 )
+\dontshow{\}) # examplesIf}
 }

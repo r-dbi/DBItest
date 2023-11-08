@@ -3,7 +3,7 @@ all: test
 TESTTHAT_REPORTER ?= testthat::ProgressReporter\$$new(max_failures = Inf, update_interval = Inf)
 
 # The REVDEP definition also decides what is run on GitHub Actions in backends.yaml
-REVDEP := RMariaDB RSQLite RPostgres RKazam duckdb-r odbc-SQLServer odbc-MySQL odbc-PostgreSQL odbc-SQLite
+REVDEP := RMariaDB RSQLite RPostgres RKazam duckdb odbc-SQLServer odbc-MySQL odbc-PostgreSQL odbc-SQLite
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
 
 LIB_DIR := $(shell Rscript -e "cat(.libPaths()[1])")
@@ -18,9 +18,9 @@ RKazam RSQLite RPostgres RMySQL RMariaDB odbc:
 odbc-%: odbc
 	@true
 
-duckdb-r:
+duckdb:
 	# Use local checkout if available, otherwise clone from duckdb GitHub
-	if [ -d ../../$@ ]; then ln -s $$(realpath ../../$@) $@; else git clone https://github.com/duckdb/$@.git; fi
+	if [ -d ../../$@ ]; then ln -s $$(realpath ../../$@) $@; else git clone https://github.com/duckdb/$@-r.git $@; fi
 	head $@/DESCRIPTION
 
 bigrquery:
