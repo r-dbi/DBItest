@@ -1,5 +1,20 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.7.3.9011 (2023-11-09)
+
+## Chore
+
+- Add Aviator configuration.
+
+## Documentation
+
+- Avoid error if RSQLite is not installed.
+
+## Testing
+
+- Fix checks without suggested packages (#300).
+
+
 # DBItest 1.7.3.9010 (2023-10-30)
 
 ## Bug fixes
