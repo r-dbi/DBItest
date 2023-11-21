@@ -16,10 +16,16 @@ spec_result <- c(
 # Helpers -----------------------------------------------------------------
 
 sql_union <- function(..., .order_by = NULL, .ctx) {
-  query <- .ctx$tweaks$union(c(...))
+  queries <- c(...)
+  if (length(queries) == 1) {
+    query <- queries
+  } else {
+    stopifnot(!is.null(.ctx))
+    query <- .ctx$tweaks$union(queries)
+  }
 
-  if (!missing(.order_by)) {
-    query <- paste(query, "ORDER BY", .order_by)
+  if (!is.null(.order_by)) {
+    query <- paste0(query, " ORDER BY ", .order_by)
   }
   query
 }
