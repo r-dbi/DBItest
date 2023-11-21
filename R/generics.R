@@ -19,6 +19,7 @@ all_dbi_generics <- function() {
     "dbExistsTable",
     "dbFetch",
     "dbFetchArrow",
+    "dbFetchArrowChunk",
     "dbGetInfo",
     "dbGetQuery",
     "dbGetQueryArrow",
