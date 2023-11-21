@@ -31,8 +31,6 @@ spec_arrow_fetch_arrow <- list(
   },
 
   arrow_fetch_arrow_zero_rows = function(con) {
-    skip("Causes segfault in adbc")
-
     #' or zero rows.
     query <-
       "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
