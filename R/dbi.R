@@ -39,6 +39,7 @@ dbi_generics <- function(version) {
       "dbGetQueryArrow",
       "dbAppendTableArrow",
       "dbFetchArrow",
+      "dbFetchArrowChunk",
       "dbWriteTableArrow",
       "dbSendQueryArrow",
       "dbReadTableArrow",
