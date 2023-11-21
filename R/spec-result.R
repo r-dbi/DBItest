@@ -35,6 +35,8 @@ trivial_statement <- function(ctx, table_name) {
 }
 
 trivial_query <- function(n = 1L, column = "a", .order_by = NULL, .ctx = NULL) {
+  # Zero-row queries are hard-coded, search for 1 = 0
+  stopifnot(n > 0)
   value <- trivial_values(n)
   if (length(column) == n) {
     query <- paste0("SELECT ", paste0(value, " AS ", column, collapse = ", "))
