@@ -20,7 +20,7 @@ odbc-%: odbc
 
 duckdb:
 	# Use local checkout if available, otherwise clone from duckdb GitHub
-	if [ -d ../../$@ ]; then ln -s $$(realpath ../../$@) $@; else git clone https://github.com/duckdb/$@-r.git $@; fi
+	if [ -d ../../../$@-r ]; then ln -s $$(realpath ../../../$@-r) $@; else git clone https://github.com/duckdb/$@-r.git $@; fi
 	head $@/DESCRIPTION
 
 bigrquery:
