@@ -1,5 +1,20 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.7.3.9012 (2023-11-22)
+
+## Chore
+
+- No longer need `as.data.frame()` twice for Arrow (#302).
+
+- Breadcrumbs (#305).
+
+- Align paths to duckdb in `Makefile` (#306).
+
+- Modernize `sql_union()` (#304).
+
+- Add new `dbFetchArrowChunk()` generic (#301).
+
+
 # DBItest 1.7.3.9011 (2023-11-09)
 
 ## Chore
