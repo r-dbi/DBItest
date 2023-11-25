@@ -264,9 +264,16 @@ test_select_with_null <- function(...) {
   test_select(..., .add_null = "below")
 }
 
+as_list_with_preserve_class <- function(x) {
+  lapply(x, `class<-`, attr(x, "class"))
+}
+
 test_select <- function(con, ..., .dots = NULL, .add_null = "none",
                         .ctx, .envir = parent.frame()) {
-  values <- c(list(...), .dots)
+  values <- c(
+    as_list_with_preserve_class(list(...)),
+    as_list_with_preserve_class(.dots)
+  )
 
   value_is_formula <- vapply(values, is.call, logical(1L))
   names(values)[value_is_formula] <- lapply(values[value_is_formula], "[[", 2L)
