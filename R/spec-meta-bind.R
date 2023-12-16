@@ -36,112 +36,154 @@ spec_meta_bind <- list(
   },
   #
   bind_too_many = function(ctx, con) {
+    patch_bind_values <- function(bind_values) {
+      #' Binding too many
+      if (is.null(names(bind_values))) {
+        c(bind_values, bind_values[[1L]])
+      } else {
+        c(bind_values, bogus = bind_values[[1L]])
+      }
+    }
     extra <- new_bind_tester_extra(
-      patch_bind_values = function(bind_values) {
-        #' Binding too many
-        if (is.null(names(bind_values))) {
-          c(bind_values, bind_values[[1L]])
-        } else {
-          c(bind_values, bogus = bind_values[[1L]])
-        }
-      },
       bind_error = function() ".*"
     )
-    test_select_bind(con, ctx, 1L, extra = extra)
+    test_select_bind(
+      con,
+      ctx,
+      1L,
+      patch_bind_values = patch_bind_values,
+      extra = extra
+    )
   },
   #
   bind_not_enough = function(ctx, con) {
+    patch_bind_values <- function(bind_values) {
+      #' or not enough values,
+      bind_values[-1L]
+    }
     extra <- new_bind_tester_extra(
-      patch_bind_values = function(bind_values) {
-        #' or not enough values,
-        bind_values[-1L]
-      },
       bind_error = function() ".*"
     )
-    test_select_bind(con, ctx, 1L, extra = extra)
+    test_select_bind(
+      con,
+      ctx,
+      1L,
+      patch_bind_values = patch_bind_values,
+      extra = extra
+    )
   },
   #
   bind_wrong_name = function(ctx, con) {
+    patch_bind_values <- function(bind_values) {
+      #' or parameters with wrong names
+      stats::setNames(bind_values, paste0("bogus", names(bind_values)))
+    }
     extra <- new_bind_tester_extra(
-      patch_bind_values = function(bind_values) {
-        #' or parameters with wrong names
-        stats::setNames(bind_values, paste0("bogus", names(bind_values)))
-      },
       #
-      requires_names = function() TRUE,
       bind_error = function() ".*"
     )
-    test_select_bind(con, ctx, 1L, extra = extra)
+    test_select_bind(
+      con,
+      ctx,
+      1L,
+      patch_bind_values = patch_bind_values,
+      requires_names = TRUE,
+      extra = extra
+    )
   },
   #
   bind_multi_row_unequal_length = function(ctx, con) {
+    patch_bind_values <- function(bind_values) {
+      #' or unequal length,
+      bind_values[[2]] <- bind_values[[2]][-1]
+      bind_values
+    }
     extra <- new_bind_tester_extra(
-      patch_bind_values = function(bind_values) {
-        #' or unequal length,
-        bind_values[[2]] <- bind_values[[2]][-1]
-        bind_values
-      },
       bind_error = function() ".*"
     )
     #' also raises an error.
     test_select_bind(
-      con, ctx, list(1:3, 2:4),
-      extra = extra, query = FALSE
+      con,
+      ctx,
+      list(1:3, 2:4),
+      patch_bind_values = patch_bind_values,
+      extra = extra,
+      query = FALSE
     )
   },
 
   bind_named_param_unnamed_placeholders = function(ctx, con) {
     #' If the placeholders in the query are named,
+    patch_bind_values <- function(bind_values) {
+      #' all parameter values must have names
+      stats::setNames(bind_values, NULL)
+    }
     extra <- new_bind_tester_extra(
-      patch_bind_values = function(bind_values) {
-        #' all parameter values must have names
-        stats::setNames(bind_values, NULL)
-      },
-      bind_error = function() ".*",
-      #
-      requires_names = function() TRUE
+      bind_error = function() ".*"
     )
-    test_select_bind(con, ctx, 1L, extra = extra)
+    test_select_bind(
+      con,
+      ctx,
+      1L,
+      patch_bind_values = patch_bind_values,
+      requires_names = TRUE,
+      extra = extra
+    )
   },
   #
   bind_named_param_empty_placeholders = function(ctx, con) {
+    patch_bind_values <- function(bind_values) {
+      #' (which must not be empty
+      names(bind_values)[[1]] <- ""
+    }
     extra <- new_bind_tester_extra(
-      patch_bind_values = function(bind_values) {
-        #' (which must not be empty
-        names(bind_values)[[1]] <- ""
-      },
-      bind_error = function() ".*",
-      #
-      requires_names = function() TRUE
+      bind_error = function() ".*"
     )
-    test_select_bind(con, ctx, list(1L, 2L), extra = extra)
+    test_select_bind(
+      con,
+      ctx,
+      list(1L, 2L),
+      patch_bind_values = patch_bind_values,
+      requires_names = TRUE,
+      extra = extra
+    )
   },
   #
   bind_named_param_na_placeholders = function(ctx, con) {
+    patch_bind_values = function(bind_values) {
+      #' or `NA`),
+      names(bind_values)[[1]] <- NA
+    }
     extra <- new_bind_tester_extra(
-      patch_bind_values = function(bind_values) {
-        #' or `NA`),
-        names(bind_values)[[1]] <- NA
-      },
-      bind_error = function() ".*",
-      #
-      requires_names = function() TRUE
+      bind_error = function() ".*"
     )
-    test_select_bind(con, ctx, list(1L, 2L), extra = extra)
+    test_select_bind(
+      con,
+      ctx,
+      list(1L, 2L),
+      patch_bind_values = patch_bind_values,
+      requires_names = TRUE,
+      extra = extra
+    )
   },
 
   bind_unnamed_param_named_placeholders = function(ctx, con) {
     #' and vice versa,
+    patch_bind_values <- function(bind_values) {
+      stats::setNames(bind_values, letters[seq_along(bind_values)])
+    }
     extra <- new_bind_tester_extra(
-      patch_bind_values = function(bind_values) {
-        stats::setNames(bind_values, letters[seq_along(bind_values)])
-      },
-      bind_error = function() ".*",
-      #
-      requires_names = function() FALSE
+      bind_error = function() ".*"
     )
     #' otherwise an error is raised.
-    test_select_bind(con, ctx, 1L, extra = extra)
+    test_select_bind(
+      con,
+      ctx,
+      1L,
+      patch_bind_values = patch_bind_values,
+      requires_names = FALSE,
+      extra = extra
+    )
   },
 
   #' The behavior for mixing placeholders of different types
@@ -209,15 +251,17 @@ spec_meta_bind <- list(
   #'
   bind_named_param_shuffle = function(ctx, con) {
     #' If the placeholders in the query are named,
-    extra <- new_bind_tester_extra(
-      patch_bind_values = function(bind_values) {
-        #' their order in the `params` argument is not important.
-        bind_values[c(3, 1, 2, 4)]
-      },
-      #
-      requires_names = function() TRUE
+    patch_bind_values <- function(bind_values) {
+      #' their order in the `params` argument is not important.
+      bind_values[c(3, 1, 2, 4)]
+    }
+    test_select_bind(
+      con,
+      ctx,
+      c(1:3 + 0.5, NA),
+      patch_bind_values = patch_bind_values,
+      requires_names = TRUE
     )
-    test_select_bind(con, ctx, c(1:3 + 0.5, NA), extra = extra)
   },
 
   #'

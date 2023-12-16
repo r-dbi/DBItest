@@ -38,6 +38,8 @@ test_select_bind_one <- function(
     # Spec time
     values,
     query = TRUE,
+    patch_bind_values = identity,
+    requires_names = NULL,
     is_repeated = FALSE,
     is_premature_clear = FALSE,
     extra = "none") {
@@ -52,6 +54,8 @@ test_select_bind_one <- function(
     allow_na_rows_affected = allow_na_rows_affected,
     values = values,
     query = query,
+    patch_bind_values = patch_bind_values,
+    requires_names = requires_names,
     is_repeated = is_repeated,
     is_premature_clear = is_premature_clear,
     extra_obj = new_extra_imp(extra)

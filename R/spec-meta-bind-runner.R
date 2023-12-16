@@ -20,6 +20,8 @@ run_bind_tester$fun <- function(
     # Spec time
     values,
     query,
+    patch_bind_values,
+    requires_names,
     is_repeated,
     is_premature_clear,
     extra_obj) {
@@ -30,6 +32,8 @@ run_bind_tester$fun <- function(
   force(allow_na_rows_affected)
   force(values)
   force(query)
+  force(patch_bind_values)
+  force(requires_names)
   force(is_repeated)
   force(is_premature_clear)
   force(extra_obj)
@@ -82,7 +86,7 @@ run_bind_tester$fun <- function(
   }
   #
   bind <- function(res, bind_values) {
-    bind_values <- extra_obj$patch_bind_values(bind_values)
+    bind_values <- patch_bind_values(bind_values)
     bind_error <- extra_obj$bind_error()
     expect_error(bind_res <- withVisible(dbBind(res, bind_values)), bind_error)
 
@@ -113,12 +117,12 @@ run_bind_tester$fun <- function(
   }
 
   # run_bind_tester$fun()
-  if ((extra_obj$requires_names() %in% TRUE) && is.null(names(placeholder_fun(1)))) {
+  if (isTRUE(requires_names) && is.null(names(placeholder_fun(1)))) {
     # test only valid for named placeholders
     return()
   }
 
-  if ((extra_obj$requires_names() %in% FALSE) && !is.null(names(placeholder_fun(1)))) {
+  if (isFALSE(requires_names) && !is.null(names(placeholder_fun(1)))) {
     # test only valid for unnamed placeholders
     return()
   }
@@ -179,7 +183,7 @@ run_bind_tester$fun <- function(
 
   # Safety net: returning early if dbBind() should have thrown an error but
   # didn't
-  if (!identical(bind_values, extra_obj$patch_bind_values(bind_values))) {
+  if (!identical(bind_values, patch_bind_values(bind_values))) {
     return()
   }
   if (is_premature_clear) {
