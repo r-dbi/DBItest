@@ -16,3 +16,4 @@
 ^CRAN-SUBMISSION$
 ^\.vscode$
 ^\.aviator/config\.yml$
+^tests/testthat/helper-dev\.R$
