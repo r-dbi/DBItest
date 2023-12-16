@@ -1,10 +1,11 @@
 # Helpers -----------------------------------------------------------------
 
-test_select_bind <- function(con, ctx, ...) {
+test_select_bind <- function(con, ctx, values, ...) {
   lapply(
     get_placeholder_funs(ctx),
     test_select_bind_one,
     con = con,
+    values = values,
     is_null_check = ctx$tweaks$is_null_check,
     allow_na_rows_affected = ctx$tweaks$allow_na_rows_affected,
     ...
@@ -30,6 +31,7 @@ test_select_bind_one <- function(
     # Run time
     con,
     placeholder_fun,
+    ...,
     is_null_check,
     cast_fun = identity,
     allow_na_rows_affected = FALSE,
@@ -37,6 +39,8 @@ test_select_bind_one <- function(
     values,
     query = TRUE,
     extra = "none") {
+
+  rlang::check_dots_empty()
 
   run_bind_tester$fun(
     con,
