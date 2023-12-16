@@ -24,7 +24,6 @@ run_bind_tester$fun <- function(
     check_return_value,
     patch_bind_values,
     bind_error,
-    requires_names,
     is_repeated,
     is_premature_clear,
     is_untouched) {
@@ -39,7 +38,6 @@ run_bind_tester$fun <- function(
   force(check_return_value)
   force(patch_bind_values)
   force(bind_error)
-  force(requires_names)
   force(is_repeated)
   force(is_premature_clear)
   force(is_untouched)
@@ -49,17 +47,6 @@ run_bind_tester$fun <- function(
   })
 
   rlang::eval_bare(skip_expr)
-
-  # run_bind_tester$fun()
-  if (isTRUE(requires_names) && is.null(names(placeholder_fun(1)))) {
-    # test only valid for named placeholders
-    return()
-  }
-
-  if (isFALSE(requires_names) && !is.null(names(placeholder_fun(1)))) {
-    # test only valid for unnamed placeholders
-    return()
-  }
 
   #' 1. Call [dbSendQuery()] or [dbSendStatement()] with a query or statement
   #'    that contains placeholders,
