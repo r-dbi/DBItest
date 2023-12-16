@@ -35,16 +35,17 @@ test_select_bind_one <- function(
     extra = "none",
     cast_fun = identity,
     allow_na_rows_affected = FALSE) {
-  bind_tester <- BindTester$new(con)
-  bind_tester$placeholder_fun <- placeholder_fun
-  bind_tester$is_null_check <- is_null_check
-  bind_tester$cast_fun <- cast_fun
-  bind_tester$allow_na_rows_affected <- allow_na_rows_affected
-  bind_tester$values <- values
-  bind_tester$query <- query
-  bind_tester$extra_obj <- new_extra_imp(extra)
 
-  bind_tester$run()
+  run_bind_tester$fun(
+    con,
+    placeholder_fun = placeholder_fun,
+    is_null_check = is_null_check,
+    cast_fun = cast_fun,
+    allow_na_rows_affected = allow_na_rows_affected,
+    values = values,
+    query = query,
+    extra_obj = new_extra_imp(extra)
+  )
 }
 
 new_extra_imp <- function(extra) {

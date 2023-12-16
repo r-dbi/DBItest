@@ -9,7 +9,25 @@ run_bind_tester <- list()
 #' @section Specification:
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'
-run_bind_tester$fun <- function() {
+run_bind_tester$fun <- function(
+    con,
+    ...,
+    placeholder_fun,
+    is_null_check,
+    cast_fun,
+    allow_na_rows_affected,
+    values,
+    query,
+    extra_obj) {
+  rlang::check_dots_empty()
+  force(placeholder_fun)
+  force(is_null_check)
+  force(cast_fun)
+  force(allow_na_rows_affected)
+  force(values)
+  force(query)
+  force(extra_obj)
+
   # From R6 class
   is_query <- function() {
     query
