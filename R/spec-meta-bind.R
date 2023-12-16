@@ -222,14 +222,25 @@ spec_meta_bind <- list(
   bind_repeated_untouched = function(ctx, con) {
     #' even if no results are fetched between calls to `dbBind()`,
     is_repeated <- TRUE
-    extra <- new_bind_tester_extra(
-      is_untouched = function() TRUE
-    )
+    is_untouched <- TRUE
 
     #' for both queries
-    test_select_bind(con, ctx, 1L, is_repeated = is_repeated, extra = extra)
+    test_select_bind(
+      con,
+      ctx,
+      1L,
+      is_repeated = is_repeated,
+      is_untouched = is_untouched
+    )
     #' and data manipulation statements.
-    test_select_bind(con, ctx, 1L, is_repeated = is_repeated, extra = extra, query = FALSE)
+    test_select_bind(
+      con,
+      ctx,
+      1L,
+      is_repeated = is_repeated,
+      is_untouched = is_untouched,
+      query = FALSE
+    )
   },
 
   #'

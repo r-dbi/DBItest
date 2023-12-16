@@ -26,6 +26,7 @@ run_bind_tester$fun <- function(
     requires_names,
     is_repeated,
     is_premature_clear,
+    is_untouched,
     extra_obj) {
   rlang::check_dots_empty()
   force(placeholder_fun)
@@ -40,6 +41,7 @@ run_bind_tester$fun <- function(
   force(requires_names)
   force(is_repeated)
   force(is_premature_clear)
+  force(is_untouched)
   force(extra_obj)
 
   # From R6 class
@@ -210,7 +212,7 @@ run_bind_tester$fun <- function(
     }
   }
 
-  if (!extra_obj$is_untouched()) retrieve()
+  if (!is_untouched) retrieve()
 
   #' 1. Repeat 2. and 3. as necessary.
   if (is_repeated) {

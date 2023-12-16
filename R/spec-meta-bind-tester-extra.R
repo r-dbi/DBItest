@@ -3,7 +3,6 @@ BindTesterExtra <- R6::R6Class(
   portable = TRUE,
   #
   public = list(
-    is_untouched = function() FALSE
   )
 )
 

@@ -44,6 +44,7 @@ test_select_bind_one <- function(
     requires_names = NULL,
     is_repeated = FALSE,
     is_premature_clear = FALSE,
+    is_untouched = FALSE,
     extra = "none") {
 
   rlang::check_dots_empty()
@@ -62,6 +63,7 @@ test_select_bind_one <- function(
     requires_names = requires_names,
     is_repeated = is_repeated,
     is_premature_clear = is_premature_clear,
+    is_untouched = is_untouched,
     extra_obj = new_extra_imp(extra)
   )
 }
