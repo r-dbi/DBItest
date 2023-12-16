@@ -101,6 +101,10 @@
     #'   Set to `FALSE` if the DBMS doesn't support listing temporary tables.
     "list_temporary_tables" = TRUE,
 
+    #' @param allow_na_rows_affected `[logical(1L)]`\cr
+    #'   Set to `TRUE` to allow [dbGetRowsAffected()] to return `NA`.
+    "allow_na_rows_affected" = FALSE,
+
     #' @param is_null_check `[function(character)]`\cr
     #'   A vectorized function that creates an SQL expression for checking if a
     #'   value is `NULL`.

@@ -23,6 +23,7 @@ tweaks(
   timestamp_typed = TRUE,
   temporary_tables = TRUE,
   list_temporary_tables = TRUE,
+  allow_na_rows_affected = FALSE,
   is_null_check = function(x) paste0("(", x, " IS NULL)"),
   create_table_as = function(table_name, query) paste0("CREATE TABLE ", table_name,
     " AS ", query),
@@ -98,6 +99,9 @@ Set to \code{FALSE} if the DBMS doesn't support temporary tables.}
 
 \item{list_temporary_tables}{\verb{[logical(1L)]}\cr
 Set to \code{FALSE} if the DBMS doesn't support listing temporary tables.}
+
+\item{allow_na_rows_affected}{\verb{[logical(1L)]}\cr
+Set to \code{TRUE} to allow \code{\link[=dbGetRowsAffected]{dbGetRowsAffected()}} to return \code{NA}.}
 
 \item{is_null_check}{\verb{[function(character)]}\cr
 A vectorized function that creates an SQL expression for checking if a

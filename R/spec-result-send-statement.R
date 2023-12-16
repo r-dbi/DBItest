@@ -118,7 +118,12 @@ spec_result_send_statement <- list(
       values <- 1.5
       params <- stats::setNames(list(values), names(placeholder))
       rs <- dbSendStatement(con, query, params = params)
-      expect_equal(dbGetRowsAffected(rs), 2, info = placeholder)
+      rc <- dbGetRowsAffected(rs)
+      if (isTRUE(ctx$tweaks$allow_na_rows_affected)) {
+        expect_true((is.na(rc) && is.numeric(rc)) || rc == 2L, info = placeholder)
+      } else {
+        expect_equal(rc, 2L, info = placeholder)
+      }
       dbClearResult(rs)
     }
   },
