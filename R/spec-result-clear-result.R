@@ -26,7 +26,7 @@ spec_result_clear_result <- list(
 
   clear_result_return_query_arrow = function(ctx, con, table_name) {
     # Failed on SQL Server
-    skip_if_not_dbitest(ctx, "1.7.4")
+    skip_if_not_dbitest(ctx, "1.7.99.3")
 
     #' or `dbSendQueryArrow()`,
     res <- dbSendQueryArrow(con, ctx$tweaks$create_table_as(table_name, "SELECT 1"))
@@ -52,7 +52,7 @@ spec_result_clear_result <- list(
 
   cannot_clear_result_twice_query_arrow = function(ctx, con, table_name) {
     # Failed on SQL Server
-    skip_if_not_dbitest(ctx, "1.7.4")
+    skip_if_not_dbitest(ctx, "1.7.99.4")
 
     #' and `dbSendQueryArrow()`,
     res <- dbSendQueryArrow(con, ctx$tweaks$create_table_as(table_name, "SELECT 1"))
