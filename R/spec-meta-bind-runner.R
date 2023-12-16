@@ -26,8 +26,7 @@ run_bind_tester$fun <- function(
     requires_names,
     is_repeated,
     is_premature_clear,
-    is_untouched,
-    extra_obj) {
+    is_untouched) {
   rlang::check_dots_empty()
   force(placeholder_fun)
   force(is_null_check)
@@ -42,7 +41,6 @@ run_bind_tester$fun <- function(
   force(is_repeated)
   force(is_premature_clear)
   force(is_untouched)
-  force(extra_obj)
 
   # From R6 class
   is_query <- function() {

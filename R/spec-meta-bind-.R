@@ -44,8 +44,7 @@ test_select_bind_one <- function(
     requires_names = NULL,
     is_repeated = FALSE,
     is_premature_clear = FALSE,
-    is_untouched = FALSE,
-    extra = "none") {
+    is_untouched = FALSE) {
 
   rlang::check_dots_empty()
 
@@ -63,31 +62,8 @@ test_select_bind_one <- function(
     requires_names = requires_names,
     is_repeated = is_repeated,
     is_premature_clear = is_premature_clear,
-    is_untouched = is_untouched,
-    extra_obj = new_extra_imp(extra)
+    is_untouched = is_untouched
   )
-}
-
-new_extra_imp <- function(extra) {
-  if (is.environment(extra)) {
-    extra$new()
-  } else if (length(extra) == 0) {
-    new_extra_imp_one("none")
-  } else if (length(extra) == 1) {
-    new_extra_imp_one(extra)
-  } else {
-    stop("need BindTesterExtraMulti")
-    # BindTesterExtraMulti$new(lapply(extra, new_extra_imp_one))
-  }
-}
-
-new_extra_imp_one <- function(extra) {
-  extra_imp <- switch(extra,
-    none = BindTesterExtra,
-    stop("Unknown extra: ", extra, call. = FALSE)
-  )
-
-  extra_imp$new()
 }
 
 
