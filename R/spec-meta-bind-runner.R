@@ -98,7 +98,7 @@ run_bind_tester$fun <- function(
     dbClearResult(res)
   }) else {
     on_exit_expr <- rlang::expr({
-      on.exit(expect_error(dbClearResult(res), NA))
+      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
     })
 
     #'    Until `dbBind()` has been called, the returned result set object has the
@@ -194,6 +194,10 @@ run_bind_tester$fun <- function(
   })
 
   #' 1. Close the result set via [dbClearResult()].
+  clear_now_expr <- rlang::expr({
+    expect_error(dbClearResult(res), NA)
+    res <- NULL
+  })
 
   early_exit <-
     is_premature_clear ||
@@ -203,6 +207,7 @@ run_bind_tester$fun <- function(
   post_bind_expr <- if (!early_exit) rlang::expr({
     !!not_untouched_expr
     !!repeated_expr
+    !!clear_now_expr
   })
 
   test_expr <- rlang::expr({
