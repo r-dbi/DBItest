@@ -39,6 +39,19 @@ spec_result_fetch <- list(
     expect_identical(class(rows), "data.frame")
   },
 
+  fetch_na_rows = function(ctx, con) {
+    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.4") {
+      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
+    }
+
+    #' Passing `n = NA` is supported and returns an arbitrary number of rows (at least one)
+    #' as specified by the driver, but at most the remaining rows in the result set.
+    query <- trivial_query()
+    res <- local_result(dbSendQuery(con, query))
+    rows <- check_df(dbFetch(res, n = NA))
+    expect_equal(rows, data.frame(a = 1.5))
+  },
+
   #'
   fetch_closed = function(con) {
     #' @section Failure modes:
@@ -60,19 +73,19 @@ spec_result_fetch <- list(
     expect_error(dbFetch(res, 1.5))
     expect_error(dbFetch(res, integer()))
     expect_error(dbFetch(res, 1:3))
-    expect_error(dbFetch(res, NA_integer_))
   },
 
   fetch_n_good_after_bad = function(con) {
     #' but a subsequent call to `dbFetch()` with proper `n` argument succeeds.
     query <- trivial_query()
     res <- local_result(dbSendQuery(con, query))
-    expect_error(dbFetch(res, NA_integer_))
+    expect_error(dbFetch(res, -2))
     rows <- check_df(dbFetch(res))
     expect_equal(rows, data.frame(a = 1.5))
   },
 
   fetch_no_return_value = function(con, table_name) {
+    #'
     #' Calling `dbFetch()` on a result set from a data manipulation query
     #' created by [dbSendStatement()]
     #' can be fetched and return an empty data frame, with a warning.
