@@ -162,8 +162,6 @@ spec_arrow_append_table_arrow <- list(
   },
 
   arrow_append_table_arrow_roundtrip_logical = function(ctx, con) {
-    skip("Fails in adbc")
-
     #' - logical
     tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
     tbl_exp <- tbl_in
@@ -401,8 +399,6 @@ spec_arrow_append_table_arrow <- list(
   },
 
   arrow_append_table_arrow_roundtrip_timestamp = function(ctx, con) {
-    skip("Fails in adbc")
-
     #' - timestamp
     #'   (if supported by the database;
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
@@ -439,7 +435,7 @@ spec_arrow_append_table_arrow <- list(
   },
 
   arrow_append_table_arrow_roundtrip_timestamp_extended = function(ctx, con) {
-    skip("Fails in adbc")
+    skip("Fails in RPostgres and RMariaDB")
 
     #'   also for timestamps prior to 1970 or 1900 or after 2038
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
