@@ -42,6 +42,10 @@ run_bind_tester$fun <- function(
   force(is_premature_clear)
   force(is_untouched)
 
+  bind_values_expr <- rlang::expr({
+    bind_values <- !!bind_values
+  })
+
   skip_expr <- if (!is.null(skip_fun) && skip_fun()) rlang::expr({
     skip(rlang::expr_deparse(body(skip_fun)))
   })
@@ -206,6 +210,7 @@ run_bind_tester$fun <- function(
   })
 
   test_expr <- rlang::expr({
+    !!bind_values_expr
     !!skip_expr
     !!send_expr
     !!clear_expr
@@ -214,5 +219,6 @@ run_bind_tester$fun <- function(
     !!post_bind_expr
   })
 
+  rm(bind_values)
   rlang::eval_bare(test_expr)
 }
