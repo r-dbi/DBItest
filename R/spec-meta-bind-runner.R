@@ -49,48 +49,6 @@ run_bind_tester$fun <- function(
   }
 
   # From R6 class
-  send_query <- function() {
-    ret_values <- trivial_values(2)
-    placeholder <- placeholder_fun(length(values))
-    is_na <- vapply(values, is_na_or_null, logical(1))
-    placeholder_values <- vapply(values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-    result_names <- letters[seq_along(values)]
-
-    query <- paste0(
-      "SELECT ",
-      paste0(
-        "CASE WHEN ",
-        ifelse(
-          is_na,
-          paste0("(", is_null_check(cast_fun(placeholder)), ")"),
-          paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
-        ),
-        " THEN ", ret_values[[1]],
-        " ELSE ", ret_values[[2]], " END",
-        " AS ", result_names,
-        collapse = ", "
-      )
-    )
-
-    dbSendQuery(con, query)
-  }
-  #
-  send_statement <- function() {
-    data <- data.frame(a = rep(1:5, 1:5))
-    data$b <- seq_along(data$a)
-    table_name <- random_table_name()
-    dbWriteTable(con, table_name, data, temporary = TRUE)
-
-    value_names <- letters[seq_along(values)]
-    placeholder <- placeholder_fun(length(values))
-    statement <- paste0(
-      "UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ",
-      paste(value_names, " = ", placeholder, collapse = " AND ")
-    )
-
-    dbSendStatement(con, statement)
-  }
-  #
   bind <- function(res, bind_values) {
     bind_values <- patch_bind_values(bind_values)
     expect_error(bind_res <- withVisible(dbBind(res, bind_values)), bind_error)
@@ -138,9 +96,43 @@ run_bind_tester$fun <- function(
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
   if (query) {
-    res <- send_query()
+    ret_values <- trivial_values(2)
+    placeholder <- placeholder_fun(length(values))
+    is_na <- vapply(values, is_na_or_null, logical(1))
+    placeholder_values <- vapply(values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+    result_names <- letters[seq_along(values)]
+
+    sql <- paste0(
+      "SELECT ",
+      paste0(
+        "CASE WHEN ",
+        ifelse(
+          is_na,
+          paste0("(", is_null_check(cast_fun(placeholder)), ")"),
+          paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
+        ),
+        " THEN ", ret_values[[1]],
+        " ELSE ", ret_values[[2]], " END",
+        " AS ", result_names,
+        collapse = ", "
+      )
+    )
+
+    res <- dbSendQuery(con, sql)
   } else {
-    res <- send_statement()
+    data <- data.frame(a = rep(1:5, 1:5))
+    data$b <- seq_along(data$a)
+    table_name <- random_table_name()
+    dbWriteTable(con, table_name, data, temporary = TRUE)
+
+    value_names <- letters[seq_along(values)]
+    placeholder <- placeholder_fun(length(values))
+    sql <- paste0(
+      "UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ",
+      paste(value_names, " = ", placeholder, collapse = " AND ")
+    )
+
+    res <- dbSendStatement(con, sql)
   }
 
   #'    It is good practice to register a call to [dbClearResult()] via
