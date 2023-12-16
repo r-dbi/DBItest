@@ -161,6 +161,7 @@ run_bind_tester$fun <- function(
 
   rlang::eval_bare(bind_expr)
 
+  # Return after that if !is.na(bind_error) | is_premature_clear | !identical(bind_values, patch_bind_values(bind_values))
   if (!is.na(bind_error)) {
     return()
   }
