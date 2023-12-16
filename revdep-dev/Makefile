@@ -3,7 +3,7 @@ all: test
 TESTTHAT_REPORTER ?= testthat::ProgressReporter\$$new(max_failures = Inf, update_interval = Inf)
 
 # The REVDEP definition also decides what is run on GitHub Actions in backends.yaml
-REVDEP := RMariaDB RSQLite RPostgres RKazam duckdb odbc-SQLServer odbc-MySQL odbc-PostgreSQL odbc-SQLite
+REVDEP := RMariaDB RSQLite RPostgres RKazam duckdb odbc-sql-server odbc-mysql odbc-postgres odbc-sqlite
 TEST_TARGETS := $(patsubst %,test-%,${REVDEP})
 
 LIB_DIR := $(shell Rscript -e "cat(.libPaths()[1])")
@@ -35,7 +35,7 @@ test-%: install %
 	@echo
 	@echo "\033[1m=== $* ===\033[0m"
 	@echo
-	DBITEST_BACKENDS=true Rscript -e 'target <- "$*"; if (grepl(".*-.*", target)) { pkg <- sub("-.*", "", target); filter <- sub(".*-", "", target); cs <- paste0("dsn=", filter); if (filter == "SQLServer") cs <- paste0(cs, ";UID=SA;PWD=Password12"); Sys.setenv(ODBC_CS = cs) } else { pkg <- target; filter <- "DBItest" }; options(crayon.enabled = TRUE); pkgload::load_all(".."); testthat::test_local(pkg, filter = filter, stop_on_failure = TRUE, reporter = '"${TESTTHAT_REPORTER}"')'
+	DBITEST_BACKENDS=true Rscript -e 'pkgload::load_all(".."); test_backend("$@", reporter = '"${TESTTHAT_REPORTER}"')'
 
 clean:
 	rm -rf ${REVDEP}
