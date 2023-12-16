@@ -126,7 +126,7 @@ make_tweaks <- function(envir = parent.frame()) {
 
   tweak_quoted <- lapply(setNames(nm = names(fmls)), as.name)
   tweak_quoted <- c(tweak_quoted)
-  list_call <- as.call(c(quote(list), tweak_quoted))
+  list_call <- as.call(c(quote(list), tweak_quoted[-1]))
 
   fun <- eval(bquote(
     function() {
