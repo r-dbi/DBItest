@@ -73,8 +73,12 @@ spec_result_execute <- list(
       query <- paste0("DELETE FROM ", table_name, " WHERE a > ", placeholder)
       values <- 1.5
       params <- stats::setNames(list(values), names(placeholder))
-      ret <- dbExecute(con, query, params = params)
-      expect_equal(ret, 2, info = placeholder)
+      rc <- dbExecute(con, query, params = params)
+      if (isTRUE(ctx$tweaks$allow_na_rows_affected)) {
+        expect_true((is.na(rc) && is.numeric(rc)) || rc == 2L, info = placeholder)
+      } else {
+        expect_equal(rc, 2L, info = placeholder)
+      }
     }
   },
 
