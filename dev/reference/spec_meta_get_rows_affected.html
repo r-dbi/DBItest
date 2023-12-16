@@ -65,9 +65,13 @@ the number of rows affected by a data manipulation statement
 issued with <code>dbSendStatement()</code>.
 The value is available directly after the call
 and does not change after calling <code>dbFetch()</code>.
-For queries issued with <code>dbSendQuery()</code>,
+<code>NA_integer_</code> or <code>NA_numeric_</code> are allowed if the number of rows affected is not known.</p>
+
+
+<p>For queries issued with <code>dbSendQuery()</code>,
 zero is returned before
-and after the call to <code>dbFetch()</code>.</p>
+and after the call to <code>dbFetch()</code>.
+<code>NA</code> values are not allowed.</p>
     </div>
     <div id="failure-modes">
     <h2>Failure modes</h2>
