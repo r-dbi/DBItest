@@ -12,10 +12,12 @@ run_bind_tester <- list()
 run_bind_tester$fun <- function(
     con,
     ...,
+    # Run time
     placeholder_fun,
     is_null_check,
     cast_fun,
     allow_na_rows_affected,
+    # Spec time
     values,
     query,
     extra_obj) {
