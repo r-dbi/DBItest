@@ -66,7 +66,7 @@ run_bind_tester$fun <- function(
   #'    store the returned [DBIResult-class] object in a variable.
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
-  if (query) {
+  send_expr <- if (query) rlang::expr({
     ret_values <- trivial_values(2)
     placeholder <- placeholder_fun(length(bind_values))
     is_na <- vapply(bind_values, is_na_or_null, logical(1))
@@ -90,7 +90,7 @@ run_bind_tester$fun <- function(
     )
 
     res <- dbSendQuery(con, sql)
-  } else {
+  }) else rlang::expr({
     data <- data.frame(a = rep(1:5, 1:5))
     data$b <- seq_along(data$a)
     table_name <- random_table_name()
@@ -104,7 +104,9 @@ run_bind_tester$fun <- function(
     )
 
     res <- dbSendStatement(con, sql)
-  }
+  })
+
+  rlang::eval_bare(send_expr)
 
   #'    It is good practice to register a call to [dbClearResult()] via
   #'    [on.exit()] right after calling `dbSendQuery()` or `dbSendStatement()`
