@@ -67,7 +67,9 @@
 columns as fields in the result set,
 even if the result is a single value
 or has one
-or zero rows.</p>
+or zero rows.
+Passing <code>n = NA</code> is supported and returns an arbitrary number of rows (at least one)
+as specified by the driver, but at most the remaining rows in the result set.</p>
     </div>
     <div id="failure-modes">
     <h2>Failure modes</h2>
@@ -76,8 +78,8 @@ or zero rows.</p>
 <p>An attempt to fetch from a closed result set raises an error.
 If the <code>n</code> argument is not an atomic whole number
 greater or equal to -1 or Inf, an error is raised,
-but a subsequent call to <code>dbFetch()</code> with proper <code>n</code> argument succeeds.
-Calling <code>dbFetch()</code> on a result set from a data manipulation query
+but a subsequent call to <code>dbFetch()</code> with proper <code>n</code> argument succeeds.</p>
+<p>Calling <code>dbFetch()</code> on a result set from a data manipulation query
 created by <code>dbSendStatement()</code>
 can be fetched and return an empty data frame, with a warning.</p>
     </div>
