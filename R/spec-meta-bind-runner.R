@@ -136,9 +136,11 @@ run_bind_tester$fun <- function(
   #'    depending on the kind of placeholders used.
   #'    Named values are matched to named parameters, unnamed values
   #'    are matched by position in the list of parameters.
-  if (!is.null(names(placeholder_fun(1)))) {
+  name_values_expr <- rlang::expr(if (!is.null(names(placeholder_fun(1)))) {
     names(bind_values) <- names(placeholder_fun(length(bind_values)))
-  }
+  })
+
+  rlang::eval_bare(name_values_expr)
 
   #'    All elements in this list must have the same lengths and contain values
   #'    supported by the backend; a [data.frame] is internally stored as such
