@@ -44,9 +44,11 @@ run_bind_tester$fun <- function(
   force(is_premature_clear)
   force(is_untouched)
 
-  if (!is.null(skip_fun) && skip_fun()) {
+  skip_expr <- if (!is.null(skip_fun) && skip_fun()) rlang::expr({
     skip(rlang::expr_deparse(body(skip_fun)))
-  }
+  })
+
+  rlang::eval_bare(skip_expr)
 
   # run_bind_tester$fun()
   if (isTRUE(requires_names) && is.null(names(placeholder_fun(1)))) {
