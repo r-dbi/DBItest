@@ -321,97 +321,100 @@ spec_meta_bind <- list(
 
   bind_date = function(ctx, con) {
     #' - [Date]
-    if (!isTRUE(ctx$tweaks$date_typed)) {
-      skip("tweak: !date_typed")
-    }
-
-    test_select_bind(con, ctx, c(Sys.Date() + 0:2, NA))
+    test_select_bind(
+      con,
+      ctx,
+      c(Sys.Date() + 0:2, NA),
+      skip_fun = function() !isTRUE(ctx$tweaks$date_typed)
+    )
   },
 
   bind_date_integer = function(ctx, con) {
     #'   (also when stored internally as integer)
-    if (!isTRUE(ctx$tweaks$date_typed)) {
-      skip("tweak: !date_typed")
-    }
-
-    test_select_bind(con, ctx, structure(c(18618:18620, NA), class = "Date"))
+    test_select_bind(
+      con,
+      ctx,
+      structure(c(18618:18620, NA), class = "Date"),
+      skip_fun = function() !isTRUE(ctx$tweaks$date_typed)
+    )
   },
 
   bind_timestamp = function(ctx, con) {
     #' - [POSIXct] timestamps
-    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
-      skip("tweak: !timestamp_typed")
-    }
-
     data_in <- as.POSIXct(c(round(Sys.time()) + 0:2, NA))
-    test_select_bind(con, ctx, data_in)
+    test_select_bind(
+      con,
+      ctx,
+      data_in,
+      skip_fun = function() !isTRUE(ctx$tweaks$timestamp_typed)
+    )
   },
 
   bind_timestamp_lt = function(ctx, con) {
     #' - [POSIXlt] timestamps
-    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
-      skip("tweak: !timestamp_typed")
-    }
-
     data_in <- lapply(
       round(Sys.time()) + c(0:2, NA),
       as.POSIXlt
     )
-    test_select_bind(con, ctx, data_in)
+    test_select_bind(
+      con,
+      ctx,
+      data_in,
+      skip_fun = function() !isTRUE(ctx$tweaks$timestamp_typed)
+    )
   },
 
   bind_time_seconds = function(ctx, con) {
     #' - [difftime] values
-    if (!isTRUE(ctx$tweaks$time_typed)) {
-      skip("tweak: !time_typed")
-    }
-
     data_in <- as.difftime(as.numeric(c(1:3, NA)), units = "secs")
-    test_select_bind(con, ctx, data_in)
+    test_select_bind(
+      con,
+      ctx,
+      data_in,
+      skip_fun = function() !isTRUE(ctx$tweaks$time_typed)
+    )
   },
 
   bind_time_hours = function(ctx, con) {
     #'   (also with units other than seconds
-    if (!isTRUE(ctx$tweaks$time_typed)) {
-      skip("tweak: !time_typed")
-    }
-
     data_in <- as.difftime(as.numeric(c(1:3, NA)), units = "hours")
-    test_select_bind(con, ctx, data_in)
+    test_select_bind(
+      con,
+      ctx,
+      data_in,
+      skip_fun = function() !isTRUE(ctx$tweaks$time_typed)
+    )
   },
 
   bind_time_minutes_integer = function(ctx, con) {
     #'   and with the value stored as integer)
-    if (!isTRUE(ctx$tweaks$time_typed)) {
-      skip("tweak: !time_typed")
-    }
-
     data_in <- as.difftime(c(1:3, NA), units = "mins")
-    test_select_bind(con, ctx, data_in)
+    test_select_bind(
+      con,
+      ctx,
+      data_in,
+      skip_fun = function() !isTRUE(ctx$tweaks$time_typed)
+    )
   },
 
   bind_raw = function(ctx, con) {
     #' - lists of [raw] for blobs (with `NULL` entries for SQL NULL values)
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
     test_select_bind(
-      con, ctx,
+      con,
+      ctx,
       list(list(as.raw(1:10)), list(raw(3)), list(NULL)),
+      skip_fun = function() isTRUE(ctx$tweaks$omit_blob_tests),
       cast_fun = ctx$tweaks$blob_cast
     )
   },
 
   bind_blob = function(ctx, con) {
     #' - objects of type [blob::blob]
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
     test_select_bind(
-      con, ctx,
+      con,
+      ctx,
       list(blob::blob(as.raw(1:10)), blob::blob(raw(3)), blob::blob(NULL)),
+      skip_fun = function() isTRUE(ctx$tweaks$omit_blob_tests),
       cast_fun = ctx$tweaks$blob_cast
     )
   },

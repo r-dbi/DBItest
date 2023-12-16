@@ -20,6 +20,7 @@ run_bind_tester$fun <- function(
     # Spec time
     values,
     query,
+    skip_fun,
     check_return_value,
     patch_bind_values,
     bind_error,
@@ -34,6 +35,7 @@ run_bind_tester$fun <- function(
   force(allow_na_rows_affected)
   force(values)
   force(query)
+  force(skip)
   force(check_return_value)
   force(patch_bind_values)
   force(bind_error)
@@ -41,6 +43,10 @@ run_bind_tester$fun <- function(
   force(is_repeated)
   force(is_premature_clear)
   force(is_untouched)
+
+  if (!is.null(skip_fun) && skip_fun()) {
+    skip(rlang::expr_deparse(body(skip_fun)))
+  }
 
   # From R6 class
   is_query <- function() {
