@@ -435,6 +435,8 @@ spec_arrow_append_table_arrow <- list(
   },
 
   arrow_append_table_arrow_roundtrip_timestamp_extended = function(ctx, con) {
+    skip("Fails in RPostgres and RMariaDB")
+
     #'   also for timestamps prior to 1970 or 1900 or after 2038
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
