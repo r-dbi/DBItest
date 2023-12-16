@@ -147,6 +147,10 @@ run_bind_tester$fun <- function(
     names(bind_values) <- names(placeholder_fun(length(bind_values)))
   })
 
+  check_return_value_expr <- if (!is.null(check_return_value)) rlang::expr({
+    !!body(check_return_value)
+  })
+
   #'    All elements in this list must have the same lengths and contain values
   #'    supported by the backend; a [data.frame] is internally stored as such
   #'    a list.
@@ -154,9 +158,7 @@ run_bind_tester$fun <- function(
   #'    object.
   bind_expr <- if (is.na(bind_error)) rlang::expr({
     bind_res <- withVisible(dbBind(res, bind_values_patched))
-    if (!is.null(check_return_value)) {
-      check_return_value(bind_res, res)
-    }
+    !!check_return_value_expr
   }) else rlang::expr({
     expect_error(
       withVisible(dbBind(res, bind_values_patched)),
@@ -197,9 +199,7 @@ run_bind_tester$fun <- function(
   #' 1. Repeat 2. and 3. as necessary.
   repeated_expr <- if (is_repeated) rlang::expr({
     bind_res <- withVisible(dbBind(res, bind_values_patched))
-    if (!is.null(check_return_value)) {
-      check_return_value(bind_res, res)
-    }
+    !!check_return_value_expr
     !!retrieve_expr
   })
 
