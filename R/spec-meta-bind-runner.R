@@ -20,6 +20,7 @@ run_bind_tester$fun <- function(
     # Spec time
     values,
     query,
+    check_return_value,
     patch_bind_values,
     bind_error,
     requires_names,
@@ -33,6 +34,7 @@ run_bind_tester$fun <- function(
   force(allow_na_rows_affected)
   force(values)
   force(query)
+  force(check_return_value)
   force(patch_bind_values)
   force(bind_error)
   force(requires_names)
@@ -91,8 +93,8 @@ run_bind_tester$fun <- function(
     bind_values <- patch_bind_values(bind_values)
     expect_error(bind_res <- withVisible(dbBind(res, bind_values)), bind_error)
 
-    if (is.na(bind_error) && exists("bind_res")) {
-      extra_obj$check_return_value(bind_res, res)
+    if (!is.null(check_return_value) && is.na(bind_error) && exists("bind_res")) {
+      check_return_value(bind_res, res)
     }
     invisible()
   }

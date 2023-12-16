@@ -11,20 +11,29 @@ spec_meta_bind <- list(
 
   bind_return_value = function(ctx, con) {
     #' @return
-    extra <- new_bind_tester_extra(
-      check_return_value = function(bind_res, res) {
-        #' `dbBind()` returns the result set,
-        expect_identical(res, bind_res$value)
-        #' invisibly,
-        expect_false(bind_res$visible)
-      }
-    )
+    check_return_value <- function(bind_res, res) {
+      #' `dbBind()` returns the result set,
+      expect_identical(res, bind_res$value)
+      #' invisibly,
+      expect_false(bind_res$visible)
+    }
 
     #' for queries issued by [dbSendQuery()]
-    test_select_bind(con, ctx, 1L, extra = extra)
+    test_select_bind(
+      con,
+      ctx,
+      1L,
+      check_return_value = check_return_value
+    )
     #' and also for data manipulation statements issued by
     #' [dbSendStatement()].
-    test_select_bind(con, ctx, 1L, extra = extra, query = FALSE)
+    test_select_bind(
+      con,
+      ctx,
+      1L,
+      check_return_value = check_return_value,
+      query = FALSE
+    )
   },
   #'
   bind_empty = function(con) {

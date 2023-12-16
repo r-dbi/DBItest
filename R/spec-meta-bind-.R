@@ -38,6 +38,7 @@ test_select_bind_one <- function(
     # Spec time
     values,
     query = TRUE,
+    check_return_value = NULL,
     patch_bind_values = identity,
     bind_error = NA,
     requires_names = NULL,
@@ -55,6 +56,7 @@ test_select_bind_one <- function(
     allow_na_rows_affected = allow_na_rows_affected,
     values = values,
     query = query,
+    check_return_value = check_return_value,
     patch_bind_values = patch_bind_values,
     bind_error = bind_error,
     requires_names = requires_names,
