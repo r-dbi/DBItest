@@ -46,8 +46,6 @@ run_bind_tester$fun <- function(
     skip(rlang::expr_deparse(body(skip_fun)))
   })
 
-  rlang::eval_bare(skip_expr)
-
   #' 1. Call [dbSendQuery()] or [dbSendStatement()] with a query or statement
   #'    that contains placeholders,
   #'    store the returned [DBIResult-class] object in a variable.
@@ -93,8 +91,6 @@ run_bind_tester$fun <- function(
     res <- dbSendStatement(con, sql)
   })
 
-  rlang::eval_bare(send_expr)
-
   #'    It is good practice to register a call to [dbClearResult()] via
   #'    [on.exit()] right after calling `dbSendQuery()` or `dbSendStatement()`
   #'    (see the last enumeration item).
@@ -115,7 +111,6 @@ run_bind_tester$fun <- function(
     #'     - [dbHasCompleted()] returns `FALSE`
     expect_false(dbHasCompleted(res))
   })
-  rlang::eval_bare(clear_expr)
 
   #' 1. Construct a list with parameters
   #'    that specify actual values for the placeholders.
@@ -126,8 +121,6 @@ run_bind_tester$fun <- function(
   name_values_expr <- rlang::expr(if (!is.null(names(placeholder_fun(1)))) {
     names(bind_values) <- names(placeholder_fun(length(bind_values)))
   })
-
-  rlang::eval_bare(name_values_expr)
 
   #'    All elements in this list must have the same lengths and contain values
   #'    supported by the backend; a [data.frame] is internally stored as such
@@ -145,22 +138,6 @@ run_bind_tester$fun <- function(
       bind_error
     )
   })
-
-  rlang::eval_bare(bind_expr)
-
-  # Return after that if !is.na(bind_error) | is_premature_clear | !identical(bind_values, patch_bind_values(bind_values))
-  if (!is.na(bind_error)) {
-    return()
-  }
-
-  # Safety net: returning early if dbBind() should have thrown an error but
-  # didn't
-  if (!identical(bind_values, patch_bind_values(bind_values))) {
-    return()
-  }
-  if (is_premature_clear) {
-    return()
-  }
 
   #' 1. Retrieve the data or the number of affected rows from the `DBIResult` object.
   #'     - For queries issued by `dbSendQuery()`,
@@ -192,8 +169,6 @@ run_bind_tester$fun <- function(
     !!retrieve_expr
   })
 
-  rlang::eval_bare(not_untouched_expr)
-
   #' 1. Repeat 2. and 3. as necessary.
   repeated_expr <- if (is_repeated) rlang::expr({
     bind_res <- withVisible(dbBind(res, patch_bind_values(bind_values)))
@@ -203,7 +178,33 @@ run_bind_tester$fun <- function(
     !!retrieve_expr
   })
 
-  rlang::eval_bare(repeated_expr)
-
   #' 1. Close the result set via [dbClearResult()].
+
+  rlang::eval_bare(skip_expr)
+
+  rlang::eval_bare(send_expr)
+
+  rlang::eval_bare(clear_expr)
+
+  rlang::eval_bare(name_values_expr)
+
+  rlang::eval_bare(bind_expr)
+
+  # Return after that if !is.na(bind_error) | is_premature_clear | !identical(bind_values, patch_bind_values(bind_values))
+  if (!is.na(bind_error)) {
+    return()
+  }
+
+  # Safety net: returning early if dbBind() should have thrown an error but
+  # didn't
+  if (!identical(bind_values, patch_bind_values(bind_values))) {
+    return()
+  }
+  if (is_premature_clear) {
+    return()
+  }
+
+  rlang::eval_bare(not_untouched_expr)
+
+  rlang::eval_bare(repeated_expr)
 }
