@@ -8,7 +8,7 @@ spec_meta_bind <- list(
     # <establish formals of described functions>
     expect_equal(names(formals(dbBind)), c("res", "params", "..."))
   },
-
+  #
   bind_return_value = function(ctx, con) {
     #' @return
     check_return_value <- function(bind_res, res) {
@@ -25,6 +25,14 @@ spec_meta_bind <- list(
       1L,
       check_return_value = check_return_value
     )
+  },
+  #
+  bind_return_value_statement = function(ctx, con) {
+    check_return_value <- function(bind_res, res) {
+      expect_identical(res, bind_res$value)
+      expect_false(bind_res$visible)
+    }
+
     #' and also for data manipulation statements issued by
     #' [dbSendStatement()].
     test_select_bind(
@@ -107,7 +115,7 @@ spec_meta_bind <- list(
       query = FALSE
     )
   },
-
+  #
   bind_named_param_unnamed_placeholders = function(ctx, con) {
     #' If the placeholders in the query are named,
     patch_bind_values <- function(bind_values) {
@@ -217,6 +225,11 @@ spec_meta_bind <- list(
 
     #' for both queries
     test_select_bind(con, ctx, 1L, is_repeated = is_repeated)
+  },
+  #
+  bind_repeated_statement = function(ctx, con) {
+    is_repeated <- TRUE
+
     #' and data manipulation statements,
     test_select_bind(con, ctx, 1L, is_repeated = is_repeated, query = FALSE)
   },
@@ -234,6 +247,12 @@ spec_meta_bind <- list(
       is_repeated = is_repeated,
       is_untouched = is_untouched
     )
+  },
+  #
+  bind_repeated_untouched_statement = function(ctx, con) {
+    is_repeated <- TRUE
+    is_untouched <- TRUE
+
     #' and data manipulation statements.
     test_select_bind(
       con,
