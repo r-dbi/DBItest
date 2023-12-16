@@ -20,6 +20,7 @@ run_bind_tester$fun <- function(
     # Spec time
     values,
     query,
+    is_repeated,
     is_premature_clear,
     extra_obj) {
   rlang::check_dots_empty()
@@ -29,6 +30,7 @@ run_bind_tester$fun <- function(
   force(allow_na_rows_affected)
   force(values)
   force(query)
+  force(is_repeated)
   force(is_premature_clear)
   force(extra_obj)
 
@@ -204,7 +206,7 @@ run_bind_tester$fun <- function(
   if (!extra_obj$is_untouched()) retrieve()
 
   #' 1. Repeat 2. and 3. as necessary.
-  if (extra_obj$is_repeated()) {
+  if (is_repeated) {
     bind(res, bind_values)
     retrieve()
   }
