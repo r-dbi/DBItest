@@ -58,7 +58,7 @@ test_select_bind_one <- function(
     query = TRUE,
     skip_fun = NULL,
     check_return_value = NULL,
-    patch_bind_values = identity,
+    patch_bind_values = NULL,
     bind_error = NA,
     is_repeated = FALSE,
     is_premature_clear = FALSE,

@@ -42,6 +42,10 @@ run_bind_tester$fun <- function(
   force(is_premature_clear)
   force(is_untouched)
 
+  if (is.null(patch_bind_values)) {
+    patch_bind_values <- identity
+  }
+
   bind_values_expr <- rlang::expr({
     bind_values <- !!construct_expr(bind_values)
   })
