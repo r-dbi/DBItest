@@ -48,21 +48,21 @@ spec_arrow_read_table_arrow <- list(
   arrow_read_table_arrow_closed_connection = function(ctx, con, table_name) {
     #' @section Failure modes:
     #' An error is raised when calling this method for a closed
-    dbWriteTable(con, table_name, data.frame(a = 1))
+    dbWriteTable(con, table_name, data.frame(a = 1.5))
     con2 <- local_closed_connection(ctx = ctx)
     expect_error(dbReadTableArrow(con2, table_name))
   },
 
   arrow_read_table_arrow_invalid_connection = function(ctx, con, table_name) {
     #' or invalid connection.
-    dbWriteTable(con, table_name, data.frame(a = 1))
+    dbWriteTable(con, table_name, data.frame(a = 1.5))
     con2 <- local_invalid_connection(ctx)
     expect_error(dbReadTableArrow(con2, table_name))
   },
 
   arrow_read_table_arrow_error = function(ctx, con, table_name) {
     #' An error is raised
-    dbWriteTable(con, table_name, data.frame(a = 1L))
+    dbWriteTable(con, table_name, data.frame(a = 1.5))
     #' if `name` cannot be processed with [dbQuoteIdentifier()]
     expect_error(dbReadTableArrow(con, NA))
     #' or if this results in a non-scalar.
@@ -81,7 +81,7 @@ spec_arrow_read_table_arrow <- list(
 
     for (table_name in table_names) {
       local_remove_test_table(con, table_name)
-      test_in <- data.frame(a = 1L)
+      test_in <- data.frame(a = 1.5)
       dbWriteTable(con, table_name, test_in)
 
       #' - If an unquoted table name as string: `dbReadTableArrow()` will do the
