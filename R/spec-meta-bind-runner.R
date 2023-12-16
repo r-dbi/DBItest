@@ -10,6 +10,85 @@ run_bind_tester <- list()
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'
 run_bind_tester$fun <- function() {
+  # From R6 class
+  is_query <- function() {
+    query
+  }
+  #
+  send_query <- function() {
+    ret_values <- trivial_values(2)
+    placeholder <- placeholder_fun(length(values))
+    is_na <- vapply(values, is_na_or_null, logical(1))
+    placeholder_values <- vapply(values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+    result_names <- letters[seq_along(values)]
+
+    query <- paste0(
+      "SELECT ",
+      paste0(
+        "CASE WHEN ",
+        ifelse(
+          is_na,
+          paste0("(", is_null_check(cast_fun(placeholder)), ")"),
+          paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
+        ),
+        " THEN ", ret_values[[1]],
+        " ELSE ", ret_values[[2]], " END",
+        " AS ", result_names,
+        collapse = ", "
+      )
+    )
+
+    dbSendQuery(con, query)
+  }
+  #
+  send_statement <- function() {
+    data <- data.frame(a = rep(1:5, 1:5))
+    data$b <- seq_along(data$a)
+    table_name <- random_table_name()
+    dbWriteTable(con, table_name, data, temporary = TRUE)
+
+    value_names <- letters[seq_along(values)]
+    placeholder <- placeholder_fun(length(values))
+    statement <- paste0(
+      "UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ",
+      paste(value_names, " = ", placeholder, collapse = " AND ")
+    )
+
+    dbSendStatement(con, statement)
+  }
+  #
+  bind <- function(res, bind_values) {
+    bind_values <- extra_obj$patch_bind_values(bind_values)
+    bind_error <- extra_obj$bind_error()
+    expect_error(bind_res <- withVisible(dbBind(res, bind_values)), bind_error)
+
+    if (is.na(bind_error) && exists("bind_res")) {
+      extra_obj$check_return_value(bind_res, res)
+    }
+    invisible()
+  }
+  #
+  compare <- function(rows) {
+    expect_equal(nrow(rows), length(values[[1]]))
+    if (nrow(rows) > 0) {
+      result_names <- letters[seq_along(values)]
+      expected <- c(trivial_values(1), rep(trivial_values(2)[[2]], nrow(rows) - 1))
+      all_expected <- rep(list(expected), length(values))
+      result <- as.data.frame(setNames(all_expected, result_names))
+
+      expect_equal(rows, result)
+    }
+  }
+  #
+  compare_affected <- function(rows_affected, values) {
+    # Allow NA value for dbGetRowsAffected(), #297
+    if (isTRUE(allow_na_rows_affected) && is.na(rows_affected)) {
+      return()
+    }
+    expect_equal(rows_affected, sum(values[[1]]))
+  }
+
+  # run_bind_tester$fun()
   if ((extra_obj$requires_names() %in% TRUE) && is.null(names(placeholder_fun(1)))) {
     # test only valid for named placeholders
     return()
