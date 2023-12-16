@@ -195,26 +195,24 @@ run_bind_tester$fun <- function(
 
   #' 1. Close the result set via [dbClearResult()].
 
-  rlang::eval_bare(skip_expr)
-
-  rlang::eval_bare(send_expr)
-
-  rlang::eval_bare(clear_expr)
-
-  rlang::eval_bare(name_values_expr)
-
-  rlang::eval_bare(bind_expr)
-
   early_exit <-
     is_premature_clear ||
       !is.na(bind_error) ||
       !identical(bind_values, patch_bind_values(bind_values))
 
-  if (early_exit) {
-    return()
-  }
+  post_bind_expr <- if (!early_exit) rlang::expr({
+    !!not_untouched_expr
+    !!repeated_expr
+  })
 
-  rlang::eval_bare(not_untouched_expr)
+  test_expr <- rlang::expr({
+    !!skip_expr
+    !!send_expr
+    !!clear_expr
+    !!name_values_expr
+    !!bind_expr
+    !!post_bind_expr
+  })
 
-  rlang::eval_bare(repeated_expr)
+  rlang::eval_bare(test_expr)
 }
