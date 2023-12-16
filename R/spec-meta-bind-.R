@@ -1,11 +1,11 @@
 # Helpers -----------------------------------------------------------------
 
-test_select_bind <- function(con, ctx, values, ...) {
+test_select_bind <- function(con, ctx, bind_values, ...) {
   lapply(
     get_placeholder_funs(ctx),
     test_select_bind_one,
     con = con,
-    values = values,
+    bind_values = bind_values,
     is_null_check = ctx$tweaks$is_null_check,
     allow_na_rows_affected = ctx$tweaks$allow_na_rows_affected,
     ...
@@ -36,7 +36,7 @@ test_select_bind_one <- function(
     cast_fun = identity,
     allow_na_rows_affected = FALSE,
     # Spec time
-    values,
+    bind_values,
     query = TRUE,
     skip_fun = NULL,
     check_return_value = NULL,
@@ -55,7 +55,7 @@ test_select_bind_one <- function(
     is_null_check = is_null_check,
     cast_fun = cast_fun,
     allow_na_rows_affected = allow_na_rows_affected,
-    values = values,
+    bind_values = bind_values,
     query = query,
     skip_fun = skip_fun,
     check_return_value = check_return_value,
