@@ -147,16 +147,21 @@ run_bind_tester$fun <- function(
   #'    a list.
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
-  if (is.na(bind_error)) {
+  bind_expr <- if (is.na(bind_error)) rlang::expr({
     bind_res <- withVisible(dbBind(res, patch_bind_values(bind_values)))
     if (!is.null(check_return_value)) {
       check_return_value(bind_res, res)
     }
-  } else {
+  }) else rlang::expr({
     expect_error(
       withVisible(dbBind(res, patch_bind_values(bind_values))),
       bind_error
     )
+  })
+
+  rlang::eval_bare(bind_expr)
+
+  if (!is.na(bind_error)) {
     return()
   }
 
