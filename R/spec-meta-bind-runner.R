@@ -164,34 +164,34 @@ run_bind_tester$fun <- function(
   }
 
   #' 1. Retrieve the data or the number of affected rows from the `DBIResult` object.
-  retrieve <- function() {
-    #'     - For queries issued by `dbSendQuery()`,
-    #'       call [dbFetch()].
-    if (query) {
-      rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
-      if (nrow(rows) > 0) {
-        result_names <- letters[seq_along(bind_values)]
-        expected <- c(trivial_values(1), rep(trivial_values(2)[[2]], nrow(rows) - 1))
-        all_expected <- rep(list(expected), length(bind_values))
-        result <- as.data.frame(setNames(all_expected, result_names))
+  #'     - For queries issued by `dbSendQuery()`,
+  #'       call [dbFetch()].
+  retrieve_expr <- if (query) rlang::expr({
+    rows <- check_df(dbFetch(res))
+    expect_equal(nrow(rows), length(bind_values[[1]]))
+    if (nrow(rows) > 0) {
+      result_names <- letters[seq_along(bind_values)]
+      expected <- c(trivial_values(1), rep(trivial_values(2)[[2]], nrow(rows) - 1))
+      all_expected <- rep(list(expected), length(bind_values))
+      result <- as.data.frame(setNames(all_expected, result_names))
 
-        expect_equal(rows, result)
-      }
-    } else {
-      #'     - For statements issued by `dbSendStatements()`,
-      #'       call [dbGetRowsAffected()].
-      #'       (Execution begins immediately after the `dbBind()` call,
-      #'       the statement is processed entirely before the function returns.)
-      rows_affected <- dbGetRowsAffected(res)
-      # Allow NA value for dbGetRowsAffected(), #297
-      if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, sum(bind_values[[1]]))
-      }
+      expect_equal(rows, result)
     }
-  }
+  }) else rlang::expr({
+    #'     - For statements issued by `dbSendStatements()`,
+    #'       call [dbGetRowsAffected()].
+    #'       (Execution begins immediately after the `dbBind()` call,
+    #'       the statement is processed entirely before the function returns.)
+    rows_affected <- dbGetRowsAffected(res)
+    # Allow NA value for dbGetRowsAffected(), #297
+    if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
+      expect_equal(rows_affected, sum(bind_values[[1]]))
+    }
+  })
 
-  if (!is_untouched) retrieve()
+  if (!is_untouched) {
+    rlang::eval_bare(retrieve_expr)
+  }
 
   #' 1. Repeat 2. and 3. as necessary.
   if (is_repeated) {
@@ -199,7 +199,7 @@ run_bind_tester$fun <- function(
     if (!is.null(check_return_value)) {
       check_return_value(bind_res, res)
     }
-    retrieve()
+    rlang::eval_bare(retrieve_expr)
   }
 
   #' 1. Close the result set via [dbClearResult()].
