@@ -49,10 +49,6 @@ run_bind_tester$fun <- function(
   }
 
   # From R6 class
-  is_query <- function() {
-    query
-  }
-  #
   send_query <- function() {
     ret_values <- trivial_values(2)
     placeholder <- placeholder_fun(length(values))
@@ -141,7 +137,7 @@ run_bind_tester$fun <- function(
   #'    store the returned [DBIResult-class] object in a variable.
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
-  if (is_query()) {
+  if (query) {
     res <- send_query()
   } else {
     res <- send_statement()
@@ -158,11 +154,11 @@ run_bind_tester$fun <- function(
     #'    Until `dbBind()` has been called, the returned result set object has the
     #'    following behavior:
     #'     - [dbFetch()] raises an error (for `dbSendQuery()`)
-    if (is_query()) expect_error(dbFetch(res))
+    if (query) expect_error(dbFetch(res))
     #'     - [dbGetRowCount()] returns zero (for `dbSendQuery()`)
-    if (is_query()) expect_equal(dbGetRowCount(res), 0)
+    if (query) expect_equal(dbGetRowCount(res), 0)
     #'     - [dbGetRowsAffected()] returns an integer `NA` (for `dbSendStatement()`)
-    if (!is_query()) expect_identical(dbGetRowsAffected(res), NA_integer_)
+    if (!query) expect_identical(dbGetRowsAffected(res), NA_integer_)
     #'     - [dbIsValid()] returns `TRUE`
     expect_true(dbIsValid(res))
     #'     - [dbHasCompleted()] returns `FALSE`
@@ -203,7 +199,7 @@ run_bind_tester$fun <- function(
   retrieve <- function() {
     #'     - For queries issued by `dbSendQuery()`,
     #'       call [dbFetch()].
-    if (is_query()) {
+    if (query) {
       rows <- check_df(dbFetch(res))
       compare(rows)
     } else {
