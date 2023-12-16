@@ -21,6 +21,7 @@ run_bind_tester$fun <- function(
     values,
     query,
     patch_bind_values,
+    bind_error,
     requires_names,
     is_repeated,
     is_premature_clear,
@@ -33,6 +34,7 @@ run_bind_tester$fun <- function(
   force(values)
   force(query)
   force(patch_bind_values)
+  force(bind_error)
   force(requires_names)
   force(is_repeated)
   force(is_premature_clear)
@@ -87,7 +89,6 @@ run_bind_tester$fun <- function(
   #
   bind <- function(res, bind_values) {
     bind_values <- patch_bind_values(bind_values)
-    bind_error <- extra_obj$bind_error()
     expect_error(bind_res <- withVisible(dbBind(res, bind_values)), bind_error)
 
     if (is.na(bind_error) && exists("bind_res")) {
@@ -177,7 +178,7 @@ run_bind_tester$fun <- function(
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
   bind(res, bind_values)
-  if (!is.na(extra_obj$bind_error())) {
+  if (!is.na(bind_error)) {
     return()
   }
 

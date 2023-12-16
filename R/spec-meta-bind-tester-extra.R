@@ -4,7 +4,6 @@ BindTesterExtra <- R6::R6Class(
   #
   public = list(
     check_return_value = function(bind_res, res) invisible(NULL),
-    bind_error = function() NA,
     is_untouched = function() FALSE
   )
 )

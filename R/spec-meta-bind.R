@@ -44,15 +44,12 @@ spec_meta_bind <- list(
         c(bind_values, bogus = bind_values[[1L]])
       }
     }
-    extra <- new_bind_tester_extra(
-      bind_error = function() ".*"
-    )
     test_select_bind(
       con,
       ctx,
       1L,
       patch_bind_values = patch_bind_values,
-      extra = extra
+      bind_error = ".*"
     )
   },
   #
@@ -61,15 +58,12 @@ spec_meta_bind <- list(
       #' or not enough values,
       bind_values[-1L]
     }
-    extra <- new_bind_tester_extra(
-      bind_error = function() ".*"
-    )
     test_select_bind(
       con,
       ctx,
       1L,
       patch_bind_values = patch_bind_values,
-      extra = extra
+      bind_error = ".*"
     )
   },
   #
@@ -78,17 +72,13 @@ spec_meta_bind <- list(
       #' or parameters with wrong names
       stats::setNames(bind_values, paste0("bogus", names(bind_values)))
     }
-    extra <- new_bind_tester_extra(
-      #
-      bind_error = function() ".*"
-    )
     test_select_bind(
       con,
       ctx,
       1L,
       patch_bind_values = patch_bind_values,
-      requires_names = TRUE,
-      extra = extra
+      bind_error = ".*",
+      requires_names = TRUE
     )
   },
   #
@@ -98,16 +88,13 @@ spec_meta_bind <- list(
       bind_values[[2]] <- bind_values[[2]][-1]
       bind_values
     }
-    extra <- new_bind_tester_extra(
-      bind_error = function() ".*"
-    )
     #' also raises an error.
     test_select_bind(
       con,
       ctx,
       list(1:3, 2:4),
       patch_bind_values = patch_bind_values,
-      extra = extra,
+      bind_error = ".*",
       query = FALSE
     )
   },
@@ -118,16 +105,13 @@ spec_meta_bind <- list(
       #' all parameter values must have names
       stats::setNames(bind_values, NULL)
     }
-    extra <- new_bind_tester_extra(
-      bind_error = function() ".*"
-    )
     test_select_bind(
       con,
       ctx,
       1L,
       patch_bind_values = patch_bind_values,
-      requires_names = TRUE,
-      extra = extra
+      bind_error = ".*",
+      requires_names = TRUE
     )
   },
   #
@@ -136,16 +120,13 @@ spec_meta_bind <- list(
       #' (which must not be empty
       names(bind_values)[[1]] <- ""
     }
-    extra <- new_bind_tester_extra(
-      bind_error = function() ".*"
-    )
     test_select_bind(
       con,
       ctx,
       list(1L, 2L),
       patch_bind_values = patch_bind_values,
-      requires_names = TRUE,
-      extra = extra
+      bind_error = ".*",
+      requires_names = TRUE
     )
   },
   #
@@ -154,16 +135,13 @@ spec_meta_bind <- list(
       #' or `NA`),
       names(bind_values)[[1]] <- NA
     }
-    extra <- new_bind_tester_extra(
-      bind_error = function() ".*"
-    )
     test_select_bind(
       con,
       ctx,
       list(1L, 2L),
       patch_bind_values = patch_bind_values,
-      requires_names = TRUE,
-      extra = extra
+      bind_error = ".*",
+      requires_names = TRUE
     )
   },
 
@@ -172,17 +150,14 @@ spec_meta_bind <- list(
     patch_bind_values <- function(bind_values) {
       stats::setNames(bind_values, letters[seq_along(bind_values)])
     }
-    extra <- new_bind_tester_extra(
-      bind_error = function() ".*"
-    )
     #' otherwise an error is raised.
     test_select_bind(
       con,
       ctx,
       1L,
       patch_bind_values = patch_bind_values,
-      requires_names = FALSE,
-      extra = extra
+      bind_error = ".*",
+      requires_names = FALSE
     )
   },
 
