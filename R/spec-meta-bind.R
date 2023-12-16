@@ -128,6 +128,7 @@ spec_meta_bind <- list(
     patch_bind_values <- function(bind_values) {
       #' (which must not be empty
       names(bind_values)[[1]] <- ""
+      bind_values
     }
     test_select_bind(
       con,
@@ -143,6 +144,7 @@ spec_meta_bind <- list(
     patch_bind_values = function(bind_values) {
       #' or `NA`),
       names(bind_values)[[1]] <- NA
+      bind_values
     }
     test_select_bind(
       con,
