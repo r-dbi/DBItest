@@ -142,6 +142,7 @@ Collate:
     'test-arrow.R'
     'test-compliance.R'
     'test-stress.R'
+    'test_backend.R'
     'tweaks.R'
     'utf8.R'
     'utils.R'
