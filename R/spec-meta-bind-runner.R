@@ -49,16 +49,6 @@ run_bind_tester$fun <- function(
   }
 
   # From R6 class
-  bind <- function(res, bind_values) {
-    bind_values <- patch_bind_values(bind_values)
-    expect_error(bind_res <- withVisible(dbBind(res, bind_values)), bind_error)
-
-    if (!is.null(check_return_value) && is.na(bind_error) && exists("bind_res")) {
-      check_return_value(bind_res, res)
-    }
-    invisible()
-  }
-  #
   compare <- function(rows) {
     expect_equal(nrow(rows), length(values[[1]]))
     if (nrow(rows) > 0) {
@@ -173,8 +163,16 @@ run_bind_tester$fun <- function(
   #'    a list.
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
-  bind(res, bind_values)
-  if (!is.na(bind_error)) {
+  if (is.na(bind_error)) {
+    bind_res <- withVisible(dbBind(res, patch_bind_values(bind_values)))
+    if (!is.null(check_return_value)) {
+      check_return_value(bind_res, res)
+    }
+  } else {
+    expect_error(
+      withVisible(dbBind(res, patch_bind_values(bind_values))),
+      bind_error
+    )
     return()
   }
 
@@ -208,7 +206,10 @@ run_bind_tester$fun <- function(
 
   #' 1. Repeat 2. and 3. as necessary.
   if (is_repeated) {
-    bind(res, bind_values)
+    bind_res <- withVisible(dbBind(res, patch_bind_values(bind_values)))
+    if (!is.null(check_return_value)) {
+      check_return_value(bind_res, res)
+    }
     retrieve()
   }
 
