@@ -126,9 +126,7 @@ spec_arrow_write_table_arrow <- list(
 
   arrow_write_table_arrow_name_quoted = function(ctx, con) {
     #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
-    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
-      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
-    }
+    skip_if_not_dbitest(ctx, "1.7.2")
 
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
@@ -365,9 +363,7 @@ spec_arrow_write_table_arrow <- list(
     skip("Failed in SQLite")
 
     #' and column names.
-    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
-      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
-    }
+    skip_if_not_dbitest(ctx, "1.7.2")
 
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       skip("tweak: strict_identifier")
