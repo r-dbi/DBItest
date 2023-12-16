@@ -27,14 +27,16 @@ get_placeholder_funs <- function(ctx) {
 }
 
 test_select_bind_one <- function(
+    # Run time
     con,
     placeholder_fun,
     is_null_check,
+    cast_fun = identity,
+    allow_na_rows_affected = FALSE,
+    # Spec time
     values,
     query = TRUE,
-    extra = "none",
-    cast_fun = identity,
-    allow_na_rows_affected = FALSE) {
+    extra = "none") {
 
   run_bind_tester$fun(
     con,
