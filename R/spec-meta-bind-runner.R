@@ -48,27 +48,6 @@ run_bind_tester$fun <- function(
     skip(rlang::expr_deparse(body(skip_fun)))
   }
 
-  # From R6 class
-  compare <- function(rows) {
-    expect_equal(nrow(rows), length(bind_values[[1]]))
-    if (nrow(rows) > 0) {
-      result_names <- letters[seq_along(bind_values)]
-      expected <- c(trivial_values(1), rep(trivial_values(2)[[2]], nrow(rows) - 1))
-      all_expected <- rep(list(expected), length(bind_values))
-      result <- as.data.frame(setNames(all_expected, result_names))
-
-      expect_equal(rows, result)
-    }
-  }
-  #
-  compare_affected <- function(rows_affected) {
-    # Allow NA value for dbGetRowsAffected(), #297
-    if (isTRUE(allow_na_rows_affected) && is.na(rows_affected)) {
-      return()
-    }
-    expect_equal(rows_affected, sum(bind_values[[1]]))
-  }
-
   # run_bind_tester$fun()
   if (isTRUE(requires_names) && is.null(names(placeholder_fun(1)))) {
     # test only valid for named placeholders
@@ -190,14 +169,25 @@ run_bind_tester$fun <- function(
     #'       call [dbFetch()].
     if (query) {
       rows <- check_df(dbFetch(res))
-      compare(rows)
+      expect_equal(nrow(rows), length(bind_values[[1]]))
+      if (nrow(rows) > 0) {
+        result_names <- letters[seq_along(bind_values)]
+        expected <- c(trivial_values(1), rep(trivial_values(2)[[2]], nrow(rows) - 1))
+        all_expected <- rep(list(expected), length(bind_values))
+        result <- as.data.frame(setNames(all_expected, result_names))
+
+        expect_equal(rows, result)
+      }
     } else {
       #'     - For statements issued by `dbSendStatements()`,
       #'       call [dbGetRowsAffected()].
       #'       (Execution begins immediately after the `dbBind()` call,
       #'       the statement is processed entirely before the function returns.)
       rows_affected <- dbGetRowsAffected(res)
-      compare_affected(rows_affected)
+      # Allow NA value for dbGetRowsAffected(), #297
+      if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
+        expect_equal(rows_affected, sum(bind_values[[1]]))
+      }
     }
   }
 
