@@ -26,7 +26,6 @@ Imports:
     methods,
     nanoarrow,
     palmerpenguins,
-    R6,
     rlang (>= 0.2.0),
     testthat (>= 2.0.0),
     utils,
@@ -96,7 +95,6 @@ Collate:
     'spec-sql-remove-table.R'
     'spec-sql-list-objects.R'
     'spec-meta-bind-runner.R'
-    'spec-meta-bind-tester-extra.R'
     'spec-meta-bind.R'
     'spec-meta-bind-.R'
     'spec-meta-is-valid.R'

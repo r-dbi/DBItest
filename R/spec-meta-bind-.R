@@ -1,10 +1,11 @@
 # Helpers -----------------------------------------------------------------
 
-test_select_bind <- function(con, ctx, ...) {
+test_select_bind <- function(con, ctx, values, ...) {
   lapply(
     get_placeholder_funs(ctx),
     test_select_bind_one,
     con = con,
+    values = values,
     is_null_check = ctx$tweaks$is_null_check,
     allow_na_rows_affected = ctx$tweaks$allow_na_rows_affected,
     ...
@@ -27,150 +28,43 @@ get_placeholder_funs <- function(ctx) {
 }
 
 test_select_bind_one <- function(
+    # Run time
     con,
     placeholder_fun,
+    ...,
     is_null_check,
+    cast_fun = identity,
+    allow_na_rows_affected = FALSE,
+    # Spec time
     values,
     query = TRUE,
-    extra = "none",
-    cast_fun = identity,
-    allow_na_rows_affected = FALSE) {
-  bind_tester <- BindTester$new(con)
-  bind_tester$placeholder_fun <- placeholder_fun
-  bind_tester$is_null_check <- is_null_check
-  bind_tester$cast_fun <- cast_fun
-  bind_tester$allow_na_rows_affected <- allow_na_rows_affected
-  bind_tester$values <- values
-  bind_tester$query <- query
-  bind_tester$extra_obj <- new_extra_imp(extra)
+    check_return_value = NULL,
+    patch_bind_values = identity,
+    bind_error = NA,
+    requires_names = NULL,
+    is_repeated = FALSE,
+    is_premature_clear = FALSE,
+    is_untouched = FALSE) {
 
-  bind_tester$run()
-}
+  rlang::check_dots_empty()
 
-new_extra_imp <- function(extra) {
-  if (is.environment(extra)) {
-    extra$new()
-  } else if (length(extra) == 0) {
-    new_extra_imp_one("none")
-  } else if (length(extra) == 1) {
-    new_extra_imp_one(extra)
-  } else {
-    stop("need BindTesterExtraMulti")
-    # BindTesterExtraMulti$new(lapply(extra, new_extra_imp_one))
-  }
-}
-
-new_extra_imp_one <- function(extra) {
-  extra_imp <- switch(extra,
-    none = BindTesterExtra,
-    stop("Unknown extra: ", extra, call. = FALSE)
+  run_bind_tester$fun(
+    con,
+    placeholder_fun = placeholder_fun,
+    is_null_check = is_null_check,
+    cast_fun = cast_fun,
+    allow_na_rows_affected = allow_na_rows_affected,
+    values = values,
+    query = query,
+    check_return_value = check_return_value,
+    patch_bind_values = patch_bind_values,
+    bind_error = bind_error,
+    requires_names = requires_names,
+    is_repeated = is_repeated,
+    is_premature_clear = is_premature_clear,
+    is_untouched = is_untouched
   )
-
-  extra_imp$new()
 }
-
-
-# BindTester --------------------------------------------------------------
-
-BindTester <- R6::R6Class(
-  "BindTester",
-  portable = FALSE,
-  #
-  public = list(
-    initialize = function(con) {
-      self$con <- con
-    },
-    run = run_bind_tester$fun,
-    #
-    con = NULL,
-    placeholder_fun = NULL,
-    is_null_check = NULL,
-    cast_fun = NULL,
-    allow_na_rows_affected = NULL,
-    values = NULL,
-    query = TRUE,
-    extra_obj = NULL
-  ),
-  #
-  private = list(
-    is_query = function() {
-      query
-    },
-    #
-    send_query = function() {
-      ret_values <- trivial_values(2)
-      placeholder <- placeholder_fun(length(values))
-      is_na <- vapply(values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_names <- letters[seq_along(values)]
-
-      query <- paste0(
-        "SELECT ",
-        paste0(
-          "CASE WHEN ",
-          ifelse(
-            is_na,
-            paste0("(", is_null_check(cast_fun(placeholder)), ")"),
-            paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
-          ),
-          " THEN ", ret_values[[1]],
-          " ELSE ", ret_values[[2]], " END",
-          " AS ", result_names,
-          collapse = ", "
-        )
-      )
-
-      dbSendQuery(con, query)
-    },
-    #
-    send_statement = function() {
-      data <- data.frame(a = rep(1:5, 1:5))
-      data$b <- seq_along(data$a)
-      table_name <- random_table_name()
-      dbWriteTable(con, table_name, data, temporary = TRUE)
-
-      value_names <- letters[seq_along(values)]
-      placeholder <- placeholder_fun(length(values))
-      statement <- paste0(
-        "UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ",
-        paste(value_names, " = ", placeholder, collapse = " AND ")
-      )
-
-      dbSendStatement(con, statement)
-    },
-    #
-    bind = function(res, bind_values) {
-      bind_values <- extra_obj$patch_bind_values(bind_values)
-      bind_error <- extra_obj$bind_error()
-      expect_error(bind_res <- withVisible(dbBind(res, bind_values)), bind_error)
-
-      if (is.na(bind_error) && exists("bind_res")) {
-        extra_obj$check_return_value(bind_res, res)
-      }
-      invisible()
-    },
-    #
-    compare = function(rows) {
-      expect_equal(nrow(rows), length(values[[1]]))
-      if (nrow(rows) > 0) {
-        result_names <- letters[seq_along(values)]
-        expected <- c(trivial_values(1), rep(trivial_values(2)[[2]], nrow(rows) - 1))
-        all_expected <- rep(list(expected), length(values))
-        result <- as.data.frame(setNames(all_expected, result_names))
-
-        expect_equal(rows, result)
-      }
-    },
-    #
-    compare_affected = function(rows_affected, values) {
-      # Allow NA value for dbGetRowsAffected(), #297
-      if (isTRUE(allow_na_rows_affected) && is.na(rows_affected)) {
-        return()
-      }
-      expect_equal(rows_affected, sum(values[[1]]))
-    }
-  )
-)
 
 
 # make_placeholder_fun ----------------------------------------------------
