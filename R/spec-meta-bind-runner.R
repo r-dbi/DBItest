@@ -208,13 +208,15 @@ run_bind_tester$fun <- function(
   rlang::eval_bare(not_untouched_expr)
 
   #' 1. Repeat 2. and 3. as necessary.
-  if (is_repeated) {
+  repeated_expr <- if (is_repeated) rlang::expr({
     bind_res <- withVisible(dbBind(res, patch_bind_values(bind_values)))
     if (!is.null(check_return_value)) {
       check_return_value(bind_res, res)
     }
-    rlang::eval_bare(retrieve_expr)
-  }
+    !!retrieve_expr
+  })
+
+  rlang::eval_bare(repeated_expr)
 
   #' 1. Close the result set via [dbClearResult()].
 }
