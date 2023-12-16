@@ -154,20 +154,20 @@ run_bind_tester$fun <- function(
     dbClearResult(res)
   } else {
     on.exit(expect_error(dbClearResult(res), NA))
-  }
 
-  #'    Until `dbBind()` has been called, the returned result set object has the
-  #'    following behavior:
-  #'     - [dbFetch()] raises an error (for `dbSendQuery()`)
-  if (is_query()) expect_error(dbFetch(res))
-  #'     - [dbGetRowCount()] returns zero (for `dbSendQuery()`)
-  if (is_query()) expect_equal(dbGetRowCount(res), 0)
-  #'     - [dbGetRowsAffected()] returns an integer `NA` (for `dbSendStatement()`)
-  if (!is_query()) expect_identical(dbGetRowsAffected(res), NA_integer_)
-  #'     - [dbIsValid()] returns `TRUE`
-  expect_true(dbIsValid(res))
-  #'     - [dbHasCompleted()] returns `FALSE`
-  expect_false(dbHasCompleted(res))
+    #'    Until `dbBind()` has been called, the returned result set object has the
+    #'    following behavior:
+    #'     - [dbFetch()] raises an error (for `dbSendQuery()`)
+    if (is_query()) expect_error(dbFetch(res))
+    #'     - [dbGetRowCount()] returns zero (for `dbSendQuery()`)
+    if (is_query()) expect_equal(dbGetRowCount(res), 0)
+    #'     - [dbGetRowsAffected()] returns an integer `NA` (for `dbSendStatement()`)
+    if (!is_query()) expect_identical(dbGetRowsAffected(res), NA_integer_)
+    #'     - [dbIsValid()] returns `TRUE`
+    expect_true(dbIsValid(res))
+    #'     - [dbHasCompleted()] returns `FALSE`
+    expect_false(dbHasCompleted(res))
+  }
 
   #' 1. Construct a list with parameters
   #'    that specify actual values for the placeholders.
