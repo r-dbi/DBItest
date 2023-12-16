@@ -10,13 +10,7 @@ run_bind_tester <- list()
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'
 run_bind_tester$fun <- function(
-    con,
     ...,
-    # Run time
-    placeholder_fun,
-    is_null_check,
-    cast_fun,
-    allow_na_rows_affected,
     # Spec time
     bind_values,
     query,
@@ -28,10 +22,6 @@ run_bind_tester$fun <- function(
     is_premature_clear,
     is_untouched) {
   rlang::check_dots_empty()
-  force(placeholder_fun)
-  force(is_null_check)
-  force(cast_fun)
-  force(allow_na_rows_affected)
   force(bind_values)
   force(query)
   force(skip)
@@ -226,9 +216,7 @@ run_bind_tester$fun <- function(
     !!post_bind_expr
   })
 
-  rm(bind_values)
-  rm(patch_bind_values)
-  rlang::eval_bare(test_expr)
+  test_expr
 }
 
 construct_expr <- function(x) {
