@@ -141,7 +141,7 @@ spec_meta_bind <- list(
   },
   #
   bind_named_param_na_placeholders = function(ctx, con) {
-    patch_bind_values = function(bind_values) {
+    patch_bind_values <- function(bind_values) {
       #' or `NA`),
       names(bind_values)[[1]] <- NA
       bind_values
