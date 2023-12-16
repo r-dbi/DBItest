@@ -162,7 +162,7 @@ run_bind_tester$fun <- function(
   }) else rlang::expr({
     expect_error(
       withVisible(dbBind(res, bind_values_patched)),
-      bind_error
+      !!bind_error
     )
   })
 
