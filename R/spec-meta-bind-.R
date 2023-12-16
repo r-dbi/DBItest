@@ -1,6 +1,12 @@
 # Helpers -----------------------------------------------------------------
 
-test_select_bind <- function(con, ctx, bind_values, ..., requires_names = NULL) {
+test_select_bind <- function(
+    con,
+    ctx,
+    bind_values,
+    ...,
+    cast_fun = identity,
+    requires_names = NULL) {
   placeholder_funs <- get_placeholder_funs(ctx, requires_names)
 
   lapply(
@@ -9,6 +15,7 @@ test_select_bind <- function(con, ctx, bind_values, ..., requires_names = NULL) 
     con = con,
     bind_values = bind_values,
     is_null_check = ctx$tweaks$is_null_check,
+    cast_fun = cast_fun,
     allow_na_rows_affected = ctx$tweaks$allow_na_rows_affected,
     ...
   )
