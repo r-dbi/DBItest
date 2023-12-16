@@ -214,11 +214,11 @@ run_bind_tester$fun <- function(
   })
 
   test_expr <- rlang::expr({
-    !!bind_values_expr
     !!skip_expr
+    !!bind_values_expr
+    !!name_values_expr
     !!send_expr
     !!clear_expr
-    !!name_values_expr
     !!bind_expr
     !!post_bind_expr
   })
