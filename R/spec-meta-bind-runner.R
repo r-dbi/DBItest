@@ -201,9 +201,11 @@ run_bind_tester$fun <- function(
     }
   })
 
-  if (!is_untouched) {
-    rlang::eval_bare(retrieve_expr)
-  }
+  not_untouched_expr <- if (!is_untouched) rlang::expr({
+    !!retrieve_expr
+  })
+
+  rlang::eval_bare(not_untouched_expr)
 
   #' 1. Repeat 2. and 3. as necessary.
   if (is_repeated) {
