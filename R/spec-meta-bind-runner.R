@@ -20,6 +20,7 @@ run_bind_tester$fun <- function(
     # Spec time
     values,
     query,
+    is_premature_clear,
     extra_obj) {
   rlang::check_dots_empty()
   force(placeholder_fun)
@@ -28,6 +29,7 @@ run_bind_tester$fun <- function(
   force(allow_na_rows_affected)
   force(values)
   force(query)
+  force(is_premature_clear)
   force(extra_obj)
 
   # From R6 class
@@ -133,7 +135,7 @@ run_bind_tester$fun <- function(
   #'    It is good practice to register a call to [dbClearResult()] via
   #'    [on.exit()] right after calling `dbSendQuery()` or `dbSendStatement()`
   #'    (see the last enumeration item).
-  if (extra_obj$is_premature_clear()) {
+  if (is_premature_clear) {
     dbClearResult(res)
   } else {
     on.exit(expect_error(dbClearResult(res), NA))
@@ -178,7 +180,7 @@ run_bind_tester$fun <- function(
   if (!identical(bind_values, extra_obj$patch_bind_values(bind_values))) {
     return()
   }
-  if (extra_obj$is_premature_clear()) {
+  if (is_premature_clear) {
     return()
   }
 

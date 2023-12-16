@@ -8,7 +8,6 @@ BindTesterExtra <- R6::R6Class(
     bind_error = function() NA,
     requires_names = function() NA,
     is_repeated = function() FALSE,
-    is_premature_clear = function() FALSE,
     is_untouched = function() FALSE
   )
 )

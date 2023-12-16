@@ -38,6 +38,7 @@ test_select_bind_one <- function(
     # Spec time
     values,
     query = TRUE,
+    is_premature_clear = FALSE,
     extra = "none") {
 
   rlang::check_dots_empty()
@@ -50,6 +51,7 @@ test_select_bind_one <- function(
     allow_na_rows_affected = allow_na_rows_affected,
     values = values,
     query = query,
+    is_premature_clear = is_premature_clear,
     extra_obj = new_extra_imp(extra)
   )
 }

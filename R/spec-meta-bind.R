@@ -150,13 +150,11 @@ spec_meta_bind <- list(
   #'
 
   bind_premature_clear = function(ctx, con) {
-    extra <- new_bind_tester_extra(
-      #' Calling `dbBind()` on a result set already cleared by [dbClearResult()]
-      is_premature_clear = function() TRUE
-    )
-    #' also raises an error.
+    #' Calling `dbBind()` on a result set already cleared by [dbClearResult()]
+    is_premature_clear <- TRUE
     expect_error(
-      test_select_bind(con, ctx, 1L, extra = extra)
+      #' also raises an error.
+      test_select_bind(con, ctx, 1L, is_premature_clear = is_premature_clear)
     )
   },
 
