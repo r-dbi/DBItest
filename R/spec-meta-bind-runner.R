@@ -53,7 +53,7 @@ run_bind_tester$fun <- function(
   })
 
   skip_expr <- if (!is.null(skip_fun) && skip_fun()) rlang::expr({
-    skip(rlang::expr_deparse(body(skip_fun)))
+    skip(!!rlang::expr_deparse(body(skip_fun)))
   })
 
   #' 1. Call [dbSendQuery()] or [dbSendStatement()] with a query or statement
