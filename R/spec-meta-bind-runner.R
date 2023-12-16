@@ -112,7 +112,10 @@ run_bind_tester$fun <- function(
   #'    [on.exit()] right after calling `dbSendQuery()` or `dbSendStatement()`
   #'    (see the last enumeration item).
   if (is_premature_clear) {
-    dbClearResult(res)
+    clear_expr <- rlang::expr({
+      dbClearResult(res)
+    })
+    eval(clear_expr)
   } else {
     on.exit(expect_error(dbClearResult(res), NA))
 
