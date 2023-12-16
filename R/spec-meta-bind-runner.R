@@ -42,12 +42,14 @@ run_bind_tester$fun <- function(
   force(is_premature_clear)
   force(is_untouched)
 
-  if (is.null(patch_bind_values)) {
-    patch_bind_values <- identity
-  }
-
   bind_values_expr <- rlang::expr({
     bind_values <- !!construct_expr(bind_values)
+  })
+
+  bind_values_patched_expr <- if (is.null(patch_bind_values)) rlang::expr({
+    bind_values_patched <- bind_values
+  }) else rlang::expr({
+    bind_values_patched <- !!body(patch_bind_values)
   })
 
   skip_expr <- if (!is.null(skip_fun) && skip_fun()) rlang::expr({
@@ -151,13 +153,13 @@ run_bind_tester$fun <- function(
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
   bind_expr <- if (is.na(bind_error)) rlang::expr({
-    bind_res <- withVisible(dbBind(res, patch_bind_values(bind_values)))
+    bind_res <- withVisible(dbBind(res, bind_values_patched))
     if (!is.null(check_return_value)) {
       check_return_value(bind_res, res)
     }
   }) else rlang::expr({
     expect_error(
-      withVisible(dbBind(res, patch_bind_values(bind_values))),
+      withVisible(dbBind(res, bind_values_patched)),
       bind_error
     )
   })
@@ -194,7 +196,7 @@ run_bind_tester$fun <- function(
 
   #' 1. Repeat 2. and 3. as necessary.
   repeated_expr <- if (is_repeated) rlang::expr({
-    bind_res <- withVisible(dbBind(res, patch_bind_values(bind_values)))
+    bind_res <- withVisible(dbBind(res, bind_values_patched))
     if (!is.null(check_return_value)) {
       check_return_value(bind_res, res)
     }
@@ -206,7 +208,7 @@ run_bind_tester$fun <- function(
   early_exit <-
     is_premature_clear ||
       !is.na(bind_error) ||
-      !identical(bind_values, patch_bind_values(bind_values))
+      (!is.null(patch_bind_values) && !identical(bind_values, patch_bind_values(bind_values)))
 
   post_bind_expr <- if (!early_exit) rlang::expr({
     !!not_untouched_expr
@@ -217,6 +219,7 @@ run_bind_tester$fun <- function(
     !!skip_expr
     !!bind_values_expr
     !!name_values_expr
+    !!bind_values_patched_expr
     !!send_expr
     !!clear_expr
     !!bind_expr
@@ -224,6 +227,7 @@ run_bind_tester$fun <- function(
   })
 
   rm(bind_values)
+  rm(patch_bind_values)
   rlang::eval_bare(test_expr)
 }
 
