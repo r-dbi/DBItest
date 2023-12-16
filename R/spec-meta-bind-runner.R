@@ -205,17 +205,12 @@ run_bind_tester$fun <- function(
 
   rlang::eval_bare(bind_expr)
 
-  # Return after that if !is.na(bind_error) | is_premature_clear | !identical(bind_values, patch_bind_values(bind_values))
-  if (!is.na(bind_error)) {
-    return()
-  }
+  early_exit <-
+    is_premature_clear ||
+      !is.na(bind_error) ||
+      !identical(bind_values, patch_bind_values(bind_values))
 
-  # Safety net: returning early if dbBind() should have thrown an error but
-  # didn't
-  if (!identical(bind_values, patch_bind_values(bind_values))) {
-    return()
-  }
-  if (is_premature_clear) {
+  if (early_exit) {
     return()
   }
 
