@@ -8,9 +8,11 @@ test_backend <- function(target, reporter = NULL) {
     message("ODBC detected")
     pkg <- sub(rx, "\\1", target)
     message("pkg: ", pkg)
-    filter <- sub(rx, "\\2", target)
+    driver <- sub(rx, "\\2", target)
+    message("driver: ", driver)
+    filter <- paste0("driver-", driver)
     message("filter: ", filter)
-    dsn <- toupper(gsub("-", "", sub("^driver-", "", filter)))
+    dsn <- toupper(gsub("-", "", driver))
     message("dsn: ", dsn)
     cs <- paste0("dsn=", dsn)
     if (filter == "driver-sql-server") {
