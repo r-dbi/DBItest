@@ -71,30 +71,6 @@ new_extra_imp_one <- function(extra) {
 }
 
 
-# BindTester --------------------------------------------------------------
-
-BindTester <- R6::R6Class(
-  "BindTester",
-  portable = FALSE,
-  #
-  public = list(
-    initialize = function(con) {
-      self$con <- con
-    },
-    run = run_bind_tester$fun,
-    #
-    con = NULL,
-    placeholder_fun = NULL,
-    is_null_check = NULL,
-    cast_fun = NULL,
-    allow_na_rows_affected = NULL,
-    values = NULL,
-    query = TRUE,
-    extra_obj = NULL
-  )
-)
-
-
 # make_placeholder_fun ----------------------------------------------------
 
 #' Create a function that creates n placeholders
