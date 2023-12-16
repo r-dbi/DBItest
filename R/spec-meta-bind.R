@@ -306,9 +306,13 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, c(get_texts(), NA))
   },
 
-  bind_character_escape = function(ctx, con) {
+  bind_character_escape = if (getRversion() >= "4.0") function(ctx, con) {
     #'   (also with special characters such as spaces, newlines, quotes, and backslashes)
-    test_select_bind(con, ctx, c(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA))
+    test_select_bind(
+      con,
+      ctx,
+      c(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA)
+    )
   },
 
   bind_factor = function(ctx, con) {

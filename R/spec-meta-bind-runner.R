@@ -43,7 +43,7 @@ run_bind_tester$fun <- function(
   force(is_untouched)
 
   bind_values_expr <- rlang::expr({
-    bind_values <- !!bind_values
+    bind_values <- !!construct_expr(bind_values)
   })
 
   skip_expr <- if (!is.null(skip_fun) && skip_fun()) rlang::expr({
@@ -221,4 +221,9 @@ run_bind_tester$fun <- function(
 
   rm(bind_values)
   rlang::eval_bare(test_expr)
+}
+
+construct_expr <- function(x) {
+  xc <- constructive::construct(x)
+  rlang::parse_expr(format(xc$code))
 }
