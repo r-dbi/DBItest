@@ -1,12 +1,17 @@
 test_backend <- function(target, reporter = NULL) {
   target <- sub("^test-", "", target)
+  message("Target: ", target)
   rx <- "^([^-]+)-(.*)$"
 
   # odbc
   if (grepl(rx, target)) {
+    message("ODBC detected")
     pkg <- sub(rx, "\\1", target)
+    message("pkg: ", pkg)
     filter <- sub(rx, "\\2", target)
+    message("filter: ", filter)
     dsn <- toupper(gsub("-", "", sub("^driver-", "", filter)))
+    message("dsn: ", dsn)
     cs <- paste0("dsn=", dsn)
     if (filter == "driver-sql-server") {
       cs <- paste0(cs, ";UID=SA;PWD=Password12")
@@ -18,7 +23,7 @@ test_backend <- function(target, reporter = NULL) {
     filter <- "DBItest"
   }
 
-  options(crayon.enabled = TRUE)
+  rlang::local_options(crayon.enabled = TRUE)
   pkgload::load_all("..")
-  testthat::test_local(pkg, filter = filter, stop_on_failure = TRUE, reporter = reporter)
+  testthat::test_local(pkg, filter = paste0("^", filter, "$"), stop_on_failure = TRUE, reporter = reporter)
 }
