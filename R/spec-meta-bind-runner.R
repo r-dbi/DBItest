@@ -117,9 +117,8 @@ run_bind_tester$fun <- function(
     })
     eval(clear_expr)
   } else {
-    on.exit(expect_error(dbClearResult(res), NA))
-
     clear_expr <- rlang::expr({
+      on.exit(expect_error(dbClearResult(res), NA))
       #'    Until `dbBind()` has been called, the returned result set object has the
       #'    following behavior:
       #'     - [dbFetch()] raises an error (for `dbSendQuery()`)
@@ -133,7 +132,7 @@ run_bind_tester$fun <- function(
       #'     - [dbHasCompleted()] returns `FALSE`
       expect_false(dbHasCompleted(res))
     })
-    eval(clear_expr)
+    rlang::eval_bare(clear_expr)
   }
 
   #' 1. Construct a list with parameters
