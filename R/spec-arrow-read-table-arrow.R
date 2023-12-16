@@ -11,7 +11,7 @@ spec_arrow_read_table_arrow <- list(
 
   arrow_read_table_arrow = function(ctx, con, table_name) {
     # Failed on duckdb
-    skip_if_not_dbitest(ctx, "1.7.4")
+    skip_if_not_dbitest(ctx, "1.7.99.2")
 
     #' @return
     #' `dbReadTableArrow()` returns a data frame that contains the complete data

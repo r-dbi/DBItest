@@ -34,7 +34,7 @@ dbi_generics <- function(version) {
 
   generics <- all_dbi_generics()
 
-  if (version < "1.7.4") {
+  if (version < "1.7.99.1") {
     generics <- setdiff(generics, c(
       "dbGetQueryArrow",
       "dbAppendTableArrow",
