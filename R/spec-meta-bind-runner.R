@@ -56,11 +56,8 @@ test_select_bind_expr_one$fun <- function(
     placeholder <- placeholder_fun(!!length(bind_values))
     is_na <- map_lgl(bind_values, is_na_or_null)
     placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
-    result_check <- ifelse(
-      is_na,
-      paste0("(", is_null_check(!!cast_fun_placeholder_expr), ")"),
-      paste0("(", !!cast_fun_placeholder_expr, " = ", placeholder_values, ")")
-    )
+    result_check <- paste0("(", (!!cast_fun_placeholder_expr), " = ", placeholder_values, ")")
+    result_check[is_na] <- paste0("(", is_null_check((!!cast_fun_placeholder_expr)[is_na]), ")")
     result_names <- letters[!!construct_expr(seq_along(bind_values))]
 
     sql <- paste0(
