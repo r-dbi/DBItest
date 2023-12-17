@@ -37,6 +37,7 @@
 #' @include spec-arrow-write-table-arrow.R
 #' @include spec-arrow-read-table-arrow.R
 #' @include spec-arrow-get-query-arrow.R
+#' @include spec-arrow-fetch-arrow-chunk.R
 #' @include spec-arrow-fetch-arrow.R
 #' @include spec-arrow-send-query-arrow.R
 ##### Method specs
