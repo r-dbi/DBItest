@@ -49,6 +49,9 @@
     <loc>https://dbitest.r-dbi.org/reference/spec_arrow_fetch_arrow.html</loc>
   </url>
   <url>
+    <loc>https://dbitest.r-dbi.org/reference/spec_arrow_fetch_arrow_chunk.html</loc>
+  </url>
+  <url>
     <loc>https://dbitest.r-dbi.org/reference/spec_arrow_get_query_arrow.html</loc>
   </url>
   <url>
