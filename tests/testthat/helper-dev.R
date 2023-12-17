@@ -40,8 +40,8 @@ flatten_braces <- function(x, in_brace = FALSE, caller = "") {
   x
 }
 
-inline_meta_tests <- function() {
-  test_exprs <- map(spec_meta_bind_expr(), ~ if (!is.null(.x)) .x())
+inline_meta_tests <- function(arrow, suffix, path) {
+  test_exprs <- map(spec_meta_bind_expr(arrow = arrow), ~ if (!is.null(.x)) .x())
   test_exprs_flat <- map(test_exprs, flatten_braces)
 
   env <- environment(inline_meta_tests)
@@ -58,7 +58,7 @@ inline_meta_tests <- function() {
   )
 
   text <- trimws(format(cs$code), "right")
-  text[[1]] <- paste0("spec_meta_bind <- ", text[[1]])
+  text[[1]] <- paste0("spec_meta_bind", suffix, " <- ", text[[1]])
   # FIXME: Why does constructive not handle this?
   text <- gsub('r"[\\]"', '"\\\\"', text, fixed = TRUE)
   text <- c(
@@ -69,7 +69,7 @@ inline_meta_tests <- function() {
     text
   )
 
-  writeLines(text, "../../R/spec-meta-bind.R")
+  writeLines(text, path)
 }
 
 times <- file.mtime(c(
@@ -83,5 +83,7 @@ times <- file.mtime(c(
 
 if (Sys.getenv("CI") == "" && which.max(times) != 1) {
   message("Generating spec-meta-bind.R")
-  inline_meta_tests()
+  inline_meta_tests("none", "", "../../R/spec-meta-bind.R")
+  inline_meta_tests("query", "_arrow", "../../R/spec-meta-bind-arrow.R")
+  inline_meta_tests("params", "_arrow_params", "../../R/spec-meta-bind-arrow-params.R")
 }
