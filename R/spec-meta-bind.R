@@ -54,7 +54,7 @@ spec_meta_bind <- list(
       expect_false(bind_res$visible)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, sum(bind_values[[1]]))
+        expect_equal(rows_affected, 1L)
       }
       expect_error(dbClearResult(res), NA)
       res <- NULL
@@ -308,7 +308,7 @@ spec_meta_bind <- list(
       dbBind(res, bind_values)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, sum(bind_values[[1]]))
+        expect_equal(rows_affected, 6L)
       }
       expect_error(dbClearResult(res), NA)
       res <- NULL
@@ -359,12 +359,12 @@ spec_meta_bind <- list(
       dbBind(res, bind_values)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, sum(bind_values[[1]]))
+        expect_equal(rows_affected, 1L)
       }
       dbBind(res, bind_values)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, sum(bind_values[[1]]))
+        expect_equal(rows_affected, 1L)
       }
       expect_error(dbClearResult(res), NA)
       res <- NULL
@@ -412,7 +412,7 @@ spec_meta_bind <- list(
       dbBind(res, bind_values)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, sum(bind_values[[1]]))
+        expect_equal(rows_affected, 1L)
       }
       expect_error(dbClearResult(res), NA)
       res <- NULL

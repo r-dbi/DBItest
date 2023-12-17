@@ -189,7 +189,7 @@ test_select_bind_expr_one$fun <- function(
     rows_affected <- dbGetRowsAffected(res)
     # Allow NA value for dbGetRowsAffected(), #297
     if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-      expect_equal(rows_affected, sum(bind_values[[1]]))
+      expect_equal(rows_affected, !!sum(bind_values[[1]]))
     }
   })
 
