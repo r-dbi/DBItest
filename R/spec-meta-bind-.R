@@ -1,30 +1,48 @@
 # Helpers -----------------------------------------------------------------
 
-test_select_bind <- function(con, ctx, values, ...) {
+test_select_bind <- function(con, ctx, bind_values, ..., requires_names = NULL) {
+  placeholder_funs <- get_placeholder_funs(ctx, requires_names)
+
   lapply(
-    get_placeholder_funs(ctx),
+    placeholder_funs,
     test_select_bind_one,
     con = con,
-    values = values,
+    bind_values = bind_values,
     is_null_check = ctx$tweaks$is_null_check,
     allow_na_rows_affected = ctx$tweaks$allow_na_rows_affected,
     ...
   )
 }
 
-get_placeholder_funs <- function(ctx) {
+get_placeholder_funs <- function(ctx, requires_names = NULL) {
   placeholder_fun <- ctx$tweaks$placeholder_pattern
   if (is.character(placeholder_fun)) {
-    placeholder_fun <- lapply(placeholder_fun, make_placeholder_fun)
+    placeholder_funs <- lapply(placeholder_fun, make_placeholder_fun)
   } else if (is.function(placeholder_fun)) {
-    placeholder_fun <- list(placeholder_fun)
+    placeholder_funs <- list(placeholder_fun)
+  } else {
+    placeholder_funs <- placeholder_fun
   }
 
-  if (length(placeholder_fun) == 0) {
+  if (length(placeholder_funs) == 0) {
     skip("Use the placeholder_pattern tweak, or skip all 'bind_.*' tests")
   }
 
-  placeholder_fun
+  if (!is.null(requires_names)) {
+    placeholder_fun_values <- map(placeholder_funs, ~ .x(1))
+    placeholder_unnamed <- map_lgl(placeholder_fun_values, ~ is.null(names(.x)))
+
+    # run_bind_tester$fun()
+    if (isTRUE(requires_names)) {
+      placeholder_funs <- placeholder_funs[!placeholder_unnamed]
+    }
+
+    if (isFALSE(requires_names)) {
+      placeholder_funs <- placeholder_funs[placeholder_unnamed]
+    }
+  }
+
+  placeholder_funs
 }
 
 test_select_bind_one <- function(
@@ -36,12 +54,12 @@ test_select_bind_one <- function(
     cast_fun = identity,
     allow_na_rows_affected = FALSE,
     # Spec time
-    values,
+    bind_values,
     query = TRUE,
+    skip_fun = NULL,
     check_return_value = NULL,
-    patch_bind_values = identity,
+    patch_bind_values = NULL,
     bind_error = NA,
-    requires_names = NULL,
     is_repeated = FALSE,
     is_premature_clear = FALSE,
     is_untouched = FALSE) {
@@ -54,12 +72,12 @@ test_select_bind_one <- function(
     is_null_check = is_null_check,
     cast_fun = cast_fun,
     allow_na_rows_affected = allow_na_rows_affected,
-    values = values,
+    bind_values = bind_values,
     query = query,
+    skip_fun = skip_fun,
     check_return_value = check_return_value,
     patch_bind_values = patch_bind_values,
     bind_error = bind_error,
-    requires_names = requires_names,
     is_repeated = is_repeated,
     is_premature_clear = is_premature_clear,
     is_untouched = is_untouched

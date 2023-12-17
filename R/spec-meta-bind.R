@@ -8,7 +8,7 @@ spec_meta_bind <- list(
     # <establish formals of described functions>
     expect_equal(names(formals(dbBind)), c("res", "params", "..."))
   },
-
+  #
   bind_return_value = function(ctx, con) {
     #' @return
     check_return_value <- function(bind_res, res) {
@@ -25,6 +25,14 @@ spec_meta_bind <- list(
       1L,
       check_return_value = check_return_value
     )
+  },
+  #
+  bind_return_value_statement = function(ctx, con) {
+    check_return_value <- function(bind_res, res) {
+      expect_identical(res, bind_res$value)
+      expect_false(bind_res$visible)
+    }
+
     #' and also for data manipulation statements issued by
     #' [dbSendStatement()].
     test_select_bind(
@@ -107,7 +115,7 @@ spec_meta_bind <- list(
       query = FALSE
     )
   },
-
+  #
   bind_named_param_unnamed_placeholders = function(ctx, con) {
     #' If the placeholders in the query are named,
     patch_bind_values <- function(bind_values) {
@@ -141,7 +149,7 @@ spec_meta_bind <- list(
   },
   #
   bind_named_param_na_placeholders = function(ctx, con) {
-    patch_bind_values = function(bind_values) {
+    patch_bind_values <- function(bind_values) {
       #' or `NA`),
       names(bind_values)[[1]] <- NA
       bind_values
@@ -180,9 +188,13 @@ spec_meta_bind <- list(
   bind_premature_clear = function(ctx, con) {
     #' Calling `dbBind()` on a result set already cleared by [dbClearResult()]
     is_premature_clear <- TRUE
-    expect_error(
-      #' also raises an error.
-      test_select_bind(con, ctx, 1L, is_premature_clear = is_premature_clear)
+    #' also raises an error.
+    test_select_bind(
+      con,
+      ctx,
+      1L,
+      is_premature_clear = is_premature_clear,
+      bind_error = ".*"
     )
   },
 
@@ -217,6 +229,11 @@ spec_meta_bind <- list(
 
     #' for both queries
     test_select_bind(con, ctx, 1L, is_repeated = is_repeated)
+  },
+  #
+  bind_repeated_statement = function(ctx, con) {
+    is_repeated <- TRUE
+
     #' and data manipulation statements,
     test_select_bind(con, ctx, 1L, is_repeated = is_repeated, query = FALSE)
   },
@@ -234,6 +251,12 @@ spec_meta_bind <- list(
       is_repeated = is_repeated,
       is_untouched = is_untouched
     )
+  },
+  #
+  bind_repeated_untouched_statement = function(ctx, con) {
+    is_repeated <- TRUE
+    is_untouched <- TRUE
+
     #' and data manipulation statements.
     test_select_bind(
       con,
@@ -283,9 +306,13 @@ spec_meta_bind <- list(
     test_select_bind(con, ctx, c(get_texts(), NA))
   },
 
-  bind_character_escape = function(ctx, con) {
+  bind_character_escape = if (getRversion() >= "4.0") function(ctx, con) {
     #'   (also with special characters such as spaces, newlines, quotes, and backslashes)
-    test_select_bind(con, ctx, c(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA))
+    test_select_bind(
+      con,
+      ctx,
+      c(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA)
+    )
   },
 
   bind_factor = function(ctx, con) {
@@ -302,97 +329,100 @@ spec_meta_bind <- list(
 
   bind_date = function(ctx, con) {
     #' - [Date]
-    if (!isTRUE(ctx$tweaks$date_typed)) {
-      skip("tweak: !date_typed")
-    }
-
-    test_select_bind(con, ctx, c(Sys.Date() + 0:2, NA))
+    test_select_bind(
+      con,
+      ctx,
+      c(Sys.Date() + 0:2, NA),
+      skip_fun = function() !isTRUE(ctx$tweaks$date_typed)
+    )
   },
 
   bind_date_integer = function(ctx, con) {
     #'   (also when stored internally as integer)
-    if (!isTRUE(ctx$tweaks$date_typed)) {
-      skip("tweak: !date_typed")
-    }
-
-    test_select_bind(con, ctx, structure(c(18618:18620, NA), class = "Date"))
+    test_select_bind(
+      con,
+      ctx,
+      structure(c(18618:18620, NA), class = "Date"),
+      skip_fun = function() !isTRUE(ctx$tweaks$date_typed)
+    )
   },
 
   bind_timestamp = function(ctx, con) {
     #' - [POSIXct] timestamps
-    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
-      skip("tweak: !timestamp_typed")
-    }
-
     data_in <- as.POSIXct(c(round(Sys.time()) + 0:2, NA))
-    test_select_bind(con, ctx, data_in)
+    test_select_bind(
+      con,
+      ctx,
+      data_in,
+      skip_fun = function() !isTRUE(ctx$tweaks$timestamp_typed)
+    )
   },
 
   bind_timestamp_lt = function(ctx, con) {
     #' - [POSIXlt] timestamps
-    if (!isTRUE(ctx$tweaks$timestamp_typed)) {
-      skip("tweak: !timestamp_typed")
-    }
-
     data_in <- lapply(
       round(Sys.time()) + c(0:2, NA),
       as.POSIXlt
     )
-    test_select_bind(con, ctx, data_in)
+    test_select_bind(
+      con,
+      ctx,
+      data_in,
+      skip_fun = function() !isTRUE(ctx$tweaks$timestamp_typed)
+    )
   },
 
   bind_time_seconds = function(ctx, con) {
     #' - [difftime] values
-    if (!isTRUE(ctx$tweaks$time_typed)) {
-      skip("tweak: !time_typed")
-    }
-
     data_in <- as.difftime(as.numeric(c(1:3, NA)), units = "secs")
-    test_select_bind(con, ctx, data_in)
+    test_select_bind(
+      con,
+      ctx,
+      data_in,
+      skip_fun = function() !isTRUE(ctx$tweaks$time_typed)
+    )
   },
 
   bind_time_hours = function(ctx, con) {
     #'   (also with units other than seconds
-    if (!isTRUE(ctx$tweaks$time_typed)) {
-      skip("tweak: !time_typed")
-    }
-
     data_in <- as.difftime(as.numeric(c(1:3, NA)), units = "hours")
-    test_select_bind(con, ctx, data_in)
+    test_select_bind(
+      con,
+      ctx,
+      data_in,
+      skip_fun = function() !isTRUE(ctx$tweaks$time_typed)
+    )
   },
 
   bind_time_minutes_integer = function(ctx, con) {
     #'   and with the value stored as integer)
-    if (!isTRUE(ctx$tweaks$time_typed)) {
-      skip("tweak: !time_typed")
-    }
-
     data_in <- as.difftime(c(1:3, NA), units = "mins")
-    test_select_bind(con, ctx, data_in)
+    test_select_bind(
+      con,
+      ctx,
+      data_in,
+      skip_fun = function() !isTRUE(ctx$tweaks$time_typed)
+    )
   },
 
   bind_raw = function(ctx, con) {
     #' - lists of [raw] for blobs (with `NULL` entries for SQL NULL values)
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
     test_select_bind(
-      con, ctx,
+      con,
+      ctx,
       list(list(as.raw(1:10)), list(raw(3)), list(NULL)),
+      skip_fun = function() isTRUE(ctx$tweaks$omit_blob_tests),
       cast_fun = ctx$tweaks$blob_cast
     )
   },
 
   bind_blob = function(ctx, con) {
     #' - objects of type [blob::blob]
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
     test_select_bind(
-      con, ctx,
+      con,
+      ctx,
       list(blob::blob(as.raw(1:10)), blob::blob(raw(3)), blob::blob(NULL)),
+      skip_fun = function() isTRUE(ctx$tweaks$omit_blob_tests),
       cast_fun = ctx$tweaks$blob_cast
     )
   },
