@@ -27,7 +27,7 @@ local_invalid_connection <- function(ctx, ...) {
 }
 
 # Calls `dbClearResult()` on `query` after exiting `frame`.
-local_result <- function(query, frame = rlang::caller_env()) {
+local_result <- function(query, frame = caller_env()) {
   res <- query
   withr::defer(
     {
@@ -39,7 +39,7 @@ local_result <- function(query, frame = rlang::caller_env()) {
 }
 
 # Calls `try_silent(dbRemoveTable())` after exiting `frame`.
-local_remove_test_table <- function(con, name, frame = rlang::caller_env()) {
+local_remove_test_table <- function(con, name, frame = caller_env()) {
   table_name <- dbQuoteIdentifier(con, name)
   withr::defer(
     try_silent(

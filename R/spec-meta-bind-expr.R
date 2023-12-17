@@ -10,9 +10,9 @@ spec_meta_bind_expr <- function(
     bind = c("df", "stream"),
     ...,
     ctx = stop("ctx is available during run time only")) {
-  rlang::check_dots_empty()
-  arrow <- rlang::arg_match(arrow)
-  bind <- rlang::arg_match(bind)
+  check_dots_empty()
+  arrow <- arg_match(arrow)
+  bind <- arg_match(bind)
 
   out <- list(
     bind_return_value = function() {

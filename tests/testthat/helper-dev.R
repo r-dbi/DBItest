@@ -30,7 +30,7 @@ flatten_braces <- function(x, in_brace = FALSE, caller = "") {
         if (length(args) == 1 && caller != "if") {
           x <- args[[1]]
         } else {
-          x <- rlang::call2("{", !!!args)
+          x <- call2("{", !!!args)
         }
       }
     } else {
@@ -46,10 +46,10 @@ inline_meta_tests <- function(arrow, bind, path) {
   test_exprs_flat <- map(test_exprs, flatten_braces)
 
   env <- environment(inline_meta_tests)
-  args <- rlang::pairlist2(ctx = , con = )
+  args <- pairlist2(ctx = , con = )
 
   test_funs <- map(test_exprs_flat, ~ if (!is.null(.x)) {
-    rlang::new_function(args, .x, env)
+    new_function(args, .x, env)
   })
 
   cs <- constructive::construct(

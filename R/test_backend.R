@@ -25,7 +25,7 @@ test_backend <- function(target, reporter = NULL) {
     filter <- "DBItest"
   }
 
-  rlang::local_options(crayon.enabled = TRUE)
+  local_options(crayon.enabled = TRUE)
   pkgload::load_all("..")
   testthat::test_local(pkg, filter = paste0("^", filter, "$"), stop_on_failure = TRUE, reporter = reporter)
 }
