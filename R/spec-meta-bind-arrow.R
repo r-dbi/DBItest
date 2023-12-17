@@ -218,6 +218,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_multi_row_zero_length = function(ctx, con) {
+    skip_if(ctx$tweaks$dbitest_version < "1.7.99.12")
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -449,6 +450,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_factor = function(ctx, con) {
+    skip_if(ctx$tweaks$dbitest_version < "1.7.99.13")
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -666,7 +668,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_raw = function(ctx, con) {
-    skip_if(isTRUE(ctx$tweaks$omit_blob_tests))
+    skip_if(isTRUE(ctx$tweaks$omit_blob_tests) || ctx$tweaks$dbitest_version < "1.7.99.14")
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- ctx$tweaks$blob_cast
