@@ -185,12 +185,18 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' @section Specification:
       #' The elements of the `params` argument do not need to be scalars,
       #' vectors of arbitrary length
-      test_select_bind_expr(arrow = arrow, list(1:3))
+      test_select_bind_expr(
+        arrow = arrow,
+        list(1:3)
+      )
     },
     #
     bind_multi_row_zero_length = function() {
       #' (including length 0)
-      test_select_bind_expr(arrow = arrow, list(integer(), integer()))
+      test_select_bind_expr(
+        arrow = arrow,
+        list(integer(), integer())
+      )
 
       #' are supported.
       # This behavior is tested as part of run_bind_tester$fun
@@ -203,7 +209,11 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       # This behavior is tested as part of run_bind_tester$fun
       #' For data manipulation statements, `dbGetRowsAffected()` returns the
       #' total number of rows affected if binding non-scalar parameters.
-      test_select_bind_expr(arrow = arrow, list(1:3), query = FALSE)
+      test_select_bind_expr(
+        arrow = arrow,
+        list(1:3),
+        query = FALSE
+      )
     },
     #
     bind_repeated = function() {
@@ -211,14 +221,23 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       is_repeated <- TRUE
 
       #' for both queries
-      test_select_bind_expr(arrow = arrow, 1L, is_repeated = is_repeated)
+      test_select_bind_expr(
+        arrow = arrow,
+        1L,
+        is_repeated = is_repeated
+      )
     },
     #
     bind_repeated_statement = if (arrow != "query") function() {
       is_repeated <- TRUE
 
       #' and data manipulation statements,
-      test_select_bind_expr(arrow = arrow, 1L, is_repeated = is_repeated, query = FALSE)
+      test_select_bind_expr(
+        arrow = arrow,
+        1L,
+        is_repeated = is_repeated,
+        query = FALSE
+      )
     },
     #
     bind_repeated_untouched = function() {
@@ -268,22 +287,34 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
     bind_integer = function() {
       #' At least the following data types are accepted on input (including [NA]):
       #' - [integer]
-      test_select_bind_expr(arrow = arrow, c(1:3, NA))
+      test_select_bind_expr(
+        arrow = arrow,
+        c(1:3, NA)
+      )
     },
 
     bind_numeric = function() {
       #' - [numeric]
-      test_select_bind_expr(arrow = arrow, c(1:3 + 0.5, NA))
+      test_select_bind_expr(
+        arrow = arrow,
+        c(1:3 + 0.5, NA)
+      )
     },
 
     bind_logical = function() {
       #' - [logical] for Boolean values
-      test_select_bind_expr(arrow = arrow, c(TRUE, FALSE, NA))
+      test_select_bind_expr(
+        arrow = arrow,
+        c(TRUE, FALSE, NA)
+      )
     },
 
     bind_character = function() {
       #' - [character]
-      test_select_bind_expr(arrow = arrow, c(get_texts(), NA))
+      test_select_bind_expr(
+        arrow = arrow,
+        c(get_texts(), NA)
+      )
     },
 
     bind_character_escape = function() {
