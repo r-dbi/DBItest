@@ -51,9 +51,9 @@ test_select_bind_expr_one$fun <- function(
   })
 
   bind_values_patched_expr <- if (arrow == "params") rlang::expr({
-    nanoarrow::as_nanoarrow_array_stream(!!bind_values_patched_expr_base)
+    dbBind(res, nanoarrow::as_nanoarrow_array_stream(!!bind_values_patched_expr_base))
   }) else rlang::expr({
-    !!bind_values_patched_expr_base
+    dbBind(res, !!bind_values_patched_expr_base)
   })
 
   cast_fun_placeholder_expr <- if (has_cast_fun) rlang::expr({
@@ -161,17 +161,14 @@ test_select_bind_expr_one$fun <- function(
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
   bind_expr <- if (!is.null(check_return_value)) rlang::expr({
-    bind_res <- withVisible(dbBind(res, !!bind_values_patched_expr))
+    bind_res <- withVisible(!!bind_values_patched_expr)
     !!body(check_return_value)
   }) else if (isTRUE(warn)) rlang::expr({
-    suppressWarnings(expect_warning(dbBind(res, !!bind_values_patched_expr)))
+    suppressWarnings(expect_warning(!!bind_values_patched_expr))
   }) else if (is.na(bind_error)) rlang::expr({
-    dbBind(res, !!bind_values_patched_expr)
+    !!bind_values_patched_expr
   }) else rlang::expr({
-    expect_error(
-      dbBind(res, !!bind_values_patched_expr),
-      !!bind_error
-    )
+    expect_error(!!bind_values_patched_expr, !!bind_error)
   })
 
   #' 1. Retrieve the data or the number of affected rows from the `DBIResult` object.
