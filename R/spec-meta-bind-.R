@@ -4,6 +4,7 @@ test_select_bind_expr <- function(
     bind_values,
     ctx = stop("ctx is available during run time only"),
     ...,
+    query = TRUE,
     skip_fun = NULL,
     cast_fun = NULL,
     requires_names = NULL) {
@@ -18,6 +19,7 @@ test_select_bind_expr <- function(
   test_expr <- test_select_bind_expr_one$fun(
     bind_values = bind_values,
     ...,
+    query = query,
     has_cast_fun = has_cast_fun
   )
 
@@ -31,13 +33,17 @@ test_select_bind_expr <- function(
     placeholder_funs_expr <- rlang::expr(get_placeholder_funs(ctx, requires_names = !!requires_names))
   }
 
+  allow_na_rows_affected_expr <- if (!query) rlang::expr({
+    allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
+  })
+
   rlang::expr({
     !!skip_expr
     placeholder_funs <- !!placeholder_funs_expr
 
     is_null_check <- ctx$tweaks$is_null_check
     !!cast_fun_expr
-    allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
+    !!allow_na_rows_affected_expr
 
     for (placeholder_fun in placeholder_funs) {
       !!test_expr
