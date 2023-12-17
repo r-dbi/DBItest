@@ -12,6 +12,7 @@ test_select_bind_expr <- function(
     requires_names = NULL) {
   force(bind_values)
   force(arrow)
+  force(bind)
 
   cast_fun <- rlang::enquo(cast_fun)
   has_cast_fun <- !rlang::quo_is_null(cast_fun)
