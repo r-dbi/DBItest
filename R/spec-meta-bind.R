@@ -8,7 +8,6 @@ spec_meta_bind <- list(
       bind_values <- 1L
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -22,7 +21,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      bind_res <- withVisible(dbBind(res, bind_values))
       expect_identical(res, bind_res$value)
       expect_false(bind_res$visible)
       rows <- check_df(dbFetch(res))
@@ -41,7 +40,6 @@ spec_meta_bind <- list(
       bind_values <- 1L
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       data <- data.frame(a = rep(1:5, 1:5))
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
@@ -53,7 +51,7 @@ spec_meta_bind <- list(
       expect_identical(dbGetRowsAffected(res), NA_integer_)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      bind_res <- withVisible(dbBind(res, bind_values))
       expect_identical(res, bind_res$value)
       expect_false(bind_res$visible)
       rows_affected <- dbGetRowsAffected(res)
@@ -260,7 +258,6 @@ spec_meta_bind <- list(
       bind_values <- 1L
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -270,7 +267,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       dbClearResult(res)
-      expect_error(dbBind(res, bind_values_patched), ".*")
+      expect_error(dbBind(res, bind_values), ".*")
     }
   },
   bind_multi_row = function(ctx, con) {
@@ -280,7 +277,6 @@ spec_meta_bind <- list(
       bind_values <- list(1:3)
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -290,7 +286,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 3L)
       result <- data.frame(a = c(1.5, 2.5, 2.5))
@@ -306,7 +302,6 @@ spec_meta_bind <- list(
       bind_values <- list(integer(0), integer(0))
       placeholder <- placeholder_fun(2L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1:2]
@@ -316,7 +311,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 0L)
       expect_error(dbClearResult(res), NA)
@@ -331,7 +326,6 @@ spec_meta_bind <- list(
       bind_values <- list(1:3)
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       data <- data.frame(a = rep(1:5, 1:5))
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
@@ -340,7 +334,7 @@ spec_meta_bind <- list(
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
         expect_equal(rows_affected, sum(bind_values[[1]]))
@@ -356,7 +350,6 @@ spec_meta_bind <- list(
       bind_values <- 1L
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -366,12 +359,12 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5)
       expect_equal(rows, result)
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5)
@@ -388,7 +381,6 @@ spec_meta_bind <- list(
       bind_values <- 1L
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       data <- data.frame(a = rep(1:5, 1:5))
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
@@ -397,12 +389,12 @@ spec_meta_bind <- list(
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
         expect_equal(rows_affected, sum(bind_values[[1]]))
       }
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
         expect_equal(rows_affected, sum(bind_values[[1]]))
@@ -418,7 +410,6 @@ spec_meta_bind <- list(
       bind_values <- 1L
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -428,8 +419,8 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5)
@@ -446,7 +437,6 @@ spec_meta_bind <- list(
       bind_values <- 1L
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       data <- data.frame(a = rep(1:5, 1:5))
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
@@ -455,8 +445,8 @@ spec_meta_bind <- list(
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
+      dbBind(res, bind_values)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
         expect_equal(rows_affected, sum(bind_values[[1]]))
@@ -495,7 +485,6 @@ spec_meta_bind <- list(
       bind_values <- c(1L, 2L, 3L, NA)
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -506,7 +495,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5)
@@ -522,7 +511,6 @@ spec_meta_bind <- list(
       bind_values <- c(1.5, 2.5, 3.5, NA)
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -533,7 +521,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5)
@@ -549,7 +537,6 @@ spec_meta_bind <- list(
       bind_values <- c(TRUE, FALSE, NA)
       placeholder <- placeholder_fun(3L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[3L] <- paste0("(", is_null_check(placeholder[3L]), ")")
@@ -560,7 +547,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5)
@@ -576,7 +563,6 @@ spec_meta_bind <- list(
       bind_values <- c("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", "M\U{FC}ller", "\U{6211}\U{662F}\U{8C01}", "ASCII", NA)
       placeholder <- placeholder_fun(6L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[6L] <- paste0("(", is_null_check(placeholder[6L]), ")")
@@ -587,7 +573,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5, e = 1.5, f = 1.5)
@@ -603,7 +589,6 @@ spec_meta_bind <- list(
       bind_values <- c(" ", "\n", "\r", "\b", "'", "\"", "[", "]", r"[\]", NA)
       placeholder <- placeholder_fun(10L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[10L] <- paste0("(", is_null_check(placeholder[10L]), ")")
@@ -614,7 +599,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5, e = 1.5, f = 1.5, g = 1.5, h = 1.5, i = 1.5, j = 1.5)
@@ -630,7 +615,6 @@ spec_meta_bind <- list(
       bind_values <- list(factor("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}"), factor("M\U{FC}ller"), factor("M\U{FC}ller"), factor("\U{6211}\U{662F}\U{8C01}"), factor("ASCII"), factor(NA_character_))
       placeholder <- placeholder_fun(6L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[6L] <- paste0("(", is_null_check(placeholder[6L]), ")")
@@ -641,7 +625,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      suppressWarnings(expect_warning(dbBind(res, bind_values_patched)))
+      suppressWarnings(expect_warning(dbBind(res, bind_values)))
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5, e = 1.5, f = 1.5)
@@ -658,7 +642,6 @@ spec_meta_bind <- list(
       bind_values <- as.Date(c("2023-12-17", "2023-12-18", "2023-12-19", NA))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -669,7 +652,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5)
@@ -686,7 +669,6 @@ spec_meta_bind <- list(
       bind_values <- structure(c(18618L, 18619L, 18620L, NA), class = "Date")
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -697,7 +679,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5)
@@ -714,7 +696,6 @@ spec_meta_bind <- list(
       bind_values <- as.POSIXct(c("2023-12-17 02:40:22", "2023-12-17 02:40:23", "2023-12-17 02:40:24", NA))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -725,7 +706,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5)
@@ -742,7 +723,6 @@ spec_meta_bind <- list(
       bind_values <- list(structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:49")), balanced = TRUE), structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:50")), balanced = TRUE), structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:51")), balanced = TRUE), structure(as.POSIXlt(NA_character_), balanced = TRUE))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -753,7 +733,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5)
@@ -770,7 +750,6 @@ spec_meta_bind <- list(
       bind_values <- structure(c(1, 2, 3, NA), class = "difftime", units = "secs")
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -781,7 +760,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5)
@@ -798,7 +777,6 @@ spec_meta_bind <- list(
       bind_values <- structure(c(1, 2, 3, NA), class = "difftime", units = "hours")
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -809,7 +787,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5)
@@ -826,7 +804,6 @@ spec_meta_bind <- list(
       bind_values <- structure(c(1, 2, 3, NA), class = "difftime", units = "mins")
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -837,7 +814,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5)
@@ -855,7 +832,6 @@ spec_meta_bind <- list(
       bind_values <- list(list(as.raw(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))), list(raw(3)), list(NULL))
       placeholder <- placeholder_fun(3L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
       result_check[3L] <- paste0("(", is_null_check(cast_fun(placeholder)[3L]), ")")
@@ -866,7 +842,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5)
@@ -888,7 +864,6 @@ spec_meta_bind <- list(
       )
       placeholder <- placeholder_fun(3L)
       names(bind_values) <- names(placeholder)
-      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
       result_check[3L] <- paste0("(", is_null_check(cast_fun(placeholder)[3L]), ")")
@@ -899,7 +874,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5)

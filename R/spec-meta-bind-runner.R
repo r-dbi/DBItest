@@ -35,10 +35,14 @@ test_select_bind_expr_one$fun <- function(
     bind_values <- !!construct_expr(bind_values)
   })
 
-  bind_values_patched_expr <- if (is.null(patch_bind_values)) rlang::expr({
-    bind_values_patched <- bind_values
-  }) else rlang::expr({
+  set_bind_values_patched_expr <- if (!is.null(patch_bind_values)) rlang::expr({
     bind_values_patched <- !!body(patch_bind_values)
+  })
+
+  bind_values_patched_expr <- if (is.null(patch_bind_values)) rlang::expr({
+    bind_values
+  }) else rlang::expr({
+    bind_values_patched
   })
 
   cast_fun_placeholder_expr <- if (has_cast_fun) rlang::expr({
@@ -134,15 +138,15 @@ test_select_bind_expr_one$fun <- function(
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
   bind_expr <- if (!is.null(check_return_value)) rlang::expr({
-    bind_res <- withVisible(dbBind(res, bind_values_patched))
+    bind_res <- withVisible(dbBind(res, !!bind_values_patched_expr))
     !!body(check_return_value)
   }) else if (isTRUE(warn)) rlang::expr({
-    suppressWarnings(expect_warning(dbBind(res, bind_values_patched)))
+    suppressWarnings(expect_warning(dbBind(res, !!bind_values_patched_expr)))
   }) else if (is.na(bind_error)) rlang::expr({
-    dbBind(res, bind_values_patched)
+    dbBind(res, !!bind_values_patched_expr)
   }) else rlang::expr({
     expect_error(
-      dbBind(res, bind_values_patched),
+      dbBind(res, !!bind_values_patched_expr),
       !!bind_error
     )
   })
@@ -205,7 +209,7 @@ test_select_bind_expr_one$fun <- function(
   test_expr <- rlang::expr({
     !!bind_values_expr
     !!name_values_expr
-    !!bind_values_patched_expr
+    !!set_bind_values_patched_expr
     !!send_expr
     !!clear_expr
     !!bind_expr
