@@ -5,8 +5,9 @@
 #' @usage NULL
 #' @format NULL
 #' @keywords NULL
-spec_meta_bind_expr <- function(arrow = c("none", "query")) {
+spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stream")) {
   arrow <- rlang::arg_match(arrow)
+  bind <- rlang::arg_match(bind)
 
   out <- list(
     bind_return_value = function() {
@@ -406,16 +407,23 @@ spec_meta_bind_expr <- function(arrow = c("none", "query")) {
     NULL
   )
 
-  infix <- get_bind_arrow_infix(arrow)
+  infix <- get_bind_arrow_infix(arrow, bind)
   names(out) <- gsub("^", infix, names(out))
   out
 }
 
-get_bind_arrow_infix <- function(arrow) {
-  switch(
-    arrow,
-    none = "",
-    query = "arrow_",
-    stop("Unknown arrow: ", arrow)
-  )
+get_bind_arrow_infix <- function(arrow, bind) {
+  if (arrow == "none") {
+    if (bind == "df") {
+      ""
+    } else {
+      "stream_"
+    }
+  } else {
+    if (bind == "df") {
+      "arrow_"
+    } else {
+      "arrow_stream_"
+    }
+  }
 }

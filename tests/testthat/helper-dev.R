@@ -41,8 +41,8 @@ flatten_braces <- function(x, in_brace = FALSE, caller = "") {
   x
 }
 
-inline_meta_tests <- function(arrow, path) {
-  test_exprs <- map(compact(spec_meta_bind_expr(arrow = arrow)), ~ if (!is.null(.x)) .x())
+inline_meta_tests <- function(arrow, bind, path) {
+  test_exprs <- map(compact(spec_meta_bind_expr(arrow = arrow, bind = bind)), ~ if (!is.null(.x)) .x())
   test_exprs_flat <- map(test_exprs, flatten_braces)
 
   env <- environment(inline_meta_tests)
@@ -58,7 +58,7 @@ inline_meta_tests <- function(arrow, path) {
     check = FALSE
   )
 
-  infix <- get_bind_arrow_infix(arrow)
+  infix <- get_bind_arrow_infix(arrow, bind)
 
   text <- trimws(format(cs$code), "right")
   text[[1]] <- paste0("spec_meta_", infix, "bind <- ", text[[1]])
@@ -79,6 +79,8 @@ times <- file.mtime(c(
   # Targets
   "../../R/spec-meta-bind.R",
   "../../R/spec-meta-bind-arrow.R",
+  "../../R/spec-meta-bind-stream.R",
+  "../../R/spec-meta-bind-arrow-stream.R",
 
   # Sources
   "../../R/spec-meta-bind-expr.R",
@@ -88,8 +90,10 @@ times <- file.mtime(c(
   NULL
 ))
 
-if (Sys.getenv("CI") == "" && which.max(times) > 2) {
+if (Sys.getenv("CI") == "" && which.max(times) > 4) {
   message("Generating spec-meta-bind.R")
-  inline_meta_tests("none", "../../R/spec-meta-bind.R")
-  inline_meta_tests("query", "../../R/spec-meta-bind-arrow.R")
+  inline_meta_tests("none", "df", "../../R/spec-meta-bind.R")
+  inline_meta_tests("query", "df", "../../R/spec-meta-bind-arrow.R")
+  inline_meta_tests("none", "stream", "../../R/spec-meta-bind-stream.R")
+  inline_meta_tests("query", "stream", "../../R/spec-meta-bind-arrow-stream.R")
 }
