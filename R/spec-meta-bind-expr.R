@@ -356,7 +356,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
         arrow = arrow,
         bind = bind,
         lapply(c(get_texts(), NA_character_), factor),
-        warn = if (arrow != "params") TRUE
+        warn = if (bind == "df") TRUE
       )
     },
 
@@ -445,9 +445,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       )
     },
 
-    # FIXME: lists of raws are tricky in the list -> data frame -> list roundtrip
-    # employed in the DBI fallback implementation
-    bind_raw = if (arrow == "none") function() {
+    bind_raw = if (bind == "df") function() {
       #' - lists of [raw] for blobs (with `NULL` entries for SQL NULL values)
       test_select_bind_expr(
         arrow = arrow,

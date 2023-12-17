@@ -36,7 +36,9 @@ test_select_bind_expr_one$fun <- function(
   force(is_premature_clear)
   force(is_untouched)
 
-  bind_values_expr <- rlang::expr({
+  bind_values_expr <- if (bind == "stream") rlang::expr({
+    bind_values <- !!construct_expr(fix_params(bind_values))
+  }) else rlang::expr({
     bind_values <- !!construct_expr(bind_values)
   })
 
@@ -50,8 +52,8 @@ test_select_bind_expr_one$fun <- function(
     bind_values_patched
   })
 
-  bind_values_patched_expr <- if (arrow == "params") rlang::expr({
-    dbBind(res, nanoarrow::as_nanoarrow_array_stream(!!bind_values_patched_expr_base))
+  bind_values_patched_expr <- if (bind == "stream") rlang::expr({
+    dbBindArrow(res, nanoarrow::as_nanoarrow_array_stream(!!bind_values_patched_expr_base))
   }) else rlang::expr({
     dbBind(res, !!bind_values_patched_expr_base)
   })
@@ -243,4 +245,12 @@ test_select_bind_expr_one$fun <- function(
 construct_expr <- function(x) {
   xc <- constructive::construct(x)
   rlang::parse_expr(format(xc$code))
+}
+
+fix_params <- function(params) {
+  if (is.atomic(params)) {
+    params <- as.list(params)
+  }
+
+  as.data.frame(params, fix.empty.names = FALSE)
 }

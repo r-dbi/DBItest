@@ -665,6 +665,33 @@ spec_meta_arrow_bind <- list(
       res <- NULL
     }
   },
+  arrow_bind_raw = function(ctx, con) {
+    skip_if(isTRUE(ctx$tweaks$omit_blob_tests))
+    placeholder_funs <- get_placeholder_funs(ctx)
+    is_null_check <- ctx$tweaks$is_null_check
+    cast_fun <- ctx$tweaks$blob_cast
+    for (placeholder_fun in placeholder_funs) {
+      bind_values <- list(list(as.raw(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))), list(raw(3)), list(NULL))
+      placeholder <- placeholder_fun(3L)
+      names(bind_values) <- names(placeholder)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      result_check <- paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
+      result_check[3L] <- paste0("(", is_null_check(cast_fun(placeholder)[3L]), ")")
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c")
+      res <- dbSendQueryArrow(con, sql)
+      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
+      dbBind(res, bind_values)
+      rows <- check_df(dbFetch(res))
+      expect_equal(nrow(rows), 1L)
+      result <- data.frame(a = 1.5, b = 1.5, c = 1.5)
+      expect_equal(rows, result)
+      expect_error(dbClearResult(res), NA)
+      res <- NULL
+    }
+  },
   arrow_bind_blob = function(ctx, con) {
     skip_if(isTRUE(ctx$tweaks$omit_blob_tests))
     placeholder_funs <- get_placeholder_funs(ctx)
