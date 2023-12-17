@@ -97,6 +97,7 @@ Collate:
     'spec-sql-list-objects.R'
     'spec-meta-bind-runner.R'
     'spec-meta-bind-formals.R'
+    'spec-meta-bind-expr.R'
     'spec-meta-bind.R'
     'spec-meta-bind-.R'
     'spec-meta-is-valid.R'
