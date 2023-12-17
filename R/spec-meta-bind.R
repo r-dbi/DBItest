@@ -101,12 +101,10 @@ spec_meta_bind <- list(
       if (!is.null(names(placeholder_fun(1)))) {
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
-      bind_values_patched <- {
-        if (is.null(names(bind_values))) {
-          c(bind_values, bind_values[[1L]])
-        } else {
-          c(bind_values, bogus = bind_values[[1L]])
-        }
+      bind_values_patched <- if (is.null(names(bind_values))) {
+        c(bind_values, bind_values[[1L]])
+      } else {
+        c(bind_values, bogus = bind_values[[1L]])
       }
       ret_values <- trivial_values(2)
       placeholder <- placeholder_fun(length(bind_values))
@@ -150,9 +148,7 @@ spec_meta_bind <- list(
       if (!is.null(names(placeholder_fun(1)))) {
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
-      bind_values_patched <- {
-        bind_values[-1L]
-      }
+      bind_values_patched <- bind_values[-1L]
       ret_values <- trivial_values(2)
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
@@ -195,9 +191,7 @@ spec_meta_bind <- list(
       if (!is.null(names(placeholder_fun(1)))) {
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
-      bind_values_patched <- {
-        stats::setNames(bind_values, paste0("bogus", names(bind_values)))
-      }
+      bind_values_patched <- stats::setNames(bind_values, paste0("bogus", names(bind_values)))
       ret_values <- trivial_values(2)
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
@@ -272,9 +266,7 @@ spec_meta_bind <- list(
       if (!is.null(names(placeholder_fun(1)))) {
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
-      bind_values_patched <- {
-        stats::setNames(bind_values, NULL)
-      }
+      bind_values_patched <- stats::setNames(bind_values, NULL)
       ret_values <- trivial_values(2)
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
@@ -409,9 +401,7 @@ spec_meta_bind <- list(
       if (!is.null(names(placeholder_fun(1)))) {
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
-      bind_values_patched <- {
-        stats::setNames(bind_values, letters[seq_along(bind_values)])
-      }
+      bind_values_patched <- stats::setNames(bind_values, letters[seq_along(bind_values)])
       ret_values <- trivial_values(2)
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
@@ -815,9 +805,7 @@ spec_meta_bind <- list(
       if (!is.null(names(placeholder_fun(1)))) {
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
-      bind_values_patched <- {
-        bind_values[c(3, 1, 2, 4)]
-      }
+      bind_values_patched <- bind_values[c(3, 1, 2, 4)]
       ret_values <- trivial_values(2)
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))

@@ -19,17 +19,21 @@ if (dir.exists("../../../RSQLite")) {
   )
 }
 
-flatten_braces <- function(x, in_brace = FALSE) {
+flatten_braces <- function(x, in_brace = FALSE, caller = "") {
   if (is.call(x)) {
     if (x[[1]] == "{") {
       if (in_brace) {
-        return(compact(map(x[-1], flatten_braces, in_brace = TRUE)))
+        return(compact(map(x[-1], flatten_braces, in_brace = TRUE, caller = "{")))
       } else {
-        args <- unlist(map(x[-1], flatten_braces, in_brace = TRUE))
-        x <- rlang::call2("{", !!!args)
+        args <- unlist(map(x[-1], flatten_braces, in_brace = TRUE, caller = "{"))
+        if (length(args) == 1 && caller != "if") {
+          x <- args[[1]]
+        } else {
+          x <- rlang::call2("{", !!!args)
+        }
       }
     } else {
-      x[-1] <- map(x[-1], flatten_braces)
+      x[-1] <- map(x[-1], flatten_braces, caller = x[[1]])
     }
   }
 
