@@ -4,11 +4,13 @@ test_select_bind_expr <- function(
     bind_values,
     ctx = stop("ctx is available during run time only"),
     ...,
+    arrow,
     query = TRUE,
     skip_fun = NULL,
     cast_fun = NULL,
     requires_names = NULL) {
   force(bind_values)
+  force(arrow)
 
   cast_fun <- rlang::enquo(cast_fun)
   has_cast_fun <- !rlang::quo_is_null(cast_fun)
