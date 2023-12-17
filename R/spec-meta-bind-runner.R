@@ -55,8 +55,8 @@ test_select_bind_expr_one$fun <- function(
   is_na <- which(map_lgl(bind_values, is_na_or_null))
   result_names <- letters[seq_along(bind_values)]
 
-  #' 1. Call [dbSendQuery()] or [dbSendStatement()] with a query or statement
-  #'    that contains placeholders,
+  #' 1. Call [dbSendQuery()], [dbSendQueryArrow()] or [dbSendStatement()]
+  #'    with a query or statement that contains placeholders,
   #'    store the returned [DBIResult-class] object in a variable.
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
@@ -88,7 +88,7 @@ test_select_bind_expr_one$fun <- function(
       })
     )
 
-    res <- dbSendQuery(con, sql)
+    res <- (!!if (arrow == "none") rlang::expr(dbSendQuery) else rlang::expr(dbSendQueryArrow))(con, sql)
   }) else rlang::expr({
     data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
     table_name <- random_table_name()
