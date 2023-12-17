@@ -13,6 +13,7 @@ test_select_bind_expr_one$fun <- function(
     bind_values,
     ...,
     query = TRUE,
+    has_cast_fun = FALSE,
     check_return_value = NULL,
     patch_bind_values = NULL,
     bind_error = NA,
@@ -40,6 +41,12 @@ test_select_bind_expr_one$fun <- function(
     bind_values_patched <- !!body(patch_bind_values)
   })
 
+  cast_fun_placeholder_expr <- if (has_cast_fun) rlang::expr({
+    cast_fun(placeholder)
+  }) else rlang::expr({
+    placeholder
+  })
+
   #' 1. Call [dbSendQuery()] or [dbSendStatement()] with a query or statement
   #'    that contains placeholders,
   #'    store the returned [DBIResult-class] object in a variable.
@@ -51,8 +58,8 @@ test_select_bind_expr_one$fun <- function(
     placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
     result_check <- ifelse(
       is_na,
-      paste0("(", is_null_check(cast_fun(placeholder)), ")"),
-      paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
+      paste0("(", is_null_check(!!cast_fun_placeholder_expr), ")"),
+      paste0("(", !!cast_fun_placeholder_expr, " = ", placeholder_values, ")")
     )
     result_names <- letters[seq_along(bind_values)]
 

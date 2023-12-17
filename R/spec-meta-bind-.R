@@ -8,18 +8,22 @@ test_select_bind_expr <- function(
     cast_fun = NULL,
     requires_names = NULL) {
   force(bind_values)
-  test_expr <- test_select_bind_expr_one$fun(bind_values = bind_values, ...)
+
+  cast_fun <- rlang::enquo(cast_fun)
+  has_cast_fun <- !rlang::quo_is_null(cast_fun)
+  cast_fun_expr <- if (has_cast_fun) rlang::expr({
+    cast_fun <- !!rlang::quo_get_expr(cast_fun)
+  })
+
+  test_expr <- test_select_bind_expr_one$fun(
+    bind_values = bind_values,
+    ...,
+    has_cast_fun = has_cast_fun
+  )
 
   skip_expr <- if (!is.null(skip_fun)) rlang::expr({
     skip_if(!!body(skip_fun))
   })
-
-  cast_fun <- rlang::enquo(cast_fun)
-  if (rlang::quo_is_null(cast_fun)) {
-    cast_fun <- rlang::expr(identity)
-  } else {
-    cast_fun <- rlang::quo_get_expr(cast_fun)
-  }
 
   if (is.null(requires_names)) {
     placeholder_funs_expr <- rlang::expr(get_placeholder_funs(ctx))
@@ -32,7 +36,7 @@ test_select_bind_expr <- function(
     placeholder_funs <- !!placeholder_funs_expr
 
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- !!cast_fun
+    !!cast_fun_expr
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
 
     for (placeholder_fun in placeholder_funs) {

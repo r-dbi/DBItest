@@ -4,7 +4,6 @@ spec_meta_bind <- list(
   bind_return_value = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
@@ -15,7 +14,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -46,7 +45,6 @@ spec_meta_bind <- list(
   bind_return_value_statement = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
@@ -80,7 +78,6 @@ spec_meta_bind <- list(
   bind_too_many = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
@@ -95,7 +92,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -115,7 +112,6 @@ spec_meta_bind <- list(
   bind_not_enough = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
@@ -126,7 +122,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -146,7 +142,6 @@ spec_meta_bind <- list(
   bind_wrong_name = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
@@ -157,7 +152,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -177,7 +172,6 @@ spec_meta_bind <- list(
   bind_multi_row_unequal_length = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(1:3, 2:4)
@@ -208,7 +202,6 @@ spec_meta_bind <- list(
   bind_named_param_unnamed_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
@@ -219,7 +212,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -239,7 +232,6 @@ spec_meta_bind <- list(
   bind_named_param_empty_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(1L, 2L)
@@ -253,7 +245,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -273,7 +265,6 @@ spec_meta_bind <- list(
   bind_named_param_na_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(1L, 2L)
@@ -287,7 +278,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -307,7 +298,6 @@ spec_meta_bind <- list(
   bind_unnamed_param_named_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = FALSE)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
@@ -318,7 +308,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -338,7 +328,6 @@ spec_meta_bind <- list(
   bind_premature_clear = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
@@ -349,7 +338,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -363,7 +352,6 @@ spec_meta_bind <- list(
   bind_multi_row = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(1:3)
@@ -374,7 +362,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -403,7 +391,6 @@ spec_meta_bind <- list(
   bind_multi_row_zero_length = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(integer(0), integer(0))
@@ -414,7 +401,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -443,7 +430,6 @@ spec_meta_bind <- list(
   bind_multi_row_statement = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(1:3)
@@ -475,7 +461,6 @@ spec_meta_bind <- list(
   bind_repeated = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
@@ -486,7 +471,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -525,7 +510,6 @@ spec_meta_bind <- list(
   bind_repeated_statement = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
@@ -562,7 +546,6 @@ spec_meta_bind <- list(
   bind_repeated_untouched = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
@@ -573,7 +556,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -603,7 +586,6 @@ spec_meta_bind <- list(
   bind_repeated_untouched_statement = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
@@ -636,7 +618,6 @@ spec_meta_bind <- list(
   bind_named_param_shuffle = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- c(1.5, 2.5, 3.5, NA)
@@ -647,7 +628,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -667,7 +648,6 @@ spec_meta_bind <- list(
   bind_integer = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- c(1L, 2L, 3L, NA)
@@ -678,7 +658,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -707,7 +687,6 @@ spec_meta_bind <- list(
   bind_numeric = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- c(1.5, 2.5, 3.5, NA)
@@ -718,7 +697,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -747,7 +726,6 @@ spec_meta_bind <- list(
   bind_logical = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- c(TRUE, FALSE, NA)
@@ -758,7 +736,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -787,7 +765,6 @@ spec_meta_bind <- list(
   bind_character = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- c("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", "M\U{FC}ller", "\U{6211}\U{662F}\U{8C01}", "ASCII", NA)
@@ -798,7 +775,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -827,7 +804,6 @@ spec_meta_bind <- list(
   bind_character_escape = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- c(" ", "\n", "\r", "\b", "'", "\"", "[", "]", r"[\]", NA)
@@ -838,7 +814,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -867,7 +843,6 @@ spec_meta_bind <- list(
   bind_factor = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(factor("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}"), factor("M\U{FC}ller"), factor("M\U{FC}ller"), factor("\U{6211}\U{662F}\U{8C01}"), factor("ASCII"), factor(NA_character_))
@@ -878,7 +853,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -908,7 +883,6 @@ spec_meta_bind <- list(
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- as.Date(c("2023-12-17", "2023-12-18", "2023-12-19", NA))
@@ -919,7 +893,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -949,7 +923,6 @@ spec_meta_bind <- list(
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(c(18618L, 18619L, 18620L, NA), class = "Date")
@@ -960,7 +933,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -990,7 +963,6 @@ spec_meta_bind <- list(
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- as.POSIXct(c("2023-12-17 02:40:22", "2023-12-17 02:40:23", "2023-12-17 02:40:24", NA))
@@ -1001,7 +973,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -1031,7 +1003,6 @@ spec_meta_bind <- list(
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:49")), balanced = TRUE), structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:50")), balanced = TRUE), structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:51")), balanced = TRUE), structure(as.POSIXlt(NA_character_), balanced = TRUE))
@@ -1042,7 +1013,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -1072,7 +1043,6 @@ spec_meta_bind <- list(
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(c(1, 2, 3, NA), class = "difftime", units = "secs")
@@ -1083,7 +1053,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -1113,7 +1083,6 @@ spec_meta_bind <- list(
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(c(1, 2, 3, NA), class = "difftime", units = "hours")
@@ -1124,7 +1093,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
@@ -1154,7 +1123,6 @@ spec_meta_bind <- list(
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
-    cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(c(1, 2, 3, NA), class = "difftime", units = "mins")
@@ -1165,7 +1133,7 @@ spec_meta_bind <- list(
       placeholder <- placeholder_fun(length(bind_values))
       is_na <- vapply(bind_values, is_na_or_null, logical(1))
       placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
-      result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
+      result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
         "SELECT ",
