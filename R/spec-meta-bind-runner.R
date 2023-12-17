@@ -134,8 +134,8 @@ test_select_bind_expr_one$fun <- function(
   #'    depending on the kind of placeholders used.
   #'    Named values are matched to named parameters, unnamed values
   #'    are matched by position in the list of parameters.
-  name_values_expr <- rlang::expr(if (!is.null(names(placeholder_fun(1)))) {
-    names(bind_values) <- names(placeholder_fun(length(bind_values)))
+  name_values_expr <- rlang::expr({
+    names(bind_values) <- names(placeholder_fun(!!length(bind_values)))
   })
 
   check_return_value_expr <- if (!is.null(check_return_value)) rlang::expr({
