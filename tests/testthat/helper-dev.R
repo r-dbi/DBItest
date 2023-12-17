@@ -11,6 +11,7 @@ if (Sys.getenv("CI") == "" && dir.exists("../../../RSQLite")) {
       "",
       "# test-DBItest.R",
       readLines("../../../RSQLite/tests/testthat/test-DBItest.R"),
+      # gsub("test_all", "test_meta", readLines("../../../RSQLite/tests/testthat/test-DBItest.R")),
       "",
       "# Cleanup",
       "set_default_context(NULL)"
