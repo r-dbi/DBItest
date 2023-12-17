@@ -11,8 +11,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -88,8 +88,8 @@ spec_meta_bind <- list(
         c(bind_values, bogus = bind_values[[1L]])
       }
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -117,8 +117,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values[-1L]
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -146,8 +146,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- stats::setNames(bind_values, paste0("bogus", names(bind_values)))
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -205,8 +205,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- stats::setNames(bind_values, NULL)
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -237,8 +237,8 @@ spec_meta_bind <- list(
         bind_values
       }
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -269,8 +269,8 @@ spec_meta_bind <- list(
         bind_values
       }
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -298,8 +298,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- stats::setNames(bind_values, letters[seq_along(bind_values)])
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -327,8 +327,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -350,8 +350,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -388,8 +388,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -457,8 +457,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -541,8 +541,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -612,8 +612,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values[c(3, 1, 2, 4)]
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -641,8 +641,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -679,8 +679,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -717,8 +717,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -755,8 +755,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -793,8 +793,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -831,8 +831,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -870,8 +870,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -909,8 +909,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -948,8 +948,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -987,8 +987,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -1026,8 +1026,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -1065,8 +1065,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -1104,8 +1104,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -1144,8 +1144,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(
@@ -1188,8 +1188,8 @@ spec_meta_bind <- list(
       }
       bind_values_patched <- bind_values
       placeholder <- placeholder_fun(length(bind_values))
-      is_na <- vapply(bind_values, is_na_or_null, logical(1))
-      placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+      is_na <- map_lgl(bind_values, is_na_or_null)
+      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
       result_names <- letters[seq_along(bind_values)]
       sql <- paste0(

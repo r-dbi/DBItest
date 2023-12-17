@@ -54,8 +54,8 @@ test_select_bind_expr_one$fun <- function(
   #'    recommended.
   send_expr <- if (query) rlang::expr({
     placeholder <- placeholder_fun(length(bind_values))
-    is_na <- vapply(bind_values, is_na_or_null, logical(1))
-    placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+    is_na <- map_lgl(bind_values, is_na_or_null)
+    placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
     result_check <- ifelse(
       is_na,
       paste0("(", is_null_check(!!cast_fun_placeholder_expr), ")"),
