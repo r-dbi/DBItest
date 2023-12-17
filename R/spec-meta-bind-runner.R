@@ -10,13 +10,7 @@ run_bind_tester <- list()
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'
 run_bind_tester$fun <- function(
-    con,
     ...,
-    # Run time
-    placeholder_fun,
-    is_null_check,
-    cast_fun,
-    allow_na_rows_affected,
     # Spec time
     bind_values,
     query,
@@ -28,10 +22,6 @@ run_bind_tester$fun <- function(
     is_premature_clear,
     is_untouched) {
   rlang::check_dots_empty()
-  force(placeholder_fun)
-  force(is_null_check)
-  force(cast_fun)
-  force(allow_na_rows_affected)
   force(bind_values)
   force(query)
   force(skip)
@@ -42,16 +32,18 @@ run_bind_tester$fun <- function(
   force(is_premature_clear)
   force(is_untouched)
 
-  if (is.null(patch_bind_values)) {
-    patch_bind_values <- identity
-  }
-
   bind_values_expr <- rlang::expr({
     bind_values <- !!construct_expr(bind_values)
   })
 
+  bind_values_patched_expr <- if (is.null(patch_bind_values)) rlang::expr({
+    bind_values_patched <- bind_values
+  }) else rlang::expr({
+    bind_values_patched <- !!body(patch_bind_values)
+  })
+
   skip_expr <- if (!is.null(skip_fun) && skip_fun()) rlang::expr({
-    skip(rlang::expr_deparse(body(skip_fun)))
+    skip(!!rlang::expr_deparse(body(skip_fun)))
   })
 
   #' 1. Call [dbSendQuery()] or [dbSendStatement()] with a query or statement
@@ -145,20 +137,22 @@ run_bind_tester$fun <- function(
     names(bind_values) <- names(placeholder_fun(length(bind_values)))
   })
 
+  check_return_value_expr <- if (!is.null(check_return_value)) rlang::expr({
+    !!body(check_return_value)
+  })
+
   #'    All elements in this list must have the same lengths and contain values
   #'    supported by the backend; a [data.frame] is internally stored as such
   #'    a list.
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
   bind_expr <- if (is.na(bind_error)) rlang::expr({
-    bind_res <- withVisible(dbBind(res, patch_bind_values(bind_values)))
-    if (!is.null(check_return_value)) {
-      check_return_value(bind_res, res)
-    }
+    bind_res <- withVisible(dbBind(res, bind_values_patched))
+    !!check_return_value_expr
   }) else rlang::expr({
     expect_error(
-      withVisible(dbBind(res, patch_bind_values(bind_values))),
-      bind_error
+      withVisible(dbBind(res, bind_values_patched)),
+      !!bind_error
     )
   })
 
@@ -194,10 +188,8 @@ run_bind_tester$fun <- function(
 
   #' 1. Repeat 2. and 3. as necessary.
   repeated_expr <- if (is_repeated) rlang::expr({
-    bind_res <- withVisible(dbBind(res, patch_bind_values(bind_values)))
-    if (!is.null(check_return_value)) {
-      check_return_value(bind_res, res)
-    }
+    bind_res <- withVisible(dbBind(res, bind_values_patched))
+    !!check_return_value_expr
     !!retrieve_expr
   })
 
@@ -206,7 +198,7 @@ run_bind_tester$fun <- function(
   early_exit <-
     is_premature_clear ||
       !is.na(bind_error) ||
-      !identical(bind_values, patch_bind_values(bind_values))
+      (!is.null(patch_bind_values) && !identical(bind_values, patch_bind_values(bind_values)))
 
   post_bind_expr <- if (!early_exit) rlang::expr({
     !!not_untouched_expr
@@ -214,17 +206,17 @@ run_bind_tester$fun <- function(
   })
 
   test_expr <- rlang::expr({
-    !!bind_values_expr
     !!skip_expr
+    !!bind_values_expr
+    !!name_values_expr
+    !!bind_values_patched_expr
     !!send_expr
     !!clear_expr
-    !!name_values_expr
     !!bind_expr
     !!post_bind_expr
   })
 
-  rm(bind_values)
-  rlang::eval_bare(test_expr)
+  test_expr
 }
 
 construct_expr <- function(x) {

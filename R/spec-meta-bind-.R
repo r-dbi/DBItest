@@ -1,6 +1,12 @@
 # Helpers -----------------------------------------------------------------
 
-test_select_bind <- function(con, ctx, bind_values, ..., requires_names = NULL) {
+test_select_bind <- function(
+    con,
+    ctx,
+    bind_values,
+    ...,
+    cast_fun = identity,
+    requires_names = NULL) {
   placeholder_funs <- get_placeholder_funs(ctx, requires_names)
 
   lapply(
@@ -9,6 +15,7 @@ test_select_bind <- function(con, ctx, bind_values, ..., requires_names = NULL) 
     con = con,
     bind_values = bind_values,
     is_null_check = ctx$tweaks$is_null_check,
+    cast_fun = cast_fun,
     allow_na_rows_affected = ctx$tweaks$allow_na_rows_affected,
     ...
   )
@@ -66,12 +73,7 @@ test_select_bind_one <- function(
 
   rlang::check_dots_empty()
 
-  run_bind_tester$fun(
-    con,
-    placeholder_fun = placeholder_fun,
-    is_null_check = is_null_check,
-    cast_fun = cast_fun,
-    allow_na_rows_affected = allow_na_rows_affected,
+  test_expr <- run_bind_tester$fun(
     bind_values = bind_values,
     query = query,
     skip_fun = skip_fun,
@@ -82,6 +84,23 @@ test_select_bind_one <- function(
     is_premature_clear = is_premature_clear,
     is_untouched = is_untouched
   )
+
+  rm(bind_values)
+  rm(query)
+  rm(skip_fun)
+  rm(check_return_value)
+  rm(patch_bind_values)
+  rm(bind_error)
+  rm(is_repeated)
+  rm(is_premature_clear)
+  rm(is_untouched)
+
+  force(placeholder_fun)
+  force(is_null_check)
+  force(cast_fun)
+  force(allow_na_rows_affected)
+
+  rlang::eval_bare(test_expr)
 }
 
 
