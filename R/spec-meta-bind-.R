@@ -7,18 +7,20 @@ test_select_bind <- function(
     ...,
     cast_fun = identity,
     requires_names = NULL) {
+
+  force(bind_values)
+  test_expr <- run_bind_tester$fun(bind_values = bind_values, ...)
+
   placeholder_funs <- get_placeholder_funs(ctx, requires_names)
 
-  lapply(
-    placeholder_funs,
-    test_select_bind_one,
-    con = con,
-    bind_values = bind_values,
-    is_null_check = ctx$tweaks$is_null_check,
-    cast_fun = cast_fun,
-    allow_na_rows_affected = ctx$tweaks$allow_na_rows_affected,
-    ...
-  )
+  force(con)
+  is_null_check <- ctx$tweaks$is_null_check
+  force(cast_fun)
+  allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
+
+  for (placeholder_fun in placeholder_funs) {
+    rlang::eval_bare(test_expr)
+  }
 }
 
 get_placeholder_funs <- function(ctx, requires_names = NULL) {
@@ -50,57 +52,6 @@ get_placeholder_funs <- function(ctx, requires_names = NULL) {
   }
 
   placeholder_funs
-}
-
-test_select_bind_one <- function(
-    # Run time
-    con,
-    placeholder_fun,
-    ...,
-    is_null_check,
-    cast_fun = identity,
-    allow_na_rows_affected = FALSE,
-    # Spec time
-    bind_values,
-    query = TRUE,
-    skip_fun = NULL,
-    check_return_value = NULL,
-    patch_bind_values = NULL,
-    bind_error = NA,
-    is_repeated = FALSE,
-    is_premature_clear = FALSE,
-    is_untouched = FALSE) {
-
-  rlang::check_dots_empty()
-
-  test_expr <- run_bind_tester$fun(
-    bind_values = bind_values,
-    query = query,
-    skip_fun = skip_fun,
-    check_return_value = check_return_value,
-    patch_bind_values = patch_bind_values,
-    bind_error = bind_error,
-    is_repeated = is_repeated,
-    is_premature_clear = is_premature_clear,
-    is_untouched = is_untouched
-  )
-
-  rm(bind_values)
-  rm(query)
-  rm(skip_fun)
-  rm(check_return_value)
-  rm(patch_bind_values)
-  rm(bind_error)
-  rm(is_repeated)
-  rm(is_premature_clear)
-  rm(is_untouched)
-
-  force(placeholder_fun)
-  force(is_null_check)
-  force(cast_fun)
-  force(allow_na_rows_affected)
-
-  rlang::eval_bare(test_expr)
 }
 
 

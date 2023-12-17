@@ -10,17 +10,16 @@ run_bind_tester <- list()
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'
 run_bind_tester$fun <- function(
-    ...,
-    # Spec time
     bind_values,
-    query,
-    skip_fun,
-    check_return_value,
-    patch_bind_values,
-    bind_error,
-    is_repeated,
-    is_premature_clear,
-    is_untouched) {
+    ...,
+    query = TRUE,
+    skip_fun = NULL,
+    check_return_value = NULL,
+    patch_bind_values = NULL,
+    bind_error = NA,
+    is_repeated = FALSE,
+    is_premature_clear = FALSE,
+    is_untouched = FALSE) {
   rlang::check_dots_empty()
   force(bind_values)
   force(query)
@@ -193,12 +192,6 @@ run_bind_tester$fun <- function(
     !!retrieve_expr
   })
 
-  #' 1. Close the result set via [dbClearResult()].
-  clear_now_expr <- rlang::expr({
-    expect_error(dbClearResult(res), NA)
-    res <- NULL
-  })
-
   early_exit <-
     is_premature_clear ||
       !is.na(bind_error) ||
@@ -207,7 +200,12 @@ run_bind_tester$fun <- function(
   post_bind_expr <- if (!early_exit) rlang::expr({
     !!not_untouched_expr
     !!repeated_expr
-    !!clear_now_expr
+  })
+
+  #' 1. Close the result set via [dbClearResult()].
+  clear_now_expr <- if (!is_premature_clear) rlang::expr({
+    expect_error(dbClearResult(res), NA)
+    res <- NULL
   })
 
   test_expr <- rlang::expr({
@@ -219,6 +217,7 @@ run_bind_tester$fun <- function(
     !!clear_expr
     !!bind_expr
     !!post_bind_expr
+    !!clear_now_expr
   })
 
   test_expr
