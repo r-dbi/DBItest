@@ -153,14 +153,17 @@ test_select_bind_expr_one$fun <- function(
   retrieve_expr <- if (query) rlang::expr({
     rows <- check_df(dbFetch(res))
     expect_equal(nrow(rows), !!length(bind_values[[1]]))
-    if (nrow(rows) > 0) {
-      result_names <- letters[seq_along(bind_values)]
-      expected <- c(!!trivial_values(1), rep(!!trivial_values(2)[[2]], nrow(rows) - 1))
-      all_expected <- rep(list(expected), length(bind_values))
-      result <- as.data.frame(setNames(all_expected, result_names))
+    # Not checking more specifically in the case of zero rows because of RSQLite
+    !!if (length(bind_values[[1]]) > 0) rlang::expr({
+      result <- !!construct_expr({
+        result_names <- letters[seq_along(bind_values)]
+        expected <- c(trivial_values(1), rep(trivial_values(2)[[2]], length(bind_values[[1]]) - 1))
+        all_expected <- rep(list(expected), length(bind_values))
+        as.data.frame(setNames(all_expected, result_names))
+      })
 
       expect_equal(rows, result)
-    }
+    })
   }) else rlang::expr({
     #'     - For statements issued by `dbSendStatements()`,
     #'       call [dbGetRowsAffected()].
