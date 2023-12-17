@@ -10,11 +10,8 @@ spec_meta_bind <- list(
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1L]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbFetch(res))
@@ -44,8 +41,8 @@ spec_meta_bind <- list(
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
-      value_names <- letters[1L]
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
+      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
+      sql <- paste0(sql, "a = ", placeholder[[1L]])
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_identical(dbGetRowsAffected(res), NA_integer_)
@@ -76,11 +73,8 @@ spec_meta_bind <- list(
       }
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1L]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
@@ -98,11 +92,8 @@ spec_meta_bind <- list(
       bind_values_patched <- bind_values[-1L]
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1L]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
@@ -120,11 +111,8 @@ spec_meta_bind <- list(
       bind_values_patched <- stats::setNames(bind_values, paste0("bogus", names(bind_values)))
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1L]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
@@ -148,8 +136,9 @@ spec_meta_bind <- list(
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
-      value_names <- letters[1:2]
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
+      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
+      sql <- paste0(sql, "a = ", placeholder[[1L]], " AND ")
+      sql <- paste0(sql, "b = ", placeholder[[2L]])
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
@@ -167,11 +156,8 @@ spec_meta_bind <- list(
       bind_values_patched <- stats::setNames(bind_values, NULL)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1L]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
@@ -192,11 +178,9 @@ spec_meta_bind <- list(
       }
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1:2]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
@@ -217,11 +201,9 @@ spec_meta_bind <- list(
       }
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1:2]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
@@ -239,11 +221,8 @@ spec_meta_bind <- list(
       bind_values_patched <- stats::setNames(bind_values, letters[seq_along(bind_values)])
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1L]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
@@ -260,11 +239,8 @@ spec_meta_bind <- list(
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1L]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
       res <- dbSendQuery(con, sql)
       dbClearResult(res)
       expect_error(dbBind(res, bind_values), ".*")
@@ -279,11 +255,8 @@ spec_meta_bind <- list(
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1L]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -304,11 +277,9 @@ spec_meta_bind <- list(
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1:2]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -330,8 +301,8 @@ spec_meta_bind <- list(
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
-      value_names <- letters[1L]
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
+      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
+      sql <- paste0(sql, "a = ", placeholder[[1L]])
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -352,11 +323,8 @@ spec_meta_bind <- list(
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1L]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -385,8 +353,8 @@ spec_meta_bind <- list(
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
-      value_names <- letters[1L]
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
+      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
+      sql <- paste0(sql, "a = ", placeholder[[1L]])
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -412,11 +380,8 @@ spec_meta_bind <- list(
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      result_names <- letters[1L]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -441,8 +406,8 @@ spec_meta_bind <- list(
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
-      value_names <- letters[1L]
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
+      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
+      sql <- paste0(sql, "a = ", placeholder[[1L]])
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -466,11 +431,11 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
-      result_names <- letters[1:4]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
@@ -488,11 +453,11 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
-      result_names <- letters[1:4]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -514,11 +479,11 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
-      result_names <- letters[1:4]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -540,11 +505,10 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[3L] <- paste0("(", is_null_check(placeholder[3L]), ")")
-      result_names <- letters[1:3]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -566,11 +530,13 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[6L] <- paste0("(", is_null_check(placeholder[6L]), ")")
-      result_names <- letters[1:6]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[5L]], " THEN 1.5 ELSE 2.5 END AS e, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[6L]], " THEN 1.5 ELSE 2.5 END AS f")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -592,11 +558,17 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[10L] <- paste0("(", is_null_check(placeholder[10L]), ")")
-      result_names <- letters[1:10]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[5L]], " THEN 1.5 ELSE 2.5 END AS e, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[6L]], " THEN 1.5 ELSE 2.5 END AS f, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[7L]], " THEN 1.5 ELSE 2.5 END AS g, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[8L]], " THEN 1.5 ELSE 2.5 END AS h, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[9L]], " THEN 1.5 ELSE 2.5 END AS i, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[10L]], " THEN 1.5 ELSE 2.5 END AS j")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -618,11 +590,13 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[6L] <- paste0("(", is_null_check(placeholder[6L]), ")")
-      result_names <- letters[1:6]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[5L]], " THEN 1.5 ELSE 2.5 END AS e, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[6L]], " THEN 1.5 ELSE 2.5 END AS f")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       suppressWarnings(expect_warning(dbBind(res, bind_values)))
@@ -645,11 +619,11 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
-      result_names <- letters[1:4]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -672,11 +646,11 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
-      result_names <- letters[1:4]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -699,11 +673,11 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
-      result_names <- letters[1:4]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -726,11 +700,11 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
-      result_names <- letters[1:4]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -753,11 +727,11 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
-      result_names <- letters[1:4]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -780,11 +754,11 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
-      result_names <- letters[1:4]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -807,11 +781,11 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
-      result_names <- letters[1:4]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -835,11 +809,10 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
       result_check[3L] <- paste0("(", is_null_check(cast_fun(placeholder)[3L]), ")")
-      result_names <- letters[1:3]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
@@ -867,11 +840,10 @@ spec_meta_bind <- list(
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
       result_check[3L] <- paste0("(", is_null_check(cast_fun(placeholder)[3L]), ")")
-      result_names <- letters[1:3]
-      sql <- paste0(
-        "SELECT ",
-        paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
-      )
+      sql <- "SELECT "
+      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
+      sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c")
       res <- dbSendQuery(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)

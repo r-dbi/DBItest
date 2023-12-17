@@ -52,6 +52,7 @@ test_select_bind_expr_one$fun <- function(
   })
 
   is_na <- which(map_lgl(bind_values, is_na_or_null))
+  result_names <- letters[seq_along(bind_values)]
 
   #' 1. Call [dbSendQuery()] or [dbSendStatement()] with a query or statement
   #'    that contains placeholders,
@@ -65,17 +66,25 @@ test_select_bind_expr_one$fun <- function(
       result_check[!!construct_expr(is_na)] <-
         paste0("(", is_null_check((!!cast_fun_placeholder_expr)[!!construct_expr(is_na)]), ")")
     })
-    result_names <- letters[!!construct_expr(seq_along(bind_values))]
 
-    sql <- paste0(
-      "SELECT ",
-      paste0(
-        "CASE WHEN ",
-        result_check,
-        !!paste0(" THEN ", trivial_values(2)[[1]], " ELSE ", trivial_values(2)[[2]], " END", " AS "),
-        result_names,
-        collapse = ", "
-      )
+    sql <- "SELECT "
+    !!!map2(
+      seq_along(result_names), result_names, ~ rlang::expr({
+        sql <- paste0(
+          sql,
+          "CASE WHEN ",
+          result_check[[!!.x]],
+          !!paste0(
+            " THEN ",
+            trivial_values(2)[[1]],
+            " ELSE ",
+            trivial_values(2)[[2]],
+            " END AS ",
+            .y,
+            if (.x < length(result_names)) ", "
+          )
+        )
+      })
     )
 
     res <- dbSendQuery(con, sql)
@@ -85,11 +94,15 @@ test_select_bind_expr_one$fun <- function(
     table_name <- random_table_name()
     dbWriteTable(con, table_name, data, temporary = TRUE)
 
-    value_names <- letters[!!construct_expr(seq_along(bind_values))]
-    sql <- paste0(
-      "UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ",
-      paste(value_names, " = ", placeholder, collapse = " AND ")
-    )
+    sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
+    !!!map2(result_names, seq_along(result_names), ~ rlang::expr({
+      sql <- paste0(
+        sql,
+        !!paste0(.x, " = "),
+        placeholder[[!!.y]],
+        !!!if (.y < length(result_names)) " AND "
+      )
+    }))
 
     res <- dbSendStatement(con, sql)
   })
