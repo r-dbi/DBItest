@@ -6,9 +6,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
-      names(bind_values) <- names(placeholder_fun(1L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -44,14 +44,14 @@ spec_meta_bind <- list(
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
-      names(bind_values) <- names(placeholder_fun(1L))
+      placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
       bind_values_patched <- bind_values
       data <- data.frame(a = rep(1:5, 1:5))
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
       value_names <- letters[1L]
-      placeholder <- placeholder_fun(1L)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
@@ -74,13 +74,13 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
-      names(bind_values) <- names(placeholder_fun(1L))
+      placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
       bind_values_patched <- if (is.null(names(bind_values))) {
         c(bind_values, bind_values[[1L]])
       } else {
         c(bind_values, bogus = bind_values[[1L]])
       }
-      placeholder <- placeholder_fun(1L)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -104,9 +104,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
-      names(bind_values) <- names(placeholder_fun(1L))
-      bind_values_patched <- bind_values[-1L]
       placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values[-1L]
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -130,9 +130,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
-      names(bind_values) <- names(placeholder_fun(1L))
-      bind_values_patched <- stats::setNames(bind_values, paste0("bogus", names(bind_values)))
       placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- stats::setNames(bind_values, paste0("bogus", names(bind_values)))
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -157,7 +157,8 @@ spec_meta_bind <- list(
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(1:3, 2:4)
-      names(bind_values) <- names(placeholder_fun(2L))
+      placeholder <- placeholder_fun(2L)
+      names(bind_values) <- names(placeholder)
       bind_values_patched <- {
         bind_values[[2]] <- bind_values[[2]][-1]
         bind_values
@@ -167,7 +168,6 @@ spec_meta_bind <- list(
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
       value_names <- letters[1:2]
-      placeholder <- placeholder_fun(2L)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
@@ -184,9 +184,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
-      names(bind_values) <- names(placeholder_fun(1L))
-      bind_values_patched <- stats::setNames(bind_values, NULL)
       placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- stats::setNames(bind_values, NULL)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -210,12 +210,12 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(1L, 2L)
-      names(bind_values) <- names(placeholder_fun(2L))
+      placeholder <- placeholder_fun(2L)
+      names(bind_values) <- names(placeholder)
       bind_values_patched <- {
         names(bind_values)[[1]] <- ""
         bind_values
       }
-      placeholder <- placeholder_fun(2L)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1:2]
@@ -239,12 +239,12 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(1L, 2L)
-      names(bind_values) <- names(placeholder_fun(2L))
+      placeholder <- placeholder_fun(2L)
+      names(bind_values) <- names(placeholder)
       bind_values_patched <- {
         names(bind_values)[[1]] <- NA
         bind_values
       }
-      placeholder <- placeholder_fun(2L)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1:2]
@@ -268,9 +268,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
-      names(bind_values) <- names(placeholder_fun(1L))
-      bind_values_patched <- stats::setNames(bind_values, letters[seq_along(bind_values)])
       placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- stats::setNames(bind_values, letters[seq_along(bind_values)])
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -294,9 +294,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
-      names(bind_values) <- names(placeholder_fun(1L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -314,9 +314,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(1:3)
-      names(bind_values) <- names(placeholder_fun(1L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -349,9 +349,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(integer(0), integer(0))
-      names(bind_values) <- names(placeholder_fun(2L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(2L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1:2]
@@ -385,14 +385,14 @@ spec_meta_bind <- list(
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(1:3)
-      names(bind_values) <- names(placeholder_fun(1L))
+      placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
       bind_values_patched <- bind_values
       data <- data.frame(a = rep(1:5, 1:5))
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
       value_names <- letters[1L]
-      placeholder <- placeholder_fun(1L)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
@@ -413,9 +413,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
-      names(bind_values) <- names(placeholder_fun(1L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -459,14 +459,14 @@ spec_meta_bind <- list(
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
-      names(bind_values) <- names(placeholder_fun(1L))
+      placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
       bind_values_patched <- bind_values
       data <- data.frame(a = rep(1:5, 1:5))
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
       value_names <- letters[1L]
-      placeholder <- placeholder_fun(1L)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
@@ -492,9 +492,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
-      names(bind_values) <- names(placeholder_fun(1L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_names <- letters[1L]
@@ -529,14 +529,14 @@ spec_meta_bind <- list(
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       bind_values <- 1L
-      names(bind_values) <- names(placeholder_fun(1L))
+      placeholder <- placeholder_fun(1L)
+      names(bind_values) <- names(placeholder)
       bind_values_patched <- bind_values
       data <- data.frame(a = rep(1:5, 1:5))
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
       value_names <- letters[1L]
-      placeholder <- placeholder_fun(1L)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
@@ -558,9 +558,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- c(1.5, 2.5, 3.5, NA)
-      names(bind_values) <- names(placeholder_fun(4L))
-      bind_values_patched <- bind_values[c(3, 1, 2, 4)]
       placeholder <- placeholder_fun(4L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values[c(3, 1, 2, 4)]
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -585,9 +585,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- c(1L, 2L, 3L, NA)
-      names(bind_values) <- names(placeholder_fun(4L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(4L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -621,9 +621,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- c(1.5, 2.5, 3.5, NA)
-      names(bind_values) <- names(placeholder_fun(4L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(4L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -657,9 +657,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- c(TRUE, FALSE, NA)
-      names(bind_values) <- names(placeholder_fun(3L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(3L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[3L] <- paste0("(", is_null_check(placeholder[3L]), ")")
@@ -693,9 +693,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- c("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", "M\U{FC}ller", "\U{6211}\U{662F}\U{8C01}", "ASCII", NA)
-      names(bind_values) <- names(placeholder_fun(6L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(6L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[6L] <- paste0("(", is_null_check(placeholder[6L]), ")")
@@ -729,9 +729,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- c(" ", "\n", "\r", "\b", "'", "\"", "[", "]", r"[\]", NA)
-      names(bind_values) <- names(placeholder_fun(10L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(10L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[10L] <- paste0("(", is_null_check(placeholder[10L]), ")")
@@ -765,9 +765,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(factor("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}"), factor("M\U{FC}ller"), factor("M\U{FC}ller"), factor("\U{6211}\U{662F}\U{8C01}"), factor("ASCII"), factor(NA_character_))
-      names(bind_values) <- names(placeholder_fun(6L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(6L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[6L] <- paste0("(", is_null_check(placeholder[6L]), ")")
@@ -802,9 +802,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- as.Date(c("2023-12-17", "2023-12-18", "2023-12-19", NA))
-      names(bind_values) <- names(placeholder_fun(4L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(4L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -839,9 +839,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(c(18618L, 18619L, 18620L, NA), class = "Date")
-      names(bind_values) <- names(placeholder_fun(4L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(4L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -876,9 +876,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- as.POSIXct(c("2023-12-17 02:40:22", "2023-12-17 02:40:23", "2023-12-17 02:40:24", NA))
-      names(bind_values) <- names(placeholder_fun(4L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(4L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -913,9 +913,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:49")), balanced = TRUE), structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:50")), balanced = TRUE), structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:51")), balanced = TRUE), structure(as.POSIXlt(NA_character_), balanced = TRUE))
-      names(bind_values) <- names(placeholder_fun(4L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(4L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -950,9 +950,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(c(1, 2, 3, NA), class = "difftime", units = "secs")
-      names(bind_values) <- names(placeholder_fun(4L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(4L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -987,9 +987,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(c(1, 2, 3, NA), class = "difftime", units = "hours")
-      names(bind_values) <- names(placeholder_fun(4L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(4L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -1024,9 +1024,9 @@ spec_meta_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(c(1, 2, 3, NA), class = "difftime", units = "mins")
-      names(bind_values) <- names(placeholder_fun(4L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(4L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
@@ -1062,9 +1062,9 @@ spec_meta_bind <- list(
     cast_fun <- ctx$tweaks$blob_cast
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(list(as.raw(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))), list(raw(3)), list(NULL))
-      names(bind_values) <- names(placeholder_fun(3L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(3L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
       result_check[3L] <- paste0("(", is_null_check(cast_fun(placeholder)[3L]), ")")
@@ -1104,9 +1104,9 @@ spec_meta_bind <- list(
         structure(vctrs::list_of(raw(3), .ptype = raw(0)), class = c("blob", "vctrs_list_of", "vctrs_vctr", "list")),
         structure(vctrs::list_of(NULL, .ptype = raw(0)), class = c("blob", "vctrs_list_of", "vctrs_vctr", "list"))
       )
-      names(bind_values) <- names(placeholder_fun(3L))
-      bind_values_patched <- bind_values
       placeholder <- placeholder_fun(3L)
+      names(bind_values) <- names(placeholder)
+      bind_values_patched <- bind_values
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
       result_check[3L] <- paste0("(", is_null_check(cast_fun(placeholder)[3L]), ")")

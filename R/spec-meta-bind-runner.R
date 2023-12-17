@@ -55,7 +55,6 @@ test_select_bind_expr_one$fun <- function(
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
   send_expr <- if (query) rlang::expr({
-    placeholder <- placeholder_fun(!!length(bind_values))
     placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
     result_check <- paste0("(", (!!cast_fun_placeholder_expr), " = ", placeholder_values, ")")
     !!if (length(is_na) > 0) rlang::expr({
@@ -83,7 +82,6 @@ test_select_bind_expr_one$fun <- function(
     dbWriteTable(con, table_name, data, temporary = TRUE)
 
     value_names <- letters[!!construct_expr(seq_along(bind_values))]
-    placeholder <- placeholder_fun(!!length(bind_values))
     sql <- paste0(
       "UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ",
       paste(value_names, " = ", placeholder, collapse = " AND ")
@@ -135,7 +133,8 @@ test_select_bind_expr_one$fun <- function(
   #'    Named values are matched to named parameters, unnamed values
   #'    are matched by position in the list of parameters.
   name_values_expr <- rlang::expr({
-    names(bind_values) <- names(placeholder_fun(!!length(bind_values)))
+    placeholder <- placeholder_fun(!!length(bind_values))
+    names(bind_values) <- names(placeholder)
   })
 
   check_return_value_expr <- if (!is.null(check_return_value)) rlang::expr({
