@@ -41,7 +41,7 @@ flatten_braces <- function(x, in_brace = FALSE, caller = "") {
 }
 
 inline_meta_tests <- function() {
-  test_exprs <- map(spec_meta_bind_expr, ~ if (!is.null(.x)) .x())
+  test_exprs <- map(spec_meta_bind_expr(), ~ if (!is.null(.x)) .x())
   test_exprs_flat <- map(test_exprs, flatten_braces)
 
   env <- environment(inline_meta_tests)
