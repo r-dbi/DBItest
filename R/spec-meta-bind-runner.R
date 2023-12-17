@@ -49,17 +49,18 @@ test_select_bind_expr_one$fun <- function(
     placeholder <- placeholder_fun(length(bind_values))
     is_na <- vapply(bind_values, is_na_or_null, logical(1))
     placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
+    result_check <- ifelse(
+      is_na,
+      paste0("(", is_null_check(cast_fun(placeholder)), ")"),
+      paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
+    )
     result_names <- letters[seq_along(bind_values)]
 
     sql <- paste0(
       "SELECT ",
       paste0(
         "CASE WHEN ",
-        ifelse(
-          is_na,
-          paste0("(", is_null_check(cast_fun(placeholder)), ")"),
-          paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
-        ),
+        result_check,
         !!paste0(" THEN ", trivial_values(2)[[1]], " ELSE ", trivial_values(2)[[2]], " END", " AS "),
         result_names,
         collapse = ", "
