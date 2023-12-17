@@ -549,7 +549,7 @@ spec_meta_arrow_params_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[6L]], " THEN 1.5 ELSE 2.5 END AS f")
       res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      suppressWarnings(expect_warning(dbBind(res, nanoarrow::as_nanoarrow_array_stream(bind_values))))
+      dbBind(res, nanoarrow::as_nanoarrow_array_stream(bind_values))
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5, b = 1.5, c = 1.5, d = 1.5, e = 1.5, f = 1.5)

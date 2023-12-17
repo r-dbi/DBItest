@@ -299,7 +299,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query", "params")) {
       test_select_bind_expr(
         arrow = arrow,
         lapply(c(get_texts(), NA_character_), factor),
-        warn = TRUE
+        warn = if (arrow != "params") TRUE
       )
     },
 
