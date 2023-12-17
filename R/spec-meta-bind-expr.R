@@ -93,7 +93,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       )
     },
     #
-    bind_multi_row_unequal_length = if (arrow != "params") function() {
+    bind_multi_row_unequal_length = if (bind == "df") function() {
       patch_bind_values <- function(bind_values) {
         #' or unequal length,
         bind_values[[2]] <- bind_values[[2]][-1]
