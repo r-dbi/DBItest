@@ -66,7 +66,7 @@ spec_meta_bind"><meta name="robots" content="noindex"><!-- mathjax --><script sr
 
 <p><code>dbBind()</code> returns the result set,
 invisibly,
-for queries issued by <code>dbSendQuery()</code></p>
+for queries issued by <code>dbSendQuery()</code> or <code>dbSendQueryArrow()</code></p>
 
 
 <p>and also for data manipulation statements issued by
@@ -76,8 +76,8 @@ for queries issued by <code>dbSendQuery()</code></p>
     <h2>Specification</h2>
     
 
-<p><span class="pkg">DBI</span> clients execute parametrized statements as follows:</p><ol><li><p>Call <code>dbSendQuery()</code> or <code>dbSendStatement()</code> with a query or statement
-that contains placeholders,
+<p><span class="pkg">DBI</span> clients execute parametrized statements as follows:</p><ol><li><p>Call <code>dbSendQuery()</code>, <code>dbSendQueryArrow()</code> or <code>dbSendStatement()</code>
+with a query or statement that contains placeholders,
 store the returned DBIResult object in a variable.
 Mixing placeholders (in particular, named and unnamed ones) is not
 recommended.
