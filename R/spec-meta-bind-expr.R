@@ -285,7 +285,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query", "params")) {
       test_select_bind_expr(arrow = arrow, c(get_texts(), NA))
     },
 
-    bind_character_escape = if (getRversion() >= "4.0") function() {
+    bind_character_escape = function() {
       #'   (also with special characters such as spaces, newlines, quotes, and backslashes)
       test_select_bind_expr(
         arrow = arrow,
