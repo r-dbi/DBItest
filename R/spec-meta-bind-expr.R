@@ -8,7 +8,7 @@
 spec_meta_bind_expr <- function(arrow = c("none", "query", "params")) {
   arrow <- rlang::arg_match(arrow)
 
-  list(
+  out <- list(
     bind_return_value = function() {
       #' @return
       check_return_value <- function(bind_res, res) {
@@ -402,5 +402,19 @@ spec_meta_bind_expr <- function(arrow = c("none", "query", "params")) {
     },
     #
     NULL
+  )
+
+  infix <- get_bind_arrow_infix(arrow)
+  names(out) <- gsub("^", infix, names(out))
+  out
+}
+
+get_bind_arrow_infix <- function(arrow) {
+  switch(
+    arrow,
+    none = "",
+    query = "arrow_",
+    params = "arrow_params_",
+    stop("Unknown arrow: ", arrow)
   )
 }
