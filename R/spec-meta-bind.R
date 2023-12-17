@@ -26,7 +26,7 @@ spec_meta_bind <- list(
       expect_identical(res, bind_res$value)
       expect_false(bind_res$visible)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -297,7 +297,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 3L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -328,7 +328,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 0L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -385,7 +385,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -395,7 +395,7 @@ spec_meta_bind <- list(
       }
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -458,7 +458,7 @@ spec_meta_bind <- list(
       dbBind(res, bind_values_patched)
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -540,7 +540,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -572,7 +572,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -604,7 +604,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -636,7 +636,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -668,7 +668,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -700,7 +700,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       suppressWarnings(expect_warning(dbBind(res, bind_values_patched)))
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -733,7 +733,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -766,7 +766,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -799,7 +799,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -832,7 +832,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -865,7 +865,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -898,7 +898,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -931,7 +931,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -965,7 +965,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))
@@ -1003,7 +1003,7 @@ spec_meta_bind <- list(
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
-      expect_equal(nrow(rows), length(bind_values[[1]]))
+      expect_equal(nrow(rows), 1L)
       if (nrow(rows) > 0) {
         result_names <- letters[seq_along(bind_values)]
         expected <- c(1.5, rep(2.5, nrow(rows) - 1))

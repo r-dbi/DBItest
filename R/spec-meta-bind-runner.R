@@ -152,7 +152,7 @@ test_select_bind_expr_one$fun <- function(
   #'       call [dbFetch()].
   retrieve_expr <- if (query) rlang::expr({
     rows <- check_df(dbFetch(res))
-    expect_equal(nrow(rows), length(bind_values[[1]]))
+    expect_equal(nrow(rows), !!length(bind_values[[1]]))
     if (nrow(rows) > 0) {
       result_names <- letters[seq_along(bind_values)]
       expected <- c(!!trivial_values(1), rep(!!trivial_values(2)[[2]], nrow(rows) - 1))
