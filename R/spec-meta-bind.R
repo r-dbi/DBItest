@@ -1275,7 +1275,7 @@ spec_meta_bind <- list(
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
-      bind_values <- as.POSIXct(c("2023-12-17 02:37:07", "2023-12-17 02:37:08", "2023-12-17 02:37:09", NA))
+      bind_values <- as.POSIXct(c("2023-12-17 02:40:22", "2023-12-17 02:40:23", "2023-12-17 02:40:24", NA))
       if (!is.null(names(placeholder_fun(1)))) {
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
@@ -1328,7 +1328,7 @@ spec_meta_bind <- list(
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
       skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
-      bind_values <- list(structure(as.POSIXlt(as.POSIXct("2023-12-17 02:37:07")), balanced = TRUE), structure(as.POSIXlt(as.POSIXct("2023-12-17 02:37:08")), balanced = TRUE), structure(as.POSIXlt(as.POSIXct("2023-12-17 02:37:09")), balanced = TRUE), structure(as.POSIXlt(NA_character_), balanced = TRUE))
+      bind_values <- list(structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:49")), balanced = TRUE), structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:50")), balanced = TRUE), structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:51")), balanced = TRUE), structure(as.POSIXlt(NA_character_), balanced = TRUE))
       if (!is.null(names(placeholder_fun(1)))) {
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }

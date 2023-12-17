@@ -302,7 +302,12 @@ spec_meta_bind_expr <- list(
 
   bind_timestamp = function() {
     #' - [POSIXct] timestamps
-    data_in <- as.POSIXct(c(round(Sys.time()) + 0:2, NA))
+    data_in <- as.POSIXct(c(
+      "2023-12-17 02:40:22",
+      "2023-12-17 02:40:23",
+      "2023-12-17 02:40:24",
+      NA
+    ))
     test_select_bind_expr(
       data_in,
       skip_fun = function() !isTRUE(ctx$tweaks$timestamp_typed)
@@ -311,9 +316,11 @@ spec_meta_bind_expr <- list(
 
   bind_timestamp_lt = function() {
     #' - [POSIXlt] timestamps
-    data_in <- lapply(
-      round(Sys.time()) + c(0:2, NA),
-      as.POSIXlt
+    data_in <- list(
+      as.POSIXlt(as.POSIXct("2023-12-17 02:40:49")),
+      as.POSIXlt(as.POSIXct("2023-12-17 02:40:50")),
+      as.POSIXlt(as.POSIXct("2023-12-17 02:40:51")),
+      as.POSIXlt(NA_character_)
     )
     test_select_bind_expr(
       data_in,
