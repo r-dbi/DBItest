@@ -2,6 +2,7 @@
 spec_arrow <- c(
   spec_arrow_send_query_arrow,
   spec_arrow_fetch_arrow,
+  spec_arrow_fetch_arrow_chunk,
   spec_arrow_get_query_arrow,
   spec_arrow_read_table_arrow,
   spec_arrow_write_table_arrow,

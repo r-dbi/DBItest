@@ -97,6 +97,7 @@ The order of the columns does not matter.
 \seealso{
 Other Arrow specifications: 
 \code{\link{spec_arrow_create_table_arrow}},
+\code{\link{spec_arrow_fetch_arrow_chunk}},
 \code{\link{spec_arrow_fetch_arrow}},
 \code{\link{spec_arrow_get_query_arrow}},
 \code{\link{spec_arrow_read_table_arrow}},
