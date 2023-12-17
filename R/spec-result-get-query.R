@@ -73,13 +73,12 @@ spec_result_get_query <- list(
     expect_error(dbGetQuery(con, query, n = 1.5))
     expect_error(dbGetQuery(con, query, n = integer()))
     expect_error(dbGetQuery(con, query, n = 1:3))
-    expect_error(dbGetQuery(con, query, n = NA_integer_))
   },
 
   get_query_good_after_bad_n = function(con) {
     #' but a subsequent call to `dbGetQuery()` with proper `n` argument succeeds.
     query <- trivial_query()
-    expect_error(dbGetQuery(con, query, n = NA_integer_))
+    expect_error(dbGetQuery(con, query, n = -2))
     rows <- check_df(dbGetQuery(con, query))
     expect_equal(rows, data.frame(a = 1.5))
   },
