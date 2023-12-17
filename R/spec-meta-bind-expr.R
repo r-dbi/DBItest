@@ -22,6 +22,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' for queries issued by [dbSendQuery()] or [dbSendQueryArrow()]
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         1L,
         check_return_value = check_return_value
       )
@@ -37,6 +38,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' [dbSendStatement()].
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         1L,
         check_return_value = check_return_value,
         query = FALSE
@@ -55,6 +57,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       }
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         1L,
         patch_bind_values = patch_bind_values,
         bind_error = ".*"
@@ -68,6 +71,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       }
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         1:2,
         patch_bind_values = patch_bind_values,
         bind_error = ".*"
@@ -81,6 +85,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       }
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         1L,
         patch_bind_values = patch_bind_values,
         bind_error = ".*",
@@ -97,6 +102,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' also raises an error.
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         list(1:3, 2:4),
         patch_bind_values = patch_bind_values,
         bind_error = ".*",
@@ -112,6 +118,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       }
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         1L,
         patch_bind_values = patch_bind_values,
         bind_error = ".*",
@@ -127,6 +134,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       }
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         list(1L, 2L),
         patch_bind_values = patch_bind_values,
         bind_error = ".*",
@@ -142,6 +150,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       }
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         list(1L, 2L),
         patch_bind_values = patch_bind_values,
         bind_error = ".*",
@@ -157,6 +166,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' otherwise an error is raised.
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         1L,
         patch_bind_values = patch_bind_values,
         bind_error = ".*",
@@ -175,6 +185,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' also raises an error.
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         1L,
         is_premature_clear = is_premature_clear,
         bind_error = ".*"
@@ -187,6 +198,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' vectors of arbitrary length
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         list(1:3)
       )
     },
@@ -195,6 +207,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' (including length 0)
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         list(integer(), integer())
       )
 
@@ -211,6 +224,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' total number of rows affected if binding non-scalar parameters.
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         list(1:3),
         query = FALSE
       )
@@ -223,6 +237,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' for both queries
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         1L,
         is_repeated = is_repeated
       )
@@ -234,6 +249,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' and data manipulation statements,
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         1L,
         is_repeated = is_repeated,
         query = FALSE
@@ -248,6 +264,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' for both queries
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         1L,
         is_repeated = is_repeated,
         is_untouched = is_untouched
@@ -261,6 +278,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' and data manipulation statements.
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         1L,
         is_repeated = is_repeated,
         is_untouched = is_untouched,
@@ -277,6 +295,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       }
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         c(1:3 + 0.5, NA),
         patch_bind_values = patch_bind_values,
         requires_names = TRUE
@@ -289,6 +308,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' - [integer]
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         c(1:3, NA)
       )
     },
@@ -297,6 +317,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' - [numeric]
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         c(1:3 + 0.5, NA)
       )
     },
@@ -305,6 +326,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' - [logical] for Boolean values
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         c(TRUE, FALSE, NA)
       )
     },
@@ -313,6 +335,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' - [character]
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         c(get_texts(), NA)
       )
     },
@@ -321,6 +344,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #'   (also with special characters such as spaces, newlines, quotes, and backslashes)
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         c(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA)
       )
     },
@@ -330,6 +354,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' with warning)
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         lapply(c(get_texts(), NA_character_), factor),
         warn = if (arrow != "params") TRUE
       )
@@ -339,6 +364,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' - [Date]
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         c(Sys.Date() + 0:2, NA),
         skip_fun = function() !isTRUE(ctx$tweaks$date_typed)
       )
@@ -348,6 +374,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #'   (also when stored internally as integer)
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         structure(c(18618:18620, NA), class = "Date"),
         skip_fun = function() !isTRUE(ctx$tweaks$date_typed)
       )
@@ -363,6 +390,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       ))
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         data_in,
         skip_fun = function() !isTRUE(ctx$tweaks$timestamp_typed)
       )
@@ -378,6 +406,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       )
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         data_in,
         skip_fun = function() !isTRUE(ctx$tweaks$timestamp_typed)
       )
@@ -388,6 +417,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       data_in <- as.difftime(as.numeric(c(1:3, NA)), units = "secs")
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         data_in,
         skip_fun = function() !isTRUE(ctx$tweaks$time_typed)
       )
@@ -398,6 +428,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       data_in <- as.difftime(as.numeric(c(1:3, NA)), units = "hours")
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         data_in,
         skip_fun = function() !isTRUE(ctx$tweaks$time_typed)
       )
@@ -408,6 +439,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       data_in <- as.difftime(c(1:3, NA), units = "mins")
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         data_in,
         skip_fun = function() !isTRUE(ctx$tweaks$time_typed)
       )
@@ -419,6 +451,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' - lists of [raw] for blobs (with `NULL` entries for SQL NULL values)
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         list(list(as.raw(1:10)), list(raw(3)), list(NULL)),
         skip_fun = function() isTRUE(ctx$tweaks$omit_blob_tests),
         cast_fun = ctx$tweaks$blob_cast
@@ -429,6 +462,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stre
       #' - objects of type [blob::blob]
       test_select_bind_expr(
         arrow = arrow,
+        bind = bind,
         list(blob::blob(as.raw(1:10)), blob::blob(raw(3)), blob::blob(NULL)),
         skip_fun = function() isTRUE(ctx$tweaks$omit_blob_tests),
         cast_fun = ctx$tweaks$blob_cast

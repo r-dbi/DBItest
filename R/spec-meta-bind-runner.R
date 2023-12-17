@@ -13,6 +13,7 @@ test_select_bind_expr_one$fun <- function(
     bind_values,
     ...,
     arrow,
+    bind,
     query = TRUE,
     has_cast_fun = FALSE,
     check_return_value = NULL,
@@ -24,6 +25,9 @@ test_select_bind_expr_one$fun <- function(
     is_untouched = FALSE) {
   rlang::check_dots_empty()
   force(bind_values)
+  force(arrow)
+  force(bind)
+
   force(query)
   force(check_return_value)
   force(patch_bind_values)

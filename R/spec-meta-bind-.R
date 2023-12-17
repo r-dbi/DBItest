@@ -5,6 +5,7 @@ test_select_bind_expr <- function(
     ctx = stop("ctx is available during run time only"),
     ...,
     arrow,
+    bind,
     query = TRUE,
     skip_fun = NULL,
     cast_fun = NULL,
@@ -22,6 +23,7 @@ test_select_bind_expr <- function(
     bind_values = bind_values,
     ...,
     arrow = arrow,
+    bind = bind,
     query = query,
     has_cast_fun = has_cast_fun
   )
