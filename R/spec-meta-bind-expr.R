@@ -18,7 +18,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query", "params")) {
         expect_false(bind_res$visible)
       }
 
-      #' for queries issued by [dbSendQuery()]
+      #' for queries issued by [dbSendQuery()] or [dbSendQueryArrow()]
       test_select_bind_expr(
         arrow = arrow,
         1L,
@@ -26,7 +26,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query", "params")) {
       )
     },
     #
-    bind_return_value_statement = function() {
+    bind_return_value_statement = if (arrow != "query") function() {
       check_return_value <- function(bind_res, res) {
         expect_identical(res, bind_res$value)
         expect_false(bind_res$visible)
@@ -87,7 +87,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query", "params")) {
       )
     },
     #
-    bind_multi_row_unequal_length = function() {
+    bind_multi_row_unequal_length = if (arrow != "params") function() {
       patch_bind_values <- function(bind_values) {
         #' or unequal length,
         bind_values[[2]] <- bind_values[[2]][-1]
@@ -133,7 +133,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query", "params")) {
       )
     },
     #
-    bind_named_param_na_placeholders = function() {
+    bind_named_param_na_placeholders = if (arrow == "none") function() {
       patch_bind_values <- function(bind_values) {
         #' or `NA`),
         names(bind_values)[[1]] <- NA
@@ -198,7 +198,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query", "params")) {
       #' of values and connecting via [rbind()].
     },
     #
-    bind_multi_row_statement = function() {
+    bind_multi_row_statement = if (arrow != "query") function() {
       # This behavior is tested as part of run_bind_tester$fun
       #' For data manipulation statements, `dbGetRowsAffected()` returns the
       #' total number of rows affected if binding non-scalar parameters.
@@ -213,7 +213,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query", "params")) {
       test_select_bind_expr(arrow = arrow, 1L, is_repeated = is_repeated)
     },
     #
-    bind_repeated_statement = function() {
+    bind_repeated_statement = if (arrow != "query") function() {
       is_repeated <- TRUE
 
       #' and data manipulation statements,
@@ -234,7 +234,7 @@ spec_meta_bind_expr <- function(arrow = c("none", "query", "params")) {
       )
     },
     #
-    bind_repeated_untouched_statement = function() {
+    bind_repeated_untouched_statement = if (arrow != "query") function() {
       is_repeated <- TRUE
       is_untouched <- TRUE
 

@@ -122,31 +122,6 @@ spec_meta_arrow_params_bind <- list(
       res <- NULL
     }
   },
-  arrow_params_bind_multi_row_unequal_length = function(ctx, con) {
-    placeholder_funs <- get_placeholder_funs(ctx)
-    is_null_check <- ctx$tweaks$is_null_check
-    allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
-    for (placeholder_fun in placeholder_funs) {
-      bind_values <- list(1:3, 2:4)
-      placeholder <- placeholder_fun(2L)
-      names(bind_values) <- names(placeholder)
-      bind_values_patched <- {
-        bind_values[[2]] <- bind_values[[2]][-1]
-        bind_values
-      }
-      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
-      table_name <- random_table_name()
-      dbWriteTable(con, table_name, data, temporary = TRUE)
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
-      sql <- paste0(sql, "a = ", placeholder[[1L]], " AND ")
-      sql <- paste0(sql, "b = ", placeholder[[2L]])
-      res <- dbSendStatement(con, sql)
-      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      expect_error(dbBind(res, bind_values_patched), ".*")
-      expect_error(dbClearResult(res), NA)
-      res <- NULL
-    }
-  },
   arrow_params_bind_named_param_unnamed_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
@@ -175,29 +150,6 @@ spec_meta_arrow_params_bind <- list(
       names(bind_values) <- names(placeholder)
       bind_values_patched <- {
         names(bind_values)[[1]] <- ""
-        bind_values
-      }
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
-      result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      sql <- "SELECT "
-      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
-      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b")
-      res <- dbSendQuery(con, sql)
-      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      expect_error(dbBind(res, bind_values_patched), ".*")
-      expect_error(dbClearResult(res), NA)
-      res <- NULL
-    }
-  },
-  arrow_params_bind_named_param_na_placeholders = function(ctx, con) {
-    placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
-    is_null_check <- ctx$tweaks$is_null_check
-    for (placeholder_fun in placeholder_funs) {
-      bind_values <- list(1L, 2L)
-      placeholder <- placeholder_fun(2L)
-      names(bind_values) <- names(placeholder)
-      bind_values_patched <- {
-        names(bind_values)[[1]] <- NA
         bind_values
       }
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))

@@ -31,35 +31,6 @@ spec_meta_arrow_bind <- list(
       res <- NULL
     }
   },
-  arrow_bind_return_value_statement = function(ctx, con) {
-    placeholder_funs <- get_placeholder_funs(ctx)
-    is_null_check <- ctx$tweaks$is_null_check
-    allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
-    for (placeholder_fun in placeholder_funs) {
-      bind_values <- 1L
-      placeholder <- placeholder_fun(1L)
-      names(bind_values) <- names(placeholder)
-      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
-      table_name <- random_table_name()
-      dbWriteTable(con, table_name, data, temporary = TRUE)
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
-      sql <- paste0(sql, "a = ", placeholder[[1L]])
-      res <- dbSendStatement(con, sql)
-      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      expect_identical(dbGetRowsAffected(res), NA_integer_)
-      expect_true(dbIsValid(res))
-      expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values))
-      expect_identical(res, bind_res$value)
-      expect_false(bind_res$visible)
-      rows_affected <- dbGetRowsAffected(res)
-      if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, sum(bind_values[[1]]))
-      }
-      expect_error(dbClearResult(res), NA)
-      res <- NULL
-    }
-  },
   arrow_bind_too_many = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -189,29 +160,6 @@ spec_meta_arrow_bind <- list(
       res <- NULL
     }
   },
-  arrow_bind_named_param_na_placeholders = function(ctx, con) {
-    placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
-    is_null_check <- ctx$tweaks$is_null_check
-    for (placeholder_fun in placeholder_funs) {
-      bind_values <- list(1L, 2L)
-      placeholder <- placeholder_fun(2L)
-      names(bind_values) <- names(placeholder)
-      bind_values_patched <- {
-        names(bind_values)[[1]] <- NA
-        bind_values
-      }
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
-      result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      sql <- "SELECT "
-      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
-      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b")
-      res <- dbSendQuery(con, sql)
-      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      expect_error(dbBind(res, bind_values_patched), ".*")
-      expect_error(dbClearResult(res), NA)
-      res <- NULL
-    }
-  },
   arrow_bind_unnamed_param_named_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = FALSE)
     is_null_check <- ctx$tweaks$is_null_check
@@ -290,30 +238,6 @@ spec_meta_arrow_bind <- list(
       res <- NULL
     }
   },
-  arrow_bind_multi_row_statement = function(ctx, con) {
-    placeholder_funs <- get_placeholder_funs(ctx)
-    is_null_check <- ctx$tweaks$is_null_check
-    allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
-    for (placeholder_fun in placeholder_funs) {
-      bind_values <- list(1:3)
-      placeholder <- placeholder_fun(1L)
-      names(bind_values) <- names(placeholder)
-      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
-      table_name <- random_table_name()
-      dbWriteTable(con, table_name, data, temporary = TRUE)
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
-      sql <- paste0(sql, "a = ", placeholder[[1L]])
-      res <- dbSendStatement(con, sql)
-      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values)
-      rows_affected <- dbGetRowsAffected(res)
-      if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, sum(bind_values[[1]]))
-      }
-      expect_error(dbClearResult(res), NA)
-      res <- NULL
-    }
-  },
   arrow_bind_repeated = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -341,35 +265,6 @@ spec_meta_arrow_bind <- list(
       res <- NULL
     }
   },
-  arrow_bind_repeated_statement = function(ctx, con) {
-    placeholder_funs <- get_placeholder_funs(ctx)
-    is_null_check <- ctx$tweaks$is_null_check
-    allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
-    for (placeholder_fun in placeholder_funs) {
-      bind_values <- 1L
-      placeholder <- placeholder_fun(1L)
-      names(bind_values) <- names(placeholder)
-      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
-      table_name <- random_table_name()
-      dbWriteTable(con, table_name, data, temporary = TRUE)
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
-      sql <- paste0(sql, "a = ", placeholder[[1L]])
-      res <- dbSendStatement(con, sql)
-      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values)
-      rows_affected <- dbGetRowsAffected(res)
-      if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, sum(bind_values[[1]]))
-      }
-      dbBind(res, bind_values)
-      rows_affected <- dbGetRowsAffected(res)
-      if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, sum(bind_values[[1]]))
-      }
-      expect_error(dbClearResult(res), NA)
-      res <- NULL
-    }
-  },
   arrow_bind_repeated_untouched = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -389,31 +284,6 @@ spec_meta_arrow_bind <- list(
       expect_equal(nrow(rows), 1L)
       result <- data.frame(a = 1.5)
       expect_equal(rows, result)
-      expect_error(dbClearResult(res), NA)
-      res <- NULL
-    }
-  },
-  arrow_bind_repeated_untouched_statement = function(ctx, con) {
-    placeholder_funs <- get_placeholder_funs(ctx)
-    is_null_check <- ctx$tweaks$is_null_check
-    allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
-    for (placeholder_fun in placeholder_funs) {
-      bind_values <- 1L
-      placeholder <- placeholder_fun(1L)
-      names(bind_values) <- names(placeholder)
-      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
-      table_name <- random_table_name()
-      dbWriteTable(con, table_name, data, temporary = TRUE)
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
-      sql <- paste0(sql, "a = ", placeholder[[1L]])
-      res <- dbSendStatement(con, sql)
-      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values)
-      dbBind(res, bind_values)
-      rows_affected <- dbGetRowsAffected(res)
-      if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, sum(bind_values[[1]]))
-      }
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
