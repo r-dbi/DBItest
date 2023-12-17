@@ -1,4 +1,4 @@
-run_bind_tester <- list()
+test_select_bind_expr_one <- list()
 
 #' spec_meta_bind
 #' @family meta specifications
@@ -9,7 +9,7 @@ run_bind_tester <- list()
 #' @section Specification:
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'
-run_bind_tester$fun <- function(
+test_select_bind_expr_one$fun <- function(
     bind_values,
     ...,
     query = TRUE,

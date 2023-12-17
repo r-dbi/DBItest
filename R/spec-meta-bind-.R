@@ -7,7 +7,7 @@ test_select_bind_expr <- function(
     cast_fun = NULL,
     requires_names = NULL) {
   force(bind_values)
-  test_expr <- run_bind_tester$fun(bind_values = bind_values, ...)
+  test_expr <- test_select_bind_expr_one$fun(bind_values = bind_values, ...)
 
   cast_fun <- rlang::enquo(cast_fun)
   if (rlang::quo_is_null(cast_fun)) {
