@@ -546,7 +546,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_character_escape = function(ctx, con) {
+  bind_character_escape = if (getRversion() >= "4.0") function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
