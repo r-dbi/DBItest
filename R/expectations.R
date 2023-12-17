@@ -1,5 +1,5 @@
 expect_arglist_is_empty <- function(object) {
-  act <- quasi_label(rlang::enquo(object), arg = "object")
+  act <- quasi_label(enquo(object), arg = "object")
   act$formals <- formals(act$val)
   expect(
     is.null(act$formals),
@@ -10,7 +10,7 @@ expect_arglist_is_empty <- function(object) {
 }
 
 expect_all_args_have_default_values <- function(object) {
-  act <- quasi_label(rlang::enquo(object), arg = "object")
+  act <- quasi_label(enquo(object), arg = "object")
   act$args <- formals(act$val)
   act$args <- act$args[names(act$args) != "..."]
   act$char_args <- vapply(act$args, as.character, character(1L))

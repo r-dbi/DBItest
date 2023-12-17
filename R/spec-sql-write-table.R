@@ -824,8 +824,15 @@ test_table_roundtrip <- function(...) {
   test_table_roundtrip_one(..., .add_na = "below")
 }
 
-test_table_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity,
-                                     name = NULL, field.types = NULL, use_append = FALSE, .add_na = "none") {
+test_table_roundtrip_one <- function(
+    con,
+    tbl_in,
+    tbl_expected = tbl_in,
+    transform = identity,
+    name = NULL,
+    field.types = NULL,
+    use_append = FALSE,
+    .add_na = "none") {
   force(tbl_expected)
   if (.add_na == "above") {
     tbl_in <- add_na_above(tbl_in)
