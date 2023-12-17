@@ -252,13 +252,12 @@ spec_meta_bind <- list(
   },
 
   bind_factor = function(ctx, con) {
-    suppressWarnings(expect_warning(
-      test_select_bind(
-        con,
-        ctx,
-        lapply(c(get_texts(), NA_character_), factor)
-      )
-    ))
+    test_select_bind(
+      con,
+      ctx,
+      lapply(c(get_texts(), NA_character_), factor),
+      warn = TRUE
+    )
   },
 
   bind_date = function(ctx, con) {

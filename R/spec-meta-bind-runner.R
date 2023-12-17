@@ -17,6 +17,7 @@ run_bind_tester$fun <- function(
     check_return_value = NULL,
     patch_bind_values = NULL,
     bind_error = NA,
+    warn = FALSE,
     is_repeated = FALSE,
     is_premature_clear = FALSE,
     is_untouched = FALSE) {
@@ -145,7 +146,10 @@ run_bind_tester$fun <- function(
   #'    a list.
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
-  bind_expr <- if (is.na(bind_error)) rlang::expr({
+  bind_expr <- if (isTRUE(warn)) rlang::expr({
+    bind_res <- withVisible(suppressWarnings(expect_warning(dbBind(res, bind_values_patched))))
+    !!check_return_value_expr
+  }) else if (is.na(bind_error)) rlang::expr({
     bind_res <- withVisible(dbBind(res, bind_values_patched))
     !!check_return_value_expr
   }) else rlang::expr({
