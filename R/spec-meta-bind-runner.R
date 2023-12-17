@@ -137,24 +137,21 @@ test_select_bind_expr_one$fun <- function(
     names(bind_values) <- names(placeholder)
   })
 
-  check_return_value_expr <- if (!is.null(check_return_value)) rlang::expr({
-    !!body(check_return_value)
-  })
-
   #'    All elements in this list must have the same lengths and contain values
   #'    supported by the backend; a [data.frame] is internally stored as such
   #'    a list.
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
-  bind_expr <- if (isTRUE(warn)) rlang::expr({
-    bind_res <- withVisible(suppressWarnings(expect_warning(dbBind(res, bind_values_patched))))
-    !!check_return_value_expr
-  }) else if (is.na(bind_error)) rlang::expr({
+  bind_expr <- if (!is.null(check_return_value)) rlang::expr({
     bind_res <- withVisible(dbBind(res, bind_values_patched))
-    !!check_return_value_expr
+    !!body(check_return_value)
+  }) else if (isTRUE(warn)) rlang::expr({
+    suppressWarnings(expect_warning(dbBind(res, bind_values_patched)))
+  }) else if (is.na(bind_error)) rlang::expr({
+    dbBind(res, bind_values_patched)
   }) else rlang::expr({
     expect_error(
-      withVisible(dbBind(res, bind_values_patched)),
+      dbBind(res, bind_values_patched),
       !!bind_error
     )
   })

@@ -94,7 +94,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      expect_error(withVisible(dbBind(res, bind_values_patched)), ".*")
+      expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
@@ -120,7 +120,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      expect_error(withVisible(dbBind(res, bind_values_patched)), ".*")
+      expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
@@ -146,7 +146,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      expect_error(withVisible(dbBind(res, bind_values_patched)), ".*")
+      expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
@@ -174,7 +174,7 @@ spec_meta_bind <- list(
       expect_identical(dbGetRowsAffected(res), NA_integer_)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      expect_error(withVisible(dbBind(res, bind_values_patched)), ".*")
+      expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
@@ -200,7 +200,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      expect_error(withVisible(dbBind(res, bind_values_patched)), ".*")
+      expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
@@ -229,7 +229,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      expect_error(withVisible(dbBind(res, bind_values_patched)), ".*")
+      expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
@@ -258,7 +258,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      expect_error(withVisible(dbBind(res, bind_values_patched)), ".*")
+      expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
@@ -284,7 +284,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      expect_error(withVisible(dbBind(res, bind_values_patched)), ".*")
+      expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
@@ -306,7 +306,7 @@ spec_meta_bind <- list(
       )
       res <- dbSendQuery(con, sql)
       dbClearResult(res)
-      expect_error(withVisible(dbBind(res, bind_values_patched)), ".*")
+      expect_error(dbBind(res, bind_values_patched), ".*")
     }
   },
   bind_multi_row = function(ctx, con) {
@@ -330,7 +330,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -365,7 +365,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -399,7 +399,7 @@ spec_meta_bind <- list(
       expect_identical(dbGetRowsAffected(res), NA_integer_)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
         expect_equal(rows_affected, sum(bind_values[[1]]))
@@ -429,7 +429,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -439,7 +439,7 @@ spec_meta_bind <- list(
         result <- as.data.frame(setNames(all_expected, result_names))
         expect_equal(rows, result)
       }
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -473,12 +473,12 @@ spec_meta_bind <- list(
       expect_identical(dbGetRowsAffected(res), NA_integer_)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
         expect_equal(rows_affected, sum(bind_values[[1]]))
       }
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
         expect_equal(rows_affected, sum(bind_values[[1]]))
@@ -508,8 +508,8 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -543,8 +543,8 @@ spec_meta_bind <- list(
       expect_identical(dbGetRowsAffected(res), NA_integer_)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
+      dbBind(res, bind_values_patched)
       rows_affected <- dbGetRowsAffected(res)
       if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
         expect_equal(rows_affected, sum(bind_values[[1]]))
@@ -575,7 +575,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
@@ -602,7 +602,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -638,7 +638,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -674,7 +674,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -710,7 +710,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -746,7 +746,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -782,7 +782,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(suppressWarnings(expect_warning(dbBind(res, bind_values_patched))))
+      suppressWarnings(expect_warning(dbBind(res, bind_values_patched)))
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -819,7 +819,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -856,7 +856,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -893,7 +893,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -930,7 +930,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -967,7 +967,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -1004,7 +1004,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -1041,7 +1041,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -1079,7 +1079,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
@@ -1121,7 +1121,7 @@ spec_meta_bind <- list(
       expect_equal(dbGetRowCount(res), 0)
       expect_true(dbIsValid(res))
       expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values_patched))
+      dbBind(res, bind_values_patched)
       rows <- check_df(dbFetch(res))
       expect_equal(nrow(rows), length(bind_values[[1]]))
       if (nrow(rows) > 0) {
