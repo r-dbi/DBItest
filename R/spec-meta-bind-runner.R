@@ -53,7 +53,7 @@ test_select_bind_expr_one$fun <- function(
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
   send_expr <- if (query) rlang::expr({
-    placeholder <- placeholder_fun(length(bind_values))
+    placeholder <- placeholder_fun(!!length(bind_values))
     is_na <- map_lgl(bind_values, is_na_or_null)
     placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
     result_check <- ifelse(
@@ -61,7 +61,7 @@ test_select_bind_expr_one$fun <- function(
       paste0("(", is_null_check(!!cast_fun_placeholder_expr), ")"),
       paste0("(", !!cast_fun_placeholder_expr, " = ", placeholder_values, ")")
     )
-    result_names <- letters[seq_along(bind_values)]
+    result_names <- letters[!!construct_expr(seq_along(bind_values))]
 
     sql <- paste0(
       "SELECT ",
@@ -81,8 +81,8 @@ test_select_bind_expr_one$fun <- function(
     table_name <- random_table_name()
     dbWriteTable(con, table_name, data, temporary = TRUE)
 
-    value_names <- letters[seq_along(bind_values)]
-    placeholder <- placeholder_fun(length(bind_values))
+    value_names <- letters[!!construct_expr(seq_along(bind_values))]
+    placeholder <- placeholder_fun(!!length(bind_values))
     sql <- paste0(
       "UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ",
       paste(value_names, " = ", placeholder, collapse = " AND ")

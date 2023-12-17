@@ -10,11 +10,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(1L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1L]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -55,8 +55,8 @@ spec_meta_bind <- list(
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
-      value_names <- letters[seq_along(bind_values)]
-      placeholder <- placeholder_fun(length(bind_values))
+      value_names <- letters[1L]
+      placeholder <- placeholder_fun(1L)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
@@ -87,11 +87,11 @@ spec_meta_bind <- list(
       } else {
         c(bind_values, bogus = bind_values[[1L]])
       }
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(1L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1L]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -116,11 +116,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values[-1L]
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(1L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1L]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -145,11 +145,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- stats::setNames(bind_values, paste0("bogus", names(bind_values)))
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(1L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1L]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -182,8 +182,8 @@ spec_meta_bind <- list(
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
-      value_names <- letters[seq_along(bind_values)]
-      placeholder <- placeholder_fun(length(bind_values))
+      value_names <- letters[1:2]
+      placeholder <- placeholder_fun(2L)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
@@ -204,11 +204,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- stats::setNames(bind_values, NULL)
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(1L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1L]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -236,11 +236,11 @@ spec_meta_bind <- list(
         names(bind_values)[[1]] <- ""
         bind_values
       }
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(2L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:2]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -268,11 +268,11 @@ spec_meta_bind <- list(
         names(bind_values)[[1]] <- NA
         bind_values
       }
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(2L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:2]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -297,11 +297,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- stats::setNames(bind_values, letters[seq_along(bind_values)])
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(1L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1L]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -326,11 +326,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(1L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1L]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -349,11 +349,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(1L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1L]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -387,11 +387,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(2L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:2]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -430,8 +430,8 @@ spec_meta_bind <- list(
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
-      value_names <- letters[seq_along(bind_values)]
-      placeholder <- placeholder_fun(length(bind_values))
+      value_names <- letters[1L]
+      placeholder <- placeholder_fun(1L)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
@@ -456,11 +456,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(1L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1L]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -509,8 +509,8 @@ spec_meta_bind <- list(
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
-      value_names <- letters[seq_along(bind_values)]
-      placeholder <- placeholder_fun(length(bind_values))
+      value_names <- letters[1L]
+      placeholder <- placeholder_fun(1L)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
@@ -540,11 +540,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(1L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1L]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -584,8 +584,8 @@ spec_meta_bind <- list(
       data$b <- seq_along(data$a)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
-      value_names <- letters[seq_along(bind_values)]
-      placeholder <- placeholder_fun(length(bind_values))
+      value_names <- letters[1L]
+      placeholder <- placeholder_fun(1L)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ", paste(value_names, " = ", placeholder, collapse = " AND "))
       res <- dbSendStatement(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
@@ -611,11 +611,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values[c(3, 1, 2, 4)]
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(4L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:4]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -640,11 +640,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(4L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:4]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -678,11 +678,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(4L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:4]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -716,11 +716,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(3L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:3]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -754,11 +754,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(6L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:6]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -792,11 +792,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(10L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:10]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -830,11 +830,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(6L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:6]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -869,11 +869,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(4L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:4]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -908,11 +908,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(4L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:4]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -947,11 +947,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(4L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:4]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -986,11 +986,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(4L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:4]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -1025,11 +1025,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(4L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:4]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -1064,11 +1064,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(4L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:4]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -1103,11 +1103,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(4L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(placeholder), ")"), paste0("(", placeholder, " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:4]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -1143,11 +1143,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(3L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:3]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
@@ -1187,11 +1187,11 @@ spec_meta_bind <- list(
         names(bind_values) <- names(placeholder_fun(length(bind_values)))
       }
       bind_values_patched <- bind_values
-      placeholder <- placeholder_fun(length(bind_values))
+      placeholder <- placeholder_fun(3L)
       is_na <- map_lgl(bind_values, is_na_or_null)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- ifelse(is_na, paste0("(", is_null_check(cast_fun(placeholder)), ")"), paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")"))
-      result_names <- letters[seq_along(bind_values)]
+      result_names <- letters[1:3]
       sql <- paste0(
         "SELECT ",
         paste0("CASE WHEN ", result_check, " THEN 1.5 ELSE 2.5 END AS ", result_names, collapse = ", ")
