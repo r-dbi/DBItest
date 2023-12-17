@@ -75,6 +75,9 @@ spec_result_roundtrip <- list(
 
   data_date_current = function(ctx, con) {
     #'   (also applies to the return value of the SQL function `current_date`)
+    # FIXME: Turn into two checks, each with a separate skip
+    # depending on the tweak, to avoid mangling the query at run time
+    # Same with current_time and current_timestamp
     test_select_with_null(
       .ctx = ctx, con,
       "current_date" ~ is_roughly_current_date
@@ -273,6 +276,7 @@ test_select <- function(
     # Run time
     .ctx,
     .envir = parent.frame()) {
+
   values <- list2(...)
 
   value_is_formula <- map_lgl(values, is.call)
@@ -290,12 +294,16 @@ test_select <- function(
     sql_values <- names(values)
   }
 
-  if (isTRUE(.ctx$tweaks$current_needs_parens)) {
-    sql_values <- gsub(
-      "^(current_(?:date|time|timestamp))$", "\\1()",
-      sql_values
-    )
-  }
+  sql_values_expr <- expr({
+    sql_values <- !!construct_expr(sql_values)
+
+    if (isTRUE(.ctx$tweaks$current_needs_parens)) {
+      sql_values <- gsub(
+        "^(current_(?:date|time|timestamp))$", "\\1()",
+        sql_values
+      )
+    }
+  })
 
   sql_names <- letters[seq_along(sql_values)]
 
