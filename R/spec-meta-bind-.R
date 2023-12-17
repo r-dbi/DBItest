@@ -21,6 +21,7 @@ test_select_bind_expr <- function(
   test_expr <- test_select_bind_expr_one$fun(
     bind_values = bind_values,
     ...,
+    arrow = arrow,
     query = query,
     has_cast_fun = has_cast_fun
   )

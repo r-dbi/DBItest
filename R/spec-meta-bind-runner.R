@@ -12,6 +12,7 @@ test_select_bind_expr_one <- list()
 test_select_bind_expr_one$fun <- function(
     bind_values,
     ...,
+    arrow,
     query = TRUE,
     has_cast_fun = FALSE,
     check_return_value = NULL,
