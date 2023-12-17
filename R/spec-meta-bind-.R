@@ -4,10 +4,15 @@ test_select_bind_expr <- function(
     bind_values,
     ctx = stop("ctx is available during run time only"),
     ...,
+    skip_fun = NULL,
     cast_fun = NULL,
     requires_names = NULL) {
   force(bind_values)
   test_expr <- test_select_bind_expr_one$fun(bind_values = bind_values, ...)
+
+  skip_expr <- if (!is.null(skip_fun)) rlang::expr({
+    skip_if(!!body(skip_fun))
+  })
 
   cast_fun <- rlang::enquo(cast_fun)
   if (rlang::quo_is_null(cast_fun)) {
@@ -23,6 +28,7 @@ test_select_bind_expr <- function(
   }
 
   rlang::expr({
+    !!skip_expr
     placeholder_funs <- !!placeholder_funs_expr
 
     force(con)

@@ -13,7 +13,6 @@ test_select_bind_expr_one$fun <- function(
     bind_values,
     ...,
     query = TRUE,
-    skip_fun = NULL,
     check_return_value = NULL,
     patch_bind_values = NULL,
     bind_error = NA,
@@ -24,7 +23,6 @@ test_select_bind_expr_one$fun <- function(
   rlang::check_dots_empty()
   force(bind_values)
   force(query)
-  force(skip)
   force(check_return_value)
   force(patch_bind_values)
   force(bind_error)
@@ -40,10 +38,6 @@ test_select_bind_expr_one$fun <- function(
     bind_values_patched <- bind_values
   }) else rlang::expr({
     bind_values_patched <- !!body(patch_bind_values)
-  })
-
-  skip_expr <- if (!is.null(skip_fun)) rlang::expr({
-    skip_if(!!body(skip_fun))
   })
 
   #' 1. Call [dbSendQuery()] or [dbSendStatement()] with a query or statement
@@ -212,7 +206,6 @@ test_select_bind_expr_one$fun <- function(
   })
 
   test_expr <- rlang::expr({
-    !!skip_expr
     !!bind_values_expr
     !!name_values_expr
     !!bind_values_patched_expr
