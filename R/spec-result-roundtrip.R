@@ -265,14 +265,17 @@ test_select_with_null <- function(...) {
 }
 
 test_select <- function(
+    # Run time
     con,
+    # Spec time
     ...,
     .add_null = "none",
+    # Run time
     .ctx,
     .envir = parent.frame()) {
   values <- list2(...)
 
-  value_is_formula <- vapply(values, is.call, logical(1L))
+  value_is_formula <- map_lgl(values, is.call)
   names(values)[value_is_formula] <- lapply(values[value_is_formula], "[[", 2L)
   values[value_is_formula] <- lapply(
     values[value_is_formula],
@@ -282,7 +285,7 @@ test_select <- function(
   )
 
   if (is.null(names(values))) {
-    sql_values <- lapply(values, as.character)
+    sql_values <- map(values, as.character)
   } else {
     sql_values <- names(values)
   }
