@@ -5,7 +5,12 @@
 #' @usage NULL
 #' @format NULL
 #' @keywords NULL
-spec_meta_bind_expr <- function(arrow = c("none", "query"), bind = c("df", "stream")) {
+spec_meta_bind_expr <- function(
+    arrow = c("none", "query"),
+    bind = c("df", "stream"),
+    ...,
+    ctx = stop("ctx is available during run time only")) {
+  rlang::check_dots_empty()
   arrow <- rlang::arg_match(arrow)
   bind <- rlang::arg_match(bind)
 
