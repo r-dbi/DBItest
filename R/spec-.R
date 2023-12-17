@@ -48,6 +48,9 @@
 #' @include spec-meta-has-completed.R
 #' @include spec-meta-is-valid.R
 #' @include spec-meta-bind-.R
+#' @include spec-meta-bind-arrow-stream.R
+#' @include spec-meta-bind-stream.R
+#' @include spec-meta-bind-arrow.R
 #' @include spec-meta-bind.R
 #' @include spec-meta-bind-expr.R
 #' @include spec-meta-bind-formals.R

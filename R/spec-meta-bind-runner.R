@@ -12,6 +12,8 @@ test_select_bind_expr_one <- list()
 test_select_bind_expr_one$fun <- function(
     bind_values,
     ...,
+    arrow,
+    bind,
     query = TRUE,
     has_cast_fun = FALSE,
     check_return_value = NULL,
@@ -23,6 +25,9 @@ test_select_bind_expr_one$fun <- function(
     is_untouched = FALSE) {
   rlang::check_dots_empty()
   force(bind_values)
+  force(arrow)
+  force(bind)
+
   force(query)
   force(check_return_value)
   force(patch_bind_values)
@@ -31,7 +36,9 @@ test_select_bind_expr_one$fun <- function(
   force(is_premature_clear)
   force(is_untouched)
 
-  bind_values_expr <- rlang::expr({
+  bind_values_expr <- if (bind == "stream") rlang::expr({
+    bind_values <- !!construct_expr(fix_params(bind_values))
+  }) else rlang::expr({
     bind_values <- !!construct_expr(bind_values)
   })
 
@@ -39,10 +46,16 @@ test_select_bind_expr_one$fun <- function(
     bind_values_patched <- !!body(patch_bind_values)
   })
 
-  bind_values_patched_expr <- if (is.null(patch_bind_values)) rlang::expr({
+  bind_values_patched_expr_base <- if (is.null(patch_bind_values)) rlang::expr({
     bind_values
   }) else rlang::expr({
     bind_values_patched
+  })
+
+  bind_values_patched_expr <- if (bind == "stream") rlang::expr({
+    dbBindArrow(res, nanoarrow::as_nanoarrow_array_stream(!!bind_values_patched_expr_base))
+  }) else rlang::expr({
+    dbBind(res, !!bind_values_patched_expr_base)
   })
 
   cast_fun_placeholder_expr <- if (has_cast_fun) rlang::expr({
@@ -54,8 +67,8 @@ test_select_bind_expr_one$fun <- function(
   is_na <- which(map_lgl(bind_values, is_na_or_null))
   result_names <- letters[seq_along(bind_values)]
 
-  #' 1. Call [dbSendQuery()] or [dbSendStatement()] with a query or statement
-  #'    that contains placeholders,
+  #' 1. Call [dbSendQuery()], [dbSendQueryArrow()] or [dbSendStatement()]
+  #'    with a query or statement that contains placeholders,
   #'    store the returned [DBIResult-class] object in a variable.
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
@@ -87,7 +100,7 @@ test_select_bind_expr_one$fun <- function(
       })
     )
 
-    res <- dbSendQuery(con, sql)
+    res <- (!!if (arrow == "none") rlang::expr(dbSendQuery) else rlang::expr(dbSendQueryArrow))(con, sql)
   }) else rlang::expr({
     data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
     table_name <- random_table_name()
@@ -150,17 +163,14 @@ test_select_bind_expr_one$fun <- function(
   #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
   #'    object.
   bind_expr <- if (!is.null(check_return_value)) rlang::expr({
-    bind_res <- withVisible(dbBind(res, !!bind_values_patched_expr))
+    bind_res <- withVisible(!!bind_values_patched_expr)
     !!body(check_return_value)
   }) else if (isTRUE(warn)) rlang::expr({
-    suppressWarnings(expect_warning(dbBind(res, !!bind_values_patched_expr)))
+    suppressWarnings(expect_warning(!!bind_values_patched_expr))
   }) else if (is.na(bind_error)) rlang::expr({
-    dbBind(res, !!bind_values_patched_expr)
+    !!bind_values_patched_expr
   }) else rlang::expr({
-    expect_error(
-      dbBind(res, !!bind_values_patched_expr),
-      !!bind_error
-    )
+    expect_error(!!bind_values_patched_expr, !!bind_error)
   })
 
   #' 1. Retrieve the data or the number of affected rows from the `DBIResult` object.
@@ -188,7 +198,7 @@ test_select_bind_expr_one$fun <- function(
     rows_affected <- dbGetRowsAffected(res)
     # Allow NA value for dbGetRowsAffected(), #297
     if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-      expect_equal(rows_affected, sum(bind_values[[1]]))
+      expect_equal(rows_affected, !!sum(bind_values[[1]]))
     }
   })
 
@@ -235,4 +245,12 @@ test_select_bind_expr_one$fun <- function(
 construct_expr <- function(x) {
   xc <- constructive::construct(x)
   rlang::parse_expr(format(xc$code))
+}
+
+fix_params <- function(params) {
+  if (is.atomic(params)) {
+    params <- as.list(params)
+  }
+
+  as.data.frame(params, fix.empty.names = FALSE)
 }

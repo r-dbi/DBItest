@@ -11,6 +11,7 @@ if (Sys.getenv("CI") == "" && dir.exists("../../../RSQLite")) {
       "",
       "# test-DBItest.R",
       readLines("../../../RSQLite/tests/testthat/test-DBItest.R"),
+      # gsub("test_all", "test_meta", readLines("../../../RSQLite/tests/testthat/test-DBItest.R")),
       "",
       "# Cleanup",
       "set_default_context(NULL)"
@@ -40,8 +41,8 @@ flatten_braces <- function(x, in_brace = FALSE, caller = "") {
   x
 }
 
-inline_meta_tests <- function() {
-  test_exprs <- map(spec_meta_bind_expr, ~ if (!is.null(.x)) .x())
+inline_meta_tests <- function(arrow, bind, path) {
+  test_exprs <- map(compact(spec_meta_bind_expr(arrow = arrow, bind = bind)), ~ if (!is.null(.x)) .x())
   test_exprs_flat <- map(test_exprs, flatten_braces)
 
   env <- environment(inline_meta_tests)
@@ -52,13 +53,15 @@ inline_meta_tests <- function() {
   })
 
   cs <- constructive::construct(
-    test_funs,
+    c(test_funs, list(NULL)),
     constructive::opts_function(environment = FALSE),
     check = FALSE
   )
 
+  infix <- get_bind_arrow_infix(arrow, bind)
+
   text <- trimws(format(cs$code), "right")
-  text[[1]] <- paste0("spec_meta_bind <- ", text[[1]])
+  text[[1]] <- paste0("spec_meta_", infix, "bind <- ", text[[1]])
   # FIXME: Why does constructive not handle this?
   text <- gsub('r"[\\]"', '"\\\\"', text, fixed = TRUE)
   text <- c(
@@ -69,11 +72,17 @@ inline_meta_tests <- function() {
     text
   )
 
-  writeLines(text, "../../R/spec-meta-bind.R")
+  writeLines(text, path)
 }
 
 times <- file.mtime(c(
+  # Targets
   "../../R/spec-meta-bind.R",
+  "../../R/spec-meta-bind-arrow.R",
+  "../../R/spec-meta-bind-stream.R",
+  "../../R/spec-meta-bind-arrow-stream.R",
+
+  # Sources
   "../../R/spec-meta-bind-expr.R",
   "../../R/spec-meta-bind-.R",
   "../../R/spec-meta-bind-runner.R",
@@ -81,7 +90,10 @@ times <- file.mtime(c(
   NULL
 ))
 
-if (Sys.getenv("CI") == "" && which.max(times) != 1) {
+if (Sys.getenv("CI") == "" && which.max(times) > 4) {
   message("Generating spec-meta-bind.R")
-  inline_meta_tests()
+  inline_meta_tests("none", "df", "../../R/spec-meta-bind.R")
+  inline_meta_tests("query", "df", "../../R/spec-meta-bind-arrow.R")
+  inline_meta_tests("none", "stream", "../../R/spec-meta-bind-stream.R")
+  inline_meta_tests("query", "stream", "../../R/spec-meta-bind-arrow-stream.R")
 }

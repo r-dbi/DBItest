@@ -2,8 +2,8 @@
 
 # This file is generated during load_all() if it's older than the input files
 
-spec_meta_bind <- list(
-  bind_return_value = function(ctx, con) {
+spec_meta_arrow_bind <- list(
+  arrow_bind_return_value = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -14,7 +14,7 @@ spec_meta_bind <- list(
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbFetch(res))
       expect_equal(dbGetRowCount(res), 0)
@@ -31,36 +31,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_return_value_statement = function(ctx, con) {
-    placeholder_funs <- get_placeholder_funs(ctx)
-    is_null_check <- ctx$tweaks$is_null_check
-    allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
-    for (placeholder_fun in placeholder_funs) {
-      bind_values <- 1L
-      placeholder <- placeholder_fun(1L)
-      names(bind_values) <- names(placeholder)
-      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
-      table_name <- random_table_name()
-      dbWriteTable(con, table_name, data, temporary = TRUE)
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
-      sql <- paste0(sql, "a = ", placeholder[[1L]])
-      res <- dbSendStatement(con, sql)
-      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      expect_identical(dbGetRowsAffected(res), NA_integer_)
-      expect_true(dbIsValid(res))
-      expect_false(dbHasCompleted(res))
-      bind_res <- withVisible(dbBind(res, bind_values))
-      expect_identical(res, bind_res$value)
-      expect_false(bind_res$visible)
-      rows_affected <- dbGetRowsAffected(res)
-      if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, 1L)
-      }
-      expect_error(dbClearResult(res), NA)
-      res <- NULL
-    }
-  },
-  bind_too_many = function(ctx, con) {
+  arrow_bind_too_many = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -76,14 +47,14 @@ spec_meta_bind <- list(
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
   },
-  bind_not_enough = function(ctx, con) {
+  arrow_bind_not_enough = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -96,14 +67,14 @@ spec_meta_bind <- list(
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
   },
-  bind_wrong_name = function(ctx, con) {
+  arrow_bind_wrong_name = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -115,14 +86,14 @@ spec_meta_bind <- list(
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
   },
-  bind_multi_row_unequal_length = function(ctx, con) {
+  arrow_bind_multi_row_unequal_length = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -147,7 +118,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_named_param_unnamed_placeholders = function(ctx, con) {
+  arrow_bind_named_param_unnamed_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -159,14 +130,14 @@ spec_meta_bind <- list(
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
   },
-  bind_named_param_empty_placeholders = function(ctx, con) {
+  arrow_bind_named_param_empty_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -182,37 +153,14 @@ spec_meta_bind <- list(
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
   },
-  bind_named_param_na_placeholders = function(ctx, con) {
-    placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
-    is_null_check <- ctx$tweaks$is_null_check
-    for (placeholder_fun in placeholder_funs) {
-      bind_values <- list(1L, 2L)
-      placeholder <- placeholder_fun(2L)
-      names(bind_values) <- names(placeholder)
-      bind_values_patched <- {
-        names(bind_values)[[1]] <- NA
-        bind_values
-      }
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
-      result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
-      sql <- "SELECT "
-      sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
-      sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b")
-      res <- dbSendQuery(con, sql)
-      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      expect_error(dbBind(res, bind_values_patched), ".*")
-      expect_error(dbClearResult(res), NA)
-      res <- NULL
-    }
-  },
-  bind_unnamed_param_named_placeholders = function(ctx, con) {
+  arrow_bind_unnamed_param_named_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = FALSE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -224,14 +172,14 @@ spec_meta_bind <- list(
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       expect_error(dbBind(res, bind_values_patched), ".*")
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
   },
-  bind_premature_clear = function(ctx, con) {
+  arrow_bind_premature_clear = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -242,12 +190,12 @@ spec_meta_bind <- list(
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       dbClearResult(res)
       expect_error(dbBind(res, bind_values), ".*")
     }
   },
-  bind_multi_row = function(ctx, con) {
+  arrow_bind_multi_row = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -258,7 +206,7 @@ spec_meta_bind <- list(
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -269,7 +217,8 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_multi_row_zero_length = function(ctx, con) {
+  arrow_bind_multi_row_zero_length = function(ctx, con) {
+    skip_if(ctx$tweaks$dbitest_version < "1.7.99.12")
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -281,7 +230,7 @@ spec_meta_bind <- list(
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -290,31 +239,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_multi_row_statement = function(ctx, con) {
-    placeholder_funs <- get_placeholder_funs(ctx)
-    is_null_check <- ctx$tweaks$is_null_check
-    allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
-    for (placeholder_fun in placeholder_funs) {
-      bind_values <- list(1:3)
-      placeholder <- placeholder_fun(1L)
-      names(bind_values) <- names(placeholder)
-      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
-      table_name <- random_table_name()
-      dbWriteTable(con, table_name, data, temporary = TRUE)
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
-      sql <- paste0(sql, "a = ", placeholder[[1L]])
-      res <- dbSendStatement(con, sql)
-      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values)
-      rows_affected <- dbGetRowsAffected(res)
-      if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, 6L)
-      }
-      expect_error(dbClearResult(res), NA)
-      res <- NULL
-    }
-  },
-  bind_repeated = function(ctx, con) {
+  arrow_bind_repeated = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -325,7 +250,7 @@ spec_meta_bind <- list(
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -341,36 +266,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_repeated_statement = function(ctx, con) {
-    placeholder_funs <- get_placeholder_funs(ctx)
-    is_null_check <- ctx$tweaks$is_null_check
-    allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
-    for (placeholder_fun in placeholder_funs) {
-      bind_values <- 1L
-      placeholder <- placeholder_fun(1L)
-      names(bind_values) <- names(placeholder)
-      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
-      table_name <- random_table_name()
-      dbWriteTable(con, table_name, data, temporary = TRUE)
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
-      sql <- paste0(sql, "a = ", placeholder[[1L]])
-      res <- dbSendStatement(con, sql)
-      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values)
-      rows_affected <- dbGetRowsAffected(res)
-      if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, 1L)
-      }
-      dbBind(res, bind_values)
-      rows_affected <- dbGetRowsAffected(res)
-      if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, 1L)
-      }
-      expect_error(dbClearResult(res), NA)
-      res <- NULL
-    }
-  },
-  bind_repeated_untouched = function(ctx, con) {
+  arrow_bind_repeated_untouched = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -381,7 +277,7 @@ spec_meta_bind <- list(
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       dbBind(res, bind_values)
@@ -393,32 +289,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_repeated_untouched_statement = function(ctx, con) {
-    placeholder_funs <- get_placeholder_funs(ctx)
-    is_null_check <- ctx$tweaks$is_null_check
-    allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
-    for (placeholder_fun in placeholder_funs) {
-      bind_values <- 1L
-      placeholder <- placeholder_fun(1L)
-      names(bind_values) <- names(placeholder)
-      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
-      table_name <- random_table_name()
-      dbWriteTable(con, table_name, data, temporary = TRUE)
-      sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
-      sql <- paste0(sql, "a = ", placeholder[[1L]])
-      res <- dbSendStatement(con, sql)
-      on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
-      dbBind(res, bind_values)
-      dbBind(res, bind_values)
-      rows_affected <- dbGetRowsAffected(res)
-      if (!isTRUE(allow_na_rows_affected) || !is.na(rows_affected)) {
-        expect_equal(rows_affected, 1L)
-      }
-      expect_error(dbClearResult(res), NA)
-      res <- NULL
-    }
-  },
-  bind_named_param_shuffle = function(ctx, con) {
+  arrow_bind_named_param_shuffle = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -434,14 +305,14 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values_patched)
       expect_error(dbClearResult(res), NA)
       res <- NULL
     }
   },
-  bind_integer = function(ctx, con) {
+  arrow_bind_integer = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -456,7 +327,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -467,7 +338,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_numeric = function(ctx, con) {
+  arrow_bind_numeric = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -482,7 +353,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -493,7 +364,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_logical = function(ctx, con) {
+  arrow_bind_logical = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -507,7 +378,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -518,7 +389,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_character = function(ctx, con) {
+  arrow_bind_character = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -535,7 +406,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[5L]], " THEN 1.5 ELSE 2.5 END AS e, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[6L]], " THEN 1.5 ELSE 2.5 END AS f")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -546,7 +417,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_character_escape = function(ctx, con) {
+  arrow_bind_character_escape = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -567,7 +438,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[8L]], " THEN 1.5 ELSE 2.5 END AS h, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[9L]], " THEN 1.5 ELSE 2.5 END AS i, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[10L]], " THEN 1.5 ELSE 2.5 END AS j")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -578,7 +449,8 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_factor = function(ctx, con) {
+  arrow_bind_factor = function(ctx, con) {
+    skip_if(ctx$tweaks$dbitest_version < "1.7.99.13")
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -595,7 +467,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[5L]], " THEN 1.5 ELSE 2.5 END AS e, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[6L]], " THEN 1.5 ELSE 2.5 END AS f")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       suppressWarnings(expect_warning(dbBind(res, bind_values)))
       rows <- check_df(dbFetch(res))
@@ -606,7 +478,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_date = function(ctx, con) {
+  arrow_bind_date = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -622,7 +494,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -633,7 +505,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_date_integer = function(ctx, con) {
+  arrow_bind_date_integer = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -649,7 +521,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -660,7 +532,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_timestamp = function(ctx, con) {
+  arrow_bind_timestamp = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -676,7 +548,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -687,7 +559,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_timestamp_lt = function(ctx, con) {
+  arrow_bind_timestamp_lt = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -703,7 +575,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -714,7 +586,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_time_seconds = function(ctx, con) {
+  arrow_bind_time_seconds = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -730,7 +602,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -741,7 +613,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_time_hours = function(ctx, con) {
+  arrow_bind_time_hours = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -757,7 +629,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -768,7 +640,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_time_minutes_integer = function(ctx, con) {
+  arrow_bind_time_minutes_integer = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -784,7 +656,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[4L]], " THEN 1.5 ELSE 2.5 END AS d")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -795,8 +667,8 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_raw = function(ctx, con) {
-    skip_if(isTRUE(ctx$tweaks$omit_blob_tests))
+  arrow_bind_raw = function(ctx, con) {
+    skip_if(isTRUE(ctx$tweaks$omit_blob_tests) || ctx$tweaks$dbitest_version < "1.7.99.14")
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- ctx$tweaks$blob_cast
@@ -811,7 +683,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
@@ -822,7 +694,7 @@ spec_meta_bind <- list(
       res <- NULL
     }
   },
-  bind_blob = function(ctx, con) {
+  arrow_bind_blob = function(ctx, con) {
     skip_if(isTRUE(ctx$tweaks$omit_blob_tests))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -842,7 +714,7 @@ spec_meta_bind <- list(
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[2L]], " THEN 1.5 ELSE 2.5 END AS b, ")
       sql <- paste0(sql, "CASE WHEN ", result_check[[3L]], " THEN 1.5 ELSE 2.5 END AS c")
-      res <- dbSendQuery(con, sql)
+      res <- dbSendQueryArrow(con, sql)
       on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
       dbBind(res, bind_values)
       rows <- check_df(dbFetch(res))
