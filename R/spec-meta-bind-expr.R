@@ -60,7 +60,7 @@ spec_meta_bind_expr <- list(
       bind_values[-1L]
     }
     test_select_bind_expr(
-      1L,
+      1:2,
       patch_bind_values = patch_bind_values,
       bind_error = ".*"
     )
