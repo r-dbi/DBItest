@@ -1,5 +1,6 @@
 #' @format NULL
 spec_meta <- c(
+  spec_meta_bind_formals,
   spec_meta_bind,
   spec_meta_is_valid,
   spec_meta_has_completed,

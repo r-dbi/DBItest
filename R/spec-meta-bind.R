@@ -4,11 +4,6 @@
 #' @format NULL
 #' @keywords NULL
 spec_meta_bind <- list(
-  bind_formals = function() {
-    # <establish formals of described functions>
-    expect_equal(names(formals(dbBind)), c("res", "params", "..."))
-  },
-  #
   bind_return_value = function(ctx, con) {
     #' @return
     check_return_value <- function(bind_res, res) {
@@ -43,16 +38,9 @@ spec_meta_bind <- list(
       query = FALSE
     )
   },
-  #'
-  bind_empty = function(con) {
-    #' @section Failure modes:
-    #' Calling `dbBind()` for a query without parameters
-    res <- local_result(dbSendQuery(con, trivial_query()))
-    #' raises an error.
-    expect_error(dbBind(res, list()))
-  },
   #
   bind_too_many = function(ctx, con) {
+    #' @section Failure modes:
     patch_bind_values <- function(bind_values) {
       #' Binding too many
       if (is.null(names(bind_values))) {

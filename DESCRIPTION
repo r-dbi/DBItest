@@ -96,6 +96,7 @@ Collate:
     'spec-sql-remove-table.R'
     'spec-sql-list-objects.R'
     'spec-meta-bind-runner.R'
+    'spec-meta-bind-formals.R'
     'spec-meta-bind.R'
     'spec-meta-bind-.R'
     'spec-meta-is-valid.R'
