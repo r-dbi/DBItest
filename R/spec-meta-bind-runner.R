@@ -187,8 +187,7 @@ run_bind_tester$fun <- function(
 
   #' 1. Repeat 2. and 3. as necessary.
   repeated_expr <- if (is_repeated) rlang::expr({
-    bind_res <- withVisible(dbBind(res, bind_values_patched))
-    !!check_return_value_expr
+    !!bind_expr
     !!retrieve_expr
   })
 

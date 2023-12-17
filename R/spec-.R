@@ -49,6 +49,7 @@
 #' @include spec-meta-is-valid.R
 #' @include spec-meta-bind-.R
 #' @include spec-meta-bind.R
+#' @include spec-meta-bind-expr.R
 #' @include spec-meta-bind-formals.R
 #' @include spec-meta-bind-runner.R
 #' @include spec-sql-list-objects.R
