@@ -40,10 +40,16 @@ test_select_bind_expr_one$fun <- function(
     bind_values_patched <- !!body(patch_bind_values)
   })
 
-  bind_values_patched_expr <- if (is.null(patch_bind_values)) rlang::expr({
+  bind_values_patched_expr_base <- if (is.null(patch_bind_values)) rlang::expr({
     bind_values
   }) else rlang::expr({
     bind_values_patched
+  })
+
+  bind_values_patched_expr <- if (arrow == "params") rlang::expr({
+    nanoarrow::as_nanoarrow_array_stream(!!bind_values_patched_expr_base)
+  }) else rlang::expr({
+    !!bind_values_patched_expr_base
   })
 
   cast_fun_placeholder_expr <- if (has_cast_fun) rlang::expr({
