@@ -1,5 +1,44 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.7.3.9013 (2023-12-17)
+
+## Bug fixes
+
+- Fix two binding tests (#321).
+
+## Features
+
+- Require support for `dbFetch(n = NA)` (#296, #316).
+
+- New `allow_na_rows_affected` tweak to support `NA` values returned from `dbGetRowsAffected()` (#297, #312).
+
+- Add adbi to check matrix (#314).
+
+## Chore
+
+- Towards generating expressions for bind checks (#320).
+
+- Avoid R6 for testing `dbBind()` (#319).
+
+- Consistent use of `skip_if_not_dbitest()` (#317).
+
+- Disable Arrow skips (#303).
+
+- Slightly better code generated for `tweaks()` (#313).
+
+## Testing
+
+- Run DBItest for SQLite as part of the checks here (#318).
+
+- Enable remaining Arrow tests (#307).
+
+## Uncategorized
+
+- Merge pull request #315 from r-dbi/b-odbc.
+
+  Fix compatibility with odbc
+
+
 # DBItest 1.7.3.9012 (2023-11-22)
 
 ## Chore
