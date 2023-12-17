@@ -80,8 +80,7 @@ spec_arrow_get_query_arrow <- list(
     rbr <- nanoarrow::as_nanoarrow_array_stream(stream)
 
     #' The chunk size is implementation-specific.
-    # Arrow returns a tibble when it shouldn't
-    out <- as.data.frame(as.data.frame(rbr$get_next()))
+    out <- as.data.frame(rbr$get_next())
     expect_equal(out, head(result, nrow(out)))
   },
 
