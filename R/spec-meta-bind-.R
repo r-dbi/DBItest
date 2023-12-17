@@ -31,7 +31,6 @@ test_select_bind_expr <- function(
     !!skip_expr
     placeholder_funs <- !!placeholder_funs_expr
 
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- !!cast_fun
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected

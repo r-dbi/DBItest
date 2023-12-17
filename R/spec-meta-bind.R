@@ -3,7 +3,6 @@
 spec_meta_bind <- list(
   bind_return_value = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -46,7 +45,6 @@ spec_meta_bind <- list(
   },
   bind_return_value_statement = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -81,7 +79,6 @@ spec_meta_bind <- list(
   },
   bind_too_many = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -117,7 +114,6 @@ spec_meta_bind <- list(
   },
   bind_not_enough = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -149,7 +145,6 @@ spec_meta_bind <- list(
   },
   bind_wrong_name = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -181,7 +176,6 @@ spec_meta_bind <- list(
   },
   bind_multi_row_unequal_length = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -213,7 +207,6 @@ spec_meta_bind <- list(
   },
   bind_named_param_unnamed_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -245,7 +238,6 @@ spec_meta_bind <- list(
   },
   bind_named_param_empty_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -280,7 +272,6 @@ spec_meta_bind <- list(
   },
   bind_named_param_na_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -315,7 +306,6 @@ spec_meta_bind <- list(
   },
   bind_unnamed_param_named_placeholders = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = FALSE)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -347,7 +337,6 @@ spec_meta_bind <- list(
   },
   bind_premature_clear = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -373,7 +362,6 @@ spec_meta_bind <- list(
   },
   bind_multi_row = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -414,7 +402,6 @@ spec_meta_bind <- list(
   },
   bind_multi_row_zero_length = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -455,7 +442,6 @@ spec_meta_bind <- list(
   },
   bind_multi_row_statement = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -488,7 +474,6 @@ spec_meta_bind <- list(
   },
   bind_repeated = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -539,7 +524,6 @@ spec_meta_bind <- list(
   },
   bind_repeated_statement = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -577,7 +561,6 @@ spec_meta_bind <- list(
   },
   bind_repeated_untouched = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -619,7 +602,6 @@ spec_meta_bind <- list(
   },
   bind_repeated_untouched_statement = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -653,7 +635,6 @@ spec_meta_bind <- list(
   },
   bind_named_param_shuffle = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -685,7 +666,6 @@ spec_meta_bind <- list(
   },
   bind_integer = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -726,7 +706,6 @@ spec_meta_bind <- list(
   },
   bind_numeric = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -767,7 +746,6 @@ spec_meta_bind <- list(
   },
   bind_logical = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -808,7 +786,6 @@ spec_meta_bind <- list(
   },
   bind_character = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -849,7 +826,6 @@ spec_meta_bind <- list(
   },
   bind_character_escape = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -890,7 +866,6 @@ spec_meta_bind <- list(
   },
   bind_factor = function(ctx, con) {
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -932,7 +907,6 @@ spec_meta_bind <- list(
   bind_date = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -974,7 +948,6 @@ spec_meta_bind <- list(
   bind_date_integer = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -1016,7 +989,6 @@ spec_meta_bind <- list(
   bind_timestamp = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -1058,7 +1030,6 @@ spec_meta_bind <- list(
   bind_timestamp_lt = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -1100,7 +1071,6 @@ spec_meta_bind <- list(
   bind_time_seconds = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -1142,7 +1112,6 @@ spec_meta_bind <- list(
   bind_time_hours = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -1184,7 +1153,6 @@ spec_meta_bind <- list(
   bind_time_minutes_integer = function(ctx, con) {
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- identity
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -1226,7 +1194,6 @@ spec_meta_bind <- list(
   bind_raw = function(ctx, con) {
     skip_if(isTRUE(ctx$tweaks$omit_blob_tests))
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- ctx$tweaks$blob_cast
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -1268,7 +1235,6 @@ spec_meta_bind <- list(
   bind_blob = function(ctx, con) {
     skip_if(isTRUE(ctx$tweaks$omit_blob_tests))
     placeholder_funs <- get_placeholder_funs(ctx)
-    force(con)
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- ctx$tweaks$blob_cast
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
