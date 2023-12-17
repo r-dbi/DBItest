@@ -1,26 +1,39 @@
 # Helpers -----------------------------------------------------------------
 
-test_select_bind <- function(
-    con,
-    ctx,
+test_select_bind_expr <- function(
     bind_values,
+    ctx = stop("ctx is available during run time only"),
     ...,
-    cast_fun = identity,
+    cast_fun = NULL,
     requires_names = NULL) {
-
   force(bind_values)
   test_expr <- run_bind_tester$fun(bind_values = bind_values, ...)
 
-  placeholder_funs <- get_placeholder_funs(ctx, requires_names)
-
-  force(con)
-  is_null_check <- ctx$tweaks$is_null_check
-  force(cast_fun)
-  allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
-
-  for (placeholder_fun in placeholder_funs) {
-    rlang::eval_bare(test_expr)
+  cast_fun <- rlang::enquo(cast_fun)
+  if (rlang::quo_is_null(cast_fun)) {
+    cast_fun <- rlang::expr(identity)
+  } else {
+    cast_fun <- rlang::quo_get_expr(cast_fun)
   }
+
+  if (is.null(requires_names)) {
+    placeholder_funs_expr <- rlang::expr(get_placeholder_funs(ctx))
+  } else {
+    placeholder_funs_expr <- rlang::expr(get_placeholder_funs(ctx, requires_names = !!requires_names))
+  }
+
+  rlang::expr({
+    placeholder_funs <- !!placeholder_funs_expr
+
+    force(con)
+    is_null_check <- ctx$tweaks$is_null_check
+    cast_fun <- !!cast_fun
+    allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
+
+    for (placeholder_fun in placeholder_funs) {
+      !!test_expr
+    }
+  })
 }
 
 get_placeholder_funs <- function(ctx, requires_names = NULL) {

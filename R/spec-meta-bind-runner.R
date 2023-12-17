@@ -42,8 +42,8 @@ run_bind_tester$fun <- function(
     bind_values_patched <- !!body(patch_bind_values)
   })
 
-  skip_expr <- if (!is.null(skip_fun) && skip_fun()) rlang::expr({
-    skip(!!rlang::expr_deparse(body(skip_fun)))
+  skip_expr <- if (!is.null(skip_fun)) rlang::expr({
+    skip_if(!!body(skip_fun))
   })
 
   #' 1. Call [dbSendQuery()] or [dbSendStatement()] with a query or statement
