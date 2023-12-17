@@ -100,7 +100,6 @@ Collate:
     'spec-meta-bind-expr.R'
     'spec-meta-bind.R'
     'spec-meta-bind-arrow.R'
-    'spec-meta-bind-arrow-params.R'
     'spec-meta-bind-.R'
     'spec-meta-is-valid.R'
     'spec-meta-has-completed.R'

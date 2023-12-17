@@ -5,7 +5,7 @@
 #' @usage NULL
 #' @format NULL
 #' @keywords NULL
-spec_meta_bind_expr <- function(arrow = c("none", "query", "params")) {
+spec_meta_bind_expr <- function(arrow = c("none", "query")) {
   arrow <- rlang::arg_match(arrow)
 
   out <- list(
@@ -416,7 +416,6 @@ get_bind_arrow_infix <- function(arrow) {
     arrow,
     none = "",
     query = "arrow_",
-    params = "arrow_params_",
     stop("Unknown arrow: ", arrow)
   )
 }

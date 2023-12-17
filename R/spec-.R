@@ -48,7 +48,6 @@
 #' @include spec-meta-has-completed.R
 #' @include spec-meta-is-valid.R
 #' @include spec-meta-bind-.R
-#' @include spec-meta-bind-arrow-params.R
 #' @include spec-meta-bind-arrow.R
 #' @include spec-meta-bind.R
 #' @include spec-meta-bind-expr.R

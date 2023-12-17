@@ -79,7 +79,6 @@ times <- file.mtime(c(
   # Targets
   "../../R/spec-meta-bind.R",
   "../../R/spec-meta-bind-arrow.R",
-  "../../R/spec-meta-bind-arrow-params.R",
 
   # Sources
   "../../R/spec-meta-bind-expr.R",
@@ -89,9 +88,8 @@ times <- file.mtime(c(
   NULL
 ))
 
-if (Sys.getenv("CI") == "" && which.max(times) > 3) {
+if (Sys.getenv("CI") == "" && which.max(times) > 2) {
   message("Generating spec-meta-bind.R")
   inline_meta_tests("none", "../../R/spec-meta-bind.R")
   inline_meta_tests("query", "../../R/spec-meta-bind-arrow.R")
-  inline_meta_tests("params", "../../R/spec-meta-bind-arrow-params.R")
 }
