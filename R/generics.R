@@ -6,6 +6,7 @@ all_dbi_generics <- function() {
     "dbAppendTableArrow",
     "dbBegin",
     "dbBind",
+    "dbBindArrow",
     "dbCanConnect",
     "dbClearResult",
     "dbColumnInfo",
