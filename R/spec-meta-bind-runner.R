@@ -46,7 +46,6 @@ test_select_bind_expr_one$fun <- function(
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
   send_expr <- if (query) rlang::expr({
-    ret_values <- trivial_values(2)
     placeholder <- placeholder_fun(length(bind_values))
     is_na <- vapply(bind_values, is_na_or_null, logical(1))
     placeholder_values <- vapply(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]), character(1))
@@ -61,9 +60,8 @@ test_select_bind_expr_one$fun <- function(
           paste0("(", is_null_check(cast_fun(placeholder)), ")"),
           paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
         ),
-        " THEN ", ret_values[[1]],
-        " ELSE ", ret_values[[2]], " END",
-        " AS ", result_names,
+        !!paste0(" THEN ", trivial_values(2)[[1]], " ELSE ", trivial_values(2)[[2]], " END", " AS "),
+        result_names,
         collapse = ", "
       )
     )
@@ -161,7 +159,7 @@ test_select_bind_expr_one$fun <- function(
     expect_equal(nrow(rows), length(bind_values[[1]]))
     if (nrow(rows) > 0) {
       result_names <- letters[seq_along(bind_values)]
-      expected <- c(trivial_values(1), rep(trivial_values(2)[[2]], nrow(rows) - 1))
+      expected <- c(!!trivial_values(1), rep(!!trivial_values(2)[[2]], nrow(rows) - 1))
       all_expected <- rep(list(expected), length(bind_values))
       result <- as.data.frame(setNames(all_expected, result_names))
 
