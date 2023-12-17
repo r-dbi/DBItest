@@ -89,8 +89,7 @@ test_select_bind_expr_one$fun <- function(
 
     res <- dbSendQuery(con, sql)
   }) else rlang::expr({
-    data <- data.frame(a = rep(1:5, 1:5))
-    data$b <- seq_along(data$a)
+    data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
     table_name <- random_table_name()
     dbWriteTable(con, table_name, data, temporary = TRUE)
 

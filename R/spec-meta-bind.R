@@ -37,8 +37,7 @@ spec_meta_bind <- list(
       bind_values <- 1L
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      data <- data.frame(a = rep(1:5, 1:5))
-      data$b <- seq_along(data$a)
+      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
@@ -132,8 +131,7 @@ spec_meta_bind <- list(
         bind_values[[2]] <- bind_values[[2]][-1]
         bind_values
       }
-      data <- data.frame(a = rep(1:5, 1:5))
-      data$b <- seq_along(data$a)
+      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
@@ -297,8 +295,7 @@ spec_meta_bind <- list(
       bind_values <- list(1:3)
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      data <- data.frame(a = rep(1:5, 1:5))
-      data$b <- seq_along(data$a)
+      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
@@ -349,8 +346,7 @@ spec_meta_bind <- list(
       bind_values <- 1L
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      data <- data.frame(a = rep(1:5, 1:5))
-      data$b <- seq_along(data$a)
+      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
@@ -402,8 +398,7 @@ spec_meta_bind <- list(
       bind_values <- 1L
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      data <- data.frame(a = rep(1:5, 1:5))
-      data$b <- seq_along(data$a)
+      data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
       table_name <- random_table_name()
       dbWriteTable(con, table_name, data, temporary = TRUE)
       sql <- paste0("UPDATE ", dbQuoteIdentifier(con, table_name), " SET b = b + 1 WHERE ")
