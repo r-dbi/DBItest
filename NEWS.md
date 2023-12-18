@@ -1,5 +1,30 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.7.3.9014 (2023-12-18)
+
+## Features
+
+- Specify `dbFetchChunk()` (#331).
+
+- Inline all tests for `dbBind()` (#326).
+
+## Chore
+
+- Remove rlang qualification (#332).
+
+- Remove double `as.data.frame()` (#330).
+
+- Test for `dbBindArrow()` (#328).
+
+- Work around constructive problem (#327).
+
+- Inlining (#325).
+
+- Inlining (#324).
+
+- Towards inlining bind tests (#323).
+
+
 # DBItest 1.7.3.9013 (2023-12-17)
 
 ## Bug fixes
