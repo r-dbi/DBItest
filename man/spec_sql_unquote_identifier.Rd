@@ -7,14 +7,17 @@
 \value{
 \code{dbUnquoteIdentifier()} returns a list of objects
 of the same length as the input.
-For an empty character vector this function returns a length-0 object.
+For an empty vector, this function returns a length-0 object.
 The names of the input argument are preserved in the output.
-When passing the first element of a returned object again to
-\code{dbUnquoteIdentifier()} as \code{x}
-argument, it is returned unchanged (but wrapped in a list).
-Passing objects of class \link{Id} should also return them unchanged (but wrapped in a list).
+If \code{x} is a value returned by \code{dbUnquoteIdentifier()},
+calling \code{dbUnquoteIdentifier(..., dbQuoteIdentifier(..., x))}
+returns \code{list(x)}.
+If \code{x} is an object of class \link{Id},
+calling \code{dbUnquoteIdentifier(..., x)} returns \code{list(x)}.
 (For backends it may be most convenient to return \link{Id} objects
 to achieve this behavior, but this is not required.)
+
+Plain character vectors can also be passed to \code{dbUnquoteIdentifier()}.
 }
 \description{
 spec_sql_unquote_identifier
@@ -22,8 +25,8 @@ spec_sql_unquote_identifier
 \section{Failure modes}{
 
 
-An error is raised if plain character vectors are passed as the \code{x}
-argument.
+An error is raised if a character vectors with a missing value is passed
+as the \code{x} argument.
 }
 
 \section{Specification}{
@@ -43,7 +46,7 @@ and then quoting via \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}} gives
 quoting the string.
 Similarly, unquoting expressions of the form \code{SQL("schema.table")}
 and then quoting gives the same result as quoting the identifier
-constructed by \code{Id(schema = "schema", table = "table")}.
+constructed by \code{Id("schema", "table")}.
 }
 
 \seealso{
