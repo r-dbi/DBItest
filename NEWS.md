@@ -1,5 +1,16 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.7.3.9015 (2023-12-20)
+
+## Features
+
+- Relax specification of `dbUnquoteIdentifier()`, character vectors are now allowed too.
+
+## Chore
+
+- Install DBI from CRAN.
+
+
 # DBItest 1.7.3.9014 (2023-12-18)
 
 ## Features
