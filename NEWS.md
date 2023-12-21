@@ -4,57 +4,50 @@
 
 ## Bug fixes
 
-- Fix two binding tests (#321).
-- Typo.
-- Skip test if dplyr is not installed.
 - Fix `create_roundtrip_keywords` and `create_roundtrip_quotes` tests (#283).
 
 ## Features
 
 - Relax specification of `dbUnquoteIdentifier()`, character vectors are now allowed too.
-- Specify `dbFetchChunk()` (#331).
+
+- Specify `dbFetchChunk()` (#331), `dbFetchArrowChunk()` (#301) and `dbBindArrow()` (#328).
+
 - Inline all tests for `dbBind()` (#326).
+
 - Require support for `dbFetch(n = NA)` (#296, #316).
+
 - New `allow_na_rows_affected` tweak to support `NA` values returned from `dbGetRowsAffected()` (#297, #312).
-- Add adbi to check matrix (#314).
+
 - Switch to nanoarrow (#291).
+
 - Basic tests for the new `db*Arrow()` interface (#287).
+
 - New `skip_if_not_dbitest()` (#289).
-- Reenable ODBC MySQL tests (#288).
-- Tweak read_table_missing test (#285).
+
 - `reexport` test uses interface for dev DBI if the backend is compatible with DBItest \> 1.7.3.
-This reverts commit bbb444486d0b663a89e66dd61c8b5a97c8e18651.
+
+- Slightly better code generated for `tweaks()` (#313).
+
+## CI/CD
+
+- Add adbi to check matrix (#314).
+
+- Reenable ODBC MySQL tests (#288).
+
+- Tweak `read_table_missing` test (#285).
 
 ## Chore
 
-- DBI is on CRAN.
-- Bump DBI dependency.
-- Revdepcheck results.
-- Install DBI from CRAN.
 - Remove rlang qualification (#332).
-- Remove double `as.data.frame()` (#330).
-- Test for `dbBindArrow()` (#328).
-- Work around constructive problem (#327).
-- Inlining (#325).
-- Inlining (#324).
-- Towards inlining bind tests (#323).
-- Towards generating expressions for bind checks (#320).
-- Avoid R6 for testing `dbBind()` (#319).
+
+- No longer need `as.data.frame()` twice for Arrow (#302, #330).
+
 - Consistent use of `skip_if_not_dbitest()` (#317).
+
 - Disable Arrow skips (#303).
-- Slightly better code generated for `tweaks()` (#313).
-- No longer need `as.data.frame()` twice for Arrow (#302).
-- Breadcrumbs (#305).
-- Align paths to duckdb in `Makefile` (#306).
+
 - Modernize `sql_union()` (#304).
-- Add new `dbFetchArrowChunk()` generic (#301).
-- Add Aviator configuration.
-- Adapt to changed duckdb directory.
-- Simplify workflow.
-- Fix CI/CD (#295).
-- Try fixing odbc workflows.
-- Bump dependencies in GitHub actions.
-- Refactor: Prefer functions over constants (#270).
+
 - Make better use of `trivial_df()` (#284).
 
 ## Documentation
@@ -64,17 +57,10 @@ This reverts commit bbb444486d0b663a89e66dd61c8b5a97c8e18651.
 ## Testing
 
 - Run DBItest for SQLite as part of the checks here (#318).
+
 - Enable remaining Arrow tests (#307).
+
 - Fix checks without suggested packages (#300).
-
-## Uncategorized
-
-- Merge pull request #315 from r-dbi/b-odbc.
-  Fix compatibility with odbc
-- Internal changes only.
-- Merge pull request #280 from r-dbi/f-ref-3.
-- Merge remote-tracking branch 'refs/remotes/origin/main'.
-- Merged cran-1.7.3 into main.
 
 
 # DBItest 1.7.3 (2022-10-18)
