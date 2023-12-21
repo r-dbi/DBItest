@@ -54,58 +54,35 @@
 <h2 class="page-header" data-toc-text="1.8.0" id="dbitest-180-2023-12-21">DBItest 1.8.0 (2023-12-21)<a class="anchor" aria-label="anchor" href="#dbitest-180-2023-12-21"></a></h2>
 <div class="section level3">
 <h3 id="bug-fixes-1-8-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-8-0"></a></h3>
-<ul><li>Fix two binding tests (<a href="https://github.com/r-dbi/DBItest/issues/321" class="external-link">#321</a>).</li>
-<li>Typo.</li>
-<li>Skip test if dplyr is not installed.</li>
-<li>Fix <code>create_roundtrip_keywords</code> and <code>create_roundtrip_quotes</code> tests (<a href="https://github.com/r-dbi/DBItest/issues/283" class="external-link">#283</a>).</li>
+<ul><li>Fix <code>create_roundtrip_keywords</code> and <code>create_roundtrip_quotes</code> tests (<a href="https://github.com/r-dbi/DBItest/issues/283" class="external-link">#283</a>).</li>
 </ul></div>
 <div class="section level3">
 <h3 id="features-1-8-0">Features<a class="anchor" aria-label="anchor" href="#features-1-8-0"></a></h3>
-<ul><li>Relax specification of <code>dbUnquoteIdentifier()</code>, character vectors are now allowed too.</li>
-<li>Specify <code>dbFetchChunk()</code> (<a href="https://github.com/r-dbi/DBItest/issues/331" class="external-link">#331</a>).</li>
-<li>Inline all tests for <code>dbBind()</code> (<a href="https://github.com/r-dbi/DBItest/issues/326" class="external-link">#326</a>).</li>
-<li>Require support for <code>dbFetch(n = NA)</code> (<a href="https://github.com/r-dbi/DBItest/issues/296" class="external-link">#296</a>, <a href="https://github.com/r-dbi/DBItest/issues/316" class="external-link">#316</a>).</li>
-<li>New <code>allow_na_rows_affected</code> tweak to support <code>NA</code> values returned from <code>dbGetRowsAffected()</code> (<a href="https://github.com/r-dbi/DBItest/issues/297" class="external-link">#297</a>, <a href="https://github.com/r-dbi/DBItest/issues/312" class="external-link">#312</a>).</li>
-<li>Add adbi to check matrix (<a href="https://github.com/r-dbi/DBItest/issues/314" class="external-link">#314</a>).</li>
-<li>Switch to nanoarrow (<a href="https://github.com/r-dbi/DBItest/issues/291" class="external-link">#291</a>).</li>
-<li>Basic tests for the new <code>db*Arrow()</code> interface (<a href="https://github.com/r-dbi/DBItest/issues/287" class="external-link">#287</a>).</li>
-<li>New <code>skip_if_not_dbitest()</code> (<a href="https://github.com/r-dbi/DBItest/issues/289" class="external-link">#289</a>).</li>
-<li>Reenable ODBC MySQL tests (<a href="https://github.com/r-dbi/DBItest/issues/288" class="external-link">#288</a>).</li>
-<li>Tweak read_table_missing test (<a href="https://github.com/r-dbi/DBItest/issues/285" class="external-link">#285</a>).</li>
-<li>
-<code>reexport</code> test uses interface for dev DBI if the backend is compatible with DBItest &gt; 1.7.3. This reverts commit bbb444486d0b663a89e66dd61c8b5a97c8e18651.</li>
+<ul><li><p>Relax specification of <code>dbUnquoteIdentifier()</code>, character vectors are now allowed too.</p></li>
+<li><p>Specify <code>dbFetchChunk()</code> (<a href="https://github.com/r-dbi/DBItest/issues/331" class="external-link">#331</a>), <code>dbFetchArrowChunk()</code> (<a href="https://github.com/r-dbi/DBItest/issues/301" class="external-link">#301</a>) and <code>dbBindArrow()</code> (<a href="https://github.com/r-dbi/DBItest/issues/328" class="external-link">#328</a>).</p></li>
+<li><p>Inline all tests for <code>dbBind()</code> (<a href="https://github.com/r-dbi/DBItest/issues/326" class="external-link">#326</a>).</p></li>
+<li><p>Require support for <code>dbFetch(n = NA)</code> (<a href="https://github.com/r-dbi/DBItest/issues/296" class="external-link">#296</a>, <a href="https://github.com/r-dbi/DBItest/issues/316" class="external-link">#316</a>).</p></li>
+<li><p>New <code>allow_na_rows_affected</code> tweak to support <code>NA</code> values returned from <code>dbGetRowsAffected()</code> (<a href="https://github.com/r-dbi/DBItest/issues/297" class="external-link">#297</a>, <a href="https://github.com/r-dbi/DBItest/issues/312" class="external-link">#312</a>).</p></li>
+<li><p>Switch to nanoarrow (<a href="https://github.com/r-dbi/DBItest/issues/291" class="external-link">#291</a>).</p></li>
+<li><p>Basic tests for the new <code>db*Arrow()</code> interface (<a href="https://github.com/r-dbi/DBItest/issues/287" class="external-link">#287</a>).</p></li>
+<li><p>New <code>skip_if_not_dbitest()</code> (<a href="https://github.com/r-dbi/DBItest/issues/289" class="external-link">#289</a>).</p></li>
+<li><p><code>reexport</code> test uses interface for dev DBI if the backend is compatible with DBItest &gt; 1.7.3.</p></li>
+<li><p>Slightly better code generated for <code><a href="../reference/tweaks.html">tweaks()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/313" class="external-link">#313</a>).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="cicd-1-8-0">CI/CD<a class="anchor" aria-label="anchor" href="#cicd-1-8-0"></a></h3>
+<ul><li><p>Add adbi to check matrix (<a href="https://github.com/r-dbi/DBItest/issues/314" class="external-link">#314</a>).</p></li>
+<li><p>Reenable ODBC MySQL tests (<a href="https://github.com/r-dbi/DBItest/issues/288" class="external-link">#288</a>).</p></li>
+<li><p>Tweak <code>read_table_missing</code> test (<a href="https://github.com/r-dbi/DBItest/issues/285" class="external-link">#285</a>).</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="chore-1-8-0">Chore<a class="anchor" aria-label="anchor" href="#chore-1-8-0"></a></h3>
-<ul><li>DBI is on CRAN.</li>
-<li>Bump DBI dependency.</li>
-<li>Revdepcheck results.</li>
-<li>Install DBI from CRAN.</li>
-<li>Remove rlang qualification (<a href="https://github.com/r-dbi/DBItest/issues/332" class="external-link">#332</a>).</li>
-<li>Remove double <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/330" class="external-link">#330</a>).</li>
-<li>Test for <code>dbBindArrow()</code> (<a href="https://github.com/r-dbi/DBItest/issues/328" class="external-link">#328</a>).</li>
-<li>Work around constructive problem (<a href="https://github.com/r-dbi/DBItest/issues/327" class="external-link">#327</a>).</li>
-<li>Inlining (<a href="https://github.com/r-dbi/DBItest/issues/325" class="external-link">#325</a>).</li>
-<li>Inlining (<a href="https://github.com/r-dbi/DBItest/issues/324" class="external-link">#324</a>).</li>
-<li>Towards inlining bind tests (<a href="https://github.com/r-dbi/DBItest/issues/323" class="external-link">#323</a>).</li>
-<li>Towards generating expressions for bind checks (<a href="https://github.com/r-dbi/DBItest/issues/320" class="external-link">#320</a>).</li>
-<li>Avoid R6 for testing <code>dbBind()</code> (<a href="https://github.com/r-dbi/DBItest/issues/319" class="external-link">#319</a>).</li>
-<li>Consistent use of <code>skip_if_not_dbitest()</code> (<a href="https://github.com/r-dbi/DBItest/issues/317" class="external-link">#317</a>).</li>
-<li>Disable Arrow skips (<a href="https://github.com/r-dbi/DBItest/issues/303" class="external-link">#303</a>).</li>
-<li>Slightly better code generated for <code><a href="../reference/tweaks.html">tweaks()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/313" class="external-link">#313</a>).</li>
-<li>No longer need <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> twice for Arrow (<a href="https://github.com/r-dbi/DBItest/issues/302" class="external-link">#302</a>).</li>
-<li>Breadcrumbs (<a href="https://github.com/r-dbi/DBItest/issues/305" class="external-link">#305</a>).</li>
-<li>Align paths to duckdb in <code>Makefile</code> (<a href="https://github.com/r-dbi/DBItest/issues/306" class="external-link">#306</a>).</li>
-<li>Modernize <code>sql_union()</code> (<a href="https://github.com/r-dbi/DBItest/issues/304" class="external-link">#304</a>).</li>
-<li>Add new <code>dbFetchArrowChunk()</code> generic (<a href="https://github.com/r-dbi/DBItest/issues/301" class="external-link">#301</a>).</li>
-<li>Add Aviator configuration.</li>
-<li>Adapt to changed duckdb directory.</li>
-<li>Simplify workflow.</li>
-<li>Fix CI/CD (<a href="https://github.com/r-dbi/DBItest/issues/295" class="external-link">#295</a>).</li>
-<li>Try fixing odbc workflows.</li>
-<li>Bump dependencies in GitHub actions.</li>
-<li>Refactor: Prefer functions over constants (<a href="https://github.com/r-dbi/DBItest/issues/270" class="external-link">#270</a>).</li>
-<li>Make better use of <code>trivial_df()</code> (<a href="https://github.com/r-dbi/DBItest/issues/284" class="external-link">#284</a>).</li>
+<ul><li><p>Remove rlang qualification (<a href="https://github.com/r-dbi/DBItest/issues/332" class="external-link">#332</a>).</p></li>
+<li><p>No longer need <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> twice for Arrow (<a href="https://github.com/r-dbi/DBItest/issues/302" class="external-link">#302</a>, <a href="https://github.com/r-dbi/DBItest/issues/330" class="external-link">#330</a>).</p></li>
+<li><p>Consistent use of <code>skip_if_not_dbitest()</code> (<a href="https://github.com/r-dbi/DBItest/issues/317" class="external-link">#317</a>).</p></li>
+<li><p>Disable Arrow skips (<a href="https://github.com/r-dbi/DBItest/issues/303" class="external-link">#303</a>).</p></li>
+<li><p>Modernize <code>sql_union()</code> (<a href="https://github.com/r-dbi/DBItest/issues/304" class="external-link">#304</a>).</p></li>
+<li><p>Make better use of <code>trivial_df()</code> (<a href="https://github.com/r-dbi/DBItest/issues/284" class="external-link">#284</a>).</p></li>
 </ul></div>
 <div class="section level3">
 <h3 id="documentation-1-8-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-8-0"></a></h3>
@@ -113,17 +90,9 @@
 </ul></div>
 <div class="section level3">
 <h3 id="testing-1-8-0">Testing<a class="anchor" aria-label="anchor" href="#testing-1-8-0"></a></h3>
-<ul><li>Run DBItest for SQLite as part of the checks here (<a href="https://github.com/r-dbi/DBItest/issues/318" class="external-link">#318</a>).</li>
-<li>Enable remaining Arrow tests (<a href="https://github.com/r-dbi/DBItest/issues/307" class="external-link">#307</a>).</li>
-<li>Fix checks without suggested packages (<a href="https://github.com/r-dbi/DBItest/issues/300" class="external-link">#300</a>).</li>
-</ul></div>
-<div class="section level3">
-<h3 id="uncategorized-1-8-0">Uncategorized<a class="anchor" aria-label="anchor" href="#uncategorized-1-8-0"></a></h3>
-<ul><li>Merge pull request <a href="https://github.com/r-dbi/DBItest/issues/315" class="external-link">#315</a> from r-dbi/b-odbc. Fix compatibility with odbc</li>
-<li>Internal changes only.</li>
-<li>Merge pull request <a href="https://github.com/r-dbi/DBItest/issues/280" class="external-link">#280</a> from r-dbi/f-ref-3.</li>
-<li>Merge remote-tracking branch ‘refs/remotes/origin/main’.</li>
-<li>Merged cran-1.7.3 into main.</li>
+<ul><li><p>Run DBItest for SQLite as part of the checks here (<a href="https://github.com/r-dbi/DBItest/issues/318" class="external-link">#318</a>).</p></li>
+<li><p>Enable remaining Arrow tests (<a href="https://github.com/r-dbi/DBItest/issues/307" class="external-link">#307</a>).</p></li>
+<li><p>Fix checks without suggested packages (<a href="https://github.com/r-dbi/DBItest/issues/300" class="external-link">#300</a>).</p></li>
 </ul></div>
 </div>
     <div class="section level2">
