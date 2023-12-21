@@ -28,6 +28,8 @@
 
 - Slightly better code generated for `tweaks()` (#313).
 
+- Remove interface to dblog in the CRAN version.
+
 ## CI/CD
 
 - Add adbi to check matrix (#314).
