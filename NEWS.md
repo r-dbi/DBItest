@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.7.99.9000 (2023-12-21)
+
+## Chore
+
+- DBI is on CRAN.
+
+
 # DBItest 1.7.3.9016 (2023-12-21)
 
 ## Chore

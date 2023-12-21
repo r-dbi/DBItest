@@ -1,6 +1,6 @@
 Package: DBItest
 Title: Testing DBI Backends
-Version: 1.7.3.9016
+Version: 1.7.99.9000
 Date: 2023-12-21
 Authors@R: c(
     person("Kirill", "Müller", , "kirill@cynkra.com", role = c("aut", "cre"),
