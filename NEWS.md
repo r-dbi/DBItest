@@ -1,194 +1,6 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
-# DBItest 1.7.99.9000 (2023-12-21)
-
-## Chore
-
-- DBI is on CRAN.
-
-
-# DBItest 1.7.3.9016 (2023-12-21)
-
-## Chore
-
-- Bump DBI dependency.
-
-- Revdepcheck results.
-
-
-# DBItest 1.7.3.9015 (2023-12-20)
-
-## Features
-
-- Relax specification of `dbUnquoteIdentifier()`, character vectors are now allowed too.
-
-## Chore
-
-- Install DBI from CRAN.
-
-
-# DBItest 1.7.3.9014 (2023-12-18)
-
-## Features
-
-- Specify `dbFetchChunk()` (#331).
-
-- Inline all tests for `dbBind()` (#326).
-
-## Chore
-
-- Remove rlang qualification (#332).
-
-- Remove double `as.data.frame()` (#330).
-
-- Test for `dbBindArrow()` (#328).
-
-- Work around constructive problem (#327).
-
-- Inlining (#325).
-
-- Inlining (#324).
-
-- Towards inlining bind tests (#323).
-
-
-# DBItest 1.7.3.9013 (2023-12-17)
-
-## Bug fixes
-
-- Fix two binding tests (#321).
-
-## Features
-
-- Require support for `dbFetch(n = NA)` (#296, #316).
-
-- New `allow_na_rows_affected` tweak to support `NA` values returned from `dbGetRowsAffected()` (#297, #312).
-
-- Add adbi to check matrix (#314).
-
-## Chore
-
-- Towards generating expressions for bind checks (#320).
-
-- Avoid R6 for testing `dbBind()` (#319).
-
-- Consistent use of `skip_if_not_dbitest()` (#317).
-
-- Disable Arrow skips (#303).
-
-- Slightly better code generated for `tweaks()` (#313).
-
-## Testing
-
-- Run DBItest for SQLite as part of the checks here (#318).
-
-- Enable remaining Arrow tests (#307).
-
-## Uncategorized
-
-- Merge pull request #315 from r-dbi/b-odbc.
-
-  Fix compatibility with odbc
-
-
-# DBItest 1.7.3.9012 (2023-11-22)
-
-## Chore
-
-- No longer need `as.data.frame()` twice for Arrow (#302).
-
-- Breadcrumbs (#305).
-
-- Align paths to duckdb in `Makefile` (#306).
-
-- Modernize `sql_union()` (#304).
-
-- Add new `dbFetchArrowChunk()` generic (#301).
-
-
-# DBItest 1.7.3.9011 (2023-11-09)
-
-## Chore
-
-- Add Aviator configuration.
-
-## Documentation
-
-- Avoid error if RSQLite is not installed.
-
-## Testing
-
-- Fix checks without suggested packages (#300).
-
-
-# DBItest 1.7.3.9010 (2023-10-30)
-
-## Bug fixes
-
-- Typo.
-
-## Chore
-
-- Adapt to changed duckdb directory.
-
-
-# DBItest 1.7.3.9009 (2023-10-09)
-
-## Bug fixes
-
-- Skip test if dplyr is not installed.
-
-
-# DBItest 1.7.3.9008 (2023-09-25)
-
-## Chore
-
-- Simplify workflow.
-
-
-# DBItest 1.7.3.9007 (2023-09-01)
-
-## Features
-
-- Switch to nanoarrow (#291).
-
-## Chore
-
-- Fix CI/CD (#295).
-
-
-# DBItest 1.7.3.9006 (2023-08-30)
-
-## Chore
-
-- Try fixing odbc workflows.
-
-- Bump dependencies in GitHub actions.
-
-
-# DBItest 1.7.3.9005 (2023-03-24)
-
-- Internal changes only.
-
-
-# DBItest 1.7.3.9004 (2023-03-21)
-
-- Internal changes only.
-
-
-# DBItest 1.7.3.9003 (2022-12-30)
-
-- Internal changes only.
-
-
-# DBItest 1.7.3.9002 (2022-12-26)
-
-## Features
-
-- Basic tests for the new `db*Arrow()` interface (#287).
-
-
-# DBItest 1.7.3.9001 (2022-12-24)
+# DBItest 1.8.0 (2023-12-21)
 
 ## Bug fixes
 
@@ -196,38 +8,59 @@
 
 ## Features
 
+- Relax specification of `dbUnquoteIdentifier()`, character vectors are now allowed too.
+
+- Specify `dbFetchChunk()` (#331), `dbFetchArrowChunk()` (#301) and `dbBindArrow()` (#328).
+
+- Inline all tests for `dbBind()` (#326).
+
+- Require support for `dbFetch(n = NA)` (#296, #316).
+
+- New `allow_na_rows_affected` tweak to support `NA` values returned from `dbGetRowsAffected()` (#297, #312).
+
+- Switch to nanoarrow (#291).
+
+- Basic tests for the new `db*Arrow()` interface (#287).
+
 - New `skip_if_not_dbitest()` (#289).
+
+- `reexport` test uses interface for dev DBI if the backend is compatible with DBItest \> 1.7.3.
+
+- Slightly better code generated for `tweaks()` (#313).
+
+## CI/CD
+
+- Add adbi to check matrix (#314).
 
 - Reenable ODBC MySQL tests (#288).
 
-- Tweak read_table_missing test (#285).
-
-- `reexport` test uses interface for dev DBI if the backend is compatible with DBItest > 1.7.3.
-
-This reverts commit bbb444486d0b663a89e66dd61c8b5a97c8e18651.
+- Tweak `read_table_missing` test (#285).
 
 ## Chore
 
-- Refactor: Prefer functions over constants (#270).
+- Remove rlang qualification (#332).
+
+- No longer need `as.data.frame()` twice for Arrow (#302, #330).
+
+- Consistent use of `skip_if_not_dbitest()` (#317).
+
+- Disable Arrow skips (#303).
+
+- Modernize `sql_union()` (#304).
 
 - Make better use of `trivial_df()` (#284).
 
-## Uncategorized
+## Documentation
 
-- Merge pull request #280 from r-dbi/f-ref-3.
+- Avoid error if RSQLite is not installed.
 
+## Testing
 
+- Run DBItest for SQLite as part of the checks here (#318).
 
-- Merge remote-tracking branch 'refs/remotes/origin/main'.
+- Enable remaining Arrow tests (#307).
 
-
-- Merged cran-1.7.3 into main.
-
-
-
-# DBItest 1.7.3.9000 (2022-10-18)
-
-- Internal changes only.
+- Fix checks without suggested packages (#300).
 
 
 # DBItest 1.7.3 (2022-10-18)
