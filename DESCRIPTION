@@ -45,8 +45,6 @@ Suggests:
     RSQLite
 VignetteBuilder: 
     knitr
-Remotes: 
-    r-dbi/DBI
 Additional_repositories: https://r-dbi.r-universe.dev
 Config/autostyle/scope: line_breaks
 Config/autostyle/strict: false
