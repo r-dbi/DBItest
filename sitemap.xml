@@ -43,6 +43,30 @@
     <loc>https://dbitest.r-dbi.org/reference/make_placeholder_fun.html</loc>
   </url>
   <url>
+    <loc>https://dbitest.r-dbi.org/reference/spec_arrow_append_table_arrow.html</loc>
+  </url>
+  <url>
+    <loc>https://dbitest.r-dbi.org/reference/spec_arrow_create_table_arrow.html</loc>
+  </url>
+  <url>
+    <loc>https://dbitest.r-dbi.org/reference/spec_arrow_fetch_arrow.html</loc>
+  </url>
+  <url>
+    <loc>https://dbitest.r-dbi.org/reference/spec_arrow_fetch_arrow_chunk.html</loc>
+  </url>
+  <url>
+    <loc>https://dbitest.r-dbi.org/reference/spec_arrow_get_query_arrow.html</loc>
+  </url>
+  <url>
+    <loc>https://dbitest.r-dbi.org/reference/spec_arrow_read_table_arrow.html</loc>
+  </url>
+  <url>
+    <loc>https://dbitest.r-dbi.org/reference/spec_arrow_send_query_arrow.html</loc>
+  </url>
+  <url>
+    <loc>https://dbitest.r-dbi.org/reference/spec_arrow_write_table_arrow.html</loc>
+  </url>
+  <url>
     <loc>https://dbitest.r-dbi.org/reference/spec_compliance_methods.html</loc>
   </url>
   <url>
@@ -155,6 +179,9 @@
   </url>
   <url>
     <loc>https://dbitest.r-dbi.org/reference/test_all.html</loc>
+  </url>
+  <url>
+    <loc>https://dbitest.r-dbi.org/reference/test_arrow.html</loc>
   </url>
   <url>
     <loc>https://dbitest.r-dbi.org/reference/test_compliance.html</loc>

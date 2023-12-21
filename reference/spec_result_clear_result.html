@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.8.0</span>
       </span>
     </div>
 
@@ -61,17 +61,18 @@
     
 
 <p><code>dbClearResult()</code> returns <code>TRUE</code>, invisibly, for result sets obtained from
-both <code>dbSendQuery()</code></p>
-
-
-<p>and <code>dbSendStatement()</code>.</p>
+<code>dbSendQuery()</code>,
+<code>dbSendStatement()</code>,
+or <code>dbSendQueryArrow()</code>,</p>
     </div>
     <div id="failure-modes">
     <h2>Failure modes</h2>
     
 
 <p>An attempt to close an already closed result set issues a warning
-in both cases.</p>
+for <code>dbSendQuery()</code>,
+<code>dbSendStatement()</code>,
+and <code>dbSendQueryArrow()</code>,</p>
     </div>
     <div id="specification">
     <h2>Specification</h2>
@@ -91,7 +92,16 @@ The DBI backend can expect a call to <code>dbClearResult()</code> for each
 <code><a href="spec_result_get_query.html">spec_result_get_query</a></code>,
 <code><a href="spec_result_roundtrip.html">spec_result_roundtrip</a></code>,
 <code><a href="spec_result_send_query.html">spec_result_send_query</a></code>,
-<code><a href="spec_result_send_statement.html">spec_result_send_statement</a></code></p></div>
+<code><a href="spec_result_send_statement.html">spec_result_send_statement</a></code></p>
+<p>Other Arrow specifications: 
+<code><a href="spec_arrow_append_table_arrow.html">spec_arrow_append_table_arrow</a></code>,
+<code><a href="spec_arrow_create_table_arrow.html">spec_arrow_create_table_arrow</a></code>,
+<code><a href="spec_arrow_fetch_arrow_chunk.html">spec_arrow_fetch_arrow_chunk</a></code>,
+<code><a href="spec_arrow_fetch_arrow.html">spec_arrow_fetch_arrow</a></code>,
+<code><a href="spec_arrow_get_query_arrow.html">spec_arrow_get_query_arrow</a></code>,
+<code><a href="spec_arrow_read_table_arrow.html">spec_arrow_read_table_arrow</a></code>,
+<code><a href="spec_arrow_send_query_arrow.html">spec_arrow_send_query_arrow</a></code>,
+<code><a href="spec_arrow_write_table_arrow.html">spec_arrow_write_table_arrow</a></code></p></div>
     </div>
 
   </div>
@@ -106,7 +116,7 @@ The DBI backend can expect a call to <code>dbClearResult()</code> for each
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.9000.</p>
 </div>
 
       </footer></div>
