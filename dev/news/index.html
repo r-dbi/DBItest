@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.7.99.9000</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.8.0.9000</span>
       </span>
     </div>
 
@@ -51,201 +51,54 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.99.9000" id="dbitest-17999000-2023-12-21">DBItest 1.7.99.9000 (2023-12-21)<a class="anchor" aria-label="anchor" href="#dbitest-17999000-2023-12-21"></a></h2>
-<div class="section level3">
-<h3 id="chore-1-7-99-9000">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-99-9000"></a></h3>
-<ul><li>DBI is on CRAN.</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9016" id="dbitest-1739016-2023-12-21">DBItest 1.7.3.9016 (2023-12-21)<a class="anchor" aria-label="anchor" href="#dbitest-1739016-2023-12-21"></a></h2>
-<div class="section level3">
-<h3 id="chore-1-7-3-9016">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-3-9016"></a></h3>
-<ul><li><p>Bump DBI dependency.</p></li>
-<li><p>Revdepcheck results.</p></li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9015" id="dbitest-1739015-2023-12-20">DBItest 1.7.3.9015 (2023-12-20)<a class="anchor" aria-label="anchor" href="#dbitest-1739015-2023-12-20"></a></h2>
-<div class="section level3">
-<h3 id="features-1-7-3-9015">Features<a class="anchor" aria-label="anchor" href="#features-1-7-3-9015"></a></h3>
-<ul><li>Relax specification of <code>dbUnquoteIdentifier()</code>, character vectors are now allowed too.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="chore-1-7-3-9015">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-3-9015"></a></h3>
-<ul><li>Install DBI from CRAN.</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9014" id="dbitest-1739014-2023-12-18">DBItest 1.7.3.9014 (2023-12-18)<a class="anchor" aria-label="anchor" href="#dbitest-1739014-2023-12-18"></a></h2>
-<div class="section level3">
-<h3 id="features-1-7-3-9014">Features<a class="anchor" aria-label="anchor" href="#features-1-7-3-9014"></a></h3>
-<ul><li><p>Specify <code>dbFetchChunk()</code> (<a href="https://github.com/r-dbi/DBItest/issues/331" class="external-link">#331</a>).</p></li>
-<li><p>Inline all tests for <code>dbBind()</code> (<a href="https://github.com/r-dbi/DBItest/issues/326" class="external-link">#326</a>).</p></li>
-</ul></div>
-<div class="section level3">
-<h3 id="chore-1-7-3-9014">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-3-9014"></a></h3>
-<ul><li><p>Remove rlang qualification (<a href="https://github.com/r-dbi/DBItest/issues/332" class="external-link">#332</a>).</p></li>
-<li><p>Remove double <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/330" class="external-link">#330</a>).</p></li>
-<li><p>Test for <code>dbBindArrow()</code> (<a href="https://github.com/r-dbi/DBItest/issues/328" class="external-link">#328</a>).</p></li>
-<li><p>Work around constructive problem (<a href="https://github.com/r-dbi/DBItest/issues/327" class="external-link">#327</a>).</p></li>
-<li><p>Inlining (<a href="https://github.com/r-dbi/DBItest/issues/325" class="external-link">#325</a>).</p></li>
-<li><p>Inlining (<a href="https://github.com/r-dbi/DBItest/issues/324" class="external-link">#324</a>).</p></li>
-<li><p>Towards inlining bind tests (<a href="https://github.com/r-dbi/DBItest/issues/323" class="external-link">#323</a>).</p></li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9013" id="dbitest-1739013-2023-12-17">DBItest 1.7.3.9013 (2023-12-17)<a class="anchor" aria-label="anchor" href="#dbitest-1739013-2023-12-17"></a></h2>
-<div class="section level3">
-<h3 id="bug-fixes-1-7-3-9013">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-7-3-9013"></a></h3>
-<ul><li>Fix two binding tests (<a href="https://github.com/r-dbi/DBItest/issues/321" class="external-link">#321</a>).</li>
-</ul></div>
-<div class="section level3">
-<h3 id="features-1-7-3-9013">Features<a class="anchor" aria-label="anchor" href="#features-1-7-3-9013"></a></h3>
-<ul><li><p>Require support for <code>dbFetch(n = NA)</code> (<a href="https://github.com/r-dbi/DBItest/issues/296" class="external-link">#296</a>, <a href="https://github.com/r-dbi/DBItest/issues/316" class="external-link">#316</a>).</p></li>
-<li><p>New <code>allow_na_rows_affected</code> tweak to support <code>NA</code> values returned from <code>dbGetRowsAffected()</code> (<a href="https://github.com/r-dbi/DBItest/issues/297" class="external-link">#297</a>, <a href="https://github.com/r-dbi/DBItest/issues/312" class="external-link">#312</a>).</p></li>
-<li><p>Add adbi to check matrix (<a href="https://github.com/r-dbi/DBItest/issues/314" class="external-link">#314</a>).</p></li>
-</ul></div>
-<div class="section level3">
-<h3 id="chore-1-7-3-9013">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-3-9013"></a></h3>
-<ul><li><p>Towards generating expressions for bind checks (<a href="https://github.com/r-dbi/DBItest/issues/320" class="external-link">#320</a>).</p></li>
-<li><p>Avoid R6 for testing <code>dbBind()</code> (<a href="https://github.com/r-dbi/DBItest/issues/319" class="external-link">#319</a>).</p></li>
-<li><p>Consistent use of <code>skip_if_not_dbitest()</code> (<a href="https://github.com/r-dbi/DBItest/issues/317" class="external-link">#317</a>).</p></li>
-<li><p>Disable Arrow skips (<a href="https://github.com/r-dbi/DBItest/issues/303" class="external-link">#303</a>).</p></li>
-<li><p>Slightly better code generated for <code><a href="../reference/tweaks.html">tweaks()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/313" class="external-link">#313</a>).</p></li>
-</ul></div>
-<div class="section level3">
-<h3 id="testing-1-7-3-9013">Testing<a class="anchor" aria-label="anchor" href="#testing-1-7-3-9013"></a></h3>
-<ul><li><p>Run DBItest for SQLite as part of the checks here (<a href="https://github.com/r-dbi/DBItest/issues/318" class="external-link">#318</a>).</p></li>
-<li><p>Enable remaining Arrow tests (<a href="https://github.com/r-dbi/DBItest/issues/307" class="external-link">#307</a>).</p></li>
-</ul></div>
-<div class="section level3">
-<h3 id="uncategorized-1-7-3-9013">Uncategorized<a class="anchor" aria-label="anchor" href="#uncategorized-1-7-3-9013"></a></h3>
-<ul><li>
-<p>Merge pull request <a href="https://github.com/r-dbi/DBItest/issues/315" class="external-link">#315</a> from r-dbi/b-odbc.</p>
-<p>Fix compatibility with odbc</p>
-</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9012" id="dbitest-1739012-2023-11-22">DBItest 1.7.3.9012 (2023-11-22)<a class="anchor" aria-label="anchor" href="#dbitest-1739012-2023-11-22"></a></h2>
-<div class="section level3">
-<h3 id="chore-1-7-3-9012">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-3-9012"></a></h3>
-<ul><li><p>No longer need <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> twice for Arrow (<a href="https://github.com/r-dbi/DBItest/issues/302" class="external-link">#302</a>).</p></li>
-<li><p>Breadcrumbs (<a href="https://github.com/r-dbi/DBItest/issues/305" class="external-link">#305</a>).</p></li>
-<li><p>Align paths to duckdb in <code>Makefile</code> (<a href="https://github.com/r-dbi/DBItest/issues/306" class="external-link">#306</a>).</p></li>
-<li><p>Modernize <code>sql_union()</code> (<a href="https://github.com/r-dbi/DBItest/issues/304" class="external-link">#304</a>).</p></li>
-<li><p>Add new <code>dbFetchArrowChunk()</code> generic (<a href="https://github.com/r-dbi/DBItest/issues/301" class="external-link">#301</a>).</p></li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9011" id="dbitest-1739011-2023-11-09">DBItest 1.7.3.9011 (2023-11-09)<a class="anchor" aria-label="anchor" href="#dbitest-1739011-2023-11-09"></a></h2>
-<div class="section level3">
-<h3 id="chore-1-7-3-9011">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-3-9011"></a></h3>
-<ul><li>Add Aviator configuration.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="documentation-1-7-3-9011">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-7-3-9011"></a></h3>
-<ul><li>Avoid error if RSQLite is not installed.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="testing-1-7-3-9011">Testing<a class="anchor" aria-label="anchor" href="#testing-1-7-3-9011"></a></h3>
-<ul><li>Fix checks without suggested packages (<a href="https://github.com/r-dbi/DBItest/issues/300" class="external-link">#300</a>).</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9010" id="dbitest-1739010-2023-10-30">DBItest 1.7.3.9010 (2023-10-30)<a class="anchor" aria-label="anchor" href="#dbitest-1739010-2023-10-30"></a></h2>
-<div class="section level3">
-<h3 id="bug-fixes-1-7-3-9010">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-7-3-9010"></a></h3>
-<ul><li>Typo.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="chore-1-7-3-9010">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-3-9010"></a></h3>
-<ul><li>Adapt to changed duckdb directory.</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9009" id="dbitest-1739009-2023-10-09">DBItest 1.7.3.9009 (2023-10-09)<a class="anchor" aria-label="anchor" href="#dbitest-1739009-2023-10-09"></a></h2>
-<div class="section level3">
-<h3 id="bug-fixes-1-7-3-9009">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-7-3-9009"></a></h3>
-<ul><li>Skip test if dplyr is not installed.</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9008" id="dbitest-1739008-2023-09-25">DBItest 1.7.3.9008 (2023-09-25)<a class="anchor" aria-label="anchor" href="#dbitest-1739008-2023-09-25"></a></h2>
-<div class="section level3">
-<h3 id="chore-1-7-3-9008">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-3-9008"></a></h3>
-<ul><li>Simplify workflow.</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9007" id="dbitest-1739007-2023-09-01">DBItest 1.7.3.9007 (2023-09-01)<a class="anchor" aria-label="anchor" href="#dbitest-1739007-2023-09-01"></a></h2>
-<div class="section level3">
-<h3 id="features-1-7-3-9007">Features<a class="anchor" aria-label="anchor" href="#features-1-7-3-9007"></a></h3>
-<ul><li>Switch to nanoarrow (<a href="https://github.com/r-dbi/DBItest/issues/291" class="external-link">#291</a>).</li>
-</ul></div>
-<div class="section level3">
-<h3 id="chore-1-7-3-9007">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-3-9007"></a></h3>
-<ul><li>Fix CI/CD (<a href="https://github.com/r-dbi/DBItest/issues/295" class="external-link">#295</a>).</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9006" id="dbitest-1739006-2023-08-30">DBItest 1.7.3.9006 (2023-08-30)<a class="anchor" aria-label="anchor" href="#dbitest-1739006-2023-08-30"></a></h2>
-<div class="section level3">
-<h3 id="chore-1-7-3-9006">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-3-9006"></a></h3>
-<ul><li><p>Try fixing odbc workflows.</p></li>
-<li><p>Bump dependencies in GitHub actions.</p></li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9005" id="dbitest-1739005-2023-03-24">DBItest 1.7.3.9005 (2023-03-24)<a class="anchor" aria-label="anchor" href="#dbitest-1739005-2023-03-24"></a></h2>
-<ul><li>Internal changes only.</li>
+<h2 class="page-header" data-toc-text="1.8.0.9000" id="dbitest-1809000-2023-12-21">DBItest 1.8.0.9000 (2023-12-21)<a class="anchor" aria-label="anchor" href="#dbitest-1809000-2023-12-21"></a></h2>
+<ul><li>Merge branch ‘cran-1.8.0’.</li>
 </ul></div>
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9004" id="dbitest-1739004-2023-03-21">DBItest 1.7.3.9004 (2023-03-21)<a class="anchor" aria-label="anchor" href="#dbitest-1739004-2023-03-21"></a></h2>
-<ul><li>Internal changes only.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9003" id="dbitest-1739003-2022-12-30">DBItest 1.7.3.9003 (2022-12-30)<a class="anchor" aria-label="anchor" href="#dbitest-1739003-2022-12-30"></a></h2>
-<ul><li>Internal changes only.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9002" id="dbitest-1739002-2022-12-26">DBItest 1.7.3.9002 (2022-12-26)<a class="anchor" aria-label="anchor" href="#dbitest-1739002-2022-12-26"></a></h2>
+<h2 class="page-header" data-toc-text="1.8.0" id="dbitest-180-2023-12-21">DBItest 1.8.0 (2023-12-21)<a class="anchor" aria-label="anchor" href="#dbitest-180-2023-12-21"></a></h2>
 <div class="section level3">
-<h3 id="features-1-7-3-9002">Features<a class="anchor" aria-label="anchor" href="#features-1-7-3-9002"></a></h3>
-<ul><li>Basic tests for the new <code>db*Arrow()</code> interface (<a href="https://github.com/r-dbi/DBItest/issues/287" class="external-link">#287</a>).</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9001" id="dbitest-1739001-2022-12-24">DBItest 1.7.3.9001 (2022-12-24)<a class="anchor" aria-label="anchor" href="#dbitest-1739001-2022-12-24"></a></h2>
-<div class="section level3">
-<h3 id="bug-fixes-1-7-3-9001">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-7-3-9001"></a></h3>
+<h3 id="bug-fixes-1-8-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-8-0"></a></h3>
 <ul><li>Fix <code>create_roundtrip_keywords</code> and <code>create_roundtrip_quotes</code> tests (<a href="https://github.com/r-dbi/DBItest/issues/283" class="external-link">#283</a>).</li>
 </ul></div>
 <div class="section level3">
-<h3 id="features-1-7-3-9001">Features<a class="anchor" aria-label="anchor" href="#features-1-7-3-9001"></a></h3>
-<ul><li><p>New <code>skip_if_not_dbitest()</code> (<a href="https://github.com/r-dbi/DBItest/issues/289" class="external-link">#289</a>).</p></li>
-<li><p>Reenable ODBC MySQL tests (<a href="https://github.com/r-dbi/DBItest/issues/288" class="external-link">#288</a>).</p></li>
-<li><p>Tweak read_table_missing test (<a href="https://github.com/r-dbi/DBItest/issues/285" class="external-link">#285</a>).</p></li>
+<h3 id="features-1-8-0">Features<a class="anchor" aria-label="anchor" href="#features-1-8-0"></a></h3>
+<ul><li><p>Relax specification of <code>dbUnquoteIdentifier()</code>, character vectors are now allowed too.</p></li>
+<li><p>Specify <code>dbFetchChunk()</code> (<a href="https://github.com/r-dbi/DBItest/issues/331" class="external-link">#331</a>), <code>dbFetchArrowChunk()</code> (<a href="https://github.com/r-dbi/DBItest/issues/301" class="external-link">#301</a>) and <code>dbBindArrow()</code> (<a href="https://github.com/r-dbi/DBItest/issues/328" class="external-link">#328</a>).</p></li>
+<li><p>Inline all tests for <code>dbBind()</code> (<a href="https://github.com/r-dbi/DBItest/issues/326" class="external-link">#326</a>).</p></li>
+<li><p>Require support for <code>dbFetch(n = NA)</code> (<a href="https://github.com/r-dbi/DBItest/issues/296" class="external-link">#296</a>, <a href="https://github.com/r-dbi/DBItest/issues/316" class="external-link">#316</a>).</p></li>
+<li><p>New <code>allow_na_rows_affected</code> tweak to support <code>NA</code> values returned from <code>dbGetRowsAffected()</code> (<a href="https://github.com/r-dbi/DBItest/issues/297" class="external-link">#297</a>, <a href="https://github.com/r-dbi/DBItest/issues/312" class="external-link">#312</a>).</p></li>
+<li><p>Switch to nanoarrow (<a href="https://github.com/r-dbi/DBItest/issues/291" class="external-link">#291</a>).</p></li>
+<li><p>Basic tests for the new <code>db*Arrow()</code> interface (<a href="https://github.com/r-dbi/DBItest/issues/287" class="external-link">#287</a>).</p></li>
+<li><p>New <code>skip_if_not_dbitest()</code> (<a href="https://github.com/r-dbi/DBItest/issues/289" class="external-link">#289</a>).</p></li>
 <li><p><code>reexport</code> test uses interface for dev DBI if the backend is compatible with DBItest &gt; 1.7.3.</p></li>
-</ul><p>This reverts commit bbb444486d0b663a89e66dd61c8b5a97c8e18651.</p>
-</div>
+<li><p>Slightly better code generated for <code><a href="../reference/tweaks.html">tweaks()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/313" class="external-link">#313</a>).</p></li>
+</ul></div>
 <div class="section level3">
-<h3 id="chore-1-7-3-9001">Chore<a class="anchor" aria-label="anchor" href="#chore-1-7-3-9001"></a></h3>
-<ul><li><p>Refactor: Prefer functions over constants (<a href="https://github.com/r-dbi/DBItest/issues/270" class="external-link">#270</a>).</p></li>
+<h3 id="cicd-1-8-0">CI/CD<a class="anchor" aria-label="anchor" href="#cicd-1-8-0"></a></h3>
+<ul><li><p>Add adbi to check matrix (<a href="https://github.com/r-dbi/DBItest/issues/314" class="external-link">#314</a>).</p></li>
+<li><p>Reenable ODBC MySQL tests (<a href="https://github.com/r-dbi/DBItest/issues/288" class="external-link">#288</a>).</p></li>
+<li><p>Tweak <code>read_table_missing</code> test (<a href="https://github.com/r-dbi/DBItest/issues/285" class="external-link">#285</a>).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="chore-1-8-0">Chore<a class="anchor" aria-label="anchor" href="#chore-1-8-0"></a></h3>
+<ul><li><p>Remove rlang qualification (<a href="https://github.com/r-dbi/DBItest/issues/332" class="external-link">#332</a>).</p></li>
+<li><p>No longer need <code><a href="https://rdrr.io/r/base/as.data.frame.html" class="external-link">as.data.frame()</a></code> twice for Arrow (<a href="https://github.com/r-dbi/DBItest/issues/302" class="external-link">#302</a>, <a href="https://github.com/r-dbi/DBItest/issues/330" class="external-link">#330</a>).</p></li>
+<li><p>Consistent use of <code>skip_if_not_dbitest()</code> (<a href="https://github.com/r-dbi/DBItest/issues/317" class="external-link">#317</a>).</p></li>
+<li><p>Disable Arrow skips (<a href="https://github.com/r-dbi/DBItest/issues/303" class="external-link">#303</a>).</p></li>
+<li><p>Modernize <code>sql_union()</code> (<a href="https://github.com/r-dbi/DBItest/issues/304" class="external-link">#304</a>).</p></li>
 <li><p>Make better use of <code>trivial_df()</code> (<a href="https://github.com/r-dbi/DBItest/issues/284" class="external-link">#284</a>).</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="uncategorized-1-7-3-9001">Uncategorized<a class="anchor" aria-label="anchor" href="#uncategorized-1-7-3-9001"></a></h3>
-<ul><li><p>Merge pull request <a href="https://github.com/r-dbi/DBItest/issues/280" class="external-link">#280</a> from r-dbi/f-ref-3.</p></li>
-<li><p>Merge remote-tracking branch ‘refs/remotes/origin/main’.</p></li>
-<li><p>Merged cran-1.7.3 into main.</p></li>
+<h3 id="documentation-1-8-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-8-0"></a></h3>
+<ul><li>Avoid error if RSQLite is not installed.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="testing-1-8-0">Testing<a class="anchor" aria-label="anchor" href="#testing-1-8-0"></a></h3>
+<ul><li><p>Run DBItest for SQLite as part of the checks here (<a href="https://github.com/r-dbi/DBItest/issues/318" class="external-link">#318</a>).</p></li>
+<li><p>Enable remaining Arrow tests (<a href="https://github.com/r-dbi/DBItest/issues/307" class="external-link">#307</a>).</p></li>
+<li><p>Fix checks without suggested packages (<a href="https://github.com/r-dbi/DBItest/issues/300" class="external-link">#300</a>).</p></li>
 </ul></div>
 </div>
-    <div class="section level2">
-<h2 class="page-header" data-toc-text="1.7.3.9000" id="dbitest-1739000-2022-10-18">DBItest 1.7.3.9000 (2022-10-18)<a class="anchor" aria-label="anchor" href="#dbitest-1739000-2022-10-18"></a></h2>
-<ul><li>Internal changes only.</li>
-</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.7.3" id="dbitest-173-2022-10-18">DBItest 1.7.3 (2022-10-18)<a class="anchor" aria-label="anchor" href="#dbitest-173-2022-10-18"></a></h2>
 <div class="section level3">
