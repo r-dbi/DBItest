@@ -1,5 +1,14 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.7.3.9016 (2023-12-21)
+
+## Chore
+
+- Bump DBI dependency.
+
+- Revdepcheck results.
+
+
 # DBItest 1.7.3.9015 (2023-12-20)
 
 ## Features
