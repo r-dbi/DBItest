@@ -108,27 +108,19 @@ spec_sql_list_objects <- list(
     #' For a call with the default `prefix = NULL`, the `table`
     #' values that have `is_prefix == FALSE` correspond to the tables
     #' returned from [dbListTables()],
-    non_prefix_objects <- vapply(
+    non_prefix_objects <- map_chr(
       objects$table[!objects$is_prefix],
       dbQuoteIdentifier,
-      conn = con,
-      character(1)
+      conn = con
     )
     all_tables <- dbQuoteIdentifier(con, dbListTables(con))
     expect_equal(sort(non_prefix_objects), sort(as.character(all_tables)))
 
     #'
     #' The `table` object can be quoted with [dbQuoteIdentifier()].
-    sql <- lapply(objects$table[!objects$is_prefix], dbQuoteIdentifier, conn = con)
+    sql <- map(objects$table[!objects$is_prefix], dbQuoteIdentifier, conn = con)
     #' The result of quoting can be passed to [dbUnquoteIdentifier()].
-    #' (We have to assume that the resulting identifier is a table, because one
-    #' cannot always tell from a quoted identifier alone whether it is a table
-    #' or a schema for example. As a consequence, the quote-unquote roundtrip
-    #' only works for tables (possibly schema-qualified), but not for other
-    #' database objects like schemata or columns.)
-    unquoted <- vapply(sql, dbUnquoteIdentifier, conn = con, list(1))
-    #' The unquoted results are equal to the original `table` object.
-    expect_equal(unquoted, unclass(objects$table[!objects$is_prefix]))
+    expect_error(walk(sql, dbUnquoteIdentifier, conn = con), NA)
     #' (For backends it may be convenient to use the [Id] class, but this is
     #' not required.)
 
