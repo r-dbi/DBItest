@@ -67,9 +67,9 @@ spec_arrow_append_table_arrow <- list(
   arrow_append_table_arrow_error = function(con, table_name) {
     #' An error is also raised
     test_in <- stream_frame(a = 1L)
-    #' if `name` cannot be processed with [dbQuoteIdentifier()]
+    #' if `name` cannot be processed with [dbQuoteIdentifier()] or
     expect_error(dbAppendTableArrow(con, NA, test_in))
-    #' or if this results in a non-scalar.
+    #' if this results in a non-scalar.
     expect_error(dbAppendTableArrow(con, c("test", "test"), test_in))
   },
 

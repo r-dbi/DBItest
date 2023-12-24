@@ -51,9 +51,9 @@ spec_sql_exists_table <- list(
   exists_table_error = function(con, table_name) {
     #' An error is also raised
     dbWriteTable(con, table_name, data.frame(a = 1L))
-    #' if `name` cannot be processed with [dbQuoteIdentifier()]
+    #' if `name` cannot be processed with [dbQuoteIdentifier()] or
     expect_error(dbExistsTable(con, NA))
-    #' or if this results in a non-scalar.
+    #' if this results in a non-scalar.
     expect_error(dbExistsTable(con, c(table_name, table_name)))
   },
 

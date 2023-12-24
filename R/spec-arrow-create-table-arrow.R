@@ -45,9 +45,9 @@ spec_arrow_create_table_arrow <- list(
   arrow_create_table_arrow_error = function(ctx, con, table_name) {
     #' An error is also raised
     test_in <- stream_frame(a = 1L)
-    #' if `name` cannot be processed with [dbQuoteIdentifier()]
+    #' if `name` cannot be processed with [dbQuoteIdentifier()] or
     expect_error(dbCreateTableArrow(con, NA, test_in))
-    #' or if this results in a non-scalar.
+    #' if this results in a non-scalar.
     expect_error(dbCreateTableArrow(con, c(table_name, table_name), test_in))
 
     #' Invalid values for the `temporary` argument

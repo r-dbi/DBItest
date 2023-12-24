@@ -5,8 +5,8 @@
 \alias{spec_arrow_fetch_arrow_chunk}
 \title{spec_arrow_fetch_arrow_chunk}
 \value{
-\code{dbFetchArrowChunk()} always returns an object coercible to a \link{data.frame}
-with as many rows as records were fetched and as many
+\code{dbFetchArrowChunk()} always returns an object coercible to a \link{data.frame} with
+as many rows as records were fetched and as many
 columns as fields in the result set,
 even if the result is a single value
 or has one

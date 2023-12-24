@@ -11,8 +11,8 @@ spec_arrow_fetch_arrow_chunk <- list(
 
   arrow_fetch_arrow_chunk_atomic = function(con) {
     #' @return
-    #' `dbFetchArrowChunk()` always returns an object coercible to a [data.frame]
-    #' with as many rows as records were fetched and as many
+    #' `dbFetchArrowChunk()` always returns an object coercible to a [data.frame] with
+    #' as many rows as records were fetched and as many
     #' columns as fields in the result set,
     #' even if the result is a single value
     query <- trivial_query()

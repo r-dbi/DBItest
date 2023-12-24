@@ -6,8 +6,8 @@
 \title{spec_sql_read_table}
 \value{
 \code{dbReadTable()} returns a data frame that contains the complete data
-from the remote table, effectively the result of calling \code{\link[=dbGetQuery]{dbGetQuery()}}
-with \verb{SELECT * FROM <name>}.
+from the remote table, effectively the result of calling \code{\link[=dbGetQuery]{dbGetQuery()}} with
+\verb{SELECT * FROM <name>}.
 
 An empty table is returned as a data frame with zero rows.
 

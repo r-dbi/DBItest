@@ -12,8 +12,8 @@ spec_sql_read_table <- list(
   read_table = function(ctx, con, table_name) {
     #' @return
     #' `dbReadTable()` returns a data frame that contains the complete data
-    #' from the remote table, effectively the result of calling [dbGetQuery()]
-    #' with `SELECT * FROM <name>`.
+    #' from the remote table, effectively the result of calling [dbGetQuery()] with
+    #' `SELECT * FROM <name>`.
     penguins_in <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins_in)
     penguins_out <- check_df(dbReadTable(con, table_name))

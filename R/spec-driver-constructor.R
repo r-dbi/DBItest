@@ -8,8 +8,7 @@ spec_driver_constructor <- list(
   constructor = function(ctx) {
     pkg_name <- package_name(ctx)
 
-    #' The backend must support creation of an instance of its [DBIDriver-class]
-    #' subclass
+    #' The backend must support creation of an instance of its [DBIDriver-class] subclass
     #' with a \dfn{constructor function}.
     #' By default, its name is the package name without the leading \sQuote{R}
     #' (if it exists), e.g., `SQLite` for the \pkg{RSQLite} package.

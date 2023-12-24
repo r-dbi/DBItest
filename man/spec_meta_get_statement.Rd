@@ -6,8 +6,8 @@
 \title{spec_meta_get_statement}
 \value{
 \code{dbGetStatement()} returns a string, the query used in
-either \code{\link[=dbSendQuery]{dbSendQuery()}}
-or \code{\link[=dbSendStatement]{dbSendStatement()}}.
+either \code{\link[=dbSendQuery]{dbSendQuery()}} or
+\code{\link[=dbSendStatement]{dbSendStatement()}}.
 }
 \description{
 spec_meta_get_statement

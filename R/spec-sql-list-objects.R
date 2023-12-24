@@ -37,11 +37,11 @@ spec_sql_list_objects <- list(
     #' accessible from the prefix (if passed) or from the global namespace
     #' (if prefix is omitted).
 
-    #' Tables added with [dbWriteTable()]
+    #' Tables added with [dbWriteTable()] are
     penguins <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins)
 
-    #' are part of the data frame.
+    #' part of the data frame.
     objects <- dbListObjects(con)
     quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
     expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
