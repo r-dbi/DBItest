@@ -6,7 +6,7 @@
 \title{spec_arrow_read_table_arrow}
 \value{
 \code{dbReadTableArrow()} returns a data frame that contains the complete data
-from the remote table, effectively the result of calling \code{\link[=dbGetQuery]{dbGetQuery()}}
+from the remote table, effectively the result of calling \code{\link[=dbGetQueryArrow]{dbGetQueryArrow()}}
 with \verb{SELECT * FROM <name>}.
 
 An empty table is returned as a data frame with zero rows.
