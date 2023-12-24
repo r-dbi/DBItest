@@ -14,7 +14,7 @@ spec_arrow_read_table_arrow <- list(
     skip_if_not_dbitest(ctx, "1.7.99.2")
 
     #' @return
-    #' `dbReadTableArrow()` returns a data frame that contains the complete data
+    #' `dbReadTableArrow()` returns an Arrow object that contains the complete data
     #' from the remote table, effectively the result of calling [dbGetQueryArrow()]
     #' with `SELECT * FROM <name>`.
     penguins_in <- get_penguins(ctx)
@@ -35,7 +35,7 @@ spec_arrow_read_table_arrow <- list(
     skip("Causes segfault in adbc and duckdb")
 
     #' @return
-    #' An empty table is returned as a data frame with zero rows.
+    #' An empty table is returned as an Arrow object with zero rows.
     penguins_in <- get_penguins(ctx)[integer(), ]
     dbWriteTable(con, table_name, penguins_in)
     penguins_out <- check_arrow(dbReadTableArrow(con, table_name))
