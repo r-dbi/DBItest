@@ -11,8 +11,8 @@ spec_result_get_query <- list(
 
   get_query_atomic = function(con) {
     #' @return
-    #' `dbGetQuery()` always returns a [data.frame]
-    #' with as many rows as records were fetched and as many
+    #' `dbGetQuery()` always returns a [data.frame], with
+    #' as many rows as records were fetched and as many
     #' columns as fields in the result set,
     #' even if the result is a single value
     query <- trivial_query()
