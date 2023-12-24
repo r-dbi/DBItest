@@ -15,7 +15,7 @@ spec_arrow_read_table_arrow <- list(
 
     #' @return
     #' `dbReadTableArrow()` returns a data frame that contains the complete data
-    #' from the remote table, effectively the result of calling [dbGetQuery()]
+    #' from the remote table, effectively the result of calling [dbGetQueryArrow()]
     #' with `SELECT * FROM <name>`.
     penguins_in <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins_in)

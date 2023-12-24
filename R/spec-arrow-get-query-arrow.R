@@ -84,62 +84,65 @@ spec_arrow_get_query_arrow <- list(
     expect_equal(out, head(result, nrow(out)))
   },
 
-  #  #' @section Additional arguments:
-  #  #' The following arguments are not part of the `dbGetQueryArrow()` generic
-  #  #' (to improve compatibility across backends)
-  #  #' but are part of the DBI specification:
-  #  #' - `params` (default: `NULL`)
-  #  #' - `immediate` (default: `NULL`)
-  #  #'
-  #  #' They must be provided as named arguments.
-  #  #' See the "Specification" and "Value" sections for details on their usage.
+  #' @section Additional arguments:
+  #' The following arguments are not part of the `dbGetQueryArrow()` generic
+  #' (to improve compatibility across backends)
+  #' but are part of the DBI specification:
+  #' - `params` (default: `NULL`)
+  #' - `immediate` (default: `NULL`)
+  #'
+  #' They must be provided as named arguments.
+  #' See the "Specification" and "Value" sections for details on their usage.
+  #'
+  arrow_get_query_arrow_params = function(ctx, con) {
+    skip_if(ctx$tweaks$dbitest_version < "1.8.0.1")
+
+    #' The `param` argument allows passing query parameters, see [dbBind()] for details.
+    placeholder_funs <- get_placeholder_funs(ctx)
+
+    for (placeholder_fun in placeholder_funs) {
+      placeholder <- placeholder_fun(1)
+      query <- paste0("SELECT ", placeholder, " + 1.0 AS a")
+      values <- trivial_values(3) - 1
+      params <- stats::setNames(list(values), names(placeholder))
+      ret <- dbGetQueryArrow(con, query, params = params)
+      expect_equal(ret, trivial_df(3), info = placeholder)
+    }
+  },
   #
-  #  #'
-  #  arrow_get_query_arrow_params = function(ctx, con) {
-  #    #' The `param` argument allows passing query parameters, see [dbBind()] for details.
-  #    placeholder_funs <- get_placeholder_funs(ctx)
-  #
-  #    for (placeholder_fun in placeholder_funs) {
-  #      placeholder <- placeholder_fun(1)
-  #      query <- paste0("SELECT ", placeholder, " + 1.0 AS a")
-  #      values <- trivial_values(3) - 1
-  #      params <- stats::setNames(list(values), names(placeholder))
-  #      ret <- dbGetQueryArrow(con, query, params = params)
-  #      expect_equal(ret, trivial_df(3), info = placeholder)
-  #    }
-  #  },
-  #
-  #  arrow_get_query_arrow_immediate = function(con, table_name) {
-  #    #' @section Specification for the `immediate` argument:
-  #    #'
-  #    #' The `immediate` argument supports distinguishing between "direct"
-  #    #' and "prepared" APIs offered by many database drivers.
-  #    #' Passing `immediate = TRUE` leads to immediate execution of the
-  #    #' query or statement, via the "direct" API (if supported by the driver).
-  #    #' The default `NULL` means that the backend should choose whatever API
-  #    #' makes the most sense for the database, and (if relevant) tries the
-  #    #' other API if the first attempt fails. A successful second attempt
-  #    #' should result in a message that suggests passing the correct
-  #    #' `immediate` argument.
-  #    #' Examples for possible behaviors:
-  #    #' 1. DBI backend defaults to `immediate = TRUE` internally
-  #    #'     1. A query without parameters is passed: query is executed
-  #    #'     1. A query with parameters is passed:
-  #    #'         1. `params` not given: rejected immediately by the database
-  #    #'            because of a syntax error in the query, the backend tries
-  #    #'            `immediate = FALSE` (and gives a message)
-  #    #'         1. `params` given: query is executed using `immediate = FALSE`
-  #    #' 1. DBI backend defaults to `immediate = FALSE` internally
-  #    #'     1. A query without parameters is passed:
-  #    #'         1. simple query: query is executed
-  #    #'         1. "special" query (such as setting a config options): fails,
-  #    #'            the backend tries `immediate = TRUE` (and gives a message)
-  #    #'     1. A query with parameters is passed:
-  #    #'         1. `params` not given: waiting for parameters via [dbBind()]
-  #    #'         1. `params` given: query is executed
-  #    res <- expect_visible(dbGetQueryArrow(con, trivial_query(), immediate = TRUE))
-  #    expect_s3_class(res, "data.frame")
-  #  },
+  arrow_get_query_arrow_immediate = function(ctx, con, table_name) {
+    skip_if(ctx$tweaks$dbitest_version < "1.8.0.2")
+
+    #' @section Specification for the `immediate` argument:
+    #'
+    #' The `immediate` argument supports distinguishing between "direct"
+    #' and "prepared" APIs offered by many database drivers.
+    #' Passing `immediate = TRUE` leads to immediate execution of the
+    #' query or statement, via the "direct" API (if supported by the driver).
+    #' The default `NULL` means that the backend should choose whatever API
+    #' makes the most sense for the database, and (if relevant) tries the
+    #' other API if the first attempt fails. A successful second attempt
+    #' should result in a message that suggests passing the correct
+    #' `immediate` argument.
+    #' Examples for possible behaviors:
+    #' 1. DBI backend defaults to `immediate = TRUE` internally
+    #'     1. A query without parameters is passed: query is executed
+    #'     1. A query with parameters is passed:
+    #'         1. `params` not given: rejected immediately by the database
+    #'            because of a syntax error in the query, the backend tries
+    #'            `immediate = FALSE` (and gives a message)
+    #'         1. `params` given: query is executed using `immediate = FALSE`
+    #' 1. DBI backend defaults to `immediate = FALSE` internally
+    #'     1. A query without parameters is passed:
+    #'         1. simple query: query is executed
+    #'         1. "special" query (such as setting a config options): fails,
+    #'            the backend tries `immediate = TRUE` (and gives a message)
+    #'     1. A query with parameters is passed:
+    #'         1. `params` not given: waiting for parameters via [dbBind()]
+    #'         1. `params` given: query is executed
+    res <- expect_visible(dbGetQueryArrow(con, trivial_query(), immediate = TRUE))
+    expect_s3_class(res, "data.frame")
+  },
   #
   NULL
 )
