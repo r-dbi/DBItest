@@ -118,8 +118,58 @@ spec_arrow_create_table_arrow <- list(
     }
   },
 
+  arrow_create_table_arrow_value_df = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.5")
+
+    #'
+    #' The `value` argument can be:
+    #' - a data frame,
+    table_name <- "act_df"
+    local_remove_test_table(con, table_name)
+    df <- data.frame(a = 1)
+    dbCreateTableArrow(con, table_name, df)
+    expect_equal_df(dbReadTable(con, table_name), data.frame(a = numeric()))
+  },
+
+  arrow_create_table_arrow_value_array = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.6")
+
+    #' - a nanoarrow array
+    table_name <- "act_array"
+    local_remove_test_table(con, table_name)
+    array <- nanoarrow::as_nanoarrow_array(data.frame(a = 1))
+    dbCreateTableArrow(con, table_name, array)
+    expect_equal_df(dbReadTable(con, table_name), data.frame(a = numeric()))
+  },
+
+  arrow_create_table_arrow_value_stream = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.7")
+
+    #' - a nanoarrow array stream
+    table_name <- "act_stream"
+    local_remove_test_table(con, table_name)
+    stream <- stream_frame(a = 1)
+    dbCreateTableArrow(con, table_name, stream)
+    expect_equal(as.data.frame(stream), data.frame(a = 1))
+    #'   (which will still contain the data after the call)
+    expect_equal_df(dbReadTable(con, table_name), data.frame(a = numeric()))
+  },
+
+  arrow_create_table_arrow_value_schema = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.8")
+
+    #' - a nanoarrow schema
+    table_name <- "act_schema"
+    local_remove_test_table(con, table_name)
+    schema <- nanoarrow::infer_nanoarrow_schema(stream_frame(a = 1))
+    dbCreateTableArrow(con, table_name, schema)
+    expect_equal_df(dbReadTable(con, table_name), data.frame(a = numeric()))
+  },
+
   #'
-  create_temporary_table = function(ctx, con, table_name = "dbit03") {
+  arrow_create_table_arrow_temporary = function(ctx, con, table_name = "dbit03") {
+    skip_if_not_dbitest(ctx, "1.8.0.4")
+
     #' If the `temporary` argument is `TRUE`, the table is not available in a
     #' second connection and is gone after reconnecting.
     #' Not all backends support this argument.
@@ -136,13 +186,15 @@ spec_arrow_create_table_arrow <- list(
     expect_error(dbReadTable(con2, table_name))
   },
   # second stage
-  create_temporary_table = function(con) {
+  arrow_create_table_arrow_temporary = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.4")
+
     table_name <- "dbit03"
     expect_error(dbReadTable(con, table_name))
   },
 
   arrow_create_table_arrow_visible_in_other_connection = function(ctx, local_con) {
-    skip("Fails in adbc")
+    skip_if_not_dbitest(ctx, "1.8.0.3")
 
     #' A regular, non-temporary table is visible in a second connection,
     penguins <- get_penguins(ctx)
@@ -157,7 +209,7 @@ spec_arrow_create_table_arrow <- list(
   },
   # second stage
   arrow_create_table_arrow_visible_in_other_connection = function(ctx, con) {
-    skip("Fails in adbc")
+    skip_if_not_dbitest(ctx, "1.8.0.3")
 
     penguins <- get_penguins(ctx)
 
@@ -168,7 +220,7 @@ spec_arrow_create_table_arrow <- list(
   },
   # third stage
   arrow_create_table_arrow_visible_in_other_connection = function(ctx, local_con, table_name = "dbit04") {
-    skip("Fails in adbc")
+    skip_if_not_dbitest(ctx, "1.8.0.3")
 
     penguins <- get_penguins(ctx)
 
