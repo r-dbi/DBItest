@@ -245,7 +245,7 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_multi_row_zero_length = function(ctx, con) {
-    skip_if(ctx$tweaks$dbitest_version < "1.7.99.12")
+    skip_if_not_dbitest(ctx, "1.7.99.12")
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
