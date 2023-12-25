@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.8.0.9002</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.8.0.9003</span>
       </span>
     </div>
 
@@ -60,14 +60,12 @@
     <h2>Value</h2>
     
 
-<p><code>dbReadTableArrow()</code> returns a data frame that contains the complete data
-from the remote table, effectively the result of calling <code>dbGetQueryArrow()</code></p>
+<p><code>dbReadTableArrow()</code> returns an Arrow object that contains the complete data
+from the remote table, effectively the result of calling <code>dbGetQueryArrow()</code> with
+<code>SELECT * FROM &lt;name&gt;</code>.</p>
 
 
-<p>with <code>SELECT * FROM &lt;name&gt;</code>.</p>
-
-
-<p>An empty table is returned as a data frame with zero rows.</p>
+<p>An empty table is returned as an Arrow object with zero rows.</p>
     </div>
     <div id="failure-modes">
     <h2>Failure modes</h2>
@@ -78,8 +76,8 @@ from the remote table, effectively the result of calling <code>dbGetQueryArrow()
 <p>An error is raised when calling this method for a closed
 or invalid connection.
 An error is raised
-if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>
-or if this results in a non-scalar.</p>
+if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code> or
+if this results in a non-scalar.</p>
     </div>
     <div id="specification">
     <h2>Specification</h2>

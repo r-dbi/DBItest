@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.8.0.9002</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.8.0.9003</span>
       </span>
     </div>
 
@@ -60,10 +60,8 @@
     <h2>Value</h2>
     
 
-<p><code>dbFetch()</code> always returns a <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></p>
-
-
-<p>with as many rows as records were fetched and as many
+<p><code>dbFetch()</code> always returns a <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a> with
+as many rows as records were fetched and as many
 columns as fields in the result set,
 even if the result is a single value
 or has one
@@ -80,8 +78,8 @@ If the <code>n</code> argument is not an atomic whole number
 greater or equal to -1 or Inf, an error is raised,
 but a subsequent call to <code>dbFetch()</code> with proper <code>n</code> argument succeeds.</p>
 <p>Calling <code>dbFetch()</code> on a result set from a data manipulation query
-created by <code>dbSendStatement()</code>
-can be fetched and return an empty data frame, with a warning.</p>
+created by <code>dbSendStatement()</code> can
+be fetched and return an empty data frame, with a warning.</p>
     </div>
     <div id="specification">
     <h2>Specification</h2>
@@ -90,8 +88,8 @@ can be fetched and return an empty data frame, with a warning.</p>
 <p>Fetching multi-row queries with one
 or more columns by default returns the entire result.
 Multi-row queries can also be fetched progressively
-by passing a whole number (<a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a>
-or <a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a>)
+by passing a whole number (<a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a> or
+<a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a>)
 as the <code>n</code> argument.
 A value of <a href="https://rdrr.io/r/base/is.finite.html" class="external-link">Inf</a> for the <code>n</code> argument is supported
 and also returns the full result.
