@@ -51,6 +51,15 @@ perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 \item If the result of a call to \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}: no more quoting is done
 }
 
+The \code{value} argument can be:
+\itemize{
+\item a data frame,
+\item a nanoarrow array
+\item a nanoarrow array stream
+(which will still contain the data after the call)
+\item a nanoarrow schema
+}
+
 If the \code{temporary} argument is \code{TRUE}, the table is not available in a
 second connection and is gone after reconnecting.
 Not all backends support this argument.

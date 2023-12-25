@@ -119,8 +119,32 @@ spec_sql_create_table <- list(
     }
   },
 
+  create_table_value_df = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.9")
+
+    #'
+    #' The `value` argument can be:
+    #' - a data frame,
+    table_name <- "ct_df"
+    local_remove_test_table(con, table_name)
+    df <- data.frame(a = 1)
+    dbCreateTable(con, table_name, df)
+    expect_equal_df(dbReadTable(con, table_name), data.frame(a = numeric()))
+  },
+
+  create_table_value_array = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.10")
+
+    #' - a named list of vectors
+    table_name <- "ct_array"
+    local_remove_test_table(con, table_name)
+    array <- list(a = 1)
+    dbCreateTable(con, table_name, array)
+    expect_equal_df(dbReadTable(con, table_name), data.frame(a = numeric()))
+  },
+
   #'
-  create_temporary_table = function(ctx, con, table_name = "dbit03") {
+  create_table_temporary = function(ctx, con, table_name = "dbit03") {
     #' If the `temporary` argument is `TRUE`, the table is not available in a
     #' second connection and is gone after reconnecting.
     #' Not all backends support this argument.
@@ -137,7 +161,7 @@ spec_sql_create_table <- list(
     expect_error(dbReadTable(con2, table_name))
   },
   # second stage
-  create_temporary_table = function(con) {
+  create_table_temporary = function(con) {
     table_name <- "dbit03"
     expect_error(dbReadTable(con, table_name))
   },

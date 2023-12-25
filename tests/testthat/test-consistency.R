@@ -14,7 +14,7 @@ test_that("no duplicate spec names expect known exceptions", {
   all_names <- names(spec_all)
 
   all_names <- all_names[!(all_names %in% c(
-    "create_temporary_table",
+    "create_table_temporary",
     "create_table_visible_in_other_connection",
     "list_tables",
     "exists_table",
@@ -23,6 +23,7 @@ test_that("no duplicate spec names expect known exceptions", {
     "table_visible_in_other_connection",
     "arrow_write_table_arrow_temporary",
     "arrow_write_table_arrow_visible_in_other_connection",
+    "arrow_create_table_arrow_temporary",
     "arrow_create_table_arrow_visible_in_other_connection",
     "begin_write_disconnect",
     "begin_write_commit",
