@@ -372,7 +372,7 @@ spec_meta_bind_expr <- function(
       test_select_bind_expr(
         arrow = arrow,
         bind = bind,
-        c(Sys.Date() + 0:2, NA),
+        c(as.Date("2023-12-17") + 0:2, NA),
         skip_fun = function() !isTRUE(ctx$tweaks$date_typed)
       )
     },
