@@ -98,6 +98,8 @@ See the "Specification" and "Value" sections for details on their usage.</p>
 to support databases that allow non-syntactic names for their objects:</p><ul><li><p>If an unquoted table name as string: <code>dbCreateTable()</code> will do the quoting,
 perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
 <li><p>If the result of a call to <code>dbQuoteIdentifier()</code>: no more quoting is done</p></li>
+</ul><p>The <code>value</code> argument can be:</p><ul><li><p>a data frame,</p></li>
+<li><p>a named list of vectors</p></li>
 </ul><p>If the <code>temporary</code> argument is <code>TRUE</code>, the table is not available in a
 second connection and is gone after reconnecting.
 Not all backends support this argument.
