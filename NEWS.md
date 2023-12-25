@@ -1,5 +1,30 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.0.9003 (2023-12-25)
+
+## Features
+
+- Relax `dbListObjects()` spec (#339, #341).
+
+## Chore
+
+- Enable two tests for `dbGetQueryArrow()` (#342).
+
+- Add Aviator configuration.
+
+- Install decor.
+
+## Continuous integration
+
+- Avoid RMariaDB for now, #343.
+
+- Install decor from CRAN.
+
+- Omit more checks, #343.
+
+- Modernize backends checks.
+
+
 # DBItest 1.8.0.9002 (2023-12-21)
 
 - Merge branch 'cran-1.8.0'.
