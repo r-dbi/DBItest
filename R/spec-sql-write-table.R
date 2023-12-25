@@ -54,9 +54,9 @@ spec_sql_write_table <- list(
   write_table_error = function(ctx, con, table_name) {
     #' An error is also raised
     test_in <- data.frame(a = 1L)
-    #' if `name` cannot be processed with [dbQuoteIdentifier()]
+    #' if `name` cannot be processed with [dbQuoteIdentifier()] or
     expect_error(dbWriteTable(con, NA, test_in))
-    #' or if this results in a non-scalar.
+    #' if this results in a non-scalar.
     expect_error(dbWriteTable(con, c(table_name, table_name), test_in))
 
     #' Invalid values for the additional arguments `row.names`,

@@ -8,8 +8,8 @@
 \value{
 \code{dbBind()} returns the result set,
 invisibly,
-for queries issued by \code{\link[=dbSendQuery]{dbSendQuery()}} or \code{\link[=dbSendQueryArrow]{dbSendQueryArrow()}}
-and also for data manipulation statements issued by
+for queries issued by \code{\link[=dbSendQuery]{dbSendQuery()}} or \code{\link[=dbSendQueryArrow]{dbSendQueryArrow()}} and
+also for data manipulation statements issued by
 \code{\link[=dbSendStatement]{dbSendStatement()}}.
 }
 \description{

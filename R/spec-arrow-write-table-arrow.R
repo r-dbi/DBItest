@@ -58,9 +58,9 @@ spec_arrow_write_table_arrow <- list(
 
     #' An error is also raised
     test_in <- stream_frame(a = 1L)
-    #' if `name` cannot be processed with [dbQuoteIdentifier()]
+    #' if `name` cannot be processed with [dbQuoteIdentifier()] or
     expect_error(dbWriteTableArrow(con, NA, test_in %>% stream_frame()))
-    #' or if this results in a non-scalar.
+    #' if this results in a non-scalar.
     expect_error(dbWriteTableArrow(con, c(table_name, table_name), test_in %>% stream_frame()))
 
     #' Invalid values for the additional arguments

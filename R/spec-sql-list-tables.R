@@ -22,11 +22,11 @@ spec_sql_list_tables <- list(
     # TODO
     #' in the database.
 
-    #' Tables added with [dbWriteTable()]
+    #' Tables added with [dbWriteTable()] are
     penguins <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins)
 
-    #' are part of the list.
+    #' part of the list.
     tables <- dbListTables(con)
     expect_true(table_name %in% tables)
   },

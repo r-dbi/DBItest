@@ -139,8 +139,8 @@ spec_sql_unquote_identifier <- list(
 
   #'
   unquote_identifier_simple = function(con) {
-    #' Unquoting simple strings (consisting of only letters) wrapped with [SQL()]
-    #' and then quoting via [dbQuoteIdentifier()] gives the same result as just
+    #' Unquoting simple strings (consisting of only letters) wrapped with [SQL()] and
+    #' then quoting via [dbQuoteIdentifier()] gives the same result as just
     #' quoting the string.
     simple_in <- "simple"
     simple_quoted <- dbQuoteIdentifier(con, simple_in)

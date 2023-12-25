@@ -24,7 +24,7 @@ spec_meta_bind_expr <- function(
         expect_false(bind_res$visible)
       }
 
-      #' for queries issued by [dbSendQuery()] or [dbSendQueryArrow()]
+      #' for queries issued by [dbSendQuery()] or [dbSendQueryArrow()] and
       test_select_bind_expr(
         arrow = arrow,
         bind = bind,
@@ -39,7 +39,7 @@ spec_meta_bind_expr <- function(
         expect_false(bind_res$visible)
       }
 
-      #' and also for data manipulation statements issued by
+      #' also for data manipulation statements issued by
       #' [dbSendStatement()].
       test_select_bind_expr(
         arrow = arrow,
