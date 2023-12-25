@@ -59,7 +59,7 @@ spec_sql_unquote_identifier <- list(
   },
   #'
   unquote_identifier_plain = function(ctx, con) {
-    skip_if(ctx$tweaks$dbitest_version < "1.7.99.15")
+    skip_if_not_dbitest(ctx, "1.7.99.15")
 
     #' Plain character vectors can also be passed to `dbUnquoteIdentifier()`.
     expect_identical(dbUnquoteIdentifier(con, "a"), list(Id("a")))

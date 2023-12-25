@@ -95,7 +95,7 @@ spec_arrow_get_query_arrow <- list(
   #' See the "Specification" and "Value" sections for details on their usage.
   #'
   arrow_get_query_arrow_params = function(ctx, con) {
-    skip_if(ctx$tweaks$dbitest_version < "1.8.0.1")
+    skip_if_not_dbitest(ctx, "1.8.0.1")
 
     #' The `param` argument allows passing query parameters, see [dbBind()] for details.
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -111,7 +111,7 @@ spec_arrow_get_query_arrow <- list(
   },
   #
   arrow_get_query_arrow_immediate = function(ctx, con, table_name) {
-    skip_if(ctx$tweaks$dbitest_version < "1.8.0.2")
+    skip_if_not_dbitest(ctx, "1.8.0.2")
 
     #' @section Specification for the `immediate` argument:
     #'
