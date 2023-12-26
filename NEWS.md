@@ -1,5 +1,22 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.0.9004 (2023-12-26)
+
+## Features
+
+- Specify `value` argument for `dbCreateTable()` and `dbCreateTableArrow()` (#345).
+
+## Chore
+
+- Consistent use of `skip_if_not_dbitest()` (#346).
+
+- Stabilize test.
+
+## Documentation
+
+- Minor specification fixes (#344).
+
+
 # DBItest 1.8.0.9003 (2023-12-25)
 
 ## Features
