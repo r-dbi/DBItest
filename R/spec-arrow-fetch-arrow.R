@@ -40,8 +40,8 @@ spec_arrow_fetch_arrow <- list(
   },
 
   #'
-  arrow_fetch_arrow_closed = function(con) {
-    skip("Fails in adbc")
+  arrow_fetch_arrow_closed = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.15")
 
     #' @section Failure modes:
     #' An attempt to fetch from a closed result set raises an error.
