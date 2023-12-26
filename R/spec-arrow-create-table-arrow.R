@@ -4,8 +4,8 @@
 #' @format NULL
 #' @keywords NULL
 spec_arrow_create_table_arrow <- list(
-  arrow_create_table_arrow_formals = function() {
-    skip("Failed in SQLite")
+  arrow_create_table_arrow_formals = function(ctx) {
+    skip_if_not_dbitest(ctx, "1.8.0.13")
 
     # <establish formals of described functions>
     expect_equal(names(formals(dbCreateTableArrow)), c("conn", "name", "value", "...", "temporary"))

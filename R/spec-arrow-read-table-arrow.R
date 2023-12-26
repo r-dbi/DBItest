@@ -32,7 +32,7 @@ spec_arrow_read_table_arrow <- list(
   },
 
   arrow_read_table_arrow_empty = function(ctx, con, table_name) {
-    skip("Causes segfault in adbc and duckdb")
+    skip_if_not_dbitest(ctx, "1.8.0.14")
 
     #' @return
     #' An empty table is returned as an Arrow object with zero rows.

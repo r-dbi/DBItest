@@ -30,8 +30,8 @@ spec_arrow_get_query_arrow <- list(
     expect_identical(rows, result)
   },
 
-  arrow_get_query_arrow_zero_rows = function(con) {
-    skip("Causes segfault in adbc")
+  arrow_get_query_arrow_zero_rows = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.12")
 
     #' or zero rows.
     # Not all SQL dialects seem to support the query used here.
