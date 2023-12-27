@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.0.9005 (2023-12-27)
+
+## Chore
+
+- Replace unconditional skip with versioned skip (#347).
+
+
 # DBItest 1.8.0.9004 (2023-12-26)
 
 ## Features
