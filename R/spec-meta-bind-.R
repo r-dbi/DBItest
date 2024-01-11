@@ -8,6 +8,7 @@ test_select_bind_expr <- function(
     bind,
     query = TRUE,
     skip_fun = NULL,
+    dbitest_version = NULL,
     cast_fun = NULL,
     requires_names = NULL) {
   force(bind_values)
@@ -29,6 +30,10 @@ test_select_bind_expr <- function(
     has_cast_fun = has_cast_fun
   )
 
+  skip_dbitest_expr <- if (!is.null(dbitest_version)) expr({
+    skip_if_not_dbitest(ctx, !!dbitest_version)
+  })
+
   skip_expr <- if (!is.null(skip_fun)) expr({
     skip_if(!!body(skip_fun))
   })
@@ -44,6 +49,7 @@ test_select_bind_expr <- function(
   })
 
   expr({
+    !!skip_dbitest_expr
     !!skip_expr
     placeholder_funs <- !!placeholder_funs_expr
 

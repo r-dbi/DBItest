@@ -214,7 +214,7 @@ spec_meta_bind_expr <- function(
         arrow = arrow,
         bind = bind,
         list(integer(), integer()),
-        skip_fun = if (arrow == "query" || bind == "stream") function() ctx$tweaks$dbitest_version < "1.7.99.12"
+        dbitest_version = if (arrow == "query" || bind == "stream") "1.7.99.12"
       )
 
       #' are supported.
@@ -363,7 +363,7 @@ spec_meta_bind_expr <- function(
         bind = bind,
         lapply(c(get_texts(), NA_character_), factor),
         warn = if (bind == "df") TRUE,
-        skip_fun = if (arrow == "query" && bind == "df") function() ctx$tweaks$dbitest_version < "1.7.99.13"
+        dbitest_version = if (arrow == "query" && bind == "df") "1.7.99.13"
       )
     },
 
@@ -458,11 +458,8 @@ spec_meta_bind_expr <- function(
         arrow = arrow,
         bind = bind,
         list(list(as.raw(1:10)), list(raw(3)), list(NULL)),
-        skip_fun = if (arrow == "query" && bind == "df") {
-          function() isTRUE(ctx$tweaks$omit_blob_tests) || ctx$tweaks$dbitest_version < "1.7.99.14"
-        } else {
-          function() isTRUE(ctx$tweaks$omit_blob_tests)
-        },
+        skip_fun = function() isTRUE(ctx$tweaks$omit_blob_tests),
+        dbitest_version = if (arrow == "query" && bind == "df") "1.7.99.14",
         cast_fun = ctx$tweaks$blob_cast
       )
     },
