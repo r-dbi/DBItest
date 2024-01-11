@@ -13,7 +13,10 @@
 #'
 #' @param skip `[character()]`\cr A vector of regular expressions to match
 #'   against test names; skip test if matching any.
-#'   The regular expressions are matched against the entire test name.
+#'   The regular expressions are matched against the entire test name
+#'   minus a possible suffix `_N` where `N` is a number.
+#'   For example, `skip = "exists_table"` will skip both
+#'   `"exists_table_1"` and `"exists_table_2"`.
 #' @param run_only `[character()]`\cr A vector of regular expressions to match
 #'   against test names; run only these tests.
 #'   The regular expressions are matched against the entire test name.
