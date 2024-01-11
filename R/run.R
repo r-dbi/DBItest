@@ -13,7 +13,7 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
     ": ", test_suite
   )
 
-  tests <- tests[!vapply(tests, is.null, logical(1L))]
+  tests <- compact(tests)
   tests <- get_run_only_tests(tests, run_only)
 
   if (is.null(skip)) {
