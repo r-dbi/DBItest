@@ -19,7 +19,7 @@ spec_meta_bind"><meta name="robots" content="noindex"><!-- mathjax --><script sr
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">DBItest</a>
-        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.8.0.9004</span>
+        <span class="version label label-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">1.8.0.9005</span>
       </span>
     </div>
 
@@ -82,26 +82,20 @@ recommended.
 It is good practice to register a call to <code>dbClearResult()</code> via
 <code><a href="https://rdrr.io/r/base/on.exit.html" class="external-link">on.exit()</a></code> right after calling <code>dbSendQuery()</code> or <code>dbSendStatement()</code>
 (see the last enumeration item).
-Until <code>dbBind()</code> has been called, the returned result set object has the
-following behavior:</p><ul><li><p><code>dbFetch()</code> raises an error (for <code>dbSendQuery()</code>)</p></li>
-<li><p><code>dbGetRowCount()</code> returns zero (for <code>dbSendQuery()</code>)</p></li>
+Until <code>dbBind()</code> or <code>dbBindArrow()</code> have been called,
+the returned result set object has the following behavior:</p><ul><li><p><code>dbFetch()</code> raises an error (for <code>dbSendQuery()</code> and <code>dbSendQueryArrow()</code>)</p></li>
+<li><p><code>dbGetRowCount()</code> returns zero (for <code>dbSendQuery()</code> and <code>dbSendQueryArrow()</code>)</p></li>
 <li><p><code>dbGetRowsAffected()</code> returns an integer <code>NA</code> (for <code>dbSendStatement()</code>)</p></li>
 <li><p><code>dbIsValid()</code> returns <code>TRUE</code></p></li>
 <li><p><code>dbHasCompleted()</code> returns <code>FALSE</code></p></li>
 </ul></li>
-<li><p>Construct a list with parameters
-that specify actual values for the placeholders.
-The list must be named or unnamed,
-depending on the kind of placeholders used.
-Named values are matched to named parameters, unnamed values
-are matched by position in the list of parameters.
-All elements in this list must have the same lengths and contain values
-supported by the backend; a <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a> is internally stored as such
-a list.
-The parameter list is passed to a call to <code>dbBind()</code> on the <code>DBIResult</code>
-object.</p></li>
-<li><p>Retrieve the data or the number of affected rows from the <code>DBIResult</code> object.</p><ul><li><p>For queries issued by <code>dbSendQuery()</code>,
-call <code>dbFetch()</code>.</p></li>
+<li><p>Call <code>dbBind()</code> or <code>dbBindArrow()</code>:</p><ul><li><p>For <code>dbBind()</code>, the <code>params</code> argument must be a list where all elements
+have the same lengths and contain values supported by the backend.
+A <a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a> is internally stored as such a list.</p></li>
+<li><p>For <code>dbBindArrow()</code>, the <code>params</code> argument must be a
+nanoarrow array stream, with one column per query parameter.</p></li>
+</ul></li>
+<li><p>Retrieve the data or the number of affected rows from the <code>DBIResult</code> object.</p><ul><li><p>For queries issued by <code>dbSendQuery()</code> or <code>dbSendQueryArrow()</code>, call <code>dbFetch()</code>.</p></li>
 <li><p>For statements issued by <code>dbSendStatements()</code>,
 call <code>dbGetRowsAffected()</code>.
 (Execution begins immediately after the <code>dbBind()</code> call,
