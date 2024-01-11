@@ -12,7 +12,7 @@ spec_stress_connection <- list(
     }
 
     inherit_from_connection <-
-      vapply(cons, is, class2 = "DBIConnection", logical(1))
+      map_lgl(cons, is, class2 = "DBIConnection")
     expect_true(all(inherit_from_connection))
   },
 

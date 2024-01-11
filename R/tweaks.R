@@ -145,7 +145,7 @@ make_tweaks <- function(envir = parent.frame()) {
         }
       }
       ret <- .(list_call)
-      ret <- ret[!vapply(ret, is.null, logical(1L))]
+      ret <- compact(ret)
       structure(ret, class = "DBItest_tweaks")
     },
     as.environment(list(list_call = list_call))

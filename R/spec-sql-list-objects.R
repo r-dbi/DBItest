@@ -43,7 +43,7 @@ spec_sql_list_objects <- list(
 
     #' part of the data frame.
     objects <- dbListObjects(con)
-    quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
+    quoted_tables <- map_chr(objects$table, dbQuoteIdentifier, conn = con)
     expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
   },
   # second stage
@@ -55,7 +55,7 @@ spec_sql_list_objects <- list(
     #' As soon a table is removed from the database,
     #' it is also removed from the data frame of database objects.
     objects <- dbListObjects(con)
-    quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
+    quoted_tables <- map_chr(objects$table, dbQuoteIdentifier, conn = con)
     expect_false(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
   },
 
@@ -66,7 +66,7 @@ spec_sql_list_objects <- list(
       dbWriteTable(con, table_name, data.frame(a = 1L), temporary = TRUE)
 
       objects <- dbListObjects(con)
-      quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
+      quoted_tables <- map_chr(objects$table, dbQuoteIdentifier, conn = con)
       expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
     }
   },
@@ -84,7 +84,7 @@ spec_sql_list_objects <- list(
       local_remove_test_table(con, table_name)
       dbWriteTable(con, dbQuoteIdentifier(con, table_name), data.frame(a = 2L))
       objects <- dbListObjects(con)
-      quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
+      quoted_tables <- map_chr(objects$table, dbQuoteIdentifier, conn = con)
       expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
     }
   },

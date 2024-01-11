@@ -68,11 +68,6 @@ random_table_name <- function(n = 10) {
   paste0("dbit", paste(sample(letters, n, replace = TRUE), collapse = ""))
 }
 
-compact <- function(x) {
-  x[!vapply(x, is.null, logical(1L))]
-}
-
-
 try_silent <- function(code) {
   tryCatch(
     code,
@@ -83,7 +78,7 @@ try_silent <- function(code) {
 check_df <- function(df) {
   expect_s3_class(df, "data.frame")
   if (length(df) >= 1L) {
-    lengths <- vapply(df, length, integer(1L), USE.NAMES = FALSE)
+    lengths <- unname(lengths(df))
     expect_equal(diff(lengths), rep(0L, length(lengths) - 1L))
     expect_equal(nrow(df), lengths[[1]])
   }

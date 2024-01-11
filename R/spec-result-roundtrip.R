@@ -268,7 +268,7 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
                         .ctx, .envir = parent.frame()) {
   values <- c(list(...), .dots)
 
-  value_is_formula <- vapply(values, is.call, logical(1L))
+  value_is_formula <- map_lgl(values, is.call)
   names(values)[value_is_formula] <- lapply(values[value_is_formula], "[[", 2L)
   values[value_is_formula] <- lapply(
     values[value_is_formula],
@@ -350,7 +350,7 @@ equals_minus_100 <- function(x) {
 }
 
 all_have_utf8_or_ascii_encoding <- function(x) {
-  all(vapply(x, has_utf8_or_ascii_encoding, logical(1L)))
+  all(map_lgl(x, has_utf8_or_ascii_encoding))
 }
 
 has_utf8_or_ascii_encoding <- function(x) {
