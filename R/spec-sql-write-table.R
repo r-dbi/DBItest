@@ -623,7 +623,7 @@ spec_sql_write_table <- list(
     test_table_roundtrip(
       con, tbl_in,
       transform = function(out) {
-        dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
+        dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
@@ -663,7 +663,7 @@ spec_sql_write_table <- list(
     test_table_roundtrip(
       con, tbl_in,
       transform = function(out) {
-        dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
+        dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
