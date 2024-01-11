@@ -135,10 +135,10 @@ spec_sql_create_table <- list(
   create_table_value_array = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.8.0.10")
 
-    #' - a named list of vectors
+    #' - a named list of SQL types
     table_name <- "ct_array"
     local_remove_test_table(con, table_name)
-    array <- list(a = 1)
+    array <- list(a = "NUMERIC")
     dbCreateTable(con, table_name, array)
     expect_equal_df(dbReadTable(con, table_name), data.frame(a = numeric()))
   },

@@ -21,7 +21,12 @@ stream_frame <- function(..., .select = NULL) {
     skip("dplyr is not installed")
   }
 
-  data <- data.frame(..., stringsAsFactors = FALSE)
+  data <- data.frame(..., stringsAsFactors = FALSE, check.names = FALSE)
+  as_is <- map_lgl(data, inherits, "AsIs")
+  data[as_is] <- map(data[as_is], function(.x) {
+    class(.x) <- setdiff(class(.x), "AsIs")
+    .x
+  })
 
   select <- enquo(.select)
 

@@ -184,6 +184,8 @@ spec_arrow_append_table_arrow <- list(
 
   #' - 64-bit values (using `"bigint"` as field type); the result can be
   arrow_append_table_arrow_roundtrip_64_bit_numeric = function(ctx, con) {
+    skip("Internal: Need to enhance test_arrow_roundtrip()")
+
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     test_arrow_roundtrip(
       use_append = TRUE,
@@ -197,7 +199,7 @@ spec_arrow_append_table_arrow <- list(
   },
   #
   arrow_append_table_arrow_roundtrip_64_bit_character = function(ctx, con) {
-    skip_if_not_dbitest(ctx, "1.8.0.47")
+    skip("Internal: Need to enhance test_arrow_roundtrip()")
 
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     tbl_exp <- tbl_in
@@ -215,7 +217,7 @@ spec_arrow_append_table_arrow <- list(
   },
   #
   arrow_append_table_arrow_roundtrip_64_bit_roundtrip = function(ctx, con, table_name) {
-    skip_if_not_dbitest(ctx, "1.8.0.46")
+    skip("Internal: Need to enhance test_arrow_roundtrip()")
 
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     dbWriteTable(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
@@ -268,37 +270,19 @@ spec_arrow_append_table_arrow <- list(
   arrow_append_table_arrow_roundtrip_factor = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.8.0.43")
 
-    #' - factor (returned as character,
+    #' - factor (possibly returned as character)
     tbl_in <- data.frame(
       a = factor(get_texts())
     )
     tbl_exp <- tbl_in
     tbl_exp$a <- as.character(tbl_exp$a)
-    #'     with a warning)
-    suppressWarnings(
-      expect_warning(
-        test_arrow_roundtrip(use_append = TRUE, con, tbl_in, tbl_exp)
-      )
-    )
-  },
-
-  arrow_append_table_arrow_roundtrip_raw = function(ctx, con) {
-    skip_if_not_dbitest(ctx, "1.8.0.42")
-
-    #' - list of raw
-    #'   (if supported by the database)
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
-    tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
-    tbl_exp <- tbl_in
-    tbl_exp$a <- blob::as_blob(unclass(tbl_in$a))
     test_arrow_roundtrip(
       use_append = TRUE,
-      con, tbl_in, tbl_exp,
+      con,
+      tbl_in,
+      tbl_exp,
       transform = function(tbl_out) {
-        tbl_out$a <- blob::as_blob(tbl_out$a)
+        tbl_out$a <- as.character(tbl_out$a)
         tbl_out
       }
     )

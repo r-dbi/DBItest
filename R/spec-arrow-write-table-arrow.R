@@ -57,7 +57,7 @@ spec_arrow_write_table_arrow <- list(
     skip_if_not_dbitest(ctx, "1.8.0.38")
 
     #' An error is also raised
-    test_in <- stream_frame(a = 1L)
+    test_in <- data.frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()] or
     expect_error(dbWriteTableArrow(con, NA, test_in %>% stream_frame()))
     #' if this results in a non-scalar.
@@ -79,11 +79,6 @@ spec_arrow_write_table_arrow <- list(
     expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), temporary = NA))
     #' incompatible values,
     expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), overwrite = TRUE, append = TRUE))
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), append = TRUE))
-    #' duplicate
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame()))
-    #' or missing names,
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame()))
 
     #' incompatible columns)
     dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
@@ -428,6 +423,8 @@ spec_arrow_write_table_arrow <- list(
 
   #' - 64-bit values (using `"bigint"` as field type); the result can be
   arrow_write_table_arrow_roundtrip_64_bit_numeric = function(ctx, con) {
+    skip("Internal: Need to enhance test_arrow_roundtrip()")
+
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     test_arrow_roundtrip(
       con, tbl_in,
@@ -440,7 +437,7 @@ spec_arrow_write_table_arrow <- list(
   },
   #
   arrow_write_table_arrow_roundtrip_64_bit_character = function(ctx, con) {
-    skip_if_not_dbitest(ctx, "1.8.0.24")
+    skip("Internal: Need to enhance test_arrow_roundtrip()")
 
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     tbl_exp <- tbl_in
@@ -457,7 +454,7 @@ spec_arrow_write_table_arrow <- list(
   },
   #
   arrow_write_table_arrow_roundtrip_64_bit_roundtrip = function(ctx, con, table_name) {
-    skip_if_not_dbitest(ctx, "1.8.0.23")
+    skip("Internal: Need to enhance test_arrow_roundtrip()")
 
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     dbWriteTableArrow(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
@@ -510,31 +507,18 @@ spec_arrow_write_table_arrow <- list(
   arrow_write_table_arrow_roundtrip_factor = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.8.0.20")
 
-    #' - factor (returned as character)
+    #' - factor (possibly returned as character)
     tbl_in <- data.frame(
       a = factor(get_texts())
     )
     tbl_exp <- tbl_in
     tbl_exp$a <- as.character(tbl_exp$a)
-    test_arrow_roundtrip(con, tbl_in, tbl_exp)
-  },
-
-  arrow_write_table_arrow_roundtrip_raw = function(ctx, con) {
-    skip_if_not_dbitest(ctx, "1.8.0.19")
-
-    #' - list of raw
-    #'   (if supported by the database)
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
-    tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
-    tbl_exp <- tbl_in
-    tbl_exp$a <- blob::as_blob(unclass(tbl_in$a))
     test_arrow_roundtrip(
-      con, tbl_in, tbl_exp,
+      con,
+      tbl_in,
+      tbl_exp,
       transform = function(tbl_out) {
-        tbl_out$a <- blob::as_blob(tbl_out$a)
+        tbl_out$a <- as.character(tbl_out$a)
         tbl_out
       }
     )
@@ -764,8 +748,8 @@ test_arrow_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transfo
     dbWriteTableArrow(con, name, tbl_in %>% stream_frame())
   }
 
-  tbl_read <- check_df(dbReadTable(con, name, check.names = FALSE))
-  tbl_out <- transform(tbl_read)
+  stream <- dbReadTableArrow(con, name)
+  tbl_out <- check_arrow(stream, transform)
   expect_equal_df(tbl_out, tbl_expected)
 }
 

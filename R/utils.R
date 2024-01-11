@@ -90,6 +90,16 @@ check_df <- function(df) {
   df
 }
 
-check_arrow <- function(stream) {
-  check_df(as.data.frame(stream))
+check_arrow <- function(stream, transform = identity) {
+  to <- function(schema, ptype) transform(ptype)
+  if (inherits(stream, "nanoarrow_array_stream")) {
+    on.exit(stream$release())
+    df <- nanoarrow::convert_array_stream(stream, to)
+  } else if (inherits(stream, "nanoarrow_array")) {
+    df <- nanoarrow::convert_array(stream, to)
+  } else {
+    stop("Unexpected conversion of type ", class(stream), ".", call. = FALSE)
+  }
+
+  check_df(df)
 }
