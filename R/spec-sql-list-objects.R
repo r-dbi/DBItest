@@ -9,7 +9,7 @@ spec_sql_list_objects <- list(
     expect_equal(names(formals(dbListObjects)), c("conn", "prefix", "..."))
   },
 
-  list_objects = function(ctx, con, table_name = "dbit06") {
+  list_objects_1 = function(ctx, con, table_name = "dbit06") {
     #' @return
     #' `dbListObjects()`
     objects <- dbListObjects(con)
@@ -47,11 +47,13 @@ spec_sql_list_objects <- list(
     expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
   },
   # second stage
-  list_objects = function(ctx, con) {
-    #' As soon a table is removed from the database,
-    #' it is also removed from the data frame of database objects.
+  list_objects_2 = function(ctx, con) {
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit06"
 
+    #' As soon a table is removed from the database,
+    #' it is also removed from the data frame of database objects.
     objects <- dbListObjects(con)
     quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
     expect_false(dbQuoteIdentifier(con, table_name) %in% quoted_tables)

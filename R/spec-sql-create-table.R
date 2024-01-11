@@ -144,7 +144,7 @@ spec_sql_create_table <- list(
   },
 
   #'
-  create_table_temporary = function(ctx, con, table_name = "dbit03") {
+  create_table_temporary_1 = function(ctx, con, table_name = "dbit03") {
     #' If the `temporary` argument is `TRUE`, the table is not available in a
     #' second connection and is gone after reconnecting.
     #' Not all backends support this argument.
@@ -161,15 +161,24 @@ spec_sql_create_table <- list(
     expect_error(dbReadTable(con2, table_name))
   },
   # second stage
-  create_table_temporary = function(con) {
+  create_table_temporary_2 = function(ctx, con) {
+    if (!isTRUE(ctx$tweaks$temporary_tables)) {
+      skip("tweak: temporary_tables")
+    }
+
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit03"
+
     expect_error(dbReadTable(con, table_name))
   },
 
-  create_table_visible_in_other_connection = function(ctx, local_con) {
+  create_table_visible_in_other_connection_1 = function(ctx, local_con) {
     #' A regular, non-temporary table is visible in a second connection,
     penguins <- get_penguins(ctx)
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit04"
     dbCreateTable(local_con, table_name, penguins)
     penguins_out <- check_df(dbReadTable(local_con, table_name))
@@ -179,16 +188,18 @@ spec_sql_create_table <- list(
     expect_equal_df(dbReadTable(con2, table_name), penguins[0, , drop = FALSE])
   },
   # second stage
-  create_table_visible_in_other_connection = function(ctx, con) {
+  create_table_visible_in_other_connection_2 = function(ctx, con) {
     penguins <- get_penguins(ctx)
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit04"
 
     #' in a pre-existing connection,
     expect_equal_df(check_df(dbReadTable(con, table_name)), penguins[0, , drop = FALSE])
   },
   # third stage
-  create_table_visible_in_other_connection = function(ctx, local_con, table_name = "dbit04") {
+  create_table_visible_in_other_connection_3 = function(ctx, local_con, table_name = "dbit04") {
     penguins <- get_penguins(ctx)
 
     #' and after reconnecting to the database.

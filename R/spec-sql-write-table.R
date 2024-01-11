@@ -237,7 +237,7 @@ spec_sql_write_table <- list(
   },
 
   #'
-  temporary_table = function(ctx, con, table_name = "dbit08") {
+  temporary_table_1 = function(ctx, con, table_name = "dbit08") {
     #' If the `temporary` argument is `TRUE`, the table is not available in a
     #' second connection and is gone after reconnecting.
     #' Not all backends support this argument.
@@ -254,19 +254,23 @@ spec_sql_write_table <- list(
     expect_error(dbReadTable(con2, table_name))
   },
   # second stage
-  temporary_table = function(ctx, con) {
+  temporary_table_2 = function(ctx, con) {
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
     }
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit08"
     expect_error(dbReadTable(con, table_name))
   },
 
-  table_visible_in_other_connection = function(ctx, local_con) {
+  table_visible_in_other_connection_1 = function(ctx, local_con) {
     #' A regular, non-temporary table is visible in a second connection,
     penguins30 <- get_penguins(ctx)
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit09"
 
     dbWriteTable(local_con, table_name, penguins30)
@@ -277,16 +281,18 @@ spec_sql_write_table <- list(
     expect_equal_df(dbReadTable(con2, table_name), penguins30)
   },
   # second stage
-  table_visible_in_other_connection = function(ctx, con) {
+  table_visible_in_other_connection_2 = function(ctx, con) {
     #' in a pre-existing connection,
     penguins30 <- get_penguins(ctx)
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit09"
 
     expect_equal_df(check_df(dbReadTable(con, table_name)), penguins30)
   },
   # third stage
-  table_visible_in_other_connection = function(ctx, local_con, table_name = "dbit09") {
+  table_visible_in_other_connection_3 = function(ctx, local_con, table_name = "dbit09") {
     #' and after reconnecting to the database.
     penguins30 <- get_penguins(ctx)
 

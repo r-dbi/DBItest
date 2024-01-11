@@ -241,7 +241,7 @@ spec_arrow_write_table_arrow <- list(
   },
 
   #'
-  arrow_write_table_arrow_temporary = function(ctx, con, table_name = "dbit08") {
+  arrow_write_table_arrow_temporary_1 = function(ctx, con, table_name = "dbit08") {
     skip_if_not_dbitest(ctx, "1.8.0.33")
 
     #' If the `temporary` argument is `TRUE`, the table is not available in a
@@ -260,23 +260,27 @@ spec_arrow_write_table_arrow <- list(
     expect_error(dbReadTable(con2, table_name))
   },
   # second stage
-  arrow_write_table_arrow_temporary = function(ctx, con) {
-    skip_if_not_dbitest(ctx, "1.8.0.32")
+  arrow_write_table_arrow_temporary_2 = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.33")
 
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
     }
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit08"
     expect_error(dbReadTable(con, table_name))
   },
 
-  arrow_write_table_arrow_visible_in_other_connection = function(ctx, local_con) {
+  arrow_write_table_arrow_visible_in_other_connection_1 = function(ctx, local_con) {
     skip_if_not_dbitest(ctx, "1.8.0.31")
 
     #' A regular, non-temporary table is visible in a second connection,
     penguins30 <- get_penguins(ctx)
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit09"
 
     dbWriteTableArrow(local_con, table_name, penguins30 %>% stream_frame())
@@ -287,19 +291,21 @@ spec_arrow_write_table_arrow <- list(
     expect_equal_df(dbReadTable(con2, table_name), penguins30)
   },
   # second stage
-  arrow_write_table_arrow_visible_in_other_connection = function(ctx, con) {
-    skip_if_not_dbitest(ctx, "1.8.0.30")
+  arrow_write_table_arrow_visible_in_other_connection_2 = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.31")
 
     #' in a pre-existing connection,
     penguins30 <- get_penguins(ctx)
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit09"
 
     expect_equal_df(check_df(dbReadTable(con, table_name)), penguins30)
   },
   # third stage
-  arrow_write_table_arrow_visible_in_other_connection = function(ctx, local_con, table_name = "dbit09") {
-    skip_if_not_dbitest(ctx, "1.8.0.29")
+  arrow_write_table_arrow_visible_in_other_connection_3 = function(ctx, local_con, table_name = "dbit09") {
+    skip_if_not_dbitest(ctx, "1.8.0.31")
 
     #' and after reconnecting to the database.
     penguins30 <- get_penguins(ctx)
