@@ -106,7 +106,7 @@ spec_arrow_get_query_arrow <- list(
       values <- trivial_values(3) - 1
       params <- stats::setNames(list(values), names(placeholder))
       ret <- dbGetQueryArrow(con, query, params = params)
-      expect_equal(ret, trivial_df(3), info = placeholder)
+      expect_equal(as.data.frame(ret), trivial_df(3), info = placeholder)
     }
   },
   #
@@ -141,7 +141,7 @@ spec_arrow_get_query_arrow <- list(
     #'         1. `params` not given: waiting for parameters via [dbBind()]
     #'         1. `params` given: query is executed
     res <- expect_visible(dbGetQueryArrow(con, trivial_query(), immediate = TRUE))
-    expect_s3_class(res, "data.frame")
+    check_arrow(res)
   },
   #
   NULL
