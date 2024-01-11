@@ -29,7 +29,6 @@ Imports:
     rlang (>= 0.2.0),
     testthat (>= 2.0.0),
     utils,
-    vctrs,
     withr
 Suggests: 
     clipr,
