@@ -68,11 +68,6 @@ random_table_name <- function(n = 10) {
   paste0("dbit", paste(sample(letters, n, replace = TRUE), collapse = ""))
 }
 
-compact <- function(x) {
-  x[!vapply(x, is.null, logical(1L))]
-}
-
-
 try_silent <- function(code) {
   tryCatch(
     code,

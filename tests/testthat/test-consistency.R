@@ -1,5 +1,5 @@
 test_that("no unnamed specs", {
-  tests <- spec_all[!vapply(spec_all, is.null, logical(1L))]
+  tests <- compact(spec_all)
   vicinity <- NULL
   if (any(names(tests) == "")) {
     vicinity <- sort(unique(unlist(
