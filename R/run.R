@@ -20,7 +20,7 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
     skip <- ctx$default_skip
   }
 
-  test_names <- vctrs::vec_names2(tests, repair = "unique", quiet = TRUE)
+  test_names <- names(tests)
 
   skipped <- get_skip_names(skip)
   skip_flag <- names(tests) %in% skipped
@@ -99,8 +99,8 @@ get_skip_names <- function(skip) {
   }
   names_all <- names(spec_all)
   names_all <- names_all[names_all != ""]
-  skip_flags_all <- lapply(paste0("(?:^(?:", skip, ")$)"), grepl, names_all, perl = TRUE)
-  skip_used <- vapply(skip_flags_all, any, logical(1L))
+  skip_flags_all <- lapply(paste0("(?:^(?:", skip, ")(?:|_[0-9]+)$)"), grepl, names_all, perl = TRUE)
+  skip_used <- map_lgl(skip_flags_all, any)
   if (!all(skip_used)) {
     warning("Unused skip expressions: ", paste(skip[!skip_used], collapse = ", "),
       call. = FALSE

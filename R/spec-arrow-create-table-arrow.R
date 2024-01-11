@@ -167,7 +167,7 @@ spec_arrow_create_table_arrow <- list(
   },
 
   #'
-  arrow_create_table_arrow_temporary = function(ctx, con, table_name = "dbit03") {
+  arrow_create_table_arrow_temporary_1 = function(ctx, con, table_name = "dbit03") {
     skip_if_not_dbitest(ctx, "1.8.0.4")
 
     #' If the `temporary` argument is `TRUE`, the table is not available in a
@@ -186,19 +186,23 @@ spec_arrow_create_table_arrow <- list(
     expect_error(dbReadTable(con2, table_name))
   },
   # second stage
-  arrow_create_table_arrow_temporary = function(ctx, con) {
+  arrow_create_table_arrow_temporary_2 = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.8.0.4")
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit03"
     expect_error(dbReadTable(con, table_name))
   },
 
-  arrow_create_table_arrow_visible_in_other_connection = function(ctx, local_con) {
+  arrow_create_table_arrow_visible_in_other_connection_1 = function(ctx, local_con) {
     skip_if_not_dbitest(ctx, "1.8.0.3")
 
     #' A regular, non-temporary table is visible in a second connection,
     penguins <- get_penguins(ctx)
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit04"
     dbCreateTableArrow(local_con, table_name, stream_frame(penguins))
     penguins_out <- check_df(dbReadTable(local_con, table_name))
@@ -208,18 +212,20 @@ spec_arrow_create_table_arrow <- list(
     expect_equal_df(dbReadTable(con2, table_name), penguins[0, , drop = FALSE])
   },
   # second stage
-  arrow_create_table_arrow_visible_in_other_connection = function(ctx, con) {
+  arrow_create_table_arrow_visible_in_other_connection_2 = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.8.0.3")
 
     penguins <- get_penguins(ctx)
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit04"
 
     #' in a pre-existing connection,
     expect_equal_df(check_df(dbReadTable(con, table_name)), penguins[0, , drop = FALSE])
   },
   # third stage
-  arrow_create_table_arrow_visible_in_other_connection = function(ctx, local_con, table_name = "dbit04") {
+  arrow_create_table_arrow_visible_in_other_connection_3 = function(ctx, local_con, table_name = "dbit04") {
     skip_if_not_dbitest(ctx, "1.8.0.3")
 
     penguins <- get_penguins(ctx)
