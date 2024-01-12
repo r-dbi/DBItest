@@ -5,6 +5,11 @@
 
 spec_meta_bind <- list(
   bind_return_value = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:18>
+    # @return
+    # `dbBind()` returns the result set,
+    # invisibly,
+    # for queries issued by [dbSendQuery()] or [dbSendQueryArrow()] and
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -33,6 +38,9 @@ spec_meta_bind <- list(
     }
   },
   bind_return_value_statement = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:36>
+    # also for data manipulation statements issued by
+    # [dbSendStatement()].
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -62,6 +70,9 @@ spec_meta_bind <- list(
     }
   },
   bind_too_many = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:53>
+    # @section Failure modes:
+    # Binding too many
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -85,6 +96,8 @@ spec_meta_bind <- list(
     }
   },
   bind_not_enough = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:72>
+    # or not enough values,
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -105,6 +118,8 @@ spec_meta_bind <- list(
     }
   },
   bind_wrong_name = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:86>
+    # or parameters with wrong names
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -124,6 +139,9 @@ spec_meta_bind <- list(
     }
   },
   bind_multi_row_unequal_length = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:101>
+    # or unequal length,
+    # also raises an error.
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -149,6 +167,9 @@ spec_meta_bind <- list(
     }
   },
   bind_named_param_unnamed_placeholders = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:118>
+    # If the placeholders in the query are named,
+    # all parameter values must have names
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -168,6 +189,8 @@ spec_meta_bind <- list(
     }
   },
   bind_named_param_empty_placeholders = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:134>
+    # (which must not be empty
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -191,6 +214,8 @@ spec_meta_bind <- list(
     }
   },
   bind_named_param_na_placeholders = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:150>
+    # or `NA`),
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -214,6 +239,9 @@ spec_meta_bind <- list(
     }
   },
   bind_unnamed_param_named_placeholders = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:166>
+    # and vice versa,
+    # otherwise an error is raised.
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = FALSE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -233,6 +261,9 @@ spec_meta_bind <- list(
     }
   },
   bind_premature_clear = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:187>
+    # Calling `dbBind()` on a result set already cleared by [dbClearResult()]
+    # also raises an error.
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -249,6 +280,10 @@ spec_meta_bind <- list(
     }
   },
   bind_multi_row = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:200>
+    # @section Specification:
+    # The elements of the `params` argument do not need to be scalars,
+    # vectors of arbitrary length
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -271,6 +306,12 @@ spec_meta_bind <- list(
     }
   },
   bind_multi_row_zero_length = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:211>
+    # (including length 0)
+    # are supported.
+    # For queries, calling `dbFetch()` binding such parameters returns
+    # concatenated results, equivalent to binding and fetching for each set
+    # of values and connecting via [rbind()].
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -292,6 +333,9 @@ spec_meta_bind <- list(
     }
   },
   bind_multi_row_statement = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:227>
+    # For data manipulation statements, `dbGetRowsAffected()` returns the
+    # total number of rows affected if binding non-scalar parameters.
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -316,6 +360,9 @@ spec_meta_bind <- list(
     }
   },
   bind_repeated = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:239>
+    # `dbBind()` also accepts repeated calls on the same result set
+    # for both queries
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -343,6 +390,8 @@ spec_meta_bind <- list(
     }
   },
   bind_repeated_statement = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:252>
+    # and data manipulation statements,
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -372,6 +421,9 @@ spec_meta_bind <- list(
     }
   },
   bind_repeated_untouched = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:265>
+    # even if no results are fetched between calls to `dbBind()`,
+    # for both queries
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -395,6 +447,8 @@ spec_meta_bind <- list(
     }
   },
   bind_repeated_untouched_statement = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:280>
+    # and data manipulation statements.
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
@@ -420,6 +474,9 @@ spec_meta_bind <- list(
     }
   },
   bind_named_param_shuffle = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:296>
+    # If the placeholders in the query are named,
+    # their order in the `params` argument is not important.
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -443,6 +500,9 @@ spec_meta_bind <- list(
     }
   },
   bind_integer = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:312>
+    # At least the following data types are accepted on input (including [NA]):
+    # - [integer]
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -469,6 +529,8 @@ spec_meta_bind <- list(
     }
   },
   bind_numeric = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:322>
+    # - [numeric]
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -495,6 +557,8 @@ spec_meta_bind <- list(
     }
   },
   bind_logical = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:331>
+    # - [logical] for Boolean values
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -520,6 +584,8 @@ spec_meta_bind <- list(
     }
   },
   bind_character = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:340>
+    # - [character]
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -548,6 +614,8 @@ spec_meta_bind <- list(
     }
   },
   bind_character_escape = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:349>
+    # (also with special characters such as spaces, newlines, quotes, and backslashes)
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -580,6 +648,9 @@ spec_meta_bind <- list(
     }
   },
   bind_factor = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:358>
+    # - [factor] (bound as character,
+    # with warning)
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
@@ -608,6 +679,8 @@ spec_meta_bind <- list(
     }
   },
   bind_date = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:370>
+    # - [Date]
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -635,6 +708,8 @@ spec_meta_bind <- list(
     }
   },
   bind_date_integer = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:380>
+    # (also when stored internally as integer)
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -662,6 +737,8 @@ spec_meta_bind <- list(
     }
   },
   bind_timestamp = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:390>
+    # - [POSIXct] timestamps
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -689,6 +766,8 @@ spec_meta_bind <- list(
     }
   },
   bind_timestamp_lt = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:406>
+    # - [POSIXlt] timestamps
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -716,6 +795,8 @@ spec_meta_bind <- list(
     }
   },
   bind_time_seconds = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:422>
+    # - [difftime] values
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -743,6 +824,8 @@ spec_meta_bind <- list(
     }
   },
   bind_time_hours = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:433>
+    # (also with units other than seconds
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -770,6 +853,8 @@ spec_meta_bind <- list(
     }
   },
   bind_time_minutes_integer = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:444>
+    # and with the value stored as integer)
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -797,6 +882,8 @@ spec_meta_bind <- list(
     }
   },
   bind_raw = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:455>
+    # - lists of [raw] for blobs (with `NULL` entries for SQL NULL values)
     skip_if(isTRUE(ctx$tweaks$omit_blob_tests))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -824,6 +911,8 @@ spec_meta_bind <- list(
     }
   },
   bind_blob = function(ctx, con) {
+    # <R/spec-meta-bind-expr.R:467>
+    # - objects of type [blob::blob]
     skip_if(isTRUE(ctx$tweaks$omit_blob_tests))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check

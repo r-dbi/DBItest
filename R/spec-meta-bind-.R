@@ -15,6 +15,15 @@ test_select_bind_expr <- function(
   force(arrow)
   force(bind)
 
+  caller <- sys.function(-1)
+  caller_src <- utils::getSrcref(caller)
+  caller_ref <- paste0("<R/", utils::getSrcFilename(caller_src), ":", utils::getSrcLocation(caller_src), ">")
+
+  roxygen_bits <- grep("#' .*$", as.character(caller_src), value = TRUE)
+  docstring <- gsub("^ +#' *", "", roxygen_bits)
+
+  header <- c(caller_ref, docstring)
+
   cast_fun <- enquo(cast_fun)
   has_cast_fun <- !quo_is_null(cast_fun)
   cast_fun_expr <- if (has_cast_fun) expr({
@@ -49,6 +58,8 @@ test_select_bind_expr <- function(
   })
 
   expr({
+    !!!header
+
     !!skip_dbitest_expr
     !!skip_expr
     placeholder_funs <- !!placeholder_funs_expr
