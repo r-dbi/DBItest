@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.0.9007 (2024-01-15)
+
+## Chore
+
+- Add comments to generated code (#358).
+
+
 # DBItest 1.8.0.9006 (2024-01-12)
 
 ## Features
