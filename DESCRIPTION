@@ -18,7 +18,7 @@ Depends:
 Imports: 
     blob (>= 1.2.0),
     callr,
-    DBI (>= 1.2.0),
+    DBI (>= 1.2.1),
     desc,
     hms (>= 0.5.0),
     lubridate,
@@ -44,6 +44,7 @@ Suggests:
 VignetteBuilder: 
     knitr
 Remotes: 
+    r-dbi/DBI,
     r-dbi/RSQLite
 Config/autostyle/scope: line_breaks
 Config/autostyle/strict: false
