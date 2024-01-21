@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.0.9008 (2024-01-21)
+
+## Chore
+
+- Bump DBI dependency to fix tests (#359).
+
+
 # DBItest 1.8.0.9007 (2024-01-15)
 
 ## Chore
