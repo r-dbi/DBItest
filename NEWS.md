@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.0.9009 (2024-01-23)
+
+## Documentation
+
+- Use dbitemplate (@maelle, #360).
+
+
 # DBItest 1.8.0.9008 (2024-01-21)
 
 ## Chore
