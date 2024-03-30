@@ -23,14 +23,14 @@ spec_connection_disconnect <- list(
   #' but this cannot be tested automatically.
 
   disconnect_closed_connection = function(ctx, closed_con) {
-    #' A warning is issued immediately when calling `dbDisconnect()` on an
+    #' At least one warning is issued immediately when calling `dbDisconnect()` on an
     #' already disconnected
-    expect_warning(dbDisconnect(closed_con))
+    suppressWarnings(expect_warning(dbDisconnect(closed_con)))
   },
 
   disconnect_invalid_connection = function(ctx, invalid_con) {
     #' or invalid connection.
-    expect_warning(dbDisconnect(invalid_con))
+    suppressWarnings(expect_warning(dbDisconnect(invalid_con)))
   },
   #
   NULL
