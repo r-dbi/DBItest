@@ -26,7 +26,7 @@ spec_result_roundtrip <- list(
     sql_names <- paste0("CAST(", int_values, " AS ", dbDataType(con, logical()), ")")
 
     #' with NA for SQL `NULL` values
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(values, sql_names))
   },
 
   data_character = function(ctx, con) {
@@ -36,8 +36,8 @@ spec_result_roundtrip <- list(
     sql_names <- as.character(dbQuoteString(con, values))
 
     #' with NA for SQL `NULL` values
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(test_funs, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(test_funs, sql_names))
   },
 
   data_raw = function(ctx, con) {
@@ -54,7 +54,7 @@ spec_result_roundtrip <- list(
     sql_names <- ctx$tweaks$blob_cast(DBI::dbQuoteLiteral(con, list(raw(1))))
 
     #' with [NULL] entries for SQL NULL values
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(values, sql_names))
   },
 
   data_date = function(ctx, con) {
@@ -70,11 +70,14 @@ spec_result_roundtrip <- list(
     sql_names <- ctx$tweaks$date_cast(char_values)
 
     #' with NA for SQL `NULL` values
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(values, sql_names))
   },
 
   data_date_current = function(ctx, con) {
     #'   (also applies to the return value of the SQL function `current_date`)
+    # FIXME: Turn into two checks, each with a separate skip
+    # depending on the tweak, to avoid mangling the query at run time
+    # Same with current_time and current_timestamp
     test_select_with_null(
       .ctx = ctx, con,
       "current_date" ~ is_roughly_current_date
@@ -94,7 +97,7 @@ spec_result_roundtrip <- list(
     sql_names <- ctx$tweaks$time_cast(char_values)
 
     #' with NA for SQL `NULL` values
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(time_values, sql_names))
   },
 
   data_time_current = function(ctx, con) {
@@ -117,7 +120,7 @@ spec_result_roundtrip <- list(
     sql_names <- ctx$tweaks$timestamp_cast(char_values)
 
     #' with NA for SQL `NULL` values
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(time_values, sql_names))
   },
 
   data_timestamp_current = function(ctx, con) {
@@ -148,7 +151,7 @@ spec_result_roundtrip <- list(
     values <- map(char_values, as_numeric_date)
     sql_names <- ctx$tweaks$date_cast(char_values)
 
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(values, sql_names))
   },
 
   data_date_current_typed = function(ctx, con) {
@@ -173,7 +176,7 @@ spec_result_roundtrip <- list(
     timestamp_values <- rep(list(is_timestamp), 2L)
     sql_names <- ctx$tweaks$timestamp_cast(char_values)
 
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(timestamp_values, sql_names))
   },
 
   data_timestamp_current_typed = function(ctx, con) {
@@ -207,7 +210,7 @@ spec_result_roundtrip <- list(
     char_values <- c("10000000000", "-10000000000")
     test_values <- as_numeric_identical_to(as.numeric(char_values))
 
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(test_values, char_values))
   },
 
   #' - Loss of precision when converting to numeric gives a warning
@@ -224,17 +227,17 @@ spec_result_roundtrip <- list(
 
     suppressWarnings(
       expect_warning(
-        test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "none")
+        test_select(.ctx = ctx, con, !!!setNames(test_values, char_values), .add_null = "none")
       )
     )
     suppressWarnings(
       expect_warning(
-        test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "above")
+        test_select(.ctx = ctx, con, !!!setNames(test_values, char_values), .add_null = "above")
       )
     )
     suppressWarnings(
       expect_warning(
-        test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "below")
+        test_select(.ctx = ctx, con, !!!setNames(test_values, char_values), .add_null = "below")
       )
     )
   },
@@ -251,7 +254,7 @@ spec_result_roundtrip <- list(
     char_values <- c("1234567890123456789", "-1234567890123456789")
     test_values <- as_character_equals_to(char_values)
 
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(test_values, char_values))
   },
   #
   NULL
@@ -264,9 +267,17 @@ test_select_with_null <- function(...) {
   test_select(..., .add_null = "below")
 }
 
-test_select <- function(con, ..., .dots = NULL, .add_null = "none",
-                        .ctx, .envir = parent.frame()) {
-  values <- c(list(...), .dots)
+test_select <- function(
+    # Run time
+    con,
+    # Spec time
+    ...,
+    .add_null = "none",
+    # Run time
+    .ctx,
+    .envir = parent.frame()) {
+
+  values <- list2(...)
 
   value_is_formula <- map_lgl(values, is.call)
   names(values)[value_is_formula] <- map(values[value_is_formula], "[[", 2L)
@@ -283,12 +294,16 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
     sql_values <- names(values)
   }
 
-  if (isTRUE(.ctx$tweaks$current_needs_parens)) {
-    sql_values <- gsub(
-      "^(current_(?:date|time|timestamp))$", "\\1()",
-      sql_values
-    )
-  }
+  sql_values_expr <- expr({
+    sql_values <- !!construct_expr(sql_values)
+
+    if (isTRUE(.ctx$tweaks$current_needs_parens)) {
+      sql_values <- gsub(
+        "^(current_(?:date|time|timestamp))$", "\\1()",
+        sql_values
+      )
+    }
+  })
 
   sql_names <- letters[seq_along(sql_values)]
 
