@@ -17,10 +17,6 @@ spec_arrow <- c(
 utils::globalVariables("select")
 
 stream_frame <- function(..., .select = NULL) {
-  if (!is_installed("dplyr")) {
-    skip("dplyr is not installed")
-  }
-
   data <- data.frame(..., stringsAsFactors = FALSE, check.names = FALSE)
   as_is <- map_lgl(data, inherits, "AsIs")
   data[as_is] <- map(data[as_is], function(.x) {
@@ -28,12 +24,8 @@ stream_frame <- function(..., .select = NULL) {
     .x
   })
 
-  select <- enquo(.select)
-
-  if (!quo_is_null(select)) {
-    data <-
-      data %>%
-      dplyr::select(!!select)
+  if (!is.null(.select)) {
+    data <- data[.select]
   }
 
   out <- nanoarrow::as_nanoarrow_array_stream(data)

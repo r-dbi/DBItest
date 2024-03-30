@@ -35,7 +35,6 @@ Suggests:
     constructive,
     debugme,
     devtools,
-    dplyr,
     knitr,
     lintr,
     pkgload,
