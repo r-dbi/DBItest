@@ -108,7 +108,7 @@ get_skip_names <- function(skip) {
   }
   names_all <- names(spec_all)
   names_all <- names_all[names_all != ""]
-  skip_flags_all <- lapply(paste0("(?:^(?:", skip, ")(?:|_[0-9]+)$)"), grepl, names_all, perl = TRUE)
+  skip_flags_all <- map(paste0("(?:^(?:", skip, ")(?:|_[0-9]+)$)"), grepl, names_all, perl = TRUE)
   skip_used <- map_lgl(skip_flags_all, any)
   if (!all(skip_used)) {
     warning("Unused skip expressions: ", paste(skip[!skip_used], collapse = ", "),
@@ -129,7 +129,7 @@ get_run_only_tests <- function(tests, run_only) {
     return(tests)
   }
 
-  run_only_flags_all <- lapply(paste0("(?:^(?:", run_only, ")$)"), grepl, names_all, perl = TRUE)
+  run_only_flags_all <- map(paste0("(?:^(?:", run_only, ")$)"), grepl, names_all, perl = TRUE)
   run_only_flag_all <- Reduce(`|`, run_only_flags_all)
   run_only_tests <- names_all[run_only_flag_all]
 

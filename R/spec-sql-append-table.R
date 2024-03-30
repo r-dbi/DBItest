@@ -470,16 +470,16 @@ spec_sql_append_table <- list(
   append_roundtrip_mixed = function(con) {
     #' Mixing column types in the same table is supported.
     data <- list("a", 1L, 1.5)
-    data <- lapply(data, c, NA)
+    data <- map(data, c, NA)
     expanded <- expand.grid(a = data, b = data, c = data)
-    tbl_in_list <- lapply(
+    tbl_in_list <- map(
       seq_len(nrow(expanded)),
       function(i) {
-        as.data.frame(lapply(expanded[i, ], unlist, recursive = FALSE))
+        as.data.frame(map(expanded[i, ], unlist, recursive = FALSE))
       }
     )
 
-    lapply(tbl_in_list, test_table_roundtrip, con = con)
+    map(tbl_in_list, test_table_roundtrip, con = con)
   },
 
   append_table_name = function(ctx, con) {

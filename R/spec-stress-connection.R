@@ -6,7 +6,7 @@ spec_stress_connection <- list(
   simultaneous_connections = function(ctx) {
     #' Open 50 simultaneous connections
     cons <- list()
-    on.exit(try_silent(lapply(cons, dbDisconnect)), add = TRUE)
+    on.exit(try_silent(map(cons, dbDisconnect)), add = TRUE)
     for (i in seq_len(50L)) {
       cons <- c(cons, connect(ctx))
     }
