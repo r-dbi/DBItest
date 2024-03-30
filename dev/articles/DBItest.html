@@ -23,11 +23,11 @@
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary"><div class="container">
+    <nav class="navbar fixed-top navbar-dark navbar-expand-lg bg-primary" data-bs-theme="dark"><div class="container">
     
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.0.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.0.9009</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -143,11 +143,11 @@ can be skipped by adding regular expressions for the tests to skip as
 character vector to the call, as in the following<a class="footnote-ref" tabindex="0" data-bs-toggle="popover" data-bs-content="&lt;p&gt;The terminating &lt;code&gt;NULL&lt;/code&gt; allows appending new
 lines to the end by copy-pasting an existing line, without having to
 take care of the terminating comma.&lt;/p&gt;"><sup>1</sup></a>:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>DBItest<span class="sc">::</span><span class="fu">test_driver</span>(<span class="at">skip =</span> <span class="fu">c</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data_type"</span>           <span class="co"># Reason 1...</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"constructor.*"</span>,      <span class="co"># Reason 2...</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="cn">NULL</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>DBItest<span class="sc">::</span><span class="fu">test_driver</span>(<span class="at">skip =</span> <span class="fu">c</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="st">"data_type"</span>           <span class="co"># Reason 1...</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="st">"constructor.*"</span>,      <span class="co"># Reason 2...</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="cn">NULL</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>))</span></code></pre></div>
 <p>Some other reasons to skip tests are: - your database does not
 support a feature - you want to postpone or avoid the implementation of
 a feature - the test takes too long to run.</p>
