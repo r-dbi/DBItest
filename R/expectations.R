@@ -48,10 +48,10 @@ expect_invisible_true <- function(code) {
 
 expect_equal_df <- function(actual, expected) {
   factor_cols <- map_lgl(expected, is.factor)
-  expected[factor_cols] <- lapply(expected[factor_cols], as.character)
+  expected[factor_cols] <- map(expected[factor_cols], as.character)
 
   asis_cols <- map_lgl(expected, inherits, "AsIs")
-  expected[asis_cols] <- lapply(expected[asis_cols], unclass)
+  expected[asis_cols] <- map(expected[asis_cols], unclass)
 
   list_cols <- map_lgl(expected, is.list)
 

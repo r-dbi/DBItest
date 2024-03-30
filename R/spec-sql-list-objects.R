@@ -25,7 +25,7 @@ spec_sql_list_objects <- list(
     #' The `table` column is of type list.
     expect_equal(typeof(objects$table), "list")
     #' Each object in this list is suitable for use as argument in [dbQuoteIdentifier()].
-    expect_error(lapply(objects$table, dbQuoteIdentifier, conn = con), NA)
+    expect_error(map(objects$table, dbQuoteIdentifier, conn = con), NA)
 
     #' The `is_prefix` column is a logical.
     expect_type(objects$is_prefix, "logical")

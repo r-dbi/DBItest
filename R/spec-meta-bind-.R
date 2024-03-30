@@ -77,7 +77,7 @@ test_select_bind_expr <- function(
 get_placeholder_funs <- function(ctx, requires_names = NULL) {
   placeholder_fun <- ctx$tweaks$placeholder_pattern
   if (is.character(placeholder_fun)) {
-    placeholder_funs <- lapply(placeholder_fun, make_placeholder_fun)
+    placeholder_funs <- map(placeholder_fun, make_placeholder_fun)
   } else if (is.function(placeholder_fun)) {
     placeholder_funs <- list(placeholder_fun)
   } else {

@@ -84,9 +84,9 @@ spec_sql_quote_literal <- list(
       expect_equal(nrow(x_out), 1L)
 
       is_logical <- map_lgl(x, is.logical)
-      x_out[is_logical] <- lapply(x_out[is_logical], as.logical)
+      x_out[is_logical] <- map(x_out[is_logical], as.logical)
       is_numeric <- map_lgl(x, is.numeric)
-      x_out[is_numeric] <- lapply(x_out[is_numeric], as.numeric)
+      x_out[is_numeric] <- map(x_out[is_numeric], as.numeric)
       expect_equal(as.list(unname(x_out)), x)
     }
 
