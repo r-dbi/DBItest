@@ -17,8 +17,8 @@ If the table exists, an error is raised; the remote table remains unchanged.
 An error is raised when calling this method for a closed
 or invalid connection.
 An error is also raised
-if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}
-or if this results in a non-scalar.
+if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}} or
+if this results in a non-scalar.
 Invalid values for the \code{row.names} and \code{temporary} arguments
 (non-scalars,
 unsupported data types,
@@ -49,6 +49,12 @@ to support databases that allow non-syntactic names for their objects:
 \item If an unquoted table name as string: \code{dbCreateTable()} will do the quoting,
 perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 \item If the result of a call to \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}: no more quoting is done
+}
+
+The \code{value} argument can be:
+\itemize{
+\item a data frame,
+\item a named list of SQL types
 }
 
 If the \code{temporary} argument is \code{TRUE}, the table is not available in a

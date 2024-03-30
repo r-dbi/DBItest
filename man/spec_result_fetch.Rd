@@ -5,8 +5,8 @@
 \alias{spec_result_fetch}
 \title{spec_result_fetch}
 \value{
-\code{dbFetch()} always returns a \link{data.frame}
-with as many rows as records were fetched and as many
+\code{dbFetch()} always returns a \link{data.frame} with
+as many rows as records were fetched and as many
 columns as fields in the result set,
 even if the result is a single value
 or has one
@@ -25,8 +25,8 @@ greater or equal to -1 or Inf, an error is raised,
 but a subsequent call to \code{dbFetch()} with proper \code{n} argument succeeds.
 
 Calling \code{dbFetch()} on a result set from a data manipulation query
-created by \code{\link[=dbSendStatement]{dbSendStatement()}}
-can be fetched and return an empty data frame, with a warning.
+created by \code{\link[=dbSendStatement]{dbSendStatement()}} can
+be fetched and return an empty data frame, with a warning.
 }
 
 \section{Specification}{
@@ -34,8 +34,8 @@ can be fetched and return an empty data frame, with a warning.
 Fetching multi-row queries with one
 or more columns by default returns the entire result.
 Multi-row queries can also be fetched progressively
-by passing a whole number (\link{integer}
-or \link{numeric})
+by passing a whole number (\link{integer} or
+\link{numeric})
 as the \code{n} argument.
 A value of \link{Inf} for the \code{n} argument is supported
 and also returns the full result.

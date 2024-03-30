@@ -20,16 +20,14 @@ an error is raised; the remote table remains unchanged.
 An error is raised when calling this method for a closed
 or invalid connection.
 An error is also raised
-if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}
-or if this results in a non-scalar.
+if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}} or
+if this results in a non-scalar.
 Invalid values for the additional arguments
 \code{overwrite}, \code{append}, and \code{temporary}
 (non-scalars,
 unsupported data types,
 \code{NA},
 incompatible values,
-duplicate
-or missing names,
 incompatible columns)
 also raise an error.
 }
@@ -104,9 +102,7 @@ representation
 and native encodings),
 supporting empty strings
 before and after a non-empty string
-\item factor (returned as character)
-\item list of raw
-(if supported by the database)
+\item factor (possibly returned as character)
 \item objects of type \link[blob:blob]{blob::blob}
 (if supported by the database)
 \item date
@@ -133,8 +129,8 @@ Mixing column types in the same table is supported.
 Other Arrow specifications: 
 \code{\link{spec_arrow_append_table_arrow}},
 \code{\link{spec_arrow_create_table_arrow}},
-\code{\link{spec_arrow_fetch_arrow_chunk}},
 \code{\link{spec_arrow_fetch_arrow}},
+\code{\link{spec_arrow_fetch_arrow_chunk}},
 \code{\link{spec_arrow_get_query_arrow}},
 \code{\link{spec_arrow_read_table_arrow}},
 \code{\link{spec_arrow_send_query_arrow}},

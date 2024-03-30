@@ -24,7 +24,7 @@ spec_meta_bind_expr <- function(
         expect_false(bind_res$visible)
       }
 
-      #' for queries issued by [dbSendQuery()] or [dbSendQueryArrow()]
+      #' for queries issued by [dbSendQuery()] or [dbSendQueryArrow()] and
       test_select_bind_expr(
         arrow = arrow,
         bind = bind,
@@ -39,7 +39,7 @@ spec_meta_bind_expr <- function(
         expect_false(bind_res$visible)
       }
 
-      #' and also for data manipulation statements issued by
+      #' also for data manipulation statements issued by
       #' [dbSendStatement()].
       test_select_bind_expr(
         arrow = arrow,
@@ -214,7 +214,7 @@ spec_meta_bind_expr <- function(
         arrow = arrow,
         bind = bind,
         list(integer(), integer()),
-        skip_fun = if (arrow == "query" || bind == "stream") function() ctx$tweaks$dbitest_version < "1.7.99.12"
+        dbitest_version = if (arrow == "query" || bind == "stream") "1.7.99.12"
       )
 
       #' are supported.
@@ -363,7 +363,7 @@ spec_meta_bind_expr <- function(
         bind = bind,
         lapply(c(get_texts(), NA_character_), factor),
         warn = if (bind == "df") TRUE,
-        skip_fun = if (arrow == "query" && bind == "df") function() ctx$tweaks$dbitest_version < "1.7.99.13"
+        dbitest_version = if (arrow == "query" && bind == "df") "1.7.99.13"
       )
     },
 
@@ -372,7 +372,7 @@ spec_meta_bind_expr <- function(
       test_select_bind_expr(
         arrow = arrow,
         bind = bind,
-        c(Sys.Date() + 0:2, NA),
+        c(as.Date("2023-12-17") + 0:2, NA),
         skip_fun = function() !isTRUE(ctx$tweaks$date_typed)
       )
     },
@@ -458,11 +458,8 @@ spec_meta_bind_expr <- function(
         arrow = arrow,
         bind = bind,
         list(list(as.raw(1:10)), list(raw(3)), list(NULL)),
-        skip_fun = if (arrow == "query" && bind == "df") {
-          function() isTRUE(ctx$tweaks$omit_blob_tests) || ctx$tweaks$dbitest_version < "1.7.99.14"
-        } else {
-          function() isTRUE(ctx$tweaks$omit_blob_tests)
-        },
+        skip_fun = function() isTRUE(ctx$tweaks$omit_blob_tests),
+        dbitest_version = if (arrow == "query" && bind == "df") "1.7.99.14",
         cast_fun = ctx$tweaks$blob_cast
       )
     },

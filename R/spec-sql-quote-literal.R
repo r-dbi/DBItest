@@ -75,7 +75,7 @@ spec_sql_quote_literal <- list(
     #' @section Specification:
     do_test_literal <- function(x) {
       #' The returned expression can be used in a `SELECT ...` query,
-      literals <- vapply(x, dbQuoteLiteral, conn = con, character(1))
+      literals <- map_chr(x, dbQuoteLiteral, conn = con)
       query <- paste0("SELECT ", paste(literals, collapse = ", "))
       #' and the value of
       #' \code{dbGetQuery(paste0("SELECT ", dbQuoteLiteral(x)))[[1]]}
@@ -83,9 +83,9 @@ spec_sql_quote_literal <- list(
       x_out <- check_df(dbGetQuery(con, query))
       expect_equal(nrow(x_out), 1L)
 
-      is_logical <- vapply(x, is.logical, FUN.VALUE = logical(1))
+      is_logical <- map_lgl(x, is.logical)
       x_out[is_logical] <- lapply(x_out[is_logical], as.logical)
-      is_numeric <- vapply(x, is.numeric, FUN.VALUE = logical(1))
+      is_numeric <- map_lgl(x, is.numeric)
       x_out[is_numeric] <- lapply(x_out[is_numeric], as.numeric)
       expect_equal(as.list(unname(x_out)), x)
     }

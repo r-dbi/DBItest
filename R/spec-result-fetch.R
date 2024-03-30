@@ -11,8 +11,8 @@ spec_result_fetch <- list(
 
   fetch_atomic = function(con) {
     #' @return
-    #' `dbFetch()` always returns a [data.frame]
-    #' with as many rows as records were fetched and as many
+    #' `dbFetch()` always returns a [data.frame] with
+    #' as many rows as records were fetched and as many
     #' columns as fields in the result set,
     #' even if the result is a single value
     query <- trivial_query()
@@ -87,8 +87,8 @@ spec_result_fetch <- list(
   fetch_no_return_value = function(con, table_name) {
     #'
     #' Calling `dbFetch()` on a result set from a data manipulation query
-    #' created by [dbSendStatement()]
-    #' can be fetched and return an empty data frame, with a warning.
+    #' created by [dbSendStatement()] can
+    #' be fetched and return an empty data frame, with a warning.
     query <- paste0("CREATE TABLE ", table_name, " (a integer)")
 
     res <- local_result(dbSendStatement(con, query))
@@ -124,11 +124,11 @@ spec_result_fetch <- list(
     result <- trivial_df(25)
 
     res <- local_result(dbSendQuery(con, query))
-    #' by passing a whole number ([integer]
+    #' by passing a whole number ([integer] or
     rows <- check_df(dbFetch(res, 10L))
     expect_identical(rows, unrowname(result[1:10, , drop = FALSE]))
 
-    #' or [numeric])
+    #' [numeric])
     rows <- check_df(dbFetch(res, 10))
     expect_identical(rows, unrowname(result[11:20, , drop = FALSE]))
 

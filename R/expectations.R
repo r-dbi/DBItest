@@ -13,7 +13,7 @@ expect_all_args_have_default_values <- function(object) {
   act <- quasi_label(enquo(object), arg = "object")
   act$args <- formals(act$val)
   act$args <- act$args[names(act$args) != "..."]
-  act$char_args <- vapply(act$args, as.character, character(1L))
+  act$char_args <- map_chr(act$args, as.character)
   expect(
     all(nzchar(act$char_args, keepNA = FALSE)),
     sprintf("%s has arguments without default values", act$lab)
@@ -47,13 +47,13 @@ expect_invisible_true <- function(code) {
 }
 
 expect_equal_df <- function(actual, expected) {
-  factor_cols <- vapply(expected, is.factor, logical(1L))
+  factor_cols <- map_lgl(expected, is.factor)
   expected[factor_cols] <- lapply(expected[factor_cols], as.character)
 
-  asis_cols <- vapply(expected, inherits, "AsIs", FUN.VALUE = logical(1L))
+  asis_cols <- map_lgl(expected, inherits, "AsIs")
   expected[asis_cols] <- lapply(expected[asis_cols], unclass)
 
-  list_cols <- vapply(expected, is.list, logical(1L))
+  list_cols <- map_lgl(expected, is.list)
 
   if (!any(list_cols)) {
     order_actual <- do.call(order, actual)

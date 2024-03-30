@@ -113,12 +113,12 @@ test_data_type <- function(ctx, dbObj) {
     }
   )
 
-  #' The SQL data type for [factor]
+  #' The SQL data type for [factor] and
   expect_identical(
     dbDataType(dbObj, letters),
     dbDataType(dbObj, factor(letters))
   )
-  #' and [ordered] is the same as for character.
+  #' [ordered] is the same as for character.
   expect_identical(
     dbDataType(dbObj, letters),
     dbDataType(dbObj, ordered(letters))

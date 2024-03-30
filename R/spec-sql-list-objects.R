@@ -9,7 +9,7 @@ spec_sql_list_objects <- list(
     expect_equal(names(formals(dbListObjects)), c("conn", "prefix", "..."))
   },
 
-  list_objects = function(ctx, con, table_name = "dbit06") {
+  list_objects_1 = function(ctx, con, table_name = "dbit06") {
     #' @return
     #' `dbListObjects()`
     objects <- dbListObjects(con)
@@ -37,23 +37,25 @@ spec_sql_list_objects <- list(
     #' accessible from the prefix (if passed) or from the global namespace
     #' (if prefix is omitted).
 
-    #' Tables added with [dbWriteTable()]
+    #' Tables added with [dbWriteTable()] are
     penguins <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins)
 
-    #' are part of the data frame.
+    #' part of the data frame.
     objects <- dbListObjects(con)
-    quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
+    quoted_tables <- map_chr(objects$table, dbQuoteIdentifier, conn = con)
     expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
   },
   # second stage
-  list_objects = function(ctx, con) {
-    #' As soon a table is removed from the database,
-    #' it is also removed from the data frame of database objects.
+  list_objects_2 = function(ctx, con) {
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit06"
 
+    #' As soon a table is removed from the database,
+    #' it is also removed from the data frame of database objects.
     objects <- dbListObjects(con)
-    quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
+    quoted_tables <- map_chr(objects$table, dbQuoteIdentifier, conn = con)
     expect_false(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
   },
 
@@ -64,7 +66,7 @@ spec_sql_list_objects <- list(
       dbWriteTable(con, table_name, data.frame(a = 1L), temporary = TRUE)
 
       objects <- dbListObjects(con)
-      quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
+      quoted_tables <- map_chr(objects$table, dbQuoteIdentifier, conn = con)
       expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
     }
   },
@@ -82,7 +84,7 @@ spec_sql_list_objects <- list(
       local_remove_test_table(con, table_name)
       dbWriteTable(con, dbQuoteIdentifier(con, table_name), data.frame(a = 2L))
       objects <- dbListObjects(con)
-      quoted_tables <- vapply(objects$table, dbQuoteIdentifier, conn = con, character(1))
+      quoted_tables <- map_chr(objects$table, dbQuoteIdentifier, conn = con)
       expect_true(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
     }
   },
@@ -108,27 +110,19 @@ spec_sql_list_objects <- list(
     #' For a call with the default `prefix = NULL`, the `table`
     #' values that have `is_prefix == FALSE` correspond to the tables
     #' returned from [dbListTables()],
-    non_prefix_objects <- vapply(
+    non_prefix_objects <- map_chr(
       objects$table[!objects$is_prefix],
       dbQuoteIdentifier,
-      conn = con,
-      character(1)
+      conn = con
     )
     all_tables <- dbQuoteIdentifier(con, dbListTables(con))
     expect_equal(sort(non_prefix_objects), sort(as.character(all_tables)))
 
     #'
     #' The `table` object can be quoted with [dbQuoteIdentifier()].
-    sql <- lapply(objects$table[!objects$is_prefix], dbQuoteIdentifier, conn = con)
+    sql <- map(objects$table[!objects$is_prefix], dbQuoteIdentifier, conn = con)
     #' The result of quoting can be passed to [dbUnquoteIdentifier()].
-    #' (We have to assume that the resulting identifier is a table, because one
-    #' cannot always tell from a quoted identifier alone whether it is a table
-    #' or a schema for example. As a consequence, the quote-unquote roundtrip
-    #' only works for tables (possibly schema-qualified), but not for other
-    #' database objects like schemata or columns.)
-    unquoted <- vapply(sql, dbUnquoteIdentifier, conn = con, list(1))
-    #' The unquoted results are equal to the original `table` object.
-    expect_equal(unquoted, unclass(objects$table[!objects$is_prefix]))
+    expect_error(walk(sql, dbUnquoteIdentifier, conn = con), NA)
     #' (For backends it may be convenient to use the [Id] class, but this is
     #' not required.)
 

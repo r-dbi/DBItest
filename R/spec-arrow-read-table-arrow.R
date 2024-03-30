@@ -14,9 +14,9 @@ spec_arrow_read_table_arrow <- list(
     skip_if_not_dbitest(ctx, "1.7.99.2")
 
     #' @return
-    #' `dbReadTableArrow()` returns a data frame that contains the complete data
-    #' from the remote table, effectively the result of calling [dbGetQuery()]
-    #' with `SELECT * FROM <name>`.
+    #' `dbReadTableArrow()` returns an Arrow object that contains the complete data
+    #' from the remote table, effectively the result of calling [dbGetQueryArrow()] with
+    #' `SELECT * FROM <name>`.
     penguins_in <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins_in)
     penguins_out <- check_arrow(dbReadTableArrow(con, table_name))
@@ -32,10 +32,10 @@ spec_arrow_read_table_arrow <- list(
   },
 
   arrow_read_table_arrow_empty = function(ctx, con, table_name) {
-    skip("Causes segfault in adbc and duckdb")
+    skip_if_not_dbitest(ctx, "1.8.0.14")
 
     #' @return
-    #' An empty table is returned as a data frame with zero rows.
+    #' An empty table is returned as an Arrow object with zero rows.
     penguins_in <- get_penguins(ctx)[integer(), ]
     dbWriteTable(con, table_name, penguins_in)
     penguins_out <- check_arrow(dbReadTableArrow(con, table_name))
@@ -63,9 +63,9 @@ spec_arrow_read_table_arrow <- list(
   arrow_read_table_arrow_error = function(ctx, con, table_name) {
     #' An error is raised
     dbWriteTable(con, table_name, data.frame(a = 1.5))
-    #' if `name` cannot be processed with [dbQuoteIdentifier()]
+    #' if `name` cannot be processed with [dbQuoteIdentifier()] or
     expect_error(dbReadTableArrow(con, NA))
-    #' or if this results in a non-scalar.
+    #' if this results in a non-scalar.
     expect_error(dbReadTableArrow(con, c(table_name, table_name)))
   },
 

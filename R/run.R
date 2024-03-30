@@ -1,4 +1,8 @@
 run_tests <- function(ctx, tests, skip, run_only, test_suite) {
+  tests_sym <- enexpr(tests)
+  stopifnot(is_symbol(tests_sym))
+  tests_qual <- call2(":::", sym("DBItest"), tests_sym)
+
   "!DEBUG run_tests(`test_suite`)"
 
   if (is.null(ctx)) {
@@ -13,14 +17,14 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
     ": ", test_suite
   )
 
-  tests <- tests[!vapply(tests, is.null, logical(1L))]
+  tests <- compact(tests)
   tests <- get_run_only_tests(tests, run_only)
 
   if (is.null(skip)) {
     skip <- ctx$default_skip
   }
 
-  test_names <- vctrs::vec_names2(tests, repair = "unique", quiet = TRUE)
+  test_names <- names(tests)
 
   skipped <- get_skip_names(skip)
   skip_flag <- names(tests) %in% skipped
@@ -36,32 +40,32 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
       if (skip_flag[[test_idx]]) {
         FALSE
       } else {
-        test_fun <- patch_test_fun(tests[[test_idx]])
+        test_fun <- tests[[test_idx]]
         fmls <- formals(test_fun)
 
         test_that(paste0(test_context, ": ", test_name), {
           args <- list()
           if ("ctx" %in% names(fmls)) {
-            args <- c(args, list(ctx = ctx))
+            args <- c(args, list(ctx = expr(ctx)))
           }
 
           if ("con" %in% names(fmls)) {
-            args <- c(args, list(con = global_con))
+            args <- c(args, list(con = expr(global_con)))
           }
 
           if ("local_con" %in% names(fmls)) {
             local_con <- local_connection(ctx)
-            args <- c(args, list(local_con = local_con))
+            args <- c(args, list(local_con = expr(local_con)))
           }
 
           if ("closed_con" %in% names(fmls)) {
             closed_con <- local_closed_connection(ctx)
-            args <- c(args, list(closed_con = closed_con))
+            args <- c(args, list(closed_con = expr(closed_con)))
           }
 
           if ("invalid_con" %in% names(fmls)) {
             invalid_con <- local_invalid_connection(ctx)
-            args <- c(args, list(invalid_con = invalid_con))
+            args <- c(args, list(invalid_con = expr(invalid_con)))
           }
 
           if ("table_name" %in% names(fmls)) {
@@ -74,7 +78,12 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
             args <- c(args, list(table_name = table_name))
           }
 
-          exec(test_fun, !!!args)
+          # Example of generated expression:
+          # DBItest:::spec_arrow$arrow_append_table_arrow_roundtrip_64_bit_roundtrip(...)
+          test_fun_expr <- expr(`$`(!!tests_qual, !!test_name)(!!!args))
+          expect_warning(
+            eval(test_fun_expr), NA
+          )
         })
       }
     },
@@ -99,8 +108,8 @@ get_skip_names <- function(skip) {
   }
   names_all <- names(spec_all)
   names_all <- names_all[names_all != ""]
-  skip_flags_all <- lapply(paste0("(?:^(?:", skip, ")$)"), grepl, names_all, perl = TRUE)
-  skip_used <- vapply(skip_flags_all, any, logical(1L))
+  skip_flags_all <- lapply(paste0("(?:^(?:", skip, ")(?:|_[0-9]+)$)"), grepl, names_all, perl = TRUE)
+  skip_used <- map_lgl(skip_flags_all, any)
   if (!all(skip_used)) {
     warning("Unused skip expressions: ", paste(skip[!skip_used], collapse = ", "),
       call. = FALSE
@@ -125,15 +134,4 @@ get_run_only_tests <- function(tests, run_only) {
   run_only_tests <- names_all[run_only_flag_all]
 
   tests[run_only_tests]
-}
-
-patch_test_fun <- function(test_fun) {
-  body(test_fun) <- wrap_all_statements_with_expect_no_warning(body(test_fun))
-  test_fun
-}
-
-wrap_all_statements_with_expect_no_warning <- function(block) {
-  stopifnot(identical(block[[1]], quote(`{`)))
-  block[-1] <- lapply(block[-1], function(x) expr(expect_warning(!!x, NA)))
-  block
 }

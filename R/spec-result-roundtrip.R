@@ -365,7 +365,7 @@ equals_minus_100 <- function(x) {
 }
 
 all_have_utf8_or_ascii_encoding <- function(x) {
-  all(vapply(x, has_utf8_or_ascii_encoding, logical(1L)))
+  all(map_lgl(x, has_utf8_or_ascii_encoding))
 }
 
 has_utf8_or_ascii_encoding <- function(x) {

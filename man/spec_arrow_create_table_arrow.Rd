@@ -17,8 +17,8 @@ If the table exists, an error is raised; the remote table remains unchanged.
 An error is raised when calling this method for a closed
 or invalid connection.
 An error is also raised
-if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}
-or if this results in a non-scalar.
+if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}} or
+if this results in a non-scalar.
 Invalid values for the \code{temporary} argument
 (non-scalars,
 unsupported data types,
@@ -51,6 +51,15 @@ perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 \item If the result of a call to \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}: no more quoting is done
 }
 
+The \code{value} argument can be:
+\itemize{
+\item a data frame,
+\item a nanoarrow array
+\item a nanoarrow array stream
+(which will still contain the data after the call)
+\item a nanoarrow schema
+}
+
 If the \code{temporary} argument is \code{TRUE}, the table is not available in a
 second connection and is gone after reconnecting.
 Not all backends support this argument.
@@ -66,8 +75,8 @@ if the database supports non-syntactic identifiers.
 \seealso{
 Other Arrow specifications: 
 \code{\link{spec_arrow_append_table_arrow}},
-\code{\link{spec_arrow_fetch_arrow_chunk}},
 \code{\link{spec_arrow_fetch_arrow}},
+\code{\link{spec_arrow_fetch_arrow_chunk}},
 \code{\link{spec_arrow_get_query_arrow}},
 \code{\link{spec_arrow_read_table_arrow}},
 \code{\link{spec_arrow_send_query_arrow}},

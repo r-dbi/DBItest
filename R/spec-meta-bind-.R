@@ -8,11 +8,21 @@ test_select_bind_expr <- function(
     bind,
     query = TRUE,
     skip_fun = NULL,
+    dbitest_version = NULL,
     cast_fun = NULL,
     requires_names = NULL) {
   force(bind_values)
   force(arrow)
   force(bind)
+
+  caller <- sys.function(-1)
+  caller_src <- utils::getSrcref(caller)
+  caller_ref <- paste0("<R/", utils::getSrcFilename(caller_src), ":", utils::getSrcLocation(caller_src), ">")
+
+  roxygen_bits <- grep("#' .*$", as.character(caller_src), value = TRUE)
+  docstring <- gsub("^ +#' *", "", roxygen_bits)
+
+  header <- c(caller_ref, docstring)
 
   cast_fun <- enquo(cast_fun)
   has_cast_fun <- !quo_is_null(cast_fun)
@@ -29,6 +39,10 @@ test_select_bind_expr <- function(
     has_cast_fun = has_cast_fun
   )
 
+  skip_dbitest_expr <- if (!is.null(dbitest_version)) expr({
+    skip_if_not_dbitest(ctx, !!dbitest_version)
+  })
+
   skip_expr <- if (!is.null(skip_fun)) expr({
     skip_if(!!body(skip_fun))
   })
@@ -44,6 +58,9 @@ test_select_bind_expr <- function(
   })
 
   expr({
+    !!!header
+
+    !!skip_dbitest_expr
     !!skip_expr
     placeholder_funs <- !!placeholder_funs_expr
 

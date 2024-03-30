@@ -9,7 +9,7 @@ spec_sql_exists_table <- list(
     expect_equal(names(formals(dbExistsTable)), c("conn", "name", "..."))
   },
 
-  exists_table = function(ctx, con, table_name = "dbit05") {
+  exists_table_1 = function(ctx, con, table_name = "dbit05") {
     #' @return
     #' `dbExistsTable()` returns a logical scalar, `TRUE` if the table or view
     #' specified by the `name` argument exists, `FALSE` otherwise.
@@ -20,7 +20,9 @@ spec_sql_exists_table <- list(
     expect_true(expect_visible(dbExistsTable(con, table_name)))
   },
   # second stage
-  exists_table = function(ctx, con) {
+  exists_table_2 = function(ctx, con) {
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit05"
     expect_false(expect_visible(dbExistsTable(con, table_name)))
   },
@@ -51,9 +53,9 @@ spec_sql_exists_table <- list(
   exists_table_error = function(con, table_name) {
     #' An error is also raised
     dbWriteTable(con, table_name, data.frame(a = 1L))
-    #' if `name` cannot be processed with [dbQuoteIdentifier()]
+    #' if `name` cannot be processed with [dbQuoteIdentifier()] or
     expect_error(dbExistsTable(con, NA))
-    #' or if this results in a non-scalar.
+    #' if this results in a non-scalar.
     expect_error(dbExistsTable(con, c(table_name, table_name)))
   },
 

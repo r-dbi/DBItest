@@ -5,11 +5,11 @@
 \alias{spec_arrow_read_table_arrow}
 \title{spec_arrow_read_table_arrow}
 \value{
-\code{dbReadTableArrow()} returns a data frame that contains the complete data
-from the remote table, effectively the result of calling \code{\link[=dbGetQuery]{dbGetQuery()}}
-with \verb{SELECT * FROM <name>}.
+\code{dbReadTableArrow()} returns an Arrow object that contains the complete data
+from the remote table, effectively the result of calling \code{\link[=dbGetQueryArrow]{dbGetQueryArrow()}} with
+\verb{SELECT * FROM <name>}.
 
-An empty table is returned as a data frame with zero rows.
+An empty table is returned as an Arrow object with zero rows.
 }
 \description{
 spec_arrow_read_table_arrow
@@ -22,8 +22,8 @@ An error is raised if the table does not exist.
 An error is raised when calling this method for a closed
 or invalid connection.
 An error is raised
-if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}
-or if this results in a non-scalar.
+if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}} or
+if this results in a non-scalar.
 }
 
 \section{Specification}{
@@ -42,8 +42,8 @@ perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 Other Arrow specifications: 
 \code{\link{spec_arrow_append_table_arrow}},
 \code{\link{spec_arrow_create_table_arrow}},
-\code{\link{spec_arrow_fetch_arrow_chunk}},
 \code{\link{spec_arrow_fetch_arrow}},
+\code{\link{spec_arrow_fetch_arrow_chunk}},
 \code{\link{spec_arrow_get_query_arrow}},
 \code{\link{spec_arrow_send_query_arrow}},
 \code{\link{spec_arrow_write_table_arrow}},

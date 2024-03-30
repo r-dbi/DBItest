@@ -21,8 +21,8 @@ an error is raised; the remote table remains unchanged.
 An error is raised when calling this method for a closed
 or invalid connection.
 An error is also raised
-if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}}
-or if this results in a non-scalar.
+if \code{name} cannot be processed with \code{\link[=dbQuoteIdentifier]{dbQuoteIdentifier()}} or
+if this results in a non-scalar.
 }
 
 \section{Specification}{
@@ -53,10 +53,7 @@ representation
 and native encodings),
 supporting empty strings
 (before and after non-empty strings)
-\item factor (returned as character,
-with a warning)
-\item list of raw
-(if supported by the database)
+\item factor (possibly returned as character)
 \item objects of type \link[blob:blob]{blob::blob}
 (if supported by the database)
 \item date
@@ -97,8 +94,8 @@ The order of the columns does not matter.
 \seealso{
 Other Arrow specifications: 
 \code{\link{spec_arrow_create_table_arrow}},
-\code{\link{spec_arrow_fetch_arrow_chunk}},
 \code{\link{spec_arrow_fetch_arrow}},
+\code{\link{spec_arrow_fetch_arrow_chunk}},
 \code{\link{spec_arrow_get_query_arrow}},
 \code{\link{spec_arrow_read_table_arrow}},
 \code{\link{spec_arrow_send_query_arrow}},

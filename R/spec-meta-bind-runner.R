@@ -52,12 +52,6 @@ test_select_bind_expr_one$fun <- function(
     bind_values_patched
   })
 
-  bind_values_patched_expr <- if (bind == "stream") expr({
-    dbBindArrow(res, nanoarrow::as_nanoarrow_array_stream(!!bind_values_patched_expr_base))
-  }) else expr({
-    dbBind(res, !!bind_values_patched_expr_base)
-  })
-
   cast_fun_placeholder_expr <- if (has_cast_fun) expr({
     cast_fun(placeholder)
   }) else expr({
@@ -127,12 +121,12 @@ test_select_bind_expr_one$fun <- function(
   }) else expr({
     on.exit(if (!is.null(res)) expect_error(dbClearResult(res), NA))
     !!if (!is.null(check_return_value)) expr({
-      #'    Until `dbBind()` has been called, the returned result set object has the
-      #'    following behavior:
+      #'    Until [dbBind()] or [dbBindArrow()] have been called,
+      #'    the returned result set object has the following behavior:
       !!if (query) expr({
-        #'     - [dbFetch()] raises an error (for `dbSendQuery()`)
+        #'     - [dbFetch()] raises an error (for `dbSendQuery()` and `dbSendQueryArrow()`)
         expect_error(dbFetch(res))
-        #'     - [dbGetRowCount()] returns zero (for `dbSendQuery()`)
+        #'     - [dbGetRowCount()] returns zero (for `dbSendQuery()` and `dbSendQueryArrow()`)
         expect_equal(dbGetRowCount(res), 0)
       }) else expr({
         #'     - [dbGetRowsAffected()] returns an integer `NA` (for `dbSendStatement()`)
@@ -146,22 +140,23 @@ test_select_bind_expr_one$fun <- function(
     })
   })
 
-  #' 1. Construct a list with parameters
-  #'    that specify actual values for the placeholders.
-  #'    The list must be named or unnamed,
-  #'    depending on the kind of placeholders used.
-  #'    Named values are matched to named parameters, unnamed values
-  #'    are matched by position in the list of parameters.
+  #' 1. Call [dbBind()] or [dbBindArrow()]:
+  bind_values_patched_expr <- if (bind == "df") expr({
+    #'      - For [dbBind()], the `params` argument must be a list where all elements
+    #'        have the same lengths and contain values supported by the backend.
+    #'        A [data.frame] is internally stored as such a list.
+    dbBind(res, !!bind_values_patched_expr_base)
+  }) else expr({
+    #'      - For [dbBindArrow()], the `params` argument must be a
+    #'        nanoarrow array stream, with one column per query parameter.
+    dbBindArrow(res, nanoarrow::as_nanoarrow_array_stream(!!bind_values_patched_expr_base))
+  })
+
   name_values_expr <- expr({
     placeholder <- placeholder_fun(!!length(bind_values))
     names(bind_values) <- names(placeholder)
   })
 
-  #'    All elements in this list must have the same lengths and contain values
-  #'    supported by the backend; a [data.frame] is internally stored as such
-  #'    a list.
-  #'    The parameter list is passed to a call to `dbBind()` on the `DBIResult`
-  #'    object.
   bind_expr <- if (!is.null(check_return_value)) expr({
     bind_res <- withVisible(!!bind_values_patched_expr)
     !!body(check_return_value)
@@ -174,8 +169,7 @@ test_select_bind_expr_one$fun <- function(
   })
 
   #' 1. Retrieve the data or the number of affected rows from the `DBIResult` object.
-  #'     - For queries issued by `dbSendQuery()`,
-  #'       call [dbFetch()].
+  #'     - For queries issued by `dbSendQuery()` or `dbSendQueryArrow()`, call [dbFetch()].
   retrieve_expr <- if (query) expr({
     rows <- check_df(dbFetch(res))
     expect_equal(nrow(rows), !!length(bind_values[[1]]))
@@ -193,7 +187,7 @@ test_select_bind_expr_one$fun <- function(
   }) else expr({
     #'     - For statements issued by `dbSendStatements()`,
     #'       call [dbGetRowsAffected()].
-    #'       (Execution begins immediately after the `dbBind()` call,
+    #'       (Execution begins immediately after the [dbBind()] call,
     #'       the statement is processed entirely before the function returns.)
     rows_affected <- dbGetRowsAffected(res)
     # Allow NA value for dbGetRowsAffected(), #297

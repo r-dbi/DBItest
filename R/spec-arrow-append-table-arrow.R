@@ -9,8 +9,8 @@ spec_arrow_append_table_arrow <- list(
     expect_equal(names(formals(dbAppendTableArrow)), c("conn", "name", "value", "..."))
   },
 
-  arrow_append_table_arrow_return = function(con, table_name) {
-    skip("Failed in SQLite")
+  arrow_append_table_arrow_return = function(ctx, con, table_name) {
+    skip_if_not_dbitest(ctx, "1.8.0.50")
 
     #' @return
     #' `dbAppendTableArrow()` returns a
@@ -67,15 +67,15 @@ spec_arrow_append_table_arrow <- list(
   arrow_append_table_arrow_error = function(con, table_name) {
     #' An error is also raised
     test_in <- stream_frame(a = 1L)
-    #' if `name` cannot be processed with [dbQuoteIdentifier()]
+    #' if `name` cannot be processed with [dbQuoteIdentifier()] or
     expect_error(dbAppendTableArrow(con, NA, test_in))
-    #' or if this results in a non-scalar.
+    #' if this results in a non-scalar.
     expect_error(dbAppendTableArrow(con, c("test", "test"), test_in))
   },
 
   #'
-  arrow_append_table_arrow_roundtrip_keywords = function(con) {
-    skip("Requires dbBind() on RMariaDB")
+  arrow_append_table_arrow_roundtrip_keywords = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.49")
 
     #' @section Specification:
     #' SQL keywords can be used freely in table names, column names, and data.
@@ -87,7 +87,7 @@ spec_arrow_append_table_arrow <- list(
   },
 
   arrow_append_table_arrow_roundtrip_quotes = function(ctx, con, table_name) {
-    skip("Requires dbBind() on RMariaDB")
+    skip_if_not_dbitest(ctx, "1.8.0.48")
 
     #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
     #' can also be used in the data,
@@ -184,6 +184,8 @@ spec_arrow_append_table_arrow <- list(
 
   #' - 64-bit values (using `"bigint"` as field type); the result can be
   arrow_append_table_arrow_roundtrip_64_bit_numeric = function(ctx, con) {
+    skip("Internal: Need to enhance test_arrow_roundtrip()")
+
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     test_arrow_roundtrip(
       use_append = TRUE,
@@ -197,7 +199,7 @@ spec_arrow_append_table_arrow <- list(
   },
   #
   arrow_append_table_arrow_roundtrip_64_bit_character = function(ctx, con) {
-    skip("Failed in SQLite")
+    skip("Internal: Need to enhance test_arrow_roundtrip()")
 
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     tbl_exp <- tbl_in
@@ -214,8 +216,8 @@ spec_arrow_append_table_arrow <- list(
     )
   },
   #
-  arrow_append_table_arrow_roundtrip_64_bit_roundtrip = function(con, table_name) {
-    skip("Requires dbBind() on RMariaDB")
+  arrow_append_table_arrow_roundtrip_64_bit_roundtrip = function(ctx, con, table_name) {
+    skip("Internal: Need to enhance test_arrow_roundtrip()")
 
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     dbWriteTable(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
@@ -224,8 +226,8 @@ spec_arrow_append_table_arrow <- list(
     test_arrow_roundtrip(use_append = TRUE, con, tbl_out, tbl_expected = tbl_out)
   },
 
-  arrow_append_table_arrow_roundtrip_character = function(con) {
-    skip("Requires dbBind() on RMariaDB")
+  arrow_append_table_arrow_roundtrip_character = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.45")
 
     #' - character (in both UTF-8
     tbl_in <- data.frame(
@@ -236,8 +238,8 @@ spec_arrow_append_table_arrow <- list(
     test_arrow_roundtrip(use_append = TRUE, con, tbl_in)
   },
 
-  arrow_append_table_arrow_roundtrip_character_native = function(con) {
-    skip("Requires dbBind() on RMariaDB")
+  arrow_append_table_arrow_roundtrip_character_native = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.44")
 
     #'   and native encodings),
     tbl_in <- data.frame(
@@ -265,47 +267,29 @@ spec_arrow_append_table_arrow <- list(
     test_arrow_roundtrip(use_append = TRUE, con, tbl_in)
   },
 
-  arrow_append_table_arrow_roundtrip_factor = function(con) {
-    skip("Failed in SQLite")
+  arrow_append_table_arrow_roundtrip_factor = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.43")
 
-    #' - factor (returned as character,
+    #' - factor (possibly returned as character)
     tbl_in <- data.frame(
       a = factor(get_texts())
     )
     tbl_exp <- tbl_in
     tbl_exp$a <- as.character(tbl_exp$a)
-    #'     with a warning)
-    suppressWarnings(
-      expect_warning(
-        test_arrow_roundtrip(use_append = TRUE, con, tbl_in, tbl_exp)
-      )
-    )
-  },
-
-  arrow_append_table_arrow_roundtrip_raw = function(ctx, con) {
-    skip("Failed in SQLite")
-
-    #' - list of raw
-    #'   (if supported by the database)
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
-    tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
-    tbl_exp <- tbl_in
-    tbl_exp$a <- blob::as_blob(unclass(tbl_in$a))
     test_arrow_roundtrip(
       use_append = TRUE,
-      con, tbl_in, tbl_exp,
+      con,
+      tbl_in,
+      tbl_exp,
       transform = function(tbl_out) {
-        tbl_out$a <- blob::as_blob(tbl_out$a)
+        tbl_out$a <- as.character(tbl_out$a)
         tbl_out
       }
     )
   },
 
   arrow_append_table_arrow_roundtrip_blob = function(ctx, con) {
-    skip("Failed in SQLite")
+    skip_if_not_dbitest(ctx, "1.8.0.41")
 
     #' - objects of type [blob::blob]
     #'   (if supported by the database)
@@ -425,7 +409,7 @@ spec_arrow_append_table_arrow <- list(
       use_append = TRUE,
       con, tbl_in,
       transform = function(out) {
-        dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
+        dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
@@ -435,7 +419,7 @@ spec_arrow_append_table_arrow <- list(
   },
 
   arrow_append_table_arrow_roundtrip_timestamp_extended = function(ctx, con) {
-    skip("Fails in RPostgres and RMariaDB")
+    skip_if_not_dbitest(ctx, "1.8.0.40")
 
     #'   also for timestamps prior to 1970 or 1900 or after 2038
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
@@ -468,7 +452,7 @@ spec_arrow_append_table_arrow <- list(
       use_append = TRUE,
       con, tbl_in,
       transform = function(out) {
-        dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
+        dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])

@@ -1,5 +1,5 @@
 test_that("no unnamed specs", {
-  tests <- spec_all[!vapply(spec_all, is.null, logical(1L))]
+  tests <- compact(spec_all)
   vicinity <- NULL
   if (any(names(tests) == "")) {
     vicinity <- sort(unique(unlist(
@@ -12,22 +12,6 @@ test_that("no unnamed specs", {
 
 test_that("no duplicate spec names expect known exceptions", {
   all_names <- names(spec_all)
-
-  all_names <- all_names[!(all_names %in% c(
-    "create_temporary_table",
-    "create_table_visible_in_other_connection",
-    "list_tables",
-    "exists_table",
-    "temporary_table",
-    "list_objects",
-    "table_visible_in_other_connection",
-    "arrow_write_table_arrow_temporary",
-    "arrow_write_table_arrow_visible_in_other_connection",
-    "arrow_create_table_arrow_visible_in_other_connection",
-    "begin_write_disconnect",
-    "begin_write_commit",
-    NULL
-  ))]
 
   dupe_names <- unique(all_names[duplicated(all_names)])
   expect_equal(dupe_names, rep("", length(dupe_names)))

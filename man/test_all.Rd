@@ -10,12 +10,15 @@
 \usage{
 test_all(skip = NULL, run_only = NULL, ctx = get_default_context())
 
-test_some(test, ctx = get_default_context(), dblog = TRUE)
+test_some(test, ctx = get_default_context())
 }
 \arguments{
 \item{skip}{\verb{[character()]}\cr A vector of regular expressions to match
 against test names; skip test if matching any.
-The regular expressions are matched against the entire test name.}
+The regular expressions are matched against the entire test name
+minus a possible suffix \verb{_N} where \code{N} is a number.
+For example, \code{skip = "exists_table"} will skip both
+\code{"exists_table_1"} and \code{"exists_table_2"}.}
 
 \item{run_only}{\verb{[character()]}\cr A vector of regular expressions to match
 against test names; run only these tests.
@@ -28,9 +31,6 @@ The regular expressions are matched against the entire test name.}
 A character vector of regular expressions
 describing the tests to run.
 The regular expressions are matched against the entire test name.}
-
-\item{dblog}{\verb{[logical(1)]}\cr
-Set to \code{FALSE} to disable dblog integration.}
 }
 \description{
 \code{test_all()} calls all tests defined in this package (see the section

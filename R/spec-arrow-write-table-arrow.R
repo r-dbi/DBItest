@@ -17,8 +17,8 @@ spec_arrow_write_table_arrow <- list(
   },
 
   #'
-  arrow_write_table_arrow_error_overwrite = function(con, table_name) {
-    skip("Failed in SQLite")
+  arrow_write_table_arrow_error_overwrite = function(ctx, con, table_name) {
+    skip_if_not_dbitest(ctx, "1.8.0.39")
 
     #' @section Failure modes:
     #' If the table exists, and both `append` and `overwrite` arguments are unset,
@@ -54,13 +54,13 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_error = function(ctx, con, table_name) {
-    skip("Failed in SQLite")
+    skip_if_not_dbitest(ctx, "1.8.0.38")
 
     #' An error is also raised
-    test_in <- stream_frame(a = 1L)
-    #' if `name` cannot be processed with [dbQuoteIdentifier()]
+    test_in <- data.frame(a = 1L)
+    #' if `name` cannot be processed with [dbQuoteIdentifier()] or
     expect_error(dbWriteTableArrow(con, NA, test_in %>% stream_frame()))
-    #' or if this results in a non-scalar.
+    #' if this results in a non-scalar.
     expect_error(dbWriteTableArrow(con, c(table_name, table_name), test_in %>% stream_frame()))
 
     #' Invalid values for the additional arguments
@@ -79,11 +79,6 @@ spec_arrow_write_table_arrow <- list(
     expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), temporary = NA))
     #' incompatible values,
     expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), overwrite = TRUE, append = TRUE))
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), append = TRUE))
-    #' duplicate
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame()))
-    #' or missing names,
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame()))
 
     #' incompatible columns)
     dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
@@ -190,7 +185,7 @@ spec_arrow_write_table_arrow <- list(
 
   #'
   arrow_write_table_arrow_overwrite = function(ctx, con, table_name) {
-    skip("Requires dbBind() on RMariaDB")
+    skip_if_not_dbitest(ctx, "1.8.0.37")
 
     #' If the `overwrite` argument is `TRUE`, an existing table of the same name
     #' will be overwritten.
@@ -205,7 +200,7 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_overwrite_missing = function(ctx, con, table_name) {
-    skip("Requires dbBind() on RMariaDB")
+    skip_if_not_dbitest(ctx, "1.8.0.36")
 
     #' This argument doesn't change behavior if the table does not exist yet.
     penguins_in <- get_penguins(ctx)
@@ -219,7 +214,7 @@ spec_arrow_write_table_arrow <- list(
 
   #'
   arrow_write_table_arrow_append = function(ctx, con, table_name) {
-    skip("Requires dbBind() on RMariaDB")
+    skip_if_not_dbitest(ctx, "1.8.0.35")
 
     #' If the `append` argument is `TRUE`, the rows in an existing table are
     #' preserved, and the new data are appended.
@@ -231,7 +226,7 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_append_new = function(ctx, con, table_name) {
-    skip("Failed in SQLite")
+    skip_if_not_dbitest(ctx, "1.8.0.34")
 
     #' If the table doesn't exist yet, it is created.
     penguins <- get_penguins(ctx)
@@ -241,8 +236,8 @@ spec_arrow_write_table_arrow <- list(
   },
 
   #'
-  arrow_write_table_arrow_temporary = function(ctx, con, table_name = "dbit08") {
-    skip("Failed in SQLite")
+  arrow_write_table_arrow_temporary_1 = function(ctx, con, table_name = "dbit08") {
+    skip_if_not_dbitest(ctx, "1.8.0.33")
 
     #' If the `temporary` argument is `TRUE`, the table is not available in a
     #' second connection and is gone after reconnecting.
@@ -260,23 +255,27 @@ spec_arrow_write_table_arrow <- list(
     expect_error(dbReadTable(con2, table_name))
   },
   # second stage
-  arrow_write_table_arrow_temporary = function(ctx, con) {
-    skip("Failed in SQLite")
+  arrow_write_table_arrow_temporary_2 = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.33")
 
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
     }
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit08"
     expect_error(dbReadTable(con, table_name))
   },
 
-  arrow_write_table_arrow_visible_in_other_connection = function(ctx, local_con) {
-    skip("Failed in SQLite")
+  arrow_write_table_arrow_visible_in_other_connection_1 = function(ctx, local_con) {
+    skip_if_not_dbitest(ctx, "1.8.0.31")
 
     #' A regular, non-temporary table is visible in a second connection,
     penguins30 <- get_penguins(ctx)
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit09"
 
     dbWriteTableArrow(local_con, table_name, penguins30 %>% stream_frame())
@@ -287,19 +286,21 @@ spec_arrow_write_table_arrow <- list(
     expect_equal_df(dbReadTable(con2, table_name), penguins30)
   },
   # second stage
-  arrow_write_table_arrow_visible_in_other_connection = function(ctx, con) {
-    skip("Failed in SQLite")
+  arrow_write_table_arrow_visible_in_other_connection_2 = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.31")
 
     #' in a pre-existing connection,
     penguins30 <- get_penguins(ctx)
 
+    # table_name not in formals on purpose: this means that this table won't be
+    # removed at the end of the test
     table_name <- "dbit09"
 
     expect_equal_df(check_df(dbReadTable(con, table_name)), penguins30)
   },
   # third stage
-  arrow_write_table_arrow_visible_in_other_connection = function(ctx, local_con, table_name = "dbit09") {
-    skip("Failed in SQLite")
+  arrow_write_table_arrow_visible_in_other_connection_3 = function(ctx, local_con, table_name = "dbit09") {
+    skip_if_not_dbitest(ctx, "1.8.0.31")
 
     #' and after reconnecting to the database.
     penguins30 <- get_penguins(ctx)
@@ -309,7 +310,7 @@ spec_arrow_write_table_arrow <- list(
 
   #'
   arrow_write_table_arrow_roundtrip_keywords = function(ctx, con) {
-    skip("Requires dbBind() on RMariaDB")
+    skip_if_not_dbitest(ctx, "1.8.0.28")
 
     #' SQL keywords can be used freely in table names, column names, and data.
     tbl_in <- data.frame(
@@ -320,7 +321,7 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_roundtrip_quotes = function(ctx, con, table_name) {
-    skip("Requires dbBind() on RMariaDB")
+    skip_if_not_dbitest(ctx, "1.8.0.27")
 
     #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
     #' can also be used in the data,
@@ -360,7 +361,7 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_roundtrip_quotes_column_names = function(ctx, con) {
-    skip("Failed in SQLite")
+    skip_if_not_dbitest(ctx, "1.8.0.26")
 
     #' and column names.
     skip_if_not_dbitest(ctx, "1.7.2")
@@ -399,7 +400,7 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_roundtrip_logical = function(ctx, con) {
-    skip("Fails in adbc")
+    skip_if_not_dbitest(ctx, "1.8.0.25")
 
     #' - logical
     tbl_in <- data.frame(a = c(TRUE, FALSE, NA))
@@ -422,6 +423,8 @@ spec_arrow_write_table_arrow <- list(
 
   #' - 64-bit values (using `"bigint"` as field type); the result can be
   arrow_write_table_arrow_roundtrip_64_bit_numeric = function(ctx, con) {
+    skip("Internal: Need to enhance test_arrow_roundtrip()")
+
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     test_arrow_roundtrip(
       con, tbl_in,
@@ -434,7 +437,7 @@ spec_arrow_write_table_arrow <- list(
   },
   #
   arrow_write_table_arrow_roundtrip_64_bit_character = function(ctx, con) {
-    skip("Failed in SQLite")
+    skip("Internal: Need to enhance test_arrow_roundtrip()")
 
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     tbl_exp <- tbl_in
@@ -450,8 +453,8 @@ spec_arrow_write_table_arrow <- list(
     )
   },
   #
-  arrow_write_table_arrow_roundtrip_64_bit_roundtrip = function(con, table_name) {
-    skip("Failed in SQLite")
+  arrow_write_table_arrow_roundtrip_64_bit_roundtrip = function(ctx, con, table_name) {
+    skip("Internal: Need to enhance test_arrow_roundtrip()")
 
     tbl_in <- data.frame(a = c(-1e14, 1e15))
     dbWriteTableArrow(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
@@ -461,7 +464,7 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_roundtrip_character = function(ctx, con) {
-    skip("Requires dbBind() on RMariaDB")
+    skip_if_not_dbitest(ctx, "1.8.0.22")
 
     #' - character (in both UTF-8
     tbl_in <- data.frame(
@@ -473,7 +476,7 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_roundtrip_character_native = function(ctx, con) {
-    skip("Requires dbBind() on RMariaDB")
+    skip_if_not_dbitest(ctx, "1.8.0.21")
 
     #'   and native encodings),
     tbl_in <- data.frame(
@@ -502,40 +505,27 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_roundtrip_factor = function(ctx, con) {
-    skip("Failed in SQLite")
+    skip_if_not_dbitest(ctx, "1.8.0.20")
 
-    #' - factor (returned as character)
+    #' - factor (possibly returned as character)
     tbl_in <- data.frame(
       a = factor(get_texts())
     )
     tbl_exp <- tbl_in
     tbl_exp$a <- as.character(tbl_exp$a)
-    test_arrow_roundtrip(con, tbl_in, tbl_exp)
-  },
-
-  arrow_write_table_arrow_roundtrip_raw = function(ctx, con) {
-    skip("Failed in SQLite")
-
-    #' - list of raw
-    #'   (if supported by the database)
-    if (isTRUE(ctx$tweaks$omit_blob_tests)) {
-      skip("tweak: omit_blob_tests")
-    }
-
-    tbl_in <- data.frame(id = 1L, a = I(list(as.raw(0:10))))
-    tbl_exp <- tbl_in
-    tbl_exp$a <- blob::as_blob(unclass(tbl_in$a))
     test_arrow_roundtrip(
-      con, tbl_in, tbl_exp,
+      con,
+      tbl_in,
+      tbl_exp,
       transform = function(tbl_out) {
-        tbl_out$a <- blob::as_blob(tbl_out$a)
+        tbl_out$a <- as.character(tbl_out$a)
         tbl_out
       }
     )
   },
 
   arrow_write_table_arrow_roundtrip_blob = function(ctx, con) {
-    skip("Failed in SQLite")
+    skip_if_not_dbitest(ctx, "1.8.0.18")
 
     #' - objects of type [blob::blob]
     #'   (if supported by the database)
@@ -626,7 +616,7 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_roundtrip_timestamp = function(ctx, con) {
-    skip("Fails in adbc")
+    skip_if_not_dbitest(ctx, "1.8.0.17")
 
     #' - timestamp
     #'   (if supported by the database;
@@ -653,7 +643,7 @@ spec_arrow_write_table_arrow <- list(
     test_arrow_roundtrip(
       con, tbl_in,
       transform = function(out) {
-        dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
+        dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
@@ -663,7 +653,7 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_roundtrip_timestamp_extended = function(ctx, con) {
-    skip("Fails in adbc")
+    skip_if_not_dbitest(ctx, "1.8.0.16")
 
     #'   also for timestamps prior to 1970 or 1900 or after 2038
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
@@ -695,7 +685,7 @@ spec_arrow_write_table_arrow <- list(
     test_arrow_roundtrip(
       con, tbl_in,
       transform = function(out) {
-        dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
+        dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
@@ -758,8 +748,8 @@ test_arrow_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transfo
     dbWriteTableArrow(con, name, tbl_in %>% stream_frame())
   }
 
-  tbl_read <- check_df(dbReadTable(con, name, check.names = FALSE))
-  tbl_out <- transform(tbl_read)
+  stream <- dbReadTableArrow(con, name)
+  tbl_out <- check_arrow(stream, transform)
   expect_equal_df(tbl_out, tbl_expected)
 }
 

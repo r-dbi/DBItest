@@ -64,9 +64,9 @@ spec_sql_append_table <- list(
   append_table_error = function(con, table_name) {
     #' An error is also raised
     test_in <- data.frame(a = 1L)
-    #' if `name` cannot be processed with [dbQuoteIdentifier()]
+    #' if `name` cannot be processed with [dbQuoteIdentifier()] or
     expect_error(dbAppendTable(con, NA, test_in))
-    #' or if this results in a non-scalar.
+    #' if this results in a non-scalar.
     expect_error(dbAppendTable(con, c("test", "test"), test_in))
 
     #' Invalid values for the `row.names` argument
@@ -416,7 +416,7 @@ spec_sql_append_table <- list(
       use_append = TRUE,
       con, tbl_in,
       transform = function(out) {
-        dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
+        dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
@@ -457,7 +457,7 @@ spec_sql_append_table <- list(
       use_append = TRUE,
       con, tbl_in,
       transform = function(out) {
-        dates <- vapply(out, inherits, "POSIXt", FUN.VALUE = logical(1L))
+        dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])

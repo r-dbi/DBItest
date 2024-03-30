@@ -11,8 +11,8 @@ spec_arrow_fetch_arrow_chunk <- list(
 
   arrow_fetch_arrow_chunk_atomic = function(con) {
     #' @return
-    #' `dbFetchArrowChunk()` always returns an object coercible to a [data.frame]
-    #' with as many rows as records were fetched and as many
+    #' `dbFetchArrowChunk()` always returns an object coercible to a [data.frame] with
+    #' as many rows as records were fetched and as many
     #' columns as fields in the result set,
     #' even if the result is a single value
     query <- trivial_query()
@@ -40,8 +40,8 @@ spec_arrow_fetch_arrow_chunk <- list(
   },
 
   #'
-  arrow_fetch_arrow_chunk_closed = function(con) {
-    skip("Fails in adbc")
+  arrow_fetch_arrow_chunk_closed = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.0.11")
 
     #' @section Failure modes:
     #' An attempt to fetch from a closed result set raises an error.
