@@ -42,9 +42,6 @@ Suggests:
     RSQLite
 VignetteBuilder: 
     knitr
-Remotes: 
-    r-dbi/DBI,
-    r-dbi/RSQLite
 Config/Needs/website: 
     r-dbi/dbitemplate
 Config/autostyle/scope: line_breaks
