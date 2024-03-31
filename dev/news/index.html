@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.0.9009</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9000</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,100 +48,43 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.8.0.9009" id="dbitest-1809009-2024-01-23">DBItest 1.8.0.9009 (2024-01-23)<a class="anchor" aria-label="anchor" href="#dbitest-1809009-2024-01-23"></a></h2>
-<div class="section level3">
-<h3 id="documentation-1-8-0-9009">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-8-0-9009"></a></h3>
-<ul><li>Use dbitemplate (<a href="https://github.com/maelle" class="external-link">@maelle</a>, <a href="https://github.com/r-dbi/DBItest/issues/360" class="external-link">#360</a>).</li>
+<h2 class="pkg-version" data-toc-text="1.8.1.9000" id="dbitest-1819000-2024-03-31">DBItest 1.8.1.9000 (2024-03-31)<a class="anchor" aria-label="anchor" href="#dbitest-1819000-2024-03-31"></a></h2>
+<ul><li>Merge branch ‘cran-1.8.1’.</li>
 </ul></div>
-</div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.8.0.9008" id="dbitest-1809008-2024-01-21">DBItest 1.8.0.9008 (2024-01-21)<a class="anchor" aria-label="anchor" href="#dbitest-1809008-2024-01-21"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.8.1" id="dbitest-181-2024-03-31">DBItest 1.8.1 (2024-03-31)<a class="anchor" aria-label="anchor" href="#dbitest-181-2024-03-31"></a></h2>
 <div class="section level3">
-<h3 id="chore-1-8-0-9008">Chore<a class="anchor" aria-label="anchor" href="#chore-1-8-0-9008"></a></h3>
-<ul><li>Bump DBI dependency to fix tests (<a href="https://github.com/r-dbi/DBItest/issues/359" class="external-link">#359</a>).</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.8.0.9007" id="dbitest-1809007-2024-01-15">DBItest 1.8.0.9007 (2024-01-15)<a class="anchor" aria-label="anchor" href="#dbitest-1809007-2024-01-15"></a></h2>
-<div class="section level3">
-<h3 id="chore-1-8-0-9007">Chore<a class="anchor" aria-label="anchor" href="#chore-1-8-0-9007"></a></h3>
-<ul><li>Add comments to generated code (<a href="https://github.com/r-dbi/DBItest/issues/358" class="external-link">#358</a>).</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.8.0.9006" id="dbitest-1809006-2024-01-12">DBItest 1.8.0.9006 (2024-01-12)<a class="anchor" aria-label="anchor" href="#dbitest-1809006-2024-01-12"></a></h2>
-<div class="section level3">
-<h3 id="features-1-8-0-9006">Features<a class="anchor" aria-label="anchor" href="#features-1-8-0-9006"></a></h3>
-<ul><li><p>Fix specification for Arrow tests (<a href="https://github.com/r-dbi/DBItest/issues/357" class="external-link">#357</a>).</p></li>
+<h3 id="features-1-8-1">Features<a class="anchor" aria-label="anchor" href="#features-1-8-1"></a></h3>
+<ul><li><p>Allow multiple warnings in disconnect tests (<a href="https://github.com/r-dbi/DBItest/issues/363" class="external-link">#363</a>).</p></li>
+<li><p>Fix specification for Arrow tests (<a href="https://github.com/r-dbi/DBItest/issues/357" class="external-link">#357</a>).</p></li>
 <li><p>Show DBItest function in backtrace (<a href="https://github.com/r-dbi/DBItest/issues/349" class="external-link">#349</a>, <a href="https://github.com/r-dbi/DBItest/issues/354" class="external-link">#354</a>).</p></li>
+<li><p>Specify <code>value</code> argument for <code>dbCreateTable()</code> and <code>dbCreateTableArrow()</code> (<a href="https://github.com/r-dbi/DBItest/issues/345" class="external-link">#345</a>).</p></li>
+<li><p>Enable two tests for <code>dbGetQueryArrow()</code> (<a href="https://github.com/r-dbi/DBItest/issues/342" class="external-link">#342</a>).</p></li>
+<li><p>Relax <code>dbListObjects()</code> spec (<a href="https://github.com/r-dbi/DBItest/issues/339" class="external-link">#339</a>, <a href="https://github.com/r-dbi/DBItest/issues/341" class="external-link">#341</a>).</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="chore-1-8-0-9006">Chore<a class="anchor" aria-label="anchor" href="#chore-1-8-0-9006"></a></h3>
-<ul><li><p>Prefer <code>map_*()</code> over <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">vapply()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/356" class="external-link">#356</a>).</p></li>
+<h3 id="chore-1-8-1">Chore<a class="anchor" aria-label="anchor" href="#chore-1-8-1"></a></h3>
+<ul><li><p>Avoid dplyr (<a href="https://github.com/r-dbi/DBItest/issues/364" class="external-link">#364</a>).</p></li>
+<li><p>Remove <code>.dots</code> argument to <code>test_select_with_null()</code> (<a href="https://github.com/r-dbi/DBItest/issues/362" class="external-link">#362</a>).</p></li>
+<li><p>Prefer <code>map()</code> over <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/361" class="external-link">#361</a>) and <code>map_*()</code> over <code><a href="https://rdrr.io/r/base/lapply.html" class="external-link">vapply()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/356" class="external-link">#356</a>).</p></li>
+<li><p>Bump DBI dependency to fix tests (<a href="https://github.com/r-dbi/DBItest/issues/359" class="external-link">#359</a>).</p></li>
+<li><p>Document sources for autogenerated files (<a href="https://github.com/r-dbi/DBItest/issues/353" class="external-link">#353</a>), add comments to generated code (<a href="https://github.com/r-dbi/DBItest/issues/358" class="external-link">#358</a>).</p></li>
 <li><p>Make test names unique, with a numeric suffix (<a href="https://github.com/r-dbi/DBItest/issues/355" class="external-link">#355</a>).</p></li>
 <li><p>Align with RSQLite (<a href="https://github.com/r-dbi/DBItest/issues/351" class="external-link">#351</a>).</p></li>
-<li><p>Document sources for autogenerated files (<a href="https://github.com/r-dbi/DBItest/issues/353" class="external-link">#353</a>).</p></li>
+<li><p>Replace unconditional skip with versioned skip (<a href="https://github.com/r-dbi/DBItest/issues/347" class="external-link">#347</a>).</p></li>
+<li><p>Consistent use of <code>skip_if_not_dbitest()</code> (<a href="https://github.com/r-dbi/DBItest/issues/346" class="external-link">#346</a>).</p></li>
 </ul></div>
 <div class="section level3">
-<h3 id="documentation-1-8-0-9006">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-8-0-9006"></a></h3>
-<ul><li>Mention <code>dbBindArrow()</code> in documentation (<a href="https://github.com/r-dbi/DBItest/issues/350" class="external-link">#350</a>).</li>
+<h3 id="continuous-integration-1-8-1">Continuous integration<a class="anchor" aria-label="anchor" href="#continuous-integration-1-8-1"></a></h3>
+<ul><li>Modernize backends checks.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-1-8-1">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-8-1"></a></h3>
+<ul><li><p>Use dbitemplate (<a href="https://github.com/maelle" class="external-link">@maelle</a>, <a href="https://github.com/r-dbi/DBItest/issues/360" class="external-link">#360</a>).</p></li>
+<li><p>Mention <code>dbBindArrow()</code> in documentation (<a href="https://github.com/r-dbi/DBItest/issues/350" class="external-link">#350</a>).</p></li>
+<li><p>Minor specification fixes (<a href="https://github.com/r-dbi/DBItest/issues/344" class="external-link">#344</a>).</p></li>
 </ul></div>
 </div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.8.0.9005" id="dbitest-1809005-2023-12-27">DBItest 1.8.0.9005 (2023-12-27)<a class="anchor" aria-label="anchor" href="#dbitest-1809005-2023-12-27"></a></h2>
-<div class="section level3">
-<h3 id="chore-1-8-0-9005">Chore<a class="anchor" aria-label="anchor" href="#chore-1-8-0-9005"></a></h3>
-<ul><li>Replace unconditional skip with versioned skip (<a href="https://github.com/r-dbi/DBItest/issues/347" class="external-link">#347</a>).</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.8.0.9004" id="dbitest-1809004-2023-12-26">DBItest 1.8.0.9004 (2023-12-26)<a class="anchor" aria-label="anchor" href="#dbitest-1809004-2023-12-26"></a></h2>
-<div class="section level3">
-<h3 id="features-1-8-0-9004">Features<a class="anchor" aria-label="anchor" href="#features-1-8-0-9004"></a></h3>
-<ul><li>Specify <code>value</code> argument for <code>dbCreateTable()</code> and <code>dbCreateTableArrow()</code> (<a href="https://github.com/r-dbi/DBItest/issues/345" class="external-link">#345</a>).</li>
-</ul></div>
-<div class="section level3">
-<h3 id="chore-1-8-0-9004">Chore<a class="anchor" aria-label="anchor" href="#chore-1-8-0-9004"></a></h3>
-<ul><li><p>Consistent use of <code>skip_if_not_dbitest()</code> (<a href="https://github.com/r-dbi/DBItest/issues/346" class="external-link">#346</a>).</p></li>
-<li><p>Stabilize test.</p></li>
-</ul></div>
-<div class="section level3">
-<h3 id="documentation-1-8-0-9004">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-8-0-9004"></a></h3>
-<ul><li>Minor specification fixes (<a href="https://github.com/r-dbi/DBItest/issues/344" class="external-link">#344</a>).</li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.8.0.9003" id="dbitest-1809003-2023-12-25">DBItest 1.8.0.9003 (2023-12-25)<a class="anchor" aria-label="anchor" href="#dbitest-1809003-2023-12-25"></a></h2>
-<div class="section level3">
-<h3 id="features-1-8-0-9003">Features<a class="anchor" aria-label="anchor" href="#features-1-8-0-9003"></a></h3>
-<ul><li>Relax <code>dbListObjects()</code> spec (<a href="https://github.com/r-dbi/DBItest/issues/339" class="external-link">#339</a>, <a href="https://github.com/r-dbi/DBItest/issues/341" class="external-link">#341</a>).</li>
-</ul></div>
-<div class="section level3">
-<h3 id="chore-1-8-0-9003">Chore<a class="anchor" aria-label="anchor" href="#chore-1-8-0-9003"></a></h3>
-<ul><li><p>Enable two tests for <code>dbGetQueryArrow()</code> (<a href="https://github.com/r-dbi/DBItest/issues/342" class="external-link">#342</a>).</p></li>
-<li><p>Add Aviator configuration.</p></li>
-<li><p>Install decor.</p></li>
-</ul></div>
-<div class="section level3">
-<h3 id="continuous-integration-1-8-0-9003">Continuous integration<a class="anchor" aria-label="anchor" href="#continuous-integration-1-8-0-9003"></a></h3>
-<ul><li><p>Avoid RMariaDB for now, <a href="https://github.com/r-dbi/DBItest/issues/343" class="external-link">#343</a>.</p></li>
-<li><p>Install decor from CRAN.</p></li>
-<li><p>Omit more checks, <a href="https://github.com/r-dbi/DBItest/issues/343" class="external-link">#343</a>.</p></li>
-<li><p>Modernize backends checks.</p></li>
-</ul></div>
-</div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.8.0.9002" id="dbitest-1809002-2023-12-21">DBItest 1.8.0.9002 (2023-12-21)<a class="anchor" aria-label="anchor" href="#dbitest-1809002-2023-12-21"></a></h2>
-<ul><li>Merge branch ‘cran-1.8.0’.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.8.0.9001" id="dbitest-1809001-2023-12-21">DBItest 1.8.0.9001 (2023-12-21)<a class="anchor" aria-label="anchor" href="#dbitest-1809001-2023-12-21"></a></h2>
-<ul><li>Merge branch ‘cran-1.8.0’.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.8.0.9000" id="dbitest-1809000-2023-12-21">DBItest 1.8.0.9000 (2023-12-21)<a class="anchor" aria-label="anchor" href="#dbitest-1809000-2023-12-21"></a></h2>
-<ul><li>Merge branch ‘cran-1.8.0’.</li>
-</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.8.0" id="dbitest-180-2023-12-21">DBItest 1.8.0 (2023-12-21)<a class="anchor" aria-label="anchor" href="#dbitest-180-2023-12-21"></a></h2>
 <div class="section level3">
