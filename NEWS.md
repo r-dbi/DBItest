@@ -1,5 +1,20 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.0.9010 (2024-03-31)
+
+## Features
+
+- Allow multiple warnings in disconnect tests (#363).
+
+## Chore
+
+- Avoid dplyr (#364).
+
+- Remove `.dots` argument to `test_select_with_null()` (#362).
+
+- Prefer `map()` over `lapply()` (#361).
+
+
 # DBItest 1.8.0.9009 (2024-01-23)
 
 ## Documentation
