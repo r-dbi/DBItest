@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.1.9000 (2024-03-31)
+
+- Merge branch 'cran-1.8.1'.
+
+
 # DBItest 1.8.1 (2024-03-31)
 
 ## Features
