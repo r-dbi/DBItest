@@ -596,7 +596,7 @@ spec_meta_stream_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(" ", "\n", "\r", "\b", "'", "\"", "[", "]", "\\", NA_character_, check.names = FALSE),
+        data.frame(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA_character_, check.names = FALSE),
         names = rep("", 10L)
       )
       placeholder <- placeholder_fun(10L)
