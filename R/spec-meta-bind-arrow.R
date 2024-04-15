@@ -478,7 +478,7 @@ spec_meta_arrow_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- c(" ", "\n", "\r", "\b", "'", "\"", "[", "]", "\\", NA)
+      bind_values <- c(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA)
       placeholder <- placeholder_fun(10L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
