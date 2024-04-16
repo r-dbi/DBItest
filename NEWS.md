@@ -1,5 +1,16 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.1.9002 (2024-04-16)
+
+## Chore
+
+- Update constructive (#371).
+
+## Documentation
+
+- Set BS version explicitly for now (@maelle, #370).
+
+
 # DBItest 1.8.1.9001 (2024-03-31)
 
 - Merge branch 'cran-1.8.1'.
