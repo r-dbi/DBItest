@@ -1,219 +1,75 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/ISSUE_TEMPLATE.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/articles/DBItest.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/DBItest-package.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/context.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/make_placeholder_fun.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_append_table_arrow.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_create_table_arrow.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_fetch_arrow.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_fetch_arrow_chunk.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_get_query_arrow.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_read_table_arrow.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_send_query_arrow.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_write_table_arrow.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_compliance_methods.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_connection_disconnect.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_driver_connect.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_driver_constructor.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_driver_data_type.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_get_info.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_getting_started.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_bind.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_column_info.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_get_row_count.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_get_rows_affected.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_get_statement.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_has_completed.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_is_valid.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_result_clear_result.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_result_create_table_with_data_type.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_result_execute.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_result_fetch.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_result_get_query.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_result_roundtrip.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_result_send_query.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_result_send_statement.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_append_table.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_create_table.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_exists_table.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_list_fields.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_list_objects.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_list_tables.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_quote_identifier.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_quote_literal.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_quote_string.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_read_table.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_remove_table.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_unquote_identifier.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_write_table.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_transaction_begin_commit_rollback.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/spec_transaction_with_transaction.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/test_all.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/test_arrow.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/test_compliance.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/test_connection.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/test_data_type.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/test_driver.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/test_getting_started.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/test_meta.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/test_result.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/test_sql.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/test_stress.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/test_transaction.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/reference/tweaks.html</loc>
-  </url>
-  <url>
-    <loc>https://dbitest.r-dbi.org/dev/security.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://dbitest.r-dbi.org/dev/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/CONTRIBUTING.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/ISSUE_TEMPLATE.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/LICENSE.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/articles/DBItest.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/articles/index.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/authors.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/index.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/news/index.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/DBItest-package.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/context.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/index.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/make_placeholder_fun.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_append_table_arrow.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_create_table_arrow.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_fetch_arrow.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_fetch_arrow_chunk.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_get_query_arrow.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_read_table_arrow.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_send_query_arrow.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_arrow_write_table_arrow.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_compliance_methods.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_connection_disconnect.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_driver_connect.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_driver_constructor.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_driver_data_type.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_get_info.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_getting_started.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_bind.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_column_info.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_get_row_count.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_get_rows_affected.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_get_statement.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_has_completed.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_meta_is_valid.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_result_clear_result.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_result_create_table_with_data_type.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_result_execute.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_result_fetch.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_result_get_query.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_result_roundtrip.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_result_send_query.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_result_send_statement.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_append_table.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_create_table.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_exists_table.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_list_fields.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_list_objects.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_list_tables.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_quote_identifier.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_quote_literal.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_quote_string.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_read_table.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_remove_table.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_unquote_identifier.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_sql_write_table.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_transaction_begin_commit_rollback.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/spec_transaction_with_transaction.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/test_all.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/test_arrow.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/test_compliance.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/test_connection.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/test_data_type.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/test_driver.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/test_getting_started.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/test_meta.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/test_result.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/test_sql.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/test_stress.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/test_transaction.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/reference/tweaks.html</loc></url>
+<url><loc>https://dbitest.r-dbi.org/dev/security.html</loc></url>
 </urlset>
+
