@@ -1,5 +1,30 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.1.9003 (2024-06-28)
+
+## Chore
+
+- Auto-update from GitHub Actions.
+
+  Run: https://github.com/r-dbi/DBItest/actions/runs/9691620551
+
+## Continuous integration
+
+- Avoid checking bashisms on Windows.
+
+- Better commit message.
+
+- Harmonize workflows.
+
+- Bump versions, better default, consume custom matrix.
+
+- Recent updates.
+
+## Testing
+
+- Update DBItest version.
+
+
 # DBItest 1.8.1.9002 (2024-04-16)
 
 ## Chore
