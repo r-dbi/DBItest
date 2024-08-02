@@ -1,5 +1,18 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.1.9006 (2024-08-02)
+
+## Chore
+
+- Auto-update from GitHub Actions.
+
+  Run: https://github.com/r-dbi/DBItest/actions/runs/10200118824
+
+## Continuous integration
+
+- Use dev roxygen2 and decor.
+
+
 # DBItest 1.8.1.9005 (2024-07-02)
 
 ## Continuous integration
