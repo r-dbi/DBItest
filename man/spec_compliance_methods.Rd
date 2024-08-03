@@ -11,9 +11,9 @@ spec_compliance_methods
 
 A backend defines three classes,
 which are subclasses of
-\linkS4class{DBIDriver},
-\linkS4class{DBIConnection},
-and \linkS4class{DBIResult}.
+\link[DBI:DBIDriver-class]{DBI::DBIDriver},
+\link[DBI:DBIConnection-class]{DBI::DBIConnection},
+and \link[DBI:DBIResult-class]{DBI::DBIResult}.
 The backend provides implementation for all methods
 of these base classes
 that are defined but not implemented by DBI.

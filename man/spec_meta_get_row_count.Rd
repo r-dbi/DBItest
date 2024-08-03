@@ -7,9 +7,9 @@
 \value{
 \code{dbGetRowCount()} returns a scalar number (integer or numeric),
 the number of rows fetched so far.
-After calling \code{\link[=dbSendQuery]{dbSendQuery()}},
+After calling \code{\link[DBI:dbSendQuery]{DBI::dbSendQuery()}},
 the row count is initially zero.
-After a call to \code{\link[=dbFetch]{dbFetch()}} without limit,
+After a call to \code{\link[DBI:dbFetch]{DBI::dbFetch()}} without limit,
 the row count matches the total number of rows returned.
 Fetching a limited number of rows
 increases the number of rows by the number of rows returned,
@@ -18,7 +18,7 @@ For queries with an empty result set,
 zero is returned
 even after fetching.
 For data manipulation statements issued with
-\code{\link[=dbSendStatement]{dbSendStatement()}},
+\code{\link[DBI:dbSendStatement]{DBI::dbSendStatement()}},
 zero is returned before
 and after calling \code{dbFetch()}.
 }
@@ -28,7 +28,7 @@ spec_meta_get_row_count
 \section{Failure modes}{
 
 Attempting to get the row count for a result set cleared with
-\code{\link[=dbClearResult]{dbClearResult()}} gives an error.
+\code{\link[DBI:dbClearResult]{DBI::dbClearResult()}} gives an error.
 }
 
 \seealso{

@@ -21,7 +21,7 @@ get_default_context()
 }
 \arguments{
 \item{drv}{\verb{[DBIConnector]}\cr
-An object of class \linkS4class{DBIConnector} that describes how to connect
+An object of class \link[DBI:DBIConnector-class]{DBI::DBIConnector} that describes how to connect
 to the database.}
 
 \item{connect_args}{\verb{[named list]}\cr Deprecated.}
@@ -49,7 +49,7 @@ to \code{\link[=test_all]{test_all()}}  and other testing functions.}
 Create a test context, set and query the default context.
 }
 \examples{
-\dontshow{if (requireNamespace("RSQLite", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("RSQLite", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 make_context(
   new(
     "DBIConnector",

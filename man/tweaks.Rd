@@ -60,7 +60,7 @@ Function that combines several subqueries into one so that the
 resulting query returns the concatenated results of the subqueries}
 
 \item{placeholder_pattern}{\verb{[character]}\cr
-A pattern for placeholders used in \code{\link[=dbBind]{dbBind()}}, e.g.,
+A pattern for placeholders used in \code{\link[DBI:dbBind]{DBI::dbBind()}}, e.g.,
 \code{"?"}, \code{"$1"}, or \code{":name"}. See
 \code{\link[=make_placeholder_fun]{make_placeholder_fun()}} for details.}
 
@@ -101,7 +101,7 @@ Set to \code{FALSE} if the DBMS doesn't support temporary tables.}
 Set to \code{FALSE} if the DBMS doesn't support listing temporary tables.}
 
 \item{allow_na_rows_affected}{\verb{[logical(1L)]}\cr
-Set to \code{TRUE} to allow \code{\link[=dbGetRowsAffected]{dbGetRowsAffected()}} to return \code{NA}.}
+Set to \code{TRUE} to allow \code{\link[DBI:dbGetRowsAffected]{DBI::dbGetRowsAffected()}} to return \code{NA}.}
 
 \item{is_null_check}{\verb{[function(character)]}\cr
 A vectorized function that creates an SQL expression for checking if a

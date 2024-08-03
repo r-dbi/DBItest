@@ -35,9 +35,9 @@ with NA for SQL \code{NULL} values
 If dates and timestamps are supported by the backend, the following R types are
 used:
 \itemize{
-\item \link{Date} for dates
+\item \link[lubridate:date_utils]{lubridate::Date} for dates
 (also applies to the return value of the SQL function \code{current_date})
-\item \link{POSIXct} for timestamps
+\item \link[lubridate:posix_utils]{lubridate::POSIXct} for timestamps
 (also applies to the return value of the SQL function \code{current_timestamp})
 }
 
