@@ -1,5 +1,14 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.1.9007 (2024-08-03)
+
+## Chore
+
+- Auto-update from GitHub Actions.
+
+  Run: https://github.com/r-dbi/DBItest/actions/runs/10224238943
+
+
 # DBItest 1.8.1.9006 (2024-08-02)
 
 ## Chore
