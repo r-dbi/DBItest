@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -50,7 +50,7 @@
 <p>Failure to initiate the transaction
 (e.g., if the connection is closed
 or invalid
-of if <code>dbBegin()</code> has been called already)
+of if <code><a href="https://dbi.r-dbi.org/reference/transactions.html" class="external-link">DBI::dbBegin()</a></code> has been called already)
 gives an error.</p>
     </div>
     <div class="section level2">
@@ -59,9 +59,9 @@ gives an error.</p>
 
 <p><code>dbWithTransaction()</code> initiates a transaction with <code>dbBegin()</code>, executes
 the code given in the <code>code</code> argument, and commits the transaction with
-<code>dbCommit()</code>.
+<code><a href="https://dbi.r-dbi.org/reference/transactions.html" class="external-link">DBI::dbCommit()</a></code>.
 If the code raises an error, the transaction is instead aborted with
-<code>dbRollback()</code>, and the error is propagated.
+<code><a href="https://dbi.r-dbi.org/reference/transactions.html" class="external-link">DBI::dbRollback()</a></code>, and the error is propagated.
 If the code calls <code>dbBreak()</code>, execution of the code stops and the
 transaction is silently aborted.
 All side effects caused by the code

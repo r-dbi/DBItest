@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,9 +48,9 @@ The names of the input argument are preserved in the output.
 If <code>x</code> is a value returned by <code>dbUnquoteIdentifier()</code>,
 calling <code>dbUnquoteIdentifier(..., dbQuoteIdentifier(..., x))</code>
 returns <code>list(x)</code>.
-If <code>x</code> is an object of class Id,
+If <code>x</code> is an object of class <a href="https://dbi.r-dbi.org/reference/Id.html" class="external-link">DBI::Id</a>,
 calling <code>dbUnquoteIdentifier(..., x)</code> returns <code>list(x)</code>.
-(For backends it may be most convenient to return Id objects
+(For backends it may be most convenient to return <a href="https://dbi.r-dbi.org/reference/Id.html" class="external-link">DBI::Id</a> objects
 to achieve this behavior, but this is not required.)</p>
 <p>Plain character vectors can also be passed to <code>dbUnquoteIdentifier()</code>.</p>
     </div>
@@ -66,7 +66,7 @@ as the <code>x</code> argument.</p>
     <h2 id="specification">Specification<a class="anchor" aria-label="anchor" href="#specification"></a></h2>
 
 
-<p>For any character vector of length one, quoting (with <code>dbQuoteIdentifier()</code>)
+<p>For any character vector of length one, quoting (with <code><a href="https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html" class="external-link">DBI::dbQuoteIdentifier()</a></code>)
 then unquoting then quoting the first element is identical to just quoting.
 This is also true for strings that
 contain special characters such as a space,
@@ -75,8 +75,8 @@ a comma,
 or quotes used to mark strings
 or identifiers,
 if the database supports this.</p>
-<p>Unquoting simple strings (consisting of only letters) wrapped with <code>SQL()</code> and
-then quoting via <code>dbQuoteIdentifier()</code> gives the same result as just
+<p>Unquoting simple strings (consisting of only letters) wrapped with <code><a href="https://dbi.r-dbi.org/reference/SQL.html" class="external-link">DBI::SQL()</a></code> and
+then quoting via <code><a href="https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html" class="external-link">DBI::dbQuoteIdentifier()</a></code> gives the same result as just
 quoting the string.
 Similarly, unquoting expressions of the form <code>SQL("schema.table")</code>
 and then quoting gives the same result as quoting the identifier

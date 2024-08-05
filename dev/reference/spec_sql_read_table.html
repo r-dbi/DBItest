@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,11 +42,11 @@
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p><code>dbReadTable()</code> returns a data frame that contains the complete data
-from the remote table, effectively the result of calling <code>dbGetQuery()</code> with
+from the remote table, effectively the result of calling <code><a href="https://dbi.r-dbi.org/reference/dbGetQuery.html" class="external-link">DBI::dbGetQuery()</a></code> with
 <code>SELECT * FROM &lt;name&gt;</code>.</p>
 <p>An empty table is returned as a data frame with zero rows.</p>
 <p>The presence of <a href="https://rdrr.io/r/base/colnames.html" class="external-link">rownames</a> depends on the <code>row.names</code> argument,
-see <code>sqlColumnToRownames()</code> for details:</p><ul><li><p>If <code>FALSE</code> or <code>NULL</code>, the returned data frame doesn't have row names.</p></li>
+see <code><a href="https://dbi.r-dbi.org/reference/rownames.html" class="external-link">DBI::sqlColumnToRownames()</a></code> for details:</p><ul><li><p>If <code>FALSE</code> or <code>NULL</code>, the returned data frame doesn't have row names.</p></li>
 <li><p>If <code>TRUE</code>, a column named "row_names" is converted to row names.</p></li>
 </ul><ul><li><p>If <code>NA</code>, a column named "row_names" is converted to row names if it exists,
 otherwise no translation occurs.</p></li>
@@ -72,7 +72,7 @@ If <code>check.names = FALSE</code>, the returned table has non-syntactic column
 <p>An error is raised when calling this method for a closed
 or invalid connection.
 An error is raised
-if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code>
+if <code>name</code> cannot be processed with <code><a href="https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html" class="external-link">DBI::dbQuoteIdentifier()</a></code>
 or if this results in a non-scalar.
 Unsupported values for <code>row.names</code> and <code>check.names</code>
 (non-scalars,
@@ -99,7 +99,7 @@ See the "Value" section for details on their usage.</p>
 to support databases that allow non-syntactic names for their objects:</p><ul><li><p>If an unquoted table name as string: <code>dbReadTable()</code> will do the
 quoting,
 perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
-<li><p>If the result of a call to <code>dbQuoteIdentifier()</code>: no more quoting is done</p></li>
+<li><p>If the result of a call to <code><a href="https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html" class="external-link">DBI::dbQuoteIdentifier()</a></code>: no more quoting is done</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

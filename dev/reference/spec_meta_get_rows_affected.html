@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,11 +43,11 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p><code>dbGetRowsAffected()</code> returns a scalar number (integer or numeric),
 the number of rows affected by a data manipulation statement
-issued with <code>dbSendStatement()</code>.
+issued with <code><a href="https://dbi.r-dbi.org/reference/dbSendStatement.html" class="external-link">DBI::dbSendStatement()</a></code>.
 The value is available directly after the call
-and does not change after calling <code>dbFetch()</code>.
+and does not change after calling <code><a href="https://dbi.r-dbi.org/reference/dbFetch.html" class="external-link">DBI::dbFetch()</a></code>.
 <code>NA_integer_</code> or <code>NA_numeric_</code> are allowed if the number of rows affected is not known.</p>
-<p>For queries issued with <code>dbSendQuery()</code>,
+<p>For queries issued with <code><a href="https://dbi.r-dbi.org/reference/dbSendQuery.html" class="external-link">DBI::dbSendQuery()</a></code>,
 zero is returned before
 and after the call to <code>dbFetch()</code>.
 <code>NA</code> values are not allowed.</p>
@@ -57,7 +57,7 @@ and after the call to <code>dbFetch()</code>.
 
 
 <p>Attempting to get the rows affected for a result set cleared with
-<code>dbClearResult()</code> gives an error.</p>
+<code><a href="https://dbi.r-dbi.org/reference/dbClearResult.html" class="external-link">DBI::dbClearResult()</a></code> gives an error.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

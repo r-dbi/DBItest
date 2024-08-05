@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,7 +46,7 @@ returns a data frame
 with at least two columns <code>"name"</code> and <code>"type"</code> (in that order)
 (and optional columns that start with a dot).
 The <code>"name"</code> and <code>"type"</code> columns contain the names and types
-of the R columns of the data frame that is returned from <code>dbFetch()</code>.
+of the R columns of the data frame that is returned from <code><a href="https://dbi.r-dbi.org/reference/dbFetch.html" class="external-link">DBI::dbFetch()</a></code>.
 The <code>"type"</code> column is of type <code>character</code> and only for information.
 Do not compute on the <code>"type"</code> column, instead use <code>dbFetch(res, n = 0)</code>
 to create a zero-row data frame initialized with the correct data types.</p>

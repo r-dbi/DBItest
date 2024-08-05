@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +51,7 @@
 <p>An error is raised when calling this method for a closed
 or invalid connection.
 An error is also raised
-if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code> or
+if <code>name</code> cannot be processed with <code><a href="https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html" class="external-link">DBI::dbQuoteIdentifier()</a></code> or
 if this results in a non-scalar.
 Invalid values for the <code>temporary</code> argument
 (non-scalars,
@@ -78,7 +78,7 @@ See the "Specification" and "Value" sections for details on their usage.</p>
 <p>The <code>name</code> argument is processed as follows,
 to support databases that allow non-syntactic names for their objects:</p><ul><li><p>If an unquoted table name as string: <code>dbCreateTableArrow()</code> will do the quoting,
 perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
-<li><p>If the result of a call to <code>dbQuoteIdentifier()</code>: no more quoting is done</p></li>
+<li><p>If the result of a call to <code><a href="https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html" class="external-link">DBI::dbQuoteIdentifier()</a></code>: no more quoting is done</p></li>
 </ul><p>The <code>value</code> argument can be:</p><ul><li><p>a data frame,</p></li>
 <li><p>a nanoarrow array</p></li>
 <li><p>a nanoarrow array stream

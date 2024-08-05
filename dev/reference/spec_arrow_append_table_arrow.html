@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,7 +55,7 @@ an error is raised; the remote table remains unchanged.</p>
 <p>An error is raised when calling this method for a closed
 or invalid connection.
 An error is also raised
-if <code>name</code> cannot be processed with <code>dbQuoteIdentifier()</code> or
+if <code>name</code> cannot be processed with <code><a href="https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html" class="external-link">DBI::dbQuoteIdentifier()</a></code> or
 if this results in a non-scalar.</p>
     </div>
     <div class="section level2">
@@ -69,7 +69,7 @@ and, if the database supports non-syntactic identifiers,
 also for table names
 and column names.</p>
 <p>The following data types must be supported at least,
-and be read identically with <code>dbReadTable()</code>:</p><ul><li><p>integer</p></li>
+and be read identically with <code><a href="https://dbi.r-dbi.org/reference/dbReadTable.html" class="external-link">DBI::dbReadTable()</a></code>:</p><ul><li><p>integer</p></li>
 <li><p>numeric
 (the behavior for <code>Inf</code> and <code>NaN</code> is not specified)</p></li>
 <li><p>logical</p></li>
@@ -106,7 +106,7 @@ input time zone)</p></li>
 <p>The <code>name</code> argument is processed as follows,
 to support databases that allow non-syntactic names for their objects:</p><ul><li><p>If an unquoted table name as string: <code>dbAppendTableArrow()</code> will do the quoting,
 perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
-<li><p>If the result of a call to <code>dbQuoteIdentifier()</code>: no more quoting is done
+<li><p>If the result of a call to <code><a href="https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html" class="external-link">DBI::dbQuoteIdentifier()</a></code>: no more quoting is done
 to support databases that allow non-syntactic names for their objects:</p></li>
 </ul><p>The <code>value</code> argument must be a data frame
 with a subset of the columns of the existing table.

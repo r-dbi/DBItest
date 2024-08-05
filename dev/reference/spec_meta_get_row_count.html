@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9005</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.1.9007</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,9 +43,9 @@
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p><code>dbGetRowCount()</code> returns a scalar number (integer or numeric),
 the number of rows fetched so far.
-After calling <code>dbSendQuery()</code>,
+After calling <code><a href="https://dbi.r-dbi.org/reference/dbSendQuery.html" class="external-link">DBI::dbSendQuery()</a></code>,
 the row count is initially zero.
-After a call to <code>dbFetch()</code> without limit,
+After a call to <code><a href="https://dbi.r-dbi.org/reference/dbFetch.html" class="external-link">DBI::dbFetch()</a></code> without limit,
 the row count matches the total number of rows returned.
 Fetching a limited number of rows
 increases the number of rows by the number of rows returned,
@@ -54,7 +54,7 @@ For queries with an empty result set,
 zero is returned
 even after fetching.
 For data manipulation statements issued with
-<code>dbSendStatement()</code>,
+<code><a href="https://dbi.r-dbi.org/reference/dbSendStatement.html" class="external-link">DBI::dbSendStatement()</a></code>,
 zero is returned before
 and after calling <code>dbFetch()</code>.</p>
     </div>
@@ -63,7 +63,7 @@ and after calling <code>dbFetch()</code>.</p>
 
 
 <p>Attempting to get the row count for a result set cleared with
-<code>dbClearResult()</code> gives an error.</p>
+<code><a href="https://dbi.r-dbi.org/reference/dbClearResult.html" class="external-link">DBI::dbClearResult()</a></code> gives an error.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
