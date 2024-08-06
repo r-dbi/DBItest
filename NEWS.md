@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.1.9008 (2024-08-06)
+
+## Continuous integration
+
+- Inline action.
+
+
 # DBItest 1.8.1.9007 (2024-08-03)
 
 ## Chore
