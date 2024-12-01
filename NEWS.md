@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.1.9024 (2024-12-01)
+
+## Continuous integration
+
+- Remove Aviator.
+
+
 # DBItest 1.8.1.9023 (2024-11-30)
 
 ## Continuous integration
