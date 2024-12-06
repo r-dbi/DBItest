@@ -10,19 +10,19 @@ test_select_bind_expr_one <- list()
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'
 test_select_bind_expr_one$fun <- function(
-    bind_values,
-    ...,
-    arrow,
-    bind,
-    query = TRUE,
-    has_cast_fun = FALSE,
-    check_return_value = NULL,
-    patch_bind_values = NULL,
-    bind_error = NA,
-    warn = FALSE,
-    is_repeated = FALSE,
-    is_premature_clear = FALSE,
-    is_untouched = FALSE) {
+  bind_values,
+  ...,
+  arrow,
+  bind,
+  query = TRUE,
+  has_cast_fun = FALSE,
+  check_return_value = NULL,
+  patch_bind_values = NULL,
+  bind_error = NA,
+  warn = FALSE,
+  is_repeated = FALSE,
+  is_premature_clear = FALSE,
+  is_untouched = FALSE) {
   check_dots_empty()
   force(bind_values)
   force(arrow)
