@@ -1,16 +1,16 @@
 # Helpers -----------------------------------------------------------------
 
 test_select_bind_expr <- function(
-    bind_values,
-    ctx = stop("ctx is available during run time only"),
-    ...,
-    arrow,
-    bind,
-    query = TRUE,
-    skip_fun = NULL,
-    dbitest_version = NULL,
-    cast_fun = NULL,
-    requires_names = NULL) {
+  bind_values,
+  ctx = stop("ctx is available during run time only"),
+  ...,
+  arrow,
+  bind,
+  query = TRUE,
+  skip_fun = NULL,
+  dbitest_version = NULL,
+  cast_fun = NULL,
+  requires_names = NULL) {
   force(bind_values)
   force(arrow)
   force(bind)

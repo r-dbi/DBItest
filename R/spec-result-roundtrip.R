@@ -265,11 +265,11 @@ test_select_with_null <- function(...) {
 }
 
 test_select <- function(
-    con,
-    ...,
-    .add_null = "none",
-    .ctx,
-    .envir = parent.frame()) {
+  con,
+  ...,
+  .add_null = "none",
+  .ctx,
+  .envir = parent.frame()) {
 
   values <- list2(...)
 
