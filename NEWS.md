@@ -16,7 +16,7 @@
 
 ## Testing
 
-- Adapt tests to constructive updates.
+- Adapt tests to updates of the constructive package.
 
 
 # DBItest 1.8.1 (2024-03-31)
