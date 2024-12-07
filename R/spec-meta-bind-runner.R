@@ -237,7 +237,13 @@ test_select_bind_expr_one$fun <- function(
 }
 
 construct_expr <- function(x) {
-  xc <- constructive::construct(x)
+  xc <- tryCatch(
+    constructive::construct(x, check = TRUE),
+    error = function(e) {
+      print(e)
+      constructive::construct(x, check = FALSE)
+    }
+  )
   parse_expr(format(xc$code))
 }
 
