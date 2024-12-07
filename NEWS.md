@@ -1,17 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
-# DBItest 1.8.1.9901 (2024-12-07)
+# DBItest 1.8.2 (2024-12-07)
 
 ## Chore
 
 - More explicit message on constructive errors.
 
-## Testing
-
-- Adapt tests to constructive updates.
-
-
-# DBItest 1.8.1.9900 (2024-12-07)
+- Bump DBI dependency.
 
 ## Documentation
 
@@ -19,9 +14,9 @@
 
 - Add package to `\link{}` targets.
 
-## Chore
+## Testing
 
-- Bump DBI dependency.
+- Adapt tests to constructive updates.
 
 
 # DBItest 1.8.1 (2024-03-31)
