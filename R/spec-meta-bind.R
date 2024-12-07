@@ -3,6 +3,10 @@
 
 # This file is generated during load_all() if it's older than the sources
 
+# Last generation with dev constructive including https://github.com/cynkra/constructive/pull/504
+# and https://github.com/cynkra/constructive/pull/505 .
+# This comment was added manually.
+
 spec_meta_bind <- list(
   bind_return_value = function(ctx, con) {
     # <R/spec-meta-bind-expr.R:18>
@@ -589,7 +593,7 @@ spec_meta_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- c("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", "M\U{FC}ller", "\U{6211}\U{662F}\U{8C01}", "ASCII", NA)
+      bind_values <- c("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", `Encoding<-`("M\xfcller", "latin1"), "\U{6211}\U{662F}\U{8C01}", "ASCII", NA)
       placeholder <- placeholder_fun(6L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -654,7 +658,7 @@ spec_meta_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- list(factor("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}"), factor("M\U{FC}ller"), factor("M\U{FC}ller"), factor("\U{6211}\U{662F}\U{8C01}"), factor("ASCII"), factor(NA_character_))
+      bind_values <- list(factor("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}"), factor("M\U{FC}ller"), factor(`Encoding<-`("M\xfcller", "latin1")), factor("\U{6211}\U{662F}\U{8C01}"), factor("ASCII"), factor(NA_character_))
       placeholder <- placeholder_fun(6L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -772,7 +776,7 @@ spec_meta_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- list(structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:49")), balanced = TRUE), structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:50")), balanced = TRUE), structure(as.POSIXlt(as.POSIXct("2023-12-17 02:40:51")), balanced = TRUE), structure(as.POSIXlt(NA_character_), balanced = TRUE))
+      bind_values <- list(as.POSIXlt("2023-12-17 02:40:49"), as.POSIXlt("2023-12-17 02:40:50"), as.POSIXlt("2023-12-17 02:40:51"), as.POSIXlt(NA_character_))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -801,7 +805,7 @@ spec_meta_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(c(1, 2, 3, NA), class = "difftime", units = "secs")
+      bind_values <- as.difftime(c(1, 2, 3, NA), units = "secs")
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -830,7 +834,7 @@ spec_meta_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(c(1, 2, 3, NA), class = "difftime", units = "hours")
+      bind_values <- as.difftime(c(1, 2, 3, NA), units = "hours")
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -859,7 +863,7 @@ spec_meta_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(c(1, 2, 3, NA), class = "difftime", units = "mins")
+      bind_values <- as.difftime(c(1, 2, 3, NA), units = "mins")
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -919,8 +923,8 @@ spec_meta_bind <- list(
     cast_fun <- ctx$tweaks$blob_cast
     for (placeholder_fun in placeholder_funs) {
       bind_values <- list(
-        structure(vctrs::list_of(as.raw(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)), .ptype = raw(0)), class = c("blob", "vctrs_list_of", "vctrs_vctr", "list")),
-        structure(vctrs::list_of(raw(3), .ptype = raw(0)), class = c("blob", "vctrs_list_of", "vctrs_vctr", "list")),
+        blob::blob(as.raw(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))),
+        blob::blob(raw(3)),
         structure(vctrs::list_of(NULL, .ptype = raw(0)), class = c("blob", "vctrs_list_of", "vctrs_vctr", "list"))
       )
       placeholder <- placeholder_fun(3L)

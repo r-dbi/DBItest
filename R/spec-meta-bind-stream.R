@@ -453,7 +453,7 @@ spec_meta_stream_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1.5, 2.5, 3.5, NA_real_, check.names = FALSE), names = rep("", 4L))
+      bind_values <- structure(data.frame(1.5, 2.5, 3.5, NA_real_, check.names = FALSE), names = character(4))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- bind_values[c(3, 1, 2, 4)]
@@ -479,7 +479,7 @@ spec_meta_stream_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, 2L, 3L, NA_integer_, check.names = FALSE), names = rep("", 4L))
+      bind_values <- structure(data.frame(1L, 2L, 3L, NA_integer_, check.names = FALSE), names = character(4))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -507,7 +507,7 @@ spec_meta_stream_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1.5, 2.5, 3.5, NA_real_, check.names = FALSE), names = rep("", 4L))
+      bind_values <- structure(data.frame(1.5, 2.5, 3.5, NA_real_, check.names = FALSE), names = character(4))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -535,7 +535,7 @@ spec_meta_stream_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(TRUE, FALSE, NA, check.names = FALSE), names = rep("", 3L))
+      bind_values <- structure(data.frame(TRUE, FALSE, NA, check.names = FALSE), names = character(3))
       placeholder <- placeholder_fun(3L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -563,8 +563,8 @@ spec_meta_stream_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", "M\U{FC}ller", "\U{6211}\U{662F}\U{8C01}", "ASCII", NA_character_, check.names = FALSE),
-        names = rep("", 6L)
+        data.frame("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", `Encoding<-`("M\xfcller", "latin1"), "\U{6211}\U{662F}\U{8C01}", "ASCII", NA_character_, check.names = FALSE),
+        names = character(6)
       )
       placeholder <- placeholder_fun(6L)
       names(bind_values) <- names(placeholder)
@@ -597,7 +597,7 @@ spec_meta_stream_bind <- list(
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
         data.frame(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA_character_, check.names = FALSE),
-        names = rep("", 10L)
+        names = character(10)
       )
       placeholder <- placeholder_fun(10L)
       names(bind_values) <- names(placeholder)
@@ -634,8 +634,8 @@ spec_meta_stream_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(factor("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}"), factor("M\U{FC}ller"), factor("M\U{FC}ller"), factor("\U{6211}\U{662F}\U{8C01}"), factor("ASCII"), factor(NA_character_), check.names = FALSE),
-        names = rep("", 6L)
+        data.frame(factor("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}"), factor("M\U{FC}ller"), factor(`Encoding<-`("M\xfcller", "latin1")), factor("\U{6211}\U{662F}\U{8C01}"), factor("ASCII"), factor(NA_character_), check.names = FALSE),
+        names = character(6)
       )
       placeholder <- placeholder_fun(6L)
       names(bind_values) <- names(placeholder)
@@ -668,8 +668,8 @@ spec_meta_stream_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(as.Date("2023-12-17"), as.Date("2023-12-18"), as.Date("2023-12-19"), as.Date(NA_character_), check.names = FALSE),
-        names = rep("", 4L)
+        data.frame(as.Date("2023-12-17"), as.Date("2023-12-18"), as.Date("2023-12-19"), as.Date(NA), check.names = FALSE),
+        names = character(4)
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
@@ -701,7 +701,7 @@ spec_meta_stream_bind <- list(
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
         data.frame(structure(18618L, class = "Date"), structure(18619L, class = "Date"), structure(18620L, class = "Date"), structure(NA_integer_, class = "Date"), check.names = FALSE),
-        names = rep("", 4L)
+        names = character(4)
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
@@ -733,7 +733,7 @@ spec_meta_stream_bind <- list(
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
         data.frame(as.POSIXct("2023-12-17 02:40:22"), as.POSIXct("2023-12-17 02:40:23"), as.POSIXct("2023-12-17 02:40:24"), as.POSIXct(NA_character_), check.names = FALSE),
-        names = rep("", 4L)
+        names = character(4)
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
@@ -765,7 +765,7 @@ spec_meta_stream_bind <- list(
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
         data.frame(as.POSIXct("2023-12-17 02:40:49"), as.POSIXct("2023-12-17 02:40:50"), as.POSIXct("2023-12-17 02:40:51"), as.POSIXct(NA_character_), check.names = FALSE),
-        names = rep("", 4L)
+        names = character(4)
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
@@ -796,8 +796,8 @@ spec_meta_stream_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(structure(1, class = "difftime", units = "secs"), structure(2, class = "difftime", units = "secs"), structure(3, class = "difftime", units = "secs"), structure(NA_real_, class = "difftime", units = "secs"), check.names = FALSE),
-        names = rep("", 4L)
+        data.frame(as.difftime(1, units = "secs"), as.difftime(2, units = "secs"), as.difftime(3, units = "secs"), as.difftime(NA_real_, units = "secs"), check.names = FALSE),
+        names = character(4)
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
@@ -828,8 +828,8 @@ spec_meta_stream_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(structure(1, class = "difftime", units = "hours"), structure(2, class = "difftime", units = "hours"), structure(3, class = "difftime", units = "hours"), structure(NA_real_, class = "difftime", units = "hours"), check.names = FALSE),
-        names = rep("", 4L)
+        data.frame(as.difftime(1, units = "hours"), as.difftime(2, units = "hours"), as.difftime(3, units = "hours"), as.difftime(NA_real_, units = "hours"), check.names = FALSE),
+        names = character(4)
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
@@ -860,8 +860,8 @@ spec_meta_stream_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(structure(1, class = "difftime", units = "mins"), structure(2, class = "difftime", units = "mins"), structure(3, class = "difftime", units = "mins"), structure(NA_real_, class = "difftime", units = "mins"), check.names = FALSE),
-        names = rep("", 4L)
+        data.frame(as.difftime(1, units = "mins"), as.difftime(2, units = "mins"), as.difftime(3, units = "mins"), as.difftime(NA_real_, units = "mins"), check.names = FALSE),
+        names = character(4)
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
@@ -894,13 +894,13 @@ spec_meta_stream_bind <- list(
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
         list(
-          structure(vctrs::list_of(as.raw(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)), .ptype = raw(0)), class = c("blob", "vctrs_list_of", "vctrs_vctr", "list")),
-          structure(vctrs::list_of(raw(3), .ptype = raw(0)), class = c("blob", "vctrs_list_of", "vctrs_vctr", "list")),
+          blob::blob(as.raw(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))),
+          blob::blob(raw(3)),
           structure(vctrs::list_of(NULL, .ptype = raw(0)), class = c("blob", "vctrs_list_of", "vctrs_vctr", "list"))
         ),
-        names = rep("", 3L),
+        names = character(3),
         class = "data.frame",
-        row.names = 1L
+        row.names = c(NA, -1L)
       )
       placeholder <- placeholder_fun(3L)
       names(bind_values) <- names(placeholder)
