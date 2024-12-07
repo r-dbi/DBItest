@@ -1,6 +1,6 @@
 Package: DBItest
 Title: Testing DBI Backends
-Version: 1.8.1.9026
+Version: 1.8.1.9900
 Date: 2024-12-07
 Authors@R: c(
     person("Kirill", "Müller", , "kirill@cynkra.com", role = c("aut", "cre"),
@@ -18,7 +18,7 @@ Depends:
 Imports: 
     blob (>= 1.2.0),
     callr,
-    DBI (>= 1.2.1),
+    DBI (>= 1.2.3),
     desc,
     hms (>= 0.5.0),
     lubridate,
