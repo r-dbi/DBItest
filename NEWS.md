@@ -1,5 +1,16 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.1.9901 (2024-12-07)
+
+## Chore
+
+- More explicit message on constructive errors.
+
+## Testing
+
+- Adapt tests to constructive updates.
+
+
 # DBItest 1.8.1.9900 (2024-12-07)
 
 ## Documentation
