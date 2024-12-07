@@ -2,83 +2,15 @@
 
 # DBItest 1.8.1.9900 (2024-12-07)
 
-## Chore
-
-- Auto-update from GitHub Actions.
-
-  Run: https://github.com/r-dbi/DBItest/actions/runs/10425483986
-
-  Run: https://github.com/r-dbi/DBItest/actions/runs/10224238943
-
-  Run: https://github.com/r-dbi/DBItest/actions/runs/10200118824
-
-  Run: https://github.com/r-dbi/DBItest/actions/runs/9728435515
-
-  Run: https://github.com/r-dbi/DBItest/actions/runs/9691620551
-
-- Update constructive (#371).
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#389).
-
-- Import from actions-sync, check carefully (#387).
-
-- Remove Aviator.
-
-- Import from actions-sync, check carefully (#383).
-
-- Import from actions-sync, check carefully (#382).
-
-- Import from actions-sync, check carefully (#381).
-
-- Import from actions-sync, check carefully (#380).
-
-- Import from actions-sync, check carefully (#379).
-
-- Import from actions-sync, check carefully (#378).
-
-- Import from actions-sync, check carefully (#377).
-
-- Import from actions-sync, check carefully (#376).
-
-- Import from actions-sync, check carefully (#375).
-
-- Import from actions-sync, check carefully (#374).
-
-- Import from actions-sync, check carefully (#372).
-
-- Import from actions-sync, check carefully.
-
-- Inline action.
-
-- Use dev roxygen2 and decor.
-
-- Fix on Windows, tweak lock workflow.
-
-- Avoid checking bashisms on Windows.
-
-- Better commit message.
-
-- Harmonize workflows.
-
-- Bump versions, better default, consume custom matrix.
-
-- Recent updates.
-
 ## Documentation
 
 - Set BS version explicitly for now (@maelle, #370).
 
-## Testing
+- Add package to `\link{}` targets.
 
-- Update DBItest version.
+## Chore
 
-## Uncategorized
-
-- Internal changes only.
-
-- Merge branch 'cran-1.8.1'.
+- Bump DBI dependency.
 
 
 # DBItest 1.8.1 (2024-03-31)
