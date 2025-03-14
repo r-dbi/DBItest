@@ -10,7 +10,8 @@ test_select_bind_expr <- function(
   skip_fun = NULL,
   dbitest_version = NULL,
   cast_fun = NULL,
-  requires_names = NULL) {
+  requires_names = NUL
+) {
   force(bind_values)
   force(arrow)
   force(bind)
@@ -154,5 +155,5 @@ make_placeholder_fun <- function(pattern) {
 }
 
 is_na_or_null <- function(x) {
-  identical(x, list(NULL)) || any(is.na(x))
+  identical(x, list(NULL)) || anyNA(x)
 }

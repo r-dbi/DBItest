@@ -6,7 +6,7 @@
 spec_arrow_fetch_arrow <- list(
   arrow_fetch_arrow_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbFetchArrow)), c("res", "..."))
+    expect_named(formals(dbFetchArrow), c("res", "..."))
   },
 
   arrow_fetch_arrow_atomic = function(con) {
@@ -36,7 +36,7 @@ spec_arrow_fetch_arrow <- list(
       "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
     res <- local_result(dbSendQueryArrow(con, query))
     rows <- check_arrow(dbFetchArrow(res))
-    expect_identical(class(rows), "data.frame")
+    expect_s3_class(rows, "data.frame")
   },
 
   #'

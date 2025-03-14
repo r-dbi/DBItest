@@ -6,7 +6,7 @@
 spec_arrow_append_table_arrow <- list(
   arrow_append_table_arrow_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbAppendTableArrow)), c("conn", "name", "value", "..."))
+    expect_named(formals(dbAppendTableArrow), c("conn", "name", "value", "..."))
   },
 
   arrow_append_table_arrow_return = function(ctx, con, table_name) {
@@ -19,9 +19,9 @@ spec_arrow_append_table_arrow <- list(
     ret <- dbAppendTableArrow(con, table_name, test_in)
 
     #' scalar
-    expect_equal(length(ret), 1)
+    expect_length(ret, 1)
     #' numeric.
-    expect_true(is.numeric(ret))
+    expect_true(is.numeric(ret)) # nolint: expect_type_linter. back-compatibility.
   },
 
   #'
@@ -150,7 +150,7 @@ spec_arrow_append_table_arrow <- list(
     #' The following data types must be supported at least,
     #' and be read identically with [dbReadTable()]:
     #' - integer
-    tbl_in <- data.frame(a = c(1:5))
+    tbl_in <- data.frame(a = 1:5)
     test_arrow_roundtrip(use_append = TRUE, con, tbl_in)
   },
 
@@ -538,7 +538,7 @@ spec_arrow_append_table_arrow <- list(
     #' with a subset of the columns of the existing table.
     test_in <- trivial_df(3, letters[1:3])
     dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
-    dbAppendTableArrow(con, table_name, test_in %>% stream_frame(.select = c(2)))
+    dbAppendTableArrow(con, table_name, test_in %>% stream_frame(.select = 2))
 
     test_out <- check_df(dbReadTable(con, table_name))
 

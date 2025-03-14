@@ -6,7 +6,7 @@
 spec_meta_get_rows_affected <- list(
   get_rows_affected_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbGetRowsAffected)), c("res", "..."))
+    expect_named(formals(dbGetRowsAffected), c("res", "..."))
   },
 
   rows_affected_statement = function(ctx, con, table_name) {

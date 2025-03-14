@@ -1,0 +1,24 @@
+linters <- modify_defaults(
+  all_linters(),
+  commented_code_linter = NULL,
+  condition_call_linter = NULL,
+  expect_identical_linter = NULL,
+  function_argument_linter = NULL,
+  if_switch_linter = NULL, # false positive: r-lib/lintr#2835
+  implicit_assignment_linter = NULL,
+  implicit_integer_linter = NULL,
+  keyword_quote_linter = NULL,
+  line_length_linter = NULL,
+  missing_argument_linter = NULL,
+  namespace_linter = NULL,
+  nonportable_path_linter = NULL,
+  object_length_linter = NULL,
+  object_name_linter = NULL,
+  object_overwrite_linter = NULL,
+  object_usage_linter = NULL,
+  one_call_pipe_linter = NULL,
+  strings_as_factors_linter = NULL,
+  todo_comment_linter = NULL,
+  undesirable_function_linter = NULL,
+  unused_import_linter = NULL
+)

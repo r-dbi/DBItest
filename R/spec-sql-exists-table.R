@@ -6,7 +6,7 @@
 spec_sql_exists_table <- list(
   exists_table_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbExistsTable)), c("conn", "name", "..."))
+    expect_named(formals(dbExistsTable), c("conn", "name", "..."))
   },
 
   exists_table_1 = function(ctx, con, table_name = "dbit05") {

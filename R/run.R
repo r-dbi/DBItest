@@ -92,7 +92,7 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
 
   if (any(skip_flag)) {
     test_that(paste0(test_context, ": skipped tests"), {
-      skip(paste0("DBItest::run_tests(): by request: ", paste(names(tests)[skip_flag], collapse = ", ")))
+      skip(toString("DBItest::run_tests(): by request: ", paste(names(tests)[skip_flag])))
     })
   }
 
@@ -107,13 +107,11 @@ get_skip_names <- function(skip) {
     return(character())
   }
   names_all <- names(spec_all)
-  names_all <- names_all[names_all != ""]
+  names_all <- names_all[nzchar(names_all)]
   skip_flags_all <- map(paste0("(?:^(?:", skip, ")(?:|_[0-9]+)$)"), grepl, names_all, perl = TRUE)
   skip_used <- map_lgl(skip_flags_all, any)
   if (!all(skip_used)) {
-    warning("Unused skip expressions: ", paste(skip[!skip_used], collapse = ", "),
-      call. = FALSE
-    )
+    warning("Unused skip expressions: ", toString(skip[!skip_used]), call. = FALSE)
   }
 
   skip_flag_all <- Reduce(`|`, skip_flags_all)
@@ -124,7 +122,7 @@ get_skip_names <- function(skip) {
 
 get_run_only_tests <- function(tests, run_only) {
   names_all <- names(tests)
-  names_all <- names_all[names_all != ""]
+  names_all <- names_all[nzchar(names_all)]
   if (is.null(run_only)) {
     return(tests)
   }

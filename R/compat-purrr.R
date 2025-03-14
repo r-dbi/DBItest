@@ -86,11 +86,13 @@ pmap <- function(.l, .f, ...) {
   ))
 }
 .rlang_purrr_args_recycle <- function(args) {
+  # nolint next: lengths_linter.
   lengths <- map_int(args, length)
   n <- max(lengths)
 
-  stopifnot(all(lengths == 1L | lengths == n))
+  stopifnot(lengths == 1L | lengths == n)
   to_recycle <- lengths == 1L
+  # nolint next: unnecessary_lambda_linter.
   args[to_recycle] <- map(args[to_recycle], function(x) rep.int(x, n))
 
   args

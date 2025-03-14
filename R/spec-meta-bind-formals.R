@@ -8,7 +8,7 @@
 spec_meta_bind_formals <- list(
   bind_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbBind)), c("res", "params", "..."))
+    expect_named(formals(dbBind), c("res", "params", "..."))
   },
   #'
   bind_empty = function(con) {

@@ -11,8 +11,7 @@
 #' \dontrun{
 #' make_context(..., tweaks = tweaks(strict_identifier = TRUE))
 #' }
-{
-  # nolint
+{ # nolint: brace_linter.
   tweak_names <- alist(
     #' @param ... `[any]`\cr
     #'   Unknown tweaks are accepted, with a warning.  The ellipsis
@@ -136,12 +135,10 @@ make_tweaks <- function(envir = parent.frame()) {
     function() {
       unknown <- list(...)
       if (length(unknown) > 0) {
-        if (is.null(names(unknown)) || any(names(unknown) == "")) {
+        if (is.null(names(unknown)) || !all(nzchar(names(unknown)))) {
           warning("All tweaks must be named", call. = FALSE)
         } else {
-          warning("Unknown tweaks: ", paste(names(unknown), collapse = ", "),
-            call. = FALSE
-          )
+          warning("Unknown tweaks: ", toString(names(unknown)), call. = FALSE)
         }
       }
       ret <- .(list_call)

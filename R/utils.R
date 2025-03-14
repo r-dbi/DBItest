@@ -30,9 +30,7 @@ local_invalid_connection <- function(ctx, ...) {
 local_result <- function(query, frame = caller_env()) {
   res <- query
   withr::defer(
-    {
-      dbClearResult(res)
-    },
+    dbClearResult(res),
     envir = frame
   )
   res
@@ -84,7 +82,7 @@ check_df <- function(df) {
   }
 
   df_names <- names(df)
-  expect_true(all(df_names != ""))
+  expect_true(all(nzchar(df_names)))
   expect_false(anyNA(df_names))
 
   df

@@ -6,7 +6,7 @@
 spec_result_send_query <- list(
   send_query_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbSendQuery)), c("conn", "statement", "..."))
+    expect_named(formals(dbSendQuery), c("conn", "statement", "..."))
   },
 
   send_query_trivial = function(con) {

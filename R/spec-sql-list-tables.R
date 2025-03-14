@@ -6,7 +6,7 @@
 spec_sql_list_tables <- list(
   list_tables_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbListTables)), c("conn", "..."))
+    expect_named(formals(dbListTables), c("conn", "..."))
   },
 
   list_tables_1 = function(ctx, con, table_name = "dbit07") {

@@ -6,7 +6,7 @@
 spec_arrow_read_table_arrow <- list(
   arrow_read_table_arrow_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbReadTableArrow)), c("conn", "name", "..."))
+    expect_named(formals(dbReadTableArrow), c("conn", "name", "..."))
   },
 
   arrow_read_table_arrow = function(ctx, con, table_name) {

@@ -8,7 +8,7 @@ spec_arrow_create_table_arrow <- list(
     skip_if_not_dbitest(ctx, "1.8.0.13")
 
     # <establish formals of described functions>
-    expect_equal(names(formals(dbCreateTableArrow)), c("conn", "name", "value", "...", "temporary"))
+    expect_named(formals(dbCreateTableArrow), c("conn", "name", "value", "...", "temporary"))
   },
 
   arrow_create_table_arrow_return = function(con, table_name) {
@@ -62,6 +62,7 @@ spec_arrow_create_table_arrow <- list(
     #' incompatible values,
     expect_error(dbCreateTableArrow(con, table_name, test_in, fields = letters))
     #' duplicate names)
+    # nolint next: duplicate_argument_linter.
     expect_error(dbCreateTableArrow(con, table_name, fields = c(a = "INTEGER", a = "INTEGER")))
 
     #' also raise an error.

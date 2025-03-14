@@ -6,7 +6,7 @@
 spec_result_fetch <- list(
   fetch_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbFetch)), c("res", "n", "..."))
+    expect_named(formals(dbFetch), c("res", "n", "..."))
   },
 
   fetch_atomic = function(con) {
@@ -36,7 +36,7 @@ spec_result_fetch <- list(
       "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
     res <- local_result(dbSendQuery(con, query))
     rows <- check_df(dbFetch(res))
-    expect_identical(class(rows), "data.frame")
+    expect_s3_class(rows, "data.frame")
   },
 
   fetch_na_rows = function(ctx, con) {
