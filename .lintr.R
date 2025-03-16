@@ -2,6 +2,7 @@ linters <- modify_defaults(
   all_linters(),
   commented_code_linter = NULL,
   condition_call_linter = NULL,
+  cyclocomp_linter = NULL,
   expect_identical_linter = NULL,
   function_argument_linter = NULL,
   if_switch_linter = NULL, # false positive: r-lib/lintr#2835
