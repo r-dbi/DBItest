@@ -1,5 +1,6 @@
 linters <- modify_defaults(
   all_linters(),
+  absolute_path_linter = NULL,
   commented_code_linter = NULL,
   condition_call_linter = NULL,
   cyclocomp_linter = NULL,
