@@ -39,7 +39,8 @@ Suggests:
     lintr,
     pkgload,
     rmarkdown,
-    RSQLite
+    RSQLite,
+    vctrs
 VignetteBuilder: 
     knitr
 Config/Needs/website: 
