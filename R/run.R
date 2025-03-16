@@ -111,7 +111,7 @@ get_skip_names <- function(skip) {
   skip_flags_all <- map(paste0("(?:^(?:", skip, ")(?:|_[0-9]+)$)"), grepl, names_all, perl = TRUE)
   skip_used <- map_lgl(skip_flags_all, any)
   if (!all(skip_used)) {
-    warning("Unused skip expressions: ", paste(skip[!skip_used], collapse = ", "),
+    warning("These skip expressions did not match any test names: ", toString(skip[!skip_used]),
       call. = FALSE
     )
   }
