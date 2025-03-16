@@ -10,7 +10,7 @@ test_select_bind_expr <- function(
   skip_fun = NULL,
   dbitest_version = NULL,
   cast_fun = NULL,
-  requires_names = NUL
+  requires_names = NULL
 ) {
   force(bind_values)
   force(arrow)
