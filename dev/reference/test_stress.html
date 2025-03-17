@@ -50,10 +50,10 @@
 <dl><dt id="arg-skip">skip<a class="anchor" aria-label="anchor" href="#arg-skip"></a></dt>
 <dd><p><code>[character()]</code><br> A vector of regular expressions to match
 against test names; skip test if matching any.
-The regular expressions are matched against the entire test name
-minus a possible suffix <code>_N</code> where <code>N</code> is a number.
+To improve precision, the regular expressions are matched against the
+entire test name minus a possible suffix <code>_N</code> where <code>N</code> is a number.
 For example, <code>skip = "exists_table"</code> will skip both
-<code>"exists_table_1"</code> and <code>"exists_table_2"</code>.</p></dd>
+<code>"exists_table_1"</code> and <code>"exists_table_2"</code>, but not <code>"there_exists_table"</code>.</p></dd>
 
 
 <dt id="arg-ctx">ctx<a class="anchor" aria-label="anchor" href="#arg-ctx"></a></dt>
