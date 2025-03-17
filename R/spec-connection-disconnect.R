@@ -6,7 +6,7 @@
 spec_connection_disconnect <- list(
   disconnect_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbDisconnect)), c("conn", "..."))
+    expect_named(formals(dbDisconnect), c("conn", "..."))
   },
 
   can_disconnect = function(ctx) {

@@ -5,7 +5,7 @@
 
 spec_meta_arrow_bind <- list(
   arrow_bind_return_value = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:18>
+    # <R/spec-meta-bind-expr.R:19>
     # @return
     # `dbBind()` returns the result set,
     # invisibly,
@@ -38,7 +38,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_too_many = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:53>
+    # <R/spec-meta-bind-expr.R:54>
     # @section Failure modes:
     # Binding too many
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -64,7 +64,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_not_enough = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:72>
+    # <R/spec-meta-bind-expr.R:73>
     # or not enough values,
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -86,7 +86,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_wrong_name = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:86>
+    # <R/spec-meta-bind-expr.R:87>
     # or parameters with wrong names
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
@@ -107,7 +107,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_multi_row_unequal_length = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:101>
+    # <R/spec-meta-bind-expr.R:102>
     # or unequal length,
     # also raises an error.
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -135,7 +135,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_named_param_unnamed_placeholders = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:118>
+    # <R/spec-meta-bind-expr.R:119>
     # If the placeholders in the query are named,
     # all parameter values must have names
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
@@ -157,7 +157,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_named_param_empty_placeholders = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:134>
+    # <R/spec-meta-bind-expr.R:135>
     # (which must not be empty
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
@@ -182,7 +182,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_unnamed_param_named_placeholders = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:166>
+    # <R/spec-meta-bind-expr.R:167>
     # and vice versa,
     # otherwise an error is raised.
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = FALSE)
@@ -204,7 +204,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_premature_clear = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:187>
+    # <R/spec-meta-bind-expr.R:188>
     # Calling `dbBind()` on a result set already cleared by [dbClearResult()]
     # also raises an error.
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -223,7 +223,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_multi_row = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:200>
+    # <R/spec-meta-bind-expr.R:201>
     # @section Specification:
     # The elements of the `params` argument do not need to be scalars,
     # vectors of arbitrary length
@@ -249,7 +249,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_multi_row_zero_length = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:211>
+    # <R/spec-meta-bind-expr.R:212>
     # (including length 0)
     # are supported.
     # For queries, calling `dbFetch()` binding such parameters returns
@@ -277,7 +277,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_repeated = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:239>
+    # <R/spec-meta-bind-expr.R:240>
     # `dbBind()` also accepts repeated calls on the same result set
     # for both queries
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -307,7 +307,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_repeated_untouched = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:265>
+    # <R/spec-meta-bind-expr.R:266>
     # even if no results are fetched between calls to `dbBind()`,
     # for both queries
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -333,7 +333,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_named_param_shuffle = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:296>
+    # <R/spec-meta-bind-expr.R:297>
     # If the placeholders in the query are named,
     # their order in the `params` argument is not important.
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
@@ -359,7 +359,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_integer = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:312>
+    # <R/spec-meta-bind-expr.R:313>
     # At least the following data types are accepted on input (including [NA]):
     # - [integer]
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -388,7 +388,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_numeric = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:322>
+    # <R/spec-meta-bind-expr.R:323>
     # - [numeric]
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -416,7 +416,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_logical = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:331>
+    # <R/spec-meta-bind-expr.R:332>
     # - [logical] for Boolean values
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -443,12 +443,12 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_character = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:340>
+    # <R/spec-meta-bind-expr.R:341>
     # - [character]
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- c("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", `Encoding<-`("M\xfcller", "latin1"), "\U{6211}\U{662F}\U{8C01}", "ASCII", NA)
+      bind_values <- c("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", (`Encoding<-`)("M\xfcller", "latin1"), "\U{6211}\U{662F}\U{8C01}", "ASCII", NA)
       placeholder <- placeholder_fun(6L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -473,7 +473,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_character_escape = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:349>
+    # <R/spec-meta-bind-expr.R:350>
     # (also with special characters such as spaces, newlines, quotes, and backslashes)
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -507,14 +507,14 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_factor = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:358>
+    # <R/spec-meta-bind-expr.R:359>
     # - [factor] (bound as character,
     # with warning)
     skip_if_not_dbitest(ctx, "1.7.99.13")
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- list(factor("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}"), factor("M\U{FC}ller"), factor(`Encoding<-`("M\xfcller", "latin1")), factor("\U{6211}\U{662F}\U{8C01}"), factor("ASCII"), factor(NA_character_))
+      bind_values <- list(factor("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}"), factor("M\U{FC}ller"), factor((`Encoding<-`)("M\xfcller", "latin1")), factor("\U{6211}\U{662F}\U{8C01}"), factor("ASCII"), factor(NA_character_))
       placeholder <- placeholder_fun(6L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -539,7 +539,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_date = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:370>
+    # <R/spec-meta-bind-expr.R:371>
     # - [Date]
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -568,7 +568,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_date_integer = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:380>
+    # <R/spec-meta-bind-expr.R:381>
     # (also when stored internally as integer)
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -597,7 +597,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_timestamp = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:390>
+    # <R/spec-meta-bind-expr.R:391>
     # - [POSIXct] timestamps
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -626,13 +626,13 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_timestamp_lt = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:406>
+    # <R/spec-meta-bind-expr.R:407>
     # - [POSIXlt] timestamps
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- list(as.POSIXlt("2023-12-17 02:40:49"), as.POSIXlt("2023-12-17 02:40:50"), as.POSIXlt("2023-12-17 02:40:51"), as.POSIXlt(NA_character_))
+      bind_values <- list(as.POSIXlt(as.POSIXct("2023-12-17 02:40:49")), as.POSIXlt(as.POSIXct("2023-12-17 02:40:50")), as.POSIXlt(as.POSIXct("2023-12-17 02:40:51")), as.POSIXlt(NA_character_))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -655,7 +655,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_time_seconds = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:422>
+    # <R/spec-meta-bind-expr.R:423>
     # - [difftime] values
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -684,7 +684,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_time_hours = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:433>
+    # <R/spec-meta-bind-expr.R:434>
     # (also with units other than seconds
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -713,7 +713,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_time_minutes_integer = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:444>
+    # <R/spec-meta-bind-expr.R:445>
     # and with the value stored as integer)
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
@@ -742,7 +742,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_raw = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:455>
+    # <R/spec-meta-bind-expr.R:456>
     # - lists of [raw] for blobs (with `NULL` entries for SQL NULL values)
     skip_if_not_dbitest(ctx, "1.7.99.14")
     skip_if(isTRUE(ctx$tweaks$omit_blob_tests))
@@ -772,7 +772,7 @@ spec_meta_arrow_bind <- list(
     }
   },
   arrow_bind_blob = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:467>
+    # <R/spec-meta-bind-expr.R:468>
     # - objects of type [blob::blob]
     skip_if(isTRUE(ctx$tweaks$omit_blob_tests))
     placeholder_funs <- get_placeholder_funs(ctx)

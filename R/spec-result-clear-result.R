@@ -7,7 +7,7 @@
 spec_result_clear_result <- list(
   clear_result_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbClearResult)), c("res", "..."))
+    expect_named(formals(dbClearResult), c("res", "..."))
   },
 
   clear_result_return_query = function(con) {

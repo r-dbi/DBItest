@@ -6,7 +6,7 @@
 spec_result_execute <- list(
   execute_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbExecute)), c("conn", "statement", "..."))
+    expect_named(formals(dbExecute), c("conn", "statement", "..."))
   },
 
   execute_atomic = function(ctx, con, table_name) {
@@ -16,9 +16,9 @@ spec_result_execute <- list(
 
     ret <- dbExecute(con, query)
     #' scalar
-    expect_equal(length(ret), 1)
+    expect_length(ret, 1)
     #' numeric
-    expect_true(is.numeric(ret))
+    expect_true(is.numeric(ret)) # nolint: expect_type_linter. back-compatibility.
     #' that specifies the number of rows affected
     #' by the statement.
   },
@@ -85,7 +85,7 @@ spec_result_execute <- list(
   execute_immediate = function(ctx, con, table_name) {
     #' @inheritSection spec_result_get_query Specification for the `immediate` argument
     res <- expect_visible(dbExecute(con, trivial_statement(ctx, table_name), immediate = TRUE))
-    expect_true(is.numeric(res))
+    expect_true(is.numeric(res)) # nolint: expect_type_linter. back-compatibility.
   },
   #
   NULL

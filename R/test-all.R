@@ -25,7 +25,7 @@
 #'
 #' @export
 test_all <- function(skip = NULL, run_only = NULL, ctx = get_default_context()) {
-  run_all <- length(grep("^DBITEST_ONLY_", names(Sys.getenv()))) == 0
+  run_all <- !any(startsWith(names(Sys.getenv()), "DBITEST_ONLY_"))
   if (run_all || Sys.getenv("DBITEST_ONLY_GETTING_STARTED") != "") test_getting_started(skip = skip, run_only = run_only, ctx = ctx)
   if (run_all || Sys.getenv("DBITEST_ONLY_DRIVER") != "") test_driver(skip = skip, run_only = run_only, ctx = ctx)
   if (run_all || Sys.getenv("DBITEST_ONLY_CONNECTION") != "") test_connection(skip = skip, run_only = run_only, ctx = ctx)

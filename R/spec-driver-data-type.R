@@ -7,7 +7,7 @@
 spec_driver_data_type <- list(
   data_type_formals = function() {
     # <establish formals of described function>
-    expect_equal(names(formals(dbDataType)), c("dbObj", "obj", "..."))
+    expect_named(formals(dbDataType), c("dbObj", "obj", "..."))
   },
   #
   data_type_driver = function(ctx) {
@@ -28,12 +28,12 @@ test_data_type <- function(ctx, dbObj) {
       #' as a non-empty
       expect_match(dbDataType(dbObj, .(value)), ".")
       #' character string.
-      if (!is.data.frame(value)) {
-        expect_equal(length(dbDataType(dbObj, .(value))), 1L)
-      } else {
+      if (is.data.frame(value)) {
         #' For data frames, a character vector with one element per column
         #' is returned.
-        expect_equal(length(dbDataType(dbObj, value)), .(ncol(value)))
+        expect_length(dbDataType(dbObj, value), .(ncol(value)))
+      } else {
+        expect_length(dbDataType(dbObj, .(value)), 1L)
       }
       expect_type(dbDataType(dbObj, .(value)), "character")
       expect_visible(dbDataType(dbObj, .(value)))

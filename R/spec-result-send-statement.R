@@ -6,7 +6,7 @@
 spec_result_send_statement <- list(
   send_statement_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbSendStatement)), c("conn", "statement", "..."))
+    expect_named(formals(dbSendStatement), c("conn", "statement", "..."))
   },
 
   send_statement_trivial = function(ctx, con, table_name) {

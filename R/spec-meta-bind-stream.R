@@ -5,7 +5,7 @@
 
 spec_meta_stream_bind <- list(
   stream_bind_return_value = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:18>
+    # <R/spec-meta-bind-expr.R:19>
     # @return
     # `dbBind()` returns the result set,
     # invisibly,
@@ -13,7 +13,7 @@ spec_meta_stream_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -38,14 +38,14 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_return_value_statement = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:36>
+    # <R/spec-meta-bind-expr.R:37>
     # also for data manipulation statements issued by
     # [dbSendStatement()].
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
@@ -70,13 +70,13 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_too_many = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:53>
+    # <R/spec-meta-bind-expr.R:54>
     # @section Failure modes:
     # Binding too many
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- if (is.null(names(bind_values))) {
@@ -96,12 +96,12 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_not_enough = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:72>
+    # <R/spec-meta-bind-expr.R:73>
     # or not enough values,
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, 2L, check.names = FALSE), names = c("", ""))
+      bind_values <- structure(data.frame(1L, 2L), names = c("", ""))
       placeholder <- placeholder_fun(2L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- bind_values[-1L]
@@ -118,12 +118,12 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_wrong_name = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:86>
+    # <R/spec-meta-bind-expr.R:87>
     # or parameters with wrong names
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- stats::setNames(bind_values, paste0("bogus", names(bind_values)))
@@ -139,13 +139,13 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_named_param_unnamed_placeholders = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:118>
+    # <R/spec-meta-bind-expr.R:119>
     # If the placeholders in the query are named,
     # all parameter values must have names
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- stats::setNames(bind_values, NULL)
@@ -161,12 +161,12 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_named_param_empty_placeholders = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:134>
+    # <R/spec-meta-bind-expr.R:135>
     # (which must not be empty
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, 2L, check.names = FALSE), names = c("", ""))
+      bind_values <- structure(data.frame(1L, 2L), names = c("", ""))
       placeholder <- placeholder_fun(2L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- {
@@ -186,12 +186,12 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_named_param_na_placeholders = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:150>
+    # <R/spec-meta-bind-expr.R:151>
     # or `NA`),
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, 2L, check.names = FALSE), names = c("", ""))
+      bind_values <- structure(data.frame(1L, 2L), names = c("", ""))
       placeholder <- placeholder_fun(2L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- {
@@ -211,13 +211,13 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_unnamed_param_named_placeholders = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:166>
+    # <R/spec-meta-bind-expr.R:167>
     # and vice versa,
     # otherwise an error is raised.
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = FALSE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- stats::setNames(bind_values, letters[seq_along(bind_values)])
@@ -233,13 +233,13 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_premature_clear = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:187>
+    # <R/spec-meta-bind-expr.R:188>
     # Calling `dbBind()` on a result set already cleared by [dbClearResult()]
     # also raises an error.
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -252,14 +252,14 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_multi_row = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:200>
+    # <R/spec-meta-bind-expr.R:201>
     # @section Specification:
     # The elements of the `params` argument do not need to be scalars,
     # vectors of arbitrary length
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1:3, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1:3), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -278,7 +278,7 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_multi_row_zero_length = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:211>
+    # <R/spec-meta-bind-expr.R:212>
     # (including length 0)
     # are supported.
     # For queries, calling `dbFetch()` binding such parameters returns
@@ -288,7 +288,7 @@ spec_meta_stream_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(integer(0), integer(0), check.names = FALSE), names = c("", ""))
+      bind_values <- structure(data.frame(integer(0), integer(0)), names = c("", ""))
       placeholder <- placeholder_fun(2L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -306,14 +306,14 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_multi_row_statement = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:227>
+    # <R/spec-meta-bind-expr.R:228>
     # For data manipulation statements, `dbGetRowsAffected()` returns the
     # total number of rows affected if binding non-scalar parameters.
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1:3, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1:3), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
@@ -333,13 +333,13 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_repeated = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:239>
+    # <R/spec-meta-bind-expr.R:240>
     # `dbBind()` also accepts repeated calls on the same result set
     # for both queries
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -363,13 +363,13 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_repeated_statement = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:252>
+    # <R/spec-meta-bind-expr.R:253>
     # and data manipulation statements,
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
@@ -394,13 +394,13 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_repeated_untouched = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:265>
+    # <R/spec-meta-bind-expr.R:266>
     # even if no results are fetched between calls to `dbBind()`,
     # for both queries
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -420,13 +420,13 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_repeated_untouched_statement = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:280>
+    # <R/spec-meta-bind-expr.R:281>
     # and data manipulation statements.
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     allow_na_rows_affected <- ctx$tweaks$allow_na_rows_affected
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, check.names = FALSE), names = "")
+      bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       data <- data.frame(a = rep(1:5, 1:5), b = 1:15)
@@ -447,13 +447,13 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_named_param_shuffle = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:296>
+    # <R/spec-meta-bind-expr.R:297>
     # If the placeholders in the query are named,
     # their order in the `params` argument is not important.
     placeholder_funs <- get_placeholder_funs(ctx, requires_names = TRUE)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1.5, 2.5, 3.5, NA_real_, check.names = FALSE), names = character(4))
+      bind_values <- structure(data.frame(1.5, 2.5, 3.5, NA_real_), names = character(4))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- bind_values[c(3, 1, 2, 4)]
@@ -473,13 +473,13 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_integer = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:312>
+    # <R/spec-meta-bind-expr.R:313>
     # At least the following data types are accepted on input (including [NA]):
     # - [integer]
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1L, 2L, 3L, NA_integer_, check.names = FALSE), names = character(4))
+      bind_values <- structure(data.frame(1L, 2L, 3L, NA_integer_), names = character(4))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -502,12 +502,12 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_numeric = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:322>
+    # <R/spec-meta-bind-expr.R:323>
     # - [numeric]
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(1.5, 2.5, 3.5, NA_real_, check.names = FALSE), names = character(4))
+      bind_values <- structure(data.frame(1.5, 2.5, 3.5, NA_real_), names = character(4))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -530,12 +530,12 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_logical = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:331>
+    # <R/spec-meta-bind-expr.R:332>
     # - [logical] for Boolean values
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(TRUE, FALSE, NA, check.names = FALSE), names = character(3))
+      bind_values <- structure(data.frame(TRUE, FALSE, NA), names = character(3))
       placeholder <- placeholder_fun(3L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -557,13 +557,13 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_character = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:340>
+    # <R/spec-meta-bind-expr.R:341>
     # - [character]
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", `Encoding<-`("M\xfcller", "latin1"), "\U{6211}\U{662F}\U{8C01}", "ASCII", NA_character_, check.names = FALSE),
+        data.frame("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", (`Encoding<-`)("M\xfcller", "latin1"), "\U{6211}\U{662F}\U{8C01}", "ASCII", NA_character_),
         names = character(6)
       )
       placeholder <- placeholder_fun(6L)
@@ -590,15 +590,12 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_character_escape = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:349>
+    # <R/spec-meta-bind-expr.R:350>
     # (also with special characters such as spaces, newlines, quotes, and backslashes)
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(
-        data.frame(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA_character_, check.names = FALSE),
-        names = character(10)
-      )
+      bind_values <- structure(data.frame(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA_character_), names = character(10))
       placeholder <- placeholder_fun(10L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
@@ -627,14 +624,14 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_factor = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:358>
+    # <R/spec-meta-bind-expr.R:359>
     # - [factor] (bound as character,
     # with warning)
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(factor("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}"), factor("M\U{FC}ller"), factor(`Encoding<-`("M\xfcller", "latin1")), factor("\U{6211}\U{662F}\U{8C01}"), factor("ASCII"), factor(NA_character_), check.names = FALSE),
+        data.frame(factor("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}"), factor("M\U{FC}ller"), factor((`Encoding<-`)("M\xfcller", "latin1")), factor("\U{6211}\U{662F}\U{8C01}"), factor("ASCII"), factor(NA_character_)),
         names = character(6)
       )
       placeholder <- placeholder_fun(6L)
@@ -661,14 +658,14 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_date = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:370>
+    # <R/spec-meta-bind-expr.R:371>
     # - [Date]
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(as.Date("2023-12-17"), as.Date("2023-12-18"), as.Date("2023-12-19"), as.Date(NA), check.names = FALSE),
+        data.frame(as.Date("2023-12-17"), as.Date("2023-12-18"), as.Date("2023-12-19"), as.Date(NA)),
         names = character(4)
       )
       placeholder <- placeholder_fun(4L)
@@ -693,14 +690,14 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_date_integer = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:380>
+    # <R/spec-meta-bind-expr.R:381>
     # (also when stored internally as integer)
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(structure(18618L, class = "Date"), structure(18619L, class = "Date"), structure(18620L, class = "Date"), structure(NA_integer_, class = "Date"), check.names = FALSE),
+        data.frame(structure(18618L, class = "Date"), structure(18619L, class = "Date"), structure(18620L, class = "Date"), structure(NA_integer_, class = "Date")),
         names = character(4)
       )
       placeholder <- placeholder_fun(4L)
@@ -725,14 +722,14 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_timestamp = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:390>
+    # <R/spec-meta-bind-expr.R:391>
     # - [POSIXct] timestamps
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(as.POSIXct("2023-12-17 02:40:22"), as.POSIXct("2023-12-17 02:40:23"), as.POSIXct("2023-12-17 02:40:24"), as.POSIXct(NA_character_), check.names = FALSE),
+        data.frame(as.POSIXct("2023-12-17 02:40:22"), as.POSIXct("2023-12-17 02:40:23"), as.POSIXct("2023-12-17 02:40:24"), as.POSIXct(NA_character_)),
         names = character(4)
       )
       placeholder <- placeholder_fun(4L)
@@ -757,14 +754,14 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_timestamp_lt = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:406>
+    # <R/spec-meta-bind-expr.R:407>
     # - [POSIXlt] timestamps
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(as.POSIXct("2023-12-17 02:40:49"), as.POSIXct("2023-12-17 02:40:50"), as.POSIXct("2023-12-17 02:40:51"), as.POSIXct(NA_character_), check.names = FALSE),
+        data.frame(as.POSIXct("2023-12-17 02:40:49"), as.POSIXct("2023-12-17 02:40:50"), as.POSIXct("2023-12-17 02:40:51"), as.POSIXct(NA_character_)),
         names = character(4)
       )
       placeholder <- placeholder_fun(4L)
@@ -789,14 +786,14 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_time_seconds = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:422>
+    # <R/spec-meta-bind-expr.R:423>
     # - [difftime] values
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(as.difftime(1, units = "secs"), as.difftime(2, units = "secs"), as.difftime(3, units = "secs"), as.difftime(NA_real_, units = "secs"), check.names = FALSE),
+        data.frame(as.difftime(1, units = "secs"), as.difftime(2, units = "secs"), as.difftime(3, units = "secs"), as.difftime(NA_real_, units = "secs")),
         names = character(4)
       )
       placeholder <- placeholder_fun(4L)
@@ -821,14 +818,14 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_time_hours = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:433>
+    # <R/spec-meta-bind-expr.R:434>
     # (also with units other than seconds
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(as.difftime(1, units = "hours"), as.difftime(2, units = "hours"), as.difftime(3, units = "hours"), as.difftime(NA_real_, units = "hours"), check.names = FALSE),
+        data.frame(as.difftime(1, units = "hours"), as.difftime(2, units = "hours"), as.difftime(3, units = "hours"), as.difftime(NA_real_, units = "hours")),
         names = character(4)
       )
       placeholder <- placeholder_fun(4L)
@@ -853,14 +850,14 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_time_minutes_integer = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:444>
+    # <R/spec-meta-bind-expr.R:445>
     # and with the value stored as integer)
     skip_if(!isTRUE(ctx$tweaks$time_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame(as.difftime(1, units = "mins"), as.difftime(2, units = "mins"), as.difftime(3, units = "mins"), as.difftime(NA_real_, units = "mins"), check.names = FALSE),
+        data.frame(as.difftime(1, units = "mins"), as.difftime(2, units = "mins"), as.difftime(3, units = "mins"), as.difftime(NA_real_, units = "mins")),
         names = character(4)
       )
       placeholder <- placeholder_fun(4L)
@@ -885,7 +882,7 @@ spec_meta_stream_bind <- list(
     }
   },
   stream_bind_blob = function(ctx, con) {
-    # <R/spec-meta-bind-expr.R:467>
+    # <R/spec-meta-bind-expr.R:468>
     # - objects of type [blob::blob]
     skip_if(isTRUE(ctx$tweaks$omit_blob_tests))
     placeholder_funs <- get_placeholder_funs(ctx)

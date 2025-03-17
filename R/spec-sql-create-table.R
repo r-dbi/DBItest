@@ -6,7 +6,7 @@
 spec_sql_create_table <- list(
   create_table_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbCreateTable)), c("conn", "name", "fields", "...", "row.names", "temporary"))
+    expect_named(formals(dbCreateTable), c("conn", "name", "fields", "...", "row.names", "temporary"))
   },
 
   create_table_return = function(con, table_name) {
@@ -63,6 +63,7 @@ spec_sql_create_table <- list(
     #' incompatible values,
     expect_error(dbCreateTable(con, table_name, test_in, fields = letters))
     #' duplicate names)
+    # nolint next: duplicate_argument_linter.
     expect_error(dbCreateTable(con, table_name, fields = c(a = "INTEGER", a = "INTEGER")))
 
     #' also raise an error.

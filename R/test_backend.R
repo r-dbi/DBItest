@@ -12,7 +12,7 @@ test_backend <- function(target, reporter = NULL) {
     message("driver: ", driver)
     filter <- paste0("driver-", driver)
     message("filter: ", filter)
-    dsn <- toupper(gsub("-", "", driver))
+    dsn <- toupper(gsub("-", "", driver, fixed = TRUE))
     message("dsn: ", dsn)
     cs <- paste0("dsn=", dsn)
     if (filter == "driver-sql-server") {

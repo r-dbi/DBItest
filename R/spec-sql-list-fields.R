@@ -6,7 +6,7 @@
 spec_sql_list_fields <- list(
   list_fields_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbListFields)), c("conn", "name", "..."))
+    expect_named(formals(dbListFields), c("conn", "name", "..."))
   },
 
   list_fields = function(ctx, con, table_name) {

@@ -6,7 +6,7 @@
 spec_sql_quote_string <- list(
   quote_string_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbQuoteString)), c("conn", "x", "..."))
+    expect_named(formals(dbQuoteString), c("conn", "x", "..."))
   },
 
   quote_string_return = function(con) {
@@ -16,17 +16,17 @@ spec_sql_quote_string <- list(
     simple_out <- dbQuoteString(con, simple)
     expect_error(as.character(simple_out), NA)
     expect_type(as.character(simple_out), "character")
-    expect_equal(length(simple_out), 1L)
+    expect_length(simple_out, 1L)
   },
   #
   quote_string_vectorized = function(con) {
     #' of the same length as the input.
     letters_out <- dbQuoteString(con, letters)
-    expect_equal(length(letters_out), length(letters))
+    expect_length(letters_out, length(letters))
 
     #' For an empty character vector this function returns a length-0 object.
     empty_out <- dbQuoteString(con, character())
-    expect_equal(length(empty_out), 0L)
+    expect_length(empty_out, 0L)
   },
   #
   quote_string_double = function(con) {
@@ -58,7 +58,7 @@ spec_sql_quote_string <- list(
     #' @section Specification:
     do_test_string <- function(x) {
       #' The returned expression can be used in a `SELECT ...` query,
-      query <- paste0("SELECT ", paste(dbQuoteString(con, x), collapse = ", "))
+      query <- paste0("SELECT ", toString(dbQuoteString(con, x)))
       #' and for any scalar character `x` the value of
       #' \code{dbGetQuery(paste0("SELECT ", dbQuoteString(x)))[[1]]}
       #' must be identical to `x`,

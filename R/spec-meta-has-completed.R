@@ -6,7 +6,7 @@
 spec_meta_has_completed <- list(
   has_completed_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbHasCompleted)), c("res", "..."))
+    expect_named(formals(dbHasCompleted), c("res", "..."))
   },
 
   has_completed_query = function(con) {

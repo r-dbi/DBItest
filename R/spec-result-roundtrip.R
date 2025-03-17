@@ -269,7 +269,8 @@ test_select <- function(
   ...,
   .add_null = "none",
   .ctx,
-  .envir = parent.frame()) {
+  .envir = parent.frame()
+) {
 
   values <- list2(...)
 
@@ -323,7 +324,7 @@ test_select <- function(
     }
   }
 
-  expect_identical(names(rows), sql_names)
+  expect_named(rows, sql_names)
 
   for (i in seq_along(values)) {
     value_or_testfun <- values[[i]]
@@ -337,7 +338,7 @@ test_select <- function(
   if (.add_null != "none") {
     expect_equal(nrow(rows), 2L)
     if (is.list(rows[[1L]])) {
-      expect_true(is.null(rows[2L, 1L][[1L]]))
+      expect_null(rows[2L, 1L][[1L]])
     } else {
       expect_true(is.na(rows[2L, 1L]))
     }

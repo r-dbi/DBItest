@@ -6,7 +6,7 @@
 spec_transaction_with_transaction <- list(
   with_transaction_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbWithTransaction)), c("conn", "code", "..."))
+    expect_named(formals(dbWithTransaction), c("conn", "code", "..."))
   },
 
   with_transaction_return_value = function(con) {

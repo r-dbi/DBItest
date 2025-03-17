@@ -6,7 +6,7 @@
 spec_sql_append_table <- list(
   append_table_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbAppendTable)), c("conn", "name", "value", "...", "row.names"))
+    expect_named(formals(dbAppendTable), c("conn", "name", "value", "...", "row.names"))
   },
 
   append_table_return = function(con, table_name) {
@@ -17,9 +17,9 @@ spec_sql_append_table <- list(
     ret <- dbAppendTable(con, table_name, test_in)
 
     #' scalar
-    expect_equal(length(ret), 1)
+    expect_length(ret, 1)
     #' numeric.
-    expect_true(is.numeric(ret))
+    expect_true(is.numeric(ret)) # nolint: expect_type_linter. back-compatibility.
   },
 
   #'
@@ -153,7 +153,7 @@ spec_sql_append_table <- list(
     #' The following data types must be supported at least,
     #' and be read identically with [dbReadTable()]:
     #' - integer
-    tbl_in <- data.frame(a = c(1:5))
+    tbl_in <- data.frame(a = 1:5)
     test_table_roundtrip(use_append = TRUE, con, tbl_in)
   },
 

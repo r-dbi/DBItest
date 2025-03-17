@@ -22,7 +22,8 @@ test_select_bind_expr_one$fun <- function(
   warn = FALSE,
   is_repeated = FALSE,
   is_premature_clear = FALSE,
-  is_untouched = FALSE) {
+  is_untouched = FALSE
+) {
   check_dots_empty()
   force(bind_values)
   force(arrow)
@@ -206,10 +207,9 @@ test_select_bind_expr_one$fun <- function(
     !!retrieve_expr
   })
 
-  early_exit <-
-    is_premature_clear ||
-      !is.na(bind_error) ||
-      (!is.null(patch_bind_values) && !identical(bind_values, patch_bind_values(bind_values)))
+  early_exit <- is_premature_clear ||
+    !is.na(bind_error) ||
+    (!is.null(patch_bind_values) && !identical(bind_values, patch_bind_values(bind_values)))
 
   post_bind_expr <- if (!early_exit) expr({
     !!not_untouched_expr

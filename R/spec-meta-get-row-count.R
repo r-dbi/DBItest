@@ -6,7 +6,7 @@
 spec_meta_get_row_count <- list(
   get_row_count_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbGetRowCount)), c("res", "..."))
+    expect_named(formals(dbGetRowCount), c("res", "..."))
   },
 
   row_count_query = function(con) {

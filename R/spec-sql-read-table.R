@@ -6,7 +6,7 @@
 spec_sql_read_table <- list(
   read_table_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbReadTable)), c("conn", "name", "..."))
+    expect_named(formals(dbReadTable), c("conn", "name", "..."))
   },
 
   read_table = function(ctx, con, table_name) {
@@ -160,7 +160,7 @@ spec_sql_read_table <- list(
     #' if the `check.names` argument is `TRUE`,
     test_out <- check_df(dbReadTable(con, table_name, check.names = TRUE))
 
-    expect_identical(names(test_out), make.names(names(test_out), unique = TRUE))
+    expect_named(test_out, make.names(names(test_out), unique = TRUE))
     expect_equal_df(test_out, setNames(test_in, names(test_out)))
   },
   #

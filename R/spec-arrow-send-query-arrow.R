@@ -6,7 +6,7 @@
 spec_arrow_send_query_arrow <- list(
   arrow_send_query_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbSendQueryArrow)), c("conn", "statement", "..."))
+    expect_named(formals(dbSendQueryArrow), c("conn", "statement", "..."))
   },
 
   arrow_send_query_trivial = function(con) {
