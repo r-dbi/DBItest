@@ -118,7 +118,7 @@
     #' @param create_table_empty `[function(character(1))]`\cr
     #'   A function that creates an SQL expression for creating an empty table
     #'   with a single integer column named 'a'.
-    "create_table_empty" = function(table_name) paste0("CREATE TABLE ", table_name, " (a integer)")
+    "create_table_empty" = function(table_name) paste0("CREATE TABLE ", table_name, " (a integer)"),
 
     #' @param dbitest_version `[character(1)]`\cr
     #'   Compatible DBItest version, default: "1.7.1".
