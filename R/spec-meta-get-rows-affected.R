@@ -54,11 +54,9 @@ spec_meta_get_rows_affected <- list(
     #' `NA` values are not allowed.
   },
   #'
-  get_rows_affected_error = function(con, table_name) {
+  get_rows_affected_error = function(ctx, con, table_name) {
     #' @section Failure modes:
-    query <- paste0(
-      "CREATE TABLE ", dbQuoteIdentifier(con, table_name), " (a integer)"
-    )
+    query <- ctx$tweaks$create_table_empty(table_name)
     res <- dbSendStatement(con, query)
     dbClearResult(res)
     #' Attempting to get the rows affected for a result set cleared with

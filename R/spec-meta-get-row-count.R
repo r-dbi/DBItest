@@ -57,8 +57,8 @@ spec_meta_get_row_count <- list(
     expect_equal(rc, 0L)
   },
   #
-  row_count_statement = function(con, table_name) {
-    query <- paste0("CREATE TABLE ", table_name, " (a integer)")
+  row_count_statement = function(ctx, con, table_name) {
+    query <- ctx$tweaks$create_table_empty(table_name)
     #' For data manipulation statements issued with
     #' [dbSendStatement()],
     res <- local_result(dbSendStatement(con, query))
