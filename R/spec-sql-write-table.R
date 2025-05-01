@@ -89,6 +89,7 @@ spec_sql_write_table <- list(
     expect_error(dbWriteTable(con, table_name, test_in, field.types = "INTEGER"))
 
     #' incompatible columns)
+    expect_false(dbExistsTable(con, table_name))
     dbWriteTable(con, table_name, test_in)
     expect_error(dbWriteTable(con, table_name, data.frame(b = 2L, c = 3L), append = TRUE))
 

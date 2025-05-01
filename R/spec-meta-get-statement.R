@@ -20,8 +20,8 @@ spec_meta_get_statement <- list(
     expect_identical(s, query)
   },
   #
-  get_statement_statement = function(con, table_name) {
-    query <- paste0("CREATE TABLE ", table_name, " (a integer)")
+  get_statement_statement = function(ctx, con, table_name) {
+    query <- ctx$tweaks$create_table_empty(table_name)
     #' [dbSendStatement()].
     res <- local_result(dbSendStatement(con, query))
     s <- dbGetStatement(res)

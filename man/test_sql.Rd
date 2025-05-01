@@ -9,10 +9,10 @@ test_sql(skip = NULL, run_only = NULL, ctx = get_default_context())
 \arguments{
 \item{skip}{\verb{[character()]}\cr A vector of regular expressions to match
 against test names; skip test if matching any.
-The regular expressions are matched against the entire test name
-minus a possible suffix \verb{_N} where \code{N} is a number.
+To improve precision, the regular expressions are matched against the
+entire test name minus a possible suffix \verb{_N} where \code{N} is a number.
 For example, \code{skip = "exists_table"} will skip both
-\code{"exists_table_1"} and \code{"exists_table_2"}.}
+\code{"exists_table_1"} and \code{"exists_table_2"}, but not \code{"there_exists_table"}.}
 
 \item{run_only}{\verb{[character()]}\cr A vector of regular expressions to match
 against test names; run only these tests.
