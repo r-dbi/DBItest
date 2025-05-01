@@ -21,9 +21,10 @@ spec_meta_has_completed <- list(
     expect_true(expect_visible(dbHasCompleted(res)))
   },
   #
-  has_completed_statement = function(con, table_name) {
+  has_completed_statement = function(ctx, con, table_name) {
     #' For a query initiated by [dbSendStatement()],
-    res <- local_result(dbSendStatement(con, paste0("CREATE TABLE ", table_name, " (a integer)")))
+    query <- ctx$tweaks$create_table_empty(table_name)
+    res <- local_result(dbSendStatement(con, query))
     #' `dbHasCompleted()` always returns `TRUE`.
     expect_true(expect_visible(dbHasCompleted(res)))
   },

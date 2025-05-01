@@ -27,6 +27,8 @@ tweaks(
   is_null_check = function(x) paste0("(", x, " IS NULL)"),
   create_table_as = function(table_name, query) paste0("CREATE TABLE ", table_name,
     " AS ", query),
+  create_table_empty = function(table_name) paste0("CREATE TABLE ", table_name,
+    " (a integer)"),
   dbitest_version = "1.7.1"
 )
 }
@@ -110,6 +112,10 @@ value is \code{NULL}.}
 \item{create_table_as}{\verb{[function(character(1), character(1))]}\cr
 A function that creates an SQL expression for creating a table
 from an SQL expression.}
+
+\item{create_table_empty}{\verb{[function(character(1))]}\cr
+A function that creates an SQL expression for creating an empty table
+with a single integer column named 'a'.}
 
 \item{dbitest_version}{\verb{[character(1)]}\cr
 Compatible DBItest version, default: "1.7.1".}

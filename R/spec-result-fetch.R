@@ -84,12 +84,12 @@ spec_result_fetch <- list(
     expect_equal(rows, data.frame(a = 1.5))
   },
 
-  fetch_no_return_value = function(con, table_name) {
+  fetch_no_return_value = function(ctx, con, table_name) {
     #'
     #' Calling `dbFetch()` on a result set from a data manipulation query
     #' created by [dbSendStatement()] can
     #' be fetched and return an empty data frame, with a warning.
-    query <- paste0("CREATE TABLE ", table_name, " (a integer)")
+    query <- ctx$tweaks$create_table_empty(table_name)
 
     res <- local_result(dbSendStatement(con, query))
     expect_warning(rows <- check_df(dbFetch(res)))
