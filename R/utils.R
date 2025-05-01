@@ -30,7 +30,9 @@ local_invalid_connection <- function(ctx, ...) {
 local_result <- function(query, frame = caller_env()) {
   res <- query
   withr::defer(
-    dbClearResult(res),
+    {
+      dbClearResult(res)
+    },
     envir = frame
   )
   res
