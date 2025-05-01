@@ -92,7 +92,7 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
 
   if (any(skip_flag)) {
     test_that(paste0(test_context, ": skipped tests"), {
-      skip(toString("DBItest::run_tests(): by request: ", paste(names(tests)[skip_flag])))
+      skip(paste0("DBItest::run_tests(): by request: ", paste(names(tests)[skip_flag], collapse = ", ")))
     })
   }
 
