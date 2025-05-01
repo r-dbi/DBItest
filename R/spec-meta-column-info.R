@@ -79,7 +79,7 @@ spec_meta_column_info <- list(
     expect_equal(data[["a"]], 2.5)
     #' non-empty and non-`NA` names are assigned.
     expect_false(anyNA(names(data)))
-    expect_true(all(nzchar(names(data))))
+    expect_true(all(names(data) != ""))
   },
 
   #'

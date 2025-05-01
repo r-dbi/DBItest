@@ -140,7 +140,7 @@ make_tweaks <- function(envir = parent.frame()) {
     function() {
       unknown <- list(...)
       if (length(unknown) > 0) {
-        if (is.null(names(unknown)) || !all(nzchar(names(unknown)))) {
+        if (is.null(names(unknown)) || any(names(unknown) == "")) {
           warning("All tweaks must be named", call. = FALSE)
         } else {
           warning("Unknown tweaks: ", toString(names(unknown)), call. = FALSE)

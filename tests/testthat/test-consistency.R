@@ -1,12 +1,11 @@
 test_that("no unnamed specs", {
   tests <- compact(spec_all)
   vicinity <- NULL
-  missing_name_idx <- !nzchar(names(tests))
-  if (any(missing_name_idx)) {
+  if (any(names(tests) == "")) {
     vicinity <- sort(unique(unlist(
       map(which(names(tests) == ""), "+", -1:1)
     )))
-    vicinity <- vicinity[nzchar(names(tests)[vicinity])]
+    vicinity <- vicinity[names(tests)[vicinity] != ""]
   }
   expect_null(vicinity)
 })

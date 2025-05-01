@@ -107,7 +107,7 @@ get_skip_names <- function(skip) {
     return(character())
   }
   names_all <- names(spec_all)
-  names_all <- names_all[nzchar(names_all)]
+  names_all <- names_all[names_all != ""]
   skip_flags_all <- map(paste0("(?:^(?:", skip, ")(?:|_[0-9]+)$)"), grepl, names_all, perl = TRUE)
   skip_used <- map_lgl(skip_flags_all, any)
   if (!all(skip_used)) {
@@ -124,7 +124,7 @@ get_skip_names <- function(skip) {
 
 get_run_only_tests <- function(tests, run_only) {
   names_all <- names(tests)
-  names_all <- names_all[nzchar(names_all)]
+  names_all <- names_all[names_all != ""]
   if (is.null(run_only)) {
     return(tests)
   }

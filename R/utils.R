@@ -84,7 +84,7 @@ check_df <- function(df) {
   }
 
   df_names <- names(df)
-  expect_true(all(nzchar(df_names)))
+  expect_true(all(df_names != ""))
   expect_false(anyNA(df_names))
 
   df
