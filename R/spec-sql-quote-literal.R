@@ -16,13 +16,13 @@ spec_sql_quote_literal <- list(
     simple_out <- dbQuoteLiteral(con, simple)
     expect_error(as.character(simple_out), NA)
     expect_type(as.character(simple_out), "character")
-    expect_equal(length(simple_out), 1L)
+    expect_length(simple_out, 1L)
   },
   #
   quote_literal_vectorized = function(con) {
     #' of the same length as the input.
     letters_out <- dbQuoteLiteral(con, letters)
-    expect_equal(length(letters_out), length(letters))
+    expect_length(letters_out, length(letters))
   },
   #
   quote_literal_empty = function(ctx, con) {
