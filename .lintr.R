@@ -14,6 +14,7 @@ linters <- modify_defaults(
   missing_argument_linter = NULL,
   namespace_linter = NULL,
   nonportable_path_linter = NULL,
+  nzchar_linter = NULL,
   object_length_linter = NULL,
   object_name_linter = NULL,
   object_overwrite_linter = NULL,
