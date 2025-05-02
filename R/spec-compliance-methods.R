@@ -25,14 +25,12 @@ spec_compliance_methods <- list(
 
     pkg <- package_name(ctx)
 
-    where <- asNamespace(pkg)
-
     sapply(names(key_methods), function(name) {
       dbi_class <- paste0("DBI", name)
 
       classes <- Filter(function(class) {
         extends(class, dbi_class) && !getClass(class)@virtual
-      }, getClasses(where))
+      }, getClasses(asNamespace(pkg)))
 
       expect_gte(length(classes), 1)
 
@@ -42,7 +40,7 @@ spec_compliance_methods <- list(
       #' of these base classes
       #' that are defined but not implemented by DBI.
       mapply(function(method, args) {
-        expect_has_class_method(method, class, args, where)
+        expect_has_class_method(method, class, args, pkg)
       }, names(key_methods[[name]]), key_methods[[name]])
     })
     #
@@ -98,7 +96,7 @@ spec_compliance_methods <- list(
 expect_has_class_method <- function(name, class, args, driver_package) {
   full_args <- c(class, args)
   eval(bquote(
-    expect_true(hasMethod(.(name), .(full_args), driver_package))
+    expect_true(hasMethod(.(name), signature = .(full_args), asNamespace(.(driver_package))))
   ))
 }
 

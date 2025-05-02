@@ -31,7 +31,7 @@ sql_union <- function(..., .order_by = NULL, .ctx) {
 }
 
 trivial_statement <- function(ctx, table_name) {
-  ctx$tweaks$create_table_as(table_name, trivial_query())
+  ctx$tweaks$create_table_as(table_name)
 }
 
 trivial_query <- function(n = 1L, column = "a", .order_by = NULL, .ctx = NULL) {

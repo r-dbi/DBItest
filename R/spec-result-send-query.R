@@ -74,7 +74,7 @@ spec_result_send_query <- list(
     #' when the connection is closed.
     con <- connect(ctx)
     on.exit(dbDisconnect(con))
-    expect_warning(dbSendQuery(con, trivial_query()), NA)
+    expect_warning(res<-dbSendQuery(con, trivial_query()), NA)
 
     expect_warning({
       dbDisconnect(con)
