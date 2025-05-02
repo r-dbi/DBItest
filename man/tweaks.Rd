@@ -25,8 +25,8 @@ tweaks(
   list_temporary_tables = TRUE,
   allow_na_rows_affected = FALSE,
   is_null_check = function(x) paste0("(", x, " IS NULL)"),
-  create_table_as = function(table_name, query = trivial_query()) paste0(
-    "CREATE TABLE ", table_name, " AS ", query),
+  create_table_as = function(table_name, query = trivial_query()) paste0("CREATE TABLE ",
+    table_name, " AS ", query),
   create_table_empty = function(table_name) paste0("CREATE TABLE ", table_name,
     " (a integer)"),
   dbitest_version = "1.7.1"
