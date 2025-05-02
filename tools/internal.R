@@ -1,88 +1,116 @@
 pkgload::load_all()
 library(tidyverse)
 
-check_missing_objects <- function(fun, env = parent.frame()) {
-  if (!is.function(fun)) stop("Input must be a function.")
+walk_ast <- function(
+  expr,
+  env = parent.frame(),
+  known_values = character(),
+  unknown_funcs = character(),
+  unknown_vars = character()
+) {
+  is_known <- function(name) {
+    name %in% known_values || exists(name, envir = env, inherits = TRUE)
+  }
 
-  # Get the function's body and formal arguments
-  body_expr <- body(fun)
-  arg_names <- names(formals(fun))
+  process_call <- function(call_expr) {
+    fn <- call_expr[[1]]
 
-  # Collect all symbols (names) in the function body
-  all_symbols <- all.names(body_expr, functions = TRUE, unique = TRUE)
+    if (is.symbol(fn)) {
+      fn_name <- as.character(fn)
+      # Handle unknown function calls
+      if (!is_known(fn_name) && !exists(fn_name, mode = "function", envir = env, inherits = TRUE)) {
+        unknown_funcs <<- union(unknown_funcs, fn_name)
+      }
+    } else if (is.call(fn) && fn[[1]] == quote(`::`)) {
+      # Handle package::function form
+      if (length(fn) == 3 && is.symbol(fn[[3]])) {
+        fn_name <- as.character(fn[[3]])
+        # Consider function from package known, but still check args
+        # Do nothing for fn_name here
+      }
+    } else {
+      # Walk over anonymous or nested function call
+      walk(expr = fn)
+    }
 
-  # Symbols used in function calls
-  call_symbols <- unique(unlist(lapply(all_calls(body_expr), function(call) as.character(call[[1]]))))
+    # Recursively walk through arguments
+    for (i in 2:length(call_expr)) {
+      walk(call_expr[[i]])
+    }
+  }
 
-  # Identify symbols not used as function names (i.e., likely values)
-  value_symbols <- setdiff(all_symbols, call_symbols)
+  walk <- function(expr) {
+    if (is.function(expr)) {
+      # Handle function definitions
+      fun_args <- as.character(names(formals(expr)))
+      child <- walk_ast(body(expr), env = env, known_values = fun_args)
+      unknown_funcs <<- union(unknown_funcs, child$unknown_functions)
+      unknown_vars <<- union(unknown_vars, child$unknown_variables)
+    }
+    if (is.call(expr)) {
+      if (identical(expr[[1]], quote(`<-`)) && length(expr) == 3) {
+        lhs <- expr[[2]]
+        rhs <- expr[[3]]
+        if (is.symbol(lhs)) {
+          lhs_name <- as.character(lhs)
+          known_values <<- union(known_values, lhs_name)
+        }
+        walk(rhs)
+      } else if (identical(expr[[1]], quote(`function`))) {
+        # Handle closures with a fresh set of known values
+        fun_args <- as.character(names(expr[[2]]))
+        child <- walk_ast(expr[[3]], env = env, known_values = fun_args)
+        unknown_funcs <<- union(unknown_funcs, child$unknown_functions)
+        unknown_vars <<- union(unknown_vars, child$unknown_variables)
+      } else {
+        process_call(expr)
+      }
+    } else if (is.name(expr)) {
+      var_name <- as.character(expr)
+      if (!is_known(var_name)) {
+        unknown_vars <<- union(unknown_vars, var_name)
+      }
+    } else if (is.pairlist(expr) || is.expression(expr)) {
+      for (e in expr) {
+        walk(e)
+      }
+    } else if (is.list(expr)) {
+      for (e in expr) {
+        walk(e)
+      }
+    }
+  }
 
-  # Remove function arguments from value_symbols
-  value_symbols <- setdiff(value_symbols, arg_names)
-
-  # Find assigned variables in the function body
-  assigned_vars <- find_assigned_vars(body_expr)
-
-  # Remove assigned variables from value_symbols
-  value_symbols <- setdiff(value_symbols, assigned_vars)
-
-  # Now check existence in the environment
-  missing_values <- value_symbols[!vapply(value_symbols, exists, logical(1), envir = env, inherits = TRUE)]
-  missing_calls <- call_symbols[!vapply(call_symbols, function(f) exists(f, mode = "function", envir = env, inherits = TRUE), logical(1))]
+  walk(expr)
 
   list(
-    missing_values = missing_values,
-    missing_calls = missing_calls
+    unknown_functions = unknown_funcs,
+    unknown_variables = unknown_vars,
+    known_values = known_values
   )
 }
 
-# Helper function to extract all function calls from an expression
-all_calls <- function(expr) {
-  calls <- list()
-  recurse <- function(e) {
-    if (is.call(e)) {
-      calls <<- c(calls, list(e))
-      lapply(e[-1], recurse)
-    }
-  }
-  recurse(expr)
-  calls
+fun1 <- function(x) {
+  foo::bar(x)
 }
 
-# Helper function to find variables being assigned to in the function body
-find_assigned_vars <- function(expr) {
-  assigned <- character()
+walk_ast(fun1)
 
-  find_assignments <- function(e) {
-    if (is.call(e)) {
-      # Check for assignment operators: <- and =
-      if (is.symbol(e[[1]]) && as.character(e[[1]]) %in% c("<-", "=")) {
-        # If left side is a name, add it to assigned vars
-        if (is.name(e[[2]])) {
-          assigned <<- c(assigned, as.character(e[[2]]))
-        }
-      }
-      # Recursively check all parts of the call
-      for (i in seq_along(e)[-1]) {
-        find_assignments(e[[i]])
-      }
-    }
-  }
-
-  find_assignments(expr)
-  unique(assigned)
+fun2 <- function(x) {
+  foo::bar(y)
 }
 
-# check_missing_objects(spec_all[[3]])
+walk_ast(fun2)
 
-base <- ls(baseenv())
-DBI <- getNamespaceExports("DBI")
-testthat <- getNamespaceExports("testthat")
+fun3 <- function(x) {
+  bar(x)
+}
 
-base_values <- mget(base, ifnotfound = list(NULL), envir = baseenv())
-DBI_values <- mget(DBI, ifnotfound = list(NULL), envir = asNamespace("DBI"))
-testthat_values <- mget(testthat, ifnotfound = list(NULL), envir = asNamespace("testthat"))
+walk_ast(fun3)
 
-values <- base_values |> modifyList(DBI_values) |> modifyList(testthat_values)
+fun4 <- function(x) {
+  y <- x
+  fun3(y)
+}
 
-missing <- purrr::map(compact(spec_all), check_missing_objects, as.environment(values), .progress = TRUE)
+walk_ast(fun4)
