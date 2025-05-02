@@ -9,7 +9,7 @@ walk_ast <- function(
   unknown_vars = character()
 ) {
   is_known <- function(name) {
-    name %in% known_values || exists(name, envir = env, inherits = TRUE)
+    name == "" || name %in% known_values || exists(name, envir = env, inherits = TRUE)
   }
 
   process_call <- function(call_expr) {
@@ -30,24 +30,21 @@ walk_ast <- function(
       }
     } else {
       # Walk over anonymous or nested function call
-      walk(expr = fn)
+      walk_node(expr = fn)
     }
 
     # Recursively walk through arguments
-    for (i in 2:length(call_expr)) {
-      walk(call_expr[[i]])
-    }
+    walk(call_expr[-1], walk_node)
   }
 
-  walk <- function(expr) {
+  walk_node <- function(expr) {
     if (is.function(expr)) {
       # Handle function definitions
       fun_args <- as.character(names(formals(expr)))
       child <- walk_ast(body(expr), env = env, known_values = fun_args)
       unknown_funcs <<- union(unknown_funcs, child$unknown_functions)
       unknown_vars <<- union(unknown_vars, child$unknown_variables)
-    }
-    if (is.call(expr)) {
+    } else if (is.call(expr)) {
       if (identical(expr[[1]], quote(`<-`)) && length(expr) == 3) {
         lhs <- expr[[2]]
         rhs <- expr[[3]]
@@ -55,7 +52,7 @@ walk_ast <- function(
           lhs_name <- as.character(lhs)
           known_values <<- union(known_values, lhs_name)
         }
-        walk(rhs)
+        walk_node(rhs)
       } else if (identical(expr[[1]], quote(`function`))) {
         # Handle closures with a fresh set of known values
         fun_args <- as.character(names(expr[[2]]))
@@ -72,16 +69,16 @@ walk_ast <- function(
       }
     } else if (is.pairlist(expr) || is.expression(expr)) {
       for (e in expr) {
-        walk(e)
+        walk_node(e)
       }
     } else if (is.list(expr)) {
       for (e in expr) {
-        walk(e)
+        walk_node(e)
       }
     }
   }
 
-  walk(expr)
+  walk_node(expr)
 
   list(
     unknown_functions = unknown_funcs,
@@ -114,3 +111,29 @@ fun4 <- function(x) {
 }
 
 walk_ast(fun4)
+
+fun5 <- function(con) {
+  invisible()
+}
+
+walk_ast(fun5)
+
+fun6 <- function(x) {
+  x[1, , 2]
+}
+
+walk_ast(fun6)
+
+base <- ls(baseenv())
+DBI <- getNamespaceExports("DBI")
+testthat <- getNamespaceExports("testthat")
+
+base_values <- mget(base, ifnotfound = list(NULL), envir = baseenv())
+DBI_values <- mget(DBI, ifnotfound = list(NULL), envir = asNamespace("DBI"))
+testthat_values <- mget(testthat, ifnotfound = list(NULL), envir = asNamespace("testthat"))
+
+values <- base_values |> modifyList(DBI_values) |> modifyList(testthat_values)
+
+walk_ast(compact(spec_all)[[42]], as.environment(values))
+
+missing <- purrr::map(compact(spec_all), walk_ast, as.environment(values), .progress = TRUE)
