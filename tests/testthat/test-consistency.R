@@ -3,7 +3,7 @@ test_that("no unnamed specs", {
   vicinity <- NULL
   if (any(names(tests) == "")) {
     vicinity <- sort(unique(unlist(
-      map(which(names(tests) == ""), "+", -1:1)
+      purrr::map(which(names(tests) == ""), "+", -1:1)
     )))
     vicinity <- vicinity[names(tests)[vicinity] != ""]
   }

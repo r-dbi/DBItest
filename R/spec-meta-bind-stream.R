@@ -16,7 +16,7 @@ spec_meta_stream_bind <- list(
       bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
@@ -84,7 +84,7 @@ spec_meta_stream_bind <- list(
       } else {
         c(bind_values, bogus = bind_values[[1L]])
       }
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
@@ -105,7 +105,7 @@ spec_meta_stream_bind <- list(
       placeholder <- placeholder_fun(2L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- bind_values[-1L]
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
@@ -127,7 +127,7 @@ spec_meta_stream_bind <- list(
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- stats::setNames(bind_values, paste0("bogus", names(bind_values)))
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
@@ -149,7 +149,7 @@ spec_meta_stream_bind <- list(
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- stats::setNames(bind_values, NULL)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
@@ -173,7 +173,7 @@ spec_meta_stream_bind <- list(
         names(bind_values)[[1]] <- ""
         bind_values
       }
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
@@ -198,7 +198,7 @@ spec_meta_stream_bind <- list(
         names(bind_values)[[1]] <- NA
         bind_values
       }
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
@@ -221,7 +221,7 @@ spec_meta_stream_bind <- list(
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- stats::setNames(bind_values, letters[seq_along(bind_values)])
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
@@ -242,7 +242,7 @@ spec_meta_stream_bind <- list(
       bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
@@ -262,7 +262,7 @@ spec_meta_stream_bind <- list(
       bind_values <- structure(data.frame(1:3), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
@@ -291,7 +291,7 @@ spec_meta_stream_bind <- list(
       bind_values <- structure(data.frame(integer(0), integer(0)), names = c("", ""))
       placeholder <- placeholder_fun(2L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a, ")
@@ -342,7 +342,7 @@ spec_meta_stream_bind <- list(
       bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
@@ -403,7 +403,7 @@ spec_meta_stream_bind <- list(
       bind_values <- structure(data.frame(1L), names = "")
       placeholder <- placeholder_fun(1L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       sql <- "SELECT "
       sql <- paste0(sql, "CASE WHEN ", result_check[[1L]], " THEN 1.5 ELSE 2.5 END AS a")
@@ -457,7 +457,7 @@ spec_meta_stream_bind <- list(
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
       bind_values_patched <- bind_values[c(3, 1, 2, 4)]
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
       sql <- "SELECT "
@@ -482,7 +482,7 @@ spec_meta_stream_bind <- list(
       bind_values <- structure(data.frame(1L, 2L, 3L, NA_integer_), names = character(4))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
       sql <- "SELECT "
@@ -510,7 +510,7 @@ spec_meta_stream_bind <- list(
       bind_values <- structure(data.frame(1.5, 2.5, 3.5, NA_real_), names = character(4))
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
       sql <- "SELECT "
@@ -538,7 +538,7 @@ spec_meta_stream_bind <- list(
       bind_values <- structure(data.frame(TRUE, FALSE, NA), names = character(3))
       placeholder <- placeholder_fun(3L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[3L] <- paste0("(", is_null_check(placeholder[3L]), ")")
       sql <- "SELECT "
@@ -568,7 +568,7 @@ spec_meta_stream_bind <- list(
       )
       placeholder <- placeholder_fun(6L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[6L] <- paste0("(", is_null_check(placeholder[6L]), ")")
       sql <- "SELECT "
@@ -598,7 +598,7 @@ spec_meta_stream_bind <- list(
       bind_values <- structure(data.frame(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA_character_), names = character(10))
       placeholder <- placeholder_fun(10L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[10L] <- paste0("(", is_null_check(placeholder[10L]), ")")
       sql <- "SELECT "
@@ -636,7 +636,7 @@ spec_meta_stream_bind <- list(
       )
       placeholder <- placeholder_fun(6L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[6L] <- paste0("(", is_null_check(placeholder[6L]), ")")
       sql <- "SELECT "
@@ -670,7 +670,7 @@ spec_meta_stream_bind <- list(
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
       sql <- "SELECT "
@@ -702,7 +702,7 @@ spec_meta_stream_bind <- list(
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
       sql <- "SELECT "
@@ -734,7 +734,7 @@ spec_meta_stream_bind <- list(
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
       sql <- "SELECT "
@@ -766,7 +766,7 @@ spec_meta_stream_bind <- list(
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
       sql <- "SELECT "
@@ -798,7 +798,7 @@ spec_meta_stream_bind <- list(
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
       sql <- "SELECT "
@@ -830,7 +830,7 @@ spec_meta_stream_bind <- list(
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
       sql <- "SELECT "
@@ -862,7 +862,7 @@ spec_meta_stream_bind <- list(
       )
       placeholder <- placeholder_fun(4L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", placeholder, " = ", placeholder_values, ")")
       result_check[4L] <- paste0("(", is_null_check(placeholder[4L]), ")")
       sql <- "SELECT "
@@ -901,7 +901,7 @@ spec_meta_stream_bind <- list(
       )
       placeholder <- placeholder_fun(3L)
       names(bind_values) <- names(placeholder)
-      placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+      placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
       result_check <- paste0("(", cast_fun(placeholder), " = ", placeholder_values, ")")
       result_check[3L] <- paste0("(", is_null_check(cast_fun(placeholder)[3L]), ")")
       sql <- "SELECT "

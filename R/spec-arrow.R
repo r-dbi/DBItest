@@ -18,8 +18,8 @@ utils::globalVariables("select")
 
 stream_frame <- function(..., .select = NULL) {
   data <- data.frame(..., stringsAsFactors = FALSE, check.names = FALSE)
-  as_is <- map_lgl(data, inherits, "AsIs")
-  data[as_is] <- map(data[as_is], function(.x) {
+  as_is <- purrr::map_lgl(data, inherits, "AsIs")
+  data[as_is] <- purrr::map(data[as_is], function(.x) {
     class(.x) <- setdiff(class(.x), "AsIs")
     .x
   })

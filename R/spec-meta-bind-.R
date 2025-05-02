@@ -78,7 +78,7 @@ test_select_bind_expr <- function(
 get_placeholder_funs <- function(ctx, requires_names = NULL) {
   placeholder_fun <- ctx$tweaks$placeholder_pattern
   if (is.character(placeholder_fun)) {
-    placeholder_funs <- map(placeholder_fun, make_placeholder_fun)
+    placeholder_funs <- purrr::map(placeholder_fun, make_placeholder_fun)
   } else if (is.function(placeholder_fun)) {
     placeholder_funs <- list(placeholder_fun)
   } else {
@@ -90,8 +90,8 @@ get_placeholder_funs <- function(ctx, requires_names = NULL) {
   }
 
   if (!is.null(requires_names)) {
-    placeholder_fun_values <- map(placeholder_funs, ~ .x(1))
-    placeholder_unnamed <- map_lgl(placeholder_fun_values, ~ is.null(names(.x)))
+    placeholder_fun_values <- purrr::map(placeholder_funs, ~ .x(1))
+    placeholder_unnamed <- purrr::map_lgl(placeholder_fun_values, ~ is.null(names(.x)))
 
     # run_bind_tester$fun()
     if (isTRUE(requires_names)) {

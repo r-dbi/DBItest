@@ -362,7 +362,7 @@ spec_meta_bind_expr <- function(
       test_select_bind_expr(
         arrow = arrow,
         bind = bind,
-        map(c(get_texts(), NA_character_), factor),
+        purrr::map(c(get_texts(), NA_character_), factor),
         warn = if (bind == "df") TRUE,
         dbitest_version = if (arrow == "query" && bind == "df") "1.7.99.13"
       )

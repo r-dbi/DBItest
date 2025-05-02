@@ -643,7 +643,7 @@ spec_arrow_write_table_arrow <- list(
     test_arrow_roundtrip(
       con, tbl_in,
       transform = function(out) {
-        dates <- map_lgl(out, inherits, "POSIXt")
+        dates <- purrr::map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
@@ -685,7 +685,7 @@ spec_arrow_write_table_arrow <- list(
     test_arrow_roundtrip(
       con, tbl_in,
       transform = function(out) {
-        dates <- map_lgl(out, inherits, "POSIXt")
+        dates <- purrr::map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
@@ -698,16 +698,16 @@ spec_arrow_write_table_arrow <- list(
   arrow_write_table_arrow_roundtrip_mixed = function(ctx, con) {
     #' Mixing column types in the same table is supported.
     data <- list("a", 1L, 1.5)
-    data <- map(data, c, NA)
+    data <- purrr::map(data, c, NA)
     expanded <- expand.grid(a = data, b = data, c = data)
-    tbl_in_list <- map(
+    tbl_in_list <- purrr::map(
       seq_len(nrow(expanded)),
       function(i) {
-        as.data.frame(map(expanded[i, ], unlist, recursive = FALSE))
+        as.data.frame(purrr::map(expanded[i, ], unlist, recursive = FALSE))
       }
     )
 
-    map(tbl_in_list, test_arrow_roundtrip, con = con)
+    purrr::map(tbl_in_list, test_arrow_roundtrip, con = con)
   },
 
   #
