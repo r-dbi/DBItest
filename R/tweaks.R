@@ -113,7 +113,7 @@
     #' @param create_table_as `[function(character(1), character(1))]`\cr
     #'   A function that creates an SQL expression for creating a table
     #'   from an SQL expression.
-    "create_table_as" = function(table_name, query) paste0("CREATE TABLE ", table_name, " AS ", query),
+    "create_table_as" = function(table_name, query = trivial_query()) paste0("CREATE TABLE ", table_name, " AS ", query),
 
     #' @param create_table_empty `[function(character(1))]`\cr
     #'   A function that creates an SQL expression for creating an empty table
