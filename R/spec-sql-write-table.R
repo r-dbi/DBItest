@@ -7,7 +7,7 @@
 spec_sql_write_table <- list(
   write_table_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbWriteTable)), c("conn", "name", "value", "..."))
+    expect_named(formals(dbWriteTable), c("conn", "name", "value", "..."))
   },
 
   write_table_return = function(con, table_name) {
@@ -83,9 +83,10 @@ spec_sql_write_table <- list(
     expect_error(dbWriteTable(con, table_name, test_in, overwrite = TRUE, append = TRUE))
     expect_error(dbWriteTable(con, table_name, test_in, append = TRUE, field.types = c(a = "INTEGER")))
     #' duplicate
+    # nolint next: duplicate_argument_linter.
     expect_error(dbWriteTable(con, table_name, test_in, field.types = c(a = "INTEGER", a = "INTEGER")))
     #' or missing names,
-    expect_error(dbWriteTable(con, table_name, test_in, field.types = c("INTEGER")))
+    expect_error(dbWriteTable(con, table_name, test_in, field.types = "INTEGER"))
 
     #' incompatible columns)
     expect_false(dbExistsTable(con, table_name))
@@ -374,7 +375,7 @@ spec_sql_write_table <- list(
     #' The following data types must be supported at least,
     #' and be read identically with [dbReadTable()]:
     #' - integer
-    tbl_in <- data.frame(a = c(1:5))
+    tbl_in <- data.frame(a = 1:5)
     test_table_roundtrip(con, tbl_in)
   },
 
@@ -839,7 +840,8 @@ test_table_roundtrip_one <- function(
   name = NULL,
   field.types = NULL,
   use_append = FALSE,
-  .add_na = "none") {
+  .add_na = "none"
+) {
   force(tbl_expected)
   if (.add_na == "above") {
     tbl_in <- add_na_above(tbl_in)

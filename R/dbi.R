@@ -49,7 +49,8 @@ dbi_generics <- function(version) {
 
   if (version < "1.7.99.11") {
     generics <- setdiff(generics, c(
-      "dbBindArrow"
+      "dbBindArrow",
+      NULL
     ))
   }
 

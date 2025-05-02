@@ -9,7 +9,8 @@ spec_meta_bind_expr <- function(
   arrow = c("none", "query"),
   bind = c("df", "stream"),
   ...,
-  ctx = stop("ctx is available during run time only")) {
+  ctx = stop("ctx is available during run time only")
+) {
   check_dots_empty()
   arrow <- arg_match(arrow)
   bind <- arg_match(bind)
@@ -484,6 +485,7 @@ spec_meta_bind_expr <- function(
 }
 
 get_bind_arrow_infix <- function(arrow, bind) {
+  # nolint start: unnecessary_nesting_linter. Intended parallelism.
   if (arrow == "none") {
     if (bind == "df") {
       ""
@@ -497,4 +499,5 @@ get_bind_arrow_infix <- function(arrow, bind) {
       "arrow_stream_"
     }
   }
+  # nolint end: unnecessary_nesting_linter.
 }

@@ -11,8 +11,8 @@ spec_compliance_methods <- list(
     key_methods <- get_key_methods()
 
     #' which are subclasses of
-    expect_identical(
-      names(key_methods),
+    expect_named(
+      key_methods,
       c(
         #' [DBIDriver-class],
         "Driver",
@@ -29,7 +29,7 @@ spec_compliance_methods <- list(
       dbi_class <- paste0("DBI", name)
 
       classes <- Filter(function(class) {
-        extends(class, dbi_class) && getClass(class)@virtual == FALSE
+        extends(class, dbi_class) && !getClass(class)@virtual
       }, getClasses(asNamespace(pkg)))
 
       expect_gte(length(classes), 1)
@@ -72,7 +72,7 @@ spec_compliance_methods <- list(
     }
 
     missing <- setdiff(dbi_names, exported_names)
-    expect_equal(paste(missing, collapse = ", "), "")
+    expect_equal(toString(missing), "")
   },
 
   ellipsis = function(ctx) {

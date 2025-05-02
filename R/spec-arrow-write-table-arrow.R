@@ -7,7 +7,7 @@
 spec_arrow_write_table_arrow <- list(
   arrow_write_table_arrow_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbWriteTableArrow)), c("conn", "name", "value", "..."))
+    expect_named(formals(dbWriteTableArrow), c("conn", "name", "value", "..."))
   },
 
   arrow_write_table_arrow_return = function(con, table_name) {
@@ -388,7 +388,7 @@ spec_arrow_write_table_arrow <- list(
     #' The following data types must be supported at least,
     #' and be read identically with [dbReadTable()]:
     #' - integer
-    tbl_in <- data.frame(a = c(1:5))
+    tbl_in <- data.frame(a = 1:5)
     test_arrow_roundtrip(con, tbl_in)
   },
 
@@ -723,8 +723,7 @@ test_arrow_roundtrip <- function(...) {
 test_arrow_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transform = identity,
                                      name = NULL, use_append = FALSE, .add_na = "none") {
   # Need data frames here because streams can be collected only once
-  stopifnot(is.data.frame(tbl_in))
-  stopifnot(is.data.frame(tbl_expected))
+  stopifnot(is.data.frame(tbl_in), is.data.frame(tbl_expected))
 
   force(tbl_expected)
   if (.add_na == "above") {

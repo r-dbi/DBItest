@@ -29,7 +29,7 @@ local_invalid_connection <- function(ctx, ...) {
 # Calls `dbClearResult()` on `query` after exiting `frame`.
 local_result <- function(query, frame = caller_env()) {
   res <- query
-  withr::defer(
+  withr::defer( # nolint next: unnecessary_nesting_linter. The braces ensure the srcref.
     {
       dbClearResult(res)
     },

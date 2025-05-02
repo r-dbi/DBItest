@@ -6,7 +6,7 @@
 spec_sql_quote_literal <- list(
   quote_literal_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbQuoteLiteral)), c("conn", "x", "..."))
+    expect_named(formals(dbQuoteLiteral), c("conn", "x", "..."))
   },
 
   quote_literal_return = function(con) {
@@ -16,13 +16,13 @@ spec_sql_quote_literal <- list(
     simple_out <- dbQuoteLiteral(con, simple)
     expect_error(as.character(simple_out), NA)
     expect_type(as.character(simple_out), "character")
-    expect_equal(length(simple_out), 1L)
+    expect_length(simple_out, 1L)
   },
   #
   quote_literal_vectorized = function(con) {
     #' of the same length as the input.
     letters_out <- dbQuoteLiteral(con, letters)
-    expect_equal(length(letters_out), length(letters))
+    expect_length(letters_out, length(letters))
   },
   #
   quote_literal_empty = function(ctx, con) {
@@ -30,19 +30,19 @@ spec_sql_quote_literal <- list(
 
     #' For an empty
     #' integer,
-    expect_equal(length(dbQuoteLiteral(con, integer())), 0L)
+    expect_length(dbQuoteLiteral(con, integer()), 0L)
     #' numeric,
-    expect_equal(length(dbQuoteLiteral(con, numeric())), 0L)
+    expect_length(dbQuoteLiteral(con, numeric()), 0L)
     #' character,
-    expect_equal(length(dbQuoteLiteral(con, character())), 0L)
+    expect_length(dbQuoteLiteral(con, character()), 0L)
     #' logical,
-    expect_equal(length(dbQuoteLiteral(con, logical())), 0L)
+    expect_length(dbQuoteLiteral(con, logical()), 0L)
     #' date,
-    expect_equal(length(dbQuoteLiteral(con, Sys.Date()[0])), 0L)
+    expect_length(dbQuoteLiteral(con, Sys.Date()[0]), 0L)
     #' time,
-    expect_equal(length(dbQuoteLiteral(con, Sys.time()[0])), 0L)
+    expect_length(dbQuoteLiteral(con, Sys.time()[0]), 0L)
     #' or blob vector,
-    expect_equal(length(dbQuoteLiteral(con, list())), 0L)
+    expect_length(dbQuoteLiteral(con, list()), 0L)
     #' this function returns a length-0 object.
   },
   #
@@ -76,7 +76,7 @@ spec_sql_quote_literal <- list(
     do_test_literal <- function(x) {
       #' The returned expression can be used in a `SELECT ...` query,
       literals <- map_chr(x, dbQuoteLiteral, conn = con)
-      query <- paste0("SELECT ", paste(literals, collapse = ", "))
+      query <- paste0("SELECT ", toString(literals))
       #' and the value of
       #' \code{dbGetQuery(paste0("SELECT ", dbQuoteLiteral(x)))[[1]]}
       #' must be equal to `x`

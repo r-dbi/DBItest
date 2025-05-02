@@ -6,7 +6,7 @@
 spec_sql_unquote_identifier <- list(
   unquote_identifier_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbUnquoteIdentifier)), c("conn", "x", "..."))
+    expect_named(formals(dbUnquoteIdentifier), c("conn", "x", "..."))
   },
 
   unquote_identifier_return = function(con) {
@@ -21,23 +21,23 @@ spec_sql_unquote_identifier <- list(
     #' of the same length as the input.
     simple_in <- dbQuoteIdentifier(con, "simple")
     simple_out <- dbUnquoteIdentifier(con, simple_in)
-    expect_equal(length(simple_out), 1L)
+    expect_length(simple_out, 1L)
     expect_s4_class(simple_out[[1L]], "Id")
 
     letters_in <- dbQuoteIdentifier(con, letters)
     letters_out <- dbUnquoteIdentifier(con, letters_in)
-    expect_equal(length(letters_out), length(letters_in))
+    expect_length(letters_out, length(letters_in))
     for (obj in letters_out) expect_s4_class(obj, "Id")
 
     #' For an empty vector, this function returns a length-0 object.
     empty <- character()
     empty_in <- dbQuoteIdentifier(con, empty)
     empty_out <- dbUnquoteIdentifier(con, empty_in)
-    expect_equal(length(empty_out), 0)
+    expect_length(empty_out, 0)
 
     empty_in <- character()
     empty_out <- dbUnquoteIdentifier(con, empty_in)
-    expect_equal(length(empty_out), 0)
+    expect_length(empty_out, 0)
 
     #' The names of the input argument are preserved in the output.
     unnamed_in <- dbQuoteIdentifier(con, letters)
@@ -45,7 +45,7 @@ spec_sql_unquote_identifier <- list(
     expect_null(names(unnamed_out))
     named_in <- dbQuoteIdentifier(con, stats::setNames(LETTERS[1:3], letters[1:3]))
     named_out <- dbUnquoteIdentifier(con, named_in)
-    expect_equal(names(named_out), letters[1:3])
+    expect_named(named_out, letters[1:3])
     for (obj in named_out) expect_s4_class(obj, "Id")
 
     #' If `x` is a value returned by `dbUnquoteIdentifier()`,

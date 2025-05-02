@@ -6,7 +6,7 @@
 spec_sql_remove_table <- list(
   remove_table_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbRemoveTable)), c("conn", "name", "..."))
+    expect_named(formals(dbRemoveTable), c("conn", "name", "..."))
   },
 
   remove_table_return = function(ctx, con, table_name) {

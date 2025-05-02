@@ -6,7 +6,7 @@
 spec_driver_connect <- list(
   connect_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbConnect)), c("drv", "..."))
+    expect_named(formals(dbConnect), c("drv", "..."))
   },
 
   connect_can_connect = function(ctx) {

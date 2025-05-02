@@ -6,7 +6,7 @@
 spec_meta_get_statement <- list(
   get_statement_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbGetStatement)), c("res", "..."))
+    expect_named(formals(dbGetStatement), c("res", "..."))
   },
 
   get_statement_query = function(con) {

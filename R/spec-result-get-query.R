@@ -6,7 +6,7 @@
 spec_result_get_query <- list(
   get_query_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbGetQuery)), c("conn", "statement", "..."))
+    expect_named(formals(dbGetQuery), c("conn", "statement", "..."))
   },
 
   get_query_atomic = function(con) {
@@ -37,7 +37,7 @@ spec_result_get_query <- list(
       "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
 
     rows <- check_df(dbGetQuery(con, query))
-    expect_identical(names(rows), letters[1:3])
+    expect_named(rows, letters[1:3])
     expect_identical(dim(rows), c(0L, 3L))
   },
 

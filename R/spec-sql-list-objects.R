@@ -6,7 +6,7 @@
 spec_sql_list_objects <- list(
   list_objects_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbListObjects)), c("conn", "prefix", "..."))
+    expect_named(formals(dbListObjects), c("conn", "prefix", "..."))
   },
 
   list_objects_1 = function(ctx, con, table_name = "dbit06") {
@@ -20,10 +20,10 @@ spec_sql_list_objects <- list(
     #' `table` and `is_prefix` (in that order),
     expect_equal(names(objects)[seq_along(cols)], cols)
     #' optionally with other columns with a dot (`.`) prefix.
-    expect_true(all(grepl("^[.]", names(objects)[-seq_along(cols)])))
+    expect_true(all(startsWith(names(objects)[-seq_along(cols)], ".")))
 
     #' The `table` column is of type list.
-    expect_equal(typeof(objects$table), "list")
+    expect_type(objects$table, "list")
     #' Each object in this list is suitable for use as argument in [dbQuoteIdentifier()].
     expect_error(map(objects$table, dbQuoteIdentifier, conn = con), NA)
 

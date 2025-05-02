@@ -25,6 +25,7 @@ expect_all_args_have_default_values <- function(object) {
 has_method <- function(method_name) {
   function(x) {
     my_class <- class(x)
+    # nolint next: expect_comparison_linter. Using 'info', absent from expect_gt().
     expect_true(
       length(findMethod(method_name, my_class)) > 0L,
       paste("object of class", my_class, "has no", method_name, "method")
@@ -55,15 +56,15 @@ expect_equal_df <- function(actual, expected) {
 
   list_cols <- map_lgl(expected, is.list)
 
-  if (!any(list_cols)) {
-    order_actual <- do.call(order, actual)
-    order_expected <- do.call(order, expected)
-  } else {
+  if (any(list_cols)) {
     expect_false(all(list_cols))
     expect_equal(anyDuplicated(actual[!list_cols]), 0)
     expect_equal(anyDuplicated(expected[!list_cols]), 0)
     order_actual <- do.call(order, actual[!list_cols])
     order_expected <- do.call(order, expected[!list_cols])
+  } else {
+    order_actual <- do.call(order, actual)
+    order_expected <- do.call(order, expected)
   }
 
   has_rownames_actual <- is.character(attr(actual, "row.names"))
