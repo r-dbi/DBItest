@@ -13,7 +13,7 @@ expect_all_args_have_default_values <- function(object) {
   act <- quasi_label(enquo(object), arg = "object")
   act$args <- formals(act$val)
   act$args <- act$args[names(act$args) != "..."]
-  act$char_args <- map_chr(act$args, as.character)
+  act$char_args <- purrr::map_chr(act$args, as.character)
   expect(
     all(nzchar(act$char_args, keepNA = FALSE)),
     sprintf("%s has arguments without default values", act$lab)
@@ -48,13 +48,13 @@ expect_invisible_true <- function(code) {
 }
 
 expect_equal_df <- function(actual, expected) {
-  factor_cols <- map_lgl(expected, is.factor)
-  expected[factor_cols] <- map(expected[factor_cols], as.character)
+  factor_cols <- purrr::map_lgl(expected, is.factor)
+  expected[factor_cols] <- purrr::map(expected[factor_cols], as.character)
 
-  asis_cols <- map_lgl(expected, inherits, "AsIs")
-  expected[asis_cols] <- map(expected[asis_cols], unclass)
+  asis_cols <- purrr::map_lgl(expected, inherits, "AsIs")
+  expected[asis_cols] <- purrr::map(expected[asis_cols], unclass)
 
-  list_cols <- map_lgl(expected, is.list)
+  list_cols <- purrr::map_lgl(expected, is.list)
 
   if (any(list_cols)) {
     expect_false(all(list_cols))

@@ -87,7 +87,7 @@ test_data_type <- function(ctx, dbObj) {
     }
   )
 
-  map(
+  purrr::map(
     compact(expected_data_types),
     expect_has_data_type
   )
@@ -96,7 +96,7 @@ test_data_type <- function(ctx, dbObj) {
 
   #' As-is objects (i.e., wrapped by [I()]) must be
   #' supported and return the same results as their unwrapped counterparts.
-  map(
+  purrr::map(
     compact(expected_data_types),
     function(value) {
       if (!is.null(value)) {

@@ -416,7 +416,7 @@ spec_sql_append_table <- list(
       use_append = TRUE,
       con, tbl_in,
       transform = function(out) {
-        dates <- map_lgl(out, inherits, "POSIXt")
+        dates <- purrr::map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
@@ -457,7 +457,7 @@ spec_sql_append_table <- list(
       use_append = TRUE,
       con, tbl_in,
       transform = function(out) {
-        dates <- map_lgl(out, inherits, "POSIXt")
+        dates <- purrr::map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
@@ -470,16 +470,16 @@ spec_sql_append_table <- list(
   append_roundtrip_mixed = function(con) {
     #' Mixing column types in the same table is supported.
     data <- list("a", 1L, 1.5)
-    data <- map(data, c, NA)
+    data <- purrr::map(data, c, NA)
     expanded <- expand.grid(a = data, b = data, c = data)
-    tbl_in_list <- map(
+    tbl_in_list <- purrr::map(
       seq_len(nrow(expanded)),
       function(i) {
-        as.data.frame(map(expanded[i, ], unlist, recursive = FALSE))
+        as.data.frame(purrr::map(expanded[i, ], unlist, recursive = FALSE))
       }
     )
 
-    map(tbl_in_list, test_table_roundtrip, con = con)
+    purrr::map(tbl_in_list, test_table_roundtrip, con = con)
   },
 
   append_table_name = function(ctx, con) {

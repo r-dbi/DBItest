@@ -60,7 +60,7 @@ spec_result_roundtrip <- list(
   data_date = function(ctx, con) {
     #' - coercible using [as.Date()] for dates,
     as_date_equals_to <- function(x) {
-      map(x, function(xx) {
+      purrr::map(x, function(xx) {
         function(value) as.Date(value) == xx
       })
     }
@@ -84,7 +84,7 @@ spec_result_roundtrip <- list(
   data_time = function(ctx, con) {
     #' - coercible using [hms::as_hms()] for times,
     as_hms_equals_to <- function(x) {
-      map(x, function(xx) {
+      purrr::map(x, function(xx) {
         function(value) hms::as_hms(value) == xx
       })
     }
@@ -145,7 +145,7 @@ spec_result_roundtrip <- list(
     }
 
     char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
-    values <- map(char_values, as_numeric_date)
+    values <- purrr::map(char_values, as_numeric_date)
     sql_names <- ctx$tweaks$date_cast(char_values)
 
     test_select_with_null(.ctx = ctx, con, !!!setNames(values, sql_names))
@@ -199,7 +199,7 @@ spec_result_roundtrip <- list(
   #'   to the true value
   data_64_bit_numeric = function(ctx, con) {
     as_numeric_identical_to <- function(x) {
-      map(x, function(xx) {
+      purrr::map(x, function(xx) {
         function(value) as.numeric(value) == xx
       })
     }
@@ -213,7 +213,7 @@ spec_result_roundtrip <- list(
   #' - Loss of precision when converting to numeric gives a warning
   data_64_bit_numeric_warning = function(ctx, con) {
     as_numeric_equals_to <- function(x) {
-      map(x, function(xx) {
+      purrr::map(x, function(xx) {
         function(value) isTRUE(all.equal(as.numeric(value), xx))
       })
     }
@@ -243,7 +243,7 @@ spec_result_roundtrip <- list(
   #'   of the data
   data_64_bit_lossless = function(ctx, con) {
     as_character_equals_to <- function(x) {
-      map(x, function(xx) {
+      purrr::map(x, function(xx) {
         function(value) as.character(value) == xx
       })
     }
@@ -274,9 +274,9 @@ test_select <- function(
 
   values <- list2(...)
 
-  value_is_formula <- map_lgl(values, is.call)
-  names(values)[value_is_formula] <- map(values[value_is_formula], "[[", 2L)
-  values[value_is_formula] <- map(
+  value_is_formula <- purrr::map_lgl(values, is.call)
+  names(values)[value_is_formula] <- purrr::map(values[value_is_formula], 2L)
+  values[value_is_formula] <- purrr::map(
     values[value_is_formula],
     function(x) {
       eval(x[[3]], envir = .envir)
@@ -284,7 +284,7 @@ test_select <- function(
   )
 
   if (is.null(names(values))) {
-    sql_values <- map(values, as.character)
+    sql_values <- purrr::map(values, as.character)
   } else {
     sql_values <- names(values)
   }
@@ -356,7 +356,7 @@ equals_minus_100 <- function(x) {
 }
 
 all_have_utf8_or_ascii_encoding <- function(x) {
-  all(map_lgl(x, has_utf8_or_ascii_encoding))
+  all(purrr::map_lgl(x, has_utf8_or_ascii_encoding))
 }
 
 has_utf8_or_ascii_encoding <- function(x) {
@@ -389,7 +389,7 @@ coercible_to_time <- function(x) {
 }
 
 as_timestamp_equals_to <- function(x) {
-  map(x, function(xx) {
+  purrr::map(x, function(xx) {
     function(value) as.POSIXct(value) == xx
   })
 }

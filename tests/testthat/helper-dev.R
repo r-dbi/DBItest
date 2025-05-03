@@ -25,9 +25,9 @@ flatten_braces <- function(x, in_brace = FALSE, caller = "") {
   if (is.call(x)) {
     if (x[[1]] == "{") {
       if (in_brace) {
-        return(compact(map(x[-1], flatten_braces, in_brace = TRUE, caller = "{")))
+        return(compact(purrr::map(x[-1], flatten_braces, in_brace = TRUE, caller = "{")))
       } else {
-        args <- unlist(map(x[-1], flatten_braces, in_brace = TRUE, caller = "{"))
+        args <- unlist(purrr::map(x[-1], flatten_braces, in_brace = TRUE, caller = "{"))
         if (length(args) == 1 && caller != "if") {
           x <- args[[1]]
         } else {
@@ -35,7 +35,7 @@ flatten_braces <- function(x, in_brace = FALSE, caller = "") {
         }
       }
     } else {
-      x[-1] <- map(x[-1], flatten_braces, caller = x[[1]])
+      x[-1] <- purrr::map(x[-1], flatten_braces, caller = x[[1]])
     }
   }
 
@@ -43,13 +43,13 @@ flatten_braces <- function(x, in_brace = FALSE, caller = "") {
 }
 
 inline_meta_tests <- function(arrow, bind, path) {
-  test_exprs <- map(compact(spec_meta_bind_expr(arrow = arrow, bind = bind)), ~ if (!is.null(.x)) .x())
-  test_exprs_flat <- map(test_exprs, flatten_braces)
+  test_exprs <- purrr::map(compact(spec_meta_bind_expr(arrow = arrow, bind = bind)), ~ if (!is.null(.x)) .x())
+  test_exprs_flat <- purrr::map(test_exprs, flatten_braces)
 
   env <- environment(inline_meta_tests)
   args <- pairlist2(ctx = , con = )
 
-  test_funs <- map(test_exprs_flat, ~ if (!is.null(.x)) {
+  test_funs <- purrr::map(test_exprs_flat, ~ if (!is.null(.x)) {
     new_function(args, .x, env)
   })
 

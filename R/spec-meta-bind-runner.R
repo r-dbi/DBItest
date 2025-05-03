@@ -59,7 +59,7 @@ test_select_bind_expr_one$fun <- function(
     placeholder
   })
 
-  is_na <- which(map_lgl(bind_values, is_na_or_null))
+  is_na <- which(purrr::map_lgl(bind_values, is_na_or_null))
   result_names <- letters[seq_along(bind_values)]
 
   #' 1. Call [dbSendQuery()], [dbSendQueryArrow()] or [dbSendStatement()]
@@ -68,7 +68,7 @@ test_select_bind_expr_one$fun <- function(
   #'    Mixing placeholders (in particular, named and unnamed ones) is not
   #'    recommended.
   send_expr <- if (query) expr({
-    placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
+    placeholder_values <- purrr::map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
     result_check <- paste0("(", (!!cast_fun_placeholder_expr), " = ", placeholder_values, ")")
     !!if (length(is_na) > 0) expr({
       result_check[!!construct_expr(is_na)] <-
