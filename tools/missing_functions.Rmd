@@ -379,20 +379,6 @@ function(ctx, dbObj) {
 <environment: namespace:DBItest>
 ```
 
-# try_silent (2)
-
-`r d(DBItest:::try_silent)`
-
-```r
-function(code) {
-  tryCatch(
-    code,
-    error = function(e) NULL
-  )
-}
-<environment: namespace:DBItest>
-```
-
 # local_closed_connection (3)
 
 `r d(DBItest:::local_closed_connection)`
@@ -415,6 +401,20 @@ function(ctx, ...) {
   con <- connect(ctx, ...)
   dbDisconnect(con)
   unserialize(serialize(con, NULL))
+}
+<environment: namespace:DBItest>
+```
+
+# try_silent (3)
+
+`r d(DBItest:::try_silent)`
+
+```r
+function(code) {
+  tryCatch(
+    code,
+    error = function(e) NULL
+  )
 }
 <environment: namespace:DBItest>
 ```
@@ -638,6 +638,19 @@ function(code) {
   expect_false(ret$visible)
 
   invisible(ret$value)
+}
+<environment: namespace:DBItest>
+```
+
+# test_select_with_null (17)
+
+`r d(DBItest:::test_select_with_null)`
+
+```r
+function(...) {
+  test_select(..., .add_null = "none")
+  test_select(..., .add_null = "above")
+  test_select(..., .add_null = "below")
 }
 <environment: namespace:DBItest>
 ```

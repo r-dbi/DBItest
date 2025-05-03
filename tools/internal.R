@@ -17,7 +17,7 @@ walk_ast <- function(
 
     if (is.symbol(fn)) {
       fn_name <- as.character(fn)
-      if (fn_name %in% c("bquote", "$", "@", "test_select_with_null")) {
+      if (fn_name %in% c("bquote", "$", "@")) {
         # Do nothing for NSE
         return()
       }
