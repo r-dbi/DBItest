@@ -63,9 +63,9 @@ with NA for SQL <code>NULL</code> values
 with NA for SQL <code>NULL</code> values
 (also applies to the return value of the SQL function <code>current_timestamp</code>)</p></li>
 </ul><p>If dates and timestamps are supported by the backend, the following R types are
-used:</p><ul><li><p>lubridate::Date for dates
+used:</p><ul><li><p><a href="https://rdrr.io/r/base/Dates.html" class="external-link">Date</a> for dates
 (also applies to the return value of the SQL function <code>current_date</code>)</p></li>
-<li><p>lubridate::POSIXct for timestamps
+<li><p><a href="https://rdrr.io/r/base/DateTimeClasses.html" class="external-link">POSIXct</a> for timestamps
 (also applies to the return value of the SQL function <code>current_timestamp</code>)</p></li>
 </ul><p>R has no built-in type with lossless support for the full range of 64-bit
 or larger integers. If 64-bit integers are returned from a query,
