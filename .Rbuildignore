@@ -16,3 +16,4 @@
 ^CRAN-SUBMISSION$
 ^\.vscode$
 ^tests/testthat/helper-dev\.R$
+^tools$
