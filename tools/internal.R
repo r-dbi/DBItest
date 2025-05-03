@@ -272,4 +272,36 @@ counts <- missing |> map(lengths) |> map_int(sum)
 
 true_missing <- missing[counts > 0]
 
-true_missing
+# No unknown values
+true_missing |>
+  purrr::map("unknown_values") |>
+  enframe(value = "value_name") |>
+  unnest(value_name) |>
+  count(value_name) |>
+  arrange(n)
+
+true_missing_functions_df <-
+  true_missing |>
+  purrr::map("unknown_functions") |>
+  enframe(value = "function_name") |>
+  unnest(function_name) |>
+  count(function_name) |>
+  arrange(n)
+
+true_missing_functions_df |>
+  mutate(code = map_chr(
+    function_name,
+    ~ paste(capture.output(print(get(.x, asNamespace("DBItest")))), collapse = "\n")
+  )) |>
+  mutate(text = glue::glue("
+    # {function_name} ({n})
+
+    `r d(DBItest:::{function_name})`
+
+    ```r
+    {code}
+    ```
+    ")) |>
+  summarize(rmd = paste(text, collapse = "\n\n")) |>
+  pull() |>
+  writeLines("tools/missing_functions.Rmd")
