@@ -369,7 +369,7 @@ spec_meta_bind_expr <- function(
     },
 
     bind_date = function() {
-      #' - [Date]
+      #' - [Date][Dates]
       test_select_bind_expr(
         arrow = arrow,
         bind = bind,
@@ -389,7 +389,7 @@ spec_meta_bind_expr <- function(
     },
 
     bind_timestamp = function() {
-      #' - [POSIXct] timestamps
+      #' - [POSIXct][DateTimeClasses] timestamps
       data_in <- as.POSIXct(c(
         "2023-12-17 02:40:22",
         "2023-12-17 02:40:23",

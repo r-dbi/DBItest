@@ -139,7 +139,7 @@ spec_result_roundtrip <- list(
   data_date_typed = function(ctx, con) {
     #' If dates and timestamps are supported by the backend, the following R types are
     #' used:
-    #' - [Date] for dates
+    #' - [Date][Dates] for dates
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
@@ -164,7 +164,7 @@ spec_result_roundtrip <- list(
   },
 
   data_timestamp_typed = function(ctx, con) {
-    #' - [POSIXct] for timestamps
+    #' - [POSIXct][DateTimeClasses] for timestamps
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }

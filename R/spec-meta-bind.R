@@ -680,7 +680,7 @@ spec_meta_bind <- list(
   },
   bind_date = function(ctx, con) {
     # <R/spec-meta-bind-expr.R:371>
-    # - [Date]
+    # - [Date][Dates]
     skip_if(!isTRUE(ctx$tweaks$date_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
@@ -738,7 +738,7 @@ spec_meta_bind <- list(
   },
   bind_timestamp = function(ctx, con) {
     # <R/spec-meta-bind-expr.R:391>
-    # - [POSIXct] timestamps
+    # - [POSIXct][DateTimeClasses] timestamps
     skip_if(!isTRUE(ctx$tweaks$timestamp_typed))
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check

@@ -30,7 +30,7 @@ spec_transaction_with_transaction <- list(
   },
 
   with_transaction_error_nested = function(con) {
-    #' of if [dbBegin()] has been called already)
+    #' or if [dbBegin()] has been called already)
     dbBegin(con)
     #' gives an error.
     expect_error(dbWithTransaction(con, NULL))

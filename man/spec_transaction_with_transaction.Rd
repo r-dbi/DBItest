@@ -15,7 +15,7 @@ spec_transaction_with_transaction
 Failure to initiate the transaction
 (e.g., if the connection is closed
 or invalid
-of if \code{\link[DBI:transactions]{DBI::dbBegin()}} has been called already)
+or if \code{\link[DBI:transactions]{DBI::dbBegin()}} has been called already)
 gives an error.
 }
 
