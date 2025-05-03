@@ -275,7 +275,7 @@ test_select <- function(
   values <- list2(...)
 
   value_is_formula <- purrr::map_lgl(values, is.call)
-  names(values)[value_is_formula] <- purrr::map(values[value_is_formula], "[[", 2L)
+  names(values)[value_is_formula] <- purrr::map(values[value_is_formula], 2L)
   values[value_is_formula] <- purrr::map(
     values[value_is_formula],
     function(x) {
