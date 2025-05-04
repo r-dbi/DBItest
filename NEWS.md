@@ -1,5 +1,62 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.2.9001 (2025-05-04)
+
+## Features
+
+- Reinstate lint infrastructure as GHA (@MichaelChirico, #396).
+
+- Assign result in `send_query_stale_warning` to stabilize test (@detule, #373).
+
+- Improve failure mode of missing method test (@MichaelChirico, #405).
+
+- Use `trivial_query()` by default in `create_table_as()` (@MichaelChirico, #410, #420).
+
+- Test object returned by `dbUnquoteIdentifier()` is of class `Id`.
+
+- Add an extra test for sanity in spec-sql-write-table (@MichaelChirico, #411).
+
+- New `tweaks(create_table_empty = )` tweak (@MichaelChirico, #406, #408).
+
+- Clarify warning message for lack of `skip =` hit among `spec_all` (@MichaelChirico, #398).
+
+## Chore
+
+- Use purrr (#421).
+
+- IDE.
+
+- Add build-time dependency vctrs (@MichaelChirico, #394, #395).
+
+## Continuous integration
+
+- Need to install R.
+
+- Run on noble (#425).
+
+- Import from actions-sync, check carefully (#423).
+
+- Import from actions-sync, check carefully (#419).
+
+- Import from actions-sync, check carefully (#418).
+
+- Import from actions-sync, check carefully (#417).
+
+- Import from actions-sync, check carefully (#416).
+
+- Import from actions-sync, check carefully (#415).
+
+- Import from actions-sync, check carefully (#414).
+
+- Import from actions-sync, check carefully (#413).
+
+## Documentation
+
+- Fix bad links and a typo.
+
+- Improve wording of `test_all(skip = )` description (@MichaelChirico, #397, #399).
+
+
 # DBItest 1.8.2.9000 (2024-12-09)
 
 ## Continuous integration
