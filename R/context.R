@@ -43,6 +43,10 @@
 #'   ),
 #'   default_skip = c("roundtrip_date", "roundtrip_timestamp")
 #' )
+# Creates a comprehensive test context for DBI compliance testing.
+# This function initializes all necessary components for running database interface tests.
+# It handles driver configuration, connection parameters, testing tweaks, and default behaviors.
+# The context encapsulates all environment-specific settings needed for consistent test execution.
 make_context <- function(drv, connect_args = NULL, set_as_default = TRUE,
                          tweaks = NULL, name = NULL, default_skip = NULL) {
   if (is.null(drv)) {
@@ -101,6 +105,10 @@ package_name <- function(ctx) {
   attr(class(ctx$drv), "package")
 }
 
+# Establishes a database connection using the context's configured parameters.
+# This function creates connections with the driver and arguments specified in the context.
+# It supports additional connection arguments passed through the ellipsis operator.
+# Returns a database connection object ready for testing operations.
 connect <- function(ctx, ...) {
   quos <- enquos(...)
   eval_tidy(quo(dbConnect(ctx$cnr, !!!quos)))
