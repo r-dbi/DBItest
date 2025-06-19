@@ -76,10 +76,17 @@ test_select_bind_expr <- function(
 }
 
 get_placeholder_funs <- function(ctx, requires_names = NULL) {
+  # Validate input parameters with improved type checking
+  check_bool(requires_names, allow_null = TRUE)
+  
   placeholder_fun <- ctx$tweaks$placeholder_pattern
   if (is.character(placeholder_fun)) {
+    # Validate character patterns before processing
+    check_character(placeholder_fun, allow_null = FALSE)
     placeholder_funs <- purrr::map(placeholder_fun, make_placeholder_fun)
   } else if (is.function(placeholder_fun)) {
+    # Validate function type more explicitly 
+    check_function(placeholder_fun, allow_null = FALSE)
     placeholder_funs <- list(placeholder_fun)
   } else {
     placeholder_funs <- placeholder_fun

@@ -9,12 +9,18 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
 
   "!DEBUG run_tests(`test_suite`)"
 
+  # Enhanced context validation with better error messages
   if (is.null(ctx)) {
     stop("Need to call make_context() to use the test_...() functions.", call. = FALSE)
   }
   if (!inherits(ctx, "DBItest_context")) {
     stop("ctx must be a DBItest_context object created by make_context().", call. = FALSE)
   }
+  
+  # Validate parameter types for better error reporting
+  check_character(skip, allow_null = TRUE)
+  check_character(run_only, allow_null = TRUE)
+  check_string(test_suite, allow_null = FALSE)
 
   test_context <- paste0(
     "DBItest", if (!is.null(ctx$name)) paste0("[", ctx$name, "]"),
