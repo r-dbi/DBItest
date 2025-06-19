@@ -97,10 +97,27 @@ get_default_context <- function() {
   .ctx_env$default_context
 }
 
+# Extract package name from test context driver
+#
+# Retrieves the package name attribute from the DBI driver class stored
+# in the test context. Used to identify which DBI backend package is
+# being tested for context-specific behavior.
+#
+# @param ctx DBItest_context object
+# @return Character string containing the package name
 package_name <- function(ctx) {
   attr(class(ctx$drv), "package")
 }
 
+# Create database connection using test context
+#
+# Establishes a database connection using the DBIConnector stored in the
+# test context, with support for additional connection arguments passed
+# through the ellipsis. Uses tidy evaluation for flexible argument handling.
+#
+# @param ctx DBItest_context object containing connection information
+# @param ... Additional arguments passed to dbConnect()
+# @return Database connection object
 connect <- function(ctx, ...) {
   quos <- enquos(...)
   eval_tidy(quo(dbConnect(ctx$cnr, !!!quos)))

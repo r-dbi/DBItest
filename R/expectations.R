@@ -1,3 +1,11 @@
+# Custom expectation: function has no arguments
+#
+# Verifies that the given function has an empty argument list (no parameters).
+# Used in DBI compliance testing to ensure certain constructors follow the
+# specification requiring no arguments.
+#
+# @param object Function to test
+# @return Invisible copy of the function (for chaining)
 expect_arglist_is_empty <- function(object) {
   act <- quasi_label(enquo(object), arg = "object")
   act$formals <- formals(act$val)
@@ -22,6 +30,14 @@ expect_all_args_have_default_values <- function(object) {
   invisible(act$val)
 }
 
+# Create expectation function for S4 method existence
+#
+# Returns a function that checks whether an object has a specific S4 method
+# defined. Used to verify that DBI objects implement required methods according
+# to the specification.
+#
+# @param method_name Character string naming the method to check for
+# @return Function that tests for method existence on objects
 has_method <- function(method_name) {
   function(x) {
     my_class <- class(x)
@@ -47,6 +63,18 @@ expect_invisible_true <- function(code) {
   invisible(ret$value)
 }
 
+# Custom expectation: data frames are equal after normalization
+#
+# Compares two data frames for equality after applying several normalizations:
+# - Converts factors to character vectors
+# - Unwraps AsIs columns
+# - Handles list columns specially
+# - Sorts rows for order-independent comparison
+# - Normalizes row names
+# Used throughout DBItest for robust data frame comparisons.
+#
+# @param actual Data frame to test
+# @param expected Expected data frame
 expect_equal_df <- function(actual, expected) {
   factor_cols <- purrr::map_lgl(expected, is.factor)
   expected[factor_cols] <- purrr::map(expected[factor_cols], as.character)

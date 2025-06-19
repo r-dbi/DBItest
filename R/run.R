@@ -1,3 +1,14 @@
+# Core test runner that executes DBItest specifications
+# 
+# This function is the main test execution engine for DBItest. It takes a set of
+# test specifications, applies filtering (skip/run_only), and executes each test
+# with the appropriate database context and test fixtures (connections, tables).
+# 
+# @param ctx DBItest_context object created by make_context()
+# @param tests Named list of test functions to execute
+# @param skip Character vector of test name patterns to skip
+# @param run_only Character vector of test name patterns to run exclusively
+# @param test_suite Name of the test suite for context labeling
 run_tests <- function(ctx, tests, skip, run_only, test_suite) {
   tests_sym <- enexpr(tests)
   stopifnot(is_symbol(tests_sym))
@@ -102,6 +113,14 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
   ok
 }
 
+# Resolve skip patterns to actual test names
+#
+# Converts skip patterns (e.g., "roundtrip", "bind_*") into concrete test names
+# by matching against all available test specifications. Uses regex patterns
+# to support flexible test filtering and warns about unused skip expressions.
+#
+# @param skip Character vector of patterns to match against test names
+# @return Character vector of resolved test names to skip
 get_skip_names <- function(skip) {
   if (length(skip) == 0L) {
     return(character())
@@ -122,6 +141,15 @@ get_skip_names <- function(skip) {
   skip_tests
 }
 
+# Filter tests to run only those matching specified patterns
+#
+# Takes a test suite and filters it to include only tests whose names match
+# the run_only patterns. If run_only is NULL, returns all tests unchanged.
+# This allows running specific subsets of tests for focused testing.
+#
+# @param tests Named list of test functions
+# @param run_only Character vector of patterns to match test names, or NULL
+# @return Filtered named list containing only matching tests
 get_run_only_tests <- function(tests, run_only) {
   names_all <- names(tests)
   names_all <- names_all[names_all != ""]
