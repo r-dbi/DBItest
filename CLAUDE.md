@@ -24,6 +24,7 @@ This document provides guidelines for AI assistants working on this codebase.
 
 ## Install and run R
 
+Never check if rig or R are installed on GitHub Actions, they are not.
 Use rig to install R.
 Install rig with:
 
@@ -42,4 +43,10 @@ Run R code with:
 
 ```bash
 Rscript -e '<expression>'
+```
+
+Use pak to install packages, it will be installed by rig:
+
+```R
+pak::pak("<package>")
 ```
