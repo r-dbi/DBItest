@@ -47,6 +47,10 @@ expect_invisible_true <- function(code) {
   invisible(ret$value)
 }
 
+# Custom expectation for comparing data frames with DBI-specific handling.
+# This function performs comprehensive data frame comparison with type coercion.
+# It handles factors, AsIs columns, list columns, and row ordering for accurate comparisons.
+# The function ensures consistent comparison behavior across different DBI implementations.
 expect_equal_df <- function(actual, expected) {
   factor_cols <- purrr::map_lgl(expected, is.factor)
   expected[factor_cols] <- purrr::map(expected[factor_cols], as.character)
@@ -81,10 +85,18 @@ expect_equal_df <- function(actual, expected) {
   expect_identical(actual, expected)
 }
 
+# Custom expectation for comparing Arrow data structures in DBI Arrow tests.
+# This function converts Arrow objects to data frames before comparison.
+# It leverages expect_equal_df to ensure consistent comparison behavior.
+# Used specifically for testing DBI Arrow interface implementations.
 expect_equal_arrow <- function(actual, expected) {
   expect_equal_df(as.data.frame(actual), as.data.frame(expected))
 }
 
+# Conditionally skips tests based on DBItest version requirements.
+# This function allows tests to specify minimum DBItest version requirements.
+# It compares the context's DBItest version against the required version.
+# Tests are skipped with descriptive messages when version requirements aren't met.
 skip_if_not_dbitest <- function(ctx, version) {
   if (as.package_version(ctx$tweaks$dbitest_version) < version) {
     skip(paste0("tweak: dbitest_version: required: ", version, ", available: ", ctx$tweaks$dbitest_version))
