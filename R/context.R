@@ -53,10 +53,10 @@ make_context <- function(drv, connect_args = NULL, set_as_default = TRUE,
   if (is.null(drv)) {
     abort("drv cannot be NULL.")
   }
-  
+
   # Validate boolean parameter with improved error messages
   check_bool(set_as_default, allow_null = FALSE)
-  
+
   # Validate optional string parameters
   check_string(name, allow_null = TRUE)
   check_character(default_skip, allow_null = TRUE)

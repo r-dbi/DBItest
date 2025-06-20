@@ -16,7 +16,7 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
   if (!inherits(ctx, "DBItest_context")) {
     stop("ctx must be a DBItest_context object created by make_context().", call. = FALSE)
   }
-  
+
   # Validate parameter types for better error reporting
   check_character(skip, allow_null = TRUE)
   check_character(run_only, allow_null = TRUE)

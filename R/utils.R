@@ -114,7 +114,7 @@ try_silent <- function(code) {
 check_df <- function(df) {
   # Use standalone type checking for better error messages
   check_data_frame(df, allow_null = FALSE)
-  
+
   if (length(df) >= 1L) {
     lengths <- unname(lengths(df))
     expect_equal(diff(lengths), rep(0L, length(lengths) - 1L))
