@@ -62,6 +62,8 @@ Collate:
     'expectations.R'
     'generics.R'
     'import-dbi.R'
+    'import-standalone-obj-type.R'
+    'import-standalone-types-check.R'
     'import-testthat.R'
     'run.R'
     's4.R'
