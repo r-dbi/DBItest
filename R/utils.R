@@ -112,7 +112,9 @@ try_silent <- function(code) {
 # It verifies column lengths are equal, row count matches, and column names are valid.
 # Returns the validated data frame or throws descriptive errors for invalid structures.
 check_df <- function(df) {
-  expect_s3_class(df, "data.frame")
+  # Use standalone type checking for better error messages
+  check_data_frame(df, allow_null = FALSE)
+
   if (length(df) >= 1L) {
     lengths <- unname(lengths(df))
     expect_equal(diff(lengths), rep(0L, length(lengths) - 1L))
