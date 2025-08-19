@@ -1,5 +1,30 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.2.9002 (2025-08-19)
+
+## Chore
+
+- Build-ignore.
+
+## Continuous integration
+
+- Import from actions-sync, check carefully (#476).
+
+- Use pak \[ci skip\].
+
+- Allow tools \[ci skip\].
+
+- Post comment on failure \[ci skip\].
+
+- Checkout.
+
+- Add Claude workflow.
+
+## Documentation
+
+- Add comprehensive comments with proper formatting (#427, #431).
+
+
 # DBItest 1.8.2.9001 (2025-05-04)
 
 ## Features
