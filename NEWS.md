@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.2.9005 (2025-11-04)
+
+## Bug fixes
+
+- Suppress warnings when creating invalid objects.
+
+
 # DBItest 1.8.2.9004 (2025-09-06)
 
 ## Continuous integration
