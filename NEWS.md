@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.2.9008 (2025-11-12)
+
+## Continuous integration
+
+- Import from actions-sync, check carefully (#505).
+
+
 # DBItest 1.8.2.9007 (2025-11-10)
 
 ## Continuous integration
