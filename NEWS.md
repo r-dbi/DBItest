@@ -1,73 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
-# DBItest 1.8.2.9008 (2025-11-12)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#505).
-
-
-# DBItest 1.8.2.9007 (2025-11-10)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#503).
-
-
-# DBItest 1.8.2.9006 (2025-11-08)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#501).
-
-
-# DBItest 1.8.2.9005 (2025-11-04)
+# DBItest 1.8.99.9900 (2025-11-13)
 
 ## Bug fixes
 
 - Suppress warnings when creating invalid objects.
-
-
-# DBItest 1.8.2.9004 (2025-09-06)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#498).
-
-
-# DBItest 1.8.2.9003 (2025-09-05)
-
-## Chore
-
-- Auto-update from GitHub Actions (#496).
-
-
-# DBItest 1.8.2.9002 (2025-08-19)
-
-## Chore
-
-- Build-ignore.
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#476).
-
-- Use pak \[ci skip\].
-
-- Allow tools \[ci skip\].
-
-- Post comment on failure \[ci skip\].
-
-- Checkout.
-
-- Add Claude workflow.
-
-## Documentation
-
-- Add comprehensive comments with proper formatting (#427, #431).
-
-
-# DBItest 1.8.2.9001 (2025-05-04)
 
 ## Features
 
@@ -89,6 +26,10 @@
 
 ## Chore
 
+- Auto-update from GitHub Actions (#496).
+
+- Build-ignore.
+
 - Use purrr (#421).
 
 - IDE.
@@ -96,6 +37,26 @@
 - Add build-time dependency vctrs (@MichaelChirico, #394, #395).
 
 ## Continuous integration
+
+- Import from actions-sync, check carefully (#505).
+
+- Import from actions-sync, check carefully (#503).
+
+- Import from actions-sync, check carefully (#501).
+
+- Import from actions-sync, check carefully (#498).
+
+- Import from actions-sync, check carefully (#476).
+
+- Use pak \[ci skip\].
+
+- Allow tools \[ci skip\].
+
+- Post comment on failure \[ci skip\].
+
+- Checkout.
+
+- Add Claude workflow.
 
 - Need to install R.
 
@@ -117,18 +78,15 @@
 
 - Import from actions-sync, check carefully (#413).
 
+- Import from actions-sync, check carefully (#392).
+
 ## Documentation
+
+- Add comprehensive comments with proper formatting (#427, #431).
 
 - Fix bad links and a typo.
 
 - Improve wording of `test_all(skip = )` description (@MichaelChirico, #397, #399).
-
-
-# DBItest 1.8.2.9000 (2024-12-09)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#392).
 
 
 # DBItest 1.8.2 (2024-12-07)
