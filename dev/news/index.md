@@ -40,80 +40,6 @@
   ([@MichaelChirico](https://github.com/MichaelChirico),
   [\#398](https://github.com/r-dbi/DBItest/issues/398)).
 
-### Chore
-
-- Auto-update from GitHub Actions
-  ([\#496](https://github.com/r-dbi/DBItest/issues/496)).
-
-- Build-ignore.
-
-- Use purrr ([\#421](https://github.com/r-dbi/DBItest/issues/421)).
-
-- IDE.
-
-- Add build-time dependency vctrs
-  ([@MichaelChirico](https://github.com/MichaelChirico),
-  [\#394](https://github.com/r-dbi/DBItest/issues/394),
-  [\#395](https://github.com/r-dbi/DBItest/issues/395)).
-
-### Continuous integration
-
-- Import from actions-sync, check carefully
-  ([\#505](https://github.com/r-dbi/DBItest/issues/505)).
-
-- Import from actions-sync, check carefully
-  ([\#503](https://github.com/r-dbi/DBItest/issues/503)).
-
-- Import from actions-sync, check carefully
-  ([\#501](https://github.com/r-dbi/DBItest/issues/501)).
-
-- Import from actions-sync, check carefully
-  ([\#498](https://github.com/r-dbi/DBItest/issues/498)).
-
-- Import from actions-sync, check carefully
-  ([\#476](https://github.com/r-dbi/DBItest/issues/476)).
-
-- Use pak \[ci skip\].
-
-- Allow tools \[ci skip\].
-
-- Post comment on failure \[ci skip\].
-
-- Checkout.
-
-- Add Claude workflow.
-
-- Need to install R.
-
-- Run on noble ([\#425](https://github.com/r-dbi/DBItest/issues/425)).
-
-- Import from actions-sync, check carefully
-  ([\#423](https://github.com/r-dbi/DBItest/issues/423)).
-
-- Import from actions-sync, check carefully
-  ([\#419](https://github.com/r-dbi/DBItest/issues/419)).
-
-- Import from actions-sync, check carefully
-  ([\#418](https://github.com/r-dbi/DBItest/issues/418)).
-
-- Import from actions-sync, check carefully
-  ([\#417](https://github.com/r-dbi/DBItest/issues/417)).
-
-- Import from actions-sync, check carefully
-  ([\#416](https://github.com/r-dbi/DBItest/issues/416)).
-
-- Import from actions-sync, check carefully
-  ([\#415](https://github.com/r-dbi/DBItest/issues/415)).
-
-- Import from actions-sync, check carefully
-  ([\#414](https://github.com/r-dbi/DBItest/issues/414)).
-
-- Import from actions-sync, check carefully
-  ([\#413](https://github.com/r-dbi/DBItest/issues/413)).
-
-- Import from actions-sync, check carefully
-  ([\#392](https://github.com/r-dbi/DBItest/issues/392)).
-
 ### Documentation
 
 - Add comprehensive comments with proper formatting
@@ -126,6 +52,15 @@
   ([@MichaelChirico](https://github.com/MichaelChirico),
   [\#397](https://github.com/r-dbi/DBItest/issues/397),
   [\#399](https://github.com/r-dbi/DBItest/issues/399)).
+
+### Chore
+
+- Use purrr ([\#421](https://github.com/r-dbi/DBItest/issues/421)).
+
+- Add build-time dependency vctrs
+  ([@MichaelChirico](https://github.com/MichaelChirico),
+  [\#394](https://github.com/r-dbi/DBItest/issues/394),
+  [\#395](https://github.com/r-dbi/DBItest/issues/395)).
 
 ## DBItest 1.8.2 (2024-12-07)
 
