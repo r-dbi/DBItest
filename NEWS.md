@@ -24,62 +24,6 @@
 
 - Clarify warning message for lack of `skip =` hit among `spec_all` (@MichaelChirico, #398).
 
-## Chore
-
-- Auto-update from GitHub Actions (#496).
-
-- Build-ignore.
-
-- Use purrr (#421).
-
-- IDE.
-
-- Add build-time dependency vctrs (@MichaelChirico, #394, #395).
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#505).
-
-- Import from actions-sync, check carefully (#503).
-
-- Import from actions-sync, check carefully (#501).
-
-- Import from actions-sync, check carefully (#498).
-
-- Import from actions-sync, check carefully (#476).
-
-- Use pak \[ci skip\].
-
-- Allow tools \[ci skip\].
-
-- Post comment on failure \[ci skip\].
-
-- Checkout.
-
-- Add Claude workflow.
-
-- Need to install R.
-
-- Run on noble (#425).
-
-- Import from actions-sync, check carefully (#423).
-
-- Import from actions-sync, check carefully (#419).
-
-- Import from actions-sync, check carefully (#418).
-
-- Import from actions-sync, check carefully (#417).
-
-- Import from actions-sync, check carefully (#416).
-
-- Import from actions-sync, check carefully (#415).
-
-- Import from actions-sync, check carefully (#414).
-
-- Import from actions-sync, check carefully (#413).
-
-- Import from actions-sync, check carefully (#392).
-
 ## Documentation
 
 - Add comprehensive comments with proper formatting (#427, #431).
@@ -87,6 +31,12 @@
 - Fix bad links and a typo.
 
 - Improve wording of `test_all(skip = )` description (@MichaelChirico, #397, #399).
+
+## Chore
+
+- Use purrr (#421).
+
+- Add build-time dependency vctrs (@MichaelChirico, #394, #395).
 
 
 # DBItest 1.8.2 (2024-12-07)
