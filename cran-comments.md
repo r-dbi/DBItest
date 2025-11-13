@@ -1,4 +1,4 @@
-DBItest 1.8.2
+DBItest 1.8.99.9900
 
 ## Cran Repository Policy
 
