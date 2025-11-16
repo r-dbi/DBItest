@@ -13,15 +13,15 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/r-dbi/DBItest/blob/cran-1.8.99.9900/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/r-dbi/DBItest/blob/main/DESCRIPTION)
 
 Müller K (2025). *DBItest: Testing DBI Backends*. R package version
-1.8.99.9900, <https://dbitest.r-dbi.org>.
+1.8.2.9008, <https://dbitest.r-dbi.org>.
 
     @Manual{,
       title = {DBItest: Testing DBI Backends},
       author = {Kirill Müller},
       year = {2025},
-      note = {R package version 1.8.99.9900},
+      note = {R package version 1.8.2.9008},
       url = {https://dbitest.r-dbi.org},
     }
