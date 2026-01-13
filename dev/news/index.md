@@ -1,5 +1,17 @@
 # Changelog
 
+## DBItest 1.8.2.9009 (2025-11-17)
+
+### Continuous integration
+
+- Try from big repo.
+
+- Install from source for now.
+
+- Install from binary.
+
+- Use `remotes::install_runiverse()`.
+
 ## DBItest 1.8.2.9008 (2025-11-12)
 
 ### Continuous integration

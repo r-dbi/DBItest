@@ -195,7 +195,7 @@ for a list of reporters.
 DBItest::test_some("get_query_atomic")
 ```
 
-    ## Test passed 🥇
+    ## Test passed with 7 successes 🥇.
 
 DBItest relies heavily on metaprogramming. Unfortunately, this means
 that a failing test may give no indication of the reason for the
