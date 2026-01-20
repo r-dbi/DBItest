@@ -18,7 +18,7 @@ spec_result_fetch <- list(
     query <- trivial_query()
     res <- local_result(dbSendQuery(con, query))
     rows <- check_df(dbFetch(res))
-    expect_equal(rows, data.frame(a = 1.5))
+    expect_equal(as.data.frame(rows), data.frame(a = 1.5))
   },
 
   fetch_one_row = function(con) {
@@ -49,7 +49,7 @@ spec_result_fetch <- list(
     query <- trivial_query()
     res <- local_result(dbSendQuery(con, query))
     rows <- check_df(dbFetch(res, n = NA))
-    expect_equal(rows, data.frame(a = 1.5))
+    expect_equal(as.data.frame(rows), data.frame(a = 1.5))
   },
 
   #'
