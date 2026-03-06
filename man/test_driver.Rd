@@ -25,7 +25,7 @@ The regular expressions are matched against the entire test name.}
 Test the "Driver" class
 }
 \seealso{
-Other tests: 
+Other tests:
 \code{\link{test_arrow}()},
 \code{\link{test_compliance}()},
 \code{\link{test_connection}()},

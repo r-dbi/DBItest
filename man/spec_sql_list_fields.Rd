@@ -41,7 +41,7 @@ A column named \code{row_names} is treated like any other column.
 }
 
 \seealso{
-Other sql specifications: 
+Other sql specifications:
 \code{\link{spec_sql_append_table}},
 \code{\link{spec_sql_create_table}},
 \code{\link{spec_sql_exists_table}},

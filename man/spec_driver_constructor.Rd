@@ -21,7 +21,7 @@ DBI recommends to define a constructor with an empty argument list.
 }
 
 \seealso{
-Other driver specifications: 
+Other driver specifications:
 \code{\link{spec_driver_connect}},
 \code{\link{spec_driver_data_type}},
 \code{\link{spec_get_info}}

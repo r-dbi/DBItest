@@ -26,7 +26,7 @@ Tests very basic features of a DBI driver package, to support testing
 and test-first development right from the start.
 }
 \seealso{
-Other tests: 
+Other tests:
 \code{\link{test_arrow}()},
 \code{\link{test_compliance}()},
 \code{\link{test_connection}()},

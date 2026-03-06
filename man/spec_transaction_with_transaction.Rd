@@ -34,7 +34,7 @@ propagate to the calling environment.
 }
 
 \seealso{
-Other transaction specifications: 
+Other transaction specifications:
 \code{\link{spec_transaction_begin_commit_rollback}}
 }
 \concept{transaction specifications}

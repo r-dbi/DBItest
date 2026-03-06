@@ -127,7 +127,7 @@ also raises an error.
 }
 
 \seealso{
-Other meta specifications: 
+Other meta specifications:
 \code{\link{spec_get_info}},
 \code{\link{spec_meta_column_info}},
 \code{\link{spec_meta_get_row_count}},
@@ -136,7 +136,7 @@ Other meta specifications:
 \code{\link{spec_meta_has_completed}},
 \code{\link{spec_meta_is_valid}}
 
-Other meta specifications: 
+Other meta specifications:
 \code{\link{spec_get_info}},
 \code{\link{spec_meta_column_info}},
 \code{\link{spec_meta_get_row_count}},
@@ -145,7 +145,7 @@ Other meta specifications:
 \code{\link{spec_meta_has_completed}},
 \code{\link{spec_meta_is_valid}}
 
-Other meta specifications: 
+Other meta specifications:
 \code{\link{spec_get_info}},
 \code{\link{spec_meta_column_info}},
 \code{\link{spec_meta_get_row_count}},

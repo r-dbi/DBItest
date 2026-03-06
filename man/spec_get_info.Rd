@@ -53,15 +53,15 @@ spec_connection_get_info
 spec_meta_get_info_result
 }
 \seealso{
-Other driver specifications: 
+Other driver specifications:
 \code{\link{spec_driver_connect}},
 \code{\link{spec_driver_constructor}},
 \code{\link{spec_driver_data_type}}
 
-Other connection specifications: 
+Other connection specifications:
 \code{\link{spec_connection_disconnect}}
 
-Other meta specifications: 
+Other meta specifications:
 \code{\link{spec_meta_bind}},
 \code{\link{spec_meta_column_info}},
 \code{\link{spec_meta_get_row_count}},

@@ -31,7 +31,7 @@ The chunk size is implementation-specific.
 }
 
 \seealso{
-Other Arrow specifications: 
+Other Arrow specifications:
 \code{\link{spec_arrow_append_table_arrow}},
 \code{\link{spec_arrow_create_table_arrow}},
 \code{\link{spec_arrow_fetch_arrow}},

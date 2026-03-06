@@ -15,7 +15,7 @@ of the form
 }
 
 \seealso{
-Other result specifications: 
+Other result specifications:
 \code{\link{spec_result_clear_result}},
 \code{\link{spec_result_execute}},
 \code{\link{spec_result_fetch}},

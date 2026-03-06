@@ -110,7 +110,7 @@ The order of the columns does not matter.
 }
 
 \seealso{
-Other sql specifications: 
+Other sql specifications:
 \code{\link{spec_sql_create_table}},
 \code{\link{spec_sql_exists_table}},
 \code{\link{spec_sql_list_fields}},

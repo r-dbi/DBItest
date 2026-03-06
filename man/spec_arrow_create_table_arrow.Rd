@@ -73,7 +73,7 @@ if the database supports non-syntactic identifiers.
 }
 
 \seealso{
-Other Arrow specifications: 
+Other Arrow specifications:
 \code{\link{spec_arrow_append_table_arrow}},
 \code{\link{spec_arrow_fetch_arrow}},
 \code{\link{spec_arrow_fetch_arrow_chunk}},

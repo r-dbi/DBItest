@@ -30,7 +30,7 @@ The DBI backend can expect a call to \code{dbClearResult()} for each
 }
 
 \seealso{
-Other result specifications: 
+Other result specifications:
 \code{\link{spec_result_create_table_with_data_type}},
 \code{\link{spec_result_execute}},
 \code{\link{spec_result_fetch}},
@@ -39,7 +39,7 @@ Other result specifications:
 \code{\link{spec_result_send_query}},
 \code{\link{spec_result_send_statement}}
 
-Other Arrow specifications: 
+Other Arrow specifications:
 \code{\link{spec_arrow_append_table_arrow}},
 \code{\link{spec_arrow_create_table_arrow}},
 \code{\link{spec_arrow_fetch_arrow}},

@@ -51,7 +51,7 @@ and not by \code{dbQuoteIdentifier()}.
 }
 
 \seealso{
-Other sql specifications: 
+Other sql specifications:
 \code{\link{spec_sql_append_table}},
 \code{\link{spec_sql_create_table}},
 \code{\link{spec_sql_exists_table}},

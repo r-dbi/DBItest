@@ -59,7 +59,7 @@ The transaction isolation level is not specified by DBI.
 }
 
 \seealso{
-Other transaction specifications: 
+Other transaction specifications:
 \code{\link{spec_transaction_with_transaction}}
 }
 \concept{transaction specifications}
