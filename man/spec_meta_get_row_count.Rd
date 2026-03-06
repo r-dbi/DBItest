@@ -32,7 +32,7 @@ Attempting to get the row count for a result set cleared with
 }
 
 \seealso{
-Other meta specifications: 
+Other meta specifications:
 \code{\link{spec_get_info}},
 \code{\link{spec_meta_bind}},
 \code{\link{spec_meta_column_info}},

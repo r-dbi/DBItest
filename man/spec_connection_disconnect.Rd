@@ -21,7 +21,7 @@ or invalid connection.
 }
 
 \seealso{
-Other connection specifications: 
+Other connection specifications:
 \code{\link{spec_get_info}}
 }
 \concept{connection specifications}

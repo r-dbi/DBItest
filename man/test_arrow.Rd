@@ -25,7 +25,7 @@ The regular expressions are matched against the entire test name.}
 Test Arrow methods
 }
 \seealso{
-Other tests: 
+Other tests:
 \code{\link{test_compliance}()},
 \code{\link{test_connection}()},
 \code{\link{test_driver}()},

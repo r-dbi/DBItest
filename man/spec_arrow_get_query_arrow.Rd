@@ -87,7 +87,7 @@ the backend tries \code{immediate = TRUE} (and gives a message)
 }
 
 \seealso{
-Other Arrow specifications: 
+Other Arrow specifications:
 \code{\link{spec_arrow_append_table_arrow}},
 \code{\link{spec_arrow_create_table_arrow}},
 \code{\link{spec_arrow_fetch_arrow}},

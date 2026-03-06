@@ -57,7 +57,7 @@ of the data
 }
 
 \seealso{
-Other result specifications: 
+Other result specifications:
 \code{\link{spec_result_clear_result}},
 \code{\link{spec_result_create_table_with_data_type}},
 \code{\link{spec_result_execute}},

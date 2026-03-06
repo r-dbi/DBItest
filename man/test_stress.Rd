@@ -21,7 +21,7 @@ For example, \code{skip = "exists_table"} will skip both
 Stress tests
 }
 \seealso{
-Other tests: 
+Other tests:
 \code{\link{test_arrow}()},
 \code{\link{test_compliance}()},
 \code{\link{test_connection}()},

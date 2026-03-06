@@ -37,7 +37,7 @@ For all tables listed by \code{\link[DBI:dbListTables]{DBI::dbListTables()}}, \c
 }
 
 \seealso{
-Other sql specifications: 
+Other sql specifications:
 \code{\link{spec_sql_append_table}},
 \code{\link{spec_sql_create_table}},
 \code{\link{spec_sql_list_fields}},

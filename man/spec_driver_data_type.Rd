@@ -48,7 +48,7 @@ The behavior for other object types is not specified.
 }
 
 \seealso{
-Other driver specifications: 
+Other driver specifications:
 \code{\link{spec_driver_connect}},
 \code{\link{spec_driver_constructor}},
 \code{\link{spec_get_info}}

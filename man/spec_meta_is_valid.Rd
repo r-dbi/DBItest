@@ -26,7 +26,7 @@ connectivity problems, server failure, etc.), \code{dbIsValid()} should return
 spec_meta_is_valid
 }
 \seealso{
-Other meta specifications: 
+Other meta specifications:
 \code{\link{spec_get_info}},
 \code{\link{spec_meta_bind}},
 \code{\link{spec_meta_column_info}},

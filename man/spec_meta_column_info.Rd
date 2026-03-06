@@ -38,7 +38,7 @@ Column names that correspond to SQL or R keywords are left unchanged.
 }
 
 \seealso{
-Other meta specifications: 
+Other meta specifications:
 \code{\link{spec_get_info}},
 \code{\link{spec_meta_bind}},
 \code{\link{spec_meta_get_row_count}},

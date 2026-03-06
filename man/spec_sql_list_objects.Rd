@@ -57,7 +57,7 @@ For the data frame returned from a \code{dbListObject()} call with the
 }
 
 \seealso{
-Other sql specifications: 
+Other sql specifications:
 \code{\link{spec_sql_append_table}},
 \code{\link{spec_sql_create_table}},
 \code{\link{spec_sql_exists_table}},
