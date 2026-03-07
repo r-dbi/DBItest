@@ -21,7 +21,7 @@ get_default_context()
 }
 \arguments{
 \item{drv}{\verb{[DBIConnector]}\cr
-An object of class \link[DBI:DBIConnector-class]{DBI::DBIConnector} that describes how to connect
+An object of class \link[DBI:DBIConnector-class]{DBIConnector} that describes how to connect
 to the database.}
 
 \item{connect_args}{\verb{[named list]}\cr Deprecated.}

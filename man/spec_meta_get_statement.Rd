@@ -6,8 +6,8 @@
 \title{spec_meta_get_statement}
 \value{
 \code{dbGetStatement()} returns a string, the query used in
-either \code{\link[DBI:dbSendQuery]{DBI::dbSendQuery()}} or
-\code{\link[DBI:dbSendStatement]{DBI::dbSendStatement()}}.
+either \code{\link[DBI:dbSendQuery]{dbSendQuery()}} or
+\code{\link[DBI:dbSendStatement]{dbSendStatement()}}.
 }
 \description{
 spec_meta_get_statement
@@ -15,7 +15,7 @@ spec_meta_get_statement
 \section{Failure modes}{
 
 Attempting to query the statement for a result set cleared with
-\code{\link[DBI:dbClearResult]{DBI::dbClearResult()}} gives an error.
+\code{\link[DBI:dbClearResult]{dbClearResult()}} gives an error.
 }
 
 \seealso{
