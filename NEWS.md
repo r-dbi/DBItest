@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.2.9012 (2026-03-08)
+
+## Chore
+
+- Auto-update from GitHub Actions (#515).
+
+
 # DBItest 1.8.2.9011 (2026-03-07)
 
 ## Chore
