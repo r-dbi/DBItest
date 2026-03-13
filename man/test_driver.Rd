@@ -26,14 +26,14 @@ Test the "Driver" class
 }
 \seealso{
 Other tests:
-\code{\link{test_arrow}()},
-\code{\link{test_compliance}()},
-\code{\link{test_connection}()},
-\code{\link{test_getting_started}()},
-\code{\link{test_meta}()},
-\code{\link{test_result}()},
-\code{\link{test_sql}()},
-\code{\link{test_stress}()},
-\code{\link{test_transaction}()}
+\code{\link[=test_arrow]{test_arrow()}},
+\code{\link[=test_compliance]{test_compliance()}},
+\code{\link[=test_connection]{test_connection()}},
+\code{\link[=test_getting_started]{test_getting_started()}},
+\code{\link[=test_meta]{test_meta()}},
+\code{\link[=test_result]{test_result()}},
+\code{\link[=test_sql]{test_sql()}},
+\code{\link[=test_stress]{test_stress()}},
+\code{\link[=test_transaction]{test_transaction()}}
 }
 \concept{tests}
