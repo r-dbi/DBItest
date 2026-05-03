@@ -52,7 +52,6 @@ Config/Needs/check: decor
 Encoding: UTF-8
 KeepSource: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.3.9000
 Collate: 
     'DBItest.R'
     'compat-purrr.R'
@@ -150,3 +149,4 @@ Collate:
     'utf8.R'
     'utils.R'
     'zzz.R'
+Config/roxygen2/version: 8.0.0.9000
