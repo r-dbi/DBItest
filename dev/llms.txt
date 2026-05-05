@@ -11,12 +11,14 @@ steps below to add these test cases to your DBI backend.
 Install from CRAN via
 
 ``` r
+
 install.packages("DBItest")
 ```
 
 or the development version using
 
 ``` r
+
 devtools::install_github("r-dbi/DBItest")
 ```
 
@@ -26,6 +28,7 @@ In your driver package, add `DBItest` to the `Suggests:` and enable the
 tests. Run the following code in you package’s directory:
 
 ``` r
+
 # install.packages("usethis")
 usethis::use_package("DBItest", "suggests")
 usethis::use_test("DBItest")
@@ -36,6 +39,7 @@ others, a file `test-DBItest.R` in the `tests/testthat` directory.
 Replace its entire contents by the following:
 
 ``` r
+
 DBItest::make_context(Kazam(), NULL)
 DBItest::test_all()
 ```

@@ -21,7 +21,7 @@ argument succeeds.
 
 Calling `dbFetch()` on a result set from a data manipulation query
 created by
-[`DBI::dbSendStatement()`](https://dbi.r-dbi.org/reference/dbSendStatement.html)
+[`dbSendStatement()`](https://dbi.r-dbi.org/reference/dbSendStatement.html)
 can be fetched and return an empty data frame, with a warning.
 
 ## Specification

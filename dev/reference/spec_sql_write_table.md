@@ -15,7 +15,7 @@ unchanged.
 
 An error is raised when calling this method for a closed or invalid
 connection. An error is also raised if `name` cannot be processed with
-[`DBI::dbQuoteIdentifier()`](https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html)
+[`dbQuoteIdentifier()`](https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html)
 or if this results in a non-scalar. Invalid values for the additional
 arguments `row.names`, `overwrite`, `append`, `field.types`, and
 `temporary` (non-scalars, unsupported data types, `NA`, incompatible
@@ -50,7 +50,7 @@ allow non-syntactic names for their objects:
   quoting, perhaps by calling `dbQuoteIdentifier(conn, x = name)`
 
 - If the result of a call to
-  [`DBI::dbQuoteIdentifier()`](https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html):
+  [`dbQuoteIdentifier()`](https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html):
   no more quoting is done
 
 The `value` argument must be a data frame with a subset of the columns
@@ -78,7 +78,7 @@ non-syntactic identifiers, also for table names and column names.
 
 The following data types must be supported at least, and be read
 identically with
-[`DBI::dbReadTable()`](https://dbi.r-dbi.org/reference/dbReadTable.html):
+[`dbReadTable()`](https://dbi.r-dbi.org/reference/dbReadTable.html):
 
 - integer
 
@@ -126,11 +126,11 @@ The `field.types` argument must be a named character vector with at most
 one entry for each column. It indicates the SQL data type to be used for
 a new column. If a column is missed from `field.types`, the type is
 inferred from the input data with
-[`DBI::dbDataType()`](https://dbi.r-dbi.org/reference/dbDataType.html).
+[`dbDataType()`](https://dbi.r-dbi.org/reference/dbDataType.html).
 
 The interpretation of [rownames](https://rdrr.io/r/base/colnames.html)
 depends on the `row.names` argument, see
-[`DBI::sqlRownamesToColumn()`](https://dbi.r-dbi.org/reference/rownames.html)
+[`sqlRownamesToColumn()`](https://dbi.r-dbi.org/reference/rownames.html)
 for details:
 
 - If `FALSE` or `NULL`, row names are ignored.

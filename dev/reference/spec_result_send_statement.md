@@ -5,12 +5,12 @@ spec_result_send_statement
 ## Value
 
 `dbSendStatement()` returns an S4 object that inherits from
-[DBI::DBIResult](https://dbi.r-dbi.org/reference/DBIResult-class.html).
-The result set can be used with
-[`DBI::dbGetRowsAffected()`](https://dbi.r-dbi.org/reference/dbGetRowsAffected.html)
+[DBIResult](https://dbi.r-dbi.org/reference/DBIResult-class.html). The
+result set can be used with
+[`dbGetRowsAffected()`](https://dbi.r-dbi.org/reference/dbGetRowsAffected.html)
 to determine the number of rows affected by the query. Once you have
 finished using a result, make sure to clear it with
-[`DBI::dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html).
+[`dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html).
 
 ## Failure modes
 
@@ -24,7 +24,7 @@ parameters are given (by passing the `params` argument) or the
 
 No warnings occur under normal conditions. When done, the DBIResult
 object must be cleared with a call to
-[`DBI::dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html).
+[`dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html).
 Failure to clear the result set leads to a warning when the connection
 is closed. If the backend supports only one open result set per
 connection, issuing a second query invalidates an already open result
@@ -32,8 +32,7 @@ set and raises a warning. The newly opened result set is valid and must
 be cleared with `dbClearResult()`.
 
 The `param` argument allows passing query parameters, see
-[`DBI::dbBind()`](https://dbi.r-dbi.org/reference/dbBind.html) for
-details.
+[`dbBind()`](https://dbi.r-dbi.org/reference/dbBind.html) for details.
 
 ## Additional arguments
 
@@ -84,7 +83,7 @@ Examples for possible behaviors:
     2.  A query with parameters is passed:
 
         1.  `params` not given: waiting for parameters via
-            [`DBI::dbBind()`](https://dbi.r-dbi.org/reference/dbBind.html)
+            [`dbBind()`](https://dbi.r-dbi.org/reference/dbBind.html)
 
         2.  `params` given: query is executed
 

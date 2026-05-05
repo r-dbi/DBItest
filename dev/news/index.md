@@ -1,5 +1,53 @@
 # Changelog
 
+## DBItest 1.8.2.9015 (2026-05-04)
+
+### Chore
+
+- Auto-update from GitHub Actions
+  ([\#521](https://github.com/r-dbi/DBItest/issues/521)).
+
+## DBItest 1.8.2.9014 (2026-03-14)
+
+### Chore
+
+- Auto-update from GitHub Actions
+  ([\#519](https://github.com/r-dbi/DBItest/issues/519)).
+
+## DBItest 1.8.2.9013 (2026-03-12)
+
+### Chore
+
+- Auto-update from GitHub Actions
+  ([\#517](https://github.com/r-dbi/DBItest/issues/517)).
+
+## DBItest 1.8.2.9012 (2026-03-08)
+
+### Chore
+
+- Auto-update from GitHub Actions
+  ([\#515](https://github.com/r-dbi/DBItest/issues/515)).
+
+## DBItest 1.8.2.9011 (2026-03-07)
+
+### Chore
+
+- Auto-update from GitHub Actions
+  ([\#513](https://github.com/r-dbi/DBItest/issues/513)).
+
+## DBItest 1.8.2.9010 (2026-01-14)
+
+### Continuous integration
+
+- Import from actions-sync, check carefully
+  ([\#511](https://github.com/r-dbi/DBItest/issues/511)).
+
+- Import from actions-sync, check carefully
+  ([\#510](https://github.com/r-dbi/DBItest/issues/510)).
+
+- Import from actions-sync, check carefully
+  ([\#509](https://github.com/r-dbi/DBItest/issues/509)).
+
 ## DBItest 1.8.2.9009 (2025-11-17)
 
 ### Continuous integration

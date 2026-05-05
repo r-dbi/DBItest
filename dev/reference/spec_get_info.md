@@ -9,7 +9,7 @@ spec_meta_get_info_result
 ## Value
 
 For objects of class
-[DBI::DBIDriver](https://dbi.r-dbi.org/reference/DBIDriver-class.html),
+[DBIDriver](https://dbi.r-dbi.org/reference/DBIDriver-class.html),
 `dbGetInfo()` returns a named list that contains at least the following
 components:
 
@@ -18,7 +18,7 @@ components:
 - `client.version`: the version of the DBMS client library.
 
 For objects of class
-[DBI::DBIConnection](https://dbi.r-dbi.org/reference/DBIConnection-class.html),
+[DBIConnection](https://dbi.r-dbi.org/reference/DBIConnection-class.html),
 `dbGetInfo()` returns a named list that contains at least the following
 components:
 
@@ -34,28 +34,27 @@ components:
   component. Components that are not applicable should be set to `NA`.
 
 For objects of class
-[DBI::DBIResult](https://dbi.r-dbi.org/reference/DBIResult-class.html),
+[DBIResult](https://dbi.r-dbi.org/reference/DBIResult-class.html),
 `dbGetInfo()` returns a named list that contains at least the following
 components:
 
 - `statatment`: the statement used with
-  [`DBI::dbSendQuery()`](https://dbi.r-dbi.org/reference/dbSendQuery.html)
-  or
-  [`DBI::dbExecute()`](https://dbi.r-dbi.org/reference/dbExecute.html),
-  as returned by
-  [`DBI::dbGetStatement()`](https://dbi.r-dbi.org/reference/dbGetStatement.html),
+  [`dbSendQuery()`](https://dbi.r-dbi.org/reference/dbSendQuery.html) or
+  [`dbExecute()`](https://dbi.r-dbi.org/reference/dbExecute.html), as
+  returned by
+  [`dbGetStatement()`](https://dbi.r-dbi.org/reference/dbGetStatement.html),
 
 - `row.count`: the number of rows fetched so far (for queries), as
   returned by
-  [`DBI::dbGetRowCount()`](https://dbi.r-dbi.org/reference/dbGetRowCount.html),
+  [`dbGetRowCount()`](https://dbi.r-dbi.org/reference/dbGetRowCount.html),
 
 - `rows.affected`: the number of rows affected (for statements), as
   returned by
-  [`DBI::dbGetRowsAffected()`](https://dbi.r-dbi.org/reference/dbGetRowsAffected.html)
+  [`dbGetRowsAffected()`](https://dbi.r-dbi.org/reference/dbGetRowsAffected.html)
 
 - `has.completed`: a logical that indicates if the query or statement
   has completed, as returned by
-  [`DBI::dbHasCompleted()`](https://dbi.r-dbi.org/reference/dbHasCompleted.html).
+  [`dbHasCompleted()`](https://dbi.r-dbi.org/reference/dbHasCompleted.html).
 
 ## See also
 

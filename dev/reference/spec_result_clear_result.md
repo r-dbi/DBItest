@@ -17,9 +17,8 @@ An attempt to close an already closed result set issues a warning for
 `dbClearResult()` frees all resources associated with retrieving the
 result of a query or update operation. The DBI backend can expect a call
 to `dbClearResult()` for each
-[`DBI::dbSendQuery()`](https://dbi.r-dbi.org/reference/dbSendQuery.html)
-or
-[`DBI::dbSendStatement()`](https://dbi.r-dbi.org/reference/dbSendStatement.html)
+[`dbSendQuery()`](https://dbi.r-dbi.org/reference/dbSendQuery.html) or
+[`dbSendStatement()`](https://dbi.r-dbi.org/reference/dbSendStatement.html)
 call.
 
 ## See also

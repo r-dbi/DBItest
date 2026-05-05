@@ -5,12 +5,12 @@ spec_result_send_query
 ## Value
 
 `dbSendQueryArrow()` returns an S4 object that inherits from
-[DBI::DBIResultArrow](https://dbi.r-dbi.org/reference/DBIResultArrow-class.html).
+[DBIResultArrow](https://dbi.r-dbi.org/reference/DBIResultArrow-class.html).
 The result set can be used with
-[`DBI::dbFetchArrow()`](https://dbi.r-dbi.org/reference/dbFetchArrow.html)
-to extract records. Once you have finished using a result, make sure to
+[`dbFetchArrow()`](https://dbi.r-dbi.org/reference/dbFetchArrow.html) to
+extract records. Once you have finished using a result, make sure to
 clear it with
-[`DBI::dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html).
+[`dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html).
 
 ## Failure modes
 
@@ -37,7 +37,7 @@ sections for details on their usage.
 
 No warnings occur under normal conditions. When done, the DBIResult
 object must be cleared with a call to
-[`DBI::dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html).
+[`dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html).
 Failure to clear the result set leads to a warning when the connection
 is closed.
 
@@ -47,8 +47,7 @@ warning. The newly opened result set is valid and must be cleared with
 `dbClearResult()`.
 
 The `param` argument allows passing query parameters, see
-[`DBI::dbBind()`](https://dbi.r-dbi.org/reference/dbBind.html) for
-details.
+[`dbBind()`](https://dbi.r-dbi.org/reference/dbBind.html) for details.
 
 ## Specification for the `immediate` argument
 
@@ -86,7 +85,7 @@ Examples for possible behaviors:
     2.  A query with parameters is passed:
 
         1.  `params` not given: waiting for parameters via
-            [`DBI::dbBind()`](https://dbi.r-dbi.org/reference/dbBind.html)
+            [`dbBind()`](https://dbi.r-dbi.org/reference/dbBind.html)
 
         2.  `params` given: query is executed
 

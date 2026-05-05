@@ -5,7 +5,7 @@ spec_driver_constructor
 ## Construction of the DBIDriver object
 
 The backend must support creation of an instance of its
-[DBI::DBIDriver](https://dbi.r-dbi.org/reference/DBIDriver-class.html)
+[DBIDriver](https://dbi.r-dbi.org/reference/DBIDriver-class.html)
 subclass with a constructor function. By default, its name is the
 package name without the leading ‘R’ (if it exists), e.g., `SQLite` for
 the RSQLite package. However, backend authors may choose a different

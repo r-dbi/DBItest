@@ -28,7 +28,7 @@ An error is raised for invalid values for the `obj` argument such as a
 ## Specification
 
 The backend can override the
-[`DBI::dbDataType()`](https://dbi.r-dbi.org/reference/dbDataType.html)
+[`dbDataType()`](https://dbi.r-dbi.org/reference/dbDataType.html)
 generic for its driver class.
 
 This generic expects an arbitrary object as second argument. To query

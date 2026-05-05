@@ -86,7 +86,7 @@ tweaks(
 
   `[character]`  
   A pattern for placeholders used in
-  [`DBI::dbBind()`](https://dbi.r-dbi.org/reference/dbBind.html), e.g.,
+  [`dbBind()`](https://dbi.r-dbi.org/reference/dbBind.html), e.g.,
   `"?"`, `"$1"`, or `":name"`. See
   [`make_placeholder_fun()`](https://dbitest.r-dbi.org/dev/reference/make_placeholder_fun.md)
   for details.
@@ -151,7 +151,7 @@ tweaks(
 
   `[logical(1L)]`  
   Set to `TRUE` to allow
-  [`DBI::dbGetRowsAffected()`](https://dbi.r-dbi.org/reference/dbGetRowsAffected.html)
+  [`dbGetRowsAffected()`](https://dbi.r-dbi.org/reference/dbGetRowsAffected.html)
   to return `NA`.
 
 - is_null_check:

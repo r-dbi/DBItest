@@ -10,6 +10,7 @@ The test cases in the DBItest package are structured very similarly to
 the sections in the “backend” vignette:
 
 ``` r
+
 vignette("backend", package = "DBI")
 ```
 
@@ -24,6 +25,7 @@ following in your package directory (after installing or updating
 `devtools`):
 
 ``` r
+
 devtools::use_testthat()
 devtools::use_test("DBItest")
 ```
@@ -33,6 +35,7 @@ This creates, among others, a file `test-DBItest.R` in the
 following:
 
 ``` r
+
 DBItest::make_context(Kazam(), NULL)
 DBItest::test_getting_started()
 ```
@@ -51,6 +54,7 @@ again. Therefore, proceed by appending the following to
 section:
 
 ``` r
+
 DBItest::test_driver()
 ```
 
@@ -76,7 +80,7 @@ tests that `logical` variables survive a write-read roundtrip to the
 database, whereas another test tests that `logical` variables are
 converted to `integer` in such a case. Tests can be skipped by adding
 regular expressions for the tests to skip as character vector to the
-call, as in the following[¹](#fn1):
+call, as in the following[^1]:
 
 ``` r
 DBItest::test_driver(skip = c(
@@ -97,6 +101,7 @@ way to get started. Run the following in your package directory (after
 installing or updating `devtools`):
 
 ``` r
+
 devtools::use_testthat()
 devtools::use_test("DBItest")
 ```
@@ -106,6 +111,7 @@ This creates, among others, a file `test-DBItest.R` in the
 following:
 
 ``` r
+
 DBItest::make_context(Kazam(), NULL)
 DBItest::test_all()
 ```
@@ -151,6 +157,7 @@ The
 function must be called before any tests can run.
 
 ``` r
+
 library(DBItest)
 
 tweaks <- tweaks(
@@ -192,6 +199,7 @@ combined. Review
 for a list of reporters.
 
 ``` r
+
 DBItest::test_some("get_query_atomic")
 ```
 
@@ -211,6 +219,7 @@ failure) with the human-readable specification embedded with the test
 code.
 
 ``` r
+
 testthat::with_reporter(
   c("location", "fail"),
   DBItest::test_some("get_query_atomic")
@@ -227,8 +236,6 @@ testthat::with_reporter(
     ##    [success]
     ## End test: DBItest: Result: get_query_atomic
 
-------------------------------------------------------------------------
-
-1.  The terminating `NULL` allows appending new lines to the end by
+[^1]: The terminating `NULL` allows appending new lines to the end by
     copy-pasting an existing line, without having to take care of the
     terminating comma.

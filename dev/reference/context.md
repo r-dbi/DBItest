@@ -25,7 +25,7 @@ get_default_context()
 
   `[DBIConnector]`  
   An object of class
-  [DBI::DBIConnector](https://dbi.r-dbi.org/reference/DBIConnector-class.html)
+  [DBIConnector](https://dbi.r-dbi.org/reference/DBIConnector-class.html)
   that describes how to connect to the database.
 
 - connect_args:
@@ -94,7 +94,7 @@ make_context(
 #> <DBIConnector><SQLiteDriver>
 #> Arguments:
 #> $dbname
-#> [1] "/tmp/RtmpbELjT6/DBItest26d053ffecac.sqlite"
+#> [1] "/tmp/Rtmp5SlEfi/DBItest26c5ed8ab52.sqlite"
 #> 
 #> 
 #> $drv

@@ -13,7 +13,7 @@ view with this function may result in an error.
 
 An error is raised when calling this method for a closed or invalid
 connection. An error is also raised if `name` cannot be processed with
-[`DBI::dbQuoteIdentifier()`](https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html)
+[`dbQuoteIdentifier()`](https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html)
 or if this results in a non-scalar.
 
 ## Additional arguments
@@ -39,9 +39,9 @@ if the table does not exist.
 
 A table removed by `dbRemoveTable()` doesn't appear in the list of
 tables returned by
-[`DBI::dbListTables()`](https://dbi.r-dbi.org/reference/dbListTables.html),
+[`dbListTables()`](https://dbi.r-dbi.org/reference/dbListTables.html),
 and
-[`DBI::dbExistsTable()`](https://dbi.r-dbi.org/reference/dbExistsTable.html)
+[`dbExistsTable()`](https://dbi.r-dbi.org/reference/dbExistsTable.html)
 returns `FALSE`. The removal propagates immediately to other connections
 to the same database. This function can also be used to remove a
 temporary table.
@@ -53,7 +53,7 @@ allow non-syntactic names for their objects:
   quoting, perhaps by calling `dbQuoteIdentifier(conn, x = name)`
 
 - If the result of a call to
-  [`DBI::dbQuoteIdentifier()`](https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html):
+  [`dbQuoteIdentifier()`](https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html):
   no more quoting is done
 
 ## See also

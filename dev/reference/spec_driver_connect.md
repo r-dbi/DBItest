@@ -5,7 +5,7 @@ spec_driver_connect
 ## Value
 
 `dbConnect()` returns an S4 object that inherits from
-[DBI::DBIConnection](https://dbi.r-dbi.org/reference/DBIConnection-class.html).
+[DBIConnection](https://dbi.r-dbi.org/reference/DBIConnection-class.html).
 This object is used to communicate with the database engine.
 
 A [`format()`](https://rdrr.io/r/base/format.html) method is defined for

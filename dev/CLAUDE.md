@@ -54,5 +54,6 @@ Rscript -e '<expression>'
 Use pak to install packages, it will be installed by rig:
 
 ``` r
+
 pak::pak("<package>")
 ```

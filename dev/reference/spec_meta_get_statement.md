@@ -5,14 +5,13 @@ spec_meta_get_statement
 ## Value
 
 `dbGetStatement()` returns a string, the query used in either
-[`DBI::dbSendQuery()`](https://dbi.r-dbi.org/reference/dbSendQuery.html)
-or
-[`DBI::dbSendStatement()`](https://dbi.r-dbi.org/reference/dbSendStatement.html).
+[`dbSendQuery()`](https://dbi.r-dbi.org/reference/dbSendQuery.html) or
+[`dbSendStatement()`](https://dbi.r-dbi.org/reference/dbSendStatement.html).
 
 ## Failure modes
 
 Attempting to query the statement for a result set cleared with
-[`DBI::dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html)
+[`dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html)
 gives an error.
 
 ## See also

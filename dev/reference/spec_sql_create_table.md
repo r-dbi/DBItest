@@ -13,7 +13,7 @@ unchanged.
 
 An error is raised when calling this method for a closed or invalid
 connection. An error is also raised if `name` cannot be processed with
-[`DBI::dbQuoteIdentifier()`](https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html)
+[`dbQuoteIdentifier()`](https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html)
 or if this results in a non-scalar. Invalid values for the `row.names`
 and `temporary` arguments (non-scalars, unsupported data types, `NA`,
 incompatible values, duplicate names) also raise an error.
@@ -38,7 +38,7 @@ allow non-syntactic names for their objects:
   quoting, perhaps by calling `dbQuoteIdentifier(conn, x = name)`
 
 - If the result of a call to
-  [`DBI::dbQuoteIdentifier()`](https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html):
+  [`dbQuoteIdentifier()`](https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html):
   no more quoting is done
 
 The `value` argument can be:

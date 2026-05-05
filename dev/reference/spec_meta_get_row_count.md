@@ -6,21 +6,21 @@ spec_meta_get_row_count
 
 `dbGetRowCount()` returns a scalar number (integer or numeric), the
 number of rows fetched so far. After calling
-[`DBI::dbSendQuery()`](https://dbi.r-dbi.org/reference/dbSendQuery.html),
-the row count is initially zero. After a call to
-[`DBI::dbFetch()`](https://dbi.r-dbi.org/reference/dbFetch.html) without
+[`dbSendQuery()`](https://dbi.r-dbi.org/reference/dbSendQuery.html), the
+row count is initially zero. After a call to
+[`dbFetch()`](https://dbi.r-dbi.org/reference/dbFetch.html) without
 limit, the row count matches the total number of rows returned. Fetching
 a limited number of rows increases the number of rows by the number of
 rows returned, even if fetching past the end of the result set. For
 queries with an empty result set, zero is returned even after fetching.
 For data manipulation statements issued with
-[`DBI::dbSendStatement()`](https://dbi.r-dbi.org/reference/dbSendStatement.html),
+[`dbSendStatement()`](https://dbi.r-dbi.org/reference/dbSendStatement.html),
 zero is returned before and after calling `dbFetch()`.
 
 ## Failure modes
 
 Attempting to get the row count for a result set cleared with
-[`DBI::dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html)
+[`dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html)
 gives an error.
 
 ## See also

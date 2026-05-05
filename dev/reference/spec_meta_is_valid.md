@@ -6,24 +6,23 @@ spec_meta_is_valid
 
 `dbIsValid()` returns a logical scalar, `TRUE` if the object specified
 by `dbObj` is valid, `FALSE` otherwise. A
-[DBI::DBIConnection](https://dbi.r-dbi.org/reference/DBIConnection-class.html)
+[DBIConnection](https://dbi.r-dbi.org/reference/DBIConnection-class.html)
 object is initially valid, and becomes invalid after disconnecting with
-[`DBI::dbDisconnect()`](https://dbi.r-dbi.org/reference/dbDisconnect.html).
+[`dbDisconnect()`](https://dbi.r-dbi.org/reference/dbDisconnect.html).
 For an invalid connection object (e.g., for some drivers if the object
 is saved to a file and then restored), the method also returns `FALSE`.
-A [DBI::DBIResult](https://dbi.r-dbi.org/reference/DBIResult-class.html)
+A [DBIResult](https://dbi.r-dbi.org/reference/DBIResult-class.html)
 object is valid after a call to
-[`DBI::dbSendQuery()`](https://dbi.r-dbi.org/reference/dbSendQuery.html),
-and stays valid even after all rows have been fetched; only clearing it
-with
-[`DBI::dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html)
+[`dbSendQuery()`](https://dbi.r-dbi.org/reference/dbSendQuery.html), and
+stays valid even after all rows have been fetched; only clearing it with
+[`dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html)
 invalidates it. A
-[DBI::DBIResult](https://dbi.r-dbi.org/reference/DBIResult-class.html)
-object is also valid after a call to
-[`DBI::dbSendStatement()`](https://dbi.r-dbi.org/reference/dbSendStatement.html),
+[DBIResult](https://dbi.r-dbi.org/reference/DBIResult-class.html) object
+is also valid after a call to
+[`dbSendStatement()`](https://dbi.r-dbi.org/reference/dbSendStatement.html),
 and stays valid after querying the number of rows affected; only
 clearing it with
-[`DBI::dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html)
+[`dbClearResult()`](https://dbi.r-dbi.org/reference/dbClearResult.html)
 invalidates it. If the connection to the database system is dropped
 (e.g., due to connectivity problems, server failure, etc.),
 `dbIsValid()` should return `FALSE`. This is not tested automatically.
