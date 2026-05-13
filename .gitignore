@@ -12,3 +12,4 @@ CRAN-SUBMISSION
 *.Rcheck
 *.tar.gz
 
+.ccache/

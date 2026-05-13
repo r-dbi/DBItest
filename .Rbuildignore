@@ -17,3 +17,4 @@
 ^\.vscode$
 ^tests/testthat/helper-dev\.R$
 ^CLAUDE\.md$
+^\.ccache$
