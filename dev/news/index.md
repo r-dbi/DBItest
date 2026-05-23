@@ -1,5 +1,10 @@
 # Changelog
 
+## DBItest 1.8.2.9018 (2026-05-16)
+
+- Ci: Unify fledge.yaml across cynkratemplate and fledge
+  ([\#86](https://github.com/r-dbi/DBItest/issues/86)).
+
 ## DBItest 1.8.2.9017 (2026-05-13)
 
 ### Chore
