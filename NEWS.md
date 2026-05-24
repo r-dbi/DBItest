@@ -1,5 +1,14 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.2.9019 (2026-05-24)
+
+## Continuous integration
+
+- Update ccache-action reference.
+
+- Bump action version.
+
+
 # DBItest 1.8.2.9018 (2026-05-16)
 
 - Ci: Unify fledge.yaml across cynkratemplate and fledge (#86).
