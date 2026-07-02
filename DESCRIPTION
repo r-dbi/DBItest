@@ -32,6 +32,7 @@ Imports:
     utils,
     withr
 Suggests: 
+    bit64,
     clipr,
     constructive,
     debugme,
