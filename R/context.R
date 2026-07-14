@@ -49,9 +49,17 @@
 # The context encapsulates all environment-specific settings needed for consistent test execution.
 make_context <- function(drv, connect_args = NULL, set_as_default = TRUE,
                          tweaks = NULL, name = NULL, default_skip = NULL) {
+  # Validate that drv is not NULL and has appropriate type checking
   if (is.null(drv)) {
     abort("drv cannot be NULL.")
   }
+
+  # Validate boolean parameter with improved error messages
+  check_bool(set_as_default, allow_null = FALSE)
+
+  # Validate optional string parameters
+  check_string(name, allow_null = TRUE)
+  check_character(default_skip, allow_null = TRUE)
 
   if (is(drv, "DBIDriver")) {
     if (is.null(connect_args)) {
