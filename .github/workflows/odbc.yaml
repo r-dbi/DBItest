@@ -125,6 +125,19 @@ jobs:
         shell: Rscript {0}
 
       # Begin custom: after install
+      # The odbc package is compiled from source below (in "Install locally to
+      # avoid error with test_local()", and silently during "Install package
+      # and dependencies" because R_REMOTES_NO_ERRORS_FROM_WARNINGS demotes the
+      # failure to a warning).
+      # That build needs the unixODBC driver-manager development headers (sql.h)
+      # and libodbc, which the database-specific driver installs below do not
+      # provide -- they add drivers, not the driver manager.
+      # Install it explicitly for every backend so the source build succeeds.
+      - name: Install unixODBC driver manager
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get install -y unixodbc-dev
+
       - name: Setup MySQL
         if: matrix.database == 'mysql'
         run: |
