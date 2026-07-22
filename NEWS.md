@@ -10,7 +10,7 @@
 
 - Test that the object returned by `dbUnquoteIdentifier()` is of class `Id`.
 
-- Add an extra sanity test in `spec-sql-write-table` (@MichaelChirico, #411).
+- Add an extra sanity test in `spec_sql_write_table` (@MichaelChirico, #411).
 
 - Improve the failure mode of the missing-method test (@MichaelChirico, #405).
 
