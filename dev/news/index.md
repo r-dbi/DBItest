@@ -1,5 +1,11 @@
 # Changelog
 
+## DBItest 1.8.2.9021 (2026-07-22)
+
+### Chore
+
+- Use purrr ([\#421](https://github.com/r-dbi/DBItest/issues/421)).
+
 ## DBItest 1.8.2.9020 (2026-07-02)
 
 ### Chore
