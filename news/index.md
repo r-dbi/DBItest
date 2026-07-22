@@ -2,196 +2,62 @@
 
 ## DBItest 1.8.3 (2026-07-22)
 
-### Bug fixes
-
-- Suppress warnings when creating invalid objects.
-
 ### Features
 
-- Reinstate lint infrastructure as GHA
+- New `tweaks(create_table_empty = )` tweak, for backends that need a
+  dedicated code path to create empty tables
   ([@MichaelChirico](https://github.com/MichaelChirico),
-  [\#396](https://github.com/r-dbi/DBItest/issues/396)).
-
-- Assign result in `send_query_stale_warning` to stabilize test
-  ([@detule](https://github.com/detule),
-  [\#373](https://github.com/r-dbi/DBItest/issues/373)).
-
-- Improve failure mode of missing method test
-  ([@MichaelChirico](https://github.com/MichaelChirico),
-  [\#405](https://github.com/r-dbi/DBItest/issues/405)).
+  [\#406](https://github.com/r-dbi/DBItest/issues/406),
+  [\#408](https://github.com/r-dbi/DBItest/issues/408)).
 
 - Use `trivial_query()` by default in `create_table_as()`
   ([@MichaelChirico](https://github.com/MichaelChirico),
   [\#410](https://github.com/r-dbi/DBItest/issues/410),
   [\#420](https://github.com/r-dbi/DBItest/issues/420)).
 
-- Test object returned by `dbUnquoteIdentifier()` is of class `Id`.
+- Test that the object returned by `dbUnquoteIdentifier()` is of class
+  `Id`.
 
-- Add an extra test for sanity in spec-sql-write-table
+- Add an extra sanity test in `spec-sql-write-table`
   ([@MichaelChirico](https://github.com/MichaelChirico),
   [\#411](https://github.com/r-dbi/DBItest/issues/411)).
 
-- New `tweaks(create_table_empty = )` tweak
+- Improve the failure mode of the missing-method test
   ([@MichaelChirico](https://github.com/MichaelChirico),
-  [\#406](https://github.com/r-dbi/DBItest/issues/406),
-  [\#408](https://github.com/r-dbi/DBItest/issues/408)).
+  [\#405](https://github.com/r-dbi/DBItest/issues/405)).
 
-- Clarify warning message for lack of `skip =` hit among `spec_all`
+- Assign the result in `send_query_stale_warning` to stabilize the test
+  ([@detule](https://github.com/detule),
+  [\#373](https://github.com/r-dbi/DBItest/issues/373)).
+
+- Clarify the warning message emitted when a `skip =` pattern matches
+  none of the tests in `spec_all`
   ([@MichaelChirico](https://github.com/MichaelChirico),
   [\#398](https://github.com/r-dbi/DBItest/issues/398)).
 
+### Bug fixes
+
+- Suppress warnings when creating invalid objects.
+
 ### Chore
 
-- Use purrr ([\#421](https://github.com/r-dbi/DBItest/issues/421)).
-
-- Auto-update from GitHub Actions
-  ([\#531](https://github.com/r-dbi/DBItest/issues/531)).
-
-- Add ccache to `.gitignore` and `.Rbuildignore`.
-
-- Auto-update from GitHub Actions
-  ([\#521](https://github.com/r-dbi/DBItest/issues/521)).
-
-- Auto-update from GitHub Actions
-  ([\#519](https://github.com/r-dbi/DBItest/issues/519)).
-
-- Auto-update from GitHub Actions
-  ([\#517](https://github.com/r-dbi/DBItest/issues/517)).
-
-- Auto-update from GitHub Actions
-  ([\#515](https://github.com/r-dbi/DBItest/issues/515)).
-
-- Auto-update from GitHub Actions
-  ([\#513](https://github.com/r-dbi/DBItest/issues/513)).
-
-- Auto-update from GitHub Actions
-  ([\#496](https://github.com/r-dbi/DBItest/issues/496)).
-
-- Build-ignore.
-
-- IDE.
-
-- Add build-time dependency vctrs
+- Add build-time dependency on vctrs
   ([@MichaelChirico](https://github.com/MichaelChirico),
   [\#394](https://github.com/r-dbi/DBItest/issues/394),
   [\#395](https://github.com/r-dbi/DBItest/issues/395)).
 
-### Continuous integration
-
-- Update ccache-action reference.
-
-- Bump action version.
-
-- Create snapshot update PR against correct branch.
-
-- Add reference to `/apply-patch` workflow in commit message.
-
-- Clarify rationale for not deploying on schedule.
-
-- Only run fledge on pushes to main.
-
-- Tweak fledge workflow and ccache action.
-
-- Cosmetics.
-
-- Bump action versions.
-
-- Install clang-format-21.
-
-- Align fledge workflow.
-
-- Harmonize.
-
-- Import from actions-sync, check carefully
-  ([\#511](https://github.com/r-dbi/DBItest/issues/511)).
-
-- Import from actions-sync, check carefully
-  ([\#510](https://github.com/r-dbi/DBItest/issues/510)).
-
-- Import from actions-sync, check carefully
-  ([\#509](https://github.com/r-dbi/DBItest/issues/509)).
-
-- Try from big repo.
-
-- Install from source for now.
-
-- Install from binary.
-
-- Use `remotes::install_runiverse()`.
-
-- Import from actions-sync, check carefully
-  ([\#505](https://github.com/r-dbi/DBItest/issues/505)).
-
-- Import from actions-sync, check carefully
-  ([\#503](https://github.com/r-dbi/DBItest/issues/503)).
-
-- Import from actions-sync, check carefully
-  ([\#501](https://github.com/r-dbi/DBItest/issues/501)).
-
-- Import from actions-sync, check carefully
-  ([\#498](https://github.com/r-dbi/DBItest/issues/498)).
-
-- Import from actions-sync, check carefully
-  ([\#476](https://github.com/r-dbi/DBItest/issues/476)).
-
-- Use pak \[ci skip\].
-
-- Allow tools \[ci skip\].
-
-- Post comment on failure \[ci skip\].
-
-- Checkout.
-
-- Add Claude workflow.
-
-- Need to install R.
-
-- Run on noble ([\#425](https://github.com/r-dbi/DBItest/issues/425)).
-
-- Import from actions-sync, check carefully
-  ([\#423](https://github.com/r-dbi/DBItest/issues/423)).
-
-- Import from actions-sync, check carefully
-  ([\#419](https://github.com/r-dbi/DBItest/issues/419)).
-
-- Import from actions-sync, check carefully
-  ([\#418](https://github.com/r-dbi/DBItest/issues/418)).
-
-- Import from actions-sync, check carefully
-  ([\#417](https://github.com/r-dbi/DBItest/issues/417)).
-
-- Import from actions-sync, check carefully
-  ([\#416](https://github.com/r-dbi/DBItest/issues/416)).
-
-- Import from actions-sync, check carefully
-  ([\#415](https://github.com/r-dbi/DBItest/issues/415)).
-
-- Import from actions-sync, check carefully
-  ([\#414](https://github.com/r-dbi/DBItest/issues/414)).
-
-- Import from actions-sync, check carefully
-  ([\#413](https://github.com/r-dbi/DBItest/issues/413)).
-
-- Import from actions-sync, check carefully
-  ([\#392](https://github.com/r-dbi/DBItest/issues/392)).
+- Reinstate lint infrastructure as a GitHub Actions workflow
+  ([@MichaelChirico](https://github.com/MichaelChirico),
+  [\#396](https://github.com/r-dbi/DBItest/issues/396)).
 
 ### Documentation
 
-- Add comprehensive comments with proper formatting
-  ([\#427](https://github.com/r-dbi/DBItest/issues/427),
-  [\#431](https://github.com/r-dbi/DBItest/issues/431)).
-
-- Fix bad links and a typo.
-
-- Improve wording of `test_all(skip = )` description
+- Improve wording of the `test_all(skip = )` description
   ([@MichaelChirico](https://github.com/MichaelChirico),
   [\#397](https://github.com/r-dbi/DBItest/issues/397),
   [\#399](https://github.com/r-dbi/DBItest/issues/399)).
 
-### Uncategorized
-
-- Ci: Unify fledge.yaml across cynkratemplate and fledge
-  ([\#86](https://github.com/r-dbi/DBItest/issues/86)).
+- Fix bad links and a typo.
 
 ## DBItest 1.8.2 (2024-12-07)
 
