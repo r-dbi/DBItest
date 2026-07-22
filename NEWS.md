@@ -2,147 +2,37 @@
 
 # DBItest 1.8.3 (2026-07-22)
 
+## Features
+
+- New `tweaks(create_table_empty = )` tweak, for backends that need a dedicated code path to create empty tables (@MichaelChirico, #406, #408).
+
+- Use `trivial_query()` by default in `create_table_as()` (@MichaelChirico, #410, #420).
+
+- Test that the object returned by `dbUnquoteIdentifier()` is of class `Id`.
+
+- Add an extra sanity test in `spec-sql-write-table` (@MichaelChirico, #411).
+
+- Improve the failure mode of the missing-method test (@MichaelChirico, #405).
+
+- Assign the result in `send_query_stale_warning` to stabilize the test (@detule, #373).
+
+- Clarify the warning message emitted when a `skip =` pattern matches none of the tests in `spec_all` (@MichaelChirico, #398).
+
 ## Bug fixes
 
 - Suppress warnings when creating invalid objects.
 
-## Features
-
-- Reinstate lint infrastructure as GHA (@MichaelChirico, #396).
-
-- Assign result in `send_query_stale_warning` to stabilize test (@detule, #373).
-
-- Improve failure mode of missing method test (@MichaelChirico, #405).
-
-- Use `trivial_query()` by default in `create_table_as()` (@MichaelChirico, #410, #420).
-
-- Test object returned by `dbUnquoteIdentifier()` is of class `Id`.
-
-- Add an extra test for sanity in spec-sql-write-table (@MichaelChirico, #411).
-
-- New `tweaks(create_table_empty = )` tweak (@MichaelChirico, #406, #408).
-
-- Clarify warning message for lack of `skip =` hit among `spec_all` (@MichaelChirico, #398).
-
 ## Chore
 
-- Use purrr (#421).
+- Add build-time dependency on vctrs (@MichaelChirico, #394, #395).
 
-- Auto-update from GitHub Actions (#531).
-
-- Add ccache to `.gitignore` and `.Rbuildignore`.
-
-- Auto-update from GitHub Actions (#521).
-
-- Auto-update from GitHub Actions (#519).
-
-- Auto-update from GitHub Actions (#517).
-
-- Auto-update from GitHub Actions (#515).
-
-- Auto-update from GitHub Actions (#513).
-
-- Auto-update from GitHub Actions (#496).
-
-- Build-ignore.
-
-- IDE.
-
-- Add build-time dependency vctrs (@MichaelChirico, #394, #395).
-
-## Continuous integration
-
-- Update ccache-action reference.
-
-- Bump action version.
-
-- Create snapshot update PR against correct branch.
-
-- Add reference to `/apply-patch` workflow in commit message.
-
-- Clarify rationale for not deploying on schedule.
-
-- Only run fledge on pushes to main.
-
-- Tweak fledge workflow and ccache action.
-
-- Cosmetics.
-
-- Bump action versions.
-
-- Install clang-format-21.
-
-- Align fledge workflow.
-
-- Harmonize.
-
-- Import from actions-sync, check carefully (#511).
-
-- Import from actions-sync, check carefully (#510).
-
-- Import from actions-sync, check carefully (#509).
-
-- Try from big repo.
-
-- Install from source for now.
-
-- Install from binary.
-
-- Use `remotes::install_runiverse()`.
-
-- Import from actions-sync, check carefully (#505).
-
-- Import from actions-sync, check carefully (#503).
-
-- Import from actions-sync, check carefully (#501).
-
-- Import from actions-sync, check carefully (#498).
-
-- Import from actions-sync, check carefully (#476).
-
-- Use pak \[ci skip\].
-
-- Allow tools \[ci skip\].
-
-- Post comment on failure \[ci skip\].
-
-- Checkout.
-
-- Add Claude workflow.
-
-- Need to install R.
-
-- Run on noble (#425).
-
-- Import from actions-sync, check carefully (#423).
-
-- Import from actions-sync, check carefully (#419).
-
-- Import from actions-sync, check carefully (#418).
-
-- Import from actions-sync, check carefully (#417).
-
-- Import from actions-sync, check carefully (#416).
-
-- Import from actions-sync, check carefully (#415).
-
-- Import from actions-sync, check carefully (#414).
-
-- Import from actions-sync, check carefully (#413).
-
-- Import from actions-sync, check carefully (#392).
+- Reinstate lint infrastructure as a GitHub Actions workflow (@MichaelChirico, #396).
 
 ## Documentation
 
-- Add comprehensive comments with proper formatting (#427, #431).
+- Improve wording of the `test_all(skip = )` description (@MichaelChirico, #397, #399).
 
 - Fix bad links and a typo.
-
-- Improve wording of `test_all(skip = )` description (@MichaelChirico, #397, #399).
-
-## Uncategorized
-
-- Ci: Unify fledge.yaml across cynkratemplate and fledge (#86).
 
 
 # DBItest 1.8.2 (2024-12-07)
