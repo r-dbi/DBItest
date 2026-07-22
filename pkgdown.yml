@@ -1,9 +1,9 @@
-pandoc: 3.1.11
-pkgdown: 2.1.1.9000
-pkgdown_sha: dfa28bef27858bd442334b5cce8f645d555914be
+pandoc: 3.8.3
+pkgdown: 2.2.1.9000
+pkgdown_sha: 179cfaee3d4e17eaa9e7d7c700b1269dc62e4d46
 articles:
   DBItest: DBItest.html
-last_built: 2024-12-08T07:11Z
+last_built: 2026-07-22T19:19Z
 urls:
   reference: https://dbitest.r-dbi.org/reference
   article: https://dbitest.r-dbi.org/articles
