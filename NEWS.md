@@ -1,194 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
-# DBItest 1.8.2.9021 (2026-07-22)
-
-## Chore
-
-- Use purrr (#421).
-
-
-# DBItest 1.8.2.9020 (2026-07-02)
-
-## Chore
-
-- Auto-update from GitHub Actions (#531).
-
-
-# DBItest 1.8.2.9019 (2026-05-24)
-
-## Continuous integration
-
-- Update ccache-action reference.
-
-- Bump action version.
-
-
-# DBItest 1.8.2.9018 (2026-05-16)
-
-- Ci: Unify fledge.yaml across cynkratemplate and fledge (#86).
-
-
-# DBItest 1.8.2.9017 (2026-05-13)
-
-## Chore
-
-- Add ccache to `.gitignore` and `.Rbuildignore`.
-
-## Continuous integration
-
-- Create snapshot update PR against correct branch.
-
-- Add reference to `/apply-patch` workflow in commit message.
-
-- Clarify rationale for not deploying on schedule.
-
-- Only run fledge on pushes to main.
-
-- Tweak fledge workflow and ccache action.
-
-
-# DBItest 1.8.2.9016 (2026-05-06)
-
-## Continuous integration
-
-- Cosmetics.
-
-- Bump action versions.
-
-- Install clang-format-21.
-
-- Align fledge workflow.
-
-- Harmonize.
-
-
-# DBItest 1.8.2.9015 (2026-05-04)
-
-## Chore
-
-- Auto-update from GitHub Actions (#521).
-
-
-# DBItest 1.8.2.9014 (2026-03-14)
-
-## Chore
-
-- Auto-update from GitHub Actions (#519).
-
-
-# DBItest 1.8.2.9013 (2026-03-12)
-
-## Chore
-
-- Auto-update from GitHub Actions (#517).
-
-
-# DBItest 1.8.2.9012 (2026-03-08)
-
-## Chore
-
-- Auto-update from GitHub Actions (#515).
-
-
-# DBItest 1.8.2.9011 (2026-03-07)
-
-## Chore
-
-- Auto-update from GitHub Actions (#513).
-
-
-# DBItest 1.8.2.9010 (2026-01-14)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#511).
-
-- Import from actions-sync, check carefully (#510).
-
-- Import from actions-sync, check carefully (#509).
-
-
-# DBItest 1.8.2.9009 (2025-11-17)
-
-## Continuous integration
-
-- Try from big repo.
-
-- Install from source for now.
-
-- Install from binary.
-
-- Use `remotes::install_runiverse()`.
-
-
-# DBItest 1.8.2.9008 (2025-11-12)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#505).
-
-
-# DBItest 1.8.2.9007 (2025-11-10)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#503).
-
-
-# DBItest 1.8.2.9006 (2025-11-08)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#501).
-
-
-# DBItest 1.8.2.9005 (2025-11-04)
+# DBItest 1.8.3 (2026-07-22)
 
 ## Bug fixes
 
 - Suppress warnings when creating invalid objects.
-
-
-# DBItest 1.8.2.9004 (2025-09-06)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#498).
-
-
-# DBItest 1.8.2.9003 (2025-09-05)
-
-## Chore
-
-- Auto-update from GitHub Actions (#496).
-
-
-# DBItest 1.8.2.9002 (2025-08-19)
-
-## Chore
-
-- Build-ignore.
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#476).
-
-- Use pak \[ci skip\].
-
-- Allow tools \[ci skip\].
-
-- Post comment on failure \[ci skip\].
-
-- Checkout.
-
-- Add Claude workflow.
-
-## Documentation
-
-- Add comprehensive comments with proper formatting (#427, #431).
-
-
-# DBItest 1.8.2.9001 (2025-05-04)
 
 ## Features
 
@@ -212,11 +28,87 @@
 
 - Use purrr (#421).
 
+- Auto-update from GitHub Actions (#531).
+
+- Add ccache to `.gitignore` and `.Rbuildignore`.
+
+- Auto-update from GitHub Actions (#521).
+
+- Auto-update from GitHub Actions (#519).
+
+- Auto-update from GitHub Actions (#517).
+
+- Auto-update from GitHub Actions (#515).
+
+- Auto-update from GitHub Actions (#513).
+
+- Auto-update from GitHub Actions (#496).
+
+- Build-ignore.
+
 - IDE.
 
 - Add build-time dependency vctrs (@MichaelChirico, #394, #395).
 
 ## Continuous integration
+
+- Update ccache-action reference.
+
+- Bump action version.
+
+- Create snapshot update PR against correct branch.
+
+- Add reference to `/apply-patch` workflow in commit message.
+
+- Clarify rationale for not deploying on schedule.
+
+- Only run fledge on pushes to main.
+
+- Tweak fledge workflow and ccache action.
+
+- Cosmetics.
+
+- Bump action versions.
+
+- Install clang-format-21.
+
+- Align fledge workflow.
+
+- Harmonize.
+
+- Import from actions-sync, check carefully (#511).
+
+- Import from actions-sync, check carefully (#510).
+
+- Import from actions-sync, check carefully (#509).
+
+- Try from big repo.
+
+- Install from source for now.
+
+- Install from binary.
+
+- Use `remotes::install_runiverse()`.
+
+- Import from actions-sync, check carefully (#505).
+
+- Import from actions-sync, check carefully (#503).
+
+- Import from actions-sync, check carefully (#501).
+
+- Import from actions-sync, check carefully (#498).
+
+- Import from actions-sync, check carefully (#476).
+
+- Use pak \[ci skip\].
+
+- Allow tools \[ci skip\].
+
+- Post comment on failure \[ci skip\].
+
+- Checkout.
+
+- Add Claude workflow.
 
 - Need to install R.
 
@@ -238,18 +130,19 @@
 
 - Import from actions-sync, check carefully (#413).
 
+- Import from actions-sync, check carefully (#392).
+
 ## Documentation
+
+- Add comprehensive comments with proper formatting (#427, #431).
 
 - Fix bad links and a typo.
 
 - Improve wording of `test_all(skip = )` description (@MichaelChirico, #397, #399).
 
+## Uncategorized
 
-# DBItest 1.8.2.9000 (2024-12-09)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#392).
+- Ci: Unify fledge.yaml across cynkratemplate and fledge (#86).
 
 
 # DBItest 1.8.2 (2024-12-07)
