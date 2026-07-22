@@ -407,7 +407,7 @@ spec_sql_append_table <- list(
     tbl_in <- data.frame(id = seq_along(local))
     tbl_in$local <- local
     tbl_in$gmt <- lubridate::with_tz(local, tzone = "GMT")
-    tbl_in$pst8pdt <- lubridate::with_tz(local, tzone = "PST8PDT")
+    tbl_in$los_angeles <- lubridate::with_tz(local, tzone = "America/Los_Angeles")
     tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
     #'   respecting the time zone but not necessarily preserving the
@@ -419,6 +419,7 @@ spec_sql_append_table <- list(
         dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
+        tz[tz == "LOS_ANGELES"] <- "America/Los_Angeles"
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
         out
       }
@@ -448,7 +449,7 @@ spec_sql_append_table <- list(
     tbl_in <- data.frame(id = seq_along(local))
     tbl_in$local <- local
     tbl_in$gmt <- lubridate::with_tz(local, tzone = "GMT")
-    tbl_in$pst8pdt <- lubridate::with_tz(local, tzone = "PST8PDT")
+    tbl_in$los_angeles <- lubridate::with_tz(local, tzone = "America/Los_Angeles")
     tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
     #'   respecting the time zone but not necessarily preserving the
@@ -460,6 +461,7 @@ spec_sql_append_table <- list(
         dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
+        tz[tz == "LOS_ANGELES"] <- "America/Los_Angeles"
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
         out
       }
