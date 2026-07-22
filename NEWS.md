@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.2.9021 (2026-07-22)
+
+## Chore
+
+- Use purrr (#421).
+
+
 # DBItest 1.8.2.9020 (2026-07-02)
 
 ## Chore
