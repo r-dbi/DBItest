@@ -13,7 +13,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/r-dbi/DBItest/blob/cran-1.8.3/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/r-dbi/DBItest/blob/main/DESCRIPTION)
 
 Müller K (2026). *DBItest: Testing DBI Backends*. R package version
 1.8.3, <https://dbitest.r-dbi.org>.

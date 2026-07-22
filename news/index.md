@@ -18,7 +18,7 @@
 - Test that the object returned by `dbUnquoteIdentifier()` is of class
   `Id`.
 
-- Add an extra sanity test in `spec-sql-write-table`
+- Add an extra sanity test in `spec_sql_write_table`
   ([@MichaelChirico](https://github.com/MichaelChirico),
   [\#411](https://github.com/r-dbi/DBItest/issues/411)).
 
