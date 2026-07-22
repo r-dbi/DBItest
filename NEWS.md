@@ -1,255 +1,38 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
-# DBItest 1.8.2.9021 (2026-07-22)
+# DBItest 1.8.3 (2026-07-22)
 
-## Chore
+## Features
 
-- Use purrr (#421).
+- New `tweaks(create_table_empty = )` tweak, for backends that need a dedicated code path to create empty tables (@MichaelChirico, #406, #408).
 
+- Use `trivial_query()` by default in `create_table_as()` (@MichaelChirico, #410, #420).
 
-# DBItest 1.8.2.9020 (2026-07-02)
+- Test that the object returned by `dbUnquoteIdentifier()` is of class `Id`.
 
-## Chore
+- Add an extra sanity test in `spec_sql_write_table` (@MichaelChirico, #411).
 
-- Auto-update from GitHub Actions (#531).
+- Improve the failure mode of the missing-method test (@MichaelChirico, #405).
 
+- Assign the result in `send_query_stale_warning` to stabilize the test (@detule, #373).
 
-# DBItest 1.8.2.9019 (2026-05-24)
-
-## Continuous integration
-
-- Update ccache-action reference.
-
-- Bump action version.
-
-
-# DBItest 1.8.2.9018 (2026-05-16)
-
-- Ci: Unify fledge.yaml across cynkratemplate and fledge (#86).
-
-
-# DBItest 1.8.2.9017 (2026-05-13)
-
-## Chore
-
-- Add ccache to `.gitignore` and `.Rbuildignore`.
-
-## Continuous integration
-
-- Create snapshot update PR against correct branch.
-
-- Add reference to `/apply-patch` workflow in commit message.
-
-- Clarify rationale for not deploying on schedule.
-
-- Only run fledge on pushes to main.
-
-- Tweak fledge workflow and ccache action.
-
-
-# DBItest 1.8.2.9016 (2026-05-06)
-
-## Continuous integration
-
-- Cosmetics.
-
-- Bump action versions.
-
-- Install clang-format-21.
-
-- Align fledge workflow.
-
-- Harmonize.
-
-
-# DBItest 1.8.2.9015 (2026-05-04)
-
-## Chore
-
-- Auto-update from GitHub Actions (#521).
-
-
-# DBItest 1.8.2.9014 (2026-03-14)
-
-## Chore
-
-- Auto-update from GitHub Actions (#519).
-
-
-# DBItest 1.8.2.9013 (2026-03-12)
-
-## Chore
-
-- Auto-update from GitHub Actions (#517).
-
-
-# DBItest 1.8.2.9012 (2026-03-08)
-
-## Chore
-
-- Auto-update from GitHub Actions (#515).
-
-
-# DBItest 1.8.2.9011 (2026-03-07)
-
-## Chore
-
-- Auto-update from GitHub Actions (#513).
-
-
-# DBItest 1.8.2.9010 (2026-01-14)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#511).
-
-- Import from actions-sync, check carefully (#510).
-
-- Import from actions-sync, check carefully (#509).
-
-
-# DBItest 1.8.2.9009 (2025-11-17)
-
-## Continuous integration
-
-- Try from big repo.
-
-- Install from source for now.
-
-- Install from binary.
-
-- Use `remotes::install_runiverse()`.
-
-
-# DBItest 1.8.2.9008 (2025-11-12)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#505).
-
-
-# DBItest 1.8.2.9007 (2025-11-10)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#503).
-
-
-# DBItest 1.8.2.9006 (2025-11-08)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#501).
-
-
-# DBItest 1.8.2.9005 (2025-11-04)
+- Clarify the warning message emitted when a `skip =` pattern matches none of the tests in `spec_all` (@MichaelChirico, #398).
 
 ## Bug fixes
 
 - Suppress warnings when creating invalid objects.
 
-
-# DBItest 1.8.2.9004 (2025-09-06)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#498).
-
-
-# DBItest 1.8.2.9003 (2025-09-05)
-
 ## Chore
 
-- Auto-update from GitHub Actions (#496).
+- Add build-time dependency on vctrs (@MichaelChirico, #394, #395).
 
-
-# DBItest 1.8.2.9002 (2025-08-19)
-
-## Chore
-
-- Build-ignore.
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#476).
-
-- Use pak \[ci skip\].
-
-- Allow tools \[ci skip\].
-
-- Post comment on failure \[ci skip\].
-
-- Checkout.
-
-- Add Claude workflow.
+- Reinstate lint infrastructure as a GitHub Actions workflow (@MichaelChirico, #396).
 
 ## Documentation
 
-- Add comprehensive comments with proper formatting (#427, #431).
-
-
-# DBItest 1.8.2.9001 (2025-05-04)
-
-## Features
-
-- Reinstate lint infrastructure as GHA (@MichaelChirico, #396).
-
-- Assign result in `send_query_stale_warning` to stabilize test (@detule, #373).
-
-- Improve failure mode of missing method test (@MichaelChirico, #405).
-
-- Use `trivial_query()` by default in `create_table_as()` (@MichaelChirico, #410, #420).
-
-- Test object returned by `dbUnquoteIdentifier()` is of class `Id`.
-
-- Add an extra test for sanity in spec-sql-write-table (@MichaelChirico, #411).
-
-- New `tweaks(create_table_empty = )` tweak (@MichaelChirico, #406, #408).
-
-- Clarify warning message for lack of `skip =` hit among `spec_all` (@MichaelChirico, #398).
-
-## Chore
-
-- Use purrr (#421).
-
-- IDE.
-
-- Add build-time dependency vctrs (@MichaelChirico, #394, #395).
-
-## Continuous integration
-
-- Need to install R.
-
-- Run on noble (#425).
-
-- Import from actions-sync, check carefully (#423).
-
-- Import from actions-sync, check carefully (#419).
-
-- Import from actions-sync, check carefully (#418).
-
-- Import from actions-sync, check carefully (#417).
-
-- Import from actions-sync, check carefully (#416).
-
-- Import from actions-sync, check carefully (#415).
-
-- Import from actions-sync, check carefully (#414).
-
-- Import from actions-sync, check carefully (#413).
-
-## Documentation
+- Improve wording of the `test_all(skip = )` description (@MichaelChirico, #397, #399).
 
 - Fix bad links and a typo.
-
-- Improve wording of `test_all(skip = )` description (@MichaelChirico, #397, #399).
-
-
-# DBItest 1.8.2.9000 (2024-12-09)
-
-## Continuous integration
-
-- Import from actions-sync, check carefully (#392).
 
 
 # DBItest 1.8.2 (2024-12-07)
