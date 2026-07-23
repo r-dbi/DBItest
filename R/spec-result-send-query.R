@@ -63,7 +63,7 @@ spec_result_send_query <- list(
   send_query_result_valid = function(con) {
     #' @section Specification:
     #' No warnings occur under normal conditions.
-    expect_warning(res <- dbSendQuery(con, trivial_query()), NA)
+    res <- expect_warning(dbSendQuery(con, trivial_query()), NA)
     #' When done, the DBIResult object must be cleared with a call to
     #' [dbClearResult()].
     dbClearResult(res)
@@ -74,7 +74,7 @@ spec_result_send_query <- list(
     #' when the connection is closed.
     con <- connect(ctx)
     on.exit(dbDisconnect(con))
-    expect_warning(res <- dbSendQuery(con, trivial_query()), NA)
+    res <- expect_warning(dbSendQuery(con, trivial_query()), NA)
 
     expect_warning({
       dbDisconnect(con)

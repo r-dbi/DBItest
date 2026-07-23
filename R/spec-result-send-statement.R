@@ -57,7 +57,7 @@ spec_result_send_statement <- list(
   send_statement_result_valid = function(ctx, con, table_name) {
     #' @section Specification:
     #' No warnings occur under normal conditions.
-    expect_warning(res <- dbSendStatement(con, trivial_statement(ctx, table_name)), NA)
+    res <- expect_warning(dbSendStatement(con, trivial_statement(ctx, table_name)), NA)
     #' When done, the DBIResult object must be cleared with a call to
     #' [dbClearResult()].
     dbClearResult(res)

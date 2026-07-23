@@ -67,7 +67,7 @@ spec_arrow_send_query_arrow <- list(
 
     #' @section Specification:
     #' No warnings occur under normal conditions.
-    expect_warning(res <- dbSendQueryArrow(con, trivial_query()), NA)
+    res <- expect_warning(dbSendQueryArrow(con, trivial_query()), NA)
     #' When done, the DBIResult object must be cleared with a call to
     #' [dbClearResult()].
     dbClearResult(res)
