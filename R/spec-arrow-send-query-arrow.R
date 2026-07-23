@@ -67,7 +67,7 @@ spec_arrow_send_query_arrow <- list(
 
     #' @section Specification:
     #' No warnings occur under normal conditions.
-    expect_warning(res <- dbSendQueryArrow(con, trivial_query()), NA)
+    res <- expect_warning(dbSendQueryArrow(con, trivial_query()), NA)
     #' When done, the DBIResult object must be cleared with a call to
     #' [dbClearResult()].
     dbClearResult(res)
@@ -97,7 +97,7 @@ spec_arrow_send_query_arrow <- list(
     res1 <- dbSendQueryArrow(con, trivial_query())
     #' issuing a second query invalidates an already open result set
     #' and raises a warning.
-    expect_warning(res2 <- dbSendQueryArrow(con, "SELECT 2"))
+    res2 <- expect_warning(dbSendQueryArrow(con, "SELECT 2"))
     expect_false(dbIsValid(res1))
     #' The newly opened result set is valid
     expect_true(dbIsValid(res2))

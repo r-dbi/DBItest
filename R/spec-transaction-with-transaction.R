@@ -99,7 +99,7 @@ spec_transaction_with_transaction <- list(
     #' All side effects caused by the code
     expect_false(exists("a", inherits = FALSE))
     #' (such as the creation of new variables)
-    dbWithTransaction(con, a <- 42)
+    dbWithTransaction(con, a <- 42) # nolint: implicit_assignment_linter.
     #' propagate to the calling environment.
     expect_identical(get0("a", inherits = FALSE), 42)
   },

@@ -57,7 +57,7 @@ spec_result_send_statement <- list(
   send_statement_result_valid = function(ctx, con, table_name) {
     #' @section Specification:
     #' No warnings occur under normal conditions.
-    expect_warning(res <- dbSendStatement(con, trivial_statement(ctx, table_name)), NA)
+    res <- expect_warning(dbSendStatement(con, trivial_statement(ctx, table_name)), NA)
     #' When done, the DBIResult object must be cleared with a call to
     #' [dbClearResult()].
     dbClearResult(res)
@@ -85,7 +85,7 @@ spec_result_send_statement <- list(
     #' issuing a second query invalidates an already open result set
     #' and raises a warning.
     query <- ctx$tweaks$create_table_as(other_table_name)
-    expect_warning(res2 <- dbSendStatement(con, query))
+    res2 <- expect_warning(dbSendStatement(con, query))
     expect_false(dbIsValid(res1))
     #' The newly opened result set is valid
     expect_true(dbIsValid(res2))
