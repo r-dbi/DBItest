@@ -421,7 +421,7 @@ spec_meta_arrow_stream_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        data.frame("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", (`Encoding<-`)("M\xfcller", "latin1"), "\U{6211}\U{662F}\U{8C01}", "ASCII", NA_character_),
+        data.frame("\U{41A}\U{438}\U{440}\U{438}\U{43B}\U{43B}", "M\U{FC}ller", (`Encoding<-`)("M\xfcller", "latin1"), "\U{6211}\U{662F}\U{8C01}", "ASCII", NA_character_, stringsAsFactors = FALSE),
         names = character(6)
       )
       placeholder <- placeholder_fun(6L)
@@ -453,7 +453,7 @@ spec_meta_arrow_stream_bind <- list(
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- structure(data.frame(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA_character_), names = character(10))
+      bind_values <- structure(data.frame(" ", "\n", "\r", "\b", "'", '"', "[", "]", "\\", NA_character_, stringsAsFactors = FALSE), names = character(10))
       placeholder <- placeholder_fun(10L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
