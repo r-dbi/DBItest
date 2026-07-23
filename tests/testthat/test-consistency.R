@@ -1,7 +1,7 @@
 test_that("no unnamed specs", {
   tests <- compact(spec_all)
   vicinity <- NULL
-  if (any(!nzchar(names(tests)))) {
+  if (!all(nzchar(names(tests)))) {
     vicinity <- sort(unique(unlist(
       map(which(!nzchar(names(tests))), "+", -1:1)
     )))
