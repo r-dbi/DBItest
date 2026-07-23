@@ -1,5 +1,22 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.3.9000 (2026-07-23)
+
+## Bug fixes
+
+- Replace legacy `PST8PDT` time zone with `America/Los_Angeles` in roundtrip tests (#540).
+
+## Continuous integration
+
+- Run on Ubuntu 26.04.
+
+- Align workflows with template.
+
+## fledge
+
+- CRAN release v1.8.3 (#536).
+
+
 # DBItest 1.8.3 (2026-07-22)
 
 ## Features
