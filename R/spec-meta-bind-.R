@@ -2,10 +2,10 @@
 
 test_select_bind_expr <- function(
   bind_values,
-  ctx = stop("ctx is available during run time only", call. = FALSE),
   ...,
   arrow,
   bind,
+  ctx = stop("ctx is available during run time only", call. = FALSE),
   query = TRUE,
   skip_fun = NULL,
   dbitest_version = NULL,

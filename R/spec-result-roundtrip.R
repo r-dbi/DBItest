@@ -267,8 +267,8 @@ test_select_with_null <- function(...) {
 test_select <- function(
   con,
   ...,
-  .add_null = "none",
   .ctx,
+  .add_null = "none",
   .envir = parent.frame()
 ) {
 
