@@ -89,7 +89,7 @@ spec_sql_quote_string <- list(
       "\n"
     )
     #' (in any combination)
-    # length(test_chars) ** 3
+    # expands to length(test_chars) cubed strings
     test_strings_0 <- expand_char(test_chars, "a", test_chars, "b", test_chars)
 
     #' or is itself the result of a `dbQuoteString()` call coerced back to
