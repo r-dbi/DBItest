@@ -697,10 +697,10 @@ spec_sql_write_table <- list(
     #' The `field.types` argument must be a named character vector with at most
     #' one entry for each column.
     #' It indicates the SQL data type to be used for a new column.
-    tbl_in <- data.frame(a = numeric(), b = character())
+    tbl_in <- data.frame(a = numeric(), b = character(), stringsAsFactors = FALSE)
     #' If a column is missed from `field.types`, the type is inferred
     #' from the input data with [dbDataType()].
-    tbl_exp <- data.frame(a = integer(), b = character())
+    tbl_exp <- data.frame(a = integer(), b = character(), stringsAsFactors = FALSE)
     test_table_roundtrip(
       con, tbl_in, tbl_exp,
       field.types = c(a = "INTEGER")
