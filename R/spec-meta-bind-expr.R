@@ -9,7 +9,7 @@ spec_meta_bind_expr <- function(
   arrow = c("none", "query"),
   bind = c("df", "stream"),
   ...,
-  ctx = stop("ctx is available during run time only")
+  ctx = stop("ctx is available during run time only", call. = FALSE)
 ) {
   check_dots_empty()
   arrow <- arg_match(arrow)
