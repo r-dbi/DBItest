@@ -47,7 +47,7 @@ inline_meta_tests <- function(arrow, bind, path) {
   test_exprs_flat <- map(test_exprs, flatten_braces)
 
   env <- environment(inline_meta_tests)
-  args <- pairlist2(ctx = , con = )
+  args <- pairlist2(ctx = , con = ) # nolint: missing_argument_linter.
 
   test_funs <- map(test_exprs_flat, ~ if (!is.null(.x)) {
     new_function(args, .x, env)
