@@ -92,7 +92,7 @@ spec_result_fetch <- list(
     query <- ctx$tweaks$create_table_empty(table_name)
 
     res <- local_result(dbSendStatement(con, query))
-    expect_warning(rows <- check_df(dbFetch(res))) # nolint: implicit_assignment_linter.
+    expect_warning(rows <- check_df(dbFetch(res)))
     expect_identical(rows, data.frame())
   },
 

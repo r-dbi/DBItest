@@ -89,7 +89,7 @@ spec_result_send_query <- list(
     res1 <- dbSendQuery(con, trivial_query())
     #' issuing a second query invalidates an already open result set
     #' and raises a warning.
-    expect_warning(res2 <- dbSendQuery(con, "SELECT 2")) # nolint: implicit_assignment_linter.
+    expect_warning(res2 <- dbSendQuery(con, "SELECT 2"))
     expect_false(dbIsValid(res1))
     #' The newly opened result set is valid
     expect_true(dbIsValid(res2))

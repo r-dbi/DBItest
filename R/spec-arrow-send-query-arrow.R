@@ -97,7 +97,7 @@ spec_arrow_send_query_arrow <- list(
     res1 <- dbSendQueryArrow(con, trivial_query())
     #' issuing a second query invalidates an already open result set
     #' and raises a warning.
-    expect_warning(res2 <- dbSendQueryArrow(con, "SELECT 2")) # nolint: implicit_assignment_linter.
+    expect_warning(res2 <- dbSendQueryArrow(con, "SELECT 2"))
     expect_false(dbIsValid(res1))
     #' The newly opened result set is valid
     expect_true(dbIsValid(res2))

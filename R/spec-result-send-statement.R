@@ -85,7 +85,7 @@ spec_result_send_statement <- list(
     #' issuing a second query invalidates an already open result set
     #' and raises a warning.
     query <- ctx$tweaks$create_table_as(other_table_name)
-    expect_warning(res2 <- dbSendStatement(con, query)) # nolint: implicit_assignment_linter.
+    expect_warning(res2 <- dbSendStatement(con, query))
     expect_false(dbIsValid(res1))
     #' The newly opened result set is valid
     expect_true(dbIsValid(res2))
