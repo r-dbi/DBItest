@@ -93,7 +93,7 @@ get_placeholder_funs <- function(ctx, requires_names = NULL) {
     placeholder_fun_values <- map(placeholder_funs, ~ .x(1))
     placeholder_unnamed <- map_lgl(placeholder_fun_values, ~ is.null(names(.x)))
 
-    # run_bind_tester$fun()
+    # > run_bind_tester$fun()
     if (isTRUE(requires_names)) {
       placeholder_funs <- placeholder_funs[!placeholder_unnamed]
     }
