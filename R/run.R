@@ -83,7 +83,7 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
           }
 
           # Example of generated expression:
-          # DBItest:::spec_arrow$arrow_append_table_arrow_roundtrip_64_bit_roundtrip(...) # nolint: commented_code_linter.
+          # > DBItest:::spec_arrow$arrow_append_table_arrow_roundtrip_64_bit_roundtrip(...)
           test_fun_expr <- expr(`$`(!!tests_qual, !!test_name)(!!!args))
           expect_warning(
             eval(test_fun_expr), NA
