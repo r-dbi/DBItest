@@ -5,6 +5,7 @@ linters <- modify_defaults(
   condition_call_linter = NULL,
   cyclocomp_linter = NULL,
   expect_identical_linter = NULL,
+  expect_shape_linter = NULL, # 94 occurrences, to fix
   function_argument_linter = NULL,
   if_switch_linter = NULL, # false positive: r-lib/lintr#2835
   implicit_assignment_linter = NULL,
@@ -20,6 +21,7 @@ linters <- modify_defaults(
   object_overwrite_linter = NULL,
   object_usage_linter = NULL,
   one_call_pipe_linter = NULL,
+  pipe_consistency_linter = NULL, # 51 occurrences, to fix
   strings_as_factors_linter = NULL,
   todo_comment_linter = NULL,
   undesirable_function_linter = NULL,
