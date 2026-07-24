@@ -1,5 +1,46 @@
 # Changelog
 
+## DBItest 1.8.3.9001 (2026-07-24)
+
+### Bug fixes
+
+- Avoid implicit assignments inside `expect_warning()`
+  ([\#545](https://github.com/r-dbi/DBItest/issues/545)).
+
+- Order arguments without defaults before those with defaults
+  ([\#547](https://github.com/r-dbi/DBItest/issues/547)).
+
+- Resolve commented-code lints
+  ([\#549](https://github.com/r-dbi/DBItest/issues/549)).
+
+- Specify `stringsAsFactors = FALSE` explicitly in
+  [`data.frame()`](https://rdrr.io/r/base/data.frame.html) calls
+  ([\#546](https://github.com/r-dbi/DBItest/issues/546)).
+
+- Mark intentional empty `pairlist2()` args as `nolint`
+  ([\#548](https://github.com/r-dbi/DBItest/issues/548)).
+
+- Set `call. = FALSE` in `ctx` sentinel
+  [`stop()`](https://rdrr.io/r/base/stop.html) calls
+  ([\#543](https://github.com/r-dbi/DBItest/issues/543)).
+
+#### ci
+
+- Emit empty package matrix when there are no (rev)deps.
+
+### Continuous integration
+
+- Silence failing linters to make lint workflow pass
+  ([\#542](https://github.com/r-dbi/DBItest/issues/542)).
+
+- Fix MySQL ODBC backend workflow
+  ([\#539](https://github.com/r-dbi/DBItest/issues/539)).
+
+### Uncategorized
+
+- Ci: Harden `format-suggest` against `pull_request_target` pwn requests
+  ([\#93](https://github.com/r-dbi/DBItest/issues/93)).
+
 ## DBItest 1.8.3.9000 (2026-07-23)
 
 ### Bug fixes

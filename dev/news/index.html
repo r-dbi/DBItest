@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9001</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,31 @@
       <small>Source: <a href="https://github.com/r-dbi/DBItest/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.8.3.9001" id="dbitest-1839001-2026-07-24">DBItest 1.8.3.9001 (2026-07-24)<a class="anchor" aria-label="anchor" href="#dbitest-1839001-2026-07-24"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-1-8-3-9001">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-8-3-9001"></a></h3>
+<ul><li><p>Avoid implicit assignments inside <code>expect_warning()</code> (<a href="https://github.com/r-dbi/DBItest/issues/545" class="external-link">#545</a>).</p></li>
+<li><p>Order arguments without defaults before those with defaults (<a href="https://github.com/r-dbi/DBItest/issues/547" class="external-link">#547</a>).</p></li>
+<li><p>Resolve commented-code lints (<a href="https://github.com/r-dbi/DBItest/issues/549" class="external-link">#549</a>).</p></li>
+<li><p>Specify <code>stringsAsFactors = FALSE</code> explicitly in <code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> calls (<a href="https://github.com/r-dbi/DBItest/issues/546" class="external-link">#546</a>).</p></li>
+<li><p>Mark intentional empty <code>pairlist2()</code> args as <code>nolint</code> (<a href="https://github.com/r-dbi/DBItest/issues/548" class="external-link">#548</a>).</p></li>
+<li><p>Set <code>call. = FALSE</code> in <code>ctx</code> sentinel <code><a href="https://rdrr.io/r/base/stop.html" class="external-link">stop()</a></code> calls (<a href="https://github.com/r-dbi/DBItest/issues/543" class="external-link">#543</a>).</p></li>
+</ul><div class="section level4">
+<h4 id="ci-1-8-3-9001">ci<a class="anchor" aria-label="anchor" href="#ci-1-8-3-9001"></a></h4>
+<ul><li>Emit empty package matrix when there are no (rev)deps.</li>
+</ul></div>
+</div>
+<div class="section level3">
+<h3 id="continuous-integration-1-8-3-9001">Continuous integration<a class="anchor" aria-label="anchor" href="#continuous-integration-1-8-3-9001"></a></h3>
+<ul><li><p>Silence failing linters to make lint workflow pass (<a href="https://github.com/r-dbi/DBItest/issues/542" class="external-link">#542</a>).</p></li>
+<li><p>Fix MySQL ODBC backend workflow (<a href="https://github.com/r-dbi/DBItest/issues/539" class="external-link">#539</a>).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="uncategorized-1-8-3-9001">Uncategorized<a class="anchor" aria-label="anchor" href="#uncategorized-1-8-3-9001"></a></h3>
+<ul><li>Ci: Harden <code>format-suggest</code> against <code>pull_request_target</code> pwn requests (<a href="https://github.com/r-dbi/DBItest/issues/93" class="external-link">#93</a>).</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.8.3.9000" id="dbitest-1839000-2026-07-23">DBItest 1.8.3.9000 (2026-07-23)<a class="anchor" aria-label="anchor" href="#dbitest-1839000-2026-07-23"></a></h2>
 <div class="section level3">
