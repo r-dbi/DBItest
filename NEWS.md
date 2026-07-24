@@ -1,5 +1,36 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.3.9001 (2026-07-24)
+
+## Bug fixes
+
+- Avoid implicit assignments inside `expect_warning()` (#545).
+
+- Order arguments without defaults before those with defaults (#547).
+
+- Resolve commented-code lints (#549).
+
+- Specify `stringsAsFactors = FALSE` explicitly in `data.frame()` calls (#546).
+
+- Mark intentional empty `pairlist2()` args as `nolint` (#548).
+
+- Set `call. = FALSE` in `ctx` sentinel `stop()` calls (#543).
+
+### ci
+
+- Emit empty package matrix when there are no (rev)deps.
+
+## Continuous integration
+
+- Silence failing linters to make lint workflow pass (#542).
+
+- Fix MySQL ODBC backend workflow (#539).
+
+## Uncategorized
+
+- Ci: Harden `format-suggest` against `pull_request_target` pwn requests (#93).
+
+
 # DBItest 1.8.3.9000 (2026-07-23)
 
 ## Bug fixes
