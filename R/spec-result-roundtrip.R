@@ -21,7 +21,10 @@ spec_result_roundtrip <- list(
   data_logical = function(ctx, con) {
     #' - [logical] for Boolean values (some backends may return an integer);
     int_values <- 1:0
-    values <- ctx$tweaks$logical_return(as.logical(int_values))
+    values <- purrr::map(
+      ctx$tweaks$logical_return(as.logical(int_values)),
+      logical_value_equals
+    )
 
     sql_names <- paste0("CAST(", int_values, " AS ", dbDataType(con, logical()), ")")
 
@@ -353,6 +356,19 @@ equals_one <- function(x) {
 
 equals_minus_100 <- function(x) {
   identical(as.integer(x), -100L) && identical(as.numeric(x), -100)
+}
+
+logical_value_equals <- function(expected) {
+  expected_logical <- scalar_as_logical(expected)
+  function(value) identical(scalar_as_logical(value), expected_logical)
+}
+
+scalar_as_logical <- function(x) {
+  if (is.list(x)) {
+    x <- x[[1L]]
+  }
+
+  as.logical(x)
 }
 
 all_have_utf8_or_ascii_encoding <- function(x) {
