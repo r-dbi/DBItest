@@ -1,5 +1,14 @@
 # Changelog
 
+## DBItest 1.8.3.9002 (2026-07-25)
+
+### Continuous integration
+
+- Lock down `format-suggest` egress (audit → block).
+
+- Silence failing linters to make lint workflow pass
+  ([\#542](https://github.com/r-dbi/DBItest/issues/542)).
+
 ## DBItest 1.8.3.9001 (2026-07-24)
 
 ### Bug fixes
