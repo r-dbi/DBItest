@@ -1,5 +1,22 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.3.9004 (2026-08-05)
+
+## Chore
+
+- Auto-update from GitHub Actions (#554).
+
+## Continuous integration
+
+- Remove unused pr-commands workflow.
+
+## Uncategorized
+
+- Ci: Give every workflow and job an explicit `permissions` block (#103).
+
+- Ci: Pass workflow context through the environment, not into script text (#102).
+
+
 # DBItest 1.8.3.9003 (2026-07-28)
 
 - Ci: Run all smoke-test checks even when one fails (#97).
