@@ -36,8 +36,8 @@ spec_arrow_append_table_arrow <- list(
     #' or the new data in `values` is not a data frame or has different column names,
     #' an error is raised; the remote table remains unchanged.
     test_in <- trivial_df()
-    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
-    expect_error(dbAppendTableArrow(con, table_name, test_in %>% stream_frame() %>% unclass()))
+    dbCreateTableArrow(con, table_name, stream_frame(test_in))
+    expect_error(dbAppendTableArrow(con, table_name, unclass(stream_frame(test_in))))
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_arrow(test_out, test_in[0, , drop = FALSE])
@@ -45,8 +45,8 @@ spec_arrow_append_table_arrow <- list(
 
   arrow_append_table_arrow_append_incompatible = function(con, table_name) {
     test_in <- trivial_df()
-    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
-    dbAppendTableArrow(con, table_name, test_in %>% stream_frame())
+    dbCreateTableArrow(con, table_name, stream_frame(test_in))
+    dbAppendTableArrow(con, table_name, stream_frame(test_in))
     expect_error(dbAppendTableArrow(con, table_name, stream_frame(b = 2L)))
 
     test_out <- check_df(dbReadTable(con, table_name))
@@ -494,8 +494,8 @@ spec_arrow_append_table_arrow <- list(
 
       local_remove_test_table(con, table_name)
       #' - If an unquoted table name as string: `dbAppendTableArrow()` will do the quoting,
-      dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
-      dbAppendTableArrow(con, table_name, test_in %>% stream_frame())
+      dbCreateTableArrow(con, table_name, stream_frame(test_in))
+      dbAppendTableArrow(con, table_name, stream_frame(test_in))
       test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
       expect_equal_arrow(test_out, test_in)
       #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
@@ -517,8 +517,8 @@ spec_arrow_append_table_arrow <- list(
       test_in <- trivial_df()
 
       local_remove_test_table(con, table_name)
-      dbCreateTableArrow(con, dbQuoteIdentifier(con, table_name), test_in %>% stream_frame())
-      dbAppendTableArrow(con, dbQuoteIdentifier(con, table_name), test_in %>% stream_frame())
+      dbCreateTableArrow(con, dbQuoteIdentifier(con, table_name), stream_frame(test_in))
+      dbAppendTableArrow(con, dbQuoteIdentifier(con, table_name), stream_frame(test_in))
       test_out <- check_df(dbReadTable(con, table_name))
       expect_equal_arrow(test_out, test_in)
     }
@@ -529,8 +529,8 @@ spec_arrow_append_table_arrow <- list(
     #' @section Specification:
     #' The `value` argument must be a data frame
     test_in <- trivial_df()
-    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
-    dbAppendTableArrow(con, table_name, test_in %>% stream_frame())
+    dbCreateTableArrow(con, table_name, stream_frame(test_in))
+    dbAppendTableArrow(con, table_name, stream_frame(test_in))
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_arrow(test_out, test_in)
@@ -539,8 +539,8 @@ spec_arrow_append_table_arrow <- list(
   arrow_append_table_arrow_value_subset = function(ctx, con, table_name) {
     #' with a subset of the columns of the existing table.
     test_in <- trivial_df(3, letters[1:3])
-    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
-    dbAppendTableArrow(con, table_name, test_in %>% stream_frame(.select = 2))
+    dbCreateTableArrow(con, table_name, stream_frame(test_in))
+    dbAppendTableArrow(con, table_name, stream_frame(test_in, .select = 2))
 
     test_out <- check_df(dbReadTable(con, table_name))
 
@@ -551,8 +551,8 @@ spec_arrow_append_table_arrow <- list(
   arrow_append_table_arrow_value_shuffle = function(ctx, con, table_name) {
     #' The order of the columns does not matter.
     test_in <- trivial_df(3, letters[1:3])
-    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
-    dbAppendTableArrow(con, table_name, test_in %>% stream_frame(.select = c(2, 3, 1)))
+    dbCreateTableArrow(con, table_name, stream_frame(test_in))
+    dbAppendTableArrow(con, table_name, stream_frame(test_in, .select = c(2, 3, 1)))
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_arrow(test_out, test_in)
@@ -561,8 +561,8 @@ spec_arrow_append_table_arrow <- list(
   #
   arrow_append_table_arrow_value_shuffle_subset = function(ctx, con, table_name) {
     test_in <- trivial_df(4, letters[1:4])
-    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
-    dbAppendTableArrow(con, table_name, test_in %>% stream_frame(.select = c(4, 1, 3)))
+    dbCreateTableArrow(con, table_name, stream_frame(test_in))
+    dbAppendTableArrow(con, table_name, stream_frame(test_in, .select = c(4, 1, 3)))
 
     test_out <- check_df(dbReadTable(con, table_name))
     test_in[2] <- NA_real_
