@@ -1,5 +1,15 @@
 # Changelog
 
+## DBItest 1.8.3.9006 (2026-08-08)
+
+### Continuous integration
+
+- Wrap the commit status update into an action.
+
+- Route ccache through one-word compiler wrappers on Unix.
+
+- Name every step and restore the log entry `setup-pandoc` swallows.
+
 ## DBItest 1.8.3.9005 (2026-08-06)
 
 ### Continuous integration
