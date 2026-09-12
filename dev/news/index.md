@@ -1,5 +1,13 @@
 # Changelog
 
+## DBItest 1.8.3.9007 (2026-09-05)
+
+### Bug fixes
+
+#### ci
+
+- Backport kit fixes from `rigraph`, `duckdb-r` and `dm`.
+
 ## DBItest 1.8.3.9006 (2026-08-08)
 
 ### Continuous integration
