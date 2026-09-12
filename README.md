@@ -24,7 +24,8 @@ install.packages("DBItest")
 or the development version using
 
 ```r
-devtools::install_github("r-dbi/DBItest")
+# install.packages("pak")
+pak::pak("r-dbi/DBItest")
 ```
 
 ## Usage
