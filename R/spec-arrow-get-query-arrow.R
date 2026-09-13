@@ -116,11 +116,9 @@ spec_arrow_get_query_arrow <- list(
     #' and "prepared" APIs offered by many database drivers.
     #' Passing `immediate = TRUE` leads to immediate execution of the
     #' query or statement, via the "direct" API (if supported by the driver).
-    #' The default `NULL` means that the backend should choose whatever API
-    #' makes the most sense for the database, and (if relevant) tries the
-    #' other API if the first attempt fails. A successful second attempt
-    #' should result in a message that suggests passing the correct
-    #' `immediate` argument.
+    #' The default `NULL` means that the backend should choose whatever API makes the most sense for the database,
+    #' and (if relevant) tries the other API if the first attempt fails.
+    #' A successful second attempt should result in a message that suggests passing the correct `immediate` argument.
     #' Examples for possible behaviors:
     #' 1. DBI backend defaults to `immediate = TRUE` internally
     #'     1. A query without parameters is passed: query is executed
