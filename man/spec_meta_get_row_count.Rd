@@ -16,8 +16,7 @@ even if fetching past the end of the result set.
 For queries with an empty result set,
 zero is returned
 even after fetching.
-For data manipulation statements issued with
-\code{\link[DBI:dbSendStatement]{dbSendStatement()}},
+For data manipulation statements issued with \code{\link[DBI:dbSendStatement]{dbSendStatement()}},
 zero is returned before
 and after calling \code{dbFetch()}.
 }
@@ -26,8 +25,7 @@ spec_meta_get_row_count
 }
 \section{Failure modes}{
 
-Attempting to get the row count for a result set cleared with
-\code{\link[DBI:dbClearResult]{dbClearResult()}} gives an error.
+Attempting to get the row count for a result set cleared with \code{\link[DBI:dbClearResult]{dbClearResult()}} gives an error.
 }
 
 \seealso{

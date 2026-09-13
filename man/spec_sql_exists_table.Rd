@@ -4,8 +4,7 @@
 \alias{spec_sql_exists_table}
 \title{spec_sql_exists_table}
 \value{
-\code{dbExistsTable()} returns a logical scalar, \code{TRUE} if the table or view
-specified by the \code{name} argument exists, \code{FALSE} otherwise.
+\code{dbExistsTable()} returns a logical scalar, \code{TRUE} if the table or view specified by the \code{name} argument exists, \code{FALSE} otherwise.
 
 This includes temporary tables if supported by the database.
 }
@@ -26,8 +25,7 @@ if this results in a non-scalar.
 The \code{name} argument is processed as follows,
 to support databases that allow non-syntactic names for their objects:
 \itemize{
-\item If an unquoted table name as string: \code{dbExistsTable()} will do the
-quoting,
+\item If an unquoted table name as string: \code{dbExistsTable()} will do the quoting,
 perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 \item If the result of a call to \code{\link[DBI:dbQuoteIdentifier]{dbQuoteIdentifier()}}: no more quoting is done
 }

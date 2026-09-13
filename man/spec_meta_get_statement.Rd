@@ -13,8 +13,7 @@ spec_meta_get_statement
 }
 \section{Failure modes}{
 
-Attempting to query the statement for a result set cleared with
-\code{\link[DBI:dbClearResult]{dbClearResult()}} gives an error.
+Attempting to query the statement for a result set cleared with \code{\link[DBI:dbClearResult]{dbClearResult()}} gives an error.
 }
 
 \seealso{

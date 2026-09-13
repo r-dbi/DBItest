@@ -12,9 +12,8 @@ A DBI backend is an R package
 which imports the \pkg{DBI}
 and \pkg{methods}
 packages.
-For better or worse, the names of many existing backends start with
-\sQuote{R}, e.g., \pkg{RSQLite}, \pkg{RMySQL}, \pkg{RSQLServer}; it is up
-to the backend author to adopt this convention or not.
+For better or worse, the names of many existing backends start with \sQuote{R}, e.g., \pkg{RSQLite}, \pkg{RMySQL}, \pkg{RSQLServer};
+it is up to the backend author to adopt this convention or not.
 }
 
 \concept{getting specifications}
