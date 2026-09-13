@@ -13,7 +13,8 @@
 { # nolint: brace_linter.
   tweak_names <- alist(
     #' @param ... `[any]`\cr
-    #'   Unknown tweaks are accepted, with a warning.  The ellipsis also makes sure that you only can pass named arguments.
+    #'   Unknown tweaks are accepted, with a warning.
+    #'   The ellipsis also makes sure that you only can pass named arguments.
     "..." = ,
 
     #' @param constructor_name `[character(1)]`\cr
