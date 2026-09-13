@@ -198,7 +198,7 @@ spec_meta_bind_expr <- function(
     bind_multi_row = function() {
       #' @section Specification:
       #' The elements of the `params` argument do not need to be scalars,
-      #' vectors of arbitrary length
+      #'  vectors of arbitrary length
       test_select_bind_expr(
         arrow = arrow,
         bind = bind,
@@ -218,7 +218,7 @@ spec_meta_bind_expr <- function(
       #' are supported.
       # This behavior is tested as part of run_bind_tester$fun
       #' For queries, calling `dbFetch()` binding such parameters returns concatenated results,
-      #' equivalent to binding and fetching for each set of values and connecting via [rbind()].
+      #'  equivalent to binding and fetching for each set of values and connecting via [rbind()].
     },
     #
     bind_multi_row_statement = if (arrow != "query") function() {

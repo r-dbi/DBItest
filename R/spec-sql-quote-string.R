@@ -49,7 +49,7 @@ spec_sql_quote_string <- list(
     expect_identical(dbQuoteString(con, SQL(empty)), SQL(empty))
 
     #' (For backends it may be most convenient to return [SQL] objects
-    #' to achieve this behavior, but this is not required.)
+    #'  to achieve this behavior, but this is not required.)
   },
 
   quote_string_roundtrip = function(ctx, con) {

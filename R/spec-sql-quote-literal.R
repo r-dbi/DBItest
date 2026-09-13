@@ -65,7 +65,7 @@ spec_sql_quote_literal <- list(
     expect_identical(dbQuoteLiteral(con, SQL(empty)), SQL(empty))
 
     #' (For backends it may be most convenient to return [SQL] objects
-    #' to achieve this behavior, but this is not required.)
+    #'  to achieve this behavior, but this is not required.)
   },
 
   quote_literal_roundtrip = function(ctx, con) {

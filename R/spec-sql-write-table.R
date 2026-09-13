@@ -30,7 +30,7 @@ spec_sql_write_table <- list(
 
   write_table_append_incompatible = function(con, table_name) {
     #' or `append = TRUE` and the data frame with the new data has different column names, an error is raised;
-    #' the remote table remains unchanged.
+    #'  the remote table remains unchanged.
     test_in <- data.frame(a = 1L)
     dbWriteTable(con, table_name, test_in)
     expect_error(dbWriteTable(con, table_name, data.frame(b = 2L), append = TRUE))
@@ -59,7 +59,7 @@ spec_sql_write_table <- list(
     expect_error(dbWriteTable(con, c(table_name, table_name), test_in))
 
     #' Invalid values for the additional arguments `row.names`,
-    #' `overwrite`, `append`, `field.types`, and `temporary` (non-scalars,
+    #'  `overwrite`, `append`, `field.types`, and `temporary` (non-scalars,
     expect_error(dbWriteTable(con, table_name, test_in, row.names = letters))
     expect_error(dbWriteTable(con, table_name, test_in, overwrite = c(TRUE, FALSE)))
     expect_error(dbWriteTable(con, table_name, test_in, append = c(TRUE, FALSE)))
@@ -96,8 +96,8 @@ spec_sql_write_table <- list(
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbWriteTable()` generic
-  #' (to improve compatibility across backends)
-  #' but are part of the DBI specification:
+  #'  (to improve compatibility across backends)
+  #'  but are part of the DBI specification:
   #' - `row.names` (default: `FALSE`)
   #' - `overwrite` (default: `FALSE`)
   #' - `append` (default: `FALSE`)
@@ -105,12 +105,12 @@ spec_sql_write_table <- list(
   #' - `temporary` (default: `FALSE`)
   #'
   #' They must be provided as named arguments.
-  #' See the "Specification" and "Value" sections for details on their usage.
+  #'  See the "Specification" and "Value" sections for details on their usage.
 
   write_table_name = function(ctx, con) {
     #' @section Specification:
     #' The `name` argument is processed as follows,
-    #' to support databases that allow non-syntactic names for their objects:
+    #'  to support databases that allow non-syntactic names for their objects:
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
     } else {
@@ -237,7 +237,7 @@ spec_sql_write_table <- list(
   #'
   temporary_table_1 = function(ctx, con, table_name = "dbit08") {
     #' If the `temporary` argument is `TRUE`, the table is not available in a second connection and is gone after reconnecting.
-    #' Not all backends support this argument.
+    #'  Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
     }
@@ -305,7 +305,7 @@ spec_sql_write_table <- list(
 
   roundtrip_quotes = function(ctx, con, table_name) {
     #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
-    #' can also be used in the data,
+    #'  can also be used in the data,
     tbl_in <- data.frame(
       as.character(dbQuoteString(con, "")),
       as.character(dbQuoteIdentifier(con, "")),
@@ -321,7 +321,7 @@ spec_sql_write_table <- list(
 
   roundtrip_quotes_table_names = function(ctx, con) {
     #' and, if the database supports non-syntactic identifiers,
-    #' also for table names
+    #'  also for table names
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       skip("tweak: strict_identifier")
     }
@@ -365,7 +365,7 @@ spec_sql_write_table <- list(
   #'
   roundtrip_integer = function(ctx, con) {
     #' The following data types must be supported at least,
-    #' and be read identically with [dbReadTable()]:
+    #'  and be read identically with [dbReadTable()]:
     #' - integer
     tbl_in <- data.frame(a = 1:5)
     test_table_roundtrip(con, tbl_in)
@@ -679,7 +679,7 @@ spec_sql_write_table <- list(
   #'
   roundtrip_field_types = function(ctx, con) {
     #' The `field.types` argument must be a named character vector with at most one entry for each column.
-    #' It indicates the SQL data type to be used for a new column.
+    #'  It indicates the SQL data type to be used for a new column.
     tbl_in <- data.frame(a = numeric(), b = character(), stringsAsFactors = FALSE)
     #' If a column is missed from `field.types`, the type is inferred from the input data with [dbDataType()].
     tbl_exp <- data.frame(a = integer(), b = character(), stringsAsFactors = FALSE)
@@ -699,7 +699,7 @@ spec_sql_write_table <- list(
   #'
   write_table_row_names_false = function(ctx, con) {
     #' The interpretation of [rownames] depends on the `row.names` argument,
-    #' see [sqlRownamesToColumn()] for details:
+    #'  see [sqlRownamesToColumn()] for details:
     #' - If `FALSE` or `NULL`, row names are ignored.
     for (row.names in list(FALSE, NULL)) {
       table_name <- random_table_name()

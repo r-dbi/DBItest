@@ -12,8 +12,8 @@ spec_arrow_fetch_arrow_chunk <- list(
   arrow_fetch_arrow_chunk_atomic = function(con) {
     #' @return
     #' `dbFetchArrowChunk()` always returns an object coercible to a [data.frame] with as many rows as records were fetched
-    #' and as many columns as fields in the result set,
-    #' even if the result is a single value
+    #'  and as many columns as fields in the result set,
+    #'  even if the result is a single value
     query <- trivial_query()
     res <- local_result(dbSendQueryArrow(con, query))
     rows <- check_arrow(dbFetchArrowChunk(res))
@@ -65,7 +65,7 @@ spec_arrow_fetch_arrow_chunk <- list(
 
   arrow_fetch_arrow_chunk_multi_row_multi_column = function(ctx, con) {
     #' or more columns returns the next chunk.
-    #' The size of the chunk is implementation-specific.
+    #'  The size of the chunk is implementation-specific.
     query <- sql_union(
       .ctx = ctx, paste("SELECT", 1:5 + 0.5, "AS a,", 4:0 + 0.5, "AS b"), .order_by = "a"
     )
@@ -77,7 +77,7 @@ spec_arrow_fetch_arrow_chunk <- list(
 
   arrow_fetch_arrow_chunk_array = function(ctx, con) {
     #' The object returned by `dbFetchArrowChunk()` can also be passed to [nanoarrow::as_nanoarrow_array()]
-    #' to create a nanoarrow array object.
+    #'  to create a nanoarrow array object.
     query <- trivial_query(25, .ctx = ctx, .order_by = "a")
     result <- trivial_df(25)
 

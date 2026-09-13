@@ -19,8 +19,8 @@ spec_connection_disconnect <- list(
   #'
   #' @section Failure modes:
   #' A warning is issued on garbage collection when a connection has been
-  #' released without calling `dbDisconnect()`,
-  #' but this cannot be tested automatically.
+  #'  released without calling `dbDisconnect()`,
+  #'  but this cannot be tested automatically.
 
   disconnect_closed_connection = function(ctx, closed_con) {
     #' At least one warning is issued immediately when calling `dbDisconnect()` on an already disconnected

@@ -1,8 +1,8 @@
 #' Run all tests
 #'
 #' `test_all()` calls all tests defined in this package (see the section "Tests" below).
-#' This function supports running only one test by setting an environment variable,
-#' e.g., set the `DBITEST_ONLY_RESULT` to a nonempty value to run only `test_result()`.
+#'  This function supports running only one test by setting an environment variable,
+#'  e.g., set the `DBITEST_ONLY_RESULT` to a nonempty value to run only `test_result()`.
 #'
 #' Internally `^` and `$` are used as prefix and suffix around the regular expressions passed in the `skip` and `run_only` arguments.
 #'
