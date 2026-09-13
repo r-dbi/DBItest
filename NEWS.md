@@ -1,5 +1,20 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.3.9008 (2026-09-13)
+
+## Features
+
+### ci
+
+- Align the `revdep2`, `revdep4` and `revdepx` subsystems with `rigraph`.
+
+## Uncategorized
+
+- Perf(revdepx): Compile the revdeps' checks through ccache.
+
+- Fix(ci): Survive an archived CRAN package, and install it from where it still lives.
+
+
 # DBItest 1.8.3.9007 (2026-09-05)
 
 ## Bug fixes
