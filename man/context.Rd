@@ -21,29 +21,22 @@ get_default_context()
 }
 \arguments{
 \item{drv}{\verb{[DBIConnector]}\cr
-An object of class \link[DBI:DBIConnector-class]{DBIConnector} that describes how to connect
-to the database.}
+An object of class \link[DBI:DBIConnector-class]{DBIConnector} that describes how to connect to the database.}
 
 \item{connect_args}{\verb{[named list]}\cr Deprecated.}
 
-\item{set_as_default}{\verb{[logical(1)]}\cr Should the created context be
-set as default context?}
+\item{set_as_default}{\verb{[logical(1)]}\cr Should the created context be set as default context?}
 
-\item{tweaks}{\verb{[DBItest_tweaks]}\cr Tweaks as constructed by the
-\code{\link[=tweaks]{tweaks()}} function.}
+\item{tweaks}{\verb{[DBItest_tweaks]}\cr Tweaks as constructed by the \code{\link[=tweaks]{tweaks()}} function.}
 
-\item{name}{\verb{[character]}\cr An optional name of the context which will
-be used in test messages.}
+\item{name}{\verb{[character]}\cr An optional name of the context which will be used in test messages.}
 
-\item{default_skip}{\verb{[character]}\cr Default value of \code{skip} argument
-to \code{\link[=test_all]{test_all()}}  and other testing functions.}
+\item{default_skip}{\verb{[character]}\cr Default value of \code{skip} argument to \code{\link[=test_all]{test_all()}}  and other testing functions.}
 
 \item{ctx}{\verb{[DBItest_context]}\cr A test context.}
 }
 \value{
-\verb{[DBItest_context]}\cr A test context, for
-\code{set_default_context} the previous default context (invisibly) or
-\code{NULL}.
+\verb{[DBItest_context]}\cr A test context, for \code{set_default_context} the previous default context (invisibly) or \code{NULL}.
 }
 \description{
 Create a test context, set and query the default context.

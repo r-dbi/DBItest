@@ -31,8 +31,7 @@ with NA for SQL \code{NULL} values
 (also applies to the return value of the SQL function \code{current_timestamp})
 }
 
-If dates and timestamps are supported by the backend, the following R types are
-used:
+If dates and timestamps are supported by the backend, the following R types are used:
 \itemize{
 \item \link[=Dates]{Date} for dates
 (also applies to the return value of the SQL function \code{current_date})
@@ -40,18 +39,15 @@ used:
 (also applies to the return value of the SQL function \code{current_timestamp})
 }
 
-R has no built-in type with lossless support for the full range of 64-bit
-or larger integers. If 64-bit integers are returned from a query,
+R has no built-in type with lossless support for the full range of 64-bit or larger integers.
+If 64-bit integers are returned from a query,
 the following rules apply:
 \itemize{
-\item Values are returned in a container with support for the full range of
-valid 64-bit values (such as the \code{integer64} class of the \pkg{bit64}
-package)
-\item Coercion to numeric always returns a number that is as close as possible
-to the true value
+\item Values are returned in a container with support for the full range of valid 64-bit values
+(such as the \code{integer64} class of the \pkg{bit64} package)
+\item Coercion to numeric always returns a number that is as close as possible to the true value
 \item Loss of precision when converting to numeric gives a warning
-\item Conversion to character always returns a lossless decimal representation
-of the data
+\item Conversion to character always returns a lossless decimal representation of the data
 }
 }
 
