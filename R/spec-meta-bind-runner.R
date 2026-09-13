@@ -62,11 +62,9 @@ test_select_bind_expr_one$fun <- function(
   is_na <- which(map_lgl(bind_values, is_na_or_null))
   result_names <- letters[seq_along(bind_values)]
 
-  #' 1. Call [dbSendQuery()], [dbSendQueryArrow()] or [dbSendStatement()]
-  #'    with a query or statement that contains placeholders,
+  #' 1. Call [dbSendQuery()], [dbSendQueryArrow()] or [dbSendStatement()] with a query or statement that contains placeholders,
   #'    store the returned [DBIResult-class] object in a variable.
-  #'    Mixing placeholders (in particular, named and unnamed ones) is not
-  #'    recommended.
+  #'    Mixing placeholders (in particular, named and unnamed ones) is not recommended.
   send_expr <- if (query) expr({
     placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
     result_check <- paste0("(", (!!cast_fun_placeholder_expr), " = ", placeholder_values, ")")
@@ -114,9 +112,8 @@ test_select_bind_expr_one$fun <- function(
     res <- dbSendStatement(con, sql)
   })
 
-  #'    It is good practice to register a call to [dbClearResult()] via
-  #'    [on.exit()] right after calling `dbSendQuery()` or `dbSendStatement()`
-  #'    (see the last enumeration item).
+  #'    It is good practice to register a call to [dbClearResult()] via [on.exit()] right after calling `dbSendQuery()`
+  #'    or `dbSendStatement()` (see the last enumeration item).
   clear_expr <- if (is_premature_clear) expr({
     dbClearResult(res)
   }) else expr({
@@ -143,13 +140,12 @@ test_select_bind_expr_one$fun <- function(
 
   #' 1. Call [dbBind()] or [dbBindArrow()]:
   bind_values_patched_expr <- if (bind == "df") expr({
-    #'      - For [dbBind()], the `params` argument must be a list where all elements
-    #'        have the same lengths and contain values supported by the backend.
+    #'      - For [dbBind()], the `params` argument must be a list where all elements have the same lengths
+    #'        and contain values supported by the backend.
     #'        A [data.frame] is internally stored as such a list.
     dbBind(res, !!bind_values_patched_expr_base)
   }) else expr({
-    #'      - For [dbBindArrow()], the `params` argument must be a
-    #'        nanoarrow array stream, with one column per query parameter.
+    #'      - For [dbBindArrow()], the `params` argument must be a nanoarrow array stream, with one column per query parameter.
     dbBindArrow(res, nanoarrow::as_nanoarrow_array_stream(!!bind_values_patched_expr_base))
   })
 

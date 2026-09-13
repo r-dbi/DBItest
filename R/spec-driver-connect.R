@@ -68,9 +68,8 @@ spec_driver_connect <- list(
   },
   #
   connect_bigint_integer64 = function(ctx) {
-    #' - `"integer64"`: return as a data type that can be coerced using
-    #'   [as.integer()] (with warning on overflow), [as.numeric()]
-    #'   and [as.character()]
+    #' - `"integer64"`: return as a data type that can be coerced using [as.integer()] (with warning on overflow),
+    #'   [as.numeric()] and [as.character()]
     con <- local_connection(ctx, bigint = "integer64")
     res <- dbGetQuery(con, "SELECT 10000000000")
     expect_warning(expect_true(is.na(as.integer(res[[1]]))))

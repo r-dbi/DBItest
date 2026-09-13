@@ -40,8 +40,7 @@ spec_meta_bind_expr <- function(
         expect_false(bind_res$visible)
       }
 
-      #' also for data manipulation statements issued by
-      #' [dbSendStatement()].
+      #' also for data manipulation statements issued by [dbSendStatement()].
       test_select_bind_expr(
         arrow = arrow,
         bind = bind,
@@ -180,9 +179,7 @@ spec_meta_bind_expr <- function(
       )
     },
 
-    #' The behavior for mixing placeholders of different types
-    #' (in particular mixing positional and named placeholders)
-    #' is not specified.
+    #' The behavior for mixing placeholders of different types (in particular mixing positional and named placeholders) is not specified.
     #'
 
     bind_premature_clear = function() {
@@ -220,15 +217,13 @@ spec_meta_bind_expr <- function(
 
       #' are supported.
       # This behavior is tested as part of run_bind_tester$fun
-      #' For queries, calling `dbFetch()` binding such parameters returns
-      #' concatenated results, equivalent to binding and fetching for each set
-      #' of values and connecting via [rbind()].
+      #' For queries, calling `dbFetch()` binding such parameters returns concatenated results,
+      #' equivalent to binding and fetching for each set of values and connecting via [rbind()].
     },
     #
     bind_multi_row_statement = if (arrow != "query") function() {
       # This behavior is tested as part of run_bind_tester$fun
-      #' For data manipulation statements, `dbGetRowsAffected()` returns the
-      #' total number of rows affected if binding non-scalar parameters.
+      #' For data manipulation statements, `dbGetRowsAffected()` returns the total number of rows affected if binding non-scalar parameters.
       test_select_bind_expr(
         arrow = arrow,
         bind = bind,

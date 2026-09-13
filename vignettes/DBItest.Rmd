@@ -24,7 +24,9 @@ The test cases in the DBItest package are structured very similarly to the secti
 ```r
 vignette("backend", package = "DBI")
 ```
-Like the "backend" vignette, this vignette assumes that you are implementing the `RKazam` package that has a `Kazam()` function that creates a new `DBIDriver` instance for connecting to a "Kazam" database.
+Like the "backend" vignette,
+this vignette assumes that you are implementing the `RKazam` package
+that has a `Kazam()` function that creates a new `DBIDriver` instance for connecting to a "Kazam" database.
 
 You can add the tests in the DBItest package incrementally, as you proceed with implementing the various parts of the DBI.
 The DBItest package builds upon the testthat package.
@@ -46,7 +48,8 @@ DBItest::test_getting_started()
 Now test your package with `devtools::test()`.
 If you followed at least the "Getting started" section of the DBI "backend" vignette, all tests should succeed.
 
-By adding the corresponding test function to your `tests/test-DBItest.R` file *before* implementing a section, you get immediate feedback which functionality of this section still needs to be implemented by running `devtools::test()` again.
+By adding the corresponding test function to your `tests/test-DBItest.R` file *before* implementing a section,
+you get immediate feedback which functionality of this section still needs to be implemented by running `devtools::test()` again.
 Therefore, proceed by appending the following to  `tests/test-DBItest.R`, to include a test case for the forthcoming section:
 
 ```r
@@ -60,13 +63,18 @@ In this scenario, you are usually interested only in the first error the test su
 The `StopReporter` of `testthat` is most helpful here, activate it by passing `reporter = "stop"` to `devtools::test()`.
 Alternatively, call the relevant `DBItest::test_()` function directly.
 
-The tests are documented with the corresponding functions: For instance, `?test_driver` shows a coarse description of all tests for the "Driver" test case.
-Test failures will include the name of the test that is failing; in this case, investigating the documentation or the source code of the DBItest package will usually lead to the cause of the error.
+The tests are documented with the corresponding functions:
+For instance, `?test_driver` shows a coarse description of all tests for the "Driver" test case.
+Test failures will include the name of the test that is failing;
+in this case, investigating the documentation or the source code of the DBItest package will usually lead to the cause of the error.
 
-Not all tests can be satisfied: For example, there is one test that tests that `logical` variables survive a write-read roundtrip to the database, whereas another test tests that `logical` variables are converted to `integer` in such a case.
+Not all tests can be satisfied:
+For example, there is one test that tests that `logical` variables survive a write-read roundtrip to the database,
+whereas another test tests that `logical` variables are converted to `integer` in such a case.
 Tests can be skipped by adding regular expressions for the tests to skip as character vector to the call, as in the following[^termnull]:
 
-[^termnull]: The terminating `NULL` allows appending new lines to the end by copy-pasting an existing line, without having to take care of the terminating comma.
+[^termnull]: The terminating `NULL` allows appending new lines to the end by copy-pasting an existing line,
+without having to take care of the terminating comma.
 
 ```r
 DBItest::test_driver(skip = c(
@@ -120,7 +128,8 @@ It contains:
 - tweaks, see `?tweaks`,
 - tests skipped by default, as a character vector.
 
-Database backends that use DBItest for testing usually have a file `test/testthat/helper-DBItest.R` or `test/testthat/test-DBItest.R` where a call to `make_context()` can be found.
+Database backends that use DBItest for testing usually have a file `test/testthat/helper-DBItest.R` or `test/testthat/test-DBItest.R`
+where a call to `make_context()` can be found.
 The help for `make_context()` already contains an example that works for RSQLite.
 Adapt it to your needs.
 
@@ -171,7 +180,8 @@ Unfortunately, this means that a failing test may give no indication of the reas
 The `test_some()` function now by default integrates the new experimental [dblog package](https://github.com/r-dbi/dblog) package.
 It prints the DBI code that is executed as the tests are run, as seen above.
 
-Another way to scout for the reason of the problem is to review the sources of DBItest and relate the test name (that is printed with each failure) with the human-readable specification embedded with the test code.
+Another way to scout for the reason of the problem is to review the sources of DBItest
+and relate the test name (that is printed with each failure) with the human-readable specification embedded with the test code.
 
 ```{r location, error = !rlang::is_installed("RSQLite")}
 testthat::with_reporter(

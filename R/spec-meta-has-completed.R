@@ -33,8 +33,7 @@ spec_meta_has_completed <- list(
     #' @section Failure modes:
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
-    #' Attempting to query completion status for a result set cleared with
-    #' [dbClearResult()] gives an error.
+    #' Attempting to query completion status for a result set cleared with [dbClearResult()] gives an error.
     expect_error(dbHasCompleted(res))
   },
 
@@ -56,8 +55,7 @@ spec_meta_has_completed <- list(
     res <- local_result(dbSendQuery(con, trivial_query()))
     #' the return value is unspecified after fetching n rows,
     check_df(dbFetch(res, 1))
-    #' but the result value is `TRUE` after trying to fetch only one more
-    #' row.
+    #' but the result value is `TRUE` after trying to fetch only one more row.
     check_df(dbFetch(res, 1))
     expect_true(expect_visible(dbHasCompleted(res)))
   },

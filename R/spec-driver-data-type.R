@@ -29,8 +29,7 @@ test_data_type <- function(ctx, dbObj) {
       expect_match(dbDataType(dbObj, .(value)), ".")
       #' character string.
       if (is.data.frame(value)) {
-        #' For data frames, a character vector with one element per column
-        #' is returned.
+        #' For data frames, a character vector with one element per column is returned.
         expect_length(dbDataType(dbObj, value), .(ncol(value)))
       } else {
         expect_length(dbDataType(dbObj, .(value)), 1L)
@@ -94,8 +93,7 @@ test_data_type <- function(ctx, dbObj) {
 
   expect_has_data_type(data.frame(a = 1, b = "2", stringsAsFactors = FALSE))
 
-  #' As-is objects (i.e., wrapped by [I()]) must be
-  #' supported and return the same results as their unwrapped counterparts.
+  #' As-is objects (i.e., wrapped by [I()]) must be supported and return the same results as their unwrapped counterparts.
   map(
     compact(expected_data_types),
     function(value) {

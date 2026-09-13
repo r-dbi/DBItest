@@ -113,10 +113,11 @@ get_placeholder_funs <- function(ctx, requires_names = NULL) {
 #'
 #' For internal use by the `placeholder_format` tweak.
 #'
-#' @param pattern `[character(1)]`\cr Any character, optionally followed by `1` or `name`. Examples: `"?"`, `"$1"`, `":name"`
+#' @param pattern `[character(1)]`\cr Any character, optionally followed by `1` or `name`.
+#'   Examples: `"?"`, `"$1"`, `":name"`
 #'
-#' @return `[function(n)]`\cr A function with one argument `n` that
-#'   returns a vector of length `n` with placeholders of the specified format.
+#' @return `[function(n)]`\cr A function with one argument `n`
+#'   that returns a vector of length `n` with placeholders of the specified format.
 #'
 #' @keywords internal
 #' @examples

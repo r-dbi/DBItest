@@ -7,8 +7,7 @@ NULL
 
 #' Getting started with testing
 #'
-#' Tests very basic features of a DBI driver package, to support testing
-#' and test-first development right from the start.
+#' Tests very basic features of a DBI driver package, to support testing and test-first development right from the start.
 #'
 #' @inheritParams test_all
 #' @include test-all.R

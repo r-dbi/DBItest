@@ -59,8 +59,7 @@ spec_meta_get_row_count <- list(
   #
   row_count_statement = function(ctx, con, table_name) {
     query <- ctx$tweaks$create_table_empty(table_name)
-    #' For data manipulation statements issued with
-    #' [dbSendStatement()],
+    #' For data manipulation statements issued with [dbSendStatement()],
     res <- local_result(dbSendStatement(con, query))
     rc <- dbGetRowCount(res)
     #' zero is returned before
@@ -75,8 +74,7 @@ spec_meta_get_row_count <- list(
     #' @section Failure modes:
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
-    #' Attempting to get the row count for a result set cleared with
-    #' [dbClearResult()] gives an error.
+    #' Attempting to get the row count for a result set cleared with [dbClearResult()] gives an error.
     expect_error(dbGetRowCount(res))
   },
   #

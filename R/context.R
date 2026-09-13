@@ -3,22 +3,15 @@
 #' Create a test context, set and query the default context.
 #'
 #' @param drv `[DBIConnector]`\cr
-#'   An object of class [DBIConnector-class] that describes how to connect
-#'   to the database.
+#'   An object of class [DBIConnector-class] that describes how to connect to the database.
 #' @param connect_args `[named list]`\cr Deprecated.
-#' @param set_as_default `[logical(1)]`\cr Should the created context be
-#'   set as default context?
-#' @param tweaks `[DBItest_tweaks]`\cr Tweaks as constructed by the
-#'   [tweaks()] function.
+#' @param set_as_default `[logical(1)]`\cr Should the created context be set as default context?
+#' @param tweaks `[DBItest_tweaks]`\cr Tweaks as constructed by the [tweaks()] function.
 #' @param ctx `[DBItest_context]`\cr A test context.
-#' @param name `[character]`\cr An optional name of the context which will
-#'   be used in test messages.
-#' @param default_skip `[character]`\cr Default value of `skip` argument
-#'   to [test_all()]  and other testing functions.
+#' @param name `[character]`\cr An optional name of the context which will be used in test messages.
+#' @param default_skip `[character]`\cr Default value of `skip` argument to [test_all()]  and other testing functions.
 #'
-#' @return `[DBItest_context]`\cr A test context, for
-#'   `set_default_context` the previous default context (invisibly) or
-#'   `NULL`.
+#' @return `[DBItest_context]`\cr A test context, for `set_default_context` the previous default context (invisibly) or `NULL`.
 #'
 #' @rdname context
 #' @importFrom methods is new

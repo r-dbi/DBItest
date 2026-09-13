@@ -56,8 +56,7 @@ spec_transaction_with_transaction <- list(
   },
 
   with_transaction_failure = function(con, table_name) {
-    #' If the code raises an error, the transaction is instead aborted with
-    #' [dbRollback()], and the error is propagated.
+    #' If the code raises an error, the transaction is instead aborted with [dbRollback()], and the error is propagated.
     dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
 
     name <- random_table_name()
@@ -77,8 +76,7 @@ spec_transaction_with_transaction <- list(
   },
 
   with_transaction_break = function(con, table_name) {
-    #' If the code calls `dbBreak()`, execution of the code stops and the
-    #' transaction is silently aborted.
+    #' If the code calls `dbBreak()`, execution of the code stops and the transaction is silently aborted.
     dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
 
     expect_error(

@@ -24,14 +24,13 @@ spec_meta_column_info <- list(
     #' (and optional columns that start with a dot).
     expect_true(all(startsWith(names(fields)[-1:-2], ".")))
 
-    #' The `"name"` and `"type"` columns contain the names and types
-    #' of the R columns of the data frame that is returned from [`dbFetch()`].
+    #' The `"name"` and `"type"` columns contain the names and types of the R columns of the data frame that is returned from [`dbFetch()`].
     penguins_ret <- dbFetch(res)
     expect_identical(fields$name, names(penguins_ret))
     #' The `"type"` column is of type `character` and only for information.
     expect_type(fields$type, "character")
-    #' Do not compute on the `"type"` column, instead use `dbFetch(res, n = 0)`
-    #' to create a zero-row data frame initialized with the correct data types.
+    #' Do not compute on the `"type"` column,
+    #' instead use `dbFetch(res, n = 0)` to create a zero-row data frame initialized with the correct data types.
   },
 
 

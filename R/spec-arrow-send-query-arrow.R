@@ -17,8 +17,7 @@ spec_arrow_send_query_arrow <- list(
     expect_s4_class(res, "DBIResultArrow")
     #' The result set can be used with [dbFetchArrow()] to extract records.
     expect_equal(check_arrow(dbFetchArrow(res))[[1]], 1.5)
-    #' Once you have finished using a result, make sure to clear it
-    #' with [dbClearResult()].
+    #' Once you have finished using a result, make sure to clear it with [dbClearResult()].
     dbClearResult(res)
   },
 
@@ -44,8 +43,7 @@ spec_arrow_send_query_arrow <- list(
   arrow_send_query_syntax_error = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.7.99.5")
 
-    #' An error is also raised if the syntax of the query is invalid
-    #' and all query parameters are given (by passing the `params` argument)
+    #' An error is also raised if the syntax of the query is invalid and all query parameters are given (by passing the `params` argument)
     #' or the `immediate` argument is set to `TRUE`.
     #'
     #' @section Failure modes:
@@ -68,16 +66,14 @@ spec_arrow_send_query_arrow <- list(
     #' @section Specification:
     #' No warnings occur under normal conditions.
     res <- expect_warning(dbSendQueryArrow(con, trivial_query()), NA)
-    #' When done, the DBIResult object must be cleared with a call to
-    #' [dbClearResult()].
+    #' When done, the DBIResult object must be cleared with a call to [dbClearResult()].
     dbClearResult(res)
   },
   #
   arrow_send_query_stale_warning = function(ctx) {
     skip_if_not_dbitest(ctx, "1.7.99.7")
 
-    #' Failure to clear the result set leads to a warning
-    #' when the connection is closed.
+    #' Failure to clear the result set leads to a warning when the connection is closed.
     con <- connect(ctx)
     on.exit(dbDisconnect(con))
     expect_warning(dbSendQueryArrow(con, trivial_query()), NA)
@@ -95,8 +91,7 @@ spec_arrow_send_query_arrow <- list(
 
     #' If the backend supports only one open result set per connection,
     res1 <- dbSendQueryArrow(con, trivial_query())
-    #' issuing a second query invalidates an already open result set
-    #' and raises a warning.
+    #' issuing a second query invalidates an already open result set and raises a warning.
     expect_warning(res2 <- dbSendQueryArrow(con, "SELECT 2"))
     expect_false(dbIsValid(res1))
     #' The newly opened result set is valid
