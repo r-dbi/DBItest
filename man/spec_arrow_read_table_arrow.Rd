@@ -19,7 +19,7 @@ An error is raised if the table does not exist.
 
 An error is raised when calling this method for a closed
 or invalid connection.
-An error is raised
+ An error is raised
 if \code{name} cannot be processed with \code{\link[DBI:dbQuoteIdentifier]{dbQuoteIdentifier()}} or
 if this results in a non-scalar.
 }

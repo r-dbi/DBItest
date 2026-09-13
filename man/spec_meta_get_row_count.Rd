@@ -6,17 +6,17 @@
 \value{
 \code{dbGetRowCount()} returns a scalar number (integer or numeric),
 the number of rows fetched so far.
-After calling \code{\link[DBI:dbSendQuery]{dbSendQuery()}},
+ After calling \code{\link[DBI:dbSendQuery]{dbSendQuery()}},
 the row count is initially zero.
-After a call to \code{\link[DBI:dbFetch]{dbFetch()}} without limit,
+ After a call to \code{\link[DBI:dbFetch]{dbFetch()}} without limit,
 the row count matches the total number of rows returned.
-Fetching a limited number of rows
+ Fetching a limited number of rows
 increases the number of rows by the number of rows returned,
 even if fetching past the end of the result set.
-For queries with an empty result set,
+ For queries with an empty result set,
 zero is returned
 even after fetching.
-For data manipulation statements issued with \code{\link[DBI:dbSendStatement]{dbSendStatement()}},
+ For data manipulation statements issued with \code{\link[DBI:dbSendStatement]{dbSendStatement()}},
 zero is returned before
 and after calling \code{dbFetch()}.
 }

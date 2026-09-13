@@ -19,7 +19,7 @@ an error is raised; the remote table remains unchanged.
 
 An error is raised when calling this method for a closed
 or invalid connection.
-An error is also raised
+ An error is also raised
 if \code{name} cannot be processed with \code{\link[DBI:dbQuoteIdentifier]{dbQuoteIdentifier()}} or
 if this results in a non-scalar.
 }
@@ -27,7 +27,7 @@ if this results in a non-scalar.
 \section{Specification}{
 
 SQL keywords can be used freely in table names, column names, and data.
-Quotes, commas, spaces, and other special characters such as newlines and tabs,
+ Quotes, commas, spaces, and other special characters such as newlines and tabs,
 can also be used in the data,
 and, if the database supports non-syntactic identifiers,
 also for table names
@@ -80,7 +80,7 @@ to support databases that allow non-syntactic names for their objects:
 
 The \code{value} argument must be a data frame
 with a subset of the columns of the existing table.
-The order of the columns does not matter.
+ The order of the columns does not matter.
 }
 
 \seealso{

@@ -8,7 +8,7 @@ make_placeholder_fun(pattern)
 }
 \arguments{
 \item{pattern}{\verb{[character(1)]}\cr Any character, optionally followed by \code{1} or \code{name}.
-Examples: \code{"?"}, \code{"$1"}, \code{":name"}}
+ Examples: \code{"?"}, \code{"$1"}, \code{":name"}}
 }
 \value{
 \verb{[function(n)]}\cr A function with one argument \code{n}

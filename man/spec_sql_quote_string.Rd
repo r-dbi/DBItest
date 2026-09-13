@@ -6,11 +6,11 @@
 \value{
 \code{dbQuoteString()} returns an object that can be coerced to \link{character},
 of the same length as the input.
-For an empty character vector this function returns a length-0 object.
+ For an empty character vector this function returns a length-0 object.
 
 When passing the returned object again to \code{dbQuoteString()} as \code{x} argument, it is returned unchanged.
-Passing objects of class \link[DBI:SQL]{SQL} should also return them unchanged.
-(For backends it may be most convenient to return \link[DBI:SQL]{SQL} objects
+ Passing objects of class \link[DBI:SQL]{SQL} should also return them unchanged.
+ (For backends it may be most convenient to return \link[DBI:SQL]{SQL} objects
 to achieve this behavior, but this is not required.)
 }
 \description{
@@ -29,8 +29,8 @@ backticks,
 or newlines
 (in any combination)
 or is itself the result of a \code{dbQuoteString()} call coerced back to character (even repeatedly).
-If \code{x} is \code{NA}, the result must merely satisfy \code{\link[=is.na]{is.na()}}.
-The strings \code{"NA"} or \code{"NULL"} are not treated specially.
+ If \code{x} is \code{NA}, the result must merely satisfy \code{\link[=is.na]{is.na()}}.
+ The strings \code{"NA"} or \code{"NULL"} are not treated specially.
 
 \code{NA} should be translated to an unquoted SQL \code{NULL},
 so that the query \verb{SELECT * FROM (SELECT 1) a WHERE ... IS NULL}
