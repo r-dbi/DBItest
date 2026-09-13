@@ -12,8 +12,8 @@ spec_result_get_query <- list(
   get_query_atomic = function(con) {
     #' @return
     #' `dbGetQuery()` always returns a [data.frame],
-    #'  with as many rows as records were fetched and as many columns as fields in the result set,
-    #'  even if the result is a single value
+    #' with as many rows as records were fetched and as many columns as fields in the result set,
+    #' even if the result is a single value
     query <- trivial_query()
 
     rows <- check_df(dbGetQuery(con, query))
@@ -83,14 +83,14 @@ spec_result_get_query <- list(
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbGetQuery()` generic
-  #'  (to improve compatibility across backends)
-  #'  but are part of the DBI specification:
+  #' (to improve compatibility across backends)
+  #' but are part of the DBI specification:
   #' - `n` (default: -1)
   #' - `params` (default: `NULL`)
   #' - `immediate` (default: `NULL`)
   #'
   #' They must be provided as named arguments.
-  #'  See the "Specification" and "Value" sections for details on their usage.
+  #' See the "Specification" and "Value" sections for details on their usage.
 
   get_query_row_names = function(con) {
     #' @section Specification:
@@ -107,7 +107,7 @@ spec_result_get_query <- list(
   #'
   get_query_multi_row_single_column = function(ctx, con) {
     #' The `n` argument specifies the number of rows to be fetched.
-    #'  If omitted, fetching multi-row queries with one
+    #' If omitted, fetching multi-row queries with one
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(3)
 
@@ -154,7 +154,7 @@ spec_result_get_query <- list(
 
   get_query_n_incomplete = function(ctx, con) {
     #' Fetching fewer rows than available is permitted,
-    #'  no warning is issued.
+    #' no warning is issued.
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(2)
 
@@ -181,13 +181,13 @@ spec_result_get_query <- list(
     #' @section Specification for the `immediate` argument:
     #'
     #' The `immediate` argument supports distinguishing between "direct"
-    #'  and "prepared" APIs offered by many database drivers.
-    #'  Passing `immediate = TRUE` leads to immediate execution of the
-    #'  query or statement, via the "direct" API (if supported by the driver).
-    #'  The default `NULL` means that the backend should choose whatever API makes the most sense for the database,
-    #'  and (if relevant) tries the other API if the first attempt fails.
-    #'  A successful second attempt should result in a message that suggests passing the correct `immediate` argument.
-    #'  Examples for possible behaviors:
+    #' and "prepared" APIs offered by many database drivers.
+    #' Passing `immediate = TRUE` leads to immediate execution of the
+    #' query or statement, via the "direct" API (if supported by the driver).
+    #' The default `NULL` means that the backend should choose whatever API makes the most sense for the database,
+    #' and (if relevant) tries the other API if the first attempt fails.
+    #' A successful second attempt should result in a message that suggests passing the correct `immediate` argument.
+    #' Examples for possible behaviors:
     #' 1. DBI backend defaults to `immediate = TRUE` internally
     #'     1. A query without parameters is passed: query is executed
     #'     1. A query with parameters is passed:

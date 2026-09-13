@@ -1,8 +1,8 @@
 #' Tweaks for DBI tests
 #'
 #' The tweaks are a way to control the behavior of certain tests.
-#'  Currently, you need to search the \pkg{DBItest} source code to understand which tests are affected by which tweaks.
-#'  This function is usually called to set the `tweaks` argument in a [make_context()] call.
+#' Currently, you need to search the \pkg{DBItest} source code to understand which tests are affected by which tweaks.
+#' This function is usually called to set the `tweaks` argument in a [make_context()] call.
 #'
 #' @name tweaks
 #' @aliases NULL

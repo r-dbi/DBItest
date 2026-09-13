@@ -12,7 +12,7 @@ spec_result_fetch <- list(
   fetch_atomic = function(con) {
     #' @return
     #' `dbFetch()` always returns a [data.frame] with as many rows as records were fetched and as many columns as fields in the result set,
-    #'  even if the result is a single value
+    #' even if the result is a single value
     query <- trivial_query()
     res <- local_result(dbSendQuery(con, query))
     rows <- check_df(dbFetch(res))
@@ -43,7 +43,7 @@ spec_result_fetch <- list(
     }
 
     #' Passing `n = NA` is supported and returns an arbitrary number of rows (at least one) as specified by the driver,
-    #'  but at most the remaining rows in the result set.
+    #' but at most the remaining rows in the result set.
     query <- trivial_query()
     res <- local_result(dbSendQuery(con, query))
     rows <- check_df(dbFetch(res, n = NA))
@@ -84,7 +84,7 @@ spec_result_fetch <- list(
   fetch_no_return_value = function(ctx, con, table_name) {
     #'
     #' Calling `dbFetch()` on a result set from a data manipulation query created by [dbSendStatement()] can be fetched
-    #'  and return an empty data frame, with a warning.
+    #' and return an empty data frame, with a warning.
     query <- ctx$tweaks$create_table_empty(table_name)
 
     res <- local_result(dbSendStatement(con, query))
@@ -168,7 +168,7 @@ spec_result_fetch <- list(
 
   fetch_n_premature_close = function(ctx, con) {
     #' Fetching fewer rows than available is permitted,
-    #'  no warning is issued when clearing the result set.
+    #' no warning is issued when clearing the result set.
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(2)
 

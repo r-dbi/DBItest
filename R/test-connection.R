@@ -2,7 +2,7 @@
 #' @aliases NULL
 #' @section Tests:
 #' [test_connection()]:
-#'  Test the "Connection" class
+#' Test the "Connection" class
 NULL
 
 #' Test the "Connection" class

@@ -12,7 +12,7 @@ spec_meta_get_row_count <- list(
   row_count_query = function(con) {
     #' @return
     #' `dbGetRowCount()` returns a scalar number (integer or numeric),
-    #'  the number of rows fetched so far.
+    #' the number of rows fetched so far.
     query <- trivial_query()
     #' After calling [dbSendQuery()],
     res <- local_result(dbSendQuery(con, query))

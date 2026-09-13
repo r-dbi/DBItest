@@ -49,15 +49,15 @@ spec_sql_unquote_identifier <- list(
     for (obj in named_out) expect_s4_class(obj, "Id")
 
     #' If `x` is a value returned by `dbUnquoteIdentifier()`,
-    #'  calling `dbUnquoteIdentifier(..., dbQuoteIdentifier(..., x))` returns `list(x)`.
+    #' calling `dbUnquoteIdentifier(..., dbQuoteIdentifier(..., x))` returns `list(x)`.
     expect_identical(dbUnquoteIdentifier(con, simple_out[[1]]), simple_out)
     expect_identical(dbUnquoteIdentifier(con, letters_out[[1]]), letters_out[1])
     #' If `x` is an object of class [Id],
-    #'  calling `dbUnquoteIdentifier(..., x)` returns `list(x)`.
+    #' calling `dbUnquoteIdentifier(..., x)` returns `list(x)`.
     expect_identical(dbUnquoteIdentifier(con, Id(table = "simple")), list(Id(table = "simple")))
 
     #' (For backends it may be most convenient to return [Id] objects
-    #'  to achieve this behavior, but this is not required.)
+    #' to achieve this behavior, but this is not required.)
   },
   #'
   unquote_identifier_plain = function(ctx, con) {
@@ -74,7 +74,7 @@ spec_sql_unquote_identifier <- list(
     #' @section Failure modes:
     #'
     #' An error is raised if a character vectors with a missing value is passed
-    #'  as the `x` argument.
+    #' as the `x` argument.
     expect_error(dbUnquoteIdentifier(con, NA_character_))
     expect_error(dbUnquoteIdentifier(con, c("a", NA_character_)))
   },
@@ -82,7 +82,7 @@ spec_sql_unquote_identifier <- list(
   unquote_identifier_roundtrip = function(con) {
     #' @section Specification:
     #' For any character vector of length one, quoting (with [dbQuoteIdentifier()])
-    #'  then unquoting then quoting the first element is identical to just quoting.
+    #' then unquoting then quoting the first element is identical to just quoting.
     simple_in <- dbQuoteIdentifier(con, "simple")
     simple_out <- dbUnquoteIdentifier(con, simple_in)
     simple_roundtrip <- dbQuoteIdentifier(con, simple_out[[1]])
@@ -141,7 +141,7 @@ spec_sql_unquote_identifier <- list(
   #'
   unquote_identifier_simple = function(con) {
     #' Unquoting simple strings (consisting of only letters) wrapped with [SQL()]
-    #'  and then quoting via [dbQuoteIdentifier()] gives the same result as just quoting the string.
+    #' and then quoting via [dbQuoteIdentifier()] gives the same result as just quoting the string.
     simple_in <- "simple"
     simple_quoted <- dbQuoteIdentifier(con, simple_in)
     simple_out <- dbUnquoteIdentifier(con, SQL(simple_in))
@@ -151,7 +151,7 @@ spec_sql_unquote_identifier <- list(
 
   unquote_identifier_table_schema = function(ctx, con) {
     #' Similarly, unquoting expressions of the form `SQL("schema.table")`
-    #'  and then quoting gives the same result as quoting the identifier constructed by `Id("schema", "table")`.
+    #' and then quoting gives the same result as quoting the identifier constructed by `Id("schema", "table")`.
     schema_in <- "schema"
     table_in <- "table"
     simple_quoted <- dbQuoteIdentifier(con, Id(schema_in, table_in))

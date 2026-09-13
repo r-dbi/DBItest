@@ -53,8 +53,8 @@ spec_sql_remove_table <- list(
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbRemoveTable()` generic
-  #'  (to improve compatibility across backends)
-  #'  but are part of the DBI specification:
+  #' (to improve compatibility across backends)
+  #' but are part of the DBI specification:
   #' - `temporary` (default: `FALSE`)
   #' - `fail_if_missing` (default: `TRUE`)
   #'
@@ -64,7 +64,7 @@ spec_sql_remove_table <- list(
   #'
   remove_table_temporary_arg = function(ctx, con, table_name) {
     #' If `temporary` is `TRUE`, the call to `dbRemoveTable()` will consider only temporary tables.
-    #'  Not all backends support this argument.
+    #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
     }
@@ -87,8 +87,8 @@ spec_sql_remove_table <- list(
   remove_table_list = function(con, table_name) {
     #' @section Specification:
     #' A table removed by `dbRemoveTable()` doesn't appear in the list of tables
-    #'  returned by [dbListTables()],
-    #'  and [dbExistsTable()] returns `FALSE`.
+    #' returned by [dbListTables()],
+    #' and [dbExistsTable()] returns `FALSE`.
     dbWriteTable(con, table_name, data.frame(a = 1L))
     expect_true(table_name %in% dbListTables(con))
     expect_true(dbExistsTable(con, table_name))
@@ -132,7 +132,7 @@ spec_sql_remove_table <- list(
   #'
   remove_table_name = function(ctx, con) {
     #' The `name` argument is processed as follows,
-    #'  to support databases that allow non-syntactic names for their objects:
+    #' to support databases that allow non-syntactic names for their objects:
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
     } else {

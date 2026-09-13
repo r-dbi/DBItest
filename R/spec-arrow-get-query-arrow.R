@@ -12,8 +12,8 @@ spec_arrow_get_query_arrow <- list(
   arrow_get_query_arrow_atomic = function(con) {
     #' @return
     #' `dbGetQueryArrow()` always returns an object coercible to a [data.frame],
-    #'  with as many rows as records were fetched and as many columns as fields in the result set,
-    #'  even if the result is a single value
+    #' with as many rows as records were fetched and as many columns as fields in the result set,
+    #' even if the result is a single value
     query <- trivial_query()
 
     rows <- check_arrow(dbGetQueryArrow(con, query))
@@ -68,7 +68,7 @@ spec_arrow_get_query_arrow <- list(
 
   arrow_get_query_arrow_record_batch_reader = function(ctx, con) {
     #' The object returned by `dbGetQueryArrow()` can also be passed to [nanoarrow::as_nanoarrow_array_stream()]
-    #'  to create a nanoarrow array stream object that can be used to read the result set in batches.
+    #' to create a nanoarrow array stream object that can be used to read the result set in batches.
     query <- trivial_query(25, .ctx = ctx, .order_by = "a")
     result <- trivial_df(25)
 
@@ -83,13 +83,13 @@ spec_arrow_get_query_arrow <- list(
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbGetQueryArrow()` generic
-  #'  (to improve compatibility across backends)
-  #'  but are part of the DBI specification:
+  #' (to improve compatibility across backends)
+  #' but are part of the DBI specification:
   #' - `params` (default: `NULL`)
   #' - `immediate` (default: `NULL`)
   #'
   #' They must be provided as named arguments.
-  #'  See the "Specification" and "Value" sections for details on their usage.
+  #' See the "Specification" and "Value" sections for details on their usage.
   #'
   arrow_get_query_arrow_params = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.8.0.1")
@@ -113,13 +113,13 @@ spec_arrow_get_query_arrow <- list(
     #' @section Specification for the `immediate` argument:
     #'
     #' The `immediate` argument supports distinguishing between "direct"
-    #'  and "prepared" APIs offered by many database drivers.
-    #'  Passing `immediate = TRUE` leads to immediate execution of the
-    #'  query or statement, via the "direct" API (if supported by the driver).
-    #'  The default `NULL` means that the backend should choose whatever API makes the most sense for the database,
-    #'  and (if relevant) tries the other API if the first attempt fails.
-    #'  A successful second attempt should result in a message that suggests passing the correct `immediate` argument.
-    #'  Examples for possible behaviors:
+    #' and "prepared" APIs offered by many database drivers.
+    #' Passing `immediate = TRUE` leads to immediate execution of the
+    #' query or statement, via the "direct" API (if supported by the driver).
+    #' The default `NULL` means that the backend should choose whatever API makes the most sense for the database,
+    #' and (if relevant) tries the other API if the first attempt fails.
+    #' A successful second attempt should result in a message that suggests passing the correct `immediate` argument.
+    #' Examples for possible behaviors:
     #' 1. DBI backend defaults to `immediate = TRUE` internally
     #'     1. A query without parameters is passed: query is executed
     #'     1. A query with parameters is passed:

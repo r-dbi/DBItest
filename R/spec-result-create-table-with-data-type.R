@@ -7,7 +7,7 @@ spec_result_create_table_with_data_type <- list(
   data_type_create_table = function(ctx, con) {
     #' @section Specification:
     #' All data types returned by `dbDataType()` are usable in an SQL statement
-    #'  of the form
+    #' of the form
     check_connection_data_type <- function(value) {
       table_name <- random_table_name()
       local_remove_test_table(con, table_name)

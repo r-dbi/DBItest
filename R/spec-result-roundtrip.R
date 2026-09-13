@@ -189,8 +189,8 @@ spec_result_roundtrip <- list(
 
   #'
   #' R has no built-in type with lossless support for the full range of 64-bit or larger integers.
-  #'  If 64-bit integers are returned from a query,
-  #'  the following rules apply:
+  #' If 64-bit integers are returned from a query,
+  #' the following rules apply:
   #' - Values are returned in a container with support for the full range of valid 64-bit values
   #'   (such as the `integer64` class of the \pkg{bit64} package)
   #' - Coercion to numeric always returns a number that is as close as possible to the true value

@@ -23,7 +23,7 @@ spec_getting_started <- list(
     pkg_name <- package_name(ctx)
 
     #' For better or worse, the names of many existing backends start with \sQuote{R}, e.g., \pkg{RSQLite}, \pkg{RMySQL}, \pkg{RSQLServer};
-    #'  it is up to the backend author to adopt this convention or not.
+    #' it is up to the backend author to adopt this convention or not.
     expect_match(pkg_name, "^R")
   },
   #

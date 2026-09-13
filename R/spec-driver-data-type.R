@@ -42,18 +42,18 @@ test_data_type <- function(ctx, dbObj) {
   #'
   #' @section Failure modes:
   #' An error is raised for invalid values for the `obj` argument such as a
-  #'  `NULL` value.
+  #' `NULL` value.
   expect_error(dbDataType(dbObj, NULL))
 
   #' @section Specification:
   #' The backend can override the [dbDataType()] generic
-  #'  for its driver class.
+  #' for its driver class.
   #'
   #' This generic expects an arbitrary object as second argument.
-  #'  To query the values returned by the default implementation,
-  #'  run `example(dbDataType, package = "DBI")`.
-  #'  If the backend needs to override this generic,
-  #'  it must accept all basic R data types as its second argument, namely
+  #' To query the values returned by the default implementation,
+  #' run `example(dbDataType, package = "DBI")`.
+  #' If the backend needs to override this generic,
+  #' it must accept all basic R data types as its second argument, namely
   expect_has_data_type <- function(value) {
     eval(bquote(
       expect_error(check_data_type(.(value)), NA)

@@ -2,7 +2,7 @@
 #' @aliases NULL
 #' @section Tests:
 #' [test_sql()]:
-#'  Test SQL methods
+#' Test SQL methods
 NULL
 
 #' Test SQL methods

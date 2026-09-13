@@ -30,7 +30,7 @@ spec_meta_column_info <- list(
     #' The `"type"` column is of type `character` and only for information.
     expect_type(fields$type, "character")
     #' Do not compute on the `"type"` column,
-    #'  instead use `dbFetch(res, n = 0)` to create a zero-row data frame initialized with the correct data types.
+    #' instead use `dbFetch(res, n = 0)` to create a zero-row data frame initialized with the correct data types.
   },
 
 

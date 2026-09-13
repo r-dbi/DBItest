@@ -2,7 +2,7 @@
 #' @aliases NULL
 #' @section Tests:
 #' [test_result()]:
-#'  Test the "Result" class
+#' Test the "Result" class
 NULL
 
 #' Test the "Result" class

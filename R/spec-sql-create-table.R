@@ -70,17 +70,17 @@ spec_sql_create_table <- list(
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbCreateTable()` generic
-  #'  (to improve compatibility across backends)
-  #'  but are part of the DBI specification:
+  #' (to improve compatibility across backends)
+  #' but are part of the DBI specification:
   #' - `temporary` (default: `FALSE`)
   #'
   #' They must be provided as named arguments.
-  #'  See the "Specification" and "Value" sections for details on their usage.
+  #' See the "Specification" and "Value" sections for details on their usage.
 
   create_table_name = function(ctx, con) {
     #' @section Specification:
     #' The `name` argument is processed as follows,
-    #'  to support databases that allow non-syntactic names for their objects:
+    #' to support databases that allow non-syntactic names for their objects:
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
     } else {
@@ -146,7 +146,7 @@ spec_sql_create_table <- list(
   #'
   create_table_temporary_1 = function(ctx, con, table_name = "dbit03") {
     #' If the `temporary` argument is `TRUE`, the table is not available in a second connection and is gone after reconnecting.
-    #'  Not all backends support this argument.
+    #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
     }
@@ -214,7 +214,7 @@ spec_sql_create_table <- list(
 
   create_roundtrip_quotes = function(ctx, con) {
     #' Quotes, commas, and spaces can also be used  for table names and column names,
-    #'  if the database supports non-syntactic identifiers.
+    #' if the database supports non-syntactic identifiers.
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       skip("tweak: strict_identifier")
     }
