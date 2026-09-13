@@ -50,13 +50,13 @@ spec_result_execute <- list(
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbExecute()` generic
-  #'  (to improve compatibility across backends)
-  #'  but are part of the DBI specification:
+  #' (to improve compatibility across backends)
+  #' but are part of the DBI specification:
   #' - `params` (default: `NULL`)
   #' - `immediate` (default: `NULL`)
   #'
   #' They must be provided as named arguments.
-  #'  See the "Specification" sections for details on their usage.
+  #' See the "Specification" sections for details on their usage.
 
   execute_params = function(ctx, con) {
     #' @section Specification:

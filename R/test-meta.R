@@ -2,7 +2,7 @@
 #' @aliases NULL
 #' @section Tests:
 #' [test_meta()]:
-#'  Test metadata functions
+#' Test metadata functions
 NULL
 
 #' Test metadata functions

@@ -49,7 +49,7 @@ spec_sql_quote_identifier <- list(
     expect_identical(dbQuoteIdentifier(con, SQL(empty)), SQL(empty))
 
     #' (For backends it may be most convenient to return [SQL] objects
-    #'  to achieve this behavior, but this is not required.)
+    #' to achieve this behavior, but this is not required.)
   },
   #'
   quote_identifier_error = function(ctx, con) {
@@ -66,8 +66,8 @@ spec_sql_quote_identifier <- list(
   quote_identifier = function(ctx, con) {
     #' @section Specification:
     #' Calling [dbGetQuery()] for a query of the format `SELECT 1 AS ...`
-    #'  returns a data frame with the identifier, unquoted, as column name.
-    #'  Quoted identifiers can be used as table and column names in SQL queries,
+    #' returns a data frame with the identifier, unquoted, as column name.
+    #' Quoted identifiers can be used as table and column names in SQL queries,
     simple <- dbQuoteIdentifier(con, "simple")
 
     #' in particular in queries like `SELECT 1 AS ...`
@@ -84,7 +84,7 @@ spec_sql_quote_identifier <- list(
 
   quote_identifier_string = function(ctx, con) {
     #' The method must use a quoting mechanism that is unambiguously different from the quoting mechanism used for strings,
-    #'  so that a query like `SELECT ... FROM (SELECT 1 AS ...)`
+    #' so that a query like `SELECT ... FROM (SELECT 1 AS ...)`
     query <- paste0(
       "SELECT ", dbQuoteIdentifier(con, "b"), " FROM (",
       "SELECT 1 AS ", dbQuoteIdentifier(con, "a"), ")"
@@ -123,7 +123,7 @@ spec_sql_quote_identifier <- list(
     }
 
     #' In any case, checking the validity of the identifier should be performed only when executing a query,
-    #'  and not by `dbQuoteIdentifier()`.
+    #' and not by `dbQuoteIdentifier()`.
     query <- paste0(
       "SELECT ",
       "2.5 as", with_space, ",",

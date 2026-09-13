@@ -51,7 +51,7 @@ spec_sql_list_objects <- list(
     table_name <- "dbit06"
 
     #' As soon a table is removed from the database,
-    #'  it is also removed from the data frame of database objects.
+    #' it is also removed from the data frame of database objects.
     objects <- dbListObjects(con)
     quoted_tables <- map_chr(objects$table, dbQuoteIdentifier, conn = con)
     expect_false(dbQuoteIdentifier(con, table_name) %in% quoted_tables)
@@ -104,8 +104,8 @@ spec_sql_list_objects <- list(
     objects <- dbListObjects(con)
 
     #' The `prefix` column indicates if the `table` value refers to a table or a prefix.
-    #'  For a call with the default `prefix = NULL`,
-    #'  the `table` values that have `is_prefix == FALSE` correspond to the tables returned from [dbListTables()],
+    #' For a call with the default `prefix = NULL`,
+    #' the `table` values that have `is_prefix == FALSE` correspond to the tables returned from [dbListTables()],
     non_prefix_objects <- map_chr(
       objects$table[!objects$is_prefix],
       dbQuoteIdentifier,
@@ -120,7 +120,7 @@ spec_sql_list_objects <- list(
     #' The result of quoting can be passed to [dbUnquoteIdentifier()].
     expect_error(walk(sql, dbUnquoteIdentifier, conn = con), NA)
     #' (For backends it may be convenient to use the [Id] class, but this is
-    #'  not required.)
+    #' not required.)
 
     if (!any(objects$is_prefix)) {
       skip("No schemas available")
@@ -128,8 +128,8 @@ spec_sql_list_objects <- list(
 
     #'
     #' Values in `table` column that have `is_prefix == TRUE` can be passed as the `prefix` argument to another call to `dbListObjects()`.
-    #'  For the data frame returned from a `dbListObject()` call with the `prefix` argument set,
-    #'  all `table` values where `is_prefix` is `FALSE` can be used in a call to [dbExistsTable()] which returns `TRUE`.
+    #' For the data frame returned from a `dbListObject()` call with the `prefix` argument set,
+    #' all `table` values where `is_prefix` is `FALSE` can be used in a call to [dbExistsTable()] which returns `TRUE`.
     for (schema in utils::head(objects$table[objects$is_prefix])) {
       sub_objects <- dbListObjects(con, prefix = schema)
       for (sub_table in utils::head(sub_objects$table[!sub_objects$is_prefix])) {

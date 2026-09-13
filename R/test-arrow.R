@@ -2,7 +2,7 @@
 #' @aliases NULL
 #' @section Tests:
 #' [test_arrow()]:
-#'  Test Arrow methods
+#' Test Arrow methods
 NULL
 
 #' Test Arrow methods

@@ -36,7 +36,7 @@ spec_result_clear_result <- list(
   cannot_clear_result_twice_query = function(con) {
     #' @section Failure modes:
     #' An attempt to close an already closed result set issues a warning
-    #'  for `dbSendQuery()`,
+    #' for `dbSendQuery()`,
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
     expect_warning(expect_invisible_true(dbClearResult(res)))
@@ -61,8 +61,8 @@ spec_result_clear_result <- list(
 
   #' @section Specification:
   #' `dbClearResult()` frees all resources associated with retrieving
-  #'  the result of a query or update operation.
-  #'  The DBI backend can expect a call to `dbClearResult()` for each
-  #'  [dbSendQuery()] or [dbSendStatement()] call.
+  #' the result of a query or update operation.
+  #' The DBI backend can expect a call to `dbClearResult()` for each
+  #' [dbSendQuery()] or [dbSendStatement()] call.
   NULL
 )

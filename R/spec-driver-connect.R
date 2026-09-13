@@ -31,7 +31,7 @@ spec_driver_connect <- list(
   connect_bigint_integer = function(ctx) {
     #' @section Specification:
     #' DBI recommends using the following argument names for authentication
-    #'  parameters, with `NULL` default:
+    #' parameters, with `NULL` default:
     #' - `user` for the user name (default: current user)
     #' - `password` for the password
     #' - `host` for the host name (default: local connection)

@@ -12,8 +12,8 @@ spec_arrow_fetch_arrow <- list(
   arrow_fetch_arrow_atomic = function(con) {
     #' @return
     #' `dbFetchArrow()` always returns an object coercible to a [data.frame] with as many rows as records were fetched
-    #'  and as many columns as fields in the result set,
-    #'  even if the result is a single value
+    #' and as many columns as fields in the result set,
+    #' even if the result is a single value
     query <- trivial_query()
     res <- local_result(dbSendQueryArrow(con, query))
     rows <- check_arrow(dbFetchArrow(res))
@@ -76,7 +76,7 @@ spec_arrow_fetch_arrow <- list(
 
   arrow_fetch_arrow_record_batch_reader = function(ctx, con) {
     #' The object returned by `dbFetchArrow()` can also be passed to [nanoarrow::as_nanoarrow_array_stream()]
-    #'  to create a nanoarrow array stream object that can be used to read the result set in batches.
+    #' to create a nanoarrow array stream object that can be used to read the result set in batches.
     query <- trivial_query(25, .ctx = ctx, .order_by = "a")
     result <- trivial_df(25)
 

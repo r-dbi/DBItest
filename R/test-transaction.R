@@ -2,7 +2,7 @@
 #' @aliases NULL
 #' @section Tests:
 #' [test_transaction()]:
-#'  Test transaction functions
+#' Test transaction functions
 NULL
 
 #' Test transaction functions

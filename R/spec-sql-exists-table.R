@@ -60,7 +60,7 @@ spec_sql_exists_table <- list(
   exists_table_name = function(ctx, con) {
     #' @section Specification:
     #' The `name` argument is processed as follows,
-    #'  to support databases that allow non-syntactic names for their objects:
+    #' to support databases that allow non-syntactic names for their objects:
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
     } else {

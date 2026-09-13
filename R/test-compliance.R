@@ -2,7 +2,7 @@
 #' @aliases NULL
 #' @section Tests:
 #' [test_compliance()]:
-#'  Test full compliance to DBI
+#' Test full compliance to DBI
 NULL
 
 #' Test full compliance to DBI

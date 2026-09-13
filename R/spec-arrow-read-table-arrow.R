@@ -15,7 +15,7 @@ spec_arrow_read_table_arrow <- list(
 
     #' @return
     #' `dbReadTableArrow()` returns an Arrow object that contains the complete data from the remote table,
-    #'  effectively the result of calling [dbGetQueryArrow()] with `SELECT * FROM <name>`.
+    #' effectively the result of calling [dbGetQueryArrow()] with `SELECT * FROM <name>`.
     penguins_in <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins_in)
     penguins_out <- check_arrow(dbReadTableArrow(con, table_name))
@@ -71,7 +71,7 @@ spec_arrow_read_table_arrow <- list(
   arrow_read_table_arrow_name = function(ctx, con) {
     #' @section Specification:
     #' The `name` argument is processed as follows,
-    #'  to support databases that allow non-syntactic names for their objects:
+    #' to support databases that allow non-syntactic names for their objects:
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
     } else {

@@ -32,7 +32,7 @@ spec_sql_append_table <- list(
 
   append_table_invalid_value = function(con, table_name) {
     #' or the new data in `values` is not a data frame or has different column names,
-    #'  an error is raised; the remote table remains unchanged.
+    #' an error is raised; the remote table remains unchanged.
     test_in <- trivial_df()
     dbCreateTable(con, table_name, test_in)
     expect_error(dbAppendTable(con, table_name, unclass(test_in)))
@@ -92,7 +92,7 @@ spec_sql_append_table <- list(
 
   append_roundtrip_quotes = function(ctx, con, table_name) {
     #' Quotes, commas, spaces, and other special characters such as newlines and tabs,
-    #'  can also be used in the data,
+    #' can also be used in the data,
     tbl_in <- data.frame(
       as.character(dbQuoteString(con, "")),
       as.character(dbQuoteIdentifier(con, "")),
@@ -108,7 +108,7 @@ spec_sql_append_table <- list(
 
   append_roundtrip_quotes_table_names = function(ctx, con) {
     #' and, if the database supports non-syntactic identifiers,
-    #'  also for table names
+    #' also for table names
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       skip("tweak: strict_identifier")
     }
@@ -150,7 +150,7 @@ spec_sql_append_table <- list(
   #'
   append_roundtrip_integer = function(con) {
     #' The following data types must be supported at least,
-    #'  and be read identically with [dbReadTable()]:
+    #' and be read identically with [dbReadTable()]:
     #' - integer
     tbl_in <- data.frame(a = 1:5)
     test_table_roundtrip(use_append = TRUE, con, tbl_in)
@@ -478,7 +478,7 @@ spec_sql_append_table <- list(
   append_table_name = function(ctx, con) {
     #' @section Specification:
     #' The `name` argument is processed as follows,
-    #'  to support databases that allow non-syntactic names for their objects:
+    #' to support databases that allow non-syntactic names for their objects:
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
     } else {
