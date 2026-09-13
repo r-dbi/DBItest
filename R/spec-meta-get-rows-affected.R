@@ -12,7 +12,7 @@ spec_meta_get_rows_affected <- list(
   rows_affected_statement = function(ctx, con, table_name) {
     #' @return
     #' `dbGetRowsAffected()` returns a scalar number (integer or numeric),
-    #' the number of rows affected by a data manipulation statement
+    #'  the number of rows affected by a data manipulation statement
     dbWriteTable(con, table_name, data.frame(a = 1:10))
 
     query <- paste0(

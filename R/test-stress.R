@@ -2,7 +2,7 @@
 #' @aliases NULL
 #' @section Tests:
 #' [test_stress()]:
-#' Stress tests (not tested with `test_all`)
+#'  Stress tests (not tested with `test_all`)
 NULL
 
 #' Stress tests

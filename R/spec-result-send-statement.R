@@ -44,7 +44,7 @@ spec_result_send_statement <- list(
 
   send_statement_syntax_error = function(con) {
     #' An error is also raised if the syntax of the query is invalid and all query parameters are given (by passing the `params` argument)
-    #' or the `immediate` argument is set to `TRUE`.
+    #'  or the `immediate` argument is set to `TRUE`.
     #'
     #' @section Failure modes:
     expect_error(dbSendStatement(con, "CREATTE", params = list()))
@@ -89,13 +89,13 @@ spec_result_send_statement <- list(
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbSendStatement()` generic
-  #' (to improve compatibility across backends)
-  #' but are part of the DBI specification:
+  #'  (to improve compatibility across backends)
+  #'  but are part of the DBI specification:
   #' - `params` (default: `NULL`)
   #' - `immediate` (default: `NULL`)
   #'
   #' They must be provided as named arguments.
-  #' See the "Specification" sections for details on their usage.
+  #'  See the "Specification" sections for details on their usage.
 
   send_statement_params = function(ctx, con) {
     #' @section Specification:

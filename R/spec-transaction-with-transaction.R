@@ -20,7 +20,7 @@ spec_transaction_with_transaction <- list(
   with_transaction_error_closed = function(ctx, closed_con) {
     #' @section Failure modes:
     #' Failure to initiate the transaction
-    #' (e.g., if the connection is closed
+    #'  (e.g., if the connection is closed
     expect_error(dbWithTransaction(closed_con, NULL))
   },
 
@@ -40,8 +40,8 @@ spec_transaction_with_transaction <- list(
   with_transaction_success = function(con, table_name) {
     #' @section Specification:
     #' `dbWithTransaction()` initiates a transaction with `dbBegin()`, executes
-    #' the code given in the `code` argument, and commits the transaction with
-    #' [dbCommit()].
+    #'  the code given in the `code` argument, and commits the transaction with
+    #'  [dbCommit()].
     dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
 
     dbWithTransaction(

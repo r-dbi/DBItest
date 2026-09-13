@@ -12,7 +12,7 @@ spec_sql_read_table <- list(
   read_table = function(ctx, con, table_name) {
     #' @return
     #' `dbReadTable()` returns a data frame that contains the complete data from the remote table,
-    #' effectively the result of calling [dbGetQuery()] with `SELECT * FROM <name>`.
+    #'  effectively the result of calling [dbGetQuery()] with `SELECT * FROM <name>`.
     penguins_in <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins_in)
     penguins_out <- check_df(dbReadTable(con, table_name))
@@ -42,7 +42,7 @@ spec_sql_read_table <- list(
   #'
   read_table_row_names_false = function(con) {
     #' The presence of [rownames] depends on the `row.names` argument,
-    #' see [sqlColumnToRownames()] for details:
+    #'  see [sqlColumnToRownames()] for details:
     #' - If `FALSE` or `NULL`, the returned data frame doesn't have row names.
     for (row.names in list(FALSE, NULL)) {
       table_name <- random_table_name()
@@ -211,18 +211,18 @@ spec_sql_read_table <- list(
 
   #' @section Additional arguments:
   #' The following arguments are not part of the `dbReadTable()` generic
-  #' (to improve compatibility across backends)
-  #' but are part of the DBI specification:
+  #'  (to improve compatibility across backends)
+  #'  but are part of the DBI specification:
   #' - `row.names` (default: `FALSE`)
   #' - `check.names`
   #'
   #' They must be provided as named arguments.
-  #' See the "Value" section for details on their usage.
+  #'  See the "Value" section for details on their usage.
 
   read_table_name = function(ctx, con) {
     #' @section Specification:
     #' The `name` argument is processed as follows,
-    #' to support databases that allow non-syntactic names for their objects:
+    #'  to support databases that allow non-syntactic names for their objects:
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
     } else {

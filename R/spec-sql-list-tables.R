@@ -36,7 +36,7 @@ spec_sql_list_tables <- list(
     table_name <- "dbit07"
 
     #' As soon a table is removed from the database,
-    #' it is also removed from the list of database tables.
+    #'  it is also removed from the list of database tables.
     tables <- dbListTables(con)
     expect_false(table_name %in% tables)
   },

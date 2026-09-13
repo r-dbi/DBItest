@@ -2,7 +2,7 @@
 #' @aliases NULL
 #' @section Tests:
 #' [test_driver()]:
-#' Test the "Driver" class
+#'  Test the "Driver" class
 NULL
 
 #' Test the "Driver" class

@@ -2,7 +2,7 @@
 #' @aliases NULL
 #' @section Tests:
 #' [test_getting_started()]:
-#' Getting started with testing
+#'  Getting started with testing
 NULL
 
 #' Getting started with testing
