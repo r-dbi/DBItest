@@ -39,9 +39,7 @@ spec_sql_quote_string <- list(
     empty_out <- dbQuoteString(con, character())
 
     #'
-    #' When passing the returned object again to `dbQuoteString()`
-    #' as `x`
-    #' argument, it is returned unchanged.
+    #' When passing the returned object again to `dbQuoteString()` as `x` argument, it is returned unchanged.
     expect_identical(dbQuoteString(con, simple_out), simple_out)
     expect_identical(dbQuoteString(con, letters_out), letters_out)
     expect_identical(dbQuoteString(con, empty_out), empty_out)
@@ -59,9 +57,7 @@ spec_sql_quote_string <- list(
     do_test_string <- function(x) {
       #' The returned expression can be used in a `SELECT ...` query,
       query <- paste0("SELECT ", toString(dbQuoteString(con, x)))
-      #' and for any scalar character `x` the value of
-      #' \code{dbGetQuery(paste0("SELECT ", dbQuoteString(x)))[[1]]}
-      #' must be identical to `x`,
+      #' and for any scalar character `x` the value of \code{dbGetQuery(paste0("SELECT ", dbQuoteString(x)))[[1]]} must be identical to `x`,
       x_out <- check_df(dbGetQuery(con, query))
       expect_equal(nrow(x_out), 1L)
       expect_identical(unlist(unname(x_out)), x)
@@ -92,8 +88,7 @@ spec_sql_quote_string <- list(
     # > length(test_chars) ** 3
     test_strings_0 <- expand_char(test_chars, "a", test_chars, "b", test_chars)
 
-    #' or is itself the result of a `dbQuoteString()` call coerced back to
-    #' character (even repeatedly).
+    #' or is itself the result of a `dbQuoteString()` call coerced back to character (even repeatedly).
     test_strings_1 <- as.character(dbQuoteString(con, test_strings_0))
     test_strings_2 <- as.character(dbQuoteString(con, test_strings_1))
 

@@ -208,8 +208,7 @@ spec_arrow_append_table_arrow <- list(
       use_append = TRUE,
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
-        #'     - converted a character vector, which gives the full decimal
-        #'       representation
+        #'     - converted a character vector, which gives the full decimal representation
         tbl_out$a <- as.character(tbl_out$a)
         tbl_out
       }
@@ -291,8 +290,7 @@ spec_arrow_append_table_arrow <- list(
   arrow_append_table_arrow_roundtrip_blob = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.8.0.41")
 
-    #' - objects of type [blob::blob]
-    #'   (if supported by the database)
+    #' - objects of type [blob::blob] (if supported by the database)
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }
@@ -309,8 +307,7 @@ spec_arrow_append_table_arrow <- list(
   },
 
   arrow_append_table_arrow_roundtrip_date = function(ctx, con) {
-    #' - date
-    #'   (if supported by the database;
+    #' - date (if supported by the database;
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
@@ -356,8 +353,7 @@ spec_arrow_append_table_arrow <- list(
   },
 
   arrow_append_table_arrow_roundtrip_time = function(ctx, con) {
-    #' - time
-    #'   (if supported by the database;
+    #' - time (if supported by the database;
     if (!isTRUE(ctx$tweaks$time_typed)) {
       skip("tweak: !time_typed")
     }
@@ -383,8 +379,7 @@ spec_arrow_append_table_arrow <- list(
   },
 
   arrow_append_table_arrow_roundtrip_timestamp = function(ctx, con) {
-    #' - timestamp
-    #'   (if supported by the database;
+    #' - timestamp (if supported by the database;
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
@@ -403,8 +398,7 @@ spec_arrow_append_table_arrow <- list(
     tbl_in$los_angeles <- lubridate::with_tz(local, tzone = "America/Los_Angeles")
     tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
-    #'   respecting the time zone but not necessarily preserving the
-    #'   input time zone),
+    #'   respecting the time zone but not necessarily preserving the input time zone),
     test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in,
@@ -447,8 +441,7 @@ spec_arrow_append_table_arrow <- list(
     tbl_in$los_angeles <- lubridate::with_tz(local, tzone = "America/Los_Angeles")
     tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
-    #'   respecting the time zone but not necessarily preserving the
-    #'   input time zone)
+    #'   respecting the time zone but not necessarily preserving the input time zone)
     test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in,

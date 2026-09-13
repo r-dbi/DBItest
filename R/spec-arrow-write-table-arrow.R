@@ -31,9 +31,8 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_append_incompatible = function(con, table_name) {
-    #' or `append = TRUE` and the data frame with the new data has different
-    #' column names,
-    #' an error is raised; the remote table remains unchanged.
+    #' or `append = TRUE` and the data frame with the new data has different column names, an error is raised;
+    #' the remote table remains unchanged.
     test_in <- data.frame(a = 1L)
     dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
     expect_error(dbWriteTableArrow(con, table_name, stream_frame(b = 2L), append = TRUE))
@@ -63,9 +62,7 @@ spec_arrow_write_table_arrow <- list(
     #' if this results in a non-scalar.
     expect_error(dbWriteTableArrow(con, c(table_name, table_name), test_in %>% stream_frame()))
 
-    #' Invalid values for the additional arguments
-    #' `overwrite`, `append`, and `temporary`
-    #' (non-scalars,
+    #' Invalid values for the additional arguments `overwrite`, `append`, and `temporary` (non-scalars,
     expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), overwrite = c(TRUE, FALSE)))
     expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), append = c(TRUE, FALSE)))
     expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), temporary = c(TRUE, FALSE)))
@@ -187,8 +184,7 @@ spec_arrow_write_table_arrow <- list(
   arrow_write_table_arrow_overwrite = function(ctx, con, table_name) {
     skip_if_not_dbitest(ctx, "1.8.0.37")
 
-    #' If the `overwrite` argument is `TRUE`, an existing table of the same name
-    #' will be overwritten.
+    #' If the `overwrite` argument is `TRUE`, an existing table of the same name will be overwritten.
     penguins <- get_penguins(ctx)
     dbWriteTableArrow(con, table_name, penguins)
     expect_error(
@@ -216,8 +212,7 @@ spec_arrow_write_table_arrow <- list(
   arrow_write_table_arrow_append = function(ctx, con, table_name) {
     skip_if_not_dbitest(ctx, "1.8.0.35")
 
-    #' If the `append` argument is `TRUE`, the rows in an existing table are
-    #' preserved, and the new data are appended.
+    #' If the `append` argument is `TRUE`, the rows in an existing table are preserved, and the new data are appended.
     penguins <- get_penguins(ctx)
     dbWriteTableArrow(con, table_name, penguins)
     expect_error(dbWriteTableArrow(con, table_name, penguins[1, ] %>% stream_frame(), append = TRUE), NA)
@@ -239,8 +234,7 @@ spec_arrow_write_table_arrow <- list(
   arrow_write_table_arrow_temporary_1 = function(ctx, con, table_name = "dbit08") {
     skip_if_not_dbitest(ctx, "1.8.0.33")
 
-    #' If the `temporary` argument is `TRUE`, the table is not available in a
-    #' second connection and is gone after reconnecting.
+    #' If the `temporary` argument is `TRUE`, the table is not available in a second connection and is gone after reconnecting.
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
@@ -262,8 +256,7 @@ spec_arrow_write_table_arrow <- list(
       skip("tweak: temporary_tables")
     }
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit08"
     expect_error(dbReadTable(con, table_name))
   },
@@ -274,8 +267,7 @@ spec_arrow_write_table_arrow <- list(
     #' A regular, non-temporary table is visible in a second connection,
     penguins30 <- get_penguins(ctx)
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit09"
 
     dbWriteTableArrow(local_con, table_name, penguins30 %>% stream_frame())
@@ -292,8 +284,7 @@ spec_arrow_write_table_arrow <- list(
     #' in a pre-existing connection,
     penguins30 <- get_penguins(ctx)
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit09"
 
     expect_equal_df(check_df(dbReadTable(con, table_name)), penguins30)
@@ -445,8 +436,7 @@ spec_arrow_write_table_arrow <- list(
     test_arrow_roundtrip(
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
-        #'     - converted a character vector, which gives the full decimal
-        #'       representation
+        #'     - converted a character vector, which gives the full decimal representation
         tbl_out$a <- as.character(tbl_out$a)
         tbl_out
       }
@@ -527,8 +517,7 @@ spec_arrow_write_table_arrow <- list(
   arrow_write_table_arrow_roundtrip_blob = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.8.0.18")
 
-    #' - objects of type [blob::blob]
-    #'   (if supported by the database)
+    #' - objects of type [blob::blob] (if supported by the database)
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }
@@ -544,8 +533,7 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_roundtrip_date = function(ctx, con) {
-    #' - date
-    #'   (if supported by the database;
+    #' - date (if supported by the database;
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
@@ -589,8 +577,7 @@ spec_arrow_write_table_arrow <- list(
   },
 
   arrow_write_table_arrow_roundtrip_time = function(ctx, con) {
-    #' - time
-    #'   (if supported by the database;
+    #' - time (if supported by the database;
     if (!isTRUE(ctx$tweaks$time_typed)) {
       skip("tweak: !time_typed")
     }
@@ -618,8 +605,7 @@ spec_arrow_write_table_arrow <- list(
   arrow_write_table_arrow_roundtrip_timestamp = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.8.0.17")
 
-    #' - timestamp
-    #'   (if supported by the database;
+    #' - timestamp (if supported by the database;
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
@@ -638,8 +624,7 @@ spec_arrow_write_table_arrow <- list(
     tbl_in$los_angeles <- lubridate::with_tz(local, tzone = "America/Los_Angeles")
     tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
-    #'   respecting the time zone but not necessarily preserving the
-    #'   input time zone),
+    #'   respecting the time zone but not necessarily preserving the input time zone),
     test_arrow_roundtrip(
       con, tbl_in,
       transform = function(out) {
@@ -681,8 +666,7 @@ spec_arrow_write_table_arrow <- list(
     tbl_in$los_angeles <- lubridate::with_tz(local, tzone = "America/Los_Angeles")
     tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
-    #'   respecting the time zone but not necessarily preserving the
-    #'   input time zone)
+    #'   respecting the time zone but not necessarily preserving the input time zone)
     test_arrow_roundtrip(
       con, tbl_in,
       transform = function(out) {

@@ -59,8 +59,7 @@ spec_meta_get_rows_affected <- list(
     query <- ctx$tweaks$create_table_empty(table_name)
     res <- dbSendStatement(con, query)
     dbClearResult(res)
-    #' Attempting to get the rows affected for a result set cleared with
-    #' [dbClearResult()] gives an error.
+    #' Attempting to get the rows affected for a result set cleared with [dbClearResult()] gives an error.
     expect_error(dbGetRowsAffected(res))
   },
   #

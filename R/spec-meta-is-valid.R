@@ -23,8 +23,8 @@ spec_meta_is_valid <- list(
   },
   #
   is_valid_stale_connection = function(ctx, invalid_con) {
-    #' For an invalid connection object (e.g., for some drivers if the object
-    #' is saved to a file and then restored), the method also returns `FALSE`.
+    #' For an invalid connection object (e.g., for some drivers if the object is saved to a file and then restored),
+    #' the method also returns `FALSE`.
     expect_false(expect_visible(dbIsValid(invalid_con)))
   },
   #
@@ -58,9 +58,9 @@ spec_meta_is_valid <- list(
     expect_false(dbIsValid(res))
   },
 
-  #' If the connection to the database system is dropped (e.g., due to
-  #' connectivity problems, server failure, etc.), `dbIsValid()` should return
-  #' `FALSE`. This is not tested automatically.
+  #' If the connection to the database system is dropped (e.g., due to connectivity problems, server failure, etc.),
+  #' `dbIsValid()` should return `FALSE`.
+  #' This is not tested automatically.
 
   NULL
 )

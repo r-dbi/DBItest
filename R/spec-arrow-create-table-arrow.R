@@ -50,8 +50,7 @@ spec_arrow_create_table_arrow <- list(
     #' if this results in a non-scalar.
     expect_error(dbCreateTableArrow(con, c(table_name, table_name), test_in))
 
-    #' Invalid values for the `temporary` argument
-    #' (non-scalars,
+    #' Invalid values for the `temporary` argument (non-scalars,
     expect_error(dbCreateTableArrow(con, table_name, test_in, temporary = c(TRUE, FALSE)))
     #' unsupported data types,
     expect_error(dbCreateTableArrow(con, table_name, fields = 1L))
@@ -171,8 +170,7 @@ spec_arrow_create_table_arrow <- list(
   arrow_create_table_arrow_temporary_1 = function(ctx, con, table_name = "dbit03") {
     skip_if_not_dbitest(ctx, "1.8.0.4")
 
-    #' If the `temporary` argument is `TRUE`, the table is not available in a
-    #' second connection and is gone after reconnecting.
+    #' If the `temporary` argument is `TRUE`, the table is not available in a second connection and is gone after reconnecting.
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
@@ -190,8 +188,7 @@ spec_arrow_create_table_arrow <- list(
   arrow_create_table_arrow_temporary_2 = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.8.0.4")
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit03"
     expect_error(dbReadTable(con, table_name))
   },
@@ -202,8 +199,7 @@ spec_arrow_create_table_arrow <- list(
     #' A regular, non-temporary table is visible in a second connection,
     penguins <- get_penguins(ctx)
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit04"
     dbCreateTableArrow(local_con, table_name, stream_frame(penguins))
     penguins_out <- check_df(dbReadTable(local_con, table_name))
@@ -218,8 +214,7 @@ spec_arrow_create_table_arrow <- list(
 
     penguins <- get_penguins(ctx)
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit04"
 
     #' in a pre-existing connection,

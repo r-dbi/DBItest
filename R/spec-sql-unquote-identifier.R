@@ -49,8 +49,7 @@ spec_sql_unquote_identifier <- list(
     for (obj in named_out) expect_s4_class(obj, "Id")
 
     #' If `x` is a value returned by `dbUnquoteIdentifier()`,
-    #' calling `dbUnquoteIdentifier(..., dbQuoteIdentifier(..., x))`
-    #' returns `list(x)`.
+    #' calling `dbUnquoteIdentifier(..., dbQuoteIdentifier(..., x))` returns `list(x)`.
     expect_identical(dbUnquoteIdentifier(con, simple_out[[1]]), simple_out)
     expect_identical(dbUnquoteIdentifier(con, letters_out[[1]]), letters_out[1])
     #' If `x` is an object of class [Id],
@@ -91,8 +90,7 @@ spec_sql_unquote_identifier <- list(
   },
   #
   unquote_identifier_special = function(ctx, con) {
-    #' This is also true for strings that
-    #' contain special characters such as a space,
+    #' This is also true for strings that contain special characters such as a space,
     with_space_in <- dbQuoteIdentifier(con, "with space")
     with_space_out <- dbUnquoteIdentifier(con, with_space_in)
     with_space_roundtrip <- dbQuoteIdentifier(con, with_space_out[[1]])
@@ -142,9 +140,8 @@ spec_sql_unquote_identifier <- list(
 
   #'
   unquote_identifier_simple = function(con) {
-    #' Unquoting simple strings (consisting of only letters) wrapped with [SQL()] and
-    #' then quoting via [dbQuoteIdentifier()] gives the same result as just
-    #' quoting the string.
+    #' Unquoting simple strings (consisting of only letters) wrapped with [SQL()]
+    #' and then quoting via [dbQuoteIdentifier()] gives the same result as just quoting the string.
     simple_in <- "simple"
     simple_quoted <- dbQuoteIdentifier(con, simple_in)
     simple_out <- dbUnquoteIdentifier(con, SQL(simple_in))
@@ -154,8 +151,7 @@ spec_sql_unquote_identifier <- list(
 
   unquote_identifier_table_schema = function(ctx, con) {
     #' Similarly, unquoting expressions of the form `SQL("schema.table")`
-    #' and then quoting gives the same result as quoting the identifier
-    #' constructed by `Id("schema", "table")`.
+    #' and then quoting gives the same result as quoting the identifier constructed by `Id("schema", "table")`.
     schema_in <- "schema"
     table_in <- "table"
     simple_quoted <- dbQuoteIdentifier(con, Id(schema_in, table_in))

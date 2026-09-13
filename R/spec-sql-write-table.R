@@ -29,9 +29,8 @@ spec_sql_write_table <- list(
   },
 
   write_table_append_incompatible = function(con, table_name) {
-    #' or `append = TRUE` and the data frame with the new data has different
-    #' column names,
-    #' an error is raised; the remote table remains unchanged.
+    #' or `append = TRUE` and the data frame with the new data has different column names, an error is raised;
+    #' the remote table remains unchanged.
     test_in <- data.frame(a = 1L)
     dbWriteTable(con, table_name, test_in)
     expect_error(dbWriteTable(con, table_name, data.frame(b = 2L), append = TRUE))
@@ -60,8 +59,7 @@ spec_sql_write_table <- list(
     expect_error(dbWriteTable(con, c(table_name, table_name), test_in))
 
     #' Invalid values for the additional arguments `row.names`,
-    #' `overwrite`, `append`, `field.types`, and `temporary`
-    #' (non-scalars,
+    #' `overwrite`, `append`, `field.types`, and `temporary` (non-scalars,
     expect_error(dbWriteTable(con, table_name, test_in, row.names = letters))
     expect_error(dbWriteTable(con, table_name, test_in, overwrite = c(TRUE, FALSE)))
     expect_error(dbWriteTable(con, table_name, test_in, append = c(TRUE, FALSE)))
@@ -196,8 +194,7 @@ spec_sql_write_table <- list(
 
   #'
   overwrite_table = function(ctx, con, table_name) {
-    #' If the `overwrite` argument is `TRUE`, an existing table of the same name
-    #' will be overwritten.
+    #' If the `overwrite` argument is `TRUE`, an existing table of the same name will be overwritten.
     penguins <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins)
     expect_error(
@@ -221,8 +218,7 @@ spec_sql_write_table <- list(
 
   #'
   append_table = function(ctx, con, table_name) {
-    #' If the `append` argument is `TRUE`, the rows in an existing table are
-    #' preserved, and the new data are appended.
+    #' If the `append` argument is `TRUE`, the rows in an existing table are preserved, and the new data are appended.
     penguins <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins)
     expect_error(dbWriteTable(con, table_name, penguins[1, ], append = TRUE), NA)
@@ -240,8 +236,7 @@ spec_sql_write_table <- list(
 
   #'
   temporary_table_1 = function(ctx, con, table_name = "dbit08") {
-    #' If the `temporary` argument is `TRUE`, the table is not available in a
-    #' second connection and is gone after reconnecting.
+    #' If the `temporary` argument is `TRUE`, the table is not available in a second connection and is gone after reconnecting.
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
@@ -261,8 +256,7 @@ spec_sql_write_table <- list(
       skip("tweak: temporary_tables")
     }
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit08"
     expect_error(dbReadTable(con, table_name))
   },
@@ -271,8 +265,7 @@ spec_sql_write_table <- list(
     #' A regular, non-temporary table is visible in a second connection,
     penguins30 <- get_penguins(ctx)
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit09"
 
     dbWriteTable(local_con, table_name, penguins30)
@@ -287,8 +280,7 @@ spec_sql_write_table <- list(
     #' in a pre-existing connection,
     penguins30 <- get_penguins(ctx)
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit09"
 
     expect_equal_df(check_df(dbReadTable(con, table_name)), penguins30)
@@ -427,8 +419,7 @@ spec_sql_write_table <- list(
     test_table_roundtrip(
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
-        #'     - converted a character vector, which gives the full decimal
-        #'       representation
+        #'     - converted a character vector, which gives the full decimal representation
         tbl_out$a <- as.character(tbl_out$a)
         tbl_out
       },
@@ -492,8 +483,7 @@ spec_sql_write_table <- list(
   },
 
   roundtrip_raw = function(ctx, con) {
-    #' - list of raw
-    #'   (if supported by the database)
+    #' - list of raw (if supported by the database)
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }
@@ -511,8 +501,7 @@ spec_sql_write_table <- list(
   },
 
   roundtrip_blob = function(ctx, con) {
-    #' - objects of type [blob::blob]
-    #'   (if supported by the database)
+    #' - objects of type [blob::blob] (if supported by the database)
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }
@@ -528,8 +517,7 @@ spec_sql_write_table <- list(
   },
 
   roundtrip_date = function(ctx, con) {
-    #' - date
-    #'   (if supported by the database;
+    #' - date (if supported by the database;
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
@@ -573,8 +561,7 @@ spec_sql_write_table <- list(
   },
 
   roundtrip_time = function(ctx, con) {
-    #' - time
-    #'   (if supported by the database;
+    #' - time (if supported by the database;
     if (!isTRUE(ctx$tweaks$time_typed)) {
       skip("tweak: !time_typed")
     }
@@ -600,8 +587,7 @@ spec_sql_write_table <- list(
   },
 
   roundtrip_timestamp = function(ctx, con) {
-    #' - timestamp
-    #'   (if supported by the database;
+    #' - timestamp (if supported by the database;
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
@@ -620,8 +606,7 @@ spec_sql_write_table <- list(
     tbl_in$los_angeles <- lubridate::with_tz(local, tzone = "America/Los_Angeles")
     tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
-    #'   respecting the time zone but not necessarily preserving the
-    #'   input time zone),
+    #'   respecting the time zone but not necessarily preserving the input time zone),
     test_table_roundtrip(
       con, tbl_in,
       transform = function(out) {
@@ -661,8 +646,7 @@ spec_sql_write_table <- list(
     tbl_in$los_angeles <- lubridate::with_tz(local, tzone = "America/Los_Angeles")
     tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
-    #'   respecting the time zone but not necessarily preserving the
-    #'   input time zone)
+    #'   respecting the time zone but not necessarily preserving the input time zone)
     test_table_roundtrip(
       con, tbl_in,
       transform = function(out) {
@@ -694,12 +678,10 @@ spec_sql_write_table <- list(
 
   #'
   roundtrip_field_types = function(ctx, con) {
-    #' The `field.types` argument must be a named character vector with at most
-    #' one entry for each column.
+    #' The `field.types` argument must be a named character vector with at most one entry for each column.
     #' It indicates the SQL data type to be used for a new column.
     tbl_in <- data.frame(a = numeric(), b = character(), stringsAsFactors = FALSE)
-    #' If a column is missed from `field.types`, the type is inferred
-    #' from the input data with [dbDataType()].
+    #' If a column is missed from `field.types`, the type is inferred from the input data with [dbDataType()].
     tbl_exp <- data.frame(a = integer(), b = character(), stringsAsFactors = FALSE)
     test_table_roundtrip(
       con, tbl_in, tbl_exp,
@@ -786,8 +768,7 @@ spec_sql_write_table <- list(
   #
   write_table_row_names_string_exists = function(ctx, con, table_name) {
     row.names <- "make_model"
-    #' - If a string, this specifies the name of the column in the remote table
-    #'   that contains the row names,
+    #' - If a string, this specifies the name of the column in the remote table that contains the row names,
 
     mtcars_in <- datasets::mtcars
 

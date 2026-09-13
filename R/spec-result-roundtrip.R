@@ -137,8 +137,7 @@ spec_result_roundtrip <- list(
 
   #'
   data_date_typed = function(ctx, con) {
-    #' If dates and timestamps are supported by the backend, the following R types are
-    #' used:
+    #' If dates and timestamps are supported by the backend, the following R types are used:
     #' - [Date][Dates] for dates
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
@@ -189,14 +188,12 @@ spec_result_roundtrip <- list(
   },
 
   #'
-  #' R has no built-in type with lossless support for the full range of 64-bit
-  #' or larger integers. If 64-bit integers are returned from a query,
+  #' R has no built-in type with lossless support for the full range of 64-bit or larger integers.
+  #' If 64-bit integers are returned from a query,
   #' the following rules apply:
-  #' - Values are returned in a container with support for the full range of
-  #'   valid 64-bit values (such as the `integer64` class of the \pkg{bit64}
-  #'   package)
-  #' - Coercion to numeric always returns a number that is as close as possible
-  #'   to the true value
+  #' - Values are returned in a container with support for the full range of valid 64-bit values
+  #'   (such as the `integer64` class of the \pkg{bit64} package)
+  #' - Coercion to numeric always returns a number that is as close as possible to the true value
   data_64_bit_numeric = function(ctx, con) {
     as_numeric_identical_to <- function(x) {
       map(x, function(xx) {
@@ -239,8 +236,7 @@ spec_result_roundtrip <- list(
     )
   },
 
-  #' - Conversion to character always returns a lossless decimal representation
-  #'   of the data
+  #' - Conversion to character always returns a lossless decimal representation of the data
   data_64_bit_lossless = function(ctx, con) {
     as_character_equals_to <- function(x) {
       map(x, function(xx) {
@@ -363,8 +359,8 @@ has_utf8_or_ascii_encoding <- function(x) {
   if (Encoding(x) == "UTF-8") {
     TRUE
   } else if (Encoding(x) == "unknown") {
-    # Characters encoded as "unknown" must be ASCII only, and remain "unknown"
-    # after attempting to assign an encoding. From ?Encoding :
+    # Characters encoded as "unknown" must be ASCII only, and remain "unknown" after attempting to assign an encoding.
+    # From ?Encoding :
     # > ASCII strings will never be marked with a declared encoding, since their
     # > representation is the same in all supported encodings.
     Encoding(x) <- "UTF-8"

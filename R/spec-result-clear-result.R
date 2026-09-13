@@ -12,8 +12,7 @@ spec_result_clear_result <- list(
 
   clear_result_return_query = function(con) {
     #' @return
-    #' `dbClearResult()` returns `TRUE`, invisibly, for result sets obtained from
-    #' `dbSendQuery()`,
+    #' `dbClearResult()` returns `TRUE`, invisibly, for result sets obtained from `dbSendQuery()`,
     res <- dbSendQuery(con, trivial_query())
     expect_invisible_true(dbClearResult(res))
   },

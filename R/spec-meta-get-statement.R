@@ -33,8 +33,7 @@ spec_meta_get_statement <- list(
     #' @section Failure modes:
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
-    #' Attempting to query the statement for a result set cleared with
-    #' [dbClearResult()] gives an error.
+    #' Attempting to query the statement for a result set cleared with [dbClearResult()] gives an error.
     expect_error(dbGetStatement(res))
   },
   #

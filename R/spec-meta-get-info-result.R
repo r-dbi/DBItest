@@ -28,8 +28,7 @@ spec_meta_get_info_result <- list(
       #' - `rows.affected`: the number of rows affected (for statements),
       #'   as returned by [dbGetRowsAffected()]
       "rows.affected",
-      #' - `has.completed`: a logical that indicates
-      #'   if the query or statement has completed,
+      #' - `has.completed`: a logical that indicates if the query or statement has completed,
       #'   as returned by [dbHasCompleted()].
       "has.completed"
     )

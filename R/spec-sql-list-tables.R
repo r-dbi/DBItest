@@ -32,8 +32,7 @@ spec_sql_list_tables <- list(
   },
   # second stage
   list_tables_2 = function(ctx, con) {
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit07"
 
     #' As soon a table is removed from the database,

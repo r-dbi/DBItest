@@ -63,8 +63,7 @@ spec_sql_remove_table <- list(
 
   #'
   remove_table_temporary_arg = function(ctx, con, table_name) {
-    #' If `temporary` is `TRUE`, the call to `dbRemoveTable()`
-    #' will consider only temporary tables.
+    #' If `temporary` is `TRUE`, the call to `dbRemoveTable()` will consider only temporary tables.
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
@@ -81,8 +80,7 @@ spec_sql_remove_table <- list(
 
   #'
   remove_table_missing_succeed = function(con, table_name) {
-    #' If `fail_if_missing` is `FALSE`, the call to `dbRemoveTable()`
-    #' succeeds if the table does not exist.
+    #' If `fail_if_missing` is `FALSE`, the call to `dbRemoveTable()` succeeds if the table does not exist.
     expect_error(dbRemoveTable(con, table_name, fail_if_missing = FALSE), NA)
   },
 
@@ -145,8 +143,7 @@ spec_sql_remove_table <- list(
 
     for (table_name in table_names) {
       local_remove_test_table(con, table_name)
-      #' - If an unquoted table name as string: `dbRemoveTable()` will do the
-      #'   quoting,
+      #' - If an unquoted table name as string: `dbRemoveTable()` will do the quoting,
       dbWriteTable(con, table_name, test_in)
       expect_true(dbRemoveTable(con, table_name))
       #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
