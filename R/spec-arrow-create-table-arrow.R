@@ -23,8 +23,8 @@ spec_arrow_create_table_arrow <- list(
     #' If the table exists, an error is raised; the remote table remains unchanged.
     test_in <- trivial_df()
 
-    dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
-    dbAppendTableArrow(con, table_name, test_in %>% stream_frame())
+    dbCreateTableArrow(con, table_name, stream_frame(test_in))
+    dbAppendTableArrow(con, table_name, stream_frame(test_in))
     expect_error(dbCreateTableArrow(con, table_name, stream_frame(b = 1L)))
 
     test_out <- check_df(dbReadTable(con, table_name))
@@ -92,7 +92,7 @@ spec_arrow_create_table_arrow <- list(
 
       local_remove_test_table(con, table_name)
       #' - If an unquoted table name as string: `dbCreateTableArrow()` will do the quoting,
-      dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
+      dbCreateTableArrow(con, table_name, stream_frame(test_in))
       test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
       expect_equal_df(test_out, test_in[0, , drop = FALSE])
       #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
@@ -113,7 +113,7 @@ spec_arrow_create_table_arrow <- list(
       test_in <- trivial_df()
 
       local_remove_test_table(con, table_name)
-      dbCreateTableArrow(con, dbQuoteIdentifier(con, table_name), test_in %>% stream_frame())
+      dbCreateTableArrow(con, dbQuoteIdentifier(con, table_name), stream_frame(test_in))
       test_out <- check_df(dbReadTable(con, table_name))
       expect_equal_df(test_out, test_in[0, , drop = FALSE])
     }
