@@ -39,9 +39,7 @@ spec_sql_quote_identifier <- list(
     named_out <- dbQuoteIdentifier(con, named)
     expect_named(named_out, letters[1:3])
 
-    #' When passing the returned object again to `dbQuoteIdentifier()`
-    #' as `x`
-    #' argument, it is returned unchanged.
+    #' When passing the returned object again to `dbQuoteIdentifier()` as `x` argument, it is returned unchanged.
     expect_identical(dbQuoteIdentifier(con, simple_out), simple_out)
     expect_identical(dbQuoteIdentifier(con, letters_out), letters_out)
     expect_identical(dbQuoteIdentifier(con, empty_out), empty_out)
@@ -85,9 +83,8 @@ spec_sql_quote_identifier <- list(
   },
 
   quote_identifier_string = function(ctx, con) {
-    #' The method must use a quoting mechanism that is unambiguously different
-    #' from the quoting mechanism used for strings, so that a query like
-    #' `SELECT ... FROM (SELECT 1 AS ...)`
+    #' The method must use a quoting mechanism that is unambiguously different from the quoting mechanism used for strings,
+    #' so that a query like `SELECT ... FROM (SELECT 1 AS ...)`
     query <- paste0(
       "SELECT ", dbQuoteIdentifier(con, "b"), " FROM (",
       "SELECT 1 AS ", dbQuoteIdentifier(con, "a"), ")"
@@ -99,8 +96,7 @@ spec_sql_quote_identifier <- list(
   #
   #'
   quote_identifier_special = function(ctx, con) {
-    #' The method can quote column names that
-    #' contain special characters such as a space,
+    #' The method can quote column names that contain special characters such as a space,
     with_space_in <- "with space"
     with_space <- dbQuoteIdentifier(con, with_space_in)
     #' a dot,
@@ -126,8 +122,7 @@ spec_sql_quote_identifier <- list(
       skip("tweak: strict_identifier")
     }
 
-    #' In any case, checking the validity of the identifier
-    #' should be performed only when executing a query,
+    #' In any case, checking the validity of the identifier should be performed only when executing a query,
     #' and not by `dbQuoteIdentifier()`.
     query <- paste0(
       "SELECT ",

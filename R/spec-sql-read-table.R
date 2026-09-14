@@ -11,9 +11,8 @@ spec_sql_read_table <- list(
 
   read_table = function(ctx, con, table_name) {
     #' @return
-    #' `dbReadTable()` returns a data frame that contains the complete data
-    #' from the remote table, effectively the result of calling [dbGetQuery()] with
-    #' `SELECT * FROM <name>`.
+    #' `dbReadTable()` returns a data frame that contains the complete data from the remote table,
+    #' effectively the result of calling [dbGetQuery()] with `SELECT * FROM <name>`.
     penguins_in <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins_in)
     penguins_out <- check_df(dbReadTable(con, table_name))
@@ -104,8 +103,7 @@ spec_sql_read_table <- list(
   },
   #
   read_table_row_names_string_exists = function(con, table_name) {
-    #' - If a string, this specifies the name of the column in the remote table
-    #'   that contains the row names.
+    #' - If a string, this specifies the name of the column in the remote table that contains the row names.
     row.names <- "make_model"
 
     mtcars_in <- datasets::mtcars
@@ -152,8 +150,7 @@ spec_sql_read_table <- list(
       skip("tweak: strict_identifier")
     }
 
-    #' the columns in the returned data frame are converted to valid R
-    #' identifiers
+    #' the columns in the returned data frame are converted to valid R identifiers
     test_in <- data.frame(a = 1:3, b = 4:6)
     names(test_in) <- c("with spaces", "with,comma")
     dbWriteTable(con, table_name, test_in)
@@ -202,8 +199,7 @@ spec_sql_read_table <- list(
     #' or if this results in a non-scalar.
     expect_error(dbReadTable(con, c(table_name, table_name)))
 
-    #' Unsupported values for `row.names` and `check.names`
-    #' (non-scalars,
+    #' Unsupported values for `row.names` and `check.names` (non-scalars,
     expect_error(dbReadTable(con, table_name, row.names = letters))
     #' unsupported data types,
     expect_error(dbReadTable(con, table_name, row.names = list(1L)))
@@ -238,8 +234,7 @@ spec_sql_read_table <- list(
       test_in <- data.frame(a = 1L)
       dbWriteTable(con, table_name, test_in)
 
-      #' - If an unquoted table name as string: `dbReadTable()` will do the
-      #'   quoting,
+      #' - If an unquoted table name as string: `dbReadTable()` will do the quoting,
       test_out <- check_df(dbReadTable(con, table_name))
       expect_equal_df(test_out, test_in)
       #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`

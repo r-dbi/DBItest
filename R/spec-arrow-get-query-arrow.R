@@ -11,9 +11,8 @@ spec_arrow_get_query_arrow <- list(
 
   arrow_get_query_arrow_atomic = function(con) {
     #' @return
-    #' `dbGetQueryArrow()` always returns an object coercible to a [data.frame], with
-    #' as many rows as records were fetched and as many
-    #' columns as fields in the result set,
+    #' `dbGetQueryArrow()` always returns an object coercible to a [data.frame],
+    #' with as many rows as records were fetched and as many columns as fields in the result set,
     #' even if the result is a single value
     query <- trivial_query()
 
@@ -68,10 +67,8 @@ spec_arrow_get_query_arrow <- list(
   },
 
   arrow_get_query_arrow_record_batch_reader = function(ctx, con) {
-    #' The object returned by `dbGetQueryArrow()` can also be passed to
-    #' [nanoarrow::as_nanoarrow_array_stream()] to create a nanoarrow
-    #' array stream object that can be used to read the result set
-    #' in batches.
+    #' The object returned by `dbGetQueryArrow()` can also be passed to [nanoarrow::as_nanoarrow_array_stream()]
+    #' to create a nanoarrow array stream object that can be used to read the result set in batches.
     query <- trivial_query(25, .ctx = ctx, .order_by = "a")
     result <- trivial_df(25)
 
@@ -119,11 +116,9 @@ spec_arrow_get_query_arrow <- list(
     #' and "prepared" APIs offered by many database drivers.
     #' Passing `immediate = TRUE` leads to immediate execution of the
     #' query or statement, via the "direct" API (if supported by the driver).
-    #' The default `NULL` means that the backend should choose whatever API
-    #' makes the most sense for the database, and (if relevant) tries the
-    #' other API if the first attempt fails. A successful second attempt
-    #' should result in a message that suggests passing the correct
-    #' `immediate` argument.
+    #' The default `NULL` means that the backend should choose whatever API makes the most sense for the database,
+    #' and (if relevant) tries the other API if the first attempt fails.
+    #' A successful second attempt should result in a message that suggests passing the correct `immediate` argument.
     #' Examples for possible behaviors:
     #' 1. DBI backend defaults to `immediate = TRUE` internally
     #'     1. A query without parameters is passed: query is executed

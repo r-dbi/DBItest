@@ -7,11 +7,12 @@
 make_placeholder_fun(pattern)
 }
 \arguments{
-\item{pattern}{\verb{[character(1)]}\cr Any character, optionally followed by \code{1} or \code{name}. Examples: \code{"?"}, \code{"$1"}, \code{":name"}}
+\item{pattern}{\verb{[character(1)]}\cr Any character, optionally followed by \code{1} or \code{name}.
+Examples: \code{"?"}, \code{"$1"}, \code{":name"}}
 }
 \value{
-\verb{[function(n)]}\cr A function with one argument \code{n} that
-returns a vector of length \code{n} with placeholders of the specified format.
+\verb{[function(n)]}\cr A function with one argument \code{n}
+that returns a vector of length \code{n} with placeholders of the specified format.
 }
 \description{
 For internal use by the \code{placeholder_format} tweak.

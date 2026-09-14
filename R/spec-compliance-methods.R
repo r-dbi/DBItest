@@ -36,9 +36,7 @@ spec_compliance_methods <- list(
 
       class <- classes[[1]]
 
-      #' The backend provides implementation for all methods
-      #' of these base classes
-      #' that are defined but not implemented by DBI.
+      #' The backend provides implementation for all methods of these base classes that are defined but not implemented by DBI.
       mapply(function(method, args) {
         expect_has_class_method(method, class, args, pkg)
       }, names(key_methods[[name]]), key_methods[[name]])
@@ -47,8 +45,7 @@ spec_compliance_methods <- list(
   },
 
   reexport = function(ctx) {
-    #' All methods defined in \pkg{DBI} are reexported (so that the package can
-    #' be used without having to attach \pkg{DBI}),
+    #' All methods defined in \pkg{DBI} are reexported (so that the package can be used without having to attach \pkg{DBI}),
     pkg <- package_name(ctx)
 
     where <- asNamespace(pkg)

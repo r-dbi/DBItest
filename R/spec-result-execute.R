@@ -19,8 +19,7 @@ spec_result_execute <- list(
     expect_length(ret, 1)
     #' numeric
     expect_true(is.numeric(ret)) # nolint: expect_type_linter. back-compatibility.
-    #' that specifies the number of rows affected
-    #' by the statement.
+    #' that specifies the number of rows affected by the statement.
   },
 
   #'

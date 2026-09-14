@@ -18,8 +18,7 @@ spec_sql_list_fields <- list(
     fields <- dbListFields(con, table_name)
     #' returns a character vector
     expect_type(fields, "character")
-    #' that enumerates all fields
-    #' in the table in the correct order.
+    #' that enumerates all fields in the table in the correct order.
     expect_identical(fields, names(penguins))
   },
   list_fields_temporary = function(ctx, con, table_name) {
@@ -45,8 +44,7 @@ spec_sql_list_fields <- list(
   },
 
   list_fields_invalid_type = function(con) {
-    #' Invalid types for the `name` argument
-    #' (e.g., `character` of length not equal to one,
+    #' Invalid types for the `name` argument (e.g., `character` of length not equal to one,
     expect_error(dbListFields(con, character()))
     expect_error(dbListFields(con, letters))
     #' or numeric)
@@ -79,8 +77,7 @@ spec_sql_list_fields <- list(
   },
 
   list_fields_object = function(con, table_name) {
-    #' - a value from the `table` column from the return value of
-    #'   [dbListObjects()] where `is_prefix` is `FALSE`
+    #' - a value from the `table` column from the return value of [dbListObjects()] where `is_prefix` is `FALSE`
     dbWriteTable(con, table_name, data.frame(a = 1L, b = 2L))
     objects <- dbListObjects(con)
     expect_gt(nrow(objects), 0)
