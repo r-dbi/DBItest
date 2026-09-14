@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -57,16 +57,14 @@ parameters, with <code>NULL</code> default:</p><ul><li><p><code>user</code> for 
 <li><p><code>port</code> for the port number (default: local connection)</p></li>
 <li><p><code>dbname</code> for the name of the database on the host, or the database file
 name</p></li>
-</ul><p>The defaults should provide reasonable behavior, in particular a
-local connection for <code>host = NULL</code>.  For some DBMS (e.g., PostgreSQL),
-this is different to a TCP/IP connection to <code>localhost</code>.</p>
-<p>In addition, DBI supports the <code>bigint</code> argument that governs how
-64-bit integer data is returned.  The following values are supported:</p><ul><li><p><code>"integer"</code>: always return as <code>integer</code>, silently overflow</p></li>
+</ul><p>The defaults should provide reasonable behavior, in particular a local connection for <code>host = NULL</code>.
+For some DBMS (e.g., PostgreSQL), this is different to a TCP/IP connection to <code>localhost</code>.</p>
+<p>In addition, DBI supports the <code>bigint</code> argument that governs how 64-bit integer data is returned.
+The following values are supported:</p><ul><li><p><code>"integer"</code>: always return as <code>integer</code>, silently overflow</p></li>
 <li><p><code>"numeric"</code>: always return as <code>numeric</code>, silently round</p></li>
 <li><p><code>"character"</code>: always return the decimal representation as <code>character</code></p></li>
-<li><p><code>"integer64"</code>: return as a data type that can be coerced using
-<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code> (with warning on overflow), <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric()</a></code>
-and <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code></p></li>
+<li><p><code>"integer64"</code>: return as a data type that can be coerced using <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">as.integer()</a></code> (with warning on overflow),
+<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">as.numeric()</a></code> and <code><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character()</a></code></p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

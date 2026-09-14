@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,8 +44,7 @@
     <p><code>dbExecute()</code> always returns a
 scalar
 numeric
-that specifies the number of rows affected
-by the statement.</p>
+that specifies the number of rows affected by the statement.</p>
     </div>
     <div class="section level2">
     <h2 id="failure-modes">Failure modes<a class="anchor" aria-label="anchor" href="#failure-modes"></a></h2>
@@ -83,11 +82,9 @@ See the "Specification" sections for details on their usage.</p>
 and "prepared" APIs offered by many database drivers.
 Passing <code>immediate = TRUE</code> leads to immediate execution of the
 query or statement, via the "direct" API (if supported by the driver).
-The default <code>NULL</code> means that the backend should choose whatever API
-makes the most sense for the database, and (if relevant) tries the
-other API if the first attempt fails. A successful second attempt
-should result in a message that suggests passing the correct
-<code>immediate</code> argument.
+The default <code>NULL</code> means that the backend should choose whatever API makes the most sense for the database,
+and (if relevant) tries the other API if the first attempt fails.
+A successful second attempt should result in a message that suggests passing the correct <code>immediate</code> argument.
 Examples for possible behaviors:</p><ol><li><p>DBI backend defaults to <code>immediate = TRUE</code> internally</p><ol><li><p>A query without parameters is passed: query is executed</p></li>
 <li><p>A query with parameters is passed:</p><ol><li><p><code>params</code> not given: rejected immediately by the database
 because of a syntax error in the query, the backend tries

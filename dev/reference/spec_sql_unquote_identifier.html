@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,8 +46,7 @@ of the same length as the input.
 For an empty vector, this function returns a length-0 object.
 The names of the input argument are preserved in the output.
 If <code>x</code> is a value returned by <code>dbUnquoteIdentifier()</code>,
-calling <code>dbUnquoteIdentifier(..., dbQuoteIdentifier(..., x))</code>
-returns <code>list(x)</code>.
+calling <code>dbUnquoteIdentifier(..., dbQuoteIdentifier(..., x))</code> returns <code>list(x)</code>.
 If <code>x</code> is an object of class <a href="https://dbi.r-dbi.org/reference/Id.html" class="external-link">Id</a>,
 calling <code>dbUnquoteIdentifier(..., x)</code> returns <code>list(x)</code>.
 (For backends it may be most convenient to return <a href="https://dbi.r-dbi.org/reference/Id.html" class="external-link">Id</a> objects
@@ -68,19 +67,16 @@ as the <code>x</code> argument.</p>
 
 <p>For any character vector of length one, quoting (with <code><a href="https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html" class="external-link">dbQuoteIdentifier()</a></code>)
 then unquoting then quoting the first element is identical to just quoting.
-This is also true for strings that
-contain special characters such as a space,
+This is also true for strings that contain special characters such as a space,
 a dot,
 a comma,
 or quotes used to mark strings
 or identifiers,
 if the database supports this.</p>
-<p>Unquoting simple strings (consisting of only letters) wrapped with <code><a href="https://dbi.r-dbi.org/reference/SQL.html" class="external-link">SQL()</a></code> and
-then quoting via <code><a href="https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html" class="external-link">dbQuoteIdentifier()</a></code> gives the same result as just
-quoting the string.
+<p>Unquoting simple strings (consisting of only letters) wrapped with <code><a href="https://dbi.r-dbi.org/reference/SQL.html" class="external-link">SQL()</a></code>
+and then quoting via <code><a href="https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html" class="external-link">dbQuoteIdentifier()</a></code> gives the same result as just quoting the string.
 Similarly, unquoting expressions of the form <code>SQL("schema.table")</code>
-and then quoting gives the same result as quoting the identifier
-constructed by <code>Id("schema", "table")</code>.</p>
+and then quoting gives the same result as quoting the identifier constructed by <code>Id("schema", "table")</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

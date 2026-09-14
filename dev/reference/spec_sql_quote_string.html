@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,9 +44,7 @@
     <p><code>dbQuoteString()</code> returns an object that can be coerced to <a href="https://rdrr.io/r/base/character.html" class="external-link">character</a>,
 of the same length as the input.
 For an empty character vector this function returns a length-0 object.</p>
-<p>When passing the returned object again to <code>dbQuoteString()</code>
-as <code>x</code>
-argument, it is returned unchanged.
+<p>When passing the returned object again to <code>dbQuoteString()</code> as <code>x</code> argument, it is returned unchanged.
 Passing objects of class <a href="https://dbi.r-dbi.org/reference/SQL.html" class="external-link">SQL</a> should also return them unchanged.
 (For backends it may be most convenient to return <a href="https://dbi.r-dbi.org/reference/SQL.html" class="external-link">SQL</a> objects
 to achieve this behavior, but this is not required.)</p>
@@ -56,9 +54,7 @@ to achieve this behavior, but this is not required.)</p>
 
 
 <p>The returned expression can be used in a <code>SELECT ...</code> query,
-and for any scalar character <code>x</code> the value of
-<code>dbGetQuery(paste0("SELECT ", dbQuoteString(x)))[[1]]</code>
-must be identical to <code>x</code>,
+and for any scalar character <code>x</code> the value of <code>dbGetQuery(paste0("SELECT ", dbQuoteString(x)))[[1]]</code> must be identical to <code>x</code>,
 even if <code>x</code> contains
 spaces,
 tabs,
@@ -67,8 +63,7 @@ or double),
 backticks,
 or newlines
 (in any combination)
-or is itself the result of a <code>dbQuoteString()</code> call coerced back to
-character (even repeatedly).
+or is itself the result of a <code>dbQuoteString()</code> call coerced back to character (even repeatedly).
 If <code>x</code> is <code>NA</code>, the result must merely satisfy <code><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na()</a></code>.
 The strings <code>"NA"</code> or <code>"NULL"</code> are not treated specially.</p>
 <p><code>NA</code> should be translated to an unquoted SQL <code>NULL</code>,

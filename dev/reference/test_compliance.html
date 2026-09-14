@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,23 +48,19 @@
 
 
 <dl><dt id="arg-skip">skip<a class="anchor" aria-label="anchor" href="#arg-skip"></a></dt>
-<dd><p><code>[character()]</code><br> A vector of regular expressions to match
-against test names; skip test if matching any.
-To improve precision, the regular expressions are matched against the
-entire test name minus a possible suffix <code>_N</code> where <code>N</code> is a number.
-For example, <code>skip = "exists_table"</code> will skip both
-<code>"exists_table_1"</code> and <code>"exists_table_2"</code>, but not <code>"there_exists_table"</code>.</p></dd>
+<dd><p><code>[character()]</code><br> A vector of regular expressions to match against test names; skip test if matching any.
+To improve precision,
+the regular expressions are matched against the entire test name minus a possible suffix <code>_N</code> where <code>N</code> is a number.
+For example, <code>skip = "exists_table"</code> will skip both <code>"exists_table_1"</code> and <code>"exists_table_2"</code>, but not <code>"there_exists_table"</code>.</p></dd>
 
 
 <dt id="arg-run-only">run_only<a class="anchor" aria-label="anchor" href="#arg-run-only"></a></dt>
-<dd><p><code>[character()]</code><br> A vector of regular expressions to match
-against test names; run only these tests.
+<dd><p><code>[character()]</code><br> A vector of regular expressions to match against test names; run only these tests.
 The regular expressions are matched against the entire test name.</p></dd>
 
 
 <dt id="arg-ctx">ctx<a class="anchor" aria-label="anchor" href="#arg-ctx"></a></dt>
-<dd><p><code>[DBItest_context]</code><br> A test context as created by
-<code><a href="context.html">make_context()</a></code>.</p></dd>
+<dd><p><code>[DBItest_context]</code><br> A test context as created by <code><a href="context.html">make_context()</a></code>.</p></dd>
 
 </dl></div>
     <div class="section level2">

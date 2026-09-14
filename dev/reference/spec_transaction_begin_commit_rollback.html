@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,8 +52,7 @@ but this is not tested.
 In any way, all generics throw an error with a closed
 or invalid connection.
 In addition, a call to <code>dbCommit()</code>
-or <code>dbRollback()</code>
-without a prior call to <code>dbBegin()</code> raises an error.
+or <code>dbRollback()</code> without a prior call to <code>dbBegin()</code> raises an error.
 Nested transactions are not supported by DBI,
 an attempt to call <code>dbBegin()</code> twice
 yields an error.</p>
@@ -74,19 +73,15 @@ and after the transaction,
 and also in a new connection.</p>
 <p>A transaction
 can also be aborted with <code>dbRollback()</code>.
-All data written in such a transaction must be removed after the
-transaction is rolled back.
+All data written in such a transaction must be removed after the transaction is rolled back.
 For example, a record that is missing when the transaction is started
 but is created during the transaction
 must not exist anymore after the rollback.</p>
 <p>Disconnection from a connection with an open transaction
 effectively rolls back the transaction.
-All data written in such a transaction must be removed after the
-transaction is rolled back.</p>
-<p>The behavior is not specified if other arguments are passed to these
-functions. In particular, <span class="pkg">RSQLite</span> issues named transactions
-with support for nesting
-if the <code>name</code> argument is set.</p>
+All data written in such a transaction must be removed after the transaction is rolled back.</p>
+<p>The behavior is not specified if other arguments are passed to these functions.
+In particular, <span class="pkg">RSQLite</span> issues named transactions with support for nesting if the <code>name</code> argument is set.</p>
 <p>The transaction isolation level is not specified by DBI.</p>
     </div>
     <div class="section level2">

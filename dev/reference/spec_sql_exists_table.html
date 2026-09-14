@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,8 +41,7 @@
 
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p><code>dbExistsTable()</code> returns a logical scalar, <code>TRUE</code> if the table or view
-specified by the <code>name</code> argument exists, <code>FALSE</code> otherwise.</p>
+    <p><code>dbExistsTable()</code> returns a logical scalar, <code>TRUE</code> if the table or view specified by the <code>name</code> argument exists, <code>FALSE</code> otherwise.</p>
 <p>This includes temporary tables if supported by the database.</p>
     </div>
     <div class="section level2">
@@ -60,8 +59,7 @@ if this results in a non-scalar.</p>
 
 
 <p>The <code>name</code> argument is processed as follows,
-to support databases that allow non-syntactic names for their objects:</p><ul><li><p>If an unquoted table name as string: <code>dbExistsTable()</code> will do the
-quoting,
+to support databases that allow non-syntactic names for their objects:</p><ul><li><p>If an unquoted table name as string: <code>dbExistsTable()</code> will do the quoting,
 perhaps by calling <code>dbQuoteIdentifier(conn, x = name)</code></p></li>
 <li><p>If the result of a call to <code><a href="https://dbi.r-dbi.org/reference/dbQuoteIdentifier.html" class="external-link">dbQuoteIdentifier()</a></code>: no more quoting is done</p></li>
 </ul><p>For all tables listed by <code><a href="https://dbi.r-dbi.org/reference/dbListTables.html" class="external-link">dbListTables()</a></code>, <code>dbExistsTable()</code> returns <code>TRUE</code>.</p>

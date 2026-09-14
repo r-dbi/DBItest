@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,8 +53,7 @@ even if fetching past the end of the result set.
 For queries with an empty result set,
 zero is returned
 even after fetching.
-For data manipulation statements issued with
-<code><a href="https://dbi.r-dbi.org/reference/dbSendStatement.html" class="external-link">dbSendStatement()</a></code>,
+For data manipulation statements issued with <code><a href="https://dbi.r-dbi.org/reference/dbSendStatement.html" class="external-link">dbSendStatement()</a></code>,
 zero is returned before
 and after calling <code>dbFetch()</code>.</p>
     </div>
@@ -62,8 +61,7 @@ and after calling <code>dbFetch()</code>.</p>
     <h2 id="failure-modes">Failure modes<a class="anchor" aria-label="anchor" href="#failure-modes"></a></h2>
 
 
-<p>Attempting to get the row count for a result set cleared with
-<code><a href="https://dbi.r-dbi.org/reference/dbClearResult.html" class="external-link">dbClearResult()</a></code> gives an error.</p>
+<p>Attempting to get the row count for a result set cleared with <code><a href="https://dbi.r-dbi.org/reference/dbClearResult.html" class="external-link">dbClearResult()</a></code> gives an error.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

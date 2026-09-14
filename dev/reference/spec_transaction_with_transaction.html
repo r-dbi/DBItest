@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -60,10 +60,8 @@ gives an error.</p>
 <p><code>dbWithTransaction()</code> initiates a transaction with <code>dbBegin()</code>, executes
 the code given in the <code>code</code> argument, and commits the transaction with
 <code><a href="https://dbi.r-dbi.org/reference/transactions.html" class="external-link">dbCommit()</a></code>.
-If the code raises an error, the transaction is instead aborted with
-<code><a href="https://dbi.r-dbi.org/reference/transactions.html" class="external-link">dbRollback()</a></code>, and the error is propagated.
-If the code calls <code>dbBreak()</code>, execution of the code stops and the
-transaction is silently aborted.
+If the code raises an error, the transaction is instead aborted with <code><a href="https://dbi.r-dbi.org/reference/transactions.html" class="external-link">dbRollback()</a></code>, and the error is propagated.
+If the code calls <code>dbBreak()</code>, execution of the code stops and the transaction is silently aborted.
 All side effects caused by the code
 (such as the creation of new variables)
 propagate to the calling environment.</p>

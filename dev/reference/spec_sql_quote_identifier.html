@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,9 +45,7 @@
 of the same length as the input.
 For an empty character vector this function returns a length-0 object.
 The names of the input argument are preserved in the output.
-When passing the returned object again to <code>dbQuoteIdentifier()</code>
-as <code>x</code>
-argument, it is returned unchanged.
+When passing the returned object again to <code>dbQuoteIdentifier()</code> as <code>x</code> argument, it is returned unchanged.
 Passing objects of class <a href="https://dbi.r-dbi.org/reference/SQL.html" class="external-link">SQL</a> should also return them unchanged.
 (For backends it may be most convenient to return <a href="https://dbi.r-dbi.org/reference/SQL.html" class="external-link">SQL</a> objects
 to achieve this behavior, but this is not required.)</p>
@@ -69,19 +67,16 @@ returns a data frame with the identifier, unquoted, as column name.
 Quoted identifiers can be used as table and column names in SQL queries,
 in particular in queries like <code>SELECT 1 AS ...</code>
 and <code>SELECT * FROM (SELECT 1) ...</code>.
-The method must use a quoting mechanism that is unambiguously different
-from the quoting mechanism used for strings, so that a query like
-<code>SELECT ... FROM (SELECT 1 AS ...)</code>
+The method must use a quoting mechanism that is unambiguously different from the quoting mechanism used for strings,
+so that a query like <code>SELECT ... FROM (SELECT 1 AS ...)</code>
 throws an error if the column names do not match.</p>
-<p>The method can quote column names that
-contain special characters such as a space,
+<p>The method can quote column names that contain special characters such as a space,
 a dot,
 a comma,
 or quotes used to mark strings
 or identifiers,
 if the database supports this.
-In any case, checking the validity of the identifier
-should be performed only when executing a query,
+In any case, checking the validity of the identifier should be performed only when executing a query,
 and not by <code>dbQuoteIdentifier()</code>.</p>
     </div>
     <div class="section level2">

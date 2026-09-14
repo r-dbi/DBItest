@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9008</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9009</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -44,8 +44,7 @@
     <p><code>dbDataType()</code> returns the SQL type that corresponds to the <code>obj</code> argument
 as a non-empty
 character string.
-For data frames, a character vector with one element per column
-is returned.</p>
+For data frames, a character vector with one element per column is returned.</p>
     </div>
     <div class="section level2">
     <h2 id="failure-modes">Failure modes<a class="anchor" aria-label="anchor" href="#failure-modes"></a></h2>
@@ -75,8 +74,7 @@ and <a href="https://rdrr.io/r/base/difftime.html" class="external-link">difftim
 If the database supports blobs,
 this method also must accept lists of <a href="https://rdrr.io/r/base/raw.html" class="external-link">raw</a> vectors,
 and <a href="https://blob.tidyverse.org/reference/blob.html" class="external-link">blob::blob</a> objects.
-As-is objects (i.e., wrapped by <code><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I()</a></code>) must be
-supported and return the same results as their unwrapped counterparts.
+As-is objects (i.e., wrapped by <code><a href="https://rdrr.io/r/base/AsIs.html" class="external-link">I()</a></code>) must be supported and return the same results as their unwrapped counterparts.
 The SQL data type for <a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a> and
 <a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered</a> is the same as for character.
 The behavior for other object types is not specified.</p>
