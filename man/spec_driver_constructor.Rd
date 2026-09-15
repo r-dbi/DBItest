@@ -9,12 +9,12 @@ spec_driver_constructor
 \section{Construction of the DBIDriver object}{
 
 The backend must support creation of an instance of its \link[DBI:DBIDriver-class]{DBIDriver} subclass with a \dfn{constructor function}.
-By default, its name is the package name without the leading \sQuote{R} (if it exists), e.g., \code{SQLite} for the \pkg{RSQLite} package.
-However, backend authors may choose a different name.
-The constructor must be exported, and
+ By default, its name is the package name without the leading \sQuote{R} (if it exists), e.g., \code{SQLite} for the \pkg{RSQLite} package.
+ However, backend authors may choose a different name.
+ The constructor must be exported, and
 it must be a function
 that is callable without arguments.
-DBI recommends to define a constructor with an empty argument list.
+ DBI recommends to define a constructor with an empty argument list.
 }
 
 \seealso{

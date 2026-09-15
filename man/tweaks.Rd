@@ -35,7 +35,7 @@ tweaks(
 \arguments{
 \item{...}{\verb{[any]}\cr
 Unknown tweaks are accepted, with a warning.
-The ellipsis also makes sure that you only can pass named arguments.}
+ The ellipsis also makes sure that you only can pass named arguments.}
 
 \item{constructor_name}{\verb{[character(1)]}\cr
 Name of the function that constructs the \code{Driver} object.}
@@ -60,7 +60,7 @@ Function that combines several subqueries into one so that the resulting query r
 \item{placeholder_pattern}{\verb{[character]}\cr
 A pattern for placeholders used in \code{\link[DBI:dbBind]{dbBind()}}, e.g.,
 \code{"?"}, \code{"$1"}, or \code{":name"}.
-See \code{\link[=make_placeholder_fun]{make_placeholder_fun()}} for details.}
+ See \code{\link[=make_placeholder_fun]{make_placeholder_fun()}} for details.}
 
 \item{logical_return}{\verb{[function(logical)]}\cr
 A vectorized function that converts logical values to the data type returned by the DBI backend.}
@@ -109,8 +109,8 @@ Compatible DBItest version, default: "1.7.1".}
 }
 \description{
 The tweaks are a way to control the behavior of certain tests.
-Currently, you need to search the \pkg{DBItest} source code to understand which tests are affected by which tweaks.
-This function is usually called to set the \code{tweaks} argument in a \code{\link[=make_context]{make_context()}} call.
+ Currently, you need to search the \pkg{DBItest} source code to understand which tests are affected by which tweaks.
+ This function is usually called to set the \code{tweaks} argument in a \code{\link[=make_context]{make_context()}} call.
 }
 \examples{
 \dontrun{

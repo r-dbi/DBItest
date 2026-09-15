@@ -5,10 +5,10 @@
 \title{spec_driver_connect}
 \value{
 \code{dbConnect()} returns an S4 object that inherits from \link[DBI:DBIConnection-class]{DBIConnection}.
-This object is used to communicate with the database engine.
+ This object is used to communicate with the database engine.
 
 A \code{\link[=format]{format()}} method is defined for the connection object.
-It returns a string that consists of a single line of text.
+ It returns a string that consists of a single line of text.
 }
 \description{
 spec_driver_connect
@@ -27,10 +27,10 @@ name
 }
 
 The defaults should provide reasonable behavior, in particular a local connection for \code{host = NULL}.
-For some DBMS (e.g., PostgreSQL), this is different to a TCP/IP connection to \code{localhost}.
+ For some DBMS (e.g., PostgreSQL), this is different to a TCP/IP connection to \code{localhost}.
 
 In addition, DBI supports the \code{bigint} argument that governs how 64-bit integer data is returned.
-The following values are supported:
+ The following values are supported:
 \itemize{
 \item \code{"integer"}: always return as \code{integer}, silently overflow
 \item \code{"numeric"}: always return as \code{numeric}, silently round

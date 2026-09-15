@@ -7,14 +7,14 @@
 \code{dbGetRowsAffected()} returns a scalar number (integer or numeric),
 the number of rows affected by a data manipulation statement
 issued with \code{\link[DBI:dbSendStatement]{dbSendStatement()}}.
-The value is available directly after the call
+ The value is available directly after the call
 and does not change after calling \code{\link[DBI:dbFetch]{dbFetch()}}.
-\code{NA_integer_} or \code{NA_numeric_} are allowed if the number of rows affected is not known.
+ \code{NA_integer_} or \code{NA_numeric_} are allowed if the number of rows affected is not known.
 
 For queries issued with \code{\link[DBI:dbSendQuery]{dbSendQuery()}},
 zero is returned before
 and after the call to \code{dbFetch()}.
-\code{NA} values are not allowed.
+ \code{NA} values are not allowed.
 }
 \description{
 spec_meta_get_rows_affected

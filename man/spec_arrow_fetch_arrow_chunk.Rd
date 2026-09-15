@@ -22,10 +22,10 @@ An attempt to fetch from a closed result set raises an error.
 
 Fetching multi-row queries with one
 or more columns returns the next chunk.
-The size of the chunk is implementation-specific.
-The object returned by \code{dbFetchArrowChunk()} can also be passed to \code{\link[nanoarrow:as_nanoarrow_array]{nanoarrow::as_nanoarrow_array()}}
+ The size of the chunk is implementation-specific.
+ The object returned by \code{dbFetchArrowChunk()} can also be passed to \code{\link[nanoarrow:as_nanoarrow_array]{nanoarrow::as_nanoarrow_array()}}
 to create a nanoarrow array object.
-The chunk size is implementation-specific.
+ The chunk size is implementation-specific.
 }
 
 \seealso{

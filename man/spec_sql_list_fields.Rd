@@ -7,8 +7,8 @@
 \code{dbListFields()}
 returns a character vector
 that enumerates all fields in the table in the correct order.
-This also works for temporary tables if supported by the database.
-The returned names are suitable for quoting with \code{dbQuoteIdentifier()}.
+ This also works for temporary tables if supported by the database.
+ The returned names are suitable for quoting with \code{dbQuoteIdentifier()}.
 }
 \description{
 spec_sql_list_fields
@@ -16,10 +16,10 @@ spec_sql_list_fields
 \section{Failure modes}{
 
 If the table does not exist, an error is raised.
-Invalid types for the \code{name} argument (e.g., \code{character} of length not equal to one,
+ Invalid types for the \code{name} argument (e.g., \code{character} of length not equal to one,
 or numeric)
 lead to an error.
-An error is also raised when calling this method for a closed
+ An error is also raised when calling this method for a closed
 or invalid connection.
 }
 

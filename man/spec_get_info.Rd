@@ -25,8 +25,8 @@ that contains at least the following components:
 \item \code{username}: username to connect to the database,
 \item \code{host}: hostname of the database server,
 \item \code{port}: port on the database server.
-It must not contain a \code{password} component.
-Components that are not applicable should be set to \code{NA}.
+ It must not contain a \code{password} component.
+ Components that are not applicable should be set to \code{NA}.
 }
 
 For objects of class \link[DBI:DBIResult-class]{DBIResult}, \code{dbGetInfo()}
