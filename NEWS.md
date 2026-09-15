@@ -1,5 +1,16 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.3.9010 (2026-09-15)
+
+## Documentation
+
+- Break lines at meaning boundaries (#563).
+
+- Drop the branch from the coverage badge (#562).
+
+- Use `pak::pak()` for the development install (#560).
+
+
 # DBItest 1.8.3.9009 (2026-09-13)
 
 ## Chore
