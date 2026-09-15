@@ -1,3 +1,6 @@
+---
+output: cynkratemplate::readme_document
+---
 
 <!-- README.md and index.md are generated from README.Rmd.
      Edit that file and render it the usual way: rmarkdown::render(), devtools::build_readme(), or the Knit button.
@@ -6,7 +9,6 @@
 # DBItest
 
 <!-- badges: start -->
-
 [![rcc](https://github.com/r-dbi/DBItest/workflows/rcc/badge.svg)](https://github.com/r-dbi/DBItest/actions)
 [![Codecov test coverage](https://codecov.io/gh/r-dbi/DBItest/graph/badge.svg)](https://app.codecov.io/gh/r-dbi/DBItest/tree/main)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/DBItest)](https://cran.r-project.org/package=DBItest)
@@ -17,6 +19,7 @@ This package is primarily useful for developers of [DBI](https://dbi.r-dbi.org) 
 It provides a considerable set of test cases for DBI backends.
 These test cases correspond to the [DBI specification](https://dbi.r-dbi.org/articles/spec).
 Please follow the steps below to add these test cases to your DBI backend.
+
 
 ## Goals and non-goals
 
@@ -46,13 +49,13 @@ It is explicitly not trying to:
 
 Install from CRAN via
 
-``` r
+```r
 install.packages("DBItest")
 ```
 
 or the development version using
 
-``` r
+```r
 # install.packages("pak")
 pak::pak("r-dbi/DBItest")
 ```
@@ -62,7 +65,7 @@ pak::pak("r-dbi/DBItest")
 In your driver package, add `DBItest` to the `Suggests:` and enable the tests.
 Run the following code in you package's directory:
 
-``` r
+```r
 # install.packages("usethis")
 usethis::use_package("DBItest", "suggests")
 usethis::use_test("DBItest")
@@ -71,7 +74,7 @@ usethis::use_test("DBItest")
 This enables testing using `testthat` (if necessary) and creates, among others, a file `test-DBItest.R` in the `tests/testthat` directory.
 Replace its entire contents by the following:
 
-``` r
+```r
 DBItest::make_context(Kazam(), NULL)
 DBItest::test_all()
 ```
@@ -86,7 +89,7 @@ Further reading:
 
 - The feature list in the [original proposal](https://github.com/r-dbi/DBItest/wiki/Proposal).
 
-------------------------------------------------------------------------
+---
 
 Please note that the 'DBItest' project is released with a [Contributor Code of Conduct](https://dbitest.r-dbi.org/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
