@@ -21,6 +21,9 @@ linters <- modify_defaults(
   object_usage_linter = NULL,
   one_call_pipe_linter = NULL,
   pipe_consistency_linter = NULL, # 51 occurrences, to fix
+  # DESCRIPTION requires R >= 4.1, so the pre-4.0 `stringsAsFactors = TRUE`
+  # default this linter guards against can no longer apply
+  strings_as_factors_linter = NULL,
   todo_comment_linter = NULL,
   undesirable_function_linter = NULL,
   unused_import_linter = NULL
