@@ -13,6 +13,30 @@ These test cases correspond to the [DBI specification](https://dbi.r-dbi.org/art
 Please follow the steps below to add these test cases to your DBI backend.
 
 
+## Goals and non-goals
+
+DBItest aims to:
+
+- Offer a ready-made test suite that covers the whole DBI specification,
+  run from a backend's own testthat setup with `make_context()` and `test_all()`.
+- Keep the specification and its tests in one place:
+  the prose in DBI's help pages and in `vignette("spec", package = "DBI")` is inherited from the comments interleaved with these test cases.
+- Support incremental adoption, with test functions that follow the sections of `vignette("backend", package = "DBI")`,
+  so that a new backend can switch them on one at a time.
+- Make the legitimate differences between database engines explicit and configurable, through `tweaks()` and the `skip` arguments.
+
+It is explicitly not trying to:
+
+- Serve people who only want to query a database.
+  The audience is developers of DBI backends.
+- Define the interface.
+  The generics, the classes and their documentation live in DBI; DBItest only checks conformity to them.
+- Connect to a database on its own.
+  The driver and the connection arguments come from the backend, through `make_context()`.
+- Demand that every backend pass every test case.
+  Some tests contradict each other on purpose, such as those for `logical` columns surviving a roundtrip,
+  and skipping is the supported answer for a feature a DBMS does not have.
+
 ## Installation
 
 Install from CRAN via
