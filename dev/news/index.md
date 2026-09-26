@@ -1,5 +1,19 @@
 # Changelog
 
+## DBItest 1.8.3.9010 (2026-09-15)
+
+### Documentation
+
+- Break lines at meaning boundaries
+  ([\#563](https://github.com/r-dbi/DBItest/issues/563)).
+
+- Drop the branch from the coverage badge
+  ([\#562](https://github.com/r-dbi/DBItest/issues/562)).
+
+- Use [`pak::pak()`](https://pak.r-lib.org/reference/pak.html) for the
+  development install
+  ([\#560](https://github.com/r-dbi/DBItest/issues/560)).
+
 ## DBItest 1.8.3.9009 (2026-09-13)
 
 ### Chore
