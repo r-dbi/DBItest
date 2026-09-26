@@ -119,6 +119,38 @@ spec_arrow_send_query_arrow <- list(
     }
   },
 
+  arrow_send_query_schema_stable = function(ctx, con, table_name) {
+    skip_if_not_dbitest(ctx, "1.8.3.6")
+
+    #' The schema of the result does not depend on the values bound to a query:
+    #' for a column with a declared type,
+    #' executing the same query with different parameters via [dbBind()]
+    #' returns chunks whose children have the same names and formats.
+    placeholder_funs <- get_placeholder_funs(ctx)
+
+    dbWriteTable(con, table_name, data.frame(a = c(1L, 2L)))
+    table_name_quoted <- dbQuoteIdentifier(con, table_name)
+
+    for (placeholder_fun in placeholder_funs) {
+      placeholder <- placeholder_fun(1)
+      query <- paste0("SELECT a FROM ", table_name_quoted, " WHERE a = ", placeholder)
+      rs <- dbSendQueryArrow(con, query)
+
+      formats <- map(1:2, function(value) {
+        params <- stats::setNames(list(value), names(placeholder))
+        dbBind(rs, params)
+        chunk <- dbFetchArrowChunk(rs)
+        expect_equal(check_arrow(chunk), data.frame(a = value), info = placeholder)
+        schema <- nanoarrow::infer_nanoarrow_schema(chunk)
+        expect_named(schema$children, "a")
+        map_chr(schema$children, ~ .x$format)
+      })
+      expect_identical(formats[[2]], formats[[1]], info = placeholder)
+
+      dbClearResult(rs)
+    }
+  },
+
   arrow_send_query_immediate = function(ctx, con, table_name) {
     skip_if_not_dbitest(ctx, "1.7.99.10")
 
