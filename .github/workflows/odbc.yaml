@@ -19,7 +19,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       # https://github.blog/changelog/2020-04-15-github-actions-new-workflow-features/
       - id: set-matrix
@@ -79,7 +79,6 @@ jobs:
     name: ${{ matrix.database }}
 
     env:
-      RSPM: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"
       ODBCSYSINI: ${{ github.workspace }}/.github/odbc
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
@@ -89,9 +88,10 @@ jobs:
           curl -s --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/rate_limit
         shell: bash
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
-      - uses: ./.github/workflows/install
+      - name: Install R and the package dependencies
+        uses: cynkra/cynkratemplate/.github/actions/install@main
         with:
           cache-version: backends-${{ matrix.package }}
           needs: check
