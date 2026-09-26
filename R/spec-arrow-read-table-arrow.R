@@ -43,6 +43,23 @@ spec_arrow_read_table_arrow <- list(
     expect_equal_df(penguins_out, penguins_in)
   },
 
+  arrow_read_table_arrow_64_bit = function(ctx, con, table_name) {
+    skip_if_not_dbitest(ctx, "1.8.3.5")
+    skip_if_not_installed("bit64")
+
+    #' A column of type `BIGINT` is returned as an Arrow column of type `int64`,
+    #' which converts to [bit64::integer64] without loss of precision.
+    tbl_in <- data.frame(a = c(-1e14, 1e15))
+    dbWriteTable(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
+
+    stream <- dbReadTableArrow(con, table_name)
+    schema <- nanoarrow::infer_nanoarrow_schema(stream)
+    expect_equal(schema$children$a$format, "l")
+
+    tbl_out <- nanoarrow::convert_array_stream(stream, to = data.frame(a = bit64::integer64()))
+    expect_equal(tbl_out, data.frame(a = bit64::as.integer64(tbl_in$a)))
+  },
+
   #'
   arrow_read_table_arrow_closed_connection = function(ctx, con, table_name) {
     #' @section Failure modes:
