@@ -19,7 +19,7 @@ An error is raised when issuing a query over a closed
 or invalid connection,
 if the syntax of the query is invalid,
 or if the query is not a non-\code{NA} string.
-If the \code{n} argument is not an atomic whole number greater or equal to -1 or Inf, an error is raised,
+ If the \code{n} argument is not an atomic whole number greater or equal to -1 or Inf, an error is raised,
 but a subsequent call to \code{dbGetQuery()} with proper \code{n} argument succeeds.
 }
 
@@ -35,7 +35,7 @@ but are part of the DBI specification:
 }
 
 They must be provided as named arguments.
-See the "Specification" and "Value" sections for details on their usage.
+ See the "Specification" and "Value" sections for details on their usage.
 }
 
 \section{Specification}{
@@ -44,12 +44,12 @@ See the "Specification" and "Value" sections for details on their usage.
 A column named \code{row_names} is treated like any other column.
 
 The \code{n} argument specifies the number of rows to be fetched.
-If omitted, fetching multi-row queries with one
+ If omitted, fetching multi-row queries with one
 or more columns returns the entire result.
-A value of \link{Inf} for the \code{n} argument is supported and also returns the full result.
-If more rows than available are fetched (by passing a too large value for \code{n}), the result is returned in full without warning.
-If zero rows are requested, the columns of the data frame are still fully typed.
-Fetching fewer rows than available is permitted,
+ A value of \link{Inf} for the \code{n} argument is supported and also returns the full result.
+ If more rows than available are fetched (by passing a too large value for \code{n}), the result is returned in full without warning.
+ If zero rows are requested, the columns of the data frame are still fully typed.
+ Fetching fewer rows than available is permitted,
 no warning is issued.
 
 The \code{param} argument allows passing query parameters, see \code{\link[DBI:dbBind]{dbBind()}} for details.
@@ -60,12 +60,12 @@ The \code{param} argument allows passing query parameters, see \code{\link[DBI:d
 
 The \code{immediate} argument supports distinguishing between "direct"
 and "prepared" APIs offered by many database drivers.
-Passing \code{immediate = TRUE} leads to immediate execution of the
+ Passing \code{immediate = TRUE} leads to immediate execution of the
 query or statement, via the "direct" API (if supported by the driver).
-The default \code{NULL} means that the backend should choose whatever API makes the most sense for the database,
+ The default \code{NULL} means that the backend should choose whatever API makes the most sense for the database,
 and (if relevant) tries the other API if the first attempt fails.
-A successful second attempt should result in a message that suggests passing the correct \code{immediate} argument.
-Examples for possible behaviors:
+ A successful second attempt should result in a message that suggests passing the correct \code{immediate} argument.
+ Examples for possible behaviors:
 \enumerate{
 \item DBI backend defaults to \code{immediate = TRUE} internally
 \enumerate{

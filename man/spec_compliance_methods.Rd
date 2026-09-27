@@ -13,8 +13,8 @@ which are subclasses of
 \link[DBI:DBIDriver-class]{DBIDriver},
 \link[DBI:DBIConnection-class]{DBIConnection},
 and \link[DBI:DBIResult-class]{DBIResult}.
-The backend provides implementation for all methods of these base classes that are defined but not implemented by DBI.
-All methods defined in \pkg{DBI} are reexported (so that the package can be used without having to attach \pkg{DBI}),
+ The backend provides implementation for all methods of these base classes that are defined but not implemented by DBI.
+ All methods defined in \pkg{DBI} are reexported (so that the package can be used without having to attach \pkg{DBI}),
 and have an ellipsis \code{...} in their formals for extensibility.
 }
 

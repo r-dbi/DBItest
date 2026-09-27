@@ -40,7 +40,7 @@ If dates and timestamps are supported by the backend, the following R types are 
 }
 
 R has no built-in type with lossless support for the full range of 64-bit or larger integers.
-If 64-bit integers are returned from a query,
+ If 64-bit integers are returned from a query,
 the following rules apply:
 \itemize{
 \item Values are returned in a container with support for the full range of valid 64-bit values

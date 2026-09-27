@@ -31,7 +31,7 @@ but are part of the DBI specification:
 }
 
 They must be provided as named arguments.
-See the "Specification" sections for details on their usage.
+ See the "Specification" sections for details on their usage.
 }
 
 \section{Specification}{
@@ -45,12 +45,12 @@ The \code{param} argument allows passing query parameters, see \code{\link[DBI:d
 
 The \code{immediate} argument supports distinguishing between "direct"
 and "prepared" APIs offered by many database drivers.
-Passing \code{immediate = TRUE} leads to immediate execution of the
+ Passing \code{immediate = TRUE} leads to immediate execution of the
 query or statement, via the "direct" API (if supported by the driver).
-The default \code{NULL} means that the backend should choose whatever API makes the most sense for the database,
+ The default \code{NULL} means that the backend should choose whatever API makes the most sense for the database,
 and (if relevant) tries the other API if the first attempt fails.
-A successful second attempt should result in a message that suggests passing the correct \code{immediate} argument.
-Examples for possible behaviors:
+ A successful second attempt should result in a message that suggests passing the correct \code{immediate} argument.
+ Examples for possible behaviors:
 \enumerate{
 \item DBI backend defaults to \code{immediate = TRUE} internally
 \enumerate{

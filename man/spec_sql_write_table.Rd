@@ -17,10 +17,10 @@ the remote table remains unchanged.
 
 An error is raised when calling this method for a closed
 or invalid connection.
-An error is also raised
+ An error is also raised
 if \code{name} cannot be processed with \code{\link[DBI:dbQuoteIdentifier]{dbQuoteIdentifier()}} or
 if this results in a non-scalar.
-Invalid values for the additional arguments \code{row.names},
+ Invalid values for the additional arguments \code{row.names},
 \code{overwrite}, \code{append}, \code{field.types}, and \code{temporary} (non-scalars,
 unsupported data types,
 \code{NA},
@@ -45,7 +45,7 @@ but are part of the DBI specification:
 }
 
 They must be provided as named arguments.
-See the "Specification" and "Value" sections for details on their usage.
+ See the "Specification" and "Value" sections for details on their usage.
 }
 
 \section{Specification}{
@@ -60,22 +60,22 @@ perhaps by calling \code{dbQuoteIdentifier(conn, x = name)}
 
 The \code{value} argument must be a data frame
 with a subset of the columns of the existing table if \code{append = TRUE}.
-The order of the columns does not matter with \code{append = TRUE}.
+ The order of the columns does not matter with \code{append = TRUE}.
 
 If the \code{overwrite} argument is \code{TRUE}, an existing table of the same name will be overwritten.
-This argument doesn't change behavior if the table does not exist yet.
+ This argument doesn't change behavior if the table does not exist yet.
 
 If the \code{append} argument is \code{TRUE}, the rows in an existing table are preserved, and the new data are appended.
-If the table doesn't exist yet, it is created.
+ If the table doesn't exist yet, it is created.
 
 If the \code{temporary} argument is \code{TRUE}, the table is not available in a second connection and is gone after reconnecting.
-Not all backends support this argument.
-A regular, non-temporary table is visible in a second connection,
+ Not all backends support this argument.
+ A regular, non-temporary table is visible in a second connection,
 in a pre-existing connection,
 and after reconnecting to the database.
 
 SQL keywords can be used freely in table names, column names, and data.
-Quotes, commas, spaces, and other special characters such as newlines and tabs,
+ Quotes, commas, spaces, and other special characters such as newlines and tabs,
 can also be used in the data,
 and, if the database supports non-syntactic identifiers,
 also for table names
@@ -117,8 +117,8 @@ respecting the time zone but not necessarily preserving the input time zone)
 Mixing column types in the same table is supported.
 
 The \code{field.types} argument must be a named character vector with at most one entry for each column.
-It indicates the SQL data type to be used for a new column.
-If a column is missed from \code{field.types}, the type is inferred from the input data with \code{\link[DBI:dbDataType]{dbDataType()}}.
+ It indicates the SQL data type to be used for a new column.
+ If a column is missed from \code{field.types}, the type is inferred from the input data with \code{\link[DBI:dbDataType]{dbDataType()}}.
 
 The interpretation of \link{rownames} depends on the \code{row.names} argument,
 see \code{\link[DBI:sqlRownamesToColumn]{sqlRownamesToColumn()}} for details:

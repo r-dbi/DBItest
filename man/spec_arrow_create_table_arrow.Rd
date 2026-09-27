@@ -15,10 +15,10 @@ If the table exists, an error is raised; the remote table remains unchanged.
 
 An error is raised when calling this method for a closed
 or invalid connection.
-An error is also raised
+ An error is also raised
 if \code{name} cannot be processed with \code{\link[DBI:dbQuoteIdentifier]{dbQuoteIdentifier()}} or
 if this results in a non-scalar.
-Invalid values for the \code{temporary} argument (non-scalars,
+ Invalid values for the \code{temporary} argument (non-scalars,
 unsupported data types,
 \code{NA},
 incompatible values,
@@ -36,7 +36,7 @@ but are part of the DBI specification:
 }
 
 They must be provided as named arguments.
-See the "Specification" and "Value" sections for details on their usage.
+ See the "Specification" and "Value" sections for details on their usage.
 }
 
 \section{Specification}{
@@ -59,13 +59,13 @@ The \code{value} argument can be:
 }
 
 If the \code{temporary} argument is \code{TRUE}, the table is not available in a second connection and is gone after reconnecting.
-Not all backends support this argument.
-A regular, non-temporary table is visible in a second connection,
+ Not all backends support this argument.
+ A regular, non-temporary table is visible in a second connection,
 in a pre-existing connection,
 and after reconnecting to the database.
 
 SQL keywords can be used freely in table names, column names, and data.
-Quotes, commas, and spaces can also be used  for table names and column names,
+ Quotes, commas, and spaces can also be used  for table names and column names,
 if the database supports non-syntactic identifiers.
 }
 

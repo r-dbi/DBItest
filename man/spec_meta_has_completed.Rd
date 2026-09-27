@@ -5,10 +5,10 @@
 \title{spec_meta_has_completed}
 \value{
 \code{dbHasCompleted()} returns a logical scalar.
-For a query initiated by \code{\link[DBI:dbSendQuery]{dbSendQuery()}} with non-empty result set,
+ For a query initiated by \code{\link[DBI:dbSendQuery]{dbSendQuery()}} with non-empty result set,
 \code{dbHasCompleted()} returns \code{FALSE} initially
 and \code{TRUE} after calling \code{\link[DBI:dbFetch]{dbFetch()}} without limit.
-For a query initiated by \code{\link[DBI:dbSendStatement]{dbSendStatement()}},
+ For a query initiated by \code{\link[DBI:dbSendStatement]{dbSendStatement()}},
 \code{dbHasCompleted()} always returns \code{TRUE}.
 }
 \description{
@@ -23,7 +23,7 @@ Attempting to query completion status for a result set cleared with \code{\link[
 
 The completion status for a query is only guaranteed to be set to
 \code{FALSE} after attempting to fetch past the end of the entire result.
-Therefore, for a query with an empty result set,
+ Therefore, for a query with an empty result set,
 the initial return value is unspecified,
 but the result value is \code{TRUE} after trying to fetch only one row.
 

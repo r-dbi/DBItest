@@ -12,11 +12,11 @@ spec_sql_remove_table
 \section{Failure modes}{
 
 If the table does not exist, an error is raised.
-An attempt to remove a view with this function may result in an error.
+ An attempt to remove a view with this function may result in an error.
 
 An error is raised when calling this method for a closed
 or invalid connection.
-An error is also raised
+ An error is also raised
 if \code{name} cannot be processed with \code{\link[DBI:dbQuoteIdentifier]{dbQuoteIdentifier()}} or
 if this results in a non-scalar.
 }
@@ -34,8 +34,8 @@ but are part of the DBI specification:
 These arguments must be provided as named arguments.
 
 If \code{temporary} is \code{TRUE}, the call to \code{dbRemoveTable()} will consider only temporary tables.
-Not all backends support this argument.
-In particular, permanent tables of the same name are left untouched.
+ Not all backends support this argument.
+ In particular, permanent tables of the same name are left untouched.
 
 If \code{fail_if_missing} is \code{FALSE}, the call to \code{dbRemoveTable()} succeeds if the table does not exist.
 }
@@ -45,8 +45,8 @@ If \code{fail_if_missing} is \code{FALSE}, the call to \code{dbRemoveTable()} su
 A table removed by \code{dbRemoveTable()} doesn't appear in the list of tables
 returned by \code{\link[DBI:dbListTables]{dbListTables()}},
 and \code{\link[DBI:dbExistsTable]{dbExistsTable()}} returns \code{FALSE}.
-The removal propagates immediately to other connections to the same database.
-This function can also be used to remove a temporary table.
+ The removal propagates immediately to other connections to the same database.
+ This function can also be used to remove a temporary table.
 
 The \code{name} argument is processed as follows,
 to support databases that allow non-syntactic names for their objects:

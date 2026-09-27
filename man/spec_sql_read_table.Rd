@@ -45,10 +45,10 @@ An error is raised if \code{row.names} is set to a string and no corresponding c
 
 An error is raised when calling this method for a closed
 or invalid connection.
-An error is raised
+ An error is raised
 if \code{name} cannot be processed with \code{\link[DBI:dbQuoteIdentifier]{dbQuoteIdentifier()}}
 or if this results in a non-scalar.
-Unsupported values for \code{row.names} and \code{check.names} (non-scalars,
+ Unsupported values for \code{row.names} and \code{check.names} (non-scalars,
 unsupported data types,
 \code{NA} for \code{check.names})
 also raise an error.
@@ -65,7 +65,7 @@ but are part of the DBI specification:
 }
 
 They must be provided as named arguments.
-See the "Value" section for details on their usage.
+ See the "Value" section for details on their usage.
 }
 
 \section{Specification}{

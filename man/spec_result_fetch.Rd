@@ -8,7 +8,7 @@
 even if the result is a single value
 or has one
 or zero rows.
-Passing \code{n = NA} is supported and returns an arbitrary number of rows (at least one) as specified by the driver,
+ Passing \code{n = NA} is supported and returns an arbitrary number of rows (at least one) as specified by the driver,
 but at most the remaining rows in the result set.
 }
 \description{
@@ -17,7 +17,7 @@ spec_result_fetch
 \section{Failure modes}{
 
 An attempt to fetch from a closed result set raises an error.
-If the \code{n} argument is not an atomic whole number greater or equal to -1 or Inf, an error is raised,
+ If the \code{n} argument is not an atomic whole number greater or equal to -1 or Inf, an error is raised,
 but a subsequent call to \code{dbFetch()} with proper \code{n} argument succeeds.
 
 Calling \code{dbFetch()} on a result set from a data manipulation query created by \code{\link[DBI:dbSendStatement]{dbSendStatement()}} can be fetched
@@ -28,15 +28,15 @@ and return an empty data frame, with a warning.
 
 Fetching multi-row queries with one
 or more columns by default returns the entire result.
-Multi-row queries can also be fetched progressively
+ Multi-row queries can also be fetched progressively
 by passing a whole number (\link{integer} or
 \link{numeric})
 as the \code{n} argument.
-A value of \link{Inf} for the \code{n} argument is supported and also returns the full result.
-If more rows than available are fetched, the result is returned in full without warning.
-If fewer rows than requested are returned, further fetches will return a data frame with zero rows.
-If zero rows are fetched, the columns of the data frame are still fully typed.
-Fetching fewer rows than available is permitted,
+ A value of \link{Inf} for the \code{n} argument is supported and also returns the full result.
+ If more rows than available are fetched, the result is returned in full without warning.
+ If fewer rows than requested are returned, further fetches will return a data frame with zero rows.
+ If zero rows are fetched, the columns of the data frame are still fully typed.
+ Fetching fewer rows than available is permitted,
 no warning is issued when clearing the result set.
 
 A column named \code{row_names} is treated like any other column.
