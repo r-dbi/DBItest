@@ -49,7 +49,7 @@ issuing a second query invalidates an already open result set and raises a warni
 and must be cleared with \code{dbClearResult()}.
 
 The \code{param} argument allows passing query parameters, see \code{\link[DBI:dbBind]{dbBind()}} for details.
-The schema of the result does not depend on the values bound to a query:
+ The schema of the result does not depend on the values bound to a query:
 for a column with a declared type,
 executing the same query with different parameters via \code{\link[DBI:dbBind]{dbBind()}}
 returns chunks whose children have the same names and formats.
