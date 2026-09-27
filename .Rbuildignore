@@ -18,3 +18,5 @@
 ^tests/testthat/helper-dev\.R$
 ^CLAUDE\.md$
 ^\.ccache$
+^index\.md$
+^README\.Rmd$
