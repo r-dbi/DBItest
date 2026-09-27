@@ -352,7 +352,7 @@ spec_meta_bind_expr <- function(
     },
 
     bind_factor = function() {
-      #' - [factor] (bound as character,
+      #' - [factor][base::factor] (bound as character,
       #' with warning)
       test_select_bind_expr(
         arrow = arrow,
