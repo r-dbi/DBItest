@@ -19,9 +19,19 @@ An error is raised when issuing a query over a closed
 or invalid connection,
 if the syntax of the query is invalid,
 or if the query is not a non-\code{NA} string.
+}
+
+\section{Specification}{
+
 The object returned by \code{dbGetQueryArrow()} can also be passed to \code{\link[nanoarrow:as_nanoarrow_array_stream]{nanoarrow::as_nanoarrow_array_stream()}}
 to create a nanoarrow array stream object that can be used to read the result set in batches.
 The chunk size is implementation-specific.
+The schema of the result is available before any batch is consumed:
+\code{\link[nanoarrow:infer_nanoarrow_schema]{nanoarrow::infer_nanoarrow_schema()}} applied to the object returned by \code{dbGetQueryArrow()}
+gives a struct schema with one child per column, named like the columns.
+Inspecting the schema does not consume the stream.
+The schema is complete even if the result has zero rows:
+it has as many children as the result has columns, named like the columns.
 }
 
 \section{Additional arguments}{

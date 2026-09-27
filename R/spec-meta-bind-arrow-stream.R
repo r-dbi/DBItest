@@ -482,7 +482,7 @@ spec_meta_arrow_stream_bind <- list(
   },
   arrow_stream_bind_factor = function(ctx, con) {
     # <R/spec-meta-bind-expr.R:354>
-    # - [factor] (bound as character,
+    # - [factor][base::factor] (bound as character,
     # with warning)
     placeholder_funs <- get_placeholder_funs(ctx)
     is_null_check <- ctx$tweaks$is_null_check

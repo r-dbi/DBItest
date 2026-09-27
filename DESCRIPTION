@@ -1,7 +1,7 @@
 Package: DBItest
 Title: Testing DBI Backends
-Version: 1.8.3.9010
-Date: 2026-09-15
+Version: 1.8.3.9011
+Date: 2026-09-26
 Authors@R: c(
     person("Kirill", "Müller", , "kirill@cynkra.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-1416-3412")),
@@ -14,7 +14,7 @@ License: LGPL (>= 2.1)
 URL: https://dbitest.r-dbi.org, https://github.com/r-dbi/DBItest
 BugReports: https://github.com/r-dbi/DBItest/issues
 Depends: 
-    R (>= 3.2.0)
+    R (>= 4.1)
 Imports: 
     blob (>= 1.2.0),
     callr,

@@ -91,6 +91,44 @@ spec_arrow_fetch_arrow_chunk <- list(
     expect_equal(out, head(result, nrow(out)))
   },
 
+  arrow_fetch_arrow_chunk_schema = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.3.4")
+
+    #' Each chunk carries the schema of the result:
+    #' [nanoarrow::infer_nanoarrow_schema()] applied to the object returned by `dbFetchArrowChunk()`
+    #' gives a struct schema with one child per column, named like the columns.
+    #' The names and formats of the children are the same for all chunks of a result,
+    #' including the zero-length chunk returned after [dbHasCompleted()] has returned `TRUE`.
+    query <- trivial_query(25, .ctx = ctx, .order_by = "a")
+    result <- trivial_df(25)
+
+    res <- local_result(dbSendQueryArrow(con, query))
+
+    chunks <- list()
+    formats <- list()
+    while (!dbHasCompleted(res)) {
+      chunk <- dbFetchArrowChunk(res)
+      schema <- nanoarrow::infer_nanoarrow_schema(chunk)
+      expect_equal(schema$format, "+s")
+      expect_named(schema$children, names(result))
+      chunks <- c(chunks, list(check_arrow(chunk)))
+      formats <- c(formats, list(map_chr(schema$children, ~ .x$format)))
+    }
+
+    chunk <- dbFetchArrowChunk(res)
+    schema <- nanoarrow::infer_nanoarrow_schema(chunk)
+    expect_named(schema$children, names(result))
+    expect_equal(nrow(check_arrow(chunk)), 0L)
+    formats <- c(formats, list(map_chr(schema$children, ~ .x$format)))
+
+    for (chunk_formats in formats) {
+      expect_identical(chunk_formats, formats[[1]])
+    }
+
+    rows <- unrowname(do.call(rbind, chunks))
+    expect_equal(rows, result)
+  },
+
   #
   NULL
 )
