@@ -13,6 +13,8 @@ Description: A helper that tests DBI back ends for conformity to the
 License: LGPL (>= 2.1)
 URL: https://dbitest.r-dbi.org, https://github.com/r-dbi/DBItest
 BugReports: https://github.com/r-dbi/DBItest/issues
+Additional_repositories:
+    https://cynkra.r-universe.dev
 Depends: 
     R (>= 4.1)
 Imports: 
