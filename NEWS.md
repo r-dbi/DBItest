@@ -1,5 +1,22 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# DBItest 1.8.3.9012 (2026-09-27)
+
+## Bug fixes
+
+### ci
+
+- Restore the workflows the template sync deleted (#574).
+
+## Continuous integration
+
+- Run coverage checks after pkgdown push.
+
+## Uncategorized
+
+- Feat(ci): Render `README.md` and `index.md` in CI (cynkra/cynkratemplate#118).
+
+
 # DBItest 1.8.3.9011 (2026-09-26)
 
 ## Features
