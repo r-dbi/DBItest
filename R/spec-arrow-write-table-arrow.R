@@ -23,7 +23,7 @@ spec_arrow_write_table_arrow <- list(
     #' @section Failure modes:
     #' If the table exists, and both `append` and `overwrite` arguments are unset,
     test_in <- data.frame(a = 1L)
-    dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
+    dbWriteTableArrow(con, table_name, stream_frame(test_in))
     expect_error(dbWriteTableArrow(con, table_name, stream_frame(a = 2L)))
 
     test_out <- check_df(dbReadTable(con, table_name))
@@ -34,7 +34,7 @@ spec_arrow_write_table_arrow <- list(
     #' or `append = TRUE` and the data frame with the new data has different column names, an error is raised;
     #' the remote table remains unchanged.
     test_in <- data.frame(a = 1L)
-    dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
+    dbWriteTableArrow(con, table_name, stream_frame(test_in))
     expect_error(dbWriteTableArrow(con, table_name, stream_frame(b = 2L), append = TRUE))
 
     test_out <- check_df(dbReadTable(con, table_name))
@@ -58,27 +58,29 @@ spec_arrow_write_table_arrow <- list(
     #' An error is also raised
     test_in <- data.frame(a = 1L)
     #' if `name` cannot be processed with [dbQuoteIdentifier()] or
-    expect_error(dbWriteTableArrow(con, NA, test_in %>% stream_frame()))
+    expect_error(dbWriteTableArrow(con, NA, stream_frame(test_in)))
     #' if this results in a non-scalar.
-    expect_error(dbWriteTableArrow(con, c(table_name, table_name), test_in %>% stream_frame()))
+    expect_error(dbWriteTableArrow(con, c(table_name, table_name), stream_frame(test_in)))
 
-    #' Invalid values for the additional arguments `overwrite`, `append`, and `temporary` (non-scalars,
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), overwrite = c(TRUE, FALSE)))
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), append = c(TRUE, FALSE)))
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), temporary = c(TRUE, FALSE)))
+    #' Invalid values for the additional arguments
+    #' `overwrite`, `append`, and `temporary`
+    #' (non-scalars,
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(test_in), overwrite = c(TRUE, FALSE)))
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(test_in), append = c(TRUE, FALSE)))
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(test_in), temporary = c(TRUE, FALSE)))
     #' unsupported data types,
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), overwrite = 1L))
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), append = 1L))
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), temporary = 1L))
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(test_in), overwrite = 1L))
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(test_in), append = 1L))
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(test_in), temporary = 1L))
     #' `NA`,
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), overwrite = NA))
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), append = NA))
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), temporary = NA))
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(test_in), overwrite = NA))
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(test_in), append = NA))
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(test_in), temporary = NA))
     #' incompatible values,
-    expect_error(dbWriteTableArrow(con, table_name, test_in %>% stream_frame(), overwrite = TRUE, append = TRUE))
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(test_in), overwrite = TRUE, append = TRUE))
 
     #' incompatible columns)
-    dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
+    dbWriteTableArrow(con, table_name, stream_frame(test_in))
     expect_error(dbWriteTableArrow(con, table_name, stream_frame(b = 2L, c = 3L), append = TRUE))
 
     #' also raise an error.
@@ -109,7 +111,7 @@ spec_arrow_write_table_arrow <- list(
       test_in <- data.frame(a = 1)
       local_remove_test_table(con, table_name)
       #' - If an unquoted table name as string: `dbWriteTableArrow()` will do the quoting,
-      dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
+      dbWriteTableArrow(con, table_name, stream_frame(test_in))
       test_out <- check_df(dbReadTable(con, dbQuoteIdentifier(con, table_name)))
       expect_equal_df(test_out, test_in)
       #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
@@ -130,7 +132,7 @@ spec_arrow_write_table_arrow <- list(
       test_in <- data.frame(a = 1)
 
       local_remove_test_table(con, table_name)
-      dbWriteTableArrow(con, dbQuoteIdentifier(con, table_name), test_in %>% stream_frame())
+      dbWriteTableArrow(con, dbQuoteIdentifier(con, table_name), stream_frame(test_in))
       test_out <- check_df(dbReadTable(con, table_name))
       expect_equal_df(test_out, test_in)
     }
@@ -140,7 +142,7 @@ spec_arrow_write_table_arrow <- list(
   arrow_write_table_arrow_value_df = function(con, table_name) {
     #' The `value` argument must be a data frame
     test_in <- trivial_df()
-    dbWriteTableArrow(con, table_name, test_in %>% stream_frame())
+    dbWriteTableArrow(con, table_name, stream_frame(test_in))
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
@@ -150,7 +152,7 @@ spec_arrow_write_table_arrow <- list(
     #' with a subset of the columns of the existing table if `append = TRUE`.
     test_in <- trivial_df(3, letters[1:3])
     dbCreateTable(con, table_name, test_in)
-    dbWriteTableArrow(con, table_name, test_in[2] %>% stream_frame(), append = TRUE)
+    dbWriteTableArrow(con, table_name, stream_frame(test_in[2]), append = TRUE)
 
     test_out <- check_df(dbReadTable(con, table_name))
 
@@ -162,7 +164,7 @@ spec_arrow_write_table_arrow <- list(
     #' The order of the columns does not matter with `append = TRUE`.
     test_in <- trivial_df(3, letters[1:3])
     dbCreateTable(con, table_name, test_in)
-    dbWriteTableArrow(con, table_name, test_in[c(2, 3, 1)] %>% stream_frame(), append = TRUE)
+    dbWriteTableArrow(con, table_name, stream_frame(test_in[c(2, 3, 1)]), append = TRUE)
 
     test_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(test_out, test_in)
@@ -172,7 +174,7 @@ spec_arrow_write_table_arrow <- list(
   arrow_write_table_arrow_value_shuffle_subset = function(ctx, con, table_name) {
     test_in <- trivial_df(4, letters[1:4])
     dbCreateTable(con, table_name, test_in)
-    dbWriteTableArrow(con, table_name, test_in[c(4, 1, 3)] %>% stream_frame(), append = TRUE)
+    dbWriteTableArrow(con, table_name, stream_frame(test_in[c(4, 1, 3)]), append = TRUE)
 
     test_out <- check_df(dbReadTable(con, table_name))
 
@@ -188,7 +190,7 @@ spec_arrow_write_table_arrow <- list(
     penguins <- get_penguins(ctx)
     dbWriteTableArrow(con, table_name, penguins)
     expect_error(
-      dbWriteTableArrow(con, table_name, penguins[1, ] %>% stream_frame(), overwrite = TRUE),
+      dbWriteTableArrow(con, table_name, stream_frame(penguins[1, ]), overwrite = TRUE),
       NA
     )
     penguins_out <- check_df(dbReadTable(con, table_name))
@@ -201,7 +203,7 @@ spec_arrow_write_table_arrow <- list(
     #' This argument doesn't change behavior if the table does not exist yet.
     penguins_in <- get_penguins(ctx)
     expect_error(
-      dbWriteTableArrow(con, table_name, penguins_in[1, ] %>% stream_frame(), overwrite = TRUE),
+      dbWriteTableArrow(con, table_name, stream_frame(penguins_in[1, ]), overwrite = TRUE),
       NA
     )
     penguins_out <- check_df(dbReadTable(con, table_name))
@@ -215,7 +217,7 @@ spec_arrow_write_table_arrow <- list(
     #' If the `append` argument is `TRUE`, the rows in an existing table are preserved, and the new data are appended.
     penguins <- get_penguins(ctx)
     dbWriteTableArrow(con, table_name, penguins)
-    expect_error(dbWriteTableArrow(con, table_name, penguins[1, ] %>% stream_frame(), append = TRUE), NA)
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(penguins[1, ]), append = TRUE), NA)
     penguins_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(penguins_out, rbind(penguins, penguins[1, ]))
   },
@@ -225,7 +227,7 @@ spec_arrow_write_table_arrow <- list(
 
     #' If the table doesn't exist yet, it is created.
     penguins <- get_penguins(ctx)
-    expect_error(dbWriteTableArrow(con, table_name, penguins[1, ] %>% stream_frame(), append = TRUE), NA)
+    expect_error(dbWriteTableArrow(con, table_name, stream_frame(penguins[1, ]), append = TRUE), NA)
     penguins_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(penguins_out, penguins[1, ])
   },
@@ -241,7 +243,7 @@ spec_arrow_write_table_arrow <- list(
     }
 
     penguins <- get_penguins(ctx)
-    dbWriteTableArrow(con, table_name, penguins %>% stream_frame(), temporary = TRUE)
+    dbWriteTableArrow(con, table_name, stream_frame(penguins), temporary = TRUE)
     penguins_out <- check_df(dbReadTable(con, table_name))
     expect_equal_df(penguins_out, penguins)
 
@@ -270,7 +272,7 @@ spec_arrow_write_table_arrow <- list(
     # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit09"
 
-    dbWriteTableArrow(local_con, table_name, penguins30 %>% stream_frame())
+    dbWriteTableArrow(local_con, table_name, stream_frame(penguins30))
     penguins_out <- check_df(dbReadTable(local_con, table_name))
     expect_equal_df(penguins_out, penguins30)
 
@@ -727,10 +729,10 @@ test_arrow_roundtrip_one <- function(con, tbl_in, tbl_expected = tbl_in, transfo
   local_remove_test_table(con, name = name)
 
   if (use_append) {
-    dbCreateTableArrow(con, name, tbl_in %>% stream_frame())
-    dbAppendTableArrow(con, name, tbl_in %>% stream_frame())
+    dbCreateTableArrow(con, name, stream_frame(tbl_in))
+    dbAppendTableArrow(con, name, stream_frame(tbl_in))
   } else {
-    dbWriteTableArrow(con, name, tbl_in %>% stream_frame())
+    dbWriteTableArrow(con, name, stream_frame(tbl_in))
   }
 
   stream <- dbReadTableArrow(con, name)

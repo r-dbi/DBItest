@@ -248,5 +248,5 @@ fix_params <- function(params) {
     params <- as.list(params)
   }
 
-  as.data.frame(params, fix.empty.names = FALSE)
+  as.data.frame(params, fix.empty.names = FALSE, stringsAsFactors = FALSE)
 }
