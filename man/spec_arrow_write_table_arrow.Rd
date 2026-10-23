@@ -20,7 +20,9 @@ or invalid connection.
 An error is also raised
 if \code{name} cannot be processed with \code{\link[DBI:dbQuoteIdentifier]{dbQuoteIdentifier()}} or
 if this results in a non-scalar.
-Invalid values for the additional arguments \code{overwrite}, \code{append}, and \code{temporary} (non-scalars,
+Invalid values for the additional arguments
+\code{overwrite}, \code{append}, and \code{temporary}
+(non-scalars,
 unsupported data types,
 \code{NA},
 incompatible values,

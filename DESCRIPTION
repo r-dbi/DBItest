@@ -13,6 +13,8 @@ Description: A helper that tests DBI back ends for conformity to the
 License: LGPL (>= 2.1)
 URL: https://dbitest.r-dbi.org, https://github.com/r-dbi/DBItest
 BugReports: https://github.com/r-dbi/DBItest/issues
+Additional_repositories:
+    https://cynkra.r-universe.dev
 Depends: 
     R (>= 4.1)
 Imports: 
@@ -49,6 +51,7 @@ Config/autostyle/scope: line_breaks
 Config/autostyle/strict: false
 Config/testthat/edition: 3
 Config/Needs/check: decor
+Config/gha/extra-packages: cynkra/constructive
 Encoding: UTF-8
 KeepSource: true
 Roxygen: list(markdown = TRUE)
