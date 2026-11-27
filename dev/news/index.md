@@ -1,5 +1,30 @@
 # Changelog
 
+## DBItest 1.8.3.9013 (2026-10-24)
+
+### Chore
+
+- Auto-update from GitHub Actions
+  ([\#576](https://github.com/r-dbi/DBItest/issues/576)).
+
+## DBItest 1.8.3.9012 (2026-09-27)
+
+### Bug fixes
+
+#### ci
+
+- Restore the workflows the template sync deleted
+  ([\#574](https://github.com/r-dbi/DBItest/issues/574)).
+
+### Continuous integration
+
+- Run coverage checks after pkgdown push.
+
+### Uncategorized
+
+- Feat(ci): Render `README.md` and `index.md` in CI
+  (cynkra/cynkratemplate#118).
+
 ## DBItest 1.8.3.9011 (2026-09-26)
 
 ### Features
