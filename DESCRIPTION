@@ -43,12 +43,12 @@ Suggests:
     vctrs
 VignetteBuilder: 
     knitr
-Config/Needs/website: 
-    r-dbi/dbitemplate
 Config/autostyle/scope: line_breaks
 Config/autostyle/strict: false
-Config/testthat/edition: 3
 Config/Needs/check: decor
+Config/Needs/website: r-dbi/dbitemplate
+Config/roxygen2/version: 8.1.1.9000
+Config/testthat/edition: 3
 Encoding: UTF-8
 KeepSource: true
 Roxygen: list(markdown = TRUE)
@@ -149,4 +149,3 @@ Collate:
     'utf8.R'
     'utils.R'
     'zzz.R'
-Config/roxygen2/version: 8.1.1.9000
