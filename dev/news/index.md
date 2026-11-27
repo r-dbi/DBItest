@@ -1,5 +1,12 @@
 # Changelog
 
+## DBItest 1.8.3.9014 (2026-11-27)
+
+### Continuous integration
+
+- Sync the workflows with cynkra/cynkratemplate
+  ([\#578](https://github.com/r-dbi/DBItest/issues/578)).
+
 ## DBItest 1.8.3.9013 (2026-10-24)
 
 ### Chore
