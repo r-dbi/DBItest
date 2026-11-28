@@ -4,7 +4,7 @@
 
 - New specs for the schema of Arrow results (#571).
   They check that `dbFetchArrow()` and `dbGetQueryArrow()` expose a complete schema before the first batch, also for zero-row results, that the schema stays the same across `dbFetchArrowChunk()` chunks and across `dbBind()` executions with `dbSendQueryArrow()`, and that a `BIGINT` column comes back from `dbReadTableArrow()` as `int64`.
-  The specs are opt-in: they run only for backends whose `dbitest_version` tweak is at least `"1.8.3.6"`, such as `"1.9.0"`, and are skipped otherwise.
+  Backends opt in with the `dbitest_version` tweak, such as `"1.9.0"`; all six specs need at least `"1.8.3.6"`, and they are skipped otherwise.
   bit64 is added to Suggests.
 
 - `make_context()` and the `test_*()` functions validate their arguments (`set_as_default`, `name`, `default_skip`, `skip`, `run_only`) with rlang's type checks, so an invalid value such as `set_as_default = 1` now aborts with an informative error (#433).
@@ -15,7 +15,7 @@
 
 ## Bug fixes
 
-- `expect_all_args_have_default_values()` accepts an empty string, `NULL` and calls such as `character()` as default values, which previously counted as missing or raised an error (#587).
+- `expect_all_args_have_default_values()` accepts an empty string, `NULL` and calls such as `c("a", "b")` as default values, which previously counted as missing or raised an error (#587).
 
 - The roundtrip specs extract single values with `rows[[i]][1L]` instead of `rows[1L, i]`, so backends that return data frame subclasses such as tibbles no longer fail them (#590).
 
