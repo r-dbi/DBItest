@@ -6,7 +6,7 @@
 spec_arrow_append_table_arrow <- list(
   arrow_append_table_arrow_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbAppendTableArrow)), c("conn", "name", "value", "..."))
+    expect_named(formals(dbAppendTableArrow), c("conn", "name", "value", "..."))
   },
 
   arrow_append_table_arrow_return = function(ctx, con, table_name) {
@@ -19,9 +19,9 @@ spec_arrow_append_table_arrow <- list(
     ret <- dbAppendTableArrow(con, table_name, test_in)
 
     #' scalar
-    expect_equal(length(ret), 1)
+    expect_length(ret, 1)
     #' numeric.
-    expect_true(is.numeric(ret))
+    expect_true(is.numeric(ret)) # nolint: expect_type_linter. back-compatibility.
   },
 
   #'
@@ -150,7 +150,7 @@ spec_arrow_append_table_arrow <- list(
     #' The following data types must be supported at least,
     #' and be read identically with [dbReadTable()]:
     #' - integer
-    tbl_in <- data.frame(a = c(1:5))
+    tbl_in <- data.frame(a = 1:5)
     test_arrow_roundtrip(use_append = TRUE, con, tbl_in)
   },
 
@@ -208,8 +208,7 @@ spec_arrow_append_table_arrow <- list(
       use_append = TRUE,
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
-        #'     - converted a character vector, which gives the full decimal
-        #'       representation
+        #'     - converted a character vector, which gives the full decimal representation
         tbl_out$a <- as.character(tbl_out$a)
         tbl_out
       }
@@ -291,8 +290,7 @@ spec_arrow_append_table_arrow <- list(
   arrow_append_table_arrow_roundtrip_blob = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.8.0.41")
 
-    #' - objects of type [blob::blob]
-    #'   (if supported by the database)
+    #' - objects of type [blob::blob] (if supported by the database)
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }
@@ -309,8 +307,7 @@ spec_arrow_append_table_arrow <- list(
   },
 
   arrow_append_table_arrow_roundtrip_date = function(ctx, con) {
-    #' - date
-    #'   (if supported by the database;
+    #' - date (if supported by the database;
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
@@ -356,8 +353,7 @@ spec_arrow_append_table_arrow <- list(
   },
 
   arrow_append_table_arrow_roundtrip_time = function(ctx, con) {
-    #' - time
-    #'   (if supported by the database;
+    #' - time (if supported by the database;
     if (!isTRUE(ctx$tweaks$time_typed)) {
       skip("tweak: !time_typed")
     }
@@ -383,8 +379,7 @@ spec_arrow_append_table_arrow <- list(
   },
 
   arrow_append_table_arrow_roundtrip_timestamp = function(ctx, con) {
-    #' - timestamp
-    #'   (if supported by the database;
+    #' - timestamp (if supported by the database;
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
@@ -400,11 +395,10 @@ spec_arrow_append_table_arrow <- list(
     tbl_in <- data.frame(id = seq_along(local))
     tbl_in$local <- local
     tbl_in$gmt <- lubridate::with_tz(local, tzone = "GMT")
-    tbl_in$pst8pdt <- lubridate::with_tz(local, tzone = "PST8PDT")
+    tbl_in$los_angeles <- lubridate::with_tz(local, tzone = "America/Los_Angeles")
     tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
-    #'   respecting the time zone but not necessarily preserving the
-    #'   input time zone),
+    #'   respecting the time zone but not necessarily preserving the input time zone),
     test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in,
@@ -412,6 +406,7 @@ spec_arrow_append_table_arrow <- list(
         dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
+        tz[tz == "LOS_ANGELES"] <- "America/Los_Angeles"
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
         out
       }
@@ -443,11 +438,10 @@ spec_arrow_append_table_arrow <- list(
     tbl_in <- data.frame(id = seq_along(local))
     tbl_in$local <- local
     tbl_in$gmt <- lubridate::with_tz(local, tzone = "GMT")
-    tbl_in$pst8pdt <- lubridate::with_tz(local, tzone = "PST8PDT")
+    tbl_in$los_angeles <- lubridate::with_tz(local, tzone = "America/Los_Angeles")
     tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
-    #'   respecting the time zone but not necessarily preserving the
-    #'   input time zone)
+    #'   respecting the time zone but not necessarily preserving the input time zone)
     test_arrow_roundtrip(
       use_append = TRUE,
       con, tbl_in,
@@ -455,6 +449,7 @@ spec_arrow_append_table_arrow <- list(
         dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
+        tz[tz == "LOS_ANGELES"] <- "America/Los_Angeles"
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
         out
       }
@@ -538,7 +533,7 @@ spec_arrow_append_table_arrow <- list(
     #' with a subset of the columns of the existing table.
     test_in <- trivial_df(3, letters[1:3])
     dbCreateTableArrow(con, table_name, test_in %>% stream_frame())
-    dbAppendTableArrow(con, table_name, test_in %>% stream_frame(.select = c(2)))
+    dbAppendTableArrow(con, table_name, test_in %>% stream_frame(.select = 2))
 
     test_out <- check_df(dbReadTable(con, table_name))
 

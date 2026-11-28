@@ -1,6 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^\.lintr$
+^\.lintr\.R$
 ^cran-comments\.md$
 ^revdep-dev$
 ^man-roxygen$
@@ -15,5 +15,6 @@
 ^examples$
 ^CRAN-SUBMISSION$
 ^\.vscode$
-^\.aviator/config\.yml$
 ^tests/testthat/helper-dev\.R$
+^CLAUDE\.md$
+^\.ccache$

@@ -1,4 +1,8 @@
 # http://stackoverflow.com/a/39880324/946850
+# Introspects S4 methods from a specified environment for DBI implementation verification.
+# This function discovers all S4 generic methods and their implementations.
+# It supports filtering by package through an optional pkg_fun predicate.
+# Returns a comprehensive list of S4 methods available for testing and validation.
 s4_methods <- function(env, pkg_fun = NULL) {
   generics <- methods::getGenerics(env)
 
@@ -23,6 +27,10 @@ s4_methods <- function(env, pkg_fun = NULL) {
   unlist(res, recursive = FALSE)
 }
 
+# Extracts the actual argument names from S4 method definitions.
+# This function unwraps S4 method wrappers to access the underlying function signature.
+# It handles the internal .local function pattern used in S4 method definitions.
+# Returns the formal argument names for accurate method signature validation.
 s4_real_argument_names <- function(s4_method) {
   expect_s4_class(s4_method, "function")
   expect_s4_class(s4_method, "MethodDefinition")
@@ -30,6 +38,10 @@ s4_real_argument_names <- function(s4_method) {
   names(formals(unwrapped))
 }
 
+# Unwraps S4 method definitions to access the underlying implementation function.
+# This function extracts the .local function from S4 method body structures.
+# It handles the standard pattern where S4 methods wrap their logic in .local functions.
+# Returns the actual implementation function or the original method if unwrapping fails.
 s4_unwrap <- function(s4_method) {
   # Only unwrap if body is of the following form:
   # {

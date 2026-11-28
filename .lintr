@@ -1,4 +1,0 @@
-linters: with_defaults(
-    object_usage_linter = NULL, # causes problems with NSE
-    NULL
-  )

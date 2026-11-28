@@ -6,7 +6,7 @@
 spec_sql_list_tables <- list(
   list_tables_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbListTables)), c("conn", "..."))
+    expect_named(formals(dbListTables), c("conn", "..."))
   },
 
   list_tables_1 = function(ctx, con, table_name = "dbit07") {
@@ -32,8 +32,7 @@ spec_sql_list_tables <- list(
   },
   # second stage
   list_tables_2 = function(ctx, con) {
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit07"
 
     #' As soon a table is removed from the database,

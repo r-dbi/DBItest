@@ -6,14 +6,13 @@
 spec_arrow_get_query_arrow <- list(
   arrow_get_query_arrow_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbGetQueryArrow)), c("conn", "statement", "..."))
+    expect_named(formals(dbGetQueryArrow), c("conn", "statement", "..."))
   },
 
   arrow_get_query_arrow_atomic = function(con) {
     #' @return
-    #' `dbGetQueryArrow()` always returns an object coercible to a [data.frame], with
-    #' as many rows as records were fetched and as many
-    #' columns as fields in the result set,
+    #' `dbGetQueryArrow()` always returns an object coercible to a [data.frame],
+    #' with as many rows as records were fetched and as many columns as fields in the result set,
     #' even if the result is a single value
     query <- trivial_query()
 
@@ -39,7 +38,7 @@ spec_arrow_get_query_arrow <- list(
       "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
 
     rows <- check_arrow(dbGetQueryArrow(con, query))
-    expect_identical(names(rows), letters[1:3])
+    expect_named(rows, letters[1:3])
     expect_identical(dim(rows), c(0L, 3L))
   },
 
@@ -68,10 +67,9 @@ spec_arrow_get_query_arrow <- list(
   },
 
   arrow_get_query_arrow_record_batch_reader = function(ctx, con) {
-    #' The object returned by `dbGetQueryArrow()` can also be passed to
-    #' [nanoarrow::as_nanoarrow_array_stream()] to create a nanoarrow
-    #' array stream object that can be used to read the result set
-    #' in batches.
+    #' @section Specification:
+    #' The object returned by `dbGetQueryArrow()` can also be passed to [nanoarrow::as_nanoarrow_array_stream()]
+    #' to create a nanoarrow array stream object that can be used to read the result set in batches.
     query <- trivial_query(25, .ctx = ctx, .order_by = "a")
     result <- trivial_df(25)
 
@@ -82,6 +80,45 @@ spec_arrow_get_query_arrow <- list(
     #' The chunk size is implementation-specific.
     out <- as.data.frame(rbr$get_next())
     expect_equal(out, head(result, nrow(out)))
+  },
+
+  arrow_get_query_arrow_schema = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.3.2")
+
+    #' The schema of the result is available before any batch is consumed:
+    #' [nanoarrow::infer_nanoarrow_schema()] applied to the object returned by `dbGetQueryArrow()`
+    #' gives a struct schema with one child per column, named like the columns.
+    query <- trivial_query(3, letters[1:3])
+    result <- trivial_df(3, letters[1:3])
+
+    stream <- dbGetQueryArrow(con, query)
+
+    schema <- nanoarrow::infer_nanoarrow_schema(stream)
+    expect_equal(schema$format, "+s")
+    expect_named(schema$children, names(result))
+
+    #' Inspecting the schema does not consume the stream.
+    rows <- check_arrow(stream)
+    expect_identical(rows, result)
+  },
+
+  arrow_get_query_arrow_schema_zero_rows = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.3.3")
+
+    #' The schema is complete even if the result has zero rows:
+    #' it has as many children as the result has columns, named like the columns.
+    # Not all SQL dialects seem to support the query used here.
+    query <-
+      "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
+
+    stream <- dbGetQueryArrow(con, query)
+
+    schema <- nanoarrow::infer_nanoarrow_schema(stream)
+    expect_length(schema$children, 3L)
+    expect_named(schema$children, letters[1:3])
+
+    rows <- check_arrow(stream)
+    expect_identical(dim(rows), c(0L, 3L))
   },
 
   #' @section Additional arguments:
@@ -119,11 +156,9 @@ spec_arrow_get_query_arrow <- list(
     #' and "prepared" APIs offered by many database drivers.
     #' Passing `immediate = TRUE` leads to immediate execution of the
     #' query or statement, via the "direct" API (if supported by the driver).
-    #' The default `NULL` means that the backend should choose whatever API
-    #' makes the most sense for the database, and (if relevant) tries the
-    #' other API if the first attempt fails. A successful second attempt
-    #' should result in a message that suggests passing the correct
-    #' `immediate` argument.
+    #' The default `NULL` means that the backend should choose whatever API makes the most sense for the database,
+    #' and (if relevant) tries the other API if the first attempt fails.
+    #' A successful second attempt should result in a message that suggests passing the correct `immediate` argument.
     #' Examples for possible behaviors:
     #' 1. DBI backend defaults to `immediate = TRUE` internally
     #'     1. A query without parameters is passed: query is executed

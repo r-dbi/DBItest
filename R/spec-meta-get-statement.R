@@ -6,7 +6,7 @@
 spec_meta_get_statement <- list(
   get_statement_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbGetStatement)), c("res", "..."))
+    expect_named(formals(dbGetStatement), c("res", "..."))
   },
 
   get_statement_query = function(con) {
@@ -20,8 +20,8 @@ spec_meta_get_statement <- list(
     expect_identical(s, query)
   },
   #
-  get_statement_statement = function(con, table_name) {
-    query <- paste0("CREATE TABLE ", table_name, " (a integer)")
+  get_statement_statement = function(ctx, con, table_name) {
+    query <- ctx$tweaks$create_table_empty(table_name)
     #' [dbSendStatement()].
     res <- local_result(dbSendStatement(con, query))
     s <- dbGetStatement(res)
@@ -33,8 +33,7 @@ spec_meta_get_statement <- list(
     #' @section Failure modes:
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
-    #' Attempting to query the statement for a result set cleared with
-    #' [dbClearResult()] gives an error.
+    #' Attempting to query the statement for a result set cleared with [dbClearResult()] gives an error.
     expect_error(dbGetStatement(res))
   },
   #

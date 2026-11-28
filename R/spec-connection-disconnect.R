@@ -6,7 +6,7 @@
 spec_connection_disconnect <- list(
   disconnect_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbDisconnect)), c("conn", "..."))
+    expect_named(formals(dbDisconnect), c("conn", "..."))
   },
 
   can_disconnect = function(ctx) {
@@ -23,14 +23,13 @@ spec_connection_disconnect <- list(
   #' but this cannot be tested automatically.
 
   disconnect_closed_connection = function(ctx, closed_con) {
-    #' A warning is issued immediately when calling `dbDisconnect()` on an
-    #' already disconnected
-    expect_warning(dbDisconnect(closed_con))
+    #' At least one warning is issued immediately when calling `dbDisconnect()` on an already disconnected
+    suppressWarnings(expect_warning(dbDisconnect(closed_con)))
   },
 
   disconnect_invalid_connection = function(ctx, invalid_con) {
     #' or invalid connection.
-    expect_warning(dbDisconnect(invalid_con))
+    suppressWarnings(expect_warning(dbDisconnect(invalid_con)))
   },
   #
   NULL

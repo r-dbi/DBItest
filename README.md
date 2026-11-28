@@ -2,7 +2,7 @@
 
 <!-- badges: start -->
 [![rcc](https://github.com/r-dbi/DBItest/workflows/rcc/badge.svg)](https://github.com/r-dbi/DBItest/actions)
-[![Codecov test coverage](https://codecov.io/gh/r-dbi/DBItest/branch/main/graph/badge.svg)](https://app.codecov.io/gh/r-dbi/DBItest?branch=main)
+[![Codecov test coverage](https://codecov.io/gh/r-dbi/DBItest/graph/badge.svg)](https://app.codecov.io/gh/r-dbi/DBItest/tree/main)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/DBItest)](https://cran.r-project.org/package=DBItest)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/3503/badge)](https://bestpractices.coreinfrastructure.org/projects/3503)
 <!-- badges: end -->
@@ -24,7 +24,8 @@ install.packages("DBItest")
 or the development version using
 
 ```r
-devtools::install_github("r-dbi/DBItest")
+# install.packages("pak")
+pak::pak("r-dbi/DBItest")
 ```
 
 ## Usage
@@ -58,6 +59,5 @@ Further reading:
 
 ---
 
-Please note that the 'DBItest' project is released with a
-[Contributor Code of Conduct](https://dbitest.r-dbi.org/CODE_OF_CONDUCT.html).
+Please note that the 'DBItest' project is released with a [Contributor Code of Conduct](https://dbitest.r-dbi.org/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.

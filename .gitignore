@@ -8,3 +8,8 @@ inst/doc
 CRAN-RELEASE
 CRAN-SUBMISSION
 .vscode
+
+*.Rcheck
+*.tar.gz
+
+.ccache/

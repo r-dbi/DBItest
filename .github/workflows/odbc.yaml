@@ -19,7 +19,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       # https://github.blog/changelog/2020-04-15-github-actions-new-workflow-features/
       - id: set-matrix
@@ -50,8 +50,9 @@ jobs:
 
   backend:
     needs: matrix
-    # Need Ubuntu 20.04 for remotes::system_requirements()
-    runs-on: ubuntu-20.04
+    # Ubuntu 24.04 matches the driver packages installed below (e.g. the
+    # msodbcsql17 repo config and the distro odbc-mariadb driver).
+    runs-on: ubuntu-24.04
 
     services:
       postgres:
@@ -78,7 +79,6 @@ jobs:
     name: ${{ matrix.database }}
 
     env:
-      RSPM: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"
       ODBCSYSINI: ${{ github.workspace }}/.github/odbc
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
@@ -88,14 +88,17 @@ jobs:
           curl -s --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/rate_limit
         shell: bash
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
-      - uses: ./.github/workflows/install
+      - name: Install R and the package dependencies
+        uses: cynkra/cynkratemplate/.github/actions/install@main
         with:
-          install-r: false
           cache-version: backends-${{ matrix.package }}
           needs: check
-          extra-packages: "any::pkgbuild any::remotes decor ."
+          # remotes from GitHub: the CRAN release (2.5.0) does not yet know
+          # Ubuntu 24.04, so its system_requirements() aborts on the 24.04
+          # runner below. The dev version adds 24.04 to its supported list.
+          extra-packages: "any::pkgbuild github::r-lib/remotes decor ."
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Clone backend
@@ -104,12 +107,16 @@ jobs:
 
       - name: Install system dependencies
         if: runner.os == 'Linux'
-        # "22.04" fails here
+        # Relies on the dev version of remotes installed above; the CRAN release
+        # 2.5.0 only knows Ubuntu releases up to "22.04", so "24.04" aborts with
+        # a match.arg() error that the process substitution silently swallows,
+        # installing nothing (which is how unixodbc-dev went missing and odbc
+        # failed to compile with "sql.h: No such file or directory").
         run: |
           while read -r cmd
           do
             eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04", path = "revdep-dev/${{ matrix.package }}"))')
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "24.04", path = "revdep-dev/${{ matrix.package }}"))')
 
       - name: Install package and dependencies
         run: |
@@ -147,7 +154,7 @@ jobs:
         if: matrix.database == 'sql-server'
         run: |
           curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -
-          curl https://packages.microsoft.com/config/ubuntu/20.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
+          curl https://packages.microsoft.com/config/ubuntu/24.04/prod.list > /etc/apt/sources.list.d/mssql-release.list
           apt-get update
           ACCEPT_EULA=Y apt-get install -y msodbcsql17
           ln -s /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.*.so.* /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.so

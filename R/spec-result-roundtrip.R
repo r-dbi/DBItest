@@ -140,9 +140,8 @@ spec_result_roundtrip <- list(
 
   #'
   data_date_typed = function(ctx, con) {
-    #' If dates and timestamps are supported by the backend, the following R types are
-    #' used:
-    #' - [Date] for dates
+    #' If dates and timestamps are supported by the backend, the following R types are used:
+    #' - [Date][Dates] for dates
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
@@ -167,7 +166,7 @@ spec_result_roundtrip <- list(
   },
 
   data_timestamp_typed = function(ctx, con) {
-    #' - [POSIXct] for timestamps
+    #' - [POSIXct][DateTimeClasses] for timestamps
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
@@ -192,14 +191,12 @@ spec_result_roundtrip <- list(
   },
 
   #'
-  #' R has no built-in type with lossless support for the full range of 64-bit
-  #' or larger integers. If 64-bit integers are returned from a query,
+  #' R has no built-in type with lossless support for the full range of 64-bit or larger integers.
+  #' If 64-bit integers are returned from a query,
   #' the following rules apply:
-  #' - Values are returned in a container with support for the full range of
-  #'   valid 64-bit values (such as the `integer64` class of the \pkg{bit64}
-  #'   package)
-  #' - Coercion to numeric always returns a number that is as close as possible
-  #'   to the true value
+  #' - Values are returned in a container with support for the full range of valid 64-bit values
+  #'   (such as the `integer64` class of the \pkg{bit64} package)
+  #' - Coercion to numeric always returns a number that is as close as possible to the true value
   data_64_bit_numeric = function(ctx, con) {
     as_numeric_identical_to <- function(x) {
       map(x, function(xx) {
@@ -242,8 +239,7 @@ spec_result_roundtrip <- list(
     )
   },
 
-  #' - Conversion to character always returns a lossless decimal representation
-  #'   of the data
+  #' - Conversion to character always returns a lossless decimal representation of the data
   data_64_bit_lossless = function(ctx, con) {
     as_character_equals_to <- function(x) {
       map(x, function(xx) {
@@ -268,14 +264,17 @@ test_select_with_null <- function(...) {
 }
 
 test_select <- function(
-    # Run time
-    con,
-    # Spec time
-    ...,
-    .add_null = "none",
-    # Run time
-    .ctx,
-    .envir = parent.frame()) {
+  # Run time
+  con,
+  # Spec time
+  ...,
+  # Run time
+  .ctx,
+  # Spec time
+  .add_null = "none",
+  # Run time
+  .envir = parent.frame()
+) {
 
   values <- list2(...)
 
@@ -294,16 +293,12 @@ test_select <- function(
     sql_values <- names(values)
   }
 
-  sql_values_expr <- expr({
-    sql_values <- !!construct_expr(sql_values)
-
-    if (isTRUE(.ctx$tweaks$current_needs_parens)) {
-      sql_values <- gsub(
-        "^(current_(?:date|time|timestamp))$", "\\1()",
-        sql_values
-      )
-    }
-  })
+  if (isTRUE(.ctx$tweaks$current_needs_parens)) {
+    sql_values <- gsub(
+      "^(current_(?:date|time|timestamp))$", "\\1()",
+      sql_values
+    )
+  }
 
   sql_names <- letters[seq_along(sql_values)]
 
@@ -333,7 +328,7 @@ test_select <- function(
     }
   }
 
-  expect_identical(names(rows), sql_names)
+  expect_named(rows, sql_names)
 
   for (i in seq_along(values)) {
     value_or_testfun <- values[[i]]
@@ -347,7 +342,7 @@ test_select <- function(
   if (.add_null != "none") {
     expect_equal(nrow(rows), 2L)
     if (is.list(rows[[1L]])) {
-      expect_true(is.null(rows[2L, 1L][[1L]]))
+      expect_null(rows[2L, 1L][[1L]])
     } else {
       expect_true(is.na(rows[2L, 1L]))
     }
@@ -372,8 +367,8 @@ has_utf8_or_ascii_encoding <- function(x) {
   if (Encoding(x) == "UTF-8") {
     TRUE
   } else if (Encoding(x) == "unknown") {
-    # Characters encoded as "unknown" must be ASCII only, and remain "unknown"
-    # after attempting to assign an encoding. From ?Encoding :
+    # Characters encoded as "unknown" must be ASCII only, and remain "unknown" after attempting to assign an encoding.
+    # From ?Encoding :
     # > ASCII strings will never be marked with a declared encoding, since their
     # > representation is the same in all supported encodings.
     Encoding(x) <- "UTF-8"

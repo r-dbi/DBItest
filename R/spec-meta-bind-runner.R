@@ -10,19 +10,20 @@ test_select_bind_expr_one <- list()
 #' \pkg{DBI} clients execute parametrized statements as follows:
 #'
 test_select_bind_expr_one$fun <- function(
-    bind_values,
-    ...,
-    arrow,
-    bind,
-    query = TRUE,
-    has_cast_fun = FALSE,
-    check_return_value = NULL,
-    patch_bind_values = NULL,
-    bind_error = NA,
-    warn = FALSE,
-    is_repeated = FALSE,
-    is_premature_clear = FALSE,
-    is_untouched = FALSE) {
+  bind_values,
+  ...,
+  arrow,
+  bind,
+  query = TRUE,
+  has_cast_fun = FALSE,
+  check_return_value = NULL,
+  patch_bind_values = NULL,
+  bind_error = NA,
+  warn = FALSE,
+  is_repeated = FALSE,
+  is_premature_clear = FALSE,
+  is_untouched = FALSE
+) {
   check_dots_empty()
   force(bind_values)
   force(arrow)
@@ -61,11 +62,9 @@ test_select_bind_expr_one$fun <- function(
   is_na <- which(map_lgl(bind_values, is_na_or_null))
   result_names <- letters[seq_along(bind_values)]
 
-  #' 1. Call [dbSendQuery()], [dbSendQueryArrow()] or [dbSendStatement()]
-  #'    with a query or statement that contains placeholders,
+  #' 1. Call [dbSendQuery()], [dbSendQueryArrow()] or [dbSendStatement()] with a query or statement that contains placeholders,
   #'    store the returned [DBIResult-class] object in a variable.
-  #'    Mixing placeholders (in particular, named and unnamed ones) is not
-  #'    recommended.
+  #'    Mixing placeholders (in particular, named and unnamed ones) is not recommended.
   send_expr <- if (query) expr({
     placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
     result_check <- paste0("(", (!!cast_fun_placeholder_expr), " = ", placeholder_values, ")")
@@ -113,9 +112,8 @@ test_select_bind_expr_one$fun <- function(
     res <- dbSendStatement(con, sql)
   })
 
-  #'    It is good practice to register a call to [dbClearResult()] via
-  #'    [on.exit()] right after calling `dbSendQuery()` or `dbSendStatement()`
-  #'    (see the last enumeration item).
+  #'    It is good practice to register a call to [dbClearResult()] via [on.exit()] right after calling `dbSendQuery()`
+  #'    or `dbSendStatement()` (see the last enumeration item).
   clear_expr <- if (is_premature_clear) expr({
     dbClearResult(res)
   }) else expr({
@@ -142,13 +140,12 @@ test_select_bind_expr_one$fun <- function(
 
   #' 1. Call [dbBind()] or [dbBindArrow()]:
   bind_values_patched_expr <- if (bind == "df") expr({
-    #'      - For [dbBind()], the `params` argument must be a list where all elements
-    #'        have the same lengths and contain values supported by the backend.
+    #'      - For [dbBind()], the `params` argument must be a list where all elements have the same lengths
+    #'        and contain values supported by the backend.
     #'        A [data.frame] is internally stored as such a list.
     dbBind(res, !!bind_values_patched_expr_base)
   }) else expr({
-    #'      - For [dbBindArrow()], the `params` argument must be a
-    #'        nanoarrow array stream, with one column per query parameter.
+    #'      - For [dbBindArrow()], the `params` argument must be a nanoarrow array stream, with one column per query parameter.
     dbBindArrow(res, nanoarrow::as_nanoarrow_array_stream(!!bind_values_patched_expr_base))
   })
 
@@ -206,10 +203,9 @@ test_select_bind_expr_one$fun <- function(
     !!retrieve_expr
   })
 
-  early_exit <-
-    is_premature_clear ||
-      !is.na(bind_error) ||
-      (!is.null(patch_bind_values) && !identical(bind_values, patch_bind_values(bind_values)))
+  early_exit <- is_premature_clear ||
+    !is.na(bind_error) ||
+    (!is.null(patch_bind_values) && !identical(bind_values, patch_bind_values(bind_values)))
 
   post_bind_expr <- if (!early_exit) expr({
     !!not_untouched_expr
@@ -237,7 +233,13 @@ test_select_bind_expr_one$fun <- function(
 }
 
 construct_expr <- function(x) {
-  xc <- constructive::construct(x)
+  xc <- tryCatch(
+    constructive::construct(x, check = TRUE),
+    error = function(e) {
+      print(e)
+      constructive::construct(x, check = FALSE)
+    }
+  )
   parse_expr(format(xc$code))
 }
 

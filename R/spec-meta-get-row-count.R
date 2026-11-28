@@ -6,7 +6,7 @@
 spec_meta_get_row_count <- list(
   get_row_count_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbGetRowCount)), c("res", "..."))
+    expect_named(formals(dbGetRowCount), c("res", "..."))
   },
 
   row_count_query = function(con) {
@@ -57,10 +57,9 @@ spec_meta_get_row_count <- list(
     expect_equal(rc, 0L)
   },
   #
-  row_count_statement = function(con, table_name) {
-    query <- paste0("CREATE TABLE ", table_name, " (a integer)")
-    #' For data manipulation statements issued with
-    #' [dbSendStatement()],
+  row_count_statement = function(ctx, con, table_name) {
+    query <- ctx$tweaks$create_table_empty(table_name)
+    #' For data manipulation statements issued with [dbSendStatement()],
     res <- local_result(dbSendStatement(con, query))
     rc <- dbGetRowCount(res)
     #' zero is returned before
@@ -75,8 +74,7 @@ spec_meta_get_row_count <- list(
     #' @section Failure modes:
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
-    #' Attempting to get the row count for a result set cleared with
-    #' [dbClearResult()] gives an error.
+    #' Attempting to get the row count for a result set cleared with [dbClearResult()] gives an error.
     expect_error(dbGetRowCount(res))
   },
   #

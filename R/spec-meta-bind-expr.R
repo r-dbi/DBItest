@@ -6,10 +6,11 @@
 #' @format NULL
 #' @keywords NULL
 spec_meta_bind_expr <- function(
-    arrow = c("none", "query"),
-    bind = c("df", "stream"),
-    ...,
-    ctx = stop("ctx is available during run time only")) {
+  arrow = c("none", "query"),
+  bind = c("df", "stream"),
+  ...,
+  ctx = stop("ctx is available during run time only", call. = FALSE)
+) {
   check_dots_empty()
   arrow <- arg_match(arrow)
   bind <- arg_match(bind)
@@ -39,8 +40,7 @@ spec_meta_bind_expr <- function(
         expect_false(bind_res$visible)
       }
 
-      #' also for data manipulation statements issued by
-      #' [dbSendStatement()].
+      #' also for data manipulation statements issued by [dbSendStatement()].
       test_select_bind_expr(
         arrow = arrow,
         bind = bind,
@@ -179,9 +179,7 @@ spec_meta_bind_expr <- function(
       )
     },
 
-    #' The behavior for mixing placeholders of different types
-    #' (in particular mixing positional and named placeholders)
-    #' is not specified.
+    #' The behavior for mixing placeholders of different types (in particular mixing positional and named placeholders) is not specified.
     #'
 
     bind_premature_clear = function() {
@@ -219,15 +217,13 @@ spec_meta_bind_expr <- function(
 
       #' are supported.
       # This behavior is tested as part of run_bind_tester$fun
-      #' For queries, calling `dbFetch()` binding such parameters returns
-      #' concatenated results, equivalent to binding and fetching for each set
-      #' of values and connecting via [rbind()].
+      #' For queries, calling `dbFetch()` binding such parameters returns concatenated results,
+      #' equivalent to binding and fetching for each set of values and connecting via [rbind()].
     },
     #
     bind_multi_row_statement = if (arrow != "query") function() {
       # This behavior is tested as part of run_bind_tester$fun
-      #' For data manipulation statements, `dbGetRowsAffected()` returns the
-      #' total number of rows affected if binding non-scalar parameters.
+      #' For data manipulation statements, `dbGetRowsAffected()` returns the total number of rows affected if binding non-scalar parameters.
       test_select_bind_expr(
         arrow = arrow,
         bind = bind,
@@ -356,7 +352,7 @@ spec_meta_bind_expr <- function(
     },
 
     bind_factor = function() {
-      #' - [factor] (bound as character,
+      #' - [factor][base::factor] (bound as character,
       #' with warning)
       test_select_bind_expr(
         arrow = arrow,
@@ -368,7 +364,7 @@ spec_meta_bind_expr <- function(
     },
 
     bind_date = function() {
-      #' - [Date]
+      #' - [Date][Dates]
       test_select_bind_expr(
         arrow = arrow,
         bind = bind,
@@ -388,7 +384,7 @@ spec_meta_bind_expr <- function(
     },
 
     bind_timestamp = function() {
-      #' - [POSIXct] timestamps
+      #' - [POSIXct][DateTimeClasses] timestamps
       data_in <- as.POSIXct(c(
         "2023-12-17 02:40:22",
         "2023-12-17 02:40:23",
@@ -484,6 +480,7 @@ spec_meta_bind_expr <- function(
 }
 
 get_bind_arrow_infix <- function(arrow, bind) {
+  # nolint start: unnecessary_nesting_linter. Intended parallelism.
   if (arrow == "none") {
     if (bind == "df") {
       ""
@@ -497,4 +494,5 @@ get_bind_arrow_infix <- function(arrow, bind) {
       "arrow_stream_"
     }
   }
+  # nolint end: unnecessary_nesting_linter.
 }

@@ -1,17 +1,7 @@
-Resubmission.
+DBItest 1.8.3
 
-Resubmission.
+## Cran Repository Policy
 
-DBItest 1.8.0
+- [x] Reviewed CRP last edited 2026-05-31.
 
-## R CMD check results
-
-- [x] Checked locally, R 4.3.2
-- [x] Checked on CI system, R 4.3.2
-- [x] Checked on win-builder, R devel
-
-## Current CRAN check results
-
-- [x] Checked on 2023-12-21, problems found: https://cran.r-project.org/web/checks/check_results_DBItest.html
-- [x] NOTE: r-devel-linux-x86_64-debian-clang, r-devel-linux-x86_64-debian-gcc, r-devel-linux-x86_64-fedora-clang, r-devel-linux-x86_64-fedora-gcc, r-devel-windows-x86_64, r-patched-linux-x86_64, r-release-linux-x86_64, r-release-macos-arm64, r-release-macos-x86_64, r-release-windows-x86_64, r-oldrel-macos-arm64, r-oldrel-windows-x86_64: Additional_repositories
-     Package suggested but not available for checking: ‘dblog’: Fixed
+See changes at https://github.com/eddelbuettel/crp/compare/master@%7B2024-08-27%7D...master@%7B2026-05-31%7D

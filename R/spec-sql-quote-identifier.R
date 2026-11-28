@@ -6,7 +6,7 @@
 spec_sql_quote_identifier <- list(
   quote_identifier_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbQuoteIdentifier)), c("conn", "x", "..."))
+    expect_named(formals(dbQuoteIdentifier), c("conn", "x", "..."))
   },
 
   quote_identifier_return = function(con) {
@@ -21,15 +21,15 @@ spec_sql_quote_identifier <- list(
     #' of the same length as the input.
     simple <- "simple"
     simple_out <- dbQuoteIdentifier(con, simple)
-    expect_equal(length(simple_out), 1L)
+    expect_length(simple_out, 1L)
 
     letters_out <- dbQuoteIdentifier(con, letters)
-    expect_equal(length(letters_out), length(letters))
+    expect_length(letters_out, length(letters))
 
     #' For an empty character vector this function returns a length-0 object.
     empty <- character()
     empty_out <- dbQuoteIdentifier(con, empty)
-    expect_equal(length(empty_out), 0L)
+    expect_length(empty_out, 0L)
 
     #' The names of the input argument are preserved in the output.
     unnamed <- letters
@@ -37,11 +37,9 @@ spec_sql_quote_identifier <- list(
     expect_null(names(unnamed_out))
     named <- stats::setNames(LETTERS[1:3], letters[1:3])
     named_out <- dbQuoteIdentifier(con, named)
-    expect_equal(names(named_out), letters[1:3])
+    expect_named(named_out, letters[1:3])
 
-    #' When passing the returned object again to `dbQuoteIdentifier()`
-    #' as `x`
-    #' argument, it is returned unchanged.
+    #' When passing the returned object again to `dbQuoteIdentifier()` as `x` argument, it is returned unchanged.
     expect_identical(dbQuoteIdentifier(con, simple_out), simple_out)
     expect_identical(dbQuoteIdentifier(con, letters_out), letters_out)
     expect_identical(dbQuoteIdentifier(con, empty_out), empty_out)
@@ -75,7 +73,7 @@ spec_sql_quote_identifier <- list(
     #' in particular in queries like `SELECT 1 AS ...`
     query <- trivial_query(column = simple)
     rows <- check_df(dbGetQuery(con, query))
-    expect_identical(names(rows), "simple")
+    expect_named(rows, "simple")
     expect_identical(unlist(unname(rows)), 1.5)
 
     #' and `SELECT * FROM (SELECT 1) ...`.
@@ -85,9 +83,8 @@ spec_sql_quote_identifier <- list(
   },
 
   quote_identifier_string = function(ctx, con) {
-    #' The method must use a quoting mechanism that is unambiguously different
-    #' from the quoting mechanism used for strings, so that a query like
-    #' `SELECT ... FROM (SELECT 1 AS ...)`
+    #' The method must use a quoting mechanism that is unambiguously different from the quoting mechanism used for strings,
+    #' so that a query like `SELECT ... FROM (SELECT 1 AS ...)`
     query <- paste0(
       "SELECT ", dbQuoteIdentifier(con, "b"), " FROM (",
       "SELECT 1 AS ", dbQuoteIdentifier(con, "a"), ")"
@@ -99,8 +96,7 @@ spec_sql_quote_identifier <- list(
   #
   #'
   quote_identifier_special = function(ctx, con) {
-    #' The method can quote column names that
-    #' contain special characters such as a space,
+    #' The method can quote column names that contain special characters such as a space,
     with_space_in <- "with space"
     with_space <- dbQuoteIdentifier(con, with_space_in)
     #' a dot,
@@ -126,8 +122,7 @@ spec_sql_quote_identifier <- list(
       skip("tweak: strict_identifier")
     }
 
-    #' In any case, checking the validity of the identifier
-    #' should be performed only when executing a query,
+    #' In any case, checking the validity of the identifier should be performed only when executing a query,
     #' and not by `dbQuoteIdentifier()`.
     query <- paste0(
       "SELECT ",
@@ -143,8 +138,8 @@ spec_sql_quote_identifier <- list(
     )
 
     rows <- check_df(dbGetQuery(con, query))
-    expect_identical(
-      names(rows),
+    expect_named(
+      rows,
       c(
         with_space_in, with_dot_in, with_comma_in,
         with_quote_in,

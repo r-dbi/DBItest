@@ -6,7 +6,7 @@
 spec_meta_column_info <- list(
   column_info_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbColumnInfo)), c("res", "..."))
+    expect_named(formals(dbColumnInfo), c("res", "..."))
   },
 
   column_info = function(ctx, con, table_name) {
@@ -22,16 +22,15 @@ spec_meta_column_info <- list(
     #' with at least two columns `"name"` and `"type"` (in that order)
     expect_equal(names(fields)[1:2], c("name", "type"))
     #' (and optional columns that start with a dot).
-    expect_true(all(grepl("^[.]", names(fields)[-1:-2])))
+    expect_true(all(startsWith(names(fields)[-1:-2], ".")))
 
-    #' The `"name"` and `"type"` columns contain the names and types
-    #' of the R columns of the data frame that is returned from [`dbFetch()`].
+    #' The `"name"` and `"type"` columns contain the names and types of the R columns of the data frame that is returned from [`dbFetch()`].
     penguins_ret <- dbFetch(res)
     expect_identical(fields$name, names(penguins_ret))
     #' The `"type"` column is of type `character` and only for information.
     expect_type(fields$type, "character")
-    #' Do not compute on the `"type"` column, instead use `dbFetch(res, n = 0)`
-    #' to create a zero-row data frame initialized with the correct data types.
+    #' Do not compute on the `"type"` column,
+    #' instead use `dbFetch(res, n = 0)` to create a zero-row data frame initialized with the correct data types.
   },
 
 

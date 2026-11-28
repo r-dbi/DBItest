@@ -6,7 +6,7 @@
 spec_sql_append_table <- list(
   append_table_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbAppendTable)), c("conn", "name", "value", "...", "row.names"))
+    expect_named(formals(dbAppendTable), c("conn", "name", "value", "...", "row.names"))
   },
 
   append_table_return = function(con, table_name) {
@@ -17,9 +17,9 @@ spec_sql_append_table <- list(
     ret <- dbAppendTable(con, table_name, test_in)
 
     #' scalar
-    expect_equal(length(ret), 1)
+    expect_length(ret, 1)
     #' numeric.
-    expect_true(is.numeric(ret))
+    expect_true(is.numeric(ret)) # nolint: expect_type_linter. back-compatibility.
   },
 
   #'
@@ -69,8 +69,7 @@ spec_sql_append_table <- list(
     #' if this results in a non-scalar.
     expect_error(dbAppendTable(con, c("test", "test"), test_in))
 
-    #' Invalid values for the `row.names` argument
-    #' (non-scalars,
+    #' Invalid values for the `row.names` argument (non-scalars,
     expect_error(dbAppendTable(con, "test", test_in, row.names = letters))
     #' unsupported data types,
     expect_error(dbAppendTable(con, "test", test_in, row.names = list(1L)))
@@ -153,7 +152,7 @@ spec_sql_append_table <- list(
     #' The following data types must be supported at least,
     #' and be read identically with [dbReadTable()]:
     #' - integer
-    tbl_in <- data.frame(a = c(1:5))
+    tbl_in <- data.frame(a = 1:5)
     test_table_roundtrip(use_append = TRUE, con, tbl_in)
   },
 
@@ -208,8 +207,7 @@ spec_sql_append_table <- list(
       use_append = TRUE,
       con, tbl_in, tbl_exp,
       transform = function(tbl_out) {
-        #'     - converted a character vector, which gives the full decimal
-        #'       representation
+        #'     - converted a character vector, which gives the full decimal representation
         tbl_out$a <- as.character(tbl_out$a)
         tbl_out
       },
@@ -278,8 +276,7 @@ spec_sql_append_table <- list(
   },
 
   append_roundtrip_raw = function(ctx, con) {
-    #' - list of raw
-    #'   (if supported by the database)
+    #' - list of raw (if supported by the database)
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }
@@ -298,8 +295,7 @@ spec_sql_append_table <- list(
   },
 
   append_roundtrip_blob = function(ctx, con) {
-    #' - objects of type [blob::blob]
-    #'   (if supported by the database)
+    #' - objects of type [blob::blob] (if supported by the database)
     if (isTRUE(ctx$tweaks$omit_blob_tests)) {
       skip("tweak: omit_blob_tests")
     }
@@ -316,8 +312,7 @@ spec_sql_append_table <- list(
   },
 
   append_roundtrip_date = function(ctx, con) {
-    #' - date
-    #'   (if supported by the database;
+    #' - date (if supported by the database;
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
@@ -363,8 +358,7 @@ spec_sql_append_table <- list(
   },
 
   append_roundtrip_time = function(ctx, con) {
-    #' - time
-    #'   (if supported by the database;
+    #' - time (if supported by the database;
     if (!isTRUE(ctx$tweaks$time_typed)) {
       skip("tweak: !time_typed")
     }
@@ -390,8 +384,7 @@ spec_sql_append_table <- list(
   },
 
   append_roundtrip_timestamp = function(ctx, con) {
-    #' - timestamp
-    #'   (if supported by the database;
+    #' - timestamp (if supported by the database;
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
@@ -407,11 +400,10 @@ spec_sql_append_table <- list(
     tbl_in <- data.frame(id = seq_along(local))
     tbl_in$local <- local
     tbl_in$gmt <- lubridate::with_tz(local, tzone = "GMT")
-    tbl_in$pst8pdt <- lubridate::with_tz(local, tzone = "PST8PDT")
+    tbl_in$los_angeles <- lubridate::with_tz(local, tzone = "America/Los_Angeles")
     tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
-    #'   respecting the time zone but not necessarily preserving the
-    #'   input time zone),
+    #'   respecting the time zone but not necessarily preserving the input time zone),
     test_table_roundtrip(
       use_append = TRUE,
       con, tbl_in,
@@ -419,6 +411,7 @@ spec_sql_append_table <- list(
         dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
+        tz[tz == "LOS_ANGELES"] <- "America/Los_Angeles"
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
         out
       }
@@ -448,11 +441,10 @@ spec_sql_append_table <- list(
     tbl_in <- data.frame(id = seq_along(local))
     tbl_in$local <- local
     tbl_in$gmt <- lubridate::with_tz(local, tzone = "GMT")
-    tbl_in$pst8pdt <- lubridate::with_tz(local, tzone = "PST8PDT")
+    tbl_in$los_angeles <- lubridate::with_tz(local, tzone = "America/Los_Angeles")
     tbl_in$utc <- lubridate::with_tz(local, tzone = "UTC")
 
-    #'   respecting the time zone but not necessarily preserving the
-    #'   input time zone)
+    #'   respecting the time zone but not necessarily preserving the input time zone)
     test_table_roundtrip(
       use_append = TRUE,
       con, tbl_in,
@@ -460,6 +452,7 @@ spec_sql_append_table <- list(
         dates <- map_lgl(out, inherits, "POSIXt")
         tz <- toupper(names(out))
         tz[tz == "LOCAL"] <- ""
+        tz[tz == "LOS_ANGELES"] <- "America/Los_Angeles"
         out[dates] <- Map(lubridate::with_tz, out[dates], tz[dates])
         out
       }
