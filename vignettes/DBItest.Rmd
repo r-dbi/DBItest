@@ -203,6 +203,7 @@ To read the code of the test, print it.
 The `spec_*` objects are internal to DBItest, hence the `:::`, and may change between versions:
 
 ```{r print-test}
+# nolint next: undesirable_operator_linter. Internal object, for debugging.
 DBItest:::spec_all$send_query_only_one_result_set
 ```
 
