@@ -1,5 +1,3 @@
-<!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
-
 # DBItest 1.8.3.9015 (2026-11-28)
 
 ## Chore
