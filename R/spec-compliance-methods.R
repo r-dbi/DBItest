@@ -90,6 +90,7 @@ spec_compliance_methods <- list(
 # Helpers -----------------------------------------------------------------
 
 #' @importFrom methods hasMethod
+#' @export
 expect_has_class_method <- function(name, class, args, driver_package) {
   full_args <- c(class, args)
   eval(bquote(
@@ -97,6 +98,7 @@ expect_has_class_method <- function(name, class, args, driver_package) {
   ))
 }
 
+#' @export
 expect_ellipsis_in_formals <- function(method, name) {
   sym <- as.name(name)
   eval(bquote({
@@ -105,6 +107,7 @@ expect_ellipsis_in_formals <- function(method, name) {
   }))
 }
 
+#' @export
 get_key_methods <- function() {
   list(
     Driver = list(

@@ -94,6 +94,7 @@ get_default_context <- function() {
   .ctx_env$default_context
 }
 
+#' @export
 package_name <- function(ctx) {
   attr(class(ctx$drv), "package")
 }
@@ -102,6 +103,7 @@ package_name <- function(ctx) {
 # This function creates connections with the driver and arguments specified in the context.
 # It supports additional connection arguments passed through the ellipsis operator.
 # Returns a database connection object ready for testing operations.
+#' @export
 connect <- function(ctx, ...) {
   quos <- enquos(...)
   eval_tidy(quo(dbConnect(ctx$cnr, !!!quos)))

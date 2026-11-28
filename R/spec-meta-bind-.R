@@ -75,6 +75,7 @@ test_select_bind_expr <- function(
   })
 }
 
+#' @export
 get_placeholder_funs <- function(ctx, requires_names = NULL) {
   placeholder_fun <- ctx$tweaks$placeholder_pattern
   if (is.character(placeholder_fun)) {

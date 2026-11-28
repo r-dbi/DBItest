@@ -9,6 +9,7 @@ expect_arglist_is_empty <- function(object) {
   invisible(act$val)
 }
 
+#' @export
 expect_all_args_have_default_values <- function(object) {
   act <- quasi_label(enquo(object), arg = "object")
   act$args <- formals(act$val)
@@ -39,6 +40,7 @@ expect_visible <- function(code) {
   ret$value
 }
 
+#' @export
 expect_invisible_true <- function(code) {
   ret <- withVisible(code)
   expect_true(ret$value)
@@ -51,6 +53,7 @@ expect_invisible_true <- function(code) {
 # This function performs comprehensive data frame comparison with type coercion.
 # It handles factors, AsIs columns, list columns, and row ordering for accurate comparisons.
 # The function ensures consistent comparison behavior across different DBI implementations.
+#' @export
 expect_equal_df <- function(actual, expected) {
   factor_cols <- map_lgl(expected, is.factor)
   expected[factor_cols] <- map(expected[factor_cols], as.character)

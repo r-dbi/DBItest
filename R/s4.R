@@ -3,6 +3,7 @@
 # This function discovers all S4 generic methods and their implementations.
 # It supports filtering by package through an optional pkg_fun predicate.
 # Returns a comprehensive list of S4 methods available for testing and validation.
+#' @export
 s4_methods <- function(env, pkg_fun = NULL) {
   generics <- methods::getGenerics(env)
 

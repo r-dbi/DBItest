@@ -1,3 +1,4 @@
+#' @export
 get_pkg_path <- function(ctx) {
   pkg_name <- package_name(ctx)
   expect_type(pkg_name, "character")
@@ -13,6 +14,7 @@ utils::globalVariables("con2")
 # This function establishes a connection using the provided context and additional arguments.
 # It leverages withr::local_db_connection to ensure proper cleanup and resource management.
 # The connection is automatically closed when the calling function or test completes.
+#' @export
 local_connection <- function(ctx, ..., .local_envir = parent.frame()) {
   con <- connect(ctx, ...)
   withr::local_db_connection(con, .local_envir = .local_envir)
@@ -43,6 +45,7 @@ local_invalid_connection <- function(ctx, ...) {
 # This function registers a deferred cleanup action to call dbClearResult on the query result.
 # It prevents resource leaks by guaranteeing result set cleanup even if tests fail.
 # The cleanup is tied to the calling frame's lifecycle for proper scope management.
+#' @export
 local_result <- function(query, frame = caller_env()) {
   res <- query
   withr::defer( # nolint next: unnecessary_nesting_linter. The braces ensure the srcref.
@@ -59,6 +62,7 @@ local_result <- function(query, frame = caller_env()) {
 # This function ensures test tables are properly cleaned up after test execution.
 # It uses deferred execution to attempt table removal even if the test fails.
 # The cleanup is wrapped in try_silent to handle cases where the table doesn't exist.
+#' @export
 local_remove_test_table <- function(con, name, frame = caller_env()) {
   table_name <- dbQuoteIdentifier(con, name)
   withr::defer(
@@ -73,6 +77,7 @@ local_remove_test_table <- function(con, name, frame = caller_env()) {
 # This function selects specific rows from the penguins dataset for consistent testing.
 # It converts factor columns to character strings for better DBI compatibility.
 # Returns a data.frame suitable for testing database operations and data roundtrips.
+#' @export
 get_penguins <- function(ctx) {
   datasets_penguins <- unrowname(palmerpenguins::penguins[c(1, 153, 277), ])
   # FIXME: better handling of DBI backends that do support factors
@@ -82,6 +87,7 @@ get_penguins <- function(ctx) {
   as.data.frame(datasets_penguins)
 }
 
+#' @export
 unrowname <- function(x) {
   rownames(x) <- NULL
   x
@@ -91,6 +97,7 @@ unrowname <- function(x) {
 # This function creates table names with a 'dbit' prefix followed by random letters.
 # It helps prevent test interference by ensuring each test uses unique table names.
 # The randomization reduces the risk of conflicts in concurrent test execution.
+#' @export
 random_table_name <- function(n = 10) {
   # FIXME: Use parallel-safe sequence of numbers
   paste0("dbit", paste(sample(letters, n, replace = TRUE), collapse = ""))
@@ -100,6 +107,7 @@ random_table_name <- function(n = 10) {
 # This function is used for cleanup operations that may fail safely.
 # It prevents error propagation during resource cleanup in test teardown.
 # Returns the result of successful execution or NULL if an error occurs.
+#' @export
 try_silent <- function(code) {
   tryCatch(
     code,
@@ -111,6 +119,7 @@ try_silent <- function(code) {
 # This function performs comprehensive checks on data frame consistency.
 # It verifies column lengths are equal, row count matches, and column names are valid.
 # Returns the validated data frame or throws descriptive errors for invalid structures.
+#' @export
 check_df <- function(df) {
   expect_s3_class(df, "data.frame")
   if (length(df) >= 1L) {

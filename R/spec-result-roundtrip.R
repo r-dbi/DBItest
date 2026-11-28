@@ -254,12 +254,14 @@ spec_result_roundtrip <- list(
 )
 
 
+#' @export
 test_select_with_null <- function(...) {
   test_select(..., .add_null = "none")
   test_select(..., .add_null = "above")
   test_select(..., .add_null = "below")
 }
 
+#' @export
 test_select <- function(
   con,
   ...,
@@ -355,6 +357,7 @@ all_have_utf8_or_ascii_encoding <- function(x) {
   all(map_lgl(x, has_utf8_or_ascii_encoding))
 }
 
+#' @export
 has_utf8_or_ascii_encoding <- function(x) {
   if (Encoding(x) == "UTF-8") {
     TRUE

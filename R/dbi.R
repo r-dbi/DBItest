@@ -29,6 +29,7 @@ create_generics <- function() {
   writeLines(text, "R/generics.R")
 }
 
+#' @export
 dbi_generics <- function(version) {
   version <- as.package_version(version)
 

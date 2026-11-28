@@ -809,12 +809,14 @@ spec_sql_write_table <- list(
   NULL
 )
 
+#' @export
 test_table_roundtrip <- function(...) {
   test_table_roundtrip_one(..., .add_na = "none")
   test_table_roundtrip_one(..., .add_na = "above")
   test_table_roundtrip_one(..., .add_na = "below")
 }
 
+#' @export
 test_table_roundtrip_one <- function(
   con,
   tbl_in,
