@@ -322,8 +322,8 @@ test_select <- function(
 
   expect_named(rows, sql_names)
 
-  # Single values are taken from the column with `[`,
-  # which is what `[.data.frame` does with `drop = TRUE`.
+  # Single values are taken by extracting the column with `[[`
+  # and subsetting it with `[`, which gives what `[.data.frame` gives with `drop = TRUE`.
   # This also works for data frame subclasses such as tibbles,
   # whose `[` keeps a one-by-one data frame, see #400.
   for (i in seq_along(values)) {
