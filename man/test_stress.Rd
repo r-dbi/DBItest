@@ -16,7 +16,7 @@ For example, \code{skip = "exists_table"} will skip both \code{"exists_table_1"}
 }
 \value{
 Called for its side effect of running the tests with testthat.
-Returns a logical vector with one element per test in the suite:
+Returns a logical vector with one element per test selected by \code{run_only}:
 \code{TRUE} for a test that ran without failure, \code{FALSE} for one that failed or was excluded by \code{skip}.
 }
 \description{

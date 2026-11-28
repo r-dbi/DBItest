@@ -108,7 +108,7 @@ A function that creates an SQL expression for creating an empty table with a sin
 Compatible DBItest version, default: "1.7.1".}
 }
 \value{
-A named list of class \code{DBItest_tweaks} that holds every tweak whose value is not \code{NULL}, defaults included.
+A named list of class \code{DBItest_tweaks} that holds every tweak with a non-empty value, defaults included.
 }
 \description{
 The tweaks are a way to control the behavior of certain tests.

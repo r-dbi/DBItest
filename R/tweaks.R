@@ -4,7 +4,7 @@
 #' Currently, you need to search the \pkg{DBItest} source code to understand which tests are affected by which tweaks.
 #' This function is usually called to set the `tweaks` argument in a [make_context()] call.
 #'
-#' @return A named list of class `DBItest_tweaks` that holds every tweak whose value is not `NULL`, defaults included.
+#' @return A named list of class `DBItest_tweaks` that holds every tweak with a non-empty value, defaults included.
 #' @name tweaks
 #' @aliases NULL
 #' @examples
