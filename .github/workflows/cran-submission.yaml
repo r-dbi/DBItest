@@ -35,7 +35,10 @@
 #    Only a tarball from such a run is recompressed, so dispatch it again after every change to the branch.
 #    Dispatch it after the push, not before: a push run and a dispatch run of the same commit share a concurrency group,
 #    so the later one cancels the earlier one; R-CMD-check.yaml starts push runs on `main`, for a fix made there.
-#    Then dispatch release-gate.yaml, builders.yaml, rhub.yaml and revdep.yaml.
+#    Start rhub.yaml and the reverse-dependency check alongside it, the latter without committing its report:
+#    `gh workflow run revdep4.yaml --repo r-dbi/DBItest --ref <branch> -f which=most -f depth=1 -f commit=false`.
+#    Once the check run is green, dispatch release-gate.yaml and builders.yaml, which use its tarball.
+#    revdep-report.yaml lands the reverse-dependency report in revdep/ later, from the run's artifact.
 #    The release workflows post their results to the checklist pull request;
 #    win-builder mails its verdict to the maintainer.
 #    Every error, warning and note is a blocker unless the checklist pull request explains it.
