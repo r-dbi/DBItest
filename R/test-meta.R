@@ -8,6 +8,9 @@ NULL
 #' Test metadata functions
 #'
 #' @inheritParams test_all
+#' @return Called for its side effect of running the tests with testthat.
+#'   Returns a logical vector with one element per test in the suite:
+#'   `TRUE` for a test that ran without failure, `FALSE` for one that failed or was excluded by `skip`.
 #' @include test-sql.R
 #' @family tests
 #' @export

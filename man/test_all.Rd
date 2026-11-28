@@ -27,6 +27,10 @@ The regular expressions are matched against the entire test name.}
 A character vector of regular expressions describing the tests to run.
 The regular expressions are matched against the entire test name.}
 }
+\value{
+\code{test_all()} and \code{test_some()} are called for their side effect of running the tests with testthat.
+They return \code{NULL} invisibly.
+}
 \description{
 \code{test_all()} calls all tests defined in this package (see the section "Tests" below).
 This function supports running only one test by setting an environment variable,

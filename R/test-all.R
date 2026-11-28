@@ -17,6 +17,9 @@
 #'   The regular expressions are matched against the entire test name.
 #' @param ctx `[DBItest_context]`\cr A test context as created by [make_context()].
 #'
+#' @return `test_all()` and `test_some()` are called for their side effect of running the tests with testthat.
+#'   They return `NULL` invisibly.
+#'
 #' @export
 test_all <- function(skip = NULL, run_only = NULL, ctx = get_default_context()) {
   run_all <- !any(startsWith(names(Sys.getenv()), "DBITEST_ONLY_"))
