@@ -1,5 +1,68 @@
 # Changelog
 
+## DBItest 1.9.0 (2026-11-28)
+
+### Features
+
+- New specs for the schema of Arrow results
+  ([\#571](https://github.com/r-dbi/DBItest/issues/571)). They check
+  that `dbFetchArrow()` and `dbGetQueryArrow()` expose a complete schema
+  before the first batch, also for zero-row results, that the schema
+  stays the same across `dbFetchArrowChunk()` chunks and across
+  `dbBind()` executions with `dbSendQueryArrow()`, and that a `BIGINT`
+  column comes back from `dbReadTableArrow()` as `int64`. Backends opt
+  in with the `dbitest_version` tweak, such as `"1.9.0"`; all six specs
+  need at least `"1.8.3.6"`, and they are skipped otherwise. bit64 is
+  added to Suggests.
+
+- [`make_context()`](https://dbitest.r-dbi.org/reference/context.md) and
+  the `test_*()` functions validate their arguments (`set_as_default`,
+  `name`, `default_skip`, `skip`, `run_only`) with rlang’s type checks,
+  so an invalid value such as `set_as_default = 1` now aborts with an
+  informative error
+  ([\#433](https://github.com/r-dbi/DBItest/issues/433)). Valid calls
+  are unaffected. A result that is not a data frame now fails with
+  “Expected a data frame, not .”
+
+- DBItest now requires rlang \>= 1.2.0 and imports cli
+  ([\#433](https://github.com/r-dbi/DBItest/issues/433)).
+
+### Bug fixes
+
+- `expect_all_args_have_default_values()` accepts an empty string,
+  `NULL` and calls such as `c("a", "b")` as default values, which
+  previously counted as missing or raised an error
+  ([\#587](https://github.com/r-dbi/DBItest/issues/587)).
+
+- The roundtrip specs extract single values with `rows[[i]][1L]` instead
+  of `rows[1L, i]`, so backends that return data frame subclasses such
+  as tibbles no longer fail them
+  ([\#590](https://github.com/r-dbi/DBItest/issues/590)).
+
+- The timestamp roundtrip specs use `America/Los_Angeles` instead of the
+  legacy `PST8PDT` time zone, which is missing on systems without the
+  `tzdata-legacy` package, such as Ubuntu 26.04
+  ([\#540](https://github.com/r-dbi/DBItest/issues/540)).
+
+### Documentation
+
+- New section “When a test fails” in
+  [`vignette("DBItest")`](https://dbitest.r-dbi.org/articles/DBItest.md),
+  on how to find, run, inspect and debug a single failing test; the
+  outdated paragraph on dblog is removed
+  ([\#589](https://github.com/r-dbi/DBItest/issues/589)).
+
+- The `fetch_no_return_value` spec now states that `dbFetch()` on a
+  result set from `dbSendStatement()` returns an empty data frame with a
+  warning, and that such result sets should not be fetched
+  ([\#588](https://github.com/r-dbi/DBItest/issues/588)).
+
+- The README states the goals and non-goals of DBItest
+  ([\#565](https://github.com/r-dbi/DBItest/issues/565)) and installs
+  the development version with
+  [`pak::pak()`](https://pak.r-lib.org/reference/pak.html)
+  ([\#560](https://github.com/r-dbi/DBItest/issues/560)).
+
 ## DBItest 1.8.3 (2026-07-22)
 
 ### Features
@@ -342,7 +405,7 @@
   [@michaelquinn32](https://github.com/michaelquinn32)).
 - Decompose query used for testing `dbBind()`.
 
-## DBItest 1.7.1 (2021-07-30)
+## DBItest 1.7.1 (2021-07-31)
 
 ### Features
 
@@ -533,17 +596,17 @@
 - Convert factor to character for iris data
   ([\#141](https://github.com/r-dbi/DBItest/issues/141)).
 
-## DBItest 1.5-2 (2018-01-26)
+## DBItest 1.5-2 (2018-01-25)
 
 - Fix test that fails with “noLD”.
 - Fix NOTEs on R-devel.
 
-## DBItest 1.5-1 (2017-12-10)
+## DBItest 1.5-1 (2017-12-11)
 
 - Remove `"cannot_forget_disconnect"` test that fails on R-devel
   ([\#150](https://github.com/r-dbi/DBItest/issues/150)).
 
-## DBItest 1.5 (2017-06-18)
+## DBItest 1.5 (2017-06-19)
 
 Finalize specification. Most tests now come with a corresponding prose,
 only those where the behavior is not finally decided don’t have a prose
@@ -658,7 +721,7 @@ version yet ([\#88](https://github.com/r-dbi/DBItest/issues/88)).
   `expect_inbisible_true()`, and `expect_equal_df()` expectations for
   more concise tests.
 
-## DBItest 1.4 (2016-12-02)
+## DBItest 1.4 (2016-12-03)
 
 ### DBI specification
 
@@ -750,7 +813,7 @@ version yet ([\#88](https://github.com/r-dbi/DBItest/issues/88)).
 - Work around regression in R 3.3.0 (fix scheduled for R 3.3.1) which
   affected stress tests.
 
-## DBItest 1.2 (2016-05-21)
+## DBItest 1.2 (2016-05-24)
 
 - Infrastructure
   - Support names for contexts ([@hoesler](https://github.com/hoesler),
@@ -781,7 +844,7 @@ version yet ([\#88](https://github.com/r-dbi/DBItest/issues/88)).
   - Install `RPostgres` and `RMySQL` from `rstats-db`.
   - Install `DBI` and `testthat` from GitHub.
 
-## Version 1.1 (2016-02-12)
+## DBItest 1.1 (2016-02-12)
 
 - New feature: tweaks
   - New argument `tweaks` to
@@ -844,7 +907,7 @@ version yet ([\#88](https://github.com/r-dbi/DBItest/issues/88)).
   - Use versioned dependency for DBI
   - Use unqualified calls to `dbBind()` again
 
-## Version 1.0 (2015-12-17)
+## DBItest 1.0 (2015-12-17)
 
 - CRAN release
   - Eliminate errors on win-builder
@@ -853,7 +916,7 @@ version yet ([\#88](https://github.com/r-dbi/DBItest/issues/88)).
   - Add RStudio as copyright holder
   - Move `devtools` package from “Imports” to “Suggests”
 
-## Version 0.3 (2015-11-15)
+## DBItest 0.3 (2015-11-15)
 
 - Feature-complete, ready for review
 - Tests from the proposal
@@ -901,7 +964,7 @@ version yet ([\#88](https://github.com/r-dbi/DBItest/issues/88)).
     ([\#38](https://github.com/r-dbi/DBItest/issues/38))
 - Same as 0.2-5
 
-## Version 0.2 (2015-11-11)
+## DBItest 0.2 (2015-11-11)
 
 - Tests from the proposal
   - SQL
@@ -928,7 +991,7 @@ version yet ([\#88](https://github.com/r-dbi/DBItest/issues/88)).
 - Move repository to rstats-db namespace
 - Same as 0.1-6
 
-## Version 0.1 (2015-10-11)
+## DBItest 0.1 (2015-10-11)
 
 - First GitHub release
 - Builds successfully on Travis

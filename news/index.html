@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.8.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,6 +33,27 @@
       <small>Source: <a href="https://github.com/r-dbi/DBItest/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="1.9.0" id="dbitest-190-2026-11-28">DBItest 1.9.0 (2026-11-28)<a class="anchor" aria-label="anchor" href="#dbitest-190-2026-11-28"></a></h2>
+<div class="section level3">
+<h3 id="features-1-9-0">Features<a class="anchor" aria-label="anchor" href="#features-1-9-0"></a></h3>
+<ul><li><p>New specs for the schema of Arrow results (<a href="https://github.com/r-dbi/DBItest/issues/571" class="external-link">#571</a>). They check that <code>dbFetchArrow()</code> and <code>dbGetQueryArrow()</code> expose a complete schema before the first batch, also for zero-row results, that the schema stays the same across <code>dbFetchArrowChunk()</code> chunks and across <code>dbBind()</code> executions with <code>dbSendQueryArrow()</code>, and that a <code>BIGINT</code> column comes back from <code>dbReadTableArrow()</code> as <code>int64</code>. Backends opt in with the <code>dbitest_version</code> tweak, such as <code>"1.9.0"</code>; all six specs need at least <code>"1.8.3.6"</code>, and they are skipped otherwise. bit64 is added to Suggests.</p></li>
+<li><p><code><a href="../reference/context.html">make_context()</a></code> and the <code>test_*()</code> functions validate their arguments (<code>set_as_default</code>, <code>name</code>, <code>default_skip</code>, <code>skip</code>, <code>run_only</code>) with rlang’s type checks, so an invalid value such as <code>set_as_default = 1</code> now aborts with an informative error (<a href="https://github.com/r-dbi/DBItest/issues/433" class="external-link">#433</a>). Valid calls are unaffected. A result that is not a data frame now fails with “Expected a data frame, not <type>.”</type></p></li>
+<li><p>DBItest now requires rlang &gt;= 1.2.0 and imports cli (<a href="https://github.com/r-dbi/DBItest/issues/433" class="external-link">#433</a>).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="bug-fixes-1-9-0">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-9-0"></a></h3>
+<ul><li><p><code>expect_all_args_have_default_values()</code> accepts an empty string, <code>NULL</code> and calls such as <code>c("a", "b")</code> as default values, which previously counted as missing or raised an error (<a href="https://github.com/r-dbi/DBItest/issues/587" class="external-link">#587</a>).</p></li>
+<li><p>The roundtrip specs extract single values with <code>rows[[i]][1L]</code> instead of <code>rows[1L, i]</code>, so backends that return data frame subclasses such as tibbles no longer fail them (<a href="https://github.com/r-dbi/DBItest/issues/590" class="external-link">#590</a>).</p></li>
+<li><p>The timestamp roundtrip specs use <code>America/Los_Angeles</code> instead of the legacy <code>PST8PDT</code> time zone, which is missing on systems without the <code>tzdata-legacy</code> package, such as Ubuntu 26.04 (<a href="https://github.com/r-dbi/DBItest/issues/540" class="external-link">#540</a>).</p></li>
+</ul></div>
+<div class="section level3">
+<h3 id="documentation-1-9-0">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-9-0"></a></h3>
+<ul><li><p>New section “When a test fails” in <code><a href="../articles/DBItest.html">vignette("DBItest")</a></code>, on how to find, run, inspect and debug a single failing test; the outdated paragraph on dblog is removed (<a href="https://github.com/r-dbi/DBItest/issues/589" class="external-link">#589</a>).</p></li>
+<li><p>The <code>fetch_no_return_value</code> spec now states that <code>dbFetch()</code> on a result set from <code>dbSendStatement()</code> returns an empty data frame with a warning, and that such result sets should not be fetched (<a href="https://github.com/r-dbi/DBItest/issues/588" class="external-link">#588</a>).</p></li>
+<li><p>The README states the goals and non-goals of DBItest (<a href="https://github.com/r-dbi/DBItest/issues/565" class="external-link">#565</a>) and installs the development version with <code><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak::pak()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/560" class="external-link">#560</a>).</p></li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.8.3" id="dbitest-183-2026-07-22">DBItest 1.8.3 (2026-07-22)<a class="anchor" aria-label="anchor" href="#dbitest-183-2026-07-22"></a></h2>
 <div class="section level3">
@@ -212,7 +233,7 @@
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.7.1" id="dbitest-171-2021-07-30">DBItest 1.7.1 (2021-07-30)<a class="anchor" aria-label="anchor" href="#dbitest-171-2021-07-30"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.7.1" id="dbitest-171-2021-07-31">DBItest 1.7.1 (2021-07-31)<a class="anchor" aria-label="anchor" href="#dbitest-171-2021-07-31"></a></h2>
 <div class="section level3">
 <h3 id="features-1-7-1">Features<a class="anchor" aria-label="anchor" href="#features-1-7-1"></a></h3>
 <ul><li>Many tests now emit simpler stack traces, because the connection is opened by the test driver and not by the test itself (<a href="https://github.com/r-dbi/DBItest/issues/187" class="external-link">#187</a>). Reduce usage of <code>with_remove_test_table()</code> for better stack traces on error (<a href="https://github.com/r-dbi/DBItest/issues/196" class="external-link">#196</a>). Remove <code>with_*connection()</code> (<a href="https://github.com/r-dbi/DBItest/issues/193" class="external-link">#193</a>).</li>
@@ -333,16 +354,16 @@
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.5-2" id="dbitest-15-2-2018-01-26">DBItest 1.5-2 (2018-01-26)<a class="anchor" aria-label="anchor" href="#dbitest-15-2-2018-01-26"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.5-2" id="dbitest-15-2-2018-01-25">DBItest 1.5-2 (2018-01-25)<a class="anchor" aria-label="anchor" href="#dbitest-15-2-2018-01-25"></a></h2>
 <ul><li>Fix test that fails with “noLD”.</li>
 <li>Fix NOTEs on R-devel.</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.5-1" id="dbitest-15-1-2017-12-10">DBItest 1.5-1 (2017-12-10)<a class="anchor" aria-label="anchor" href="#dbitest-15-1-2017-12-10"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.5-1" id="dbitest-15-1-2017-12-11">DBItest 1.5-1 (2017-12-11)<a class="anchor" aria-label="anchor" href="#dbitest-15-1-2017-12-11"></a></h2>
 <ul><li>Remove <code>"cannot_forget_disconnect"</code> test that fails on R-devel (<a href="https://github.com/r-dbi/DBItest/issues/150" class="external-link">#150</a>).</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.5" id="dbitest-15-2017-06-18">DBItest 1.5 (2017-06-18)<a class="anchor" aria-label="anchor" href="#dbitest-15-2017-06-18"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.5" id="dbitest-15-2017-06-19">DBItest 1.5 (2017-06-19)<a class="anchor" aria-label="anchor" href="#dbitest-15-2017-06-19"></a></h2>
 <p>Finalize specification. Most tests now come with a corresponding prose, only those where the behavior is not finally decided don’t have a prose version yet (<a href="https://github.com/r-dbi/DBItest/issues/88" class="external-link">#88</a>).</p>
 <div class="section level3">
 <h3 id="new-tests-1-5">New tests<a class="anchor" aria-label="anchor" href="#new-tests-1-5"></a></h3>
@@ -404,7 +425,7 @@
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.4" id="dbitest-14-2016-12-02">DBItest 1.4 (2016-12-02)<a class="anchor" aria-label="anchor" href="#dbitest-14-2016-12-02"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.4" id="dbitest-14-2016-12-03">DBItest 1.4 (2016-12-03)<a class="anchor" aria-label="anchor" href="#dbitest-14-2016-12-03"></a></h2>
 <div class="section level3">
 <h3 id="dbi-specification-1-4">DBI specification<a class="anchor" aria-label="anchor" href="#dbi-specification-1-4"></a></h3>
 <ul><li>Use markdown in documentation.</li>
@@ -468,7 +489,7 @@
 </ul></div>
 </div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.2" id="dbitest-12-2016-05-21">DBItest 1.2 (2016-05-21)<a class="anchor" aria-label="anchor" href="#dbitest-12-2016-05-21"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.2" id="dbitest-12-2016-05-24">DBItest 1.2 (2016-05-24)<a class="anchor" aria-label="anchor" href="#dbitest-12-2016-05-24"></a></h2>
 <ul><li>Infrastructure
 <ul><li>Support names for contexts (<a href="https://github.com/hoesler" class="external-link">@hoesler</a>, <a href="https://github.com/r-dbi/DBItest/issues/67" class="external-link">#67</a>).</li>
 <li>The <code>skip</code> argument to the test functions is now treated as a Perl regular expression to allow negative lookahead. Use <code>skip = "(?!test_regex).*"</code> to choose a single test to run (<a href="https://github.com/r-dbi/DBItest/issues/33" class="external-link">#33</a>).</li>
@@ -492,7 +513,7 @@
 </ul></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.1" id="version-11-2016-02-12">Version 1.1 (2016-02-12)<a class="anchor" aria-label="anchor" href="#version-11-2016-02-12"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.1" id="dbitest-11-2016-02-12">DBItest 1.1 (2016-02-12)<a class="anchor" aria-label="anchor" href="#dbitest-11-2016-02-12"></a></h2>
 <ul><li>New feature: tweaks
 <ul><li>New argument <code>tweaks</code> to <code><a href="../reference/context.html">make_context()</a></code> (<a href="https://github.com/r-dbi/DBItest/issues/49" class="external-link">#49</a>).</li>
 <li>New <code><a href="../reference/tweaks.html">tweaks()</a></code>, essentially constructs a named list of tweaks but with predefined and documented argument names.</li>
@@ -546,7 +567,7 @@
 </ul></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0" id="version-10-2015-12-17">Version 1.0 (2015-12-17)<a class="anchor" aria-label="anchor" href="#version-10-2015-12-17"></a></h2>
+<h2 class="pkg-version" data-toc-text="1.0" id="dbitest-10-2015-12-17">DBItest 1.0 (2015-12-17)<a class="anchor" aria-label="anchor" href="#dbitest-10-2015-12-17"></a></h2>
 <ul><li>CRAN release
 <ul><li>Eliminate errors on win-builder</li>
 <li>Satisfy R CMD check</li>
@@ -556,7 +577,7 @@
 </ul></li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.3" id="version-03-2015-11-15">Version 0.3 (2015-11-15)<a class="anchor" aria-label="anchor" href="#version-03-2015-11-15"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.3" id="dbitest-03-2015-11-15">DBItest 0.3 (2015-11-15)<a class="anchor" aria-label="anchor" href="#dbitest-03-2015-11-15"></a></h2>
 <ul><li>Feature-complete, ready for review</li>
 <li>Tests from the proposal
 <ul><li>Add missing methods to compliance check</li>
@@ -586,7 +607,7 @@
 <li>Same as 0.2-5</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.2" id="version-02-2015-11-11">Version 0.2 (2015-11-11)<a class="anchor" aria-label="anchor" href="#version-02-2015-11-11"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.2" id="dbitest-02-2015-11-11">DBItest 0.2 (2015-11-11)<a class="anchor" aria-label="anchor" href="#dbitest-02-2015-11-11"></a></h2>
 <ul><li>Tests from the proposal
 <ul><li>SQL</li>
 <li>Metadata</li>
@@ -610,7 +631,7 @@
 <li>Same as 0.1-6</li>
 </ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.1" id="version-01-2015-10-11">Version 0.1 (2015-10-11)<a class="anchor" aria-label="anchor" href="#version-01-2015-10-11"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.1" id="dbitest-01-2015-10-11">DBItest 0.1 (2015-10-11)<a class="anchor" aria-label="anchor" href="#dbitest-01-2015-10-11"></a></h2>
 <ul><li>First GitHub release</li>
 <li>Builds successfully on Travis</li>
 <li>Testing infrastructure

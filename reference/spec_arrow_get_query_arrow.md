@@ -13,11 +13,21 @@ even if the result is a single value or has one or zero rows.
 
 An error is raised when issuing a query over a closed or invalid
 connection, if the syntax of the query is invalid, or if the query is
-not a non-`NA` string. The object returned by `dbGetQueryArrow()` can
-also be passed to
+not a non-`NA` string.
+
+## Specification
+
+The object returned by `dbGetQueryArrow()` can also be passed to
 [`nanoarrow::as_nanoarrow_array_stream()`](https://arrow.apache.org/nanoarrow/latest/r/reference/as_nanoarrow_array_stream.html)
 to create a nanoarrow array stream object that can be used to read the
-result set in batches. The chunk size is implementation-specific.
+result set in batches. The chunk size is implementation-specific. The
+schema of the result is available before any batch is consumed:
+[`nanoarrow::infer_nanoarrow_schema()`](https://arrow.apache.org/nanoarrow/latest/r/reference/as_nanoarrow_schema.html)
+applied to the object returned by `dbGetQueryArrow()` gives a struct
+schema with one child per column, named like the columns. Inspecting the
+schema does not consume the stream. The schema is complete even if the
+result has zero rows: it has as many children as the result has columns,
+named like the columns.
 
 ## Additional arguments
 

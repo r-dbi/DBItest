@@ -33,6 +33,13 @@ test_sql(skip = NULL, run_only = NULL, ctx = get_default_context())
   A test context as created by
   [`make_context()`](https://dbitest.r-dbi.org/reference/context.md).
 
+## Value
+
+Called for its side effect of running the tests with testthat. Returns a
+logical vector with one element per test selected by `run_only`: `TRUE`
+for a test that ran without failure, `FALSE` for one that failed or was
+excluded by `skip`.
+
 ## See also
 
 Other tests:

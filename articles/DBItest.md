@@ -204,19 +204,6 @@ DBItest::test_some("get_query_atomic")
 
     ## Test passed with 7 successes 🥇.
 
-DBItest relies heavily on metaprogramming. Unfortunately, this means
-that a failing test may give no indication of the reason for the
-failure. The
-[`test_some()`](https://dbitest.r-dbi.org/reference/test_all.md)
-function now by default integrates the new experimental [dblog
-package](https://github.com/r-dbi/dblog) package. It prints the DBI code
-that is executed as the tests are run, as seen above.
-
-Another way to scout for the reason of the problem is to review the
-sources of DBItest and relate the test name (that is printed with each
-failure) with the human-readable specification embedded with the test
-code.
-
 ``` r
 
 testthat::with_reporter(
@@ -234,6 +221,71 @@ testthat::with_reporter(
     ##    [success]
     ##    [success]
     ## End test: DBItest: Result: get_query_atomic
+
+## When a test fails
+
+DBItest relies heavily on metaprogramming. Unfortunately, this means
+that a failing test may give no indication of the reason for the
+failure. The label of a failure ends with the name of the test, for
+example `DBItest[SQLServer]: Result: send_query_only_one_result_set`.
+The part before it names the context and the test suite.
+
+To run only that test, call
+[`test_some()`](https://dbitest.r-dbi.org/reference/test_all.md) with
+its name once the backend’s
+[`make_context()`](https://dbitest.r-dbi.org/reference/context.md) call
+has run, for example via
+[`devtools::load_all()`](https://devtools.r-lib.org/reference/load_all.html)
+if that call lives in a `helper-*.R` file:
+
+``` r
+
+DBItest::test_some("send_query_only_one_result_set")
+```
+
+[`test_some()`](https://dbitest.r-dbi.org/reference/test_all.md) runs
+only the tests whose names match the regular expressions it is given,
+without skipping any of them, using the context from
+[`make_context()`](https://dbitest.r-dbi.org/reference/context.md).
+
+To read the code of the test, print it. The `spec_*` objects are
+internal to DBItest, hence the `:::`, and may change between versions:
+
+``` r
+
+# nolint next: undesirable_operator_linter. Internal object, for debugging.
+DBItest:::spec_all$send_query_only_one_result_set
+```
+
+    ## function(con) {
+    ##     #' If the backend supports only one open result set per connection,
+    ##     res1 <- dbSendQuery(con, trivial_query())
+    ##     #' issuing a second query invalidates an already open result set and raises a warning.
+    ##     expect_warning(res2 <- dbSendQuery(con, "SELECT 2"))
+    ##     expect_false(dbIsValid(res1))
+    ##     #' The newly opened result set is valid
+    ##     expect_true(dbIsValid(res2))
+    ##     #' and must be cleared with `dbClearResult()`.
+    ##     dbClearResult(res2)
+    ##   }
+    ## <bytecode: 0x5797779525f0>
+    ## <environment: namespace:DBItest>
+
+The comments starting with `#'` are the human-readable specification of
+the test. The source of each test is in one of the `R/spec-*.R` files of
+DBItest, which are easiest to find by searching for the test name in the
+[DBItest repository](https://github.com/r-dbi/DBItest).
+
+To step through the test line by line in an interactive session, flag it
+for debugging before running it again. The flag must be set on the
+object of the test suite, such as `spec_result` for tests in the
+“Result” suite:
+
+``` r
+
+debugonce(DBItest:::spec_result$send_query_only_one_result_set)
+DBItest::test_some("send_query_only_one_result_set")
+```
 
 [^1]: The terminating `NULL` allows appending new lines to the end by
     copy-pasting an existing line, without having to take care of the

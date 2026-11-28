@@ -21,7 +21,7 @@
 
     <a class="navbar-brand me-2" href="index.html">DBItest</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.8.3</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.9.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,6 +53,24 @@
 
 <p>This package is primarily useful for developers of <a href="https://dbi.r-dbi.org" class="external-link">DBI</a> backends. It provides a considerable set of test cases for DBI backends. These test cases correspond to the <a href="https://dbi.r-dbi.org/articles/spec" class="external-link">DBI specification</a>. Please follow the steps below to add these test cases to your DBI backend.</p>
 <div class="section level2">
+<h2 id="goals-and-non-goals">Goals and non-goals<a class="anchor" aria-label="anchor" href="#goals-and-non-goals"></a>
+</h2>
+<p>DBItest aims to:</p>
+<ul>
+<li>Offer a ready-made test suite that covers the whole DBI specification, run from a backend’s own testthat setup with <code><a href="reference/context.html">make_context()</a></code> and <code><a href="reference/test_all.html">test_all()</a></code>.</li>
+<li>Keep the specification and its tests in one place: the prose in DBI’s help pages and in <code><a href="https://dbi.r-dbi.org/articles/spec.html" class="external-link">vignette("spec", package = "DBI")</a></code> is inherited from the comments interleaved with these test cases.</li>
+<li>Support incremental adoption, with test functions that follow the sections of <code><a href="https://dbi.r-dbi.org/articles/backend.html" class="external-link">vignette("backend", package = "DBI")</a></code>, so that a new backend can switch them on one at a time.</li>
+<li>Make the legitimate differences between database engines explicit and configurable, through <code><a href="reference/tweaks.html">tweaks()</a></code> and the <code>skip</code> arguments.</li>
+</ul>
+<p>It is explicitly not trying to:</p>
+<ul>
+<li>Serve people who only want to query a database. The audience is developers of DBI backends.</li>
+<li>Define the interface. The generics, the classes and their documentation live in DBI; DBItest only checks conformity to them.</li>
+<li>Connect to a database on its own. The driver and the connection arguments come from the backend, through <code><a href="reference/context.html">make_context()</a></code>.</li>
+<li>Demand that every backend pass every test case. Some tests contradict each other on purpose, such as those for <code>logical</code> columns surviving a roundtrip, and skipping is the supported answer for a feature a DBMS does not have.</li>
+</ul>
+</div>
+<div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>Install from CRAN via</p>
@@ -60,7 +78,8 @@
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"DBItest"</span><span class="op">)</span></span></code></pre></div>
 <p>or the development version using</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install-deprecated.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"r-dbi/DBItest"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># install.packages("pak")</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"r-dbi/DBItest"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -80,8 +99,6 @@
 <li><p>Detailed instructions in <code><a href="articles/DBItest.html">vignette("DBItest")</a></code></p></li>
 <li><p>The feature list in the <a href="https://github.com/r-dbi/DBItest/wiki/Proposal" class="external-link">original proposal</a>.</p></li>
 </ul>
-<hr>
-<p>Please note that the ‘DBItest’ project is released with a <a href="https://dbitest.r-dbi.org/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
