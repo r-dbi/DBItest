@@ -19,10 +19,13 @@ argument is not an atomic whole number greater or equal to -1 or Inf, an
 error is raised, but a subsequent call to `dbFetch()` with proper `n`
 argument succeeds.
 
-Calling `dbFetch()` on a result set from a data manipulation query
-created by
+Calling `dbFetch()` on a result set from a statement such as
+`CREATE TABLE` or `INSERT` created by
 [`dbSendStatement()`](https://dbi.r-dbi.org/reference/dbSendStatement.html)
-can be fetched and return an empty data frame, with a warning.
+returns an empty data frame, with a warning. Such result sets are meant
+for side effects only and should not be fetched; use
+[`dbSendQuery()`](https://dbi.r-dbi.org/reference/dbSendQuery.html) for
+queries that return data.
 
 ## Specification
 
