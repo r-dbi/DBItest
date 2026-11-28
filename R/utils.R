@@ -35,7 +35,7 @@ local_closed_connection <- function(ctx, ...) {
 local_invalid_connection <- function(ctx, ...) {
   con <- connect(ctx, ...)
   dbDisconnect(con)
-  unserialize(serialize(con, NULL))
+  suppressWarnings(unserialize(serialize(con, NULL)))
 }
 
 # Calls `dbClearResult()` on `query` after exiting `frame`.

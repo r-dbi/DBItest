@@ -39,12 +39,11 @@ spec_driver_connect <- list(
     #' - `dbname` for the name of the database on the host, or the database file
     #'   name
     #'
-    #' The defaults should provide reasonable behavior, in particular a
-    #' local connection for `host = NULL`.  For some DBMS (e.g., PostgreSQL),
-    #' this is different to a TCP/IP connection to `localhost`.
+    #' The defaults should provide reasonable behavior, in particular a local connection for `host = NULL`.
+    #' For some DBMS (e.g., PostgreSQL), this is different to a TCP/IP connection to `localhost`.
     #'
-    #' In addition, DBI supports the `bigint` argument that governs how
-    #' 64-bit integer data is returned.  The following values are supported:
+    #' In addition, DBI supports the `bigint` argument that governs how 64-bit integer data is returned.
+    #' The following values are supported:
     #' - `"integer"`: always return as `integer`, silently overflow
     con <- local_connection(ctx, bigint = "integer")
     res <- dbGetQuery(con, "SELECT 10000000000")
@@ -68,9 +67,8 @@ spec_driver_connect <- list(
   },
   #
   connect_bigint_integer64 = function(ctx) {
-    #' - `"integer64"`: return as a data type that can be coerced using
-    #'   [as.integer()] (with warning on overflow), [as.numeric()]
-    #'   and [as.character()]
+    #' - `"integer64"`: return as a data type that can be coerced using [as.integer()] (with warning on overflow),
+    #'   [as.numeric()] and [as.character()]
     con <- local_connection(ctx, bigint = "integer64")
     res <- dbGetQuery(con, "SELECT 10000000000")
     expect_warning(expect_true(is.na(as.integer(res[[1]]))))

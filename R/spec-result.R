@@ -15,7 +15,7 @@ spec_result <- c(
 
 # Helpers -----------------------------------------------------------------
 
-sql_union <- function(..., .order_by = NULL, .ctx) {
+sql_union <- function(..., .ctx, .order_by = NULL) {
   queries <- c(...)
   if (length(queries) == 1) {
     query <- queries

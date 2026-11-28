@@ -2,10 +2,10 @@
 
 test_select_bind_expr <- function(
   bind_values,
-  ctx = stop("ctx is available during run time only"),
   ...,
   arrow,
   bind,
+  ctx = stop("ctx is available during run time only", call. = FALSE),
   query = TRUE,
   skip_fun = NULL,
   dbitest_version = NULL,
@@ -83,7 +83,7 @@ get_placeholder_funs <- function(ctx, requires_names = NULL) {
   if (is.character(placeholder_fun)) {
     # Validate character patterns before processing
     check_character(placeholder_fun, allow_null = FALSE)
-    placeholder_funs <- purrr::map(placeholder_fun, make_placeholder_fun)
+    placeholder_funs <- map(placeholder_fun, make_placeholder_fun)
   } else if (is.function(placeholder_fun)) {
     # Validate function type more explicitly
     check_function(placeholder_fun, allow_null = FALSE)
@@ -97,10 +97,10 @@ get_placeholder_funs <- function(ctx, requires_names = NULL) {
   }
 
   if (!is.null(requires_names)) {
-    placeholder_fun_values <- purrr::map(placeholder_funs, ~ .x(1))
-    placeholder_unnamed <- purrr::map_lgl(placeholder_fun_values, ~ is.null(names(.x)))
+    placeholder_fun_values <- map(placeholder_funs, ~ .x(1))
+    placeholder_unnamed <- map_lgl(placeholder_fun_values, ~ is.null(names(.x)))
 
-    # run_bind_tester$fun()
+    # > run_bind_tester$fun()
     if (isTRUE(requires_names)) {
       placeholder_funs <- placeholder_funs[!placeholder_unnamed]
     }
@@ -120,10 +120,11 @@ get_placeholder_funs <- function(ctx, requires_names = NULL) {
 #'
 #' For internal use by the `placeholder_format` tweak.
 #'
-#' @param pattern `[character(1)]`\cr Any character, optionally followed by `1` or `name`. Examples: `"?"`, `"$1"`, `":name"`
+#' @param pattern `[character(1)]`\cr Any character, optionally followed by `1` or `name`.
+#'   Examples: `"?"`, `"$1"`, `":name"`
 #'
-#' @return `[function(n)]`\cr A function with one argument `n` that
-#'   returns a vector of length `n` with placeholders of the specified format.
+#' @return `[function(n)]`\cr A function with one argument `n`
+#'   that returns a vector of length `n` with placeholders of the specified format.
 #'
 #' @keywords internal
 #' @examples

@@ -13,8 +13,7 @@ test_data_type(ctx, dbObj)
 \code{dbDataType()} returns the SQL type that corresponds to the \code{obj} argument
 as a non-empty
 character string.
-For data frames, a character vector with one element per column
-is returned.
+For data frames, a character vector with one element per column is returned.
 }
 \description{
 test_data_type
@@ -27,7 +26,7 @@ An error is raised for invalid values for the \code{obj} argument such as a
 
 \section{Specification}{
 
-The backend can override the \code{\link[DBI:dbDataType]{DBI::dbDataType()}} generic
+The backend can override the \code{\link[DBI:dbDataType]{dbDataType()}} generic
 for its driver class.
 
 This generic expects an arbitrary object as second argument.
@@ -45,10 +44,9 @@ and \link{difftime}.
 If the database supports blobs,
 this method also must accept lists of \link{raw} vectors,
 and \link[blob:blob]{blob::blob} objects.
-As-is objects (i.e., wrapped by \code{\link[=I]{I()}}) must be
-supported and return the same results as their unwrapped counterparts.
-The SQL data type for \link{factor} and
-\link{ordered} is the same as for character.
+As-is objects (i.e., wrapped by \code{\link[=I]{I()}}) must be supported and return the same results as their unwrapped counterparts.
+The SQL data type for \link[base:factor]{factor} and
+\link[base:ordered]{ordered} is the same as for character.
 The behavior for other object types is not specified.
 }
 

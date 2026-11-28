@@ -1,7 +1,7 @@
 Package: DBItest
 Title: Testing DBI Backends
-Version: 1.8.2.9001
-Date: 2025-05-04
+Version: 1.8.3.9015
+Date: 2026-11-28
 Authors@R: c(
     person("Kirill", "Müller", , "kirill@cynkra.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-1416-3412")),
@@ -14,7 +14,7 @@ License: LGPL (>= 2.1)
 URL: https://dbitest.r-dbi.org, https://github.com/r-dbi/DBItest
 BugReports: https://github.com/r-dbi/DBItest/issues
 Depends: 
-    R (>= 3.2.0)
+    R (>= 4.1)
 Imports: 
     blob (>= 1.2.0),
     callr,
@@ -26,12 +26,12 @@ Imports:
     methods,
     nanoarrow,
     palmerpenguins,
-    purrr,
     rlang (>= 0.2.0),
     testthat (>= 2.0.0),
     utils,
     withr
 Suggests: 
+    bit64,
     clipr,
     constructive,
     debugme,
@@ -42,17 +42,17 @@ Suggests:
     RSQLite,
     vctrs
 VignetteBuilder: 
-    knitr
-Config/Needs/website: 
-    r-dbi/dbitemplate
+    knitr,
+    rmarkdown
 Config/autostyle/scope: line_breaks
 Config/autostyle/strict: false
-Config/testthat/edition: 3
 Config/Needs/check: decor
+Config/Needs/website: r-dbi/dbitemplate
+Config/roxygen2/version: 8.1.1.9000
+Config/testthat/edition: 3
 Encoding: UTF-8
 KeepSource: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2.9000
 Collate: 
     'DBItest.R'
     'compat-purrr.R'

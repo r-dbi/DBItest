@@ -89,7 +89,7 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
           }
 
           # Example of generated expression:
-          # DBItest:::spec_arrow$arrow_append_table_arrow_roundtrip_64_bit_roundtrip(...)
+          # > DBItest:::spec_arrow$arrow_append_table_arrow_roundtrip_64_bit_roundtrip(...)
           test_fun_expr <- expr(`$`(!!tests_qual, !!test_name)(!!!args))
           expect_warning(
             eval(test_fun_expr), NA
@@ -122,8 +122,8 @@ get_skip_names <- function(skip) {
   }
   names_all <- names(spec_all)
   names_all <- names_all[names_all != ""]
-  skip_flags_all <- purrr::map(paste0("(?:^(?:", skip, ")(?:|_[0-9]+)$)"), grepl, names_all, perl = TRUE)
-  skip_used <- purrr::map_lgl(skip_flags_all, any)
+  skip_flags_all <- map(paste0("(?:^(?:", skip, ")(?:|_[0-9]+)$)"), grepl, names_all, perl = TRUE)
+  skip_used <- map_lgl(skip_flags_all, any)
   if (!all(skip_used)) {
     warning("These skip expressions did not match any test names: ", toString(skip[!skip_used]),
       call. = FALSE
@@ -147,7 +147,7 @@ get_run_only_tests <- function(tests, run_only) {
     return(tests)
   }
 
-  run_only_flags_all <- purrr::map(paste0("(?:^(?:", run_only, ")$)"), grepl, names_all, perl = TRUE)
+  run_only_flags_all <- map(paste0("(?:^(?:", run_only, ")$)"), grepl, names_all, perl = TRUE)
   run_only_flag_all <- Reduce(`|`, run_only_flags_all)
   run_only_tests <- names_all[run_only_flag_all]
 
