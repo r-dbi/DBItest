@@ -1,0 +1,231 @@
+# Lands the report of an earlier reverse-dependency run in `revdep/`.
+#
+# revdep2 and revdep4 commit their report to the checked branch themselves,
+# unless they are dispatched with `commit: false`.
+# The release process does that, so that the head the checks were run for does not move,
+# and updates `revdep/` later from the run's report artifact,
+# `revdep2-report` or `revdepx-report`.
+# This workflow is that later step:
+# it downloads the artifact of the run named by `run-id`,
+# copies the report files into `revdep/` the way the runs' own `commit` jobs do,
+# and either pushes the commit onto `ref` (`mode: commit`)
+# or pushes it to a new branch `revdep-report/<run-id>` and opens a pull request into `ref` (`mode: pr`).
+#
+# Dispatch it with, for example:
+#   gh workflow run revdep-report.yaml -f run-id=<id> -f ref=main
+#
+# `mode: commit` cannot push onto a protected branch;
+# it then warns and opens the pull request instead.
+# The commit is built on the tip of `ref`, not on the checked commit,
+# and the artifact's files win over whatever `revdep/` holds there.
+#
+# A pull request opened with GITHUB_TOKEN starts no workflows,
+# so CI on it needs a push to its branch or a re-run.
+# Opening one at all needs the repository setting
+# "Allow GitHub Actions to create and approve pull requests".
+#
+# This file is specific to this repository and does not come from cynkra/cynkratemplate,
+# so template syncs keep it.
+
+on:
+  workflow_dispatch:
+    inputs:
+      run-id:
+        description: "Id of the revdep2 or revdep4 run whose report artifact to land"
+        type: string
+        required: true
+      ref:
+        description: "Branch to land the report on; default: the branch the run was dispatched on, which is not the checked ref where the run was given one"
+        type: string
+        default: ""
+      mode:
+        description: "pr: open a pull request into the branch; commit: push onto the branch"
+        type: choice
+        options:
+          - pr
+          - commit
+        default: pr
+
+name: revdep-report
+
+run-name: "revdep-report (run ${{ inputs.run-id }}, ${{ inputs.mode || 'pr' }})"
+
+permissions: {}
+
+concurrency:
+  group: revdep-report-${{ inputs.run-id }}
+  cancel-in-progress: false
+
+jobs:
+  land:
+    if: github.repository == 'r-dbi/DBItest'
+
+    runs-on: ubuntu-26.04
+
+    timeout-minutes: 10
+
+    name: "Land the report of run ${{ inputs.run-id }}"
+
+    permissions:
+      actions: read
+      contents: write
+      pull-requests: write
+
+    steps:
+      # Inputs reach the shell through the environment only, never spliced into the script.
+      - name: Look up the run
+        id: run
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ inputs.run-id }}
+          REF_INPUT: ${{ inputs.ref }}
+        run: |
+          set -eu
+          case "${RUN_ID}" in
+            ""|*[!0-9]*)
+              echo "::error::run-id must be the numeric id of a workflow run, not '${RUN_ID}'."
+              exit 1
+              ;;
+          esac
+          run="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}")"
+          path="$(jq -r '.path' <<< "${run}")"
+          workflow="$(basename "${path%%@*}")"
+          workflow="${workflow%.yaml}"
+          workflow="${workflow%.yml}"
+          status="$(jq -r '.status' <<< "${run}")"
+          conclusion="$(jq -r '.conclusion' <<< "${run}")"
+          head_sha="$(jq -r '.head_sha' <<< "${run}")"
+          head_branch="$(jq -r '.head_branch // ""' <<< "${run}")"
+          case "${workflow}" in
+            revdep2) artifact=revdep2-report ;;
+            revdep4) artifact=revdepx-report ;;
+            *)
+              echo "::error::Run ${RUN_ID} is a run of ${path}, not of revdep2 or revdep4."
+              exit 1
+              ;;
+          esac
+          if [ "${status}" != "completed" ] || [ "${conclusion}" != "success" ]; then
+            echo "::error::Run ${RUN_ID} of ${workflow} is ${status}/${conclusion}; only a successful run has a complete report."
+            exit 1
+          fi
+          ref="${REF_INPUT#refs/heads/}"
+          if [ -z "${ref}" ]; then
+            ref="${head_branch}"
+          fi
+          if [ -z "${ref}" ]; then
+            echo "::error::Run ${RUN_ID} has no head branch; give one as ref."
+            exit 1
+          fi
+          {
+            echo "workflow=${workflow}"
+            echo "artifact=${artifact}"
+            echo "ref=${ref}"
+          } >> "${GITHUB_OUTPUT}"
+          echo "::notice::Run ${RUN_ID} of ${workflow} was dispatched on ${head_branch:-no branch} at ${head_sha}; landing its report on ${ref}."
+        shell: bash
+
+      # The tip of the target branch:
+      # the report is a commit on top of it, whichever mode lands it.
+      - name: Check out the target branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ steps.run.outputs.ref }}
+
+      - name: Download the report
+        uses: actions/download-artifact@v8
+        with:
+          name: ${{ steps.run.outputs.artifact }}
+          path: ${{ runner.temp }}/report
+          run-id: ${{ inputs.run-id }}
+          github-token: ${{ github.token }}
+
+      # Copies the files the runs' own commit jobs stage, and builds the commit.
+      # A function, because a race with another push rebuilds the commit on the newer tip.
+      # The two directories are emptied and recreated rather than removed,
+      # because an artifact drops empty directories:
+      # a run that cleared every section must still stage their removal.
+      - name: Land the report
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ inputs.run-id }}
+          MODE: ${{ inputs.mode || 'pr' }}
+          WORKFLOW: ${{ steps.run.outputs.workflow }}
+          ARTIFACT: ${{ steps.run.outputs.artifact }}
+          REF: ${{ steps.run.outputs.ref }}
+          REPORT: ${{ runner.temp }}/report
+        run: |
+          set -eu
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}"
+          subject="chore: Update revdep report from ${WORKFLOW} run ${RUN_ID}"
+          # The checked commit is the one the report records, not the run's head_sha,
+          # which is the commit the run was dispatched on.
+          checked="$(jq -r '.sha // empty' "${REPORT}/run.json" 2>/dev/null || true)"
+
+          # Commits the report on top of origin/${REF}; returns 1 where it changes nothing.
+          build_commit() {
+            git fetch --depth 1 origin "+refs/heads/${REF}:refs/remotes/origin/${REF}"
+            git checkout -q -B revdep-report "origin/${REF}"
+            rm -rf revdep/problems revdep/failures
+            mkdir -p revdep/problems revdep/failures
+            for f in README.md problems.md failures.md cran.md manifest.json problems failures; do
+              if [ -e "${REPORT}/${f}" ]; then cp -R "${REPORT}/${f}" revdep/; fi
+            done
+            files=""
+            for f in README.md problems.md failures.md cran.md manifest.json; do
+              if [ -e "revdep/${f}" ]; then files="${files} revdep/${f}"; fi
+            done
+            # A directory is staged where it has files or had tracked ones:
+            # `git add` stages the removals that retire packages a run found fixed,
+            # but fails on an empty directory git never knew.
+            for d in problems failures; do
+              if [ -n "$(ls -A "revdep/${d}")" ] || [ -n "$(git ls-files -- "revdep/${d}")" ]; then
+                files="${files} revdep/${d}"
+              fi
+            done
+            git add -- ${files}
+            if git diff --cached --quiet; then
+              return 1
+            fi
+            git commit -q -m "${subject}" -m "${run_url}"
+          }
+
+          if ! build_commit; then
+            echo "::notice::${REF} already has the report of run ${RUN_ID}; nothing to land."
+            exit 0
+          fi
+
+          if [ "${MODE}" = "commit" ]; then
+            # A push that loses a race is rebuilt on the newer tip;
+            # one that keeps failing, as on a protected branch, falls back to a pull request.
+            for attempt in 1 2 3; do
+              if git push origin "HEAD:refs/heads/${REF}"; then
+                echo "::notice::Report of run ${RUN_ID} committed to ${REF} as $(git rev-parse HEAD)."
+                exit 0
+              fi
+              if ! build_commit; then
+                echo "::notice::${REF} already has the report of run ${RUN_ID}; nothing to land."
+                exit 0
+              fi
+            done
+            echo "::warning::Could not push onto ${REF} (protected branch or permissions); opening a pull request instead."
+          fi
+
+          branch="revdep-report/${RUN_ID}"
+          if git ls-remote --exit-code origin "refs/heads/${branch}" > /dev/null 2>&1; then
+            echo "::error::Branch ${branch} exists already; delete it, or merge or close its pull request, first."
+            exit 1
+          fi
+          git push origin "HEAD:refs/heads/${branch}"
+          body="$(printf '%s\n\n%s\n\n%s\n' \
+            "The reverse-dependency report of [${WORKFLOW} run ${RUN_ID}](${run_url}), which checked ${checked:-an unrecorded commit}, copied into \`revdep/\` from its \`${ARTIFACT}\` artifact." \
+            "Opened by [revdep-report run ${GITHUB_RUN_ID}](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})." \
+            "A pull request opened with GITHUB_TOKEN starts no workflows: CI on it needs a push to ${branch} or a re-run.")"
+          # A failed create deletes the branch again, so that a re-dispatch is not stopped by it.
+          if ! gh pr create --repo "${GITHUB_REPOSITORY}" --base "${REF}" --head "${branch}" --title "${subject}" --body "${body}"; then
+            git push origin --delete "${branch}" || true
+            echo "::error::Could not open the pull request; check the setting \"Allow GitHub Actions to create and approve pull requests\"."
+            exit 1
+          fi
+        shell: bash
