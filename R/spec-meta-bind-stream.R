@@ -887,7 +887,11 @@ spec_meta_stream_bind <- list(
     cast_fun <- ctx$tweaks$blob_cast
     for (placeholder_fun in placeholder_funs) {
       bind_values <- structure(
-        list(blob::blob(as.raw(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))), blob::blob(raw(3)), vctrs::new_vctr(list(NULL), ptype = raw(0), class = c("blob", "vctrs_list_of"))),
+        list(
+          blob::blob(as.raw(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))),
+          blob::blob(raw(3)),
+          structure(vctrs::list_of(NULL, .ptype = raw(0)), class = c("blob", "vctrs_list_of", "vctrs_vctr", "list"))
+        ),
         names = character(3),
         class = "data.frame",
         row.names = c(NA, -1L)

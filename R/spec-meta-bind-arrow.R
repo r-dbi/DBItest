@@ -778,7 +778,11 @@ spec_meta_arrow_bind <- list(
     is_null_check <- ctx$tweaks$is_null_check
     cast_fun <- ctx$tweaks$blob_cast
     for (placeholder_fun in placeholder_funs) {
-      bind_values <- list(blob::blob(as.raw(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))), blob::blob(raw(3)), vctrs::new_vctr(list(NULL), ptype = raw(0), class = c("blob", "vctrs_list_of")))
+      bind_values <- list(
+        blob::blob(as.raw(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))),
+        blob::blob(raw(3)),
+        structure(vctrs::list_of(NULL, .ptype = raw(0)), class = c("blob", "vctrs_list_of", "vctrs_vctr", "list"))
+      )
       placeholder <- placeholder_fun(3L)
       names(bind_values) <- names(placeholder)
       placeholder_values <- map_chr(bind_values, function(x) DBI::dbQuoteLiteral(con, x[1]))
