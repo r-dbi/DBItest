@@ -18,6 +18,7 @@ Depends:
 Imports: 
     blob (>= 1.2.0),
     callr,
+    cli,
     DBI (>= 1.2.3),
     desc,
     hms (>= 0.5.0),
@@ -26,7 +27,7 @@ Imports:
     methods,
     nanoarrow,
     palmerpenguins,
-    rlang (>= 0.2.0),
+    rlang (>= 1.2.0),
     testthat (>= 2.0.0),
     utils,
     withr
@@ -62,6 +63,8 @@ Collate:
     'expectations.R'
     'generics.R'
     'import-dbi.R'
+    'import-standalone-obj-type.R'
+    'import-standalone-types-check.R'
     'import-testthat.R'
     'run.R'
     's4.R'

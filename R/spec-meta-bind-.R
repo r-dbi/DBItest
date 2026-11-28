@@ -76,6 +76,9 @@ test_select_bind_expr <- function(
 }
 
 get_placeholder_funs <- function(ctx, requires_names = NULL) {
+  # Validate input parameters with improved type checking
+  check_bool(requires_names, allow_null = TRUE)
+
   placeholder_fun <- ctx$tweaks$placeholder_pattern
   if (is.character(placeholder_fun)) {
     placeholder_funs <- map(placeholder_fun, make_placeholder_fun)

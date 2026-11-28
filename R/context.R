@@ -46,6 +46,11 @@ make_context <- function(drv, connect_args = NULL, set_as_default = TRUE,
     abort("drv cannot be NULL.")
   }
 
+  check_bool(set_as_default, allow_null = FALSE)
+
+  check_string(name, allow_null = TRUE)
+  check_character(default_skip, allow_null = TRUE)
+
   if (is(drv, "DBIDriver")) {
     if (is.null(connect_args)) {
       connect_args <- list()

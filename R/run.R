@@ -16,6 +16,10 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
     stop("ctx must be a DBItest_context object created by make_context().", call. = FALSE)
   }
 
+  check_character(skip, allow_null = TRUE)
+  check_character(run_only, allow_null = TRUE)
+  check_string(test_suite, allow_null = FALSE)
+
   test_context <- paste0(
     "DBItest", if (!is.null(ctx$name)) paste0("[", ctx$name, "]"),
     ": ", test_suite
