@@ -256,7 +256,7 @@
 - Decompose query used for testing `dbBind()`.
 
 
-# DBItest 1.7.1 (2021-07-30)
+# DBItest 1.7.1 (2021-07-31)
 
 ## Features
 
@@ -283,6 +283,7 @@
 - Compatibility with testthat 3.0.0 (#207).
 - Switch to GitHub Actions (#201).
 
+
 # DBItest 1.7.0 (2019-12-16)
 
 ## Specifications
@@ -306,7 +307,6 @@
 - Use debugme.
 - Require R 3.2.
 - Avoid subsetting vectors out of bounds, for consistency with vctrs.
-
 
 
 # DBItest 1.6.0 (2018-05-03)
@@ -370,23 +370,23 @@
 - New `trivial_query()` replaces many hard-coded queries and uses non-integer values for better compatibility with RMariaDB.
 - Convert factor to character for iris data (#141).
 
-# DBItest 1.5-2 (2018-01-26)
+
+# DBItest 1.5-2 (2018-01-25)
 
 - Fix test that fails with "noLD".
 - Fix NOTEs on R-devel.
 
 
-# DBItest 1.5-1 (2017-12-10)
+# DBItest 1.5-1 (2017-12-11)
 
 - Remove `"cannot_forget_disconnect"` test that fails on R-devel (#150).
 
 
-# DBItest 1.5 (2017-06-18)
+# DBItest 1.5 (2017-06-19)
 
 Finalize specification. Most tests now come with a corresponding prose, only those where the behavior is not finally decided don't have a prose version yet (#88).
 
-New tests
----------
+## New tests
 
 - Test behavior of methods in presence of placeholders (#120).
 - Test column name mismatch behavior for appending tables (#93).
@@ -404,8 +404,7 @@ New tests
 - Added tweaks for handling date, time, timestamp, ... (#53, #76).
 - Test that `dbFetch()` on update-only query returns warning (#66).
 
-Adapted tests
--------------
+## Adapted tests
 
 - `NULL` is a valid value for the `row.names` argument, same as `FALSE`.
 - A column named `row_names` receives no special handling (#54).
@@ -430,8 +429,7 @@ Adapted tests
 - Testing that a warning is given if the user forgets to call `dbDisconnect()` or `dbClearResult()` (#103).
 - Numeric roundtrip accepts conversion of `NaN` to `NA` (#79).
 
-Internal
---------
+## Internal
 
 - Fix R CMD check errors.
 - Internal consistency checks (#114).
@@ -444,7 +442,7 @@ Internal
 - New `with_closed_connection(ctx = ctx, )`, `with_invalid_connection(ctx = ctx, )`, `with_result()` and `with_remove_test_table()` helpers, and `expect_visible()`, `expect_inbisible_true()`, and `expect_equal_df()` expectations for more concise tests.
 
 
-# DBItest 1.4 (2016-12-02)
+# DBItest 1.4 (2016-12-03)
 
 ## DBI specification
 
@@ -479,22 +477,19 @@ Internal
 # DBItest 1.3 (2016-07-07)
 
 
-Bug fixes
----------
+## Bug fixes
 
 - Fix `read_table` test when the backend actually returns the data in a different order.
 
 
-New tests
----------
+## New tests
 
 - Test `dbDataType()` on connections (#69, #75, @imanuelcostigan).
 - Check returned strings for UTF-8 encoding (#72).
 - Repeated `dbBind()` + `dbFetch()` on the same result set (#51).
 
 
-Features
---------
+## Features
 
 - `tweaks()` gains an `...` as first argument to support future/deprecated tweaks (with a warning), and also to avoid unnamed arguments (#83).
 - `testthat` now shows a more accurate location for the source of errors, failures, and skips (#78).
@@ -502,8 +497,7 @@ Features
 - Indicate that some tests are optional in documentation (#15).
 
 
-Internal
---------
+## Internal
 
 - New `constructor_relax_args` tweak, currently not queried.
 - The `ctx` argument is now explicit in the test functions.
@@ -514,7 +508,7 @@ Internal
 - Work around regression in R 3.3.0 (fix scheduled for R 3.3.1) which affected stress tests.
 
 
-# DBItest 1.2 (2016-05-21)
+# DBItest 1.2 (2016-05-24)
 
 - Infrastructure
     - Support names for contexts (@hoesler, #67).
@@ -533,8 +527,7 @@ Internal
     - Install `DBI` and `testthat` from GitHub.
 
 
-Version 1.1 (2016-02-12)
-===
+# DBItest 1.1 (2016-02-12)
 
 - New feature: tweaks
     - New argument `tweaks` to `make_context()` (#49).
@@ -574,8 +567,7 @@ Version 1.1 (2016-02-12)
     - Use unqualified calls to `dbBind()` again
 
 
-Version 1.0 (2015-12-17)
-===
+# DBItest 1.0 (2015-12-17)
 
 - CRAN release
     - Eliminate errors on win-builder
@@ -585,8 +577,7 @@ Version 1.0 (2015-12-17)
     - Move `devtools` package from "Imports" to "Suggests"
 
 
-Version 0.3 (2015-11-15)
-===
+# DBItest 0.3 (2015-11-15)
 
 - Feature-complete, ready for review
 - Tests from the proposal
@@ -613,8 +604,7 @@ Version 0.3 (2015-11-15)
 - Same as 0.2-5
 
 
-Version 0.2 (2015-11-11)
-===
+# DBItest 0.2 (2015-11-11)
 
 - Tests from the proposal
     - SQL
@@ -635,8 +625,7 @@ Version 0.2 (2015-11-11)
 - Same as 0.1-6
 
 
-Version 0.1 (2015-10-11)
-===
+# DBItest 0.1 (2015-10-11)
 
 - First GitHub release
 - Builds successfully on Travis
