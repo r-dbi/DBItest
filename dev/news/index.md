@@ -1,5 +1,20 @@
 # Changelog
 
+## DBItest 1.8.3.9015 (2026-11-28)
+
+### Chore
+
+- Declare every vignette builder in DESCRIPTION
+  ([\#582](https://github.com/r-dbi/DBItest/issues/582)).
+
+- Tidy DESCRIPTION with usethis::use_tidy_description()
+  ([\#581](https://github.com/r-dbi/DBItest/issues/581)).
+
+### Continuous integration
+
+- Sync the workflows with cynkra/cynkratemplate
+  ([\#580](https://github.com/r-dbi/DBItest/issues/580)).
+
 ## DBItest 1.8.3.9014 (2026-11-27)
 
 ### Continuous integration
