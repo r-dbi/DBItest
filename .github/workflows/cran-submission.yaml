@@ -14,6 +14,9 @@
 #    the r-universe build, https://r-dbi.r-universe.dev/DBItest, the last reverse-dependency results,
 #    and the CRAN Repository Policy, https://cran.r-project.org/web/packages/policies.html.
 #    CRAN asks for about a week between two releases of a package.
+#    Also go through the items of `release_bullets()` in R/release-bullets.R,
+#    which `usethis::use_release_issue()` adds to its checklist,
+#    and record them in the checklist pull request.
 # 2. Cut: create the release branch `vX.Y-<name>` from the chosen commit of `main`,
 #    where `<name>` is one lowercase word that names the release,
 #    so that R-CMD-check.yaml checks pull requests against it.
@@ -32,7 +35,10 @@
 #    Only a tarball from such a run is recompressed, so dispatch it again after every change to the branch.
 #    Dispatch it after the push, not before: a push run and a dispatch run of the same commit share a concurrency group,
 #    so the later one cancels the earlier one; R-CMD-check.yaml starts push runs on `main`, for a fix made there.
-#    Then dispatch release-gate.yaml, builders.yaml, rhub.yaml and revdep.yaml.
+#    Start rhub.yaml and the reverse-dependency check alongside it, the latter without committing its report:
+#    `gh workflow run revdep4.yaml --repo r-dbi/DBItest --ref <branch> -f which=most -f depth=1 -f commit=false`.
+#    Once the check run is green, dispatch release-gate.yaml and builders.yaml, which use its tarball.
+#    revdep-report.yaml lands the reverse-dependency report in revdep/ later, from the run's artifact.
 #    The release workflows post their results to the checklist pull request;
 #    win-builder mails its verdict to the maintainer.
 #    Every error, warning and note is a blocker unless the checklist pull request explains it.
