@@ -6,7 +6,7 @@
 spec_meta_has_completed <- list(
   has_completed_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbHasCompleted)), c("res", "..."))
+    expect_named(formals(dbHasCompleted), c("res", "..."))
   },
 
   has_completed_query = function(con) {
@@ -21,9 +21,10 @@ spec_meta_has_completed <- list(
     expect_true(expect_visible(dbHasCompleted(res)))
   },
   #
-  has_completed_statement = function(con, table_name) {
+  has_completed_statement = function(ctx, con, table_name) {
     #' For a query initiated by [dbSendStatement()],
-    res <- local_result(dbSendStatement(con, paste0("CREATE TABLE ", table_name, " (a integer)")))
+    query <- ctx$tweaks$create_table_empty(table_name)
+    res <- local_result(dbSendStatement(con, query))
     #' `dbHasCompleted()` always returns `TRUE`.
     expect_true(expect_visible(dbHasCompleted(res)))
   },
@@ -32,8 +33,7 @@ spec_meta_has_completed <- list(
     #' @section Failure modes:
     res <- dbSendQuery(con, trivial_query())
     dbClearResult(res)
-    #' Attempting to query completion status for a result set cleared with
-    #' [dbClearResult()] gives an error.
+    #' Attempting to query completion status for a result set cleared with [dbClearResult()] gives an error.
     expect_error(dbHasCompleted(res))
   },
 
@@ -55,8 +55,7 @@ spec_meta_has_completed <- list(
     res <- local_result(dbSendQuery(con, trivial_query()))
     #' the return value is unspecified after fetching n rows,
     check_df(dbFetch(res, 1))
-    #' but the result value is `TRUE` after trying to fetch only one more
-    #' row.
+    #' but the result value is `TRUE` after trying to fetch only one more row.
     check_df(dbFetch(res, 1))
     expect_true(expect_visible(dbHasCompleted(res)))
   },

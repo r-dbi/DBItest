@@ -56,8 +56,6 @@ use_dbitest <- function(path) {
     "test_data_type",
     "test_select_with_null",
     "test_select",
-    "test_select_bind",
-    "new_bind_tester_extra",
     "test_table_roundtrip",
     "test_table_roundtrip_one",
     NULL

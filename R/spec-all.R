@@ -6,6 +6,7 @@ spec_all <- c(
   spec_sql,
   spec_meta,
   spec_transaction,
+  spec_arrow,
   spec_compliance,
   spec_stress,
   #
@@ -20,6 +21,7 @@ nested_spec_all <- list(
   sql = spec_sql,
   meta = spec_meta,
   transaction = spec_transaction,
+  arrow = spec_arrow,
   compliance = spec_compliance,
   stress = spec_stress,
   #

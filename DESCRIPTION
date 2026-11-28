@@ -1,62 +1,64 @@
 Package: DBItest
 Title: Testing DBI Backends
-Version: 1.7.2.9001
-Date: 2022-10-15
-Authors@R: 
-    c(person(given = "Kirill",
-             family = "M\u00fcller",
-             role = c("aut", "cre"),
-             email = "kirill@cynkra.com",
-             comment = c(ORCID = "0000-0002-1416-3412")),
-      person(given = "RStudio",
-             role = "cph"),
-      person(given = "R Consortium",
-             role = "fnd"))
-Description: A helper that tests DBI back ends for conformity
-    to the interface.
+Version: 1.8.3.9015
+Date: 2026-11-28
+Authors@R: c(
+    person("Kirill", "Müller", , "kirill@cynkra.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0002-1416-3412")),
+    person("RStudio", role = "cph"),
+    person("R Consortium", role = "fnd")
+  )
+Description: A helper that tests DBI back ends for conformity to the
+    interface.
 License: LGPL (>= 2.1)
 URL: https://dbitest.r-dbi.org, https://github.com/r-dbi/DBItest
 BugReports: https://github.com/r-dbi/DBItest/issues
 Depends: 
-    R (>= 3.2.0)
+    R (>= 4.1)
 Imports: 
     blob (>= 1.2.0),
     callr,
-    DBI (>= 1.1.1),
+    DBI (>= 1.2.3),
     desc,
     hms (>= 0.5.0),
     lubridate,
+    magrittr,
     methods,
+    nanoarrow,
     palmerpenguins,
-    R6,
     rlang (>= 0.2.0),
     testthat (>= 2.0.0),
     utils,
-    withr,
-    vctrs
+    withr
 Suggests: 
+    bit64,
     clipr,
-    dblog (>= 0.0.0.9008),
+    constructive,
     debugme,
     devtools,
     knitr,
-    lintr,
+    pkgload,
     rmarkdown,
-    RSQLite
+    RSQLite,
+    vctrs
 VignetteBuilder: 
-    knitr
-Additional_repositories: https://r-dbi.r-universe.dev
-Remotes: 
-    r-dbi/dblog
+    knitr,
+    rmarkdown
+Config/autostyle/scope: line_breaks
+Config/autostyle/strict: false
+Config/Needs/check: decor
+Config/Needs/website: r-dbi/dbitemplate
+Config/roxygen2/version: 8.1.1.9000
+Config/testthat/edition: 3
 Encoding: UTF-8
 KeepSource: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
 Collate: 
     'DBItest.R'
     'compat-purrr.R'
     'context.R'
     'dbi.R'
+    'dummy.R'
     'expectations.R'
     'generics.R'
     'import-dbi.R'
@@ -91,8 +93,12 @@ Collate:
     'spec-sql-remove-table.R'
     'spec-sql-list-objects.R'
     'spec-meta-bind-runner.R'
-    'spec-meta-bind-tester-extra.R'
+    'spec-meta-bind-formals.R'
+    'spec-meta-bind-expr.R'
     'spec-meta-bind.R'
+    'spec-meta-bind-arrow.R'
+    'spec-meta-bind-stream.R'
+    'spec-meta-bind-arrow-stream.R'
     'spec-meta-bind-.R'
     'spec-meta-is-valid.R'
     'spec-meta-has-completed.R'
@@ -101,6 +107,16 @@ Collate:
     'spec-meta-get-rows-affected.R'
     'spec-transaction-begin-commit-rollback.R'
     'spec-transaction-with-transaction.R'
+    'spec-arrow-send-query-arrow.R'
+    'spec-arrow-fetch-arrow.R'
+    'spec-arrow-fetch-arrow-chunk.R'
+    'spec-arrow-get-query-arrow.R'
+    'spec-arrow-read-table-arrow.R'
+    'spec-arrow-write-table-arrow.R'
+    'spec-arrow-create-table-arrow.R'
+    'spec-arrow-append-table-arrow.R'
+    'spec-arrow-bind.R'
+    'spec-arrow-roundtrip.R'
     'spec-driver-get-info.R'
     'spec-connection-get-info.R'
     'spec-sql-list-fields.R'
@@ -111,6 +127,7 @@ Collate:
     'spec-result.R'
     'spec-sql.R'
     'spec-meta.R'
+    'spec-arrow.R'
     'spec-transaction.R'
     'spec-compliance.R'
     'spec-stress-connection.R'
@@ -125,13 +142,12 @@ Collate:
     'test-sql.R'
     'test-meta.R'
     'test-transaction.R'
+    'test-arrow.R'
     'test-compliance.R'
     'test-stress.R'
+    'test_backend.R'
     'tweaks.R'
     'use.R'
     'utf8.R'
     'utils.R'
     'zzz.R'
-Config/autostyle/scope: line_breaks
-Config/autostyle/strict: false
-Config/testthat/edition: 3

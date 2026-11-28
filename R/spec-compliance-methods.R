@@ -11,8 +11,8 @@ spec_compliance_methods <- list(
     key_methods <- get_key_methods()
 
     #' which are subclasses of
-    expect_identical(
-      names(key_methods),
+    expect_named(
+      key_methods,
       c(
         #' [DBIDriver-class],
         "Driver",
@@ -25,32 +25,27 @@ spec_compliance_methods <- list(
 
     pkg <- package_name(ctx)
 
-    where <- asNamespace(pkg)
-
     sapply(names(key_methods), function(name) {
       dbi_class <- paste0("DBI", name)
 
       classes <- Filter(function(class) {
-        extends(class, dbi_class) && getClass(class)@virtual == FALSE
-      }, getClasses(where))
+        extends(class, dbi_class) && !getClass(class)@virtual
+      }, getClasses(asNamespace(pkg)))
 
       expect_gte(length(classes), 1)
 
       class <- classes[[1]]
 
-      #' The backend provides implementation for all methods
-      #' of these base classes
-      #' that are defined but not implemented by DBI.
+      #' The backend provides implementation for all methods of these base classes that are defined but not implemented by DBI.
       mapply(function(method, args) {
-        expect_has_class_method(method, class, args, where)
+        expect_has_class_method(method, class, args, pkg)
       }, names(key_methods[[name]]), key_methods[[name]])
     })
     #
   },
 
   reexport = function(ctx) {
-    #' All methods defined in \pkg{DBI} are reexported (so that the package can
-    #' be used without having to attach \pkg{DBI}),
+    #' All methods defined in \pkg{DBI} are reexported (so that the package can be used without having to attach \pkg{DBI}),
     pkg <- package_name(ctx)
 
     where <- asNamespace(pkg)
@@ -74,7 +69,7 @@ spec_compliance_methods <- list(
     }
 
     missing <- setdiff(dbi_names, exported_names)
-    expect_equal(paste(missing, collapse = ", "), "")
+    expect_equal(toString(missing), "")
   },
 
   ellipsis = function(ctx) {
@@ -99,7 +94,7 @@ spec_compliance_methods <- list(
 expect_has_class_method <- function(name, class, args, driver_package) {
   full_args <- c(class, args)
   eval(bquote(
-    expect_true(hasMethod(.(name), .(full_args), driver_package))
+    expect_true(hasMethod(.(name), signature = .(full_args), asNamespace(.(driver_package))))
   ))
 }
 

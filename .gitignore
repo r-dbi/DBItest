@@ -7,3 +7,9 @@ inst/doc
 /docs
 CRAN-RELEASE
 CRAN-SUBMISSION
+.vscode
+
+*.Rcheck
+*.tar.gz
+
+.ccache/

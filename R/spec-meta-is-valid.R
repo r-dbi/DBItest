@@ -6,7 +6,7 @@
 spec_meta_is_valid <- list(
   is_valid_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbIsValid)), c("dbObj", "..."))
+    expect_named(formals(dbIsValid), c("dbObj", "..."))
   },
 
   is_valid_connection = function(ctx) {
@@ -23,8 +23,8 @@ spec_meta_is_valid <- list(
   },
   #
   is_valid_stale_connection = function(ctx, invalid_con) {
-    #' For an invalid connection object (e.g., for some drivers if the object
-    #' is saved to a file and then restored), the method also returns `FALSE`.
+    #' For an invalid connection object (e.g., for some drivers if the object is saved to a file and then restored),
+    #' the method also returns `FALSE`.
     expect_false(expect_visible(dbIsValid(invalid_con)))
   },
   #
@@ -43,8 +43,8 @@ spec_meta_is_valid <- list(
     expect_false(dbIsValid(res))
   },
   #
-  is_valid_result_statement = function(con, table_name) {
-    query <- paste0("CREATE TABLE ", table_name, " (a ", dbDataType(con, 1L), ")")
+  is_valid_result_statement = function(ctx, con, table_name) {
+    query <- ctx$tweaks$create_table_empty(table_name)
     res <- dbSendStatement(con, query)
     on.exit(dbClearResult(res))
     #' A [DBIResult-class] object is also valid after a call to [dbSendStatement()],
@@ -58,9 +58,9 @@ spec_meta_is_valid <- list(
     expect_false(dbIsValid(res))
   },
 
-  #' If the connection to the database system is dropped (e.g., due to
-  #' connectivity problems, server failure, etc.), `dbIsValid()` should return
-  #' `FALSE`. This is not tested automatically.
+  #' If the connection to the database system is dropped (e.g., due to connectivity problems, server failure, etc.),
+  #' `dbIsValid()` should return `FALSE`.
+  #' This is not tested automatically.
 
   NULL
 )

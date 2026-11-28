@@ -7,7 +7,7 @@
 spec_driver_data_type <- list(
   data_type_formals = function() {
     # <establish formals of described function>
-    expect_equal(names(formals(dbDataType)), c("dbObj", "obj", "..."))
+    expect_named(formals(dbDataType), c("dbObj", "obj", "..."))
   },
   #
   data_type_driver = function(ctx) {
@@ -29,12 +29,11 @@ test_data_type <- function(ctx, dbObj) {
       #' as a non-empty
       expect_match(dbDataType(dbObj, .(value)), ".")
       #' character string.
-      if (!is.data.frame(value)) {
-        expect_equal(length(dbDataType(dbObj, .(value))), 1L)
+      if (is.data.frame(value)) {
+        #' For data frames, a character vector with one element per column is returned.
+        expect_length(dbDataType(dbObj, value), .(ncol(value)))
       } else {
-        #' For data frames, a character vector with one element per column
-        #' is returned.
-        expect_equal(length(dbDataType(dbObj, value)), .(ncol(value)))
+        expect_length(dbDataType(dbObj, .(value)), 1L)
       }
       expect_type(dbDataType(dbObj, .(value)), "character")
       expect_visible(dbDataType(dbObj, .(value)))
@@ -88,16 +87,15 @@ test_data_type <- function(ctx, dbObj) {
     }
   )
 
-  lapply(
+  map(
     compact(expected_data_types),
     expect_has_data_type
   )
 
   expect_has_data_type(data.frame(a = 1, b = "2", stringsAsFactors = FALSE))
 
-  #' As-is objects (i.e., wrapped by [I()]) must be
-  #' supported and return the same results as their unwrapped counterparts.
-  lapply(
+  #' As-is objects (i.e., wrapped by [I()]) must be supported and return the same results as their unwrapped counterparts.
+  map(
     compact(expected_data_types),
     function(value) {
       if (!is.null(value)) {
@@ -114,12 +112,12 @@ test_data_type <- function(ctx, dbObj) {
     }
   )
 
-  #' The SQL data type for [factor]
+  #' The SQL data type for [factor][base::factor] and
   expect_identical(
     dbDataType(dbObj, letters),
     dbDataType(dbObj, factor(letters))
   )
-  #' and [ordered] is the same as for character.
+  #' [ordered][base::ordered] is the same as for character.
   expect_identical(
     dbDataType(dbObj, letters),
     dbDataType(dbObj, ordered(letters))

@@ -18,7 +18,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
 
       # https://github.blog/changelog/2020-04-15-github-actions-new-workflow-features/
       - id: set-matrix
@@ -30,7 +30,7 @@ jobs:
           ) | jq -c .)
           echo $matrix
           echo $matrix | jq .
-          echo "::set-output name=matrix::$matrix"
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
   check-matrix:
     runs-on: ubuntu-latest
@@ -49,7 +49,8 @@ jobs:
 
   backend:
     needs: matrix
-    runs-on: ubuntu-20.04
+    # Need Ubuntu 24.04 for remotes::system_requirements()
+    runs-on: ubuntu-24.04
 
     strategy:
       fail-fast: false
@@ -58,7 +59,6 @@ jobs:
     name: ${{ matrix.package }}
 
     env:
-      RSPM: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
@@ -68,48 +68,33 @@ jobs:
           curl -s --header "authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/rate_limit
         shell: bash
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
 
-      - uses: r-lib/actions/setup-r@v1
-
-      - name: Install remotes
-        run: |
-          if (!requireNamespace("curl", quietly = TRUE)) install.packages("curl")
-          if (!requireNamespace("remotes", quietly = TRUE)) install.packages("remotes")
-        shell: Rscript {0}
+      - name: Install R and the package dependencies
+        uses: cynkra/cynkratemplate/.github/actions/install@main
+        with:
+          cache-version: backends-${{ matrix.package }}
+          needs: check
+          extra-packages: "any::pkgbuild any::remotes decor ."
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Clone backend
         run: |
           make -C revdep-dev ${{ matrix.package }}
 
-      - name: Prepare cache keys
-        if: runner.os != 'Windows'
-        run: |
-          saveRDS(remotes::dev_package_deps("revdep-dev/${{ matrix.package }}", dependencies = TRUE, type = .Platform$pkgType), ".github/depends.Rds", version = 2)
-          writeLines(sprintf("R-%i.%i", getRversion()$major, getRversion()$minor), ".github/R-version")
-        shell: Rscript {0}
-
-      - name: Cache R packages
-        if: runner.os != 'Windows'
-        uses: actions/cache@v2
-        with:
-          path: ${{ env.R_LIBS_USER }}
-          key: backends-${{ hashFiles('.github/R-version') }}-2-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: backends-${{ hashFiles('.github/R-version') }}-2-
-
       - name: Install system dependencies
         if: runner.os == 'Linux'
+        # "22.04" fails here
         run: |
           while read -r cmd
           do
             eval sudo $cmd
-          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "20.04", path = "revdep-dev/${{ matrix.package }}"))')
+          done < <(Rscript -e 'writeLines(remotes::system_requirements("ubuntu", "24.04", path = "revdep-dev/${{ matrix.package }}"))')
 
       - name: Install package and dependencies
         run: |
           remotes::install_local("revdep-dev/${{ matrix.package }}", dependencies = TRUE, type = .Platform$pkgType)
           remotes::install_local(".", type = .Platform$pkgType, force = TRUE)
-          remotes::install_cran("pkgbuild")
         shell: Rscript {0}
 
       - name: Session info
@@ -126,7 +111,7 @@ jobs:
       - uses: ankane/setup-mariadb@v1
         if: matrix.package == 'RMariaDB'
         with:
-          mariadb-version: 10.5
+          mariadb-version: 10.9
 
       - name: Create database, set it to UTF-8
         if: matrix.package == 'RMariaDB'

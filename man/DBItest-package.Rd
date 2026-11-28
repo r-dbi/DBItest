@@ -9,10 +9,9 @@
 A helper that tests DBI back ends for conformity to the interface.
 }
 \details{
-The two most important functions are \code{\link[=make_context]{make_context()}} and
-\code{\link[=test_all]{test_all()}}.  The former tells the package how to connect to your
-DBI backend, the latter executes all tests of the test suite. More
-fine-grained test functions (all with prefix \code{test_}) are available.
+The two most important functions are \code{\link[=make_context]{make_context()}} and \code{\link[=test_all]{test_all()}}.
+The former tells the package how to connect to your DBI backend, the latter executes all tests of the test suite.
+More fine-grained test functions (all with prefix \code{test_}) are available.
 
 See the package's vignette for more details.
 }

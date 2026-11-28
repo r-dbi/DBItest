@@ -1,8 +1,8 @@
 url: https://dbitest.r-dbi.org
 
 template:
-  params:
-    bootswatch: flatly # https://bootswatch.com/flatly/
+  package: dbitemplate
+  bootstrap: 5
 
 home:
   links:
@@ -58,6 +58,11 @@ reference:
   contents:
     - test_transaction
     - starts_with("spec_transaction")
+
+- title: Arrow functions
+  contents:
+    - test_arrow
+    - starts_with("spec_arrow")
 
 - title: Full compliance to DBI
   contents:

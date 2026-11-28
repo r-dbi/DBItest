@@ -6,7 +6,7 @@
 spec_result_send_statement <- list(
   send_statement_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbSendStatement)), c("conn", "statement", "..."))
+    expect_named(formals(dbSendStatement), c("conn", "statement", "..."))
   },
 
   send_statement_trivial = function(ctx, con, table_name) {
@@ -15,11 +15,9 @@ spec_result_send_statement <- list(
     res <- expect_visible(dbSendStatement(con, trivial_statement(ctx, table_name)))
     #' an S4 object that inherits from [DBIResult-class].
     expect_s4_class(res, "DBIResult")
-    #' The result set can be used with [dbGetRowsAffected()] to
-    #' determine the number of rows affected by the query.
+    #' The result set can be used with [dbGetRowsAffected()] to determine the number of rows affected by the query.
     expect_error(dbGetRowsAffected(res), NA)
-    #' Once you have finished using a result, make sure to clear it
-    #' with [dbClearResult()].
+    #' Once you have finished using a result, make sure to clear it with [dbClearResult()].
     dbClearResult(res)
   },
 
@@ -45,8 +43,7 @@ spec_result_send_statement <- list(
   },
 
   send_statement_syntax_error = function(con) {
-    #' An error is also raised if the syntax of the query is invalid
-    #' and all query parameters are given (by passing the `params` argument)
+    #' An error is also raised if the syntax of the query is invalid and all query parameters are given (by passing the `params` argument)
     #' or the `immediate` argument is set to `TRUE`.
     #'
     #' @section Failure modes:
@@ -57,15 +54,13 @@ spec_result_send_statement <- list(
   send_statement_result_valid = function(ctx, con, table_name) {
     #' @section Specification:
     #' No warnings occur under normal conditions.
-    expect_warning(res <- dbSendStatement(con, trivial_statement(ctx, table_name)), NA)
-    #' When done, the DBIResult object must be cleared with a call to
-    #' [dbClearResult()].
+    res <- expect_warning(dbSendStatement(con, trivial_statement(ctx, table_name)), NA)
+    #' When done, the DBIResult object must be cleared with a call to [dbClearResult()].
     dbClearResult(res)
   },
   #
   send_statement_stale_warning = function(ctx) {
-    #' Failure to clear the result set leads to a warning
-    #' when the connection is closed.
+    #' Failure to clear the result set leads to a warning when the connection is closed.
     con <- connect(ctx)
     on.exit(dbDisconnect(con))
     expect_warning(dbSendStatement(con, trivial_query()), NA)
@@ -82,9 +77,8 @@ spec_result_send_statement <- list(
     res1 <- dbSendStatement(con, trivial_statement(ctx, table_name))
     other_table_name <- random_table_name()
     local_remove_test_table(con, other_table_name)
-    #' issuing a second query invalidates an already open result set
-    #' and raises a warning.
-    query <- ctx$tweaks$create_table_as(other_table_name, "SELECT 1 AS a")
+    #' issuing a second query invalidates an already open result set and raises a warning.
+    query <- ctx$tweaks$create_table_as(other_table_name)
     expect_warning(res2 <- dbSendStatement(con, query))
     expect_false(dbIsValid(res1))
     #' The newly opened result set is valid
@@ -118,7 +112,12 @@ spec_result_send_statement <- list(
       values <- 1.5
       params <- stats::setNames(list(values), names(placeholder))
       rs <- dbSendStatement(con, query, params = params)
-      expect_equal(dbGetRowsAffected(rs), 2, info = placeholder)
+      rc <- dbGetRowsAffected(rs)
+      if (isTRUE(ctx$tweaks$allow_na_rows_affected)) {
+        expect_true((is.na(rc) && is.numeric(rc)) || rc == 2L, info = placeholder)
+      } else {
+        expect_equal(rc, 2L, info = placeholder)
+      }
       dbClearResult(rs)
     }
   },

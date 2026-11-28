@@ -26,7 +26,7 @@ spec_result_roundtrip <- list(
     sql_names <- paste0("CAST(", int_values, " AS ", dbDataType(con, logical()), ")")
 
     #' with NA for SQL `NULL` values
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(values, sql_names))
   },
 
   data_character = function(ctx, con) {
@@ -36,8 +36,8 @@ spec_result_roundtrip <- list(
     sql_names <- as.character(dbQuoteString(con, values))
 
     #' with NA for SQL `NULL` values
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(test_funs, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(test_funs, sql_names))
   },
 
   data_raw = function(ctx, con) {
@@ -54,13 +54,13 @@ spec_result_roundtrip <- list(
     sql_names <- ctx$tweaks$blob_cast(DBI::dbQuoteLiteral(con, list(raw(1))))
 
     #' with [NULL] entries for SQL NULL values
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(values, sql_names))
   },
 
   data_date = function(ctx, con) {
     #' - coercible using [as.Date()] for dates,
     as_date_equals_to <- function(x) {
-      lapply(x, function(xx) {
+      map(x, function(xx) {
         function(value) as.Date(value) == xx
       })
     }
@@ -70,7 +70,7 @@ spec_result_roundtrip <- list(
     sql_names <- ctx$tweaks$date_cast(char_values)
 
     #' with NA for SQL `NULL` values
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(values, sql_names))
   },
 
   data_date_current = function(ctx, con) {
@@ -84,7 +84,7 @@ spec_result_roundtrip <- list(
   data_time = function(ctx, con) {
     #' - coercible using [hms::as_hms()] for times,
     as_hms_equals_to <- function(x) {
-      lapply(x, function(xx) {
+      map(x, function(xx) {
         function(value) hms::as_hms(value) == xx
       })
     }
@@ -94,7 +94,7 @@ spec_result_roundtrip <- list(
     sql_names <- ctx$tweaks$time_cast(char_values)
 
     #' with NA for SQL `NULL` values
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(time_values, sql_names))
   },
 
   data_time_current = function(ctx, con) {
@@ -117,40 +117,37 @@ spec_result_roundtrip <- list(
     sql_names <- ctx$tweaks$timestamp_cast(char_values)
 
     #' with NA for SQL `NULL` values
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(time_values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(time_values, sql_names))
   },
 
   data_timestamp_current = function(ctx, con) {
     #'   (also applies to the return value of the SQL function `current_timestamp`)
-    coercible_to_timestamp <- function(x) {
-      x_timestamp <- try_silent(as.POSIXct(x))
-      !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
-    }
-
-    is_roughly_current_timestamp <- function(x) {
-      coercible_to_timestamp(x) && (Sys.time() - as.POSIXct(x, tz = "UTC") <= hms::hms(2))
-    }
-
     test_select_with_null(
       .ctx = ctx, con,
-      "current_timestamp" ~ is_roughly_current_timestamp
+      "current_timestamp" ~ function(x) {
+        coercible_to_timestamp <- function(x) {
+          x_timestamp <- try_silent(as.POSIXct(x))
+          !is.null(x_timestamp) && all(is.na(x) == is.na(x_timestamp))
+        }
+
+        coercible_to_timestamp(x) && (Sys.time() - as.POSIXct(x, tz = "UTC") <= hms::hms(2))
+      }
     )
   },
 
   #'
   data_date_typed = function(ctx, con) {
-    #' If dates and timestamps are supported by the backend, the following R types are
-    #' used:
-    #' - [Date] for dates
+    #' If dates and timestamps are supported by the backend, the following R types are used:
+    #' - [Date][Dates] for dates
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
 
     char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
-    values <- lapply(char_values, as_numeric_date)
+    values <- map(char_values, as_numeric_date)
     sql_names <- ctx$tweaks$date_cast(char_values)
 
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(values, sql_names))
   },
 
   data_date_current_typed = function(ctx, con) {
@@ -166,7 +163,7 @@ spec_result_roundtrip <- list(
   },
 
   data_timestamp_typed = function(ctx, con) {
-    #' - [POSIXct] for timestamps
+    #' - [POSIXct][DateTimeClasses] for timestamps
     if (!isTRUE(ctx$tweaks$timestamp_typed)) {
       skip("tweak: !timestamp_typed")
     }
@@ -175,7 +172,7 @@ spec_result_roundtrip <- list(
     timestamp_values <- rep(list(is_timestamp), 2L)
     sql_names <- ctx$tweaks$timestamp_cast(char_values)
 
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(timestamp_values, sql_names))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(timestamp_values, sql_names))
   },
 
   data_timestamp_current_typed = function(ctx, con) {
@@ -191,17 +188,15 @@ spec_result_roundtrip <- list(
   },
 
   #'
-  #' R has no built-in type with lossless support for the full range of 64-bit
-  #' or larger integers. If 64-bit integers are returned from a query,
+  #' R has no built-in type with lossless support for the full range of 64-bit or larger integers.
+  #' If 64-bit integers are returned from a query,
   #' the following rules apply:
-  #' - Values are returned in a container with support for the full range of
-  #'   valid 64-bit values (such as the `integer64` class of the \pkg{bit64}
-  #'   package)
-  #' - Coercion to numeric always returns a number that is as close as possible
-  #'   to the true value
+  #' - Values are returned in a container with support for the full range of valid 64-bit values
+  #'   (such as the `integer64` class of the \pkg{bit64} package)
+  #' - Coercion to numeric always returns a number that is as close as possible to the true value
   data_64_bit_numeric = function(ctx, con) {
     as_numeric_identical_to <- function(x) {
-      lapply(x, function(xx) {
+      map(x, function(xx) {
         function(value) as.numeric(value) == xx
       })
     }
@@ -209,13 +204,13 @@ spec_result_roundtrip <- list(
     char_values <- c("10000000000", "-10000000000")
     test_values <- as_numeric_identical_to(as.numeric(char_values))
 
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(test_values, char_values))
   },
 
   #' - Loss of precision when converting to numeric gives a warning
   data_64_bit_numeric_warning = function(ctx, con) {
     as_numeric_equals_to <- function(x) {
-      lapply(x, function(xx) {
+      map(x, function(xx) {
         function(value) isTRUE(all.equal(as.numeric(value), xx))
       })
     }
@@ -226,26 +221,25 @@ spec_result_roundtrip <- list(
 
     suppressWarnings(
       expect_warning(
-        test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "none")
+        test_select(.ctx = ctx, con, !!!setNames(test_values, char_values), .add_null = "none")
       )
     )
     suppressWarnings(
       expect_warning(
-        test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "above")
+        test_select(.ctx = ctx, con, !!!setNames(test_values, char_values), .add_null = "above")
       )
     )
     suppressWarnings(
       expect_warning(
-        test_select(.ctx = ctx, con, .dots = setNames(test_values, char_values), .add_null = "below")
+        test_select(.ctx = ctx, con, !!!setNames(test_values, char_values), .add_null = "below")
       )
     )
   },
 
-  #' - Conversion to character always returns a lossless decimal representation
-  #'   of the data
+  #' - Conversion to character always returns a lossless decimal representation of the data
   data_64_bit_lossless = function(ctx, con) {
     as_character_equals_to <- function(x) {
-      lapply(x, function(xx) {
+      map(x, function(xx) {
         function(value) as.character(value) == xx
       })
     }
@@ -253,7 +247,7 @@ spec_result_roundtrip <- list(
     char_values <- c("1234567890123456789", "-1234567890123456789")
     test_values <- as_character_equals_to(char_values)
 
-    test_select_with_null(.ctx = ctx, con, .dots = setNames(test_values, char_values))
+    test_select_with_null(.ctx = ctx, con, !!!setNames(test_values, char_values))
   },
   #
   NULL
@@ -268,13 +262,19 @@ test_select_with_null <- function(...) {
 }
 
 #' @export
-test_select <- function(con, ..., .dots = NULL, .add_null = "none",
-                        .ctx, .envir = parent.frame()) {
-  values <- c(list(...), .dots)
+test_select <- function(
+  con,
+  ...,
+  .ctx,
+  .add_null = "none",
+  .envir = parent.frame()
+) {
 
-  value_is_formula <- vapply(values, is.call, logical(1L))
-  names(values)[value_is_formula] <- lapply(values[value_is_formula], "[[", 2L)
-  values[value_is_formula] <- lapply(
+  values <- list2(...)
+
+  value_is_formula <- map_lgl(values, is.call)
+  names(values)[value_is_formula] <- map(values[value_is_formula], "[[", 2L)
+  values[value_is_formula] <- map(
     values[value_is_formula],
     function(x) {
       eval(x[[3]], envir = .envir)
@@ -282,7 +282,7 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
   )
 
   if (is.null(names(values))) {
-    sql_values <- lapply(values, as.character)
+    sql_values <- map(values, as.character)
   } else {
     sql_values <- names(values)
   }
@@ -322,7 +322,7 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
     }
   }
 
-  expect_identical(names(rows), sql_names)
+  expect_named(rows, sql_names)
 
   for (i in seq_along(values)) {
     value_or_testfun <- values[[i]]
@@ -336,7 +336,7 @@ test_select <- function(con, ..., .dots = NULL, .add_null = "none",
   if (.add_null != "none") {
     expect_equal(nrow(rows), 2L)
     if (is.list(rows[[1L]])) {
-      expect_true(is.null(rows[2L, 1L][[1L]]))
+      expect_null(rows[2L, 1L][[1L]])
     } else {
       expect_true(is.na(rows[2L, 1L]))
     }
@@ -354,7 +354,7 @@ equals_minus_100 <- function(x) {
 }
 
 all_have_utf8_or_ascii_encoding <- function(x) {
-  all(vapply(x, has_utf8_or_ascii_encoding, logical(1L)))
+  all(map_lgl(x, has_utf8_or_ascii_encoding))
 }
 
 #' @export
@@ -362,8 +362,8 @@ has_utf8_or_ascii_encoding <- function(x) {
   if (Encoding(x) == "UTF-8") {
     TRUE
   } else if (Encoding(x) == "unknown") {
-    # Characters encoded as "unknown" must be ASCII only, and remain "unknown"
-    # after attempting to assign an encoding. From ?Encoding :
+    # Characters encoded as "unknown" must be ASCII only, and remain "unknown" after attempting to assign an encoding.
+    # From ?Encoding :
     # > ASCII strings will never be marked with a declared encoding, since their
     # > representation is the same in all supported encodings.
     Encoding(x) <- "UTF-8"
@@ -388,7 +388,7 @@ coercible_to_time <- function(x) {
 }
 
 as_timestamp_equals_to <- function(x) {
-  lapply(x, function(xx) {
+  map(x, function(xx) {
     function(value) as.POSIXct(value) == xx
   })
 }

@@ -1,14 +1,418 @@
-<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+<!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
-# DBItest 1.7.2.9001 (2022-10-15)
+# DBItest 1.8.3.9015 (2026-11-28)
+
+## Chore
+
+- Declare every vignette builder in DESCRIPTION (#582).
+
+- Tidy DESCRIPTION with usethis::use_tidy_description() (#581).
+
+## Continuous integration
+
+- Sync the workflows with cynkra/cynkratemplate (#580).
+
+
+# DBItest 1.8.3.9014 (2026-11-27)
+
+## Continuous integration
+
+- Sync the workflows with cynkra/cynkratemplate (#578).
+
+
+# DBItest 1.8.3.9013 (2026-10-24)
+
+## Chore
+
+- Auto-update from GitHub Actions (#576).
+
+
+# DBItest 1.8.3.9012 (2026-09-27)
 
 ## Bug fixes
 
-- Correct cleanup even if `dbIsValid()` is not implemented.
+### ci
+
+- Restore the workflows the template sync deleted (#574).
+
+## Continuous integration
+
+- Run coverage checks after pkgdown push.
+
+## Uncategorized
+
+- Feat(ci): Render `README.md` and `index.md` in CI (cynkra/cynkratemplate#118).
+
+
+# DBItest 1.8.3.9011 (2026-09-26)
 
 ## Features
 
-- Use and enable compatibility with testthat edition 3 (#263, #268).
+- Specify the schema of Arrow results (#571).
+
+## Continuous integration
+
+- Point the `backends` and `odbc` workflows at the central install action (#569).
+
+## Uncategorized
+
+- Refactor(ci): Serve the revdep scripts with the actions instead of copying them (cynkra/cynkratemplate#149).
+
+- Feat(ci): Run R-hub checks on every `cran-*` push, through `rhub-setup` and `rhub-check` actions (cynkra/cynkratemplate#145).
+
+- Feat(ci): Report coverage on pull requests from this repository (cynkra/cynkratemplate#146).
+
+- Ci: Bound every job with `timeout-minutes` (cynkra/cynkratemplate#144).
+
+- Fix(revdep2): Let a slice with no packages check nothing instead of failing (cynkra/cynkratemplate#150).
+
+- Feat: Build a binary package in every check job and share it as an artifact (cynkra/cynkratemplate#141).
+
+- Fix(ci): Collect the fleet's workflow fixes after the move to central actions (cynkra/cynkratemplate#139).
+
+
+# DBItest 1.8.3.9010 (2026-09-15)
+
+## Documentation
+
+- Break lines at meaning boundaries (#563).
+
+- Drop the branch from the coverage badge (#562).
+
+- Use `pak::pak()` for the development install (#560).
+
+
+# DBItest 1.8.3.9009 (2026-09-13)
+
+## Chore
+
+- Remove Copilot setup steps.
+
+## Uncategorized
+
+- Refactor(ci): Serve the actions from this repository instead of copying them (cynkra/cynkratemplate#121).
+
+- Refactor(ci): Move every script out of the workflows and into a named action (cynkra/cynkratemplate#120).
+
+- Refactor(ci): Make an action of what the workflows say more than once.
+
+- Refactor(ci): Move every script that could change out of the workflows.
+
+- Refactor(ci): Extract the last three scripts, which only a named action can hold.
+
+- Fix(ci): Keep the raw name expression out of the running job's step list (cynkra/cynkratemplate#119).
+
+- Fix(fledge): Push the bump to the default branch wherever that is allowed (cynkra/cynkratemplate#117).
+
+- Fix(ci): Make a failing `rcc` run say what failed, and link to it (cynkra/cynkratemplate#115).
+
+- Fix(ci): Exempt deprecation warnings from the roxygenize warning gate (cynkra/cynkratemplate#114).
+
+
+# DBItest 1.8.3.9008 (2026-09-13)
+
+## Features
+
+### ci
+
+- Align the `revdep2`, `revdep4` and `revdepx` subsystems with `rigraph`.
+
+## Uncategorized
+
+- Perf(revdepx): Compile the revdeps' checks through ccache.
+
+- Fix(ci): Survive an archived CRAN package, and install it from where it still lives.
+
+
+# DBItest 1.8.3.9007 (2026-09-05)
+
+## Bug fixes
+
+### ci
+
+- Backport kit fixes from `rigraph`, `duckdb-r` and `dm`.
+
+
+# DBItest 1.8.3.9006 (2026-08-08)
+
+## Continuous integration
+
+- Wrap the commit status update into an action.
+
+- Route ccache through one-word compiler wrappers on Unix.
+
+- Name every step and restore the log entry `setup-pandoc` swallows.
+
+
+# DBItest 1.8.3.9005 (2026-08-06)
+
+## Continuous integration
+
+- Add sharded `revdep2` workflow.
+
+## Uncategorized
+
+- Ci: Harden `workflow_run` workflows against untrusted pull requests (#106).
+
+- Ci: Pin third-party actions to commits and let Renovate keep them pinned (#105).
+
+
+# DBItest 1.8.3.9004 (2026-08-05)
+
+## Chore
+
+- Auto-update from GitHub Actions (#554).
+
+## Continuous integration
+
+- Remove unused pr-commands workflow.
+
+## Uncategorized
+
+- Ci: Give every workflow and job an explicit `permissions` block (#103).
+
+- Ci: Pass workflow context through the environment, not into script text (#102).
+
+
+# DBItest 1.8.3.9003 (2026-07-28)
+
+- Ci: Run all smoke-test checks even when one fails (#97).
+
+- Ci: Apply matrix `env` vars in the workflow, not in custom actions (#95).
+
+- Ci: Link the responsible workflow run in snapshot update PRs (#96).
+
+
+# DBItest 1.8.3.9002 (2026-07-25)
+
+## Continuous integration
+
+- Lock down `format-suggest` egress (audit → block).
+
+- Silence failing linters to make lint workflow pass (#542).
+
+
+# DBItest 1.8.3.9001 (2026-07-24)
+
+## Bug fixes
+
+- Avoid implicit assignments inside `expect_warning()` (#545).
+
+- Order arguments without defaults before those with defaults (#547).
+
+- Resolve commented-code lints (#549).
+
+- Specify `stringsAsFactors = FALSE` explicitly in `data.frame()` calls (#546).
+
+- Mark intentional empty `pairlist2()` args as `nolint` (#548).
+
+- Set `call. = FALSE` in `ctx` sentinel `stop()` calls (#543).
+
+### ci
+
+- Emit empty package matrix when there are no (rev)deps.
+
+## Continuous integration
+
+- Silence failing linters to make lint workflow pass (#542).
+
+- Fix MySQL ODBC backend workflow (#539).
+
+## Uncategorized
+
+- Ci: Harden `format-suggest` against `pull_request_target` pwn requests (#93).
+
+
+# DBItest 1.8.3.9000 (2026-07-23)
+
+## Bug fixes
+
+- Replace legacy `PST8PDT` time zone with `America/Los_Angeles` in roundtrip tests (#540).
+
+## Continuous integration
+
+- Run on Ubuntu 26.04.
+
+- Align workflows with template.
+
+## fledge
+
+- CRAN release v1.8.3 (#536).
+
+
+# DBItest 1.8.3 (2026-07-22)
+
+## Features
+
+- New `tweaks(create_table_empty = )` tweak, for backends that need a dedicated code path to create empty tables (@MichaelChirico, #406, #408).
+
+- Use `trivial_query()` by default in `create_table_as()` (@MichaelChirico, #410, #420).
+
+- Test that the object returned by `dbUnquoteIdentifier()` is of class `Id`.
+
+- Add an extra sanity test in `spec_sql_write_table` (@MichaelChirico, #411).
+
+- Improve the failure mode of the missing-method test (@MichaelChirico, #405).
+
+- Assign the result in `send_query_stale_warning` to stabilize the test (@detule, #373).
+
+- Clarify the warning message emitted when a `skip =` pattern matches none of the tests in `spec_all` (@MichaelChirico, #398).
+
+## Bug fixes
+
+- Suppress warnings when creating invalid objects.
+
+## Chore
+
+- Add build-time dependency on vctrs (@MichaelChirico, #394, #395).
+
+- Reinstate lint infrastructure as a GitHub Actions workflow (@MichaelChirico, #396).
+
+## Documentation
+
+- Improve wording of the `test_all(skip = )` description (@MichaelChirico, #397, #399).
+
+- Fix bad links and a typo.
+
+
+# DBItest 1.8.2 (2024-12-07)
+
+## Chore
+
+- More explicit message on constructive errors.
+
+- Bump DBI dependency.
+
+## Documentation
+
+- Set BS version explicitly for now (@maelle, #370).
+
+- Add package to `\link{}` targets.
+
+## Testing
+
+- Adapt tests to updates of the constructive package.
+
+
+# DBItest 1.8.1 (2024-03-31)
+
+## Features
+
+- Allow multiple warnings in disconnect tests (#363).
+
+- Fix specification for Arrow tests (#357).
+
+- Show DBItest function in backtrace (#349, #354).
+
+- Specify `value` argument for `dbCreateTable()` and `dbCreateTableArrow()` (#345).
+
+- Enable two tests for `dbGetQueryArrow()` (#342).
+
+- Relax `dbListObjects()` spec (#339, #341).
+
+## Chore
+
+- Avoid dplyr (#364).
+
+- Remove `.dots` argument to `test_select_with_null()` (#362).
+
+- Prefer `map()` over `lapply()` (#361) and `map_*()` over `vapply()` (#356).
+
+- Bump DBI dependency to fix tests (#359).
+
+- Document sources for autogenerated files (#353), add comments to generated code (#358).
+
+- Make test names unique, with a numeric suffix (#355).
+
+- Align with RSQLite (#351).
+
+- Replace unconditional skip with versioned skip (#347).
+
+- Consistent use of `skip_if_not_dbitest()` (#346).
+
+## Continuous integration
+
+- Modernize backends checks.
+
+## Documentation
+
+- Use dbitemplate (@maelle, #360).
+
+- Mention `dbBindArrow()` in documentation (#350).
+
+- Minor specification fixes (#344).
+
+
+# DBItest 1.8.0 (2023-12-21)
+
+## Bug fixes
+
+- Fix `create_roundtrip_keywords` and `create_roundtrip_quotes` tests (#283).
+
+## Features
+
+- Relax specification of `dbUnquoteIdentifier()`, character vectors are now allowed too.
+
+- Specify `dbFetchChunk()` (#331), `dbFetchArrowChunk()` (#301) and `dbBindArrow()` (#328).
+
+- Inline all tests for `dbBind()` (#326).
+
+- Require support for `dbFetch(n = NA)` (#296, #316).
+
+- New `allow_na_rows_affected` tweak to support `NA` values returned from `dbGetRowsAffected()` (#297, #312).
+
+- Switch to nanoarrow (#291).
+
+- Basic tests for the new `db*Arrow()` interface (#287).
+
+- New `skip_if_not_dbitest()` (#289).
+
+- `reexport` test uses interface for dev DBI if the backend is compatible with DBItest \> 1.7.3.
+
+- Slightly better code generated for `tweaks()` (#313).
+
+- Remove interface to dblog in the CRAN version.
+
+## CI/CD
+
+- Add adbi to check matrix (#314).
+
+- Reenable ODBC MySQL tests (#288).
+
+- Tweak `read_table_missing` test (#285).
+
+## Chore
+
+- Remove rlang qualification (#332).
+
+- No longer need `as.data.frame()` twice for Arrow (#302, #330).
+
+- Consistent use of `skip_if_not_dbitest()` (#317).
+
+- Disable Arrow skips (#303).
+
+- Modernize `sql_union()` (#304).
+
+- Make better use of `trivial_df()` (#284).
+
+## Documentation
+
+- Avoid error if RSQLite is not installed.
+
+## Testing
+
+- Run DBItest for SQLite as part of the checks here (#318).
+
+- Enable remaining Arrow tests (#307).
+
+- Fix checks without suggested packages (#300).
+
+
+# DBItest 1.7.3 (2022-10-18)
+
+## Features
+
+- Use and enable compatibility with testthat edition 3 (#263, #268). Complete removal of `expect_is()` (@MichaelChirico, #257).
 
 - Adapt to new Arrow DBI generics (#265).
 
@@ -16,16 +420,17 @@
 
 - `dbQuoteIdentifier()` roundtrip is tested for tables only (@dpprdan, #256).
 
-- `test_some()` ignores skipped tests defined for the package.
+- `test_some()` also tests a test if it would normally be skipped.
 
 ## Chore
 
-- Complete removal of `expect_is()` (@MichaelChirico, #257).
+- Bump minimum DBI version to 1.1.3.
 
+- Refactor DBI tests in preparation for inlining them.
 
-# DBItest 1.7.2.9000 (2021-12-17)
+## Bug fixes
 
-- Same as previous version.
+- Correct cleanup even if `dbIsValid()` is not implemented.
 
 
 # DBItest 1.7.2 (2021-12-17)

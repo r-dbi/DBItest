@@ -6,13 +6,13 @@ spec_stress_connection <- list(
   simultaneous_connections = function(ctx) {
     #' Open 50 simultaneous connections
     cons <- list()
-    on.exit(try_silent(lapply(cons, dbDisconnect)), add = TRUE)
+    on.exit(try_silent(map(cons, dbDisconnect)), add = TRUE)
     for (i in seq_len(50L)) {
       cons <- c(cons, connect(ctx))
     }
 
     inherit_from_connection <-
-      vapply(cons, is, class2 = "DBIConnection", logical(1))
+      map_lgl(cons, is, class2 = "DBIConnection")
     expect_true(all(inherit_from_connection))
   },
 

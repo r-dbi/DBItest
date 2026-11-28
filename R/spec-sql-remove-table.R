@@ -6,7 +6,7 @@
 spec_sql_remove_table <- list(
   remove_table_formals = function() {
     # <establish formals of described functions>
-    expect_equal(names(formals(dbRemoveTable)), c("conn", "name", "..."))
+    expect_named(formals(dbRemoveTable), c("conn", "name", "..."))
   },
 
   remove_table_return = function(ctx, con, table_name) {
@@ -45,9 +45,9 @@ spec_sql_remove_table <- list(
   remove_table_error = function(con, table_name) {
     #' An error is also raised
     dbWriteTable(con, table_name, data.frame(a = 1L))
-    #' if `name` cannot be processed with [dbQuoteIdentifier()]
+    #' if `name` cannot be processed with [dbQuoteIdentifier()] or
     expect_error(dbRemoveTable(con, NA))
-    #' or if this results in a non-scalar.
+    #' if this results in a non-scalar.
     expect_error(dbRemoveTable(con, c(table_name, table_name)))
   },
 
@@ -63,8 +63,7 @@ spec_sql_remove_table <- list(
 
   #'
   remove_table_temporary_arg = function(ctx, con, table_name) {
-    #' If `temporary` is `TRUE`, the call to `dbRemoveTable()`
-    #' will consider only temporary tables.
+    #' If `temporary` is `TRUE`, the call to `dbRemoveTable()` will consider only temporary tables.
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
@@ -81,8 +80,7 @@ spec_sql_remove_table <- list(
 
   #'
   remove_table_missing_succeed = function(con, table_name) {
-    #' If `fail_if_missing` is `FALSE`, the call to `dbRemoveTable()`
-    #' succeeds if the table does not exist.
+    #' If `fail_if_missing` is `FALSE`, the call to `dbRemoveTable()` succeeds if the table does not exist.
     expect_error(dbRemoveTable(con, table_name, fail_if_missing = FALSE), NA)
   },
 
@@ -145,8 +143,7 @@ spec_sql_remove_table <- list(
 
     for (table_name in table_names) {
       local_remove_test_table(con, table_name)
-      #' - If an unquoted table name as string: `dbRemoveTable()` will do the
-      #'   quoting,
+      #' - If an unquoted table name as string: `dbRemoveTable()` will do the quoting,
       dbWriteTable(con, table_name, test_in)
       expect_true(dbRemoveTable(con, table_name))
       #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
@@ -155,9 +152,7 @@ spec_sql_remove_table <- list(
 
   remove_table_name_quoted = function(ctx, con) {
     #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done
-    if (as.package_version(ctx$tweaks$dbitest_version) < "1.7.2") {
-      skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
-    }
+    skip_if_not_dbitest(ctx, "1.7.2")
 
     if (isTRUE(ctx$tweaks$strict_identifier)) {
       table_names <- "a"
