@@ -59,8 +59,7 @@ spec_transaction_begin_commit_rollback <- list(
   },
   #
   rollback_without_begin = function(con) {
-    #' or `dbRollback()`
-    #' without a prior call to `dbBegin()` raises an error.
+    #' or `dbRollback()` without a prior call to `dbBegin()` raises an error.
     expect_error(dbRollback(con))
   },
   #
@@ -98,8 +97,7 @@ spec_transaction_begin_commit_rollback <- list(
     #' Data written in a transaction must persist after the transaction is committed.
     #' For example, a record that is missing when the transaction is started
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit00"
     dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
 
@@ -137,8 +135,7 @@ spec_transaction_begin_commit_rollback <- list(
   },
 
   begin_write_rollback = function(con, table_name) {
-    #' All data written in such a transaction must be removed after the
-    #' transaction is rolled back.
+    #' All data written in such a transaction must be removed after the transaction is rolled back.
     #' For example, a record that is missing when the transaction is started
     dbWriteTable(con, table_name, data.frame(a = 0L), overwrite = TRUE)
 
@@ -153,8 +150,7 @@ spec_transaction_begin_commit_rollback <- list(
   },
   #
   begin_write_disconnect_1 = function(local_con) {
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit01"
     #'
     #' Disconnection from a connection with an open transaction
@@ -167,16 +163,13 @@ spec_transaction_begin_commit_rollback <- list(
   #
   begin_write_disconnect_2 = function(local_con, table_name = "dbit01") {
     #' effectively rolls back the transaction.
-    #' All data written in such a transaction must be removed after the
-    #' transaction is rolled back.
+    #' All data written in such a transaction must be removed after the transaction is rolled back.
     expect_equal(check_df(dbReadTable(local_con, table_name)), data.frame(a = 0L))
   },
 
   #'
-  #' The behavior is not specified if other arguments are passed to these
-  #' functions. In particular, \pkg{RSQLite} issues named transactions
-  #' with support for nesting
-  #' if the `name` argument is set.
+  #' The behavior is not specified if other arguments are passed to these functions.
+  #' In particular, \pkg{RSQLite} issues named transactions with support for nesting if the `name` argument is set.
   #'
   #' The transaction isolation level is not specified by DBI.
   NULL

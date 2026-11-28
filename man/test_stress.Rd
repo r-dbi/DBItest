@@ -7,30 +7,27 @@
 test_stress(skip = NULL, ctx = get_default_context())
 }
 \arguments{
-\item{skip}{\verb{[character()]}\cr A vector of regular expressions to match
-against test names; skip test if matching any.
-To improve precision, the regular expressions are matched against the
-entire test name minus a possible suffix \verb{_N} where \code{N} is a number.
-For example, \code{skip = "exists_table"} will skip both
-\code{"exists_table_1"} and \code{"exists_table_2"}, but not \code{"there_exists_table"}.}
+\item{skip}{\verb{[character()]}\cr A vector of regular expressions to match against test names; skip test if matching any.
+To improve precision,
+the regular expressions are matched against the entire test name minus a possible suffix \verb{_N} where \code{N} is a number.
+For example, \code{skip = "exists_table"} will skip both \code{"exists_table_1"} and \code{"exists_table_2"}, but not \code{"there_exists_table"}.}
 
-\item{ctx}{\verb{[DBItest_context]}\cr A test context as created by
-\code{\link[=make_context]{make_context()}}.}
+\item{ctx}{\verb{[DBItest_context]}\cr A test context as created by \code{\link[=make_context]{make_context()}}.}
 }
 \description{
 Stress tests
 }
 \seealso{
-Other tests: 
-\code{\link{test_arrow}()},
-\code{\link{test_compliance}()},
-\code{\link{test_connection}()},
-\code{\link{test_driver}()},
-\code{\link{test_getting_started}()},
-\code{\link{test_meta}()},
-\code{\link{test_result}()},
-\code{\link{test_sql}()},
-\code{\link{test_transaction}()}
+Other tests:
+\code{\link[=test_arrow]{test_arrow()}},
+\code{\link[=test_compliance]{test_compliance()}},
+\code{\link[=test_connection]{test_connection()}},
+\code{\link[=test_driver]{test_driver()}},
+\code{\link[=test_getting_started]{test_getting_started()}},
+\code{\link[=test_meta]{test_meta()}},
+\code{\link[=test_result]{test_result()}},
+\code{\link[=test_sql]{test_sql()}},
+\code{\link[=test_transaction]{test_transaction()}}
 }
 \concept{tests}
 \keyword{internal}

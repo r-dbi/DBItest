@@ -11,8 +11,7 @@ spec_sql_exists_table <- list(
 
   exists_table_1 = function(ctx, con, table_name = "dbit05") {
     #' @return
-    #' `dbExistsTable()` returns a logical scalar, `TRUE` if the table or view
-    #' specified by the `name` argument exists, `FALSE` otherwise.
+    #' `dbExistsTable()` returns a logical scalar, `TRUE` if the table or view specified by the `name` argument exists, `FALSE` otherwise.
     expect_false(expect_visible(dbExistsTable(con, table_name)))
     penguins <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins)
@@ -21,8 +20,7 @@ spec_sql_exists_table <- list(
   },
   # second stage
   exists_table_2 = function(ctx, con) {
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit05"
     expect_false(expect_visible(dbExistsTable(con, table_name)))
   },
@@ -76,8 +74,7 @@ spec_sql_exists_table <- list(
       test_in <- data.frame(a = 1L)
       dbWriteTable(con, table_name, test_in)
 
-      #' - If an unquoted table name as string: `dbExistsTable()` will do the
-      #'   quoting,
+      #' - If an unquoted table name as string: `dbExistsTable()` will do the quoting,
       expect_true(dbExistsTable(con, table_name))
       #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`
       #' - If the result of a call to [dbQuoteIdentifier()]: no more quoting is done

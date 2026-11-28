@@ -1,3 +1,7 @@
+# Core test execution engine that manages the full testing lifecycle for DBI compliance tests.
+# This function coordinates test discovery, filtering, execution, and cleanup for database interface testing.
+# It handles context validation, test selection based on skip/run_only patterns, and manages database connections.
+# The function executes each test in isolation with proper setup and teardown of resources.
 run_tests <- function(ctx, tests, skip, run_only, test_suite) {
   tests_sym <- enexpr(tests)
   stopifnot(is_symbol(tests_sym))
@@ -79,7 +83,7 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
           }
 
           # Example of generated expression:
-          # DBItest:::spec_arrow$arrow_append_table_arrow_roundtrip_64_bit_roundtrip(...)
+          # > DBItest:::spec_arrow$arrow_append_table_arrow_roundtrip_64_bit_roundtrip(...)
           test_fun_expr <- expr(`$`(!!tests_qual, !!test_name)(!!!args))
           expect_warning(
             eval(test_fun_expr), NA
@@ -102,14 +106,18 @@ run_tests <- function(ctx, tests, skip, run_only, test_suite) {
   ok
 }
 
+# Resolves skip patterns into concrete test names for filtering test execution.
+# This function takes regex patterns and matches them against all available test names.
+# It provides warnings for unused skip patterns and supports numbered test variants.
+# Returns a vector of specific test names that should be skipped during execution.
 get_skip_names <- function(skip) {
   if (length(skip) == 0L) {
     return(character())
   }
   names_all <- names(spec_all)
   names_all <- names_all[names_all != ""]
-  skip_flags_all <- purrr::map(paste0("(?:^(?:", skip, ")(?:|_[0-9]+)$)"), grepl, names_all, perl = TRUE)
-  skip_used <- purrr::map_lgl(skip_flags_all, any)
+  skip_flags_all <- map(paste0("(?:^(?:", skip, ")(?:|_[0-9]+)$)"), grepl, names_all, perl = TRUE)
+  skip_used <- map_lgl(skip_flags_all, any)
   if (!all(skip_used)) {
     warning("These skip expressions did not match any test names: ", toString(skip[!skip_used]),
       call. = FALSE
@@ -122,6 +130,10 @@ get_skip_names <- function(skip) {
   skip_tests
 }
 
+# Filters the test suite to only include tests matching the run_only patterns.
+# This function enables selective test execution by matching test names against patterns.
+# It returns a subset of the input tests that match the specified run_only criteria.
+# When run_only is NULL, all tests are returned unchanged.
 get_run_only_tests <- function(tests, run_only) {
   names_all <- names(tests)
   names_all <- names_all[names_all != ""]
@@ -129,7 +141,7 @@ get_run_only_tests <- function(tests, run_only) {
     return(tests)
   }
 
-  run_only_flags_all <- purrr::map(paste0("(?:^(?:", run_only, ")$)"), grepl, names_all, perl = TRUE)
+  run_only_flags_all <- map(paste0("(?:^(?:", run_only, ")$)"), grepl, names_all, perl = TRUE)
   run_only_flag_all <- Reduce(`|`, run_only_flags_all)
   run_only_tests <- names_all[run_only_flag_all]
 

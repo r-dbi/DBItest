@@ -60,7 +60,7 @@ spec_result_roundtrip <- list(
   data_date = function(ctx, con) {
     #' - coercible using [as.Date()] for dates,
     as_date_equals_to <- function(x) {
-      purrr::map(x, function(xx) {
+      map(x, function(xx) {
         function(value) as.Date(value) == xx
       })
     }
@@ -84,7 +84,7 @@ spec_result_roundtrip <- list(
   data_time = function(ctx, con) {
     #' - coercible using [hms::as_hms()] for times,
     as_hms_equals_to <- function(x) {
-      purrr::map(x, function(xx) {
+      map(x, function(xx) {
         function(value) hms::as_hms(value) == xx
       })
     }
@@ -137,15 +137,14 @@ spec_result_roundtrip <- list(
 
   #'
   data_date_typed = function(ctx, con) {
-    #' If dates and timestamps are supported by the backend, the following R types are
-    #' used:
+    #' If dates and timestamps are supported by the backend, the following R types are used:
     #' - [Date][Dates] for dates
     if (!isTRUE(ctx$tweaks$date_typed)) {
       skip("tweak: !date_typed")
     }
 
     char_values <- paste0("2015-01-", sprintf("%.2d", 1:12))
-    values <- purrr::map(char_values, as_numeric_date)
+    values <- map(char_values, as_numeric_date)
     sql_names <- ctx$tweaks$date_cast(char_values)
 
     test_select_with_null(.ctx = ctx, con, !!!setNames(values, sql_names))
@@ -189,17 +188,15 @@ spec_result_roundtrip <- list(
   },
 
   #'
-  #' R has no built-in type with lossless support for the full range of 64-bit
-  #' or larger integers. If 64-bit integers are returned from a query,
+  #' R has no built-in type with lossless support for the full range of 64-bit or larger integers.
+  #' If 64-bit integers are returned from a query,
   #' the following rules apply:
-  #' - Values are returned in a container with support for the full range of
-  #'   valid 64-bit values (such as the `integer64` class of the \pkg{bit64}
-  #'   package)
-  #' - Coercion to numeric always returns a number that is as close as possible
-  #'   to the true value
+  #' - Values are returned in a container with support for the full range of valid 64-bit values
+  #'   (such as the `integer64` class of the \pkg{bit64} package)
+  #' - Coercion to numeric always returns a number that is as close as possible to the true value
   data_64_bit_numeric = function(ctx, con) {
     as_numeric_identical_to <- function(x) {
-      purrr::map(x, function(xx) {
+      map(x, function(xx) {
         function(value) as.numeric(value) == xx
       })
     }
@@ -213,7 +210,7 @@ spec_result_roundtrip <- list(
   #' - Loss of precision when converting to numeric gives a warning
   data_64_bit_numeric_warning = function(ctx, con) {
     as_numeric_equals_to <- function(x) {
-      purrr::map(x, function(xx) {
+      map(x, function(xx) {
         function(value) isTRUE(all.equal(as.numeric(value), xx))
       })
     }
@@ -239,11 +236,10 @@ spec_result_roundtrip <- list(
     )
   },
 
-  #' - Conversion to character always returns a lossless decimal representation
-  #'   of the data
+  #' - Conversion to character always returns a lossless decimal representation of the data
   data_64_bit_lossless = function(ctx, con) {
     as_character_equals_to <- function(x) {
-      purrr::map(x, function(xx) {
+      map(x, function(xx) {
         function(value) as.character(value) == xx
       })
     }
@@ -267,16 +263,16 @@ test_select_with_null <- function(...) {
 test_select <- function(
   con,
   ...,
-  .add_null = "none",
   .ctx,
+  .add_null = "none",
   .envir = parent.frame()
 ) {
 
   values <- list2(...)
 
-  value_is_formula <- purrr::map_lgl(values, is.call)
-  names(values)[value_is_formula] <- purrr::map(values[value_is_formula], 2L)
-  values[value_is_formula] <- purrr::map(
+  value_is_formula <- map_lgl(values, is.call)
+  names(values)[value_is_formula] <- map(values[value_is_formula], "[[", 2L)
+  values[value_is_formula] <- map(
     values[value_is_formula],
     function(x) {
       eval(x[[3]], envir = .envir)
@@ -284,7 +280,7 @@ test_select <- function(
   )
 
   if (is.null(names(values))) {
-    sql_values <- purrr::map(values, as.character)
+    sql_values <- map(values, as.character)
   } else {
     sql_values <- names(values)
   }
@@ -356,15 +352,15 @@ equals_minus_100 <- function(x) {
 }
 
 all_have_utf8_or_ascii_encoding <- function(x) {
-  all(purrr::map_lgl(x, has_utf8_or_ascii_encoding))
+  all(map_lgl(x, has_utf8_or_ascii_encoding))
 }
 
 has_utf8_or_ascii_encoding <- function(x) {
   if (Encoding(x) == "UTF-8") {
     TRUE
   } else if (Encoding(x) == "unknown") {
-    # Characters encoded as "unknown" must be ASCII only, and remain "unknown"
-    # after attempting to assign an encoding. From ?Encoding :
+    # Characters encoded as "unknown" must be ASCII only, and remain "unknown" after attempting to assign an encoding.
+    # From ?Encoding :
     # > ASCII strings will never be marked with a declared encoding, since their
     # > representation is the same in all supported encodings.
     Encoding(x) <- "UTF-8"
@@ -389,7 +385,7 @@ coercible_to_time <- function(x) {
 }
 
 as_timestamp_equals_to <- function(x) {
-  purrr::map(x, function(xx) {
+  map(x, function(xx) {
     function(value) as.POSIXct(value) == xx
   })
 }

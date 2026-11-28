@@ -14,9 +14,8 @@ spec_arrow_read_table_arrow <- list(
     skip_if_not_dbitest(ctx, "1.7.99.2")
 
     #' @return
-    #' `dbReadTableArrow()` returns an Arrow object that contains the complete data
-    #' from the remote table, effectively the result of calling [dbGetQueryArrow()] with
-    #' `SELECT * FROM <name>`.
+    #' `dbReadTableArrow()` returns an Arrow object that contains the complete data from the remote table,
+    #' effectively the result of calling [dbGetQueryArrow()] with `SELECT * FROM <name>`.
     penguins_in <- get_penguins(ctx)
     dbWriteTable(con, table_name, penguins_in)
     penguins_out <- check_arrow(dbReadTableArrow(con, table_name))
@@ -42,6 +41,23 @@ spec_arrow_read_table_arrow <- list(
 
     expect_equal(nrow(penguins_out), 0L)
     expect_equal_df(penguins_out, penguins_in)
+  },
+
+  arrow_read_table_arrow_64_bit = function(ctx, con, table_name) {
+    skip_if_not_dbitest(ctx, "1.8.3.5")
+    skip_if_not_installed("bit64")
+
+    #' A column of type `BIGINT` is returned as an Arrow column of type `int64`,
+    #' which converts to [bit64::integer64] without loss of precision.
+    tbl_in <- data.frame(a = c(-1e14, 1e15))
+    dbWriteTable(con, table_name, tbl_in, field.types = c(a = "BIGINT"))
+
+    stream <- dbReadTableArrow(con, table_name)
+    schema <- nanoarrow::infer_nanoarrow_schema(stream)
+    expect_equal(schema$children$a$format, "l")
+
+    tbl_out <- nanoarrow::convert_array_stream(stream, to = data.frame(a = bit64::integer64()))
+    expect_equal(tbl_out, data.frame(a = bit64::as.integer64(tbl_in$a)))
   },
 
   #'
@@ -84,8 +100,7 @@ spec_arrow_read_table_arrow <- list(
       test_in <- data.frame(a = 1.5)
       dbWriteTable(con, table_name, test_in)
 
-      #' - If an unquoted table name as string: `dbReadTableArrow()` will do the
-      #'   quoting,
+      #' - If an unquoted table name as string: `dbReadTableArrow()` will do the quoting,
       test_out <- check_arrow(dbReadTableArrow(con, table_name))
       expect_equal_df(test_out, test_in)
       #'   perhaps by calling `dbQuoteIdentifier(conn, x = name)`

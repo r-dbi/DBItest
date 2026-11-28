@@ -3,22 +3,15 @@
 #' Create a test context, set and query the default context.
 #'
 #' @param drv `[DBIConnector]`\cr
-#'   An object of class [DBIConnector-class] that describes how to connect
-#'   to the database.
+#'   An object of class [DBIConnector-class] that describes how to connect to the database.
 #' @param connect_args `[named list]`\cr Deprecated.
-#' @param set_as_default `[logical(1)]`\cr Should the created context be
-#'   set as default context?
-#' @param tweaks `[DBItest_tweaks]`\cr Tweaks as constructed by the
-#'   [tweaks()] function.
+#' @param set_as_default `[logical(1)]`\cr Should the created context be set as default context?
+#' @param tweaks `[DBItest_tweaks]`\cr Tweaks as constructed by the [tweaks()] function.
 #' @param ctx `[DBItest_context]`\cr A test context.
-#' @param name `[character]`\cr An optional name of the context which will
-#'   be used in test messages.
-#' @param default_skip `[character]`\cr Default value of `skip` argument
-#'   to [test_all()]  and other testing functions.
+#' @param name `[character]`\cr An optional name of the context which will be used in test messages.
+#' @param default_skip `[character]`\cr Default value of `skip` argument to [test_all()]  and other testing functions.
 #'
-#' @return `[DBItest_context]`\cr A test context, for
-#'   `set_default_context` the previous default context (invisibly) or
-#'   `NULL`.
+#' @return `[DBItest_context]`\cr A test context, for `set_default_context` the previous default context (invisibly) or `NULL`.
 #'
 #' @rdname context
 #' @importFrom methods is new
@@ -43,6 +36,10 @@
 #'   ),
 #'   default_skip = c("roundtrip_date", "roundtrip_timestamp")
 #' )
+# Creates a comprehensive test context for DBI compliance testing.
+# This function initializes all necessary components for running database interface tests.
+# It handles driver configuration, connection parameters, testing tweaks, and default behaviors.
+# The context encapsulates all environment-specific settings needed for consistent test execution.
 make_context <- function(drv, connect_args = NULL, set_as_default = TRUE,
                          tweaks = NULL, name = NULL, default_skip = NULL) {
   if (is.null(drv)) {
@@ -101,6 +98,10 @@ package_name <- function(ctx) {
   attr(class(ctx$drv), "package")
 }
 
+# Establishes a database connection using the context's configured parameters.
+# This function creates connections with the driver and arguments specified in the context.
+# It supports additional connection arguments passed through the ellipsis operator.
+# Returns a database connection object ready for testing operations.
 connect <- function(ctx, ...) {
   quos <- enquos(...)
   eval_tidy(quo(dbConnect(ctx$cnr, !!!quos)))

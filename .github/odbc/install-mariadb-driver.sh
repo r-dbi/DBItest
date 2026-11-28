@@ -1,28 +1,20 @@
-set -x
+#!/usr/bin/env bash
+set -ex
 
-# from https://mariadb.com/kb/en/about-mariadb-connector-odbc/#installing-mariadb-connectorodbc-on-debianubuntu
-mkdir odbc_package
-pushd odbc_package
-wget https://downloads.mariadb.com/Connectors/odbc/connector-odbc-3.1.9/mariadb-connector-odbc-3.1.9-ubuntu-focal-amd64.tar.gz
-tar -xvzf mariadb-connector-odbc-3.1.9-ubuntu-focal-amd64.tar.gz
-cd mariadb-connector-odbc-3.1.9-ubuntu-focal-amd64
-sudo install lib/mariadb/libmaodbc.so /usr/lib/
-cd ..
+# Install the unixODBC driver manager (headers + runtime) and the MariaDB
+# Connector/ODBC driver from the Ubuntu package repositories.
+#
+# This previously downloaded prebuilt tarballs from downloads.mariadb.com, but
+# those URLs now return HTTP 522 and the pinned "focal" builds are incompatible
+# with the ubuntu-24.04 runner.  The distro packages are self-contained and
+# maintained:
+#   * unixodbc-dev provides sql.h, needed to compile the odbc R package.
+#   * odbc-mariadb installs libmaodbc.so to /usr/lib/x86_64-linux-gnu/odbc/ and
+#     pulls in libmariadb3, which ships the authentication plugins (including
+#     caching_sha2_password, required to connect to MySQL 8) in its default
+#     plugin directory, so no manual plugin installation is required.
+sudo apt-get update
+sudo apt-get install -y unixodbc-dev odbc-mariadb
 
-ldd /usr/lib/libmaodbc.so
-
-wget https://downloads.mariadb.com/Connectors/c/connector-c-3.1.9/mariadb-connector-c-3.1.9-ubuntu-focal-amd64.tar.gz
-tar -xvzf mariadb-connector-c-3.1.9-ubuntu-focal-amd64.tar.gz
-cd mariadb-connector-c-3.1.9-ubuntu-focal-amd64
-sudo install -d /usr/local/lib64/mariadb/
-sudo install -d /usr/local/lib64/mariadb/plugin/
-sudo install lib/mariadb/plugin/auth_gssapi_client.so /usr/local/lib64/mariadb/plugin/
-sudo install lib/mariadb/plugin/caching_sha2_password.so /usr/local/lib64/mariadb/plugin/
-sudo install lib/mariadb/plugin/client_ed25519.so /usr/local/lib64/mariadb/plugin/
-sudo install lib/mariadb/plugin/dialog.so /usr/local/lib64/mariadb/plugin/
-sudo install lib/mariadb/plugin/mysql_clear_password.so /usr/local/lib64/mariadb/plugin/
-sudo install lib/mariadb/plugin/sha256_password.so /usr/local/lib64/mariadb/plugin/
-cd ..
-
-popd
-rm -r odbc_package
+# Confirm the driver is present and its shared-library dependencies resolve.
+ldd /usr/lib/x86_64-linux-gnu/odbc/libmaodbc.so

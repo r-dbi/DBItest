@@ -25,14 +25,18 @@ import(testthat, except = c(is_null, is_false, is_true))
 importFrom(callr,r)
 importFrom(lubridate,with_tz)
 importFrom(magrittr,"%>%")
-importFrom(methods,extends)
-importFrom(methods,findMethod)
-importFrom(methods,getClass)
-importFrom(methods,getClasses)
-importFrom(methods,hasMethod)
-importFrom(methods,is)
-importFrom(methods,new)
+importFrom(methods,
+  extends,
+  findMethod,
+  getClass,
+  getClasses,
+  hasMethod,
+  is,
+  new
+)
 importFrom(stats,setNames)
 importFrom(utils,head)
-importFrom(withr,with_output_sink)
-importFrom(withr,with_temp_libpaths)
+importFrom(withr,
+  with_output_sink,
+  with_temp_libpaths
+)
