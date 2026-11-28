@@ -10,7 +10,7 @@
 # simultaneity instead of isolating it: a package's old and new halves run
 # SEQUENTIALLY, and the lost concurrency is won back ACROSS packages -- a
 # custom bash work queue runs REVDEPX_WORKERS packages at once, each check in
-# its own container (see revdep4/queue.sh).
+# its own container (see .github/actions/revdep4/queue.sh in cynkra/cynkratemplate).
 #
 # The queue is two-ended over the shard's heaviest-first package list: one
 # worker eats from the heavy end, so the longest checks start first and are
@@ -52,16 +52,18 @@
 #             the manifest, the baseline for later runs, and the timings the
 #             next plan calibrates from.
 #
-# The scripts live in `.github/workflows/revdepx/` (once shared with the
-# retired concurrent-pair sibling, revdep3, whose PR was closed unmerged);
-# artifacts, manifest schema and the universe image lineage are unchanged,
+# The scripts live in `.github/actions/revdepx/` of cynkra/cynkratemplate
+# (once shared with the retired concurrent-pair sibling, revdep3, whose PR
+# was closed unmerged), and each job reaches them through the
+# `revdep-scripts` action; artifacts, manifest schema and the universe image lineage are unchanged,
 # so history from the sibling's live runs still serves as baselines and
 # timings.
 #
 # Results land in artifacts:
 #   revdepx-report          the merged report -- fetch with
 #                           `gh run download <run-id> --name revdepx-report`
-#                           or ./.github/workflows/revdepx/fetch.sh <run-id>
+#                           or .github/actions/revdepx/fetch.sh <run-id>,
+#                           run from a checkout of cynkra/cynkratemplate
 #   revdepx-baseline        old-version results, read back by later runs of
 #                           either workflow as a second opinion beside their
 #                           fresh old checks, while the revdep's version, our
@@ -84,7 +86,7 @@ on:
   workflow_dispatch:
     inputs:
       ref:
-        description: "Branch, tag, or commit SHA to check (the tree must contain the revdepx scripts); default: the dispatched ref"
+        description: "Branch, tag, or commit SHA to check; default: the dispatched ref"
         type: string
         default: ""
       packages:
@@ -250,8 +252,12 @@ jobs:
       actions: read
 
     steps:
+      # The scripts are served with the kit's actions, not copied into the repository.
+      - name: Locate the revdep scripts
+        uses: cynkra/cynkratemplate/.github/actions/revdep-scripts@main
+
       - name: Check out the ref under test
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref || github.ref }}
 
@@ -281,11 +287,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           OUT: ${{ runner.temp }}/plan.json
         run: |
-          Rscript ./.github/workflows/revdepx/plan.R
+          Rscript "${REVDEPX_DIR}/plan.R"
         shell: bash
 
       - name: Upload the shard plan
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: steps.plan.outputs.shards != '0'
         with:
           name: revdepx-plan
@@ -314,8 +320,12 @@ jobs:
       packages: write
 
     steps:
+      # The scripts are served with the kit's actions, not copied into the repository.
+      - name: Locate the revdep scripts
+        uses: cynkra/cynkratemplate/.github/actions/revdep-scripts@main
+
       - name: Check out the ref under test
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref || github.ref }}
 
@@ -339,7 +349,7 @@ jobs:
         run: |
           set -eu
           repo=$(printf '%s' "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
-          ref=$(./.github/workflows/revdepx/base-image.sh \
+          ref=$("${REVDEPX_DIR}/base-image.sh" \
             "${REVDEPX_R_VERSION}" "ghcr.io/${repo}/revdepx-base" | tail -n 1)
           echo "Base image: ${ref}"
           echo "image=${ref}" >> "${GITHUB_OUTPUT}"
@@ -364,7 +374,7 @@ jobs:
 
     steps:
       - name: Check out the ref under test
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref || github.ref }}
 
@@ -379,7 +389,7 @@ jobs:
       # requirements) are small next to the universe's, but caching them is
       # one step.
       - name: Cache the pak package cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ${{ runner.temp }}/pak-cache
           key: revdepx-pak-build-${{ hashFiles('DESCRIPTION') }}
@@ -394,7 +404,7 @@ jobs:
         with:
           base-image: ${{ needs.base.outputs.image }}
       - name: Upload the package binary
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: revdepx-pkg
           path: ${{ runner.temp }}/pkg
@@ -433,13 +443,17 @@ jobs:
       packages: write
 
     steps:
+      # The scripts are served with the kit's actions, not copied into the repository.
+      - name: Locate the revdep scripts
+        uses: cynkra/cynkratemplate/.github/actions/revdep-scripts@main
+
       - name: Check out the ref under test
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref || github.ref }}
 
       - name: Download the shard plan
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: revdepx-plan
           path: ${{ runner.temp }}/plan
@@ -465,7 +479,7 @@ jobs:
       # cache under the plan's hash hands the next build a warm start even
       # when the image itself cannot be reused.
       - name: Cache the pak package cache
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ${{ runner.temp }}/pak-cache
           key: revdepx-pak-${{ needs.plan.outputs.plan_hash }}
@@ -475,7 +489,7 @@ jobs:
       - name: Start the resource sampler
         run: |
           mkdir -p "${RUNNER_TEMP}/universe-out"
-          watch=./.github/workflows/revdepx/watch-resources.sh
+          watch="${REVDEPX_DIR}/watch-resources.sh"
           "${watch}" once "before the universe build"
           RESOURCE_LOG="${RUNNER_TEMP}/universe-out/resources.log" \
             RESOURCE_PHASE_FILE="${RUNNER_TEMP}/universe-out/phase" \
@@ -498,7 +512,7 @@ jobs:
         id: precommit
         uses: cynkra/cynkratemplate/.github/actions/revdepx-record-precommit@main
       - name: Publish the pre-commit state (survives a dying runner)
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: revdepx-universe-precommit
           path: ${{ runner.temp }}/universe-out/pre-commit-state.txt
@@ -521,7 +535,7 @@ jobs:
         id: publish
         uses: cynkra/cynkratemplate/.github/actions/revdepx-publish-universe@main
       - name: Upload the universe image artifact (registry fallback only)
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: steps.publish.outputs.saved == 'true'
         with:
           name: revdepx-universe-image
@@ -531,12 +545,12 @@ jobs:
       - name: Report what the build consumed
         if: always()
         run: |
-          ./.github/workflows/revdepx/watch-resources.sh once "after the universe build"
-          ./.github/workflows/revdepx/watch-resources.sh oom
+          "${REVDEPX_DIR}/watch-resources.sh" once "after the universe build"
+          "${REVDEPX_DIR}/watch-resources.sh" oom
         shell: bash
 
       - name: Upload the universe build report
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: revdepx-universe-report
@@ -625,8 +639,12 @@ jobs:
       DEADLINE_MINUTES: ${{ vars.REVDEPX_DEADLINE_MINUTES || '300' }}
 
     steps:
+      # The scripts are served with the kit's actions, not copied into the repository.
+      - name: Locate the revdep scripts
+        uses: cynkra/cynkratemplate/.github/actions/revdep-scripts@main
+
       - name: Check out the ref under test
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref || github.ref }}
 
@@ -646,13 +664,13 @@ jobs:
         shell: Rscript {0}
 
       - name: Download the shard plan
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: revdepx-plan
           path: ${{ runner.temp }}/plan
 
       - name: Download the package binary
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: revdepx-pkg
           path: ${{ runner.temp }}/pkg
@@ -660,7 +678,7 @@ jobs:
       # The baseline lives on an earlier run of either workflow; absence is
       # not an error, the shard just records drift for nothing.
       - name: Download the baseline results
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         if: needs.plan.outputs.baseline_run != '0'
         continue-on-error: true
         with:
@@ -672,7 +690,7 @@ jobs:
       # Only when the universe job could not push but could save: the image
       # travelled as an artifact instead, and shard-prep.sh docker-loads it.
       - name: Download the universe image artifact
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         if: needs.universe.outputs.saved == 'true'
         continue-on-error: true
         with:
@@ -710,7 +728,7 @@ jobs:
       - name: Start the resource sampler
         run: |
           mkdir -p "${RUNNER_TEMP}/results"
-          watch=./.github/workflows/revdepx/watch-resources.sh
+          watch="${REVDEPX_DIR}/watch-resources.sh"
           "${watch}" once "shard ${SHARD} before the prepare phase"
           RESOURCE_LOG="${RUNNER_TEMP}/results/resources.log" \
             "${watch}" watch 30 "shard ${SHARD}" &
@@ -730,7 +748,7 @@ jobs:
         env:
           PHASE: prepare
         run: |
-          Rscript ./.github/workflows/revdepx/shard.R
+          Rscript "${REVDEPX_DIR}/shard.R"
         shell: bash
 
       # The checks run in three slices, each followed by an upload: a
@@ -751,14 +769,14 @@ jobs:
           # Streamed from inside the step -- a sampler backgrounded in an
           # earlier step stops reaching the job log when that step ends, and
           # the checks are where the minutes (and the memory) actually go.
-          ./.github/workflows/revdepx/watch-resources.sh watch 60 "shard ${SHARD} checks (1/3)" &
+          "${REVDEPX_DIR}/watch-resources.sh" watch 60 "shard ${SHARD} checks (1/3)" &
           sampler=$!
           trap 'kill "${sampler}" 2> /dev/null || true' EXIT
-          Rscript ./.github/workflows/revdepx/shard.R
+          Rscript "${REVDEPX_DIR}/shard.R"
         shell: bash
 
       - name: Upload the shard results (1 of 3)
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: revdepx-results-${{ matrix.shard }}-${{ github.run_attempt }}
@@ -773,14 +791,14 @@ jobs:
           PHASE: check
           CHECK_SLICE: 2/3
         run: |
-          ./.github/workflows/revdepx/watch-resources.sh watch 60 "shard ${SHARD} checks (2/3)" &
+          "${REVDEPX_DIR}/watch-resources.sh" watch 60 "shard ${SHARD} checks (2/3)" &
           sampler=$!
           trap 'kill "${sampler}" 2> /dev/null || true' EXIT
-          Rscript ./.github/workflows/revdepx/shard.R
+          Rscript "${REVDEPX_DIR}/shard.R"
         shell: bash
 
       - name: Upload the shard results (2 of 3)
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: revdepx-results-${{ matrix.shard }}-${{ github.run_attempt }}
@@ -795,10 +813,10 @@ jobs:
           PHASE: check
           CHECK_SLICE: 3/3
         run: |
-          ./.github/workflows/revdepx/watch-resources.sh watch 60 "shard ${SHARD} checks (3/3)" &
+          "${REVDEPX_DIR}/watch-resources.sh" watch 60 "shard ${SHARD} checks (3/3)" &
           sampler=$!
           trap 'kill "${sampler}" 2> /dev/null || true' EXIT
-          Rscript ./.github/workflows/revdepx/shard.R
+          Rscript "${REVDEPX_DIR}/shard.R"
         shell: bash
 
       # Before the final upload, so the last sample and the OOM verdict ride
@@ -806,8 +824,8 @@ jobs:
       - name: Report what the shard consumed
         if: always()
         run: |
-          ./.github/workflows/revdepx/watch-resources.sh once "shard ${SHARD} after the checks"
-          ./.github/workflows/revdepx/watch-resources.sh oom
+          "${REVDEPX_DIR}/watch-resources.sh" once "shard ${SHARD} after the checks"
+          "${REVDEPX_DIR}/watch-resources.sh" oom
           df -BG / "${RUNNER_TEMP}" 2>/dev/null || true
         shell: bash
 
@@ -815,7 +833,7 @@ jobs:
       # results the other shards uploaded in the first attempt; the collector
       # reads every attempt and lets the later one win per package.
       - name: Upload the shard results
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: revdepx-results-${{ matrix.shard }}-${{ github.run_attempt }}
@@ -855,8 +873,12 @@ jobs:
       actions: read
 
     steps:
+      # The scripts are served with the kit's actions, not copied into the repository.
+      - name: Locate the revdep scripts
+        uses: cynkra/cynkratemplate/.github/actions/revdep-scripts@main
+
       - name: Check out the ref under test
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref || github.ref }}
 
@@ -882,7 +904,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Download the shard plan
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: revdepx-plan
           path: ${{ runner.temp }}/plan
@@ -891,14 +913,14 @@ jobs:
       # worth a report: the collector reconciles against the plan and names
       # every package it never heard about, which is what `retry-run` needs.
       - name: Download the results of all shards
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         continue-on-error: true
         with:
           pattern: revdepx-results-*
           path: ${{ runner.temp }}/results
 
       - name: Download the report of the run being retried
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         if: env.REVDEPX_RETRY_RUN != ''
         continue-on-error: true
         with:
@@ -920,11 +942,11 @@ jobs:
           BASELINE_OUT: ${{ runner.temp }}/baseline
           TIMINGS_OUT: ${{ runner.temp }}/timings
         run: |
-          Rscript ./.github/workflows/revdepx/collect.R
+          Rscript "${REVDEPX_DIR}/collect.R"
         shell: bash
 
       - name: Upload the report
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: revdepx-report
@@ -953,7 +975,7 @@ jobs:
           workflow: revdep4
 
       - name: Upload the new baseline
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: revdepx-baseline
@@ -966,7 +988,7 @@ jobs:
       # downloads it to calibrate its cost model, and should not have to
       # fetch a report to do so.
       - name: Upload the measured timings
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: revdepx-timings

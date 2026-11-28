@@ -13,9 +13,12 @@ expect_all_args_have_default_values <- function(object) {
   act <- quasi_label(enquo(object), arg = "object")
   act$args <- formals(act$val)
   act$args <- act$args[names(act$args) != "..."]
-  act$char_args <- map_chr(act$args, as.character)
+  # An argument without a default value has the empty symbol as its formal.
+  # Defaults such as "", NULL, or character() are valid and must not be
+  # confused with it, as a check on their character representation would.
+  act$missing_args <- map_lgl(act$args, is_missing)
   expect(
-    all(nzchar(act$char_args, keepNA = FALSE)),
+    !any(act$missing_args),
     sprintf("%s has arguments without default values", act$lab)
   )
 

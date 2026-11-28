@@ -507,7 +507,7 @@ spec_meta_arrow_bind <- list(
   },
   arrow_bind_factor = function(ctx, con) {
     # <R/spec-meta-bind-expr.R:354>
-    # - [factor] (bound as character,
+    # - [factor][base::factor] (bound as character,
     # with warning)
     skip_if_not_dbitest(ctx, "1.7.99.13")
     placeholder_funs <- get_placeholder_funs(ctx)

@@ -90,6 +90,27 @@ spec_arrow_fetch_arrow <- list(
     expect_equal(out, head(result, nrow(out)))
   },
 
+  arrow_fetch_arrow_schema = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.3.1")
+
+    #' The schema of the result is available before any batch is consumed:
+    #' [nanoarrow::infer_nanoarrow_schema()] applied to the object returned by `dbFetchArrow()`
+    #' gives a struct schema with one child per column, named like the columns.
+    query <- trivial_query(3, letters[1:3])
+    result <- trivial_df(3, letters[1:3])
+
+    res <- local_result(dbSendQueryArrow(con, query))
+    stream <- dbFetchArrow(res)
+
+    schema <- nanoarrow::infer_nanoarrow_schema(stream)
+    expect_equal(schema$format, "+s")
+    expect_named(schema$children, names(result))
+
+    #' Inspecting the schema does not consume the stream.
+    rows <- check_arrow(stream)
+    expect_identical(rows, result)
+  },
+
   #
   NULL
 )

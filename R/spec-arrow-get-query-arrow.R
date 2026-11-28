@@ -67,6 +67,7 @@ spec_arrow_get_query_arrow <- list(
   },
 
   arrow_get_query_arrow_record_batch_reader = function(ctx, con) {
+    #' @section Specification:
     #' The object returned by `dbGetQueryArrow()` can also be passed to [nanoarrow::as_nanoarrow_array_stream()]
     #' to create a nanoarrow array stream object that can be used to read the result set in batches.
     query <- trivial_query(25, .ctx = ctx, .order_by = "a")
@@ -79,6 +80,45 @@ spec_arrow_get_query_arrow <- list(
     #' The chunk size is implementation-specific.
     out <- as.data.frame(rbr$get_next())
     expect_equal(out, head(result, nrow(out)))
+  },
+
+  arrow_get_query_arrow_schema = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.3.2")
+
+    #' The schema of the result is available before any batch is consumed:
+    #' [nanoarrow::infer_nanoarrow_schema()] applied to the object returned by `dbGetQueryArrow()`
+    #' gives a struct schema with one child per column, named like the columns.
+    query <- trivial_query(3, letters[1:3])
+    result <- trivial_df(3, letters[1:3])
+
+    stream <- dbGetQueryArrow(con, query)
+
+    schema <- nanoarrow::infer_nanoarrow_schema(stream)
+    expect_equal(schema$format, "+s")
+    expect_named(schema$children, names(result))
+
+    #' Inspecting the schema does not consume the stream.
+    rows <- check_arrow(stream)
+    expect_identical(rows, result)
+  },
+
+  arrow_get_query_arrow_schema_zero_rows = function(ctx, con) {
+    skip_if_not_dbitest(ctx, "1.8.3.3")
+
+    #' The schema is complete even if the result has zero rows:
+    #' it has as many children as the result has columns, named like the columns.
+    # Not all SQL dialects seem to support the query used here.
+    query <-
+      "SELECT * FROM (SELECT 1 as a, 2 as b, 3 as c) AS x WHERE (1 = 0)"
+
+    stream <- dbGetQueryArrow(con, query)
+
+    schema <- nanoarrow::infer_nanoarrow_schema(stream)
+    expect_length(schema$children, 3L)
+    expect_named(schema$children, letters[1:3])
+
+    rows <- check_arrow(stream)
+    expect_identical(dim(rows), c(0L, 3L))
   },
 
   #' @section Additional arguments:
