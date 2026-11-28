@@ -322,21 +322,25 @@ test_select <- function(
 
   expect_named(rows, sql_names)
 
+  # Single values are taken from the column with `[`,
+  # which is what `[.data.frame` does with `drop = TRUE`.
+  # This also works for data frame subclasses such as tibbles,
+  # whose `[` keeps a one-by-one data frame, see #400.
   for (i in seq_along(values)) {
     value_or_testfun <- values[[i]]
     if (is.function(value_or_testfun)) {
-      eval(bquote(expect_true(value_or_testfun(rows[1L, .(i)]))))
+      eval(bquote(expect_true(value_or_testfun(rows[[.(i)]][1L]))))
     } else {
-      eval(bquote(expect_identical(rows[1L, .(i)], .(value_or_testfun))))
+      eval(bquote(expect_identical(rows[[.(i)]][1L], .(value_or_testfun))))
     }
   }
 
   if (.add_null != "none") {
     expect_equal(nrow(rows), 2L)
     if (is.list(rows[[1L]])) {
-      expect_null(rows[2L, 1L][[1L]])
+      expect_null(rows[[1L]][2L][[1L]])
     } else {
-      expect_true(is.na(rows[2L, 1L]))
+      expect_true(is.na(rows[[1L]][2L]))
     }
   } else {
     expect_equal(nrow(rows), 1L)
