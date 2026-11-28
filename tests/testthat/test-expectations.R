@@ -14,6 +14,7 @@ test_that("expect_all_args_have_default_values() rejects missing defaults", {
     expect_all_args_have_default_values(function(x) NULL),
     "has arguments without default values"
   )
+  # nolint next: function_argument_linter. The missing default is the point.
   expect_failure(expect_all_args_have_default_values(function(x = "", y) NULL))
   expect_failure(expect_all_args_have_default_values(function(x, ...) NULL))
   expect_failure(expect_all_args_have_default_values(function(..., x) NULL))
