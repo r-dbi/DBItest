@@ -3,7 +3,8 @@
 # revdep2 and revdep4 commit their report to the checked branch themselves,
 # unless they are dispatched with `commit: false`.
 # The release process does that, so that the head the checks were run for does not move,
-# and updates `revdep/` later from the run's `revdepx-report` artifact.
+# and updates `revdep/` later from the run's report artifact,
+# `revdep2-report` or `revdepx-report`.
 # This workflow is that later step:
 # it downloads the artifact of the run named by `run-id`,
 # copies the report files into `revdep/` the way the runs' own `commit` jobs do,
@@ -30,11 +31,11 @@ on:
   workflow_dispatch:
     inputs:
       run-id:
-        description: "Id of the revdep2 or revdep4 run whose revdepx-report artifact to land"
+        description: "Id of the revdep2 or revdep4 run whose report artifact to land"
         type: string
         required: true
       ref:
-        description: "Branch to land the report on; default: the branch the run was dispatched on"
+        description: "Branch to land the report on; default: the branch the run was dispatched on, which is not the checked ref where the run was given one"
         type: string
         default: ""
       mode:
@@ -96,7 +97,8 @@ jobs:
           head_sha="$(jq -r '.head_sha' <<< "${run}")"
           head_branch="$(jq -r '.head_branch // ""' <<< "${run}")"
           case "${workflow}" in
-            revdep2|revdep4) ;;
+            revdep2) artifact=revdep2-report ;;
+            revdep4) artifact=revdepx-report ;;
             *)
               echo "::error::Run ${RUN_ID} is a run of ${path}, not of revdep2 or revdep4."
               exit 1
@@ -116,10 +118,10 @@ jobs:
           fi
           {
             echo "workflow=${workflow}"
-            echo "head-sha=${head_sha}"
+            echo "artifact=${artifact}"
             echo "ref=${ref}"
           } >> "${GITHUB_OUTPUT}"
-          echo "::notice::Run ${RUN_ID} of ${workflow} checked ${head_sha} on ${head_branch:-no branch}; landing its report on ${ref}."
+          echo "::notice::Run ${RUN_ID} of ${workflow} was dispatched on ${head_branch:-no branch} at ${head_sha}; landing its report on ${ref}."
         shell: bash
 
       # The tip of the target branch:
@@ -132,7 +134,7 @@ jobs:
       - name: Download the report
         uses: actions/download-artifact@v8
         with:
-          name: revdepx-report
+          name: ${{ steps.run.outputs.artifact }}
           path: ${{ runner.temp }}/report
           run-id: ${{ inputs.run-id }}
           github-token: ${{ github.token }}
@@ -148,7 +150,7 @@ jobs:
           RUN_ID: ${{ inputs.run-id }}
           MODE: ${{ inputs.mode || 'pr' }}
           WORKFLOW: ${{ steps.run.outputs.workflow }}
-          HEAD_SHA: ${{ steps.run.outputs.head-sha }}
+          ARTIFACT: ${{ steps.run.outputs.artifact }}
           REF: ${{ steps.run.outputs.ref }}
           REPORT: ${{ runner.temp }}/report
         run: |
@@ -157,6 +159,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           run_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${RUN_ID}"
           subject="chore: Update revdep report from ${WORKFLOW} run ${RUN_ID}"
+          # The checked commit is the one the report records, not the run's head_sha,
+          # which is the commit the run was dispatched on.
+          checked="$(jq -r '.sha // empty' "${REPORT}/run.json" 2>/dev/null || true)"
 
           # Commits the report on top of origin/${REF}; returns 1 where it changes nothing.
           build_commit() {
@@ -214,8 +219,13 @@ jobs:
           fi
           git push origin "HEAD:refs/heads/${branch}"
           body="$(printf '%s\n\n%s\n\n%s\n' \
-            "The reverse-dependency report of [${WORKFLOW} run ${RUN_ID}](${run_url}), which checked ${HEAD_SHA}, copied into \`revdep/\` from its \`revdepx-report\` artifact." \
+            "The reverse-dependency report of [${WORKFLOW} run ${RUN_ID}](${run_url}), which checked ${checked:-an unrecorded commit}, copied into \`revdep/\` from its \`${ARTIFACT}\` artifact." \
             "Opened by [revdep-report run ${GITHUB_RUN_ID}](${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID})." \
             "A pull request opened with GITHUB_TOKEN starts no workflows: CI on it needs a push to ${branch} or a re-run.")"
-          gh pr create --repo "${GITHUB_REPOSITORY}" --base "${REF}" --head "${branch}" --title "${subject}" --body "${body}"
+          # A failed create deletes the branch again, so that a re-dispatch is not stopped by it.
+          if ! gh pr create --repo "${GITHUB_REPOSITORY}" --base "${REF}" --head "${branch}" --title "${subject}" --body "${body}"; then
+            git push origin --delete "${branch}" || true
+            echo "::error::Could not open the pull request; check the setting \"Allow GitHub Actions to create and approve pull requests\"."
+            exit 1
+          fi
         shell: bash
