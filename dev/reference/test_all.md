@@ -47,6 +47,11 @@ test_some(test, ctx = get_default_context())
   A character vector of regular expressions describing the tests to run.
   The regular expressions are matched against the entire test name.
 
+## Value
+
+`test_all()` and `test_some()` are called for their side effect of
+running the tests with testthat. They return `NULL` invisibly.
+
 ## Details
 
 Internally `^` and `$` are used as prefix and suffix around the regular

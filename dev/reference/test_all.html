@@ -13,7 +13,7 @@ test_some() allows testing one or more tests."><meta name="robots" content="noin
 
     <a class="navbar-brand me-2" href="../index.html">DBItest</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.8.3.9015</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.9.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,6 +80,11 @@ A character vector of regular expressions describing the tests to run.
 The regular expressions are matched against the entire test name.</p></dd>
 
 </dl></div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p><code>test_all()</code> and <code>test_some()</code> are called for their side effect of running the tests with testthat.
+They return <code>NULL</code> invisibly.</p>
+    </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>Internally <code>^</code> and <code>$</code> are used as prefix and suffix around the regular expressions passed in the <code>skip</code> and <code>run_only</code> arguments.</p>

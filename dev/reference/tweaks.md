@@ -177,6 +177,11 @@ tweaks(
   `[character(1)]`  
   Compatible DBItest version, default: "1.7.1".
 
+## Value
+
+A named list of class `DBItest_tweaks` that holds every tweak with a
+non-empty value, defaults included.
+
 ## Examples
 
 ``` r
