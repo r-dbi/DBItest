@@ -21,8 +21,7 @@ spec_meta_get_rows_affected
 }
 \section{Failure modes}{
 
-Attempting to get the rows affected for a result set cleared with
-\code{\link[DBI:dbClearResult]{dbClearResult()}} gives an error.
+Attempting to get the rows affected for a result set cleared with \code{\link[DBI:dbClearResult]{dbClearResult()}} gives an error.
 }
 
 \seealso{

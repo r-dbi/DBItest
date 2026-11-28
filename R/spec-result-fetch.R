@@ -11,9 +11,7 @@ spec_result_fetch <- list(
 
   fetch_atomic = function(con) {
     #' @return
-    #' `dbFetch()` always returns a [data.frame] with
-    #' as many rows as records were fetched and as many
-    #' columns as fields in the result set,
+    #' `dbFetch()` always returns a [data.frame] with as many rows as records were fetched and as many columns as fields in the result set,
     #' even if the result is a single value
     query <- trivial_query()
     res <- local_result(dbSendQuery(con, query))
@@ -44,8 +42,8 @@ spec_result_fetch <- list(
       skip(paste0("tweak: dbitest_version: ", ctx$tweaks$dbitest_version))
     }
 
-    #' Passing `n = NA` is supported and returns an arbitrary number of rows (at least one)
-    #' as specified by the driver, but at most the remaining rows in the result set.
+    #' Passing `n = NA` is supported and returns an arbitrary number of rows (at least one) as specified by the driver,
+    #' but at most the remaining rows in the result set.
     query <- trivial_query()
     res <- local_result(dbSendQuery(con, query))
     rows <- check_df(dbFetch(res, n = NA))
@@ -65,8 +63,7 @@ spec_result_fetch <- list(
   },
 
   fetch_n_bad = function(con) {
-    #' If the `n` argument is not an atomic whole number
-    #' greater or equal to -1 or Inf, an error is raised,
+    #' If the `n` argument is not an atomic whole number greater or equal to -1 or Inf, an error is raised,
     query <- trivial_query()
     res <- local_result(dbSendQuery(con, query))
     expect_error(dbFetch(res, -2))
@@ -86,9 +83,8 @@ spec_result_fetch <- list(
 
   fetch_no_return_value = function(ctx, con, table_name) {
     #'
-    #' Calling `dbFetch()` on a result set from a data manipulation query
-    #' created by [dbSendStatement()] can
-    #' be fetched and return an empty data frame, with a warning.
+    #' Calling `dbFetch()` on a result set from a data manipulation query created by [dbSendStatement()] can be fetched
+    #' and return an empty data frame, with a warning.
     query <- ctx$tweaks$create_table_empty(table_name)
 
     res <- local_result(dbSendStatement(con, query))
@@ -138,8 +134,7 @@ spec_result_fetch <- list(
   },
 
   fetch_n_multi_row_inf = function(ctx, con) {
-    #' A value of [Inf] for the `n` argument is supported
-    #' and also returns the full result.
+    #' A value of [Inf] for the `n` argument is supported and also returns the full result.
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(3)
 
@@ -149,23 +144,20 @@ spec_result_fetch <- list(
   },
 
   fetch_n_more_rows = function(ctx, con) {
-    #' If more rows than available are fetched, the result is returned in full
-    #' without warning.
+    #' If more rows than available are fetched, the result is returned in full without warning.
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(3)
 
     res <- local_result(dbSendQuery(con, query))
     rows <- check_df(dbFetch(res, 5L))
     expect_identical(rows, result)
-    #' If fewer rows than requested are returned, further fetches will
-    #' return a data frame with zero rows.
+    #' If fewer rows than requested are returned, further fetches will return a data frame with zero rows.
     rows <- check_df(dbFetch(res))
     expect_identical(rows, result[0, , drop = FALSE])
   },
 
   fetch_n_zero_rows = function(ctx, con) {
-    #' If zero rows are fetched, the columns of the data frame are still fully
-    #' typed.
+    #' If zero rows are fetched, the columns of the data frame are still fully typed.
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(0)
 

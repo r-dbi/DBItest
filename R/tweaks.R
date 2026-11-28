@@ -1,9 +1,8 @@
 #' Tweaks for DBI tests
 #'
-#' The tweaks are a way to control the behavior of certain tests. Currently,
-#' you need to search the \pkg{DBItest} source code to understand which tests
-#' are affected by which tweaks. This function is usually called to set the
-#' `tweaks` argument in a [make_context()] call.
+#' The tweaks are a way to control the behavior of certain tests.
+#' Currently, you need to search the \pkg{DBItest} source code to understand which tests are affected by which tweaks.
+#' This function is usually called to set the `tweaks` argument in a [make_context()] call.
 #'
 #' @name tweaks
 #' @aliases NULL
@@ -14,8 +13,8 @@
 { # nolint: brace_linter.
   tweak_names <- alist(
     #' @param ... `[any]`\cr
-    #'   Unknown tweaks are accepted, with a warning.  The ellipsis
-    #'   also makes sure that you only can pass named arguments.
+    #'   Unknown tweaks are accepted, with a warning.
+    #'   The ellipsis also makes sure that you only can pass named arguments.
     "..." = ,
 
     #' @param constructor_name `[character(1)]`\cr
@@ -23,19 +22,16 @@
     "constructor_name" = NULL,
 
     #' @param constructor_relax_args `[logical(1)]`\cr
-    #'   If `TRUE`, allow a driver constructor with default values for all
-    #'   arguments; otherwise, require a constructor with empty argument list
-    #'   (default).
+    #'   If `TRUE`, allow a driver constructor with default values for all arguments;
+    #'   otherwise, require a constructor with empty argument list (default).
     "constructor_relax_args" = FALSE,
 
     #' @param strict_identifier `[logical(1)]`\cr
-    #'   Set to `TRUE` if the DBMS does not support arbitrarily-named
-    #'   identifiers even when quoting is used.
+    #'   Set to `TRUE` if the DBMS does not support arbitrarily-named identifiers even when quoting is used.
     "strict_identifier" = FALSE,
 
     #' @param omit_blob_tests `[logical(1)]`\cr
-    #'   Set to `TRUE` if the DBMS does not support a `BLOB` data
-    #'   type.
+    #'   Set to `TRUE` if the DBMS does not support a `BLOB` data type.
     "omit_blob_tests" = FALSE,
 
     #' @param current_needs_parens `[logical(1)]`\cr
@@ -44,39 +40,33 @@
     "current_needs_parens" = FALSE,
 
     #' @param union `[function(character)]`\cr
-    #'   Function that combines several subqueries into one so that the
-    #'   resulting query returns the concatenated results of the subqueries
+    #'   Function that combines several subqueries into one so that the resulting query returns the concatenated results of the subqueries
     "union" = function(x) paste(x, collapse = " UNION "),
 
     #' @param placeholder_pattern `[character]`\cr
     #'   A pattern for placeholders used in [dbBind()], e.g.,
-    #'   `"?"`, `"$1"`, or `":name"`. See
-    #'   [make_placeholder_fun()] for details.
+    #'   `"?"`, `"$1"`, or `":name"`.
+    #'   See [make_placeholder_fun()] for details.
     "placeholder_pattern" = NULL,
 
     #' @param logical_return `[function(logical)]`\cr
-    #'   A vectorized function that converts logical values to the data type
-    #'   returned by the DBI backend.
+    #'   A vectorized function that converts logical values to the data type returned by the DBI backend.
     "logical_return" = identity,
 
     #' @param date_cast `[function(character)]`\cr
-    #'   A vectorized function that creates an SQL expression for coercing a
-    #'   string to a date value.
+    #'   A vectorized function that creates an SQL expression for coercing a string to a date value.
     "date_cast" = function(x) paste0("date('", x, "')"),
 
     #' @param time_cast `[function(character)]`\cr
-    #'   A vectorized function that creates an SQL expression for coercing a
-    #'   string to a time value.
+    #'   A vectorized function that creates an SQL expression for coercing a string to a time value.
     "time_cast" = function(x) paste0("time('", x, "')"),
 
     #' @param timestamp_cast `[function(character)]`\cr
-    #'   A vectorized function that creates an SQL expression for coercing a
-    #'   string to a timestamp value.
+    #'   A vectorized function that creates an SQL expression for coercing a string to a timestamp value.
     "timestamp_cast" = function(x) paste0("timestamp('", x, "')"),
 
     #' @param blob_cast `[function(character)]`\cr
-    #'   A vectorized function that creates an SQL expression for coercing a
-    #'   string to a blob value.
+    #'   A vectorized function that creates an SQL expression for coercing a string to a blob value.
     "blob_cast" = identity,
 
     #' @param date_typed `[logical(1L)]`\cr
@@ -88,8 +78,7 @@
     "time_typed" = TRUE,
 
     #' @param timestamp_typed `[logical(1L)]`\cr
-    #'   Set to `FALSE` if the DBMS doesn't support a dedicated type for
-    #'   timestamps.
+    #'   Set to `FALSE` if the DBMS doesn't support a dedicated type for timestamps.
     "timestamp_typed" = TRUE,
 
     #' @param temporary_tables `[logical(1L)]`\cr
@@ -105,18 +94,15 @@
     "allow_na_rows_affected" = FALSE,
 
     #' @param is_null_check `[function(character)]`\cr
-    #'   A vectorized function that creates an SQL expression for checking if a
-    #'   value is `NULL`.
+    #'   A vectorized function that creates an SQL expression for checking if a value is `NULL`.
     "is_null_check" = function(x) paste0("(", x, " IS NULL)"),
 
     #' @param create_table_as `[function(character(1), character(1))]`\cr
-    #'   A function that creates an SQL expression for creating a table
-    #'   from an SQL expression.
+    #'   A function that creates an SQL expression for creating a table from an SQL expression.
     "create_table_as" = function(table_name, query = trivial_query()) paste0("CREATE TABLE ", table_name, " AS ", query),
 
     #' @param create_table_empty `[function(character(1))]`\cr
-    #'   A function that creates an SQL expression for creating an empty table
-    #'   with a single integer column named 'a'.
+    #'   A function that creates an SQL expression for creating an empty table with a single integer column named 'a'.
     "create_table_empty" = function(table_name) paste0("CREATE TABLE ", table_name, " (a integer)"),
 
     #' @param dbitest_version `[character(1)]`\cr

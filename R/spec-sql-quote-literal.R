@@ -28,8 +28,7 @@ spec_sql_quote_literal <- list(
   quote_literal_empty = function(ctx, con) {
     skip_if_not_dbitest(ctx, "1.7.2")
 
-    #' For an empty
-    #' integer,
+    #' For an empty integer,
     expect_length(dbQuoteLiteral(con, integer()), 0L)
     #' numeric,
     expect_length(dbQuoteLiteral(con, numeric()), 0L)
@@ -56,9 +55,7 @@ spec_sql_quote_literal <- list(
     empty_out <- dbQuoteLiteral(con, character())
 
     #'
-    #' When passing the returned object again to `dbQuoteLiteral()`
-    #' as `x`
-    #' argument, it is returned unchanged.
+    #' When passing the returned object again to `dbQuoteLiteral()` as `x` argument, it is returned unchanged.
     expect_identical(dbQuoteLiteral(con, simple_out), simple_out)
     expect_identical(dbQuoteLiteral(con, letters_out), letters_out)
     expect_identical(dbQuoteLiteral(con, empty_out), empty_out)
@@ -77,9 +74,7 @@ spec_sql_quote_literal <- list(
       #' The returned expression can be used in a `SELECT ...` query,
       literals <- map_chr(x, dbQuoteLiteral, conn = con)
       query <- paste0("SELECT ", toString(literals))
-      #' and the value of
-      #' \code{dbGetQuery(paste0("SELECT ", dbQuoteLiteral(x)))[[1]]}
-      #' must be equal to `x`
+      #' and the value of \code{dbGetQuery(paste0("SELECT ", dbQuoteLiteral(x)))[[1]]} must be equal to `x`
       x_out <- check_df(dbGetQuery(con, query))
       expect_equal(nrow(x_out), 1L)
 

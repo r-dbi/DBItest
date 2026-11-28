@@ -7,19 +7,15 @@
 test_transaction(skip = NULL, run_only = NULL, ctx = get_default_context())
 }
 \arguments{
-\item{skip}{\verb{[character()]}\cr A vector of regular expressions to match
-against test names; skip test if matching any.
-To improve precision, the regular expressions are matched against the
-entire test name minus a possible suffix \verb{_N} where \code{N} is a number.
-For example, \code{skip = "exists_table"} will skip both
-\code{"exists_table_1"} and \code{"exists_table_2"}, but not \code{"there_exists_table"}.}
+\item{skip}{\verb{[character()]}\cr A vector of regular expressions to match against test names; skip test if matching any.
+To improve precision,
+the regular expressions are matched against the entire test name minus a possible suffix \verb{_N} where \code{N} is a number.
+For example, \code{skip = "exists_table"} will skip both \code{"exists_table_1"} and \code{"exists_table_2"}, but not \code{"there_exists_table"}.}
 
-\item{run_only}{\verb{[character()]}\cr A vector of regular expressions to match
-against test names; run only these tests.
+\item{run_only}{\verb{[character()]}\cr A vector of regular expressions to match against test names; run only these tests.
 The regular expressions are matched against the entire test name.}
 
-\item{ctx}{\verb{[DBItest_context]}\cr A test context as created by
-\code{\link[=make_context]{make_context()}}.}
+\item{ctx}{\verb{[DBItest_context]}\cr A test context as created by \code{\link[=make_context]{make_context()}}.}
 }
 \description{
 Test transaction functions

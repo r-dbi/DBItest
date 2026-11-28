@@ -16,8 +16,7 @@ spec_meta_has_completed
 }
 \section{Failure modes}{
 
-Attempting to query completion status for a result set cleared with
-\code{\link[DBI:dbClearResult]{dbClearResult()}} gives an error.
+Attempting to query completion status for a result set cleared with \code{\link[DBI:dbClearResult]{dbClearResult()}} gives an error.
 }
 
 \section{Specification}{
@@ -31,8 +30,7 @@ but the result value is \code{TRUE} after trying to fetch only one row.
 
 Similarly, for a query with a result set of length n,
 the return value is unspecified after fetching n rows,
-but the result value is \code{TRUE} after trying to fetch only one more
-row.
+but the result value is \code{TRUE} after trying to fetch only one more row.
 }
 
 \seealso{

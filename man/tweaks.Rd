@@ -34,57 +34,48 @@ tweaks(
 }
 \arguments{
 \item{...}{\verb{[any]}\cr
-Unknown tweaks are accepted, with a warning.  The ellipsis
-also makes sure that you only can pass named arguments.}
+Unknown tweaks are accepted, with a warning.
+The ellipsis also makes sure that you only can pass named arguments.}
 
 \item{constructor_name}{\verb{[character(1)]}\cr
 Name of the function that constructs the \code{Driver} object.}
 
 \item{constructor_relax_args}{\verb{[logical(1)]}\cr
-If \code{TRUE}, allow a driver constructor with default values for all
-arguments; otherwise, require a constructor with empty argument list
-(default).}
+If \code{TRUE}, allow a driver constructor with default values for all arguments;
+otherwise, require a constructor with empty argument list (default).}
 
 \item{strict_identifier}{\verb{[logical(1)]}\cr
-Set to \code{TRUE} if the DBMS does not support arbitrarily-named
-identifiers even when quoting is used.}
+Set to \code{TRUE} if the DBMS does not support arbitrarily-named identifiers even when quoting is used.}
 
 \item{omit_blob_tests}{\verb{[logical(1)]}\cr
-Set to \code{TRUE} if the DBMS does not support a \code{BLOB} data
-type.}
+Set to \code{TRUE} if the DBMS does not support a \code{BLOB} data type.}
 
 \item{current_needs_parens}{\verb{[logical(1)]}\cr
 Set to \code{TRUE} if the SQL functions \code{current_date},
 \code{current_time}, and \code{current_timestamp} require parentheses.}
 
 \item{union}{\verb{[function(character)]}\cr
-Function that combines several subqueries into one so that the
-resulting query returns the concatenated results of the subqueries}
+Function that combines several subqueries into one so that the resulting query returns the concatenated results of the subqueries}
 
 \item{placeholder_pattern}{\verb{[character]}\cr
 A pattern for placeholders used in \code{\link[DBI:dbBind]{dbBind()}}, e.g.,
-\code{"?"}, \code{"$1"}, or \code{":name"}. See
-\code{\link[=make_placeholder_fun]{make_placeholder_fun()}} for details.}
+\code{"?"}, \code{"$1"}, or \code{":name"}.
+See \code{\link[=make_placeholder_fun]{make_placeholder_fun()}} for details.}
 
 \item{logical_return}{\verb{[function(logical)]}\cr
-A vectorized function that converts logical values to the data type
-returned by the DBI backend.}
+A vectorized function that converts logical values to the data type returned by the DBI backend.}
 
 \item{date_cast}{\verb{[function(character)]}\cr
-A vectorized function that creates an SQL expression for coercing a
-string to a date value.}
+A vectorized function that creates an SQL expression for coercing a string to a date value.}
 
 \item{time_cast}{\verb{[function(character)]}\cr
-A vectorized function that creates an SQL expression for coercing a
-string to a time value.}
+A vectorized function that creates an SQL expression for coercing a string to a time value.}
 
 \item{timestamp_cast}{\verb{[function(character)]}\cr
-A vectorized function that creates an SQL expression for coercing a
-string to a timestamp value.}
+A vectorized function that creates an SQL expression for coercing a string to a timestamp value.}
 
 \item{blob_cast}{\verb{[function(character)]}\cr
-A vectorized function that creates an SQL expression for coercing a
-string to a blob value.}
+A vectorized function that creates an SQL expression for coercing a string to a blob value.}
 
 \item{date_typed}{\verb{[logical(1L)]}\cr
 Set to \code{FALSE} if the DBMS doesn't support a dedicated type for dates.}
@@ -93,8 +84,7 @@ Set to \code{FALSE} if the DBMS doesn't support a dedicated type for dates.}
 Set to \code{FALSE} if the DBMS doesn't support a dedicated type for times.}
 
 \item{timestamp_typed}{\verb{[logical(1L)]}\cr
-Set to \code{FALSE} if the DBMS doesn't support a dedicated type for
-timestamps.}
+Set to \code{FALSE} if the DBMS doesn't support a dedicated type for timestamps.}
 
 \item{temporary_tables}{\verb{[logical(1L)]}\cr
 Set to \code{FALSE} if the DBMS doesn't support temporary tables.}
@@ -106,25 +96,21 @@ Set to \code{FALSE} if the DBMS doesn't support listing temporary tables.}
 Set to \code{TRUE} to allow \code{\link[DBI:dbGetRowsAffected]{dbGetRowsAffected()}} to return \code{NA}.}
 
 \item{is_null_check}{\verb{[function(character)]}\cr
-A vectorized function that creates an SQL expression for checking if a
-value is \code{NULL}.}
+A vectorized function that creates an SQL expression for checking if a value is \code{NULL}.}
 
 \item{create_table_as}{\verb{[function(character(1), character(1))]}\cr
-A function that creates an SQL expression for creating a table
-from an SQL expression.}
+A function that creates an SQL expression for creating a table from an SQL expression.}
 
 \item{create_table_empty}{\verb{[function(character(1))]}\cr
-A function that creates an SQL expression for creating an empty table
-with a single integer column named 'a'.}
+A function that creates an SQL expression for creating an empty table with a single integer column named 'a'.}
 
 \item{dbitest_version}{\verb{[character(1)]}\cr
 Compatible DBItest version, default: "1.7.1".}
 }
 \description{
-The tweaks are a way to control the behavior of certain tests. Currently,
-you need to search the \pkg{DBItest} source code to understand which tests
-are affected by which tweaks. This function is usually called to set the
-\code{tweaks} argument in a \code{\link[=make_context]{make_context()}} call.
+The tweaks are a way to control the behavior of certain tests.
+Currently, you need to search the \pkg{DBItest} source code to understand which tests are affected by which tweaks.
+This function is usually called to set the \code{tweaks} argument in a \code{\link[=make_context]{make_context()}} call.
 }
 \examples{
 \dontrun{

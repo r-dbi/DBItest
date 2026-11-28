@@ -48,8 +48,7 @@ spec_sql_create_table <- list(
     #' if this results in a non-scalar.
     expect_error(dbCreateTable(con, c(table_name, table_name), test_in))
 
-    #' Invalid values for the `row.names` and `temporary` arguments
-    #' (non-scalars,
+    #' Invalid values for the `row.names` and `temporary` arguments (non-scalars,
     expect_error(dbCreateTable(con, table_name, test_in, row.names = letters))
     expect_error(dbCreateTable(con, table_name, test_in, temporary = c(TRUE, FALSE)))
     #' unsupported data types,
@@ -146,8 +145,7 @@ spec_sql_create_table <- list(
 
   #'
   create_table_temporary_1 = function(ctx, con, table_name = "dbit03") {
-    #' If the `temporary` argument is `TRUE`, the table is not available in a
-    #' second connection and is gone after reconnecting.
+    #' If the `temporary` argument is `TRUE`, the table is not available in a second connection and is gone after reconnecting.
     #' Not all backends support this argument.
     if (!isTRUE(ctx$tweaks$temporary_tables)) {
       skip("tweak: temporary_tables")
@@ -167,8 +165,7 @@ spec_sql_create_table <- list(
       skip("tweak: temporary_tables")
     }
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit03"
 
     expect_error(dbReadTable(con, table_name))
@@ -178,8 +175,7 @@ spec_sql_create_table <- list(
     #' A regular, non-temporary table is visible in a second connection,
     penguins <- get_penguins(ctx)
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit04"
     dbCreateTable(local_con, table_name, penguins)
     penguins_out <- check_df(dbReadTable(local_con, table_name))
@@ -192,8 +188,7 @@ spec_sql_create_table <- list(
   create_table_visible_in_other_connection_2 = function(ctx, con) {
     penguins <- get_penguins(ctx)
 
-    # table_name not in formals on purpose: this means that this table won't be
-    # removed at the end of the test
+    # table_name not in formals on purpose: this means that this table won't be removed at the end of the test
     table_name <- "dbit04"
 
     #' in a pre-existing connection,

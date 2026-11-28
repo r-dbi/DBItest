@@ -11,9 +11,8 @@ spec_result_get_query <- list(
 
   get_query_atomic = function(con) {
     #' @return
-    #' `dbGetQuery()` always returns a [data.frame], with
-    #' as many rows as records were fetched and as many
-    #' columns as fields in the result set,
+    #' `dbGetQuery()` always returns a [data.frame],
+    #' with as many rows as records were fetched and as many columns as fields in the result set,
     #' even if the result is a single value
     query <- trivial_query()
 
@@ -66,8 +65,7 @@ spec_result_get_query <- list(
   },
 
   get_query_n_bad = function(con) {
-    #' If the `n` argument is not an atomic whole number
-    #' greater or equal to -1 or Inf, an error is raised,
+    #' If the `n` argument is not an atomic whole number greater or equal to -1 or Inf, an error is raised,
     query <- trivial_query()
     expect_error(dbGetQuery(con, query, n = -2))
     expect_error(dbGetQuery(con, query, n = 1.5))
@@ -128,8 +126,7 @@ spec_result_get_query <- list(
   },
 
   get_query_n_multi_row_inf = function(ctx, con) {
-    #' A value of [Inf] for the `n` argument is supported
-    #' and also returns the full result.
+    #' A value of [Inf] for the `n` argument is supported and also returns the full result.
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(3)
 
@@ -138,8 +135,7 @@ spec_result_get_query <- list(
   },
 
   get_query_n_more_rows = function(ctx, con) {
-    #' If more rows than available are fetched (by passing a too large value for
-    #' `n`), the result is returned in full without warning.
+    #' If more rows than available are fetched (by passing a too large value for `n`), the result is returned in full without warning.
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(3)
 
@@ -148,8 +144,7 @@ spec_result_get_query <- list(
   },
 
   get_query_n_zero_rows = function(ctx, con) {
-    #' If zero rows are requested, the columns of the data frame are still fully
-    #' typed.
+    #' If zero rows are requested, the columns of the data frame are still fully typed.
     query <- trivial_query(3, .ctx = ctx, .order_by = "a")
     result <- trivial_df(0)
 
@@ -189,11 +184,9 @@ spec_result_get_query <- list(
     #' and "prepared" APIs offered by many database drivers.
     #' Passing `immediate = TRUE` leads to immediate execution of the
     #' query or statement, via the "direct" API (if supported by the driver).
-    #' The default `NULL` means that the backend should choose whatever API
-    #' makes the most sense for the database, and (if relevant) tries the
-    #' other API if the first attempt fails. A successful second attempt
-    #' should result in a message that suggests passing the correct
-    #' `immediate` argument.
+    #' The default `NULL` means that the backend should choose whatever API makes the most sense for the database,
+    #' and (if relevant) tries the other API if the first attempt fails.
+    #' A successful second attempt should result in a message that suggests passing the correct `immediate` argument.
     #' Examples for possible behaviors:
     #' 1. DBI backend defaults to `immediate = TRUE` internally
     #'     1. A query without parameters is passed: query is executed

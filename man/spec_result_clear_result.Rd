@@ -4,8 +4,7 @@
 \alias{spec_result_clear_result}
 \title{spec_result_clear_result}
 \value{
-\code{dbClearResult()} returns \code{TRUE}, invisibly, for result sets obtained from
-\code{dbSendQuery()},
+\code{dbClearResult()} returns \code{TRUE}, invisibly, for result sets obtained from \code{dbSendQuery()},
 \code{dbSendStatement()},
 or \code{dbSendQueryArrow()},
 }
