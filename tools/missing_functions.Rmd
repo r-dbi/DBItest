@@ -1,0 +1,975 @@
+# Check first
+
+## as_numeric_date (8): obsolete?
+
+`r d(DBItest:::as_numeric_date)`
+
+```r
+function(d) {
+  d <- as.Date(d)
+  structure(as.numeric(unclass(d)), class = class(d))
+}
+<environment: namespace:DBItest>
+```
+
+## connect (8): inline? What about helper functions?
+
+`r d(DBItest:::connect)`
+
+```r
+function(ctx, ...) {
+  quos <- enquos(...)
+  eval_tidy(quo(dbConnect(ctx$cnr, !!!quos)))
+}
+<environment: namespace:DBItest>
+```
+
+## get_penguins (40): inline dynamically, with factor support? Look at duckdb skips
+
+`r d(DBItest:::get_penguins)`
+
+```r
+function(ctx) {
+  datasets_penguins <- unrowname(palmerpenguins::penguins[c(1, 153, 277), ])
+  # FIXME: better handling of DBI backends that do support factors
+  datasets_penguins$species <- as.character(datasets_penguins$species)
+  datasets_penguins$island <- as.character(datasets_penguins$island)
+  datasets_penguins$sex <- as.character(datasets_penguins$sex)
+  as.data.frame(datasets_penguins)
+}
+<environment: namespace:DBItest>
+```
+
+## local_remove_test_table (31): inline try_silent, then inline dynamically or closure
+
+`r d(DBItest:::local_remove_test_table)`
+
+```r
+function(con, name, frame = caller_env()) {
+  table_name <- dbQuoteIdentifier(con, name)
+  withr::defer(
+    try_silent(
+      dbRemoveTable(con, table_name)
+    ),
+    envir = frame
+  )
+}
+<environment: namespace:DBItest>
+```
+
+
+
+## local_result (46): implement so that it's ready to be added to withr, export, inline
+
+`r d(DBItest:::local_result)`
+
+```r
+function(query, frame = caller_env()) {
+  res <- query
+  withr::defer( # nolint next: unnecessary_nesting_linter. The braces ensure the srcref.
+    {
+      dbClearResult(res)
+    },
+    envir = frame
+  )
+  res
+}
+<environment: namespace:DBItest>
+```
+
+## expect_equal_arrow (8): linked to expect_equal_df
+
+`r d(DBItest:::expect_equal_arrow)`
+
+```r
+function(actual, expected) {
+  expect_equal_df(as.data.frame(actual), as.data.frame(expected))
+}
+<environment: namespace:DBItest>
+```
+
+## expect_equal_df (86): check and understand behavior carefully, decide
+
+`r d(DBItest:::expect_equal_df)`
+
+```r
+function(actual, expected) {
+  factor_cols <- purrr::map_lgl(expected, is.factor)
+  expected[factor_cols] <- purrr::map(expected[factor_cols], as.character)
+
+  asis_cols <- purrr::map_lgl(expected, inherits, "AsIs")
+  expected[asis_cols] <- purrr::map(expected[asis_cols], unclass)
+
+  list_cols <- purrr::map_lgl(expected, is.list)
+
+  if (any(list_cols)) {
+    expect_false(all(list_cols))
+    expect_equal(anyDuplicated(actual[!list_cols]), 0)
+    expect_equal(anyDuplicated(expected[!list_cols]), 0)
+    order_actual <- do.call(order, actual[!list_cols])
+    order_expected <- do.call(order, expected[!list_cols])
+  } else {
+    order_actual <- do.call(order, actual)
+    order_expected <- do.call(order, expected)
+  }
+
+  has_rownames_actual <- is.character(attr(actual, "row.names"))
+  has_rownames_expected <- is.character(attr(expected, "row.names"))
+  expect_equal(has_rownames_actual, has_rownames_expected)
+
+  if (has_rownames_actual) {
+    expect_equal(sort(row.names(actual)), sort(row.names(expected)))
+  }
+
+  actual <- unrowname(actual[order_actual, ])
+  expected <- unrowname(expected[order_expected, ])
+
+  expect_identical(actual, expected)
+}
+<environment: namespace:DBItest>
+```
+
+
+
+# Inline
+
+## expect_has_class_method (1): inline
+
+`r d(DBItest:::expect_has_class_method)`
+
+```r
+function(name, class, args, driver_package) {
+  full_args <- c(class, args)
+  eval(bquote(
+    expect_true(hasMethod(.(name), signature = .(full_args), asNamespace(.(driver_package))))
+  ))
+}
+<environment: namespace:DBItest>
+```
+
+## get_pkg_path (1): inline
+
+`r d(DBItest:::get_pkg_path)`
+
+```r
+function(ctx) {
+  pkg_name <- package_name(ctx)
+  expect_type(pkg_name, "character")
+
+  pkg_path <- find.package(pkg_name)
+  pkg_path
+}
+<environment: namespace:DBItest>
+```
+
+## s4_methods (1): inline
+: in
+`r d(DBItest:::s4_methods)`
+
+```r
+function(env, pkg_fun = NULL) {
+  generics <- methods::getGenerics(env)
+
+  if (is.null(pkg_fun)) {
+    ok <- TRUE
+  } else {
+    ok <- pkg_fun(generics@package)
+  }
+
+
+  res <- Map(
+    generics@.Data[ok], generics@package[ok],
+    USE.NAMES = TRUE,
+    f = function(name, package) {
+      what <- methods::methodsPackageMetaName("T", paste(name, package, sep = ":"))
+
+      table <- get(what, envir = env)
+
+      mget(ls(table, all.names = TRUE), envir = table)
+    }
+  )
+  unlist(res, recursive = FALSE)
+}
+<environment: namespace:DBItest>
+```
+
+## try_silent (3): inline
+
+`r d(DBItest:::try_silent)`
+
+```r
+function(code) {
+  tryCatch(
+    code,
+    error = function(e) NULL
+  )
+}
+<environment: namespace:DBItest>
+```
+
+## trivial_statement (10): inline, simple forward to tweak
+
+`r d(DBItest:::trivial_statement)`
+
+```r
+function(ctx, table_name) {
+  ctx$tweaks$create_table_as(table_name)
+}
+<environment: namespace:DBItest>
+```
+
+
+# Inline carefully
+
+## dbi_generics (1): inline
+
+`r d(DBItest:::dbi_generics)`
+
+```r
+function(version) {
+  version <- as.package_version(version)
+
+  generics <- all_dbi_generics()
+
+  if (version < "1.7.99.1") {
+    generics <- setdiff(generics, c(
+      "dbGetQueryArrow",
+      "dbAppendTableArrow",
+      "dbFetchArrow",
+      "dbFetchArrowChunk",
+      "dbWriteTableArrow",
+      "dbSendQueryArrow",
+      "dbReadTableArrow",
+      "dbCreateTableArrow"
+    ))
+  }
+
+  if (version < "1.7.99.11") {
+    generics <- setdiff(generics, c(
+      "dbBindArrow",
+      NULL
+    ))
+  }
+
+  generics
+}
+<environment: namespace:DBItest>
+```
+
+## get_key_methods (1): sync with dbi_generics
+
+`r d(DBItest:::get_key_methods)`
+
+```r
+function() {
+  list(
+    Driver = list(
+      "dbConnect" = NULL,
+      "dbDataType" = NULL
+    ),
+    Connection = list(
+      "dbDisconnect" = NULL,
+      "dbGetInfo" = NULL,
+      "dbSendQuery" = "character",
+      "dbListFields" = "character",
+      "dbListTables" = NULL,
+      "dbReadTable" = "character",
+      "dbWriteTable" = c("character", "data.frame"),
+      "dbExistsTable" = "character",
+      "dbRemoveTable" = "character",
+      "dbBegin" = NULL,
+      "dbCommit" = NULL,
+      "dbRollback" = NULL,
+      "dbIsValid" = NULL,
+      "dbQuoteString" = "character",
+      "dbQuoteIdentifier" = "character"
+    ),
+    Result = list(
+      "dbIsValid" = NULL,
+      "dbFetch" = NULL,
+      "dbClearResult" = NULL,
+      "dbColumnInfo" = NULL,
+      "dbGetRowsAffected" = NULL,
+      "dbGetRowCount" = NULL,
+      "dbHasCompleted" = NULL,
+      "dbGetStatement" = NULL,
+      "dbBind" = NULL
+    )
+  )
+}
+<environment: namespace:DBItest>
+```
+
+## expect_all_args_have_default_values (1): inline
+
+`r d(DBItest:::expect_all_args_have_default_values)`
+
+```r
+function(object) {
+  act <- quasi_label(enquo(object), arg = "object")
+  act$args <- formals(act$val)
+  act$args <- act$args[names(act$args) != "..."]
+  act$char_args <- purrr::map_chr(act$args, as.character)
+  expect(
+    all(nzchar(act$char_args, keepNA = FALSE)),
+    sprintf("%s has arguments without default values", act$lab)
+  )
+
+  invisible(act$val)
+}
+<environment: namespace:DBItest>
+```
+
+## expect_arglist_is_empty (1): inline, same as expect_all_args_have_default_values
+
+`r d(DBItest:::expect_arglist_is_empty)`
+
+```r
+function(object) {
+  act <- quasi_label(enquo(object), arg = "object")
+  act$formals <- formals(act$val)
+  expect(
+    is.null(act$formals),
+    sprintf("%s has an empty argument list.", act$lab)
+  )
+
+  invisible(act$val)
+}
+<environment: namespace:DBItest>
+```
+
+## local_connection (13): inline, after inlining connect
+
+`r d(DBItest:::local_connection)`
+
+```r
+function(ctx, ..., .local_envir = parent.frame()) {
+  con <- connect(ctx, ...)
+  withr::local_db_connection(con, .local_envir = .local_envir)
+}
+<environment: namespace:DBItest>
+```
+
+
+
+# Difficult
+
+## test_data_type (2): difficult inline exercise, leading to non-DRY spec, or difficult dynamic inline. Split?
+
+`r d(DBItest:::test_data_type)`
+
+```r
+function(ctx, dbObj) {
+  #' @return
+  #' `dbDataType()` returns the SQL type that corresponds to the `obj` argument
+  check_data_type <- function(value) {
+    eval(bquote({
+      #' as a non-empty
+      expect_match(dbDataType(dbObj, .(value)), ".")
+      #' character string.
+      if (is.data.frame(value)) {
+        #' For data frames, a character vector with one element per column
+        #' is returned.
+        expect_length(dbDataType(dbObj, value), .(ncol(value)))
+      } else {
+        expect_length(dbDataType(dbObj, .(value)), 1L)
+      }
+      expect_type(dbDataType(dbObj, .(value)), "character")
+      expect_visible(dbDataType(dbObj, .(value)))
+    }))
+  }
+
+  #'
+  #' @section Failure modes:
+  #' An error is raised for invalid values for the `obj` argument such as a
+  #' `NULL` value.
+  expect_error(dbDataType(dbObj, NULL))
+
+  #' @section Specification:
+  #' The backend can override the [dbDataType()] generic
+  #' for its driver class.
+  #'
+  #' This generic expects an arbitrary object as second argument.
+  #' To query the values returned by the default implementation,
+  #' run `example(dbDataType, package = "DBI")`.
+  #' If the backend needs to override this generic,
+  #' it must accept all basic R data types as its second argument, namely
+  expect_has_data_type <- function(value) {
+    eval(bquote(
+      expect_error(check_data_type(.(value)), NA)
+    ))
+  }
+
+  expected_data_types <- list(
+    #' [logical],
+    logical(1),
+    #' [integer],
+    integer(1),
+    #' [numeric],
+    numeric(1),
+    #' [character],
+    character(1),
+    #' dates (see [Dates]),
+    Sys.Date(),
+    #' date-time (see [DateTimeClasses]),
+    Sys.time(),
+    #' and [difftime].
+    Sys.time() - Sys.time(),
+    #' If the database supports blobs,
+    if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
+      #' this method also must accept lists of [raw] vectors,
+      list(as.raw(0:10))
+    },
+    if (!isTRUE(ctx$tweaks$omit_blob_tests)) {
+      #' and [blob::blob] objects.
+      blob::blob(as.raw(0:10))
+    }
+  )
+
+  purrr::map(
+    compact(expected_data_types),
+    expect_has_data_type
+  )
+
+  expect_has_data_type(data.frame(a = 1, b = "2", stringsAsFactors = FALSE))
+
+  #' As-is objects (i.e., wrapped by [I()]) must be
+  #' supported and return the same results as their unwrapped counterparts.
+  purrr::map(
+    compact(expected_data_types),
+    function(value) {
+      if (!is.null(value)) {
+        eval(bquote(
+          expect_error(
+            expect_identical(
+              dbDataType(dbObj, I(.(value))),
+              dbDataType(dbObj, .(value))
+            ),
+            NA
+          )
+        ))
+      }
+    }
+  )
+
+  #' The SQL data type for [factor] and
+  expect_identical(
+    dbDataType(dbObj, letters),
+    dbDataType(dbObj, factor(letters))
+  )
+  #' [ordered] is the same as for character.
+  expect_identical(
+    dbDataType(dbObj, letters),
+    dbDataType(dbObj, ordered(letters))
+  )
+
+  #' The behavior for other object types is not specified.
+}
+<environment: namespace:DBItest>
+```
+
+## test_select (1): dynamic inline, difficult
+
+`r d(DBItest:::test_select)`
+
+```r
+function(
+  con,
+  ...,
+  .add_null = "none",
+  .ctx,
+  .envir = parent.frame()
+) {
+
+  values <- list2(...)
+
+  value_is_formula <- purrr::map_lgl(values, is.call)
+  names(values)[value_is_formula] <- purrr::map(values[value_is_formula], "[[", 2L)
+  values[value_is_formula] <- purrr::map(
+    values[value_is_formula],
+    function(x) {
+      eval(x[[3]], envir = .envir)
+    }
+  )
+
+  if (is.null(names(values))) {
+    sql_values <- purrr::map(values, as.character)
+  } else {
+    sql_values <- names(values)
+  }
+
+  if (isTRUE(.ctx$tweaks$current_needs_parens)) {
+    sql_values <- gsub(
+      "^(current_(?:date|time|timestamp))$", "\\1()",
+      sql_values
+    )
+  }
+
+  sql_names <- letters[seq_along(sql_values)]
+
+  query <- paste(
+    "SELECT",
+    paste(sql_values, "as", sql_names, collapse = ", ")
+  )
+  if (.add_null != "none") {
+    query_null <- paste(
+      "SELECT",
+      paste("NULL as", sql_names, collapse = ", ")
+    )
+    query <- c(query, query_null)
+    if (.add_null == "above") {
+      query <- rev(query)
+    }
+    query <- paste0(query, ", ", 1:2, " as id")
+    query <- sql_union(.ctx = .ctx, query)
+  }
+
+  rows <- check_df(dbGetQuery(con, query))
+
+  if (.add_null != "none") {
+    rows <- rows[order(rows$id), -(length(sql_names) + 1L), drop = FALSE]
+    if (.add_null == "above") {
+      rows <- rows[2:1, , drop = FALSE]
+    }
+  }
+
+  expect_named(rows, sql_names)
+
+  for (i in seq_along(values)) {
+    value_or_testfun <- values[[i]]
+    if (is.function(value_or_testfun)) {
+      eval(bquote(expect_true(value_or_testfun(rows[1L, .(i)]))))
+    } else {
+      eval(bquote(expect_identical(rows[1L, .(i)], .(value_or_testfun))))
+    }
+  }
+
+  if (.add_null != "none") {
+    expect_equal(nrow(rows), 2L)
+    if (is.list(rows[[1L]])) {
+      expect_null(rows[2L, 1L][[1L]])
+    } else {
+      expect_true(is.na(rows[2L, 1L]))
+    }
+  } else {
+    expect_equal(nrow(rows), 1L)
+  }
+}
+<environment: namespace:DBItest>
+```
+
+## test_select_with_null (17): dynamic second-order inline
+
+`r d(DBItest:::test_select_with_null)`
+
+```r
+function(...) {
+  test_select(..., .add_null = "none")
+  test_select(..., .add_null = "above")
+  test_select(..., .add_null = "below")
+}
+<environment: namespace:DBItest>
+```
+
+## test_arrow_roundtrip (40)
+
+`r d(DBItest:::test_arrow_roundtrip)`
+
+```r
+function(...) {
+  test_arrow_roundtrip_one(..., .add_na = "none")
+  test_arrow_roundtrip_one(..., .add_na = "above")
+  test_arrow_roundtrip_one(..., .add_na = "below")
+}
+<environment: namespace:DBItest>
+```
+
+## test_table_roundtrip (47)
+
+`r d(DBItest:::test_table_roundtrip)`
+
+```r
+function(...) {
+  test_table_roundtrip_one(..., .add_na = "none")
+  test_table_roundtrip_one(..., .add_na = "above")
+  test_table_roundtrip_one(..., .add_na = "below")
+}
+<environment: namespace:DBItest>
+```
+
+
+
+# Closure or export
+
+## local_closed_connection (3): define as closure, after resolving connect()
+
+`r d(DBItest:::local_closed_connection)`
+
+```r
+function(ctx, ...) {
+  con <- connect(ctx, ...)
+  dbDisconnect(con)
+  con
+}
+<environment: namespace:DBItest>
+```
+
+## local_invalid_connection (3): define as closure, after resolving connect()
+
+`r d(DBItest:::local_invalid_connection)`
+
+```r
+function(ctx, ...) {
+  con <- connect(ctx, ...)
+  dbDisconnect(con)
+  unserialize(serialize(con, NULL))
+}
+<environment: namespace:DBItest>
+```
+
+## unrowname (13): closure
+
+`r d(DBItest:::unrowname)`
+
+```r
+function(x) {
+  rownames(x) <- NULL
+  x
+}
+<environment: namespace:DBItest>
+```
+
+## expect_invisible_true (14): closure
+
+`r d(DBItest:::expect_invisible_true)`
+
+```r
+function(code) {
+  ret <- withVisible(code)
+  expect_true(ret$value)
+  expect_false(ret$visible)
+
+  invisible(ret$value)
+}
+<environment: namespace:DBItest>
+```
+
+
+# Inline dynamically
+
+## trivial_values (4): inline dynamically, easiest
+
+`r d(DBItest:::trivial_values)`
+
+```r
+function(n = 1L) {
+  seq_len(n) + 0.5
+}
+<environment: namespace:DBItest>
+```
+
+## get_texts (13): inline dynamically, easiest
+
+`r d(DBItest:::get_texts)`
+
+```r
+function() {
+  c(text_cyrillic, text_latin, text_latin_encoded, text_chinese, text_ascii)
+}
+<environment: namespace:DBItest>
+```
+
+## test_arrow_roundtrip_one (4): inline dynamically
+
+`r d(DBItest:::test_arrow_roundtrip_one)`
+
+```r
+function(con, tbl_in, tbl_expected = tbl_in, transform = identity,
+                                     name = NULL, use_append = FALSE, .add_na = "none") {
+  # Need data frames here because streams can be collected only once
+  stopifnot(is.data.frame(tbl_in), is.data.frame(tbl_expected))
+
+  force(tbl_expected)
+  if (.add_na == "above") {
+    tbl_in <- stream_add_na_above(tbl_in)
+    tbl_expected <- stream_add_na_above(tbl_expected)
+  } else if (.add_na == "below") {
+    tbl_in <- stream_add_na_below(tbl_in)
+    tbl_expected <- stream_add_na_below(tbl_expected)
+  }
+
+  if (is.null(name)) {
+    name <- random_table_name()
+  }
+
+  local_remove_test_table(con, name = name)
+
+  if (use_append) {
+    dbCreateTableArrow(con, name, tbl_in %>% stream_frame())
+    dbAppendTableArrow(con, name, tbl_in %>% stream_frame())
+  } else {
+    dbWriteTableArrow(con, name, tbl_in %>% stream_frame())
+  }
+
+  stream <- dbReadTableArrow(con, name)
+  tbl_out <- check_arrow(stream, transform)
+  expect_equal_df(tbl_out, tbl_expected)
+}
+<environment: namespace:DBItest>
+```
+
+## test_table_roundtrip_one (4): inline dynamically
+
+`r d(DBItest:::test_table_roundtrip_one)`
+
+```r
+function(
+  con,
+  tbl_in,
+  tbl_expected = tbl_in,
+  transform = identity,
+  name = NULL,
+  field.types = NULL,
+  use_append = FALSE,
+  .add_na = "none"
+) {
+  force(tbl_expected)
+  if (.add_na == "above") {
+    tbl_in <- add_na_above(tbl_in)
+    tbl_expected <- add_na_above(tbl_expected)
+  } else if (.add_na == "below") {
+    tbl_in <- add_na_below(tbl_in)
+    tbl_expected <- add_na_below(tbl_expected)
+  }
+
+  if (is.null(name)) {
+    name <- random_table_name()
+  }
+
+  local_remove_test_table(con, name = name)
+
+  if (use_append) {
+    dbCreateTable(con, name, field.types %||% tbl_in)
+    dbAppendTable(con, name, tbl_in)
+  } else {
+    dbWriteTable(con, name, tbl_in, field.types = field.types)
+  }
+
+  tbl_read <- check_df(dbReadTable(con, name, check.names = FALSE))
+  tbl_out <- transform(tbl_read)
+  expect_equal_df(tbl_out, tbl_expected)
+}
+<environment: namespace:DBItest>
+```
+
+## sql_union (6): inline dynamically
+
+`r d(DBItest:::sql_union)`
+
+```r
+function(..., .order_by = NULL, .ctx) {
+  queries <- c(...)
+  if (length(queries) == 1) {
+    query <- queries
+  } else {
+    stopifnot(!is.null(.ctx))
+    query <- .ctx$tweaks$union(queries)
+  }
+
+  if (!is.null(.order_by)) {
+    query <- paste0(query, " ORDER BY ", .order_by)
+  }
+  query
+}
+<environment: namespace:DBItest>
+```
+
+## random_table_name (18): inline dynamically
+
+`r d(DBItest:::random_table_name)`
+
+```r
+function(n = 10) {
+  # FIXME: Use parallel-safe sequence of numbers
+  paste0("dbit", paste(sample(letters, n, replace = TRUE), collapse = ""))
+}
+<environment: namespace:DBItest>
+```
+
+## stream_frame (42): inline dynamically
+
+`r d(DBItest:::stream_frame)`
+
+```r
+function(..., .select = NULL) {
+  data <- data.frame(..., stringsAsFactors = FALSE, check.names = FALSE)
+  as_is <- purrr::map_lgl(data, inherits, "AsIs")
+  data[as_is] <- purrr::map(data[as_is], function(.x) {
+    class(.x) <- setdiff(class(.x), "AsIs")
+    .x
+  })
+
+  if (!is.null(.select)) {
+    data <- data[.select]
+  }
+
+  out <- nanoarrow::as_nanoarrow_array_stream(data)
+
+  out
+}
+<environment: namespace:DBItest>
+```
+
+## trivial_df (71): inline dynamically
+
+`r d(DBItest:::trivial_df)`
+
+```r
+function(n = 1L, column = "a") {
+  values <- trivial_values(n)
+  if (length(column) == 1) {
+    df <- data.frame(a = values)
+  } else {
+    df <- as.data.frame(as.list(values))
+  }
+  names(df) <- column
+  df
+}
+<environment: namespace:DBItest>
+```
+
+## trivial_query (73)
+
+`r d(DBItest:::trivial_query)`
+
+```r
+function(n = 1L, column = "a", .order_by = NULL, .ctx = NULL) {
+  # Zero-row queries are hard-coded, search for 1 = 0
+  stopifnot(n > 0)
+  value <- trivial_values(n)
+  if (length(column) == n) {
+    query <- paste0("SELECT ", paste0(value, " AS ", column, collapse = ", "))
+  } else {
+    query <- sql_union(
+      paste0("SELECT ", value, " AS ", column),
+      .order_by = .order_by,
+      .ctx = .ctx
+    )
+  }
+
+  query
+}
+<environment: namespace:DBItest>
+```
+
+
+# Render time
+
+## package_name (5): known at render time
+
+`r d(DBItest:::package_name)`
+
+```r
+function(ctx) {
+  attr(class(ctx$drv), "package")
+}
+<environment: namespace:DBItest>
+```
+
+## get_placeholder_funs (128): known at render time
+
+`r d(DBItest:::get_placeholder_funs)`
+
+```r
+function(ctx, requires_names = NULL) {
+  placeholder_fun <- ctx$tweaks$placeholder_pattern
+  if (is.character(placeholder_fun)) {
+    placeholder_funs <- purrr::map(placeholder_fun, make_placeholder_fun)
+  } else if (is.function(placeholder_fun)) {
+    placeholder_funs <- list(placeholder_fun)
+  } else {
+    placeholder_funs <- placeholder_fun
+  }
+
+  if (length(placeholder_funs) == 0) {
+    skip("Use the placeholder_pattern tweak, or skip all 'bind_.*' tests")
+  }
+
+  if (!is.null(requires_names)) {
+    placeholder_fun_values <- purrr::map(placeholder_funs, ~ .x(1))
+    placeholder_unnamed <- purrr::map_lgl(placeholder_fun_values, ~ is.null(names(.x)))
+
+    # run_bind_tester$fun()
+    if (isTRUE(requires_names)) {
+      placeholder_funs <- placeholder_funs[!placeholder_unnamed]
+    }
+
+    if (isFALSE(requires_names)) {
+      placeholder_funs <- placeholder_funs[placeholder_unnamed]
+    }
+  }
+
+  placeholder_funs
+}
+<environment: namespace:DBItest>
+```
+
+## skip_if_not_dbitest (72): known at render time
+
+`r d(DBItest:::skip_if_not_dbitest)`
+
+```r
+function(ctx, version) {
+  if (as.package_version(ctx$tweaks$dbitest_version) < version) {
+    skip(paste0("tweak: dbitest_version: required: ", version, ", available: ", ctx$tweaks$dbitest_version))
+  }
+}
+<environment: namespace:DBItest>
+```
+
+
+# Export and fully qualify?
+
+## check_arrow (18): linked to check_df
+
+`r d(DBItest:::check_arrow)`
+
+```r
+function(stream, transform = identity) {
+  to <- function(schema, ptype) transform(ptype)
+  if (inherits(stream, "nanoarrow_array_stream")) {
+    on.exit(stream$release())
+    df <- nanoarrow::convert_array_stream(stream, to)
+  } else if (inherits(stream, "nanoarrow_array")) {
+    df <- nanoarrow::convert_array(stream, to)
+  } else {
+    stop("Unexpected conversion of type ", class(stream), ".", call. = FALSE)
+  }
+
+  check_df(df)
+}
+<environment: namespace:DBItest>
+```
+
+## check_df (214)
+
+`r d(DBItest:::check_df)`
+
+```r
+function(df) {
+  expect_s3_class(df, "data.frame")
+  if (length(df) >= 1L) {
+    lengths <- unname(lengths(df))
+    expect_equal(diff(lengths), rep(0L, length(lengths) - 1L))
+    expect_equal(nrow(df), lengths[[1]])
+  }
+
+  df_names <- names(df)
+  expect_true(all(df_names != ""))
+  expect_false(anyNA(df_names))
+
+  df
+}
+<environment: namespace:DBItest>
+```
+
