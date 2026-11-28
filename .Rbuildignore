@@ -1,7 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.lintr\.R$
-^cran-comments\.md$
 ^revdep-dev$
 ^man-roxygen$
 ^revdep$
