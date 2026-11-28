@@ -75,6 +75,9 @@ spec_result_roundtrip <- list(
 
   data_date_current = function(ctx, con) {
     #'   (also applies to the return value of the SQL function `current_date`)
+    # FIXME: Turn into two checks, each with a separate skip
+    # depending on the tweak, to avoid mangling the query at run time
+    # Same with current_time and current_timestamp
     test_select_with_null(
       .ctx = ctx, con,
       "current_date" ~ is_roughly_current_date
@@ -261,10 +264,15 @@ test_select_with_null <- function(...) {
 }
 
 test_select <- function(
+  # Run time
   con,
+  # Spec time
   ...,
+  # Run time
   .ctx,
+  # Spec time
   .add_null = "none",
+  # Run time
   .envir = parent.frame()
 ) {
 
