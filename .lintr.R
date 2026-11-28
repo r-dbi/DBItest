@@ -28,3 +28,9 @@ linters <- modify_defaults(
   undesirable_function_linter = NULL,
   unused_import_linter = NULL
 )
+
+# Vendored by `usethis::use_standalone()`, edited upstream in rlang, not here
+exclusions <- list(
+  "R/import-standalone-obj-type.R",
+  "R/import-standalone-types-check.R"
+)
