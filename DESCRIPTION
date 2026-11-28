@@ -66,6 +66,7 @@ Collate:
     'import-standalone-obj-type.R'
     'import-standalone-types-check.R'
     'import-testthat.R'
+    'release-bullets.R'
     'run.R'
     's4.R'
     'spec-getting-started.R'

@@ -14,6 +14,9 @@
 #    the r-universe build, https://r-dbi.r-universe.dev/DBItest, the last reverse-dependency results,
 #    and the CRAN Repository Policy, https://cran.r-project.org/web/packages/policies.html.
 #    CRAN asks for about a week between two releases of a package.
+#    Also go through the items of `release_bullets()` in R/release-bullets.R,
+#    which `usethis::use_release_issue()` adds to its checklist,
+#    and record them in the checklist pull request.
 # 2. Cut: create the release branch `vX.Y-<name>` from the chosen commit of `main`,
 #    where `<name>` is one lowercase word that names the release,
 #    so that R-CMD-check.yaml checks pull requests against it.
