@@ -27,9 +27,7 @@
 
 - The `fetch_no_return_value` spec now states that `dbFetch()` on a result set from `dbSendStatement()` returns an empty data frame with a warning, and that such result sets should not be fetched (#588).
 
-- The README states the goals and non-goals of DBItest (#565).
-
-- The README installs the development version with `pak::pak()` (#560).
+- The README states the goals and non-goals of DBItest (#565) and installs the development version with `pak::pak()` (#560).
 
 
 # DBItest 1.8.3 (2026-07-22)
