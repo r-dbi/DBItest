@@ -17,6 +17,11 @@ The regular expressions are matched against the entire test name.}
 
 \item{ctx}{\verb{[DBItest_context]}\cr A test context as created by \code{\link[=make_context]{make_context()}}.}
 }
+\value{
+Called for its side effect of running the tests with testthat.
+Returns a logical vector with one element per test selected by \code{run_only}:
+\code{TRUE} for a test that ran without failure, \code{FALSE} for one that failed or was excluded by \code{skip}.
+}
 \description{
 Test Arrow methods
 }
