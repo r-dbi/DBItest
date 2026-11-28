@@ -175,17 +175,44 @@ Review `?testthat::Reporter` for a list of reporters.
 DBItest::test_some("get_query_atomic")
 ```
 
-DBItest relies heavily on metaprogramming.
-Unfortunately, this means that a failing test may give no indication of the reason for the failure.
-The `test_some()` function now by default integrates the new experimental [dblog package](https://github.com/r-dbi/dblog) package.
-It prints the DBI code that is executed as the tests are run, as seen above.
-
-Another way to scout for the reason of the problem is to review the sources of DBItest
-and relate the test name (that is printed with each failure) with the human-readable specification embedded with the test code.
-
 ```{r location, error = !rlang::is_installed("RSQLite")}
 testthat::with_reporter(
   c("location", "fail"),
   DBItest::test_some("get_query_atomic")
 )
+```
+
+### When a test fails
+
+DBItest relies heavily on metaprogramming.
+Unfortunately, this means that a failing test may give no indication of the reason for the failure.
+The label of a failure ends with the name of the test, for example `DBItest[SQLServer]: Result: send_query_only_one_result_set`.
+The part before it names the test suite.
+
+To run only that test, call `test_some()` with its name once the backend's `make_context()` call has run,
+for example via `devtools::load_all()` if that call lives in a `helper-*.R` file:
+
+```r
+DBItest::test_some("send_query_only_one_result_set")
+```
+
+`test_some()` runs only the tests whose names match the regular expressions it is given, without skipping any of them,
+using the context from `make_context()`.
+
+To read the code of the test, print it:
+
+```{r print-test}
+DBItest:::spec_all$send_query_only_one_result_set
+```
+
+The comments starting with `#'` are the human-readable specification of the test.
+The source of each test is in one of the `R/spec-*.R` files of DBItest,
+which are easiest to find by searching for the test name in the [DBItest repository](https://github.com/r-dbi/DBItest).
+
+To step through the test line by line, flag it for debugging before running it again.
+The flag must be set on the object of the test suite, such as `spec_result` for tests in the "Result" suite:
+
+```r
+debugonce(DBItest:::spec_result$send_query_only_one_result_set)
+DBItest::test_some("send_query_only_one_result_set")
 ```
