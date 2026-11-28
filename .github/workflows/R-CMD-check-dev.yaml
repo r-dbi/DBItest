@@ -4,8 +4,6 @@ on:
   schedule:
     - cron: "0 5 * * *" # 05:00 UTC every day only run on main branch
   push:
-    branches:
-      - "cran-*"
     tags:
       - "v*"
   workflow_dispatch:
@@ -19,13 +17,14 @@ permissions:
 jobs:
   matrix:
     runs-on: ubuntu-26.04
+    timeout-minutes: 30 # longest run seen: 2 min
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
 
     name: Collect deps
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Report the GitHub API rate limit
         uses: cynkra/cynkratemplate/.github/actions/rate-limit@main
@@ -40,12 +39,13 @@ jobs:
 
   check-matrix:
     runs-on: ubuntu-26.04
+    timeout-minutes: 15 # longest run seen: 1 min
     needs: matrix
 
     name: Check deps
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Check matrix definition
         uses: cynkra/cynkratemplate/.github/actions/matrix-check@main
@@ -54,8 +54,12 @@ jobs:
 
   R-CMD-check-base:
     runs-on: ubuntu-26.04
+    timeout-minutes: 120 # longest run seen: 46 min
 
     name: base
+
+    outputs:
+      binary: ${{ steps.binary.outputs.artifact-name }}
 
     permissions:
       # Both required by the update-snapshots action, which opens a pull
@@ -67,7 +71,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Run the repository-specific before-install steps
         uses: ./.github/workflows/custom/before-install
@@ -78,7 +82,7 @@ jobs:
         with:
           cache-version: rcc-dev-base-1
           needs: build, check
-          extra-packages: "any::rcmdcheck any::remotes ."
+          extra-packages: "any::rcmdcheck any::remotes"
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Session info
@@ -88,14 +92,32 @@ jobs:
         uses: ./.github/workflows/custom/after-install
         if: hashFiles('.github/workflows/custom/after-install/action.yml') != ''
 
+      - name: Build, install and upload the binary package
+        id: binary
+        uses: cynkra/cynkratemplate/.github/actions/build-binary@main
+        with:
+          name: ubuntu-26.04-rrelease-base
+
       - name: Update the testthat snapshots
+        id: snapshots
+        continue-on-error: true
         uses: cynkra/cynkratemplate/.github/actions/update-snapshots@main
         if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
 
       - name: Run R CMD check
         uses: cynkra/cynkratemplate/.github/actions/check@main
         with:
-          results: ${{ matrix.package }}
+          results: base
+
+      - name: Fail if a snapshot pull request was opened
+        if: always() && steps.snapshots.outputs.pull-request-number != ''
+        env:
+          PR_NUMBER: ${{ steps.snapshots.outputs.pull-request-number }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          echo "::error::Snapshot pull request #${PR_NUMBER} was opened, see ${RUN_URL}"
+          exit 1
+        shell: bash
 
   R-CMD-check-dev:
     needs:
@@ -103,6 +125,7 @@ jobs:
       - R-CMD-check-base
 
     runs-on: ubuntu-26.04
+    timeout-minutes: 120 # longest run seen: 57 min
 
     name: 'rcc-dev: ${{ matrix.package }}'
 
@@ -116,7 +139,7 @@ jobs:
       matrix: ${{fromJson(needs.matrix.outputs.matrix)}}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Run the repository-specific before-install steps
         uses: ./.github/workflows/custom/before-install
@@ -127,8 +150,14 @@ jobs:
         with:
           cache-version: rcc-dev-${{ matrix.package }}-1
           needs: build, check
-          extra-packages: "any::rcmdcheck r-lib/remotes@f-618-universe ."
+          extra-packages: "any::rcmdcheck r-lib/remotes@f-618-universe"
           token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Same runner and R version as the base job, so its binary fits.
+      - name: Install the package from the base job's binary
+        uses: cynkra/cynkratemplate/.github/actions/install-binary@main
+        with:
+          name: ${{ needs.R-CMD-check-base.outputs.binary }}
 
       - name: Install dev version of ${{ matrix.package }}
         env:
@@ -148,6 +177,8 @@ jobs:
         if: hashFiles('.github/workflows/custom/after-install/action.yml') != ''
 
       - name: Update the testthat snapshots
+        id: snapshots
+        continue-on-error: true
         uses: cynkra/cynkratemplate/.github/actions/update-snapshots@main
         if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
 
@@ -155,3 +186,13 @@ jobs:
         uses: cynkra/cynkratemplate/.github/actions/check@main
         with:
           results: ${{ matrix.package }}
+
+      - name: Fail if a snapshot pull request was opened
+        if: always() && steps.snapshots.outputs.pull-request-number != ''
+        env:
+          PR_NUMBER: ${{ steps.snapshots.outputs.pull-request-number }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          echo "::error::Snapshot pull request #${PR_NUMBER} was opened, see ${RUN_URL}"
+          exit 1
+        shell: bash

@@ -47,6 +47,7 @@ permissions: {}
 jobs:
   commit-suggest:
     runs-on: ubuntu-26.04
+    timeout-minutes: 15 # longest run seen: 1 min
     if: github.event.workflow_run.event == 'pull_request'
 
     permissions:
@@ -61,7 +62,7 @@ jobs:
 
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: changes-patch
           github-token: ${{ secrets.GITHUB_TOKEN }}
