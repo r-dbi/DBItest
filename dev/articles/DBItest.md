@@ -269,7 +269,7 @@ DBItest:::spec_all$send_query_only_one_result_set
     ##     #' and must be cleared with `dbClearResult()`.
     ##     dbClearResult(res2)
     ##   }
-    ## <bytecode: 0x5deb450e5380>
+    ## <bytecode: 0x59cd360a2070>
     ## <environment: namespace:DBItest>
 
 The comments starting with `#'` are the human-readable specification of
