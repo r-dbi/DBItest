@@ -83,8 +83,10 @@ spec_result_fetch <- list(
 
   fetch_no_return_value = function(ctx, con, table_name) {
     #'
-    #' Calling `dbFetch()` on a result set from a data manipulation query created by [dbSendStatement()] can be fetched
-    #' and return an empty data frame, with a warning.
+    #' Calling `dbFetch()` on a result set from a statement such as `CREATE TABLE` or `INSERT` created by [dbSendStatement()]
+    #' returns an empty data frame, with a warning.
+    #' Such result sets are meant for side effects only and should not be fetched;
+    #' use [dbSendQuery()] for queries that return data.
     query <- ctx$tweaks$create_table_empty(table_name)
 
     res <- local_result(dbSendStatement(con, query))
